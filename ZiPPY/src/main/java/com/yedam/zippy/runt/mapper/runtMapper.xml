@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.yedam.zippy.runt.mapper.runtMapper">
+	
+	<select id="getSumInteger" resultType="Integer">
+		SELECT 1+2
+		FROM dual
+	</select>
+	
+	<select id="getEmployeeData" resultType="runtVO">
+		SELECT employee_id, last_name
+		FROM employees
+		WHERE employee_id = 100
+	</select>
+	
+</mapper>
