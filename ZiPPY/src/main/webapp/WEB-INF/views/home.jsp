@@ -3,12 +3,13 @@
 <html>
 <head>
 	<title>Home</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
 </head>
 <body>
-<h1>
-	Hello world!  
-</h1>
-
-<P>  The time on the server is ${serverTime}. </P>
+	<h1>
+		Hello world!  
+	</h1>
+	
+	<P>  The time on the server is ${serverTime}. </P>
 </body>
 </html>
