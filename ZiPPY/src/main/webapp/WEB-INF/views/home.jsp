@@ -24,8 +24,7 @@
 <body>	
 	<div id="app">
 		<main-header></main-header>
-		<main-nav></main-nav>
-		<shop-nav></shop-nav>
+		<main-nav></main-nav>		
 	</div>
 </body>
 </html>

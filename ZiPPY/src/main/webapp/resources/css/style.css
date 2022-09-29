@@ -21,5 +21,43 @@ header{
 }
 
 nav {
-   background-color: white;
+	background-color: white;
 }
+
+
+/* === START memberSignUp.jsp CSS */
+.member-body {
+  background: white;  
+}
+
+.member-body button {
+    color : black;
+    background-color: #B3E3C3;
+}
+
+.btn-login {
+  font-size: 0.9rem;
+  letter-spacing: 0.05rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.btn-google {
+  color: white !important;
+  background-color: #ea4335 !important;
+}
+
+.btn-facebook {
+  color: white !important;
+  background-color: #3b5998 !important;
+}
+
+.sign-container {
+  width: 50%;
+}
+
+#emailAuthentication, #phoneAuthentication, #floatingInputEmail, #floatingPhone{
+  width: 70%;
+  display: inline-block;
+}
+/* === END memberSignUp.jsp CSS */
+
