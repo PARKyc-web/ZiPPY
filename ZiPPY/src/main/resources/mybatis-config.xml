@@ -10,8 +10,9 @@
 	
 	<typeAliases>
 		<package name="com.yedam.zippy.runt.service" />
+		<package name="com.yedam.zippy.shop.service" />
 	</typeAliases>
-	
+
 	<typeHandlers>
 		<typeHandler javaType="java.sql.Date"
 			handler="org.apache.ibatis.type.DateTypeHandler" />

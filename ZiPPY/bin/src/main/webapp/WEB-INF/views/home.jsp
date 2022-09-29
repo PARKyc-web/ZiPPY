@@ -19,7 +19,7 @@
   	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"> 
 		
 	<script type="module" src="<%=request.getContextPath()%>/resources/js/app.js"></script>
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css">		
 </head>
 <body>	
 	<div id="app">
