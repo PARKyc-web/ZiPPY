@@ -1,7 +1,7 @@
 import mainHeader from '../components/mainHeader.js';
 import nav from '../components/mainNav.js';
 import shopNav from '../components/shopNav.js';
-import test from '../components/test.js';
+import usedMain from '../components/used/usedMain.js';
 
 let app = new Vue({
     el : '#app',
@@ -9,6 +9,7 @@ let app = new Vue({
         mainHeader,
         mainNav : nav,
         shopNav,
-        test
+        usedMain,
+        usedDetail
     }
 });
