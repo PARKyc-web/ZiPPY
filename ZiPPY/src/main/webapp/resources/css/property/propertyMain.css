@@ -7,19 +7,16 @@ body {
 #container {
 	width: 100vw;
 	height: 100vh;
-	background-color: lightgray;
 }
 
 section {
-	float: left;
-	background-color: beige;
+	float: right;
 	width: 75vw;
 	height: 100vh;
 }
 
 aside {
-	float: right;
-	background-color: lightblue;
+	float: left;
 	width: 25vw;
 	height: 100vh;
 }

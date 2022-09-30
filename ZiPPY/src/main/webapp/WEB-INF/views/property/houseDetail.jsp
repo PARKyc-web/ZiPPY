@@ -6,7 +6,8 @@
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
+<title>매물 상세페이지</title>
+<!-- houseDetail CSS -->
 <link
 	href="<%=request.getContextPath()%>/resources/css/property/houseDetail.css"
 	rel="stylesheet">
@@ -17,10 +18,21 @@
 	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 	crossorigin="anonymous">
 
-<title>매물 상세페이지</title>
+<!-- Vue -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+<script type="module"
+	src="<%=request.getContextPath()%>/resources/js/app.js"></script>
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/style.css">
 </head>
 
 <body>
+	<!-- header & nav -->
+	<div id="app">
+		<main-header></main-header>
+		<main-nav></main-nav>
+	</div>
+
 	<div id="container">
 		<!-- 매물 사진 -->
 		<div id="carouselExampleIndicators" class="carousel slide"
@@ -36,13 +48,13 @@
 			</div>
 			<div class="carousel-inner">
 				<div class="carousel-item active">
-					<img src="잠만보2.jpg" class="d-block w-100" alt="...">
+					<img src="잠만보2.jpg" class="d-block w-100" alt="매물사진">
 				</div>
 				<div class="carousel-item">
-					<img src="잠만보2.jpg" class="d-block w-100" alt="...">
+					<img src="잠만보2.jpg" class="d-block w-100" alt="매물사진">
 				</div>
 				<div class="carousel-item">
-					<img src="잠만보2.jpg" class="d-block w-100" alt="...">
+					<img src="잠만보2.jpg" class="d-block w-100" alt="매물사진">
 				</div>
 			</div>
 			<button class="carousel-control-prev" type="button"
@@ -194,21 +206,21 @@
 							<a href="/zippy/property/agentDetail">중개법인명</a> ><span
 								style="font-size: small;">여기 누르면 부동산 상세페이지로 슝</span>
 						</h4>
-						<button class="btn">문의하기</button>
+						<button type="button" class="btn btn-primary">문의하기</button>
 					</div>
 				</div>
 			</div>
 		</aside>
 
 
-	</div> <!-- END container -->
+	</div>
+	<!-- END container -->
 
 	<!-- Bootstrap Bundle with Popper -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 		crossorigin="anonymous">
-		
 	</script>
 </body>
 </html>

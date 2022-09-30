@@ -13,9 +13,11 @@
 	width: 500px;
 }
 
+/* 
 img {
 	height: 500px;
-}
+} 
+*/
 
 section {
 	float: left;
@@ -47,13 +49,16 @@ table tr td {
 	height: 350px;
 }
 
-.btn {
-	background-color: #B3E3C3;
-	width: 400px;
-	padding: 10px;
+.btn-primary {
+	color: #B3E3C3;
+	border-color: #B3E3C3; /*set the color you want here*/
+	background-color: #fff;
 }
 
-.btn:hover {
-	box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0
-		rgba(0, 0, 0, 0.19);
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active,
+	.btn-primary.active, .open>.dropdown-toggle.btn-primary {
+	color: #fff;
+	background-color: #B3E3C3;
+	border: 1px solid #B3E3C3;
+	/*border-color: #285e8e; /*set the color you want here*/
 }
