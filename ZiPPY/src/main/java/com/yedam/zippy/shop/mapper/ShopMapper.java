@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.yedam.zippy.shop.service.ProductVO;
 
-@Mapper
 public interface ShopMapper {
 	//상품 CRUD
 		//전체조회
