@@ -35,6 +35,7 @@ let template = `
             
 
             <small><p id="passwordCheck" v-if="pwd_valid == false"> * 비밀번호를 확인해 주세요! </p></small>
+            
             <div class="form-floating mb-3">
               <input type="password" class="form-control" id="password_confirm" placeholder="password" onchange="">              
               <label for="password_confirm">비밀번호 재확인</label>
@@ -136,10 +137,10 @@ export default {
       pwd_valid : true
     }
   },
-  methods:{
+  methods:{  	  	
     email_validation: function(){
-      console.log("email_validation");
-      // $.ajax({
+      console.log("email_validation");      
+      // $.ajax({      		 
       //   url: "http://127.0.0.1:8090/validation/email",
       //   data : {
       //     email : "erty1201@naver.com"            

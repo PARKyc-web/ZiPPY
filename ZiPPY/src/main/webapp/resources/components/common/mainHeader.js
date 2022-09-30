@@ -5,8 +5,7 @@ let template = `
         <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
         <span class="fs-4"><img src="/zippy/resources/images/zippy_logo.png" width="150px"></span>
 
-      </a>
-      <img :src="path">
+      </a>      
       <span class="header-icon"><a href="#"> 부동산 </a></span>
       <span class="header-icon"><a href="#"> 중고거래 </a></span>
       <span class="header-icon"><a href="#"> 쇼핑몰 </a></span>

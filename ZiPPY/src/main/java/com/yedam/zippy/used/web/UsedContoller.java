@@ -1,6 +1,7 @@
 package com.yedam.zippy.used.web;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -14,6 +15,7 @@ public class UsedContoller {
 	}
 
 	// 단건조회
+	@GetMapping("/detail")
 	public String getUsedOne() {
 		return "/used/detail";
 	}

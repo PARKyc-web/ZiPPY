@@ -30,7 +30,7 @@
 		<main-header></main-header>
 		<shop-nav></shop-nav>
 		<slide></slide>
-		<card></card>
+		<card :products="${products}"></card>
 	</div>
 	<table>
 	<c:forEach items="${products }" var="product">
