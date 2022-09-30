@@ -10,6 +10,7 @@
 	
 	<typeAliases>		
 		<package name="com.yedam.zippy.shop.service" />
+		<package name="com.yedam.zippy.property.service" />
 	</typeAliases>
 
 	<typeHandlers>

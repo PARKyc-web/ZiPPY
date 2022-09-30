@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+body {
+	margin: 0;
+}
+
+#container {
+	width: 100vw;
+	height: 100vh;
+}
+
+section {
+	float: right;
+	width: 75vw;
+	height: 100vh;
+}
+
+aside {
+	float: left;
+	width: 25vw;
+	height: 100vh;
+}

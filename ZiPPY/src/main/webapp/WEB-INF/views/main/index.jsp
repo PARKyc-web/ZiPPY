@@ -19,13 +19,14 @@
 	<script type="module" src="<%=request.getContextPath()%>/resources/js/app.js"></script>
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css">
 </head>
-<body>
+
+<body>	
+	<button onClick="location.href='property/main'">부동산</button>
 
 	<div id="app">
 		<main-header></main-header>
 	</div>
-	
-	<button onClick="location.href='home'">부동산</button>
+
 	<button onClick="location.href='home'">중고거래</button>
 	<button onClick="location.href='../zippy/shop/main'">쇼핑몰</button>
 	<button onClick="location.href='home'">이사도우미</button>
