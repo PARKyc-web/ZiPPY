@@ -1,13 +1,4 @@
 @charset "UTF-8";
-.dropdown-menu a:hover{
-   background-color: #B3E3C3;
-} 
-#navbarDropdown {
-   color:#212529;
-}
-.navbar {
-   border:1px solid #212529;
-}
 header{
    margin-bottom: 0px;
    padding-bottom: 0px;
@@ -61,3 +52,35 @@ nav {
 }
 /* === END memberSignUp.jsp CSS */
 
+/* Nav */
+.navbar {
+    box-shadow: 1px 1px 10px 0 rgba(0,0,0,0.10);
+  }
+  .dropdown-menu a:hover{
+  background-color: #fff;
+  } 
+  #navbarDropdown {
+  color:#212529;
+  }
+  #navbarSupportedContent a:hover{
+    color:#B3E3C3;
+  }
+  /* search */
+  .input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+    }
+  /* button */
+  .btn-primary {
+    color: #B3E3C3 ;
+    border-color: #B3E3C3 ;
+    background-color: #fff;
+  }
+  .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+    color: #fff;
+    background-color: #B3E3C3 ;
+    border:1px solid #B3E3C3 ;
+  }
