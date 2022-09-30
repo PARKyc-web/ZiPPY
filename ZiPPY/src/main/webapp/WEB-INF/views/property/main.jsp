@@ -16,6 +16,8 @@
 	rel="stylesheet"
 	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 	crossorigin="anonymous">
+<!-- ICON CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
 <!-- Vue -->
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
 <script type="module"
@@ -27,7 +29,7 @@
 	<!-- header & nav -->
 	<div id="app">
 		<main-header></main-header>
-		<main-nav></main-nav>
+		<property-nav></property-nav>
 	</div>
 
 	<div id="container">
@@ -40,7 +42,7 @@
 				var options = {
 					center : new kakao.maps.LatLng(35.869079273181676,
 							128.59329737007934), // 지도의 중심좌표 (예담)
-					level : 3
+					level : 1
 				// 지도의 확대 레벨
 				};
 
@@ -60,7 +62,7 @@
 
 				// 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
 				var iwContent = '<div style="padding:5px;">클릭하면 해당 매물의 정보 출력</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-				iwRemoveable = flase; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+				iwRemoveable = false; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
 
 				// 인포윈도우를 생성합니다
 				var infowindow = new kakao.maps.InfoWindow({

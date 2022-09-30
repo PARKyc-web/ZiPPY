@@ -10,13 +10,13 @@ body {
 }
 
 section {
-	float: right;
+	float: left;
 	width: 75vw;
 	height: 100vh;
 }
 
 aside {
-	float: left;
+	float: right;
 	width: 25vw;
 	height: 100vh;
 }

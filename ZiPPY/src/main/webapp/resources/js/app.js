@@ -7,6 +7,7 @@ import nav from '../components/common/mainNav.js';
 import usedMain from '../components/used/usedMain.js';
 import businessLogin from '../components/login/businessLogin.js';
 import usedDetail from '../components/used/usedDetail.js';
+import propertyNav from '../components/property/propertyNav.js';
 
 let app = new Vue({
     el : '#app',
@@ -18,6 +19,7 @@ let app = new Vue({
         usedDetail,
         slide,
         card,
-        businessLogin
+        businessLogin,
+        propertyNav
     }
 });
