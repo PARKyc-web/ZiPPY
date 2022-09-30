@@ -19,4 +19,10 @@ public class MoveController {
 		
 		return "move/moveSelect";
 	}
+	
+	@GetMapping("/moveDate")
+	public String moveDate() {
+		
+		return "move/index";
+	}
 }
