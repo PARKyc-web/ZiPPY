@@ -4,6 +4,7 @@ let template = `
       <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
         <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
         <span class="fs-4"><img src="resources/images/zippy_logo.png" width="150px"></span>        
+
       </a>
       <img :src="path">
       <span class="header-icon"><a href="#"> 부동산 </a></span>
