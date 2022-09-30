@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class HomeController {
 		
-	@Autowired
-	MailSender mailSender;	
+
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Locale locale, Model model) {		
@@ -37,31 +36,7 @@ public class HomeController {
 	@GetMapping("/signup")
 	public String login() {
 		return "loginOut/memberSignUp";
-	}
-	
-	@GetMapping("/mail")
-	public String mailSender(Model model) {			
-		System.out.println("===========Mail Controller RUN");
-		SimpleMailMessage msg = new SimpleMailMessage();	
-		
-		String key = "";
-		
-		for(int i=0; i<6; i++) {
-			int rand = (int) (Math.random()*10); // 0 ~ 9
-			key += rand;
-		}
-		
-		System.out.println(key);
-		
-		msg.setTo("erty1201@naver.com");
-		msg.setSubject("mail이 잘 가는지 확인해보자!");		
-		msg.setText("이메일 인증 번호 : " + key);
-		msg.setFrom("erty1201@naver.com");
-		mailSender.send(msg);
-		
-		model.addAttribute("key", key);
-		
-		return "main/mailSender";
-	}
+	}	
+
 	
 }

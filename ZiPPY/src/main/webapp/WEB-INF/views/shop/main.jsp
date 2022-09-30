@@ -22,7 +22,7 @@
   	<!-- Bootstrap ICON-->
   	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
 		
-		<script type="module" src="<%=request.getContextPath()%>/resources/js/shop/app.js"></script>
+		<script type="module" src="<%=request.getContextPath()%>/resources/js/app.js"></script>
 
 </head>
 <body>

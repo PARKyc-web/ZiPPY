@@ -8,8 +8,7 @@
 		<setting name="jdbcTypeForNull" value="VARCHAR" />
 	</settings>
 	
-	<typeAliases>
-		<package name="com.yedam.zippy.runt.service" />
+	<typeAliases>		
 		<package name="com.yedam.zippy.shop.service" />
 		<package name="com.yedam.zippy.property.service" />
 	</typeAliases>
