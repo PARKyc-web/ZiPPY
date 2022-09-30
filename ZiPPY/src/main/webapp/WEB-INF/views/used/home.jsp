@@ -24,189 +24,199 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <style>
-#container {
-	width: 1200px;
-	margin: 0 auto;
-}
+      #container {
+        width: 1200px;
+        margin: 0 auto;
+      }
 
-.used-main-title {
-	margin: 50px;
-}
+      .used-main-title {
+        margin: 50px;
+      }
 
-.bd-placeholder-img {
-	font-size: 1.125rem;
-	text-anchor: middle;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	user-select: none;
-}
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
 
-@media ( min-width : 768px) {
-	.bd-placeholder-img-lg {
-		font-size: 3.5rem;
-	}
-}
+      @media (min-width : 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
 
-#used-add-drop-search {
-	display: flex;
-	justify-content: space-between;
-	height: 40px;
-	margin-top: 10px;
-}
+      #used-add-drop-search {
+        display: flex;
+        justify-content: space-between;
+        height: 40px;
+        margin-top: 10px;
+      }
 
-.b-example-divider {
-	height: 3rem;
-	background-color: rgba(0, 0, 0, .1);
-	border: solid rgba(0, 0, 0, .15);
-	border-width: 1px 0;
-	box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em
-		rgba(0, 0, 0, .15);
-}
+      .b-example-divider {
+        height: 3rem;
+        background-color: rgba(0, 0, 0, .1);
+        border: solid rgba(0, 0, 0, .15);
+        border-width: 1px 0;
+        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+      }
 
-.b-example-vr {
-	flex-shrink: 0;
-	width: 1.5rem;
-	height: 100vh;
-}
+      .b-example-vr {
+        flex-shrink: 0;
+        width: 1.5rem;
+        height: 100vh;
+      }
 
-.bi {
-	vertical-align: -.125em;
-	fill: currentColor;
-}
+      .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+      }
 
-.nav-scroller {
-	position: relative;
-	z-index: 2;
-	height: 2.75rem;
-	overflow-y: hidden;
-}
+      .nav-scroller {
+        position: relative;
+        z-index: 2;
+        height: 2.75rem;
+        overflow-y: hidden;
+      }
 
-.nav-scroller .nav {
-	display: flex;
-	flex-wrap: nowrap;
-	padding-bottom: 1rem;
-	margin-top: -1px;
-	overflow-x: auto;
-	text-align: center;
-	white-space: nowrap;
-	-webkit-overflow-scrolling: touch;
-}
+      .nav-scroller .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        padding-bottom: 1rem;
+        margin-top: -1px;
+        overflow-x: auto;
+        text-align: center;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
 
-.nav-link {
-	color: black;
-}
+      .nav-link {
+        color: black;
+      }
 
-.nav-link dropdown-toggle {
-	float: right;
-	width: 50px;
-}
+      .nav-link dropdown-toggle {
+        float: right;
+        width: 50px;
+      }
 
-.nav-link:hover {
-	color: #B3E3C3;
-}
+      .nav-link:hover {
+        color: #B3E3C3;
+      }
 
-.nav-item dropdown {
-	float: right;
-}
+      .nav-item dropdown {
+        float: right;
+      }
 
-.used-dropdown {
-	list-style: none;
-}
+      .used-dropdown {
+        list-style: none;
+      }
 
-.dropdown-menu a:hover {
-	background-color: #B3E3C3;
-}
+      .dropdown-menu a:hover {
+        background-color: #B3E3C3;
+      }
 
-#navbarDropdown {
-	color: #212529;
-}
+      #navbarDropdown {
+        color: #212529;
+      }
 
-.thumbnail-wrap {
-	display: block;
-}
+      .thumbnail-wrap {
+        display: block;
+      }
 
-#sold-out {
-	float: right;
-	padding-top: 22px;
-	padding-right: 20px;
-}
+      #sold-out {
+        float: right;
+        padding-top: 22px;
+        padding-right: 20px;
+      }
 
-.card-li {
-	border: 1px solid black;
-	list-style: none;
-	float: left;
-	margin: 30px 10px 10px 10px;
-}
+      .card-li {
+        border: 1px solid black;
+        list-style: none;
+        float: left;
+        margin: 30px 10px 10px 10px;
+      }
 
-#used-price-date {
-	display: flex;
-	justify-content: space-between;
-}
+      #used-price-date {
+        display: flex;
+        justify-content: space-between;
 
-.used-img-price {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin: 20px;
-}
+      }
 
-.container-fluid pt-5 {
-	width: 1200px;
-}
+      .used-img-price {
+        align-items: center;
+      }
 
-.form-control {
-	width: 150px;
-}
+      .container-fluid pt-5 {
+        width: 1200px;
+      }
 
-.used-addr {
-	cursor: pointer;
-}
+      .form-control {
+        width: 150px;
+      }
 
-.cat-item d-flex flex-column border mb-4 {
-	border-radius: 10px;
-}
+      .used-addr {
+        cursor: pointer;
+      }
 
-#used-addr {
-	border: none;
-	background-color: white;
-}
+      .cat-item d-flex flex-column border mb-4 {
+        border-radius: 10px;
+      }
 
-input#chk_top {
-	display: none;
-}
+      #used-addr {
+        border: none;
+        background-color: white;
+      }
 
-/*input 바로 다음의 label*/
-input#chk_top+label {
-	cursor: pointer;
-}
+      input#chk_top {
+        display: none;
+      }
 
-/*input 바로 다음의 label:before 에 체크하기 전 CSS 설정*/
-input#chk_top+label:before {
-	content: "";
-	display: inline-block;
-	width: 17px;
-	height: 17px;
-	line-height: 17px;
-	border: 1px solid #cbcbcb;
-	vertical-align: middle;
-	/*체크 전과 체크 후 높이 차이 때문에 설정*/
-}
+      /*input 바로 다음의 label*/
+      input#chk_top+label {
+        cursor: pointer;
+      }
 
-/*checked된 input 바로 다음의 label:before 에 체크 후 CSS 설정*/
-input#chk_top:checked+label:before {
-	content: "\f00c";
-	/*폰트어썸 유니코드*/
-	font-family: "Font Awesome 5 free";
-	/*폰트어썸 아이콘 사용*/
-	font-weight: 900;
-	/*폰트어썸 설정*/
-	color: #fff;
-	background-color: #B3E3C3;
-	border-color: #B3E3C3;
-	font-size: 13px;
-	text-align: center;
-}
-}
+      /*input 바로 다음의 label:before 에 체크하기 전 CSS 설정*/
+      input#chk_top+label:before {
+        content: "";
+        display: inline-block;
+        width: 17px;
+        height: 17px;
+        line-height: 17px;
+        border: 1px solid #cbcbcb;
+        vertical-align: middle;
+        /*체크 전과 체크 후 높이 차이 때문에 설정*/
+      }
+
+      /*checked된 input 바로 다음의 label:before 에 체크 후 CSS 설정*/
+      input#chk_top:checked+label:before {
+        content: "\f00c";
+        /*폰트어썸 유니코드*/
+        font-family: "Font Awesome 5 free";
+        /*폰트어썸 아이콘 사용*/
+        font-weight: 900;
+        /*폰트어썸 설정*/
+        color: #fff;
+        background-color: #B3E3C3;
+        border-color: #B3E3C3;
+        font-size: 13px;
+        text-align: center;
+      }
+
+      #dropdownMenuButton11 {
+        width: 300px;
+        text-align: left;
+      }
+
+      #dropdown-opt {
+        width: 300px;
+      }
+
+      #dropdown-opt a:hover {
+        color: #212529;
+        background-color: #B3E3C3;
+      }
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UsedContoller {
 
 	// 전체조회
-	@RequestMapping("/home")
+	@RequestMapping("/main")
 	public String usedList() {
 		return "used/home";
 	}
