@@ -1,4 +1,7 @@
-<!doctype html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page session="false" %>
 
 <html>
 
@@ -10,11 +13,29 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+   <!-- 
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+     -->
+     
+       <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+  integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
+  integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+   
+   <!-- 컴포넌트 사용 -->
+	<script type="module" src="<%=request.getContextPath()%>/resources/js/app.js"></script>
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/move/style.css">
+   
+
 	<title>Simple Calendar Date Picker Example</title>
 
 	<link href="https://www.cssscript.com/wp-includes/css/sticky.css" rel="stylesheet" type="text/css">
 
-	<link rel="stylesheet" href="./src/css/date-picker.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/move/date-picker_old.css" />
 
 	<style>
 
@@ -81,44 +102,14 @@
 
 <body>
 
-<!-- 	
-	<div id="css-script-menu">
-
-   <div class="css-script-center">
-
-    <ul>
-
-      <li><a href="https://www.cssscript.com/calendar-date-picker/">Download</a></li>
-
-      <li><a href="https://www.cssscript.com/">Back To CSS Script</a></li>
-
-    </ul>
-
-    <div class="css-script-ads"><div id="carbon-block"></div>
-
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-
-
-<ins class="adsbygoogle"
-
-     style="display:inline-block;width:728px;height:90px"
-
-     data-ad-client="ca-pub-2783044520727903"
-
-     data-ad-slot="3025259193"></ins>
-
-<script>
-
-(adsbygoogle = window.adsbygoogle || []).push({});
-
-</script></div>
-
-    <div class="css-script-clear"></div>
-
-  </div> 
-
-</div> -->
+	
+	<!-- 컴포넌트 사용 -->
+	
+	<div id="app">
+		<main-header></main-header>
+		<main-nav></main-nav>
+	</div>
+  
 
 	<div class="wrapper">
 
@@ -196,7 +187,7 @@
 
 
 
-		<script src="./src/js/date-picker.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/date-picker_old.js"></script>
 
 		<script>
 

@@ -8,9 +8,9 @@
 	<!-- datasource connection pool -->
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 	  <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
-	  <property name="jdbcUrl"         value="jdbc:log4jdbc:oracle:thin:@127.0.0.1:1521:xe" />
-	  <property name="username"   	   value="hr" />
-	  <property name="password"   	   value="hr" />
+	  <property name="jdbcUrl"         value="jdbc:log4jdbc:oracle:thin:@ZiPPY_medium?TNS_ADMIN=C:/Users/bbk11/Desktop/oracle_cloud/Wallet_ZiPPY" />
+	  <property name="username"   	   value="ADMIN" />
+	  <property name="password"   	   value="yedamZippyProject1" />
 	</bean>
 	
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
@@ -18,10 +18,14 @@
 	</bean>
 
 	<!-- mybatis  SqlSessionFactory -->
-	<bean class="org.mybatis.spring.SqlSessionFactoryBean">
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 	  <property name="dataSource" ref="dataSource"/>
 	  <property name="configLocation" value="classpath:mybatis-config.xml" />
 	</bean>
+	<!-- 
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory"></constructor-arg>
+	</bean> -->
 	
 	<!-- mapper scan -->
 	<mybatis-spring:scan base-package="com.yedam.zippy.**.mapper" />

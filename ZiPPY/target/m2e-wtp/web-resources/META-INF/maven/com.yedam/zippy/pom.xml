@@ -207,6 +207,28 @@
 		    <artifactId>spring-context-support</artifactId>
 		    <version>${org.springframework-version}</version>
 		</dependency>
+		
+		<!-- oraclepki -->
+		<dependency>
+		    <groupId>com.oracle.database.security</groupId>
+		    <artifactId>oraclepki</artifactId>
+		    <version>21.7.0.0</version>
+		</dependency>
+				
+		<!-- osdt_cert -->
+		<dependency>
+		    <groupId>com.oracle.database.security</groupId>
+		    <artifactId>osdt_cert</artifactId>
+		    <version>21.7.0.0</version>
+		</dependency>
+		
+		<!-- osdt_core -->
+		<dependency>
+		    <groupId>com.oracle.database.security</groupId>
+		    <artifactId>osdt_core</artifactId>
+		    <version>21.7.0.0</version>
+		</dependency>
+		
 						
 	</dependencies>
     <build>

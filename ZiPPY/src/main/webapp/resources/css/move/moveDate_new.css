@@ -1,0 +1,94 @@
+@charset "UTF-8";
+.MsgInfoPop {
+	text-align: center;
+	display: block;
+	margin: 0 auto;
+	font-size: 16px;
+	color: #999;
+
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	opacity: 0;
+	visibility: hidden;
+	transform: scale(1.1);
+	transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+}
+#MsgInfoPop-content {
+	position: absolute;
+	top: 15%;
+	left: 15%;
+	width: 310px;		//하얀색바탕
+	height: 200px;     	//하얀색바탕
+	transform: translate(-50%, -50%);
+	background-color: white;
+	padding: 1rem 1.5rem;
+	border-radius: 0.5rem;boerder:1px solid #ff0000;
+}
+
+.show-modal {
+	opacity: 1;
+	visibility: visible;
+	transform: scale(1.0);
+	transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+#CalendarArea
+{
+	border:0px solid #00ff00;
+	width: 310px;
+	height: 200px;
+	font-family: KoPub돋움체;
+	font-weight:bold;
+	color: #000000;
+}
+#calendarTable
+{
+	border:0px solid #0000ff;
+	width:310px;
+	height:200px;
+	font-family:KoPub돋움체;
+	text-align:center;
+	font-weight: bold;
+	font-size:16px;		
+}
+	#beforeMonth{ border:0px solid #0000ff; height:20px; font-family:KoPub돋움체; text-align:center; font-weight: bold; font-size:12px; color:#777777; cursor: pointer; }
+	#thisMonth	{ border:0px solid #0000ff; height:20px; font-family:KoPub돋움체; text-align:center; font-weight: bold; font-size:18px; color:#333333;  }
+	#nextMonth	{ border:0px solid #0000ff; height:20px; font-family:KoPub돋움체; text-align:center; font-weight: bold; font-size:12px; color:#777777; cursor: pointer; }
+
+.w_sun, .w_day, .w_sat
+{
+	font-size:15px;		
+}
+.cal_sun
+{
+	font-size:15px;	
+	color:#dd0000;
+}
+.cal_sun:hover
+{
+	cursor: pointer;
+	background-color: #dddddd;
+}
+.cal_day
+{
+	font-size:15px;	
+	color:#222222;
+}
+.cal_day:hover
+{
+	cursor: pointer;
+	background-color: #dddddd;
+}
+.cal_sat
+{
+	font-size:15px;	
+	color:#0000dd;
+}
+.cal_sat:hover
+{
+	cursor: pointer;
+	background-color: #dddddd;
+}

@@ -93,10 +93,10 @@ function showCalendar(month, year) {
         cell.setAttribute("data-month", month + 1);
         cell.setAttribute("data-year", year);
         cell.setAttribute("data-month-name", months[month]);
-        cell.className = "date-picker";
+        cell.className = "moveDate";
         cell.innerHTML = "<span>" + date + "</span>";
         cell.onclick = function(event) {
-          var dates = document.querySelectorAll(".date-picker");
+          var dates = document.querySelectorAll(".moveDate");
           var currentTarget = event.currentTarget;
           var date = currentTarget.dataset.date;
           var month = currentTarget.dataset.month - 1;
@@ -111,7 +111,7 @@ function showCalendar(month, year) {
         }
 
         if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
-          cell.className = "date-picker selected";
+          cell.className = "moveDate selected";
         }
 
         row.appendChild(cell);
@@ -126,37 +126,3 @@ function showCalendar(month, year) {
 function daysInMonth(month, year) {
   return 32 - new Date(year, month, 32).getDate();
 }
-
-
-
-
-
-
-
-
-
-<script>
-try {
-  fetch(new Request("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js", { method: 'HEAD', mode: 'no-cors' })).then(function(response) {
-    return true;
-  }).catch(function(e) {
-    var carbonScript = document.createElement("script");
-    carbonScript.src = "//cdn.carbonads.com/carbon.js?serve=CE7DC2JW&placement=wwwcssscriptcom";
-    carbonScript.id = "_carbonads_js";
-    document.getElementById("carbon-block").appendChild(carbonScript);
-  });
-} catch (error) {
-  console.log(error);
-}
-</script>
-
-
-
-
-
-
-
-
-
-
-

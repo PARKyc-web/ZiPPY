@@ -3,394 +3,111 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
 <html>
-
 <head>
-  <title>Move Home</title>
-  <meta charset="UTF-8">
+   <title>Move Home</title>
+   <meta charset="UTF-8">
 
-  <!--  -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="cssMouseDetail.css" />
-  <!--  -->
-
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
-
-  <!-- CSS only -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+   <!-- 
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+     -->
+     
+       <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+  integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <!-- JavaScript Bundle with Popper -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
-  </script>
-
-  <!-- 컴포넌트 사용 -->
-  <script type="module" src="<%=request.getContextPath()%>/resources/js/app.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css">
-
-<style>
-  /* 캘린더 */
-  * {
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-    box-sizing: border-box;
-  }
-
-  .move-cal-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-  }
-
-  .move-calendar {
-    width: 600px;
-    margin: 50px;
-  }
-
-  .move-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .move-year-month {
-    font-size: 35px;
-  }
-
-  .move-nav {
-    display: flex;
-    border: 1px solid #333333;
-    border-radius: 5px;
-  }
-
-  .move-nav-btn {
-    width: 28px;
-    height: 30px;
-    border: none;
-    font-size: 16px;
-    line-height: 34px;
-    background-color: transparent;
-    cursor: pointer;
-  }
-
-  .move-go-today {
-    width: 75px;
-    border-left: 1px solid #333333;
-    border-right: 1px solid #333333;
-  }
-
-
-  .move-days {
-    display: flex;
-    margin: 25px 0 10px;
-  }
-
-  .move-day {
-    width: calc(100% / 7);
-    text-align: center;
-  }
-
-  .move-dates {
-    display: flex;
-    flex-flow: row wrap;
-    height: 500px;
-    border-top: 1px solid #333333;
-    border-right: 1px solid #333333;
-  }
-
-  .move-date {
-    width: calc(100% / 7);
-    padding: 15px;
-    text-align: right;
-    border-bottom: 1px solid #333333;
-    border-left: 1px solid #333333;
-  }
-
-  .move-day:nth-child(7n + 1),
-  .move-date:nth-child(7n + 1) {
-  color: #D13E3E;
-  }
-
-  .move-day:nth-child(7n),
-  .move-date:nth-child(7n) {
-  color: #396EE2;
-  }
-
-  .move-other {
-    opacity: 0.3;
-  }
-
-  .move-today {
-    position: relative;
-    color: #FFFFFF;
-  }
-
-  .move-today::before {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: -1;
-    width: 30px;
-    height: 30px;
-    display: block;
-    background-color: #FF0000;
-    border-radius: 50%;
-    content: '';
-  }
-
-  /* 카드 */
-  #calendarForm {
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .container-fluid {
-    width: 500px;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .row {
-    width: 500px;
-  }
-
-  .cat-item {
-    width: 500px;
-    text-align: center;
-  }
-
-  /* 버튼 */
-  .frame {
-    width: 90%;
-    margin: 100px auto;
-    text-align: center;
-  }
-
-  #selectBtn-bday {
-    margin: 70px;
-  }
-
-  .custom-btn {
-    width: 200px;
-    height: 100px;
-    color: #fff;
-    border-radius: 5px;
-    padding: 10px 25px;
-    font-family: 'Lato', sans-serif;
-    font-weight: bold;
-    font-size: 20px;
-    background: transparent;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    display: inline-block;
-    box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, .5),
-      7px 7px 20px 0px rgba(0, 0, 0, .1),
-      4px 4px 5px 0px rgba(0, 0, 0, .1);
-    outline: none;
-  }
-
-
-  .btn-1 {
-    background: rgb(144, 198, 235);
-    background: linear-gradient(0deg, rgba(144, 198, 235, 1) 0%, rgb(127, 196, 243) 100%);
-    border: none;
-  }
-
-  .btn-1:hover {
-    /* background: rgb(63, 153, 243);
-      background: linear-gradient(0deg, rgba(63, 153, 243, 1) 0%, rgba(2, 126, 251, 1) 100%); */
-    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .5),
-      -4px -4px 6px 0 rgba(116, 125, 136, .5),
-      inset -4px -4px 6px 0 rgba(255, 255, 255, .2),
-      inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
-  }
-
-
-  .btn-2 {
-    background: rgb(rgb(150, 229, 184));
-    background: linear-gradient(0deg, rgba(150, 229, 184, 1) 0%, rgb(150, 229, 184) 100%);
-    border: none;
-
-  }
-
-  .btn-2:before {
-    height: 0%;
-    width: 2px;
-  }
-
-  .btn-2:hover {
-    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .5),
-      -4px -4px 6px 0 rgba(116, 125, 136, .5),
-      inset -4px -4px 6px 0 rgba(255, 255, 255, .2),
-      inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
-  }
-
-  .btn-3 {
-    background: rgb(163, 162, 162);
-    background: linear-gradient(0deg, rgba(163, 162, 162, 1) 0%, rgb(163, 162, 162) 100%);
-    border: none;
-    height: 50px;
-    width: 150px;
-
-  }
-
-  .btn-3:hover {
-    /* background: rgb(136, 221, 164);
-      background: linear-gradient(0deg, rgba(136, 221, 164, 1) 0%, rgb(131, 221, 161) 100%); */
-    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .5),
-      -4px -4px 6px 0 rgba(116, 125, 136, .5),
-      inset -4px -4px 6px 0 rgba(255, 255, 255, .2),
-      inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
-  }
-</style>
-
-</head>
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
+  integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+   
+   <!-- 컴포넌트 사용 -->
+	<script type="module" src="<%=request.getContextPath()%>/resources/js/app.js"></script>
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css">
+	
+	<!-- 달력 -->
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/move/date-picker.css" />
+	<script src="${pageContext.request.contextPath}/resources/js/date-picker.js"></script>
+	
+   
+  </head>
 <body>
 
-  <!-- 컴포넌트 사용 -->
-  <div class="move-cal-body">
-    <div id="app">
-      <main-header></main-header>
-      <main-nav></main-nav>
-    </div>
+<!-- 컴포넌트 사용 -->
+	
+	<div id="app">
+		<main-header></main-header>
+		<main-nav></main-nav>
+	<!-- 	<move-main></move-main> -->
+	</div>
+	
+<div class="container-calendar">
+			<div class="button-container-calendar">
+				<button id="previous">‹</button>
+				<button id="next">›</button>
+				<h3 id="monthHeader">Oct</h3>
+				<p id="yearHeader">2022</p>
+			</div>
 
-    <div id="calendarForm">
-      <form name="해당 폼의 이름" action="값을 보낼 주소" method="post">
-        <!-- 카드 -->
-        <div class="container-fluid pt-5">
-          <div class="row px-xl-5 pb-3">
-            <div class="col-lg-4 col-md-6 pb-1">
-              <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                <h3>이사 희망 날짜를 선택해주세요.</h3>
-                <br>
-                <div>
-                  <!-- <input type='date' name='movingDate' /> -->
-                  <div class="move-calendar">
-                    <div class="move-header">
-                      <div class="move-year-month"></div>
-                      <div class="move-nav">
-                        <button class="move-nav-btn go-prev" onclick="prevMonth()">&lt;</button>
-                        <button class="move-nav-btn go-today" onclick="goToday()">Today</button>
-                        <button class="move-nav-btn go-next" onclick="nextMonth()">&gt;</button>
-                      </div>
-                    </div>
-                    <div class="move-main">
-                      <div class="move-days">
-                        <div class="move-day">일</div>
-                        <div class="move-day">월</div>
-                        <div class="move-day">화</div>
-                        <div class="move-day">수</div>
-                        <div class="move-day">목</div>
-                        <div class="move-day">금</div>
-                        <div class="move-day">토</div>
-                      </div>
-                      <div class="move-dates"></div>
-                    </div>
-                  </div>
+			<table class="table-calendar" id="calendar">
+				<thead id="thead-month"><tr><th data-days="Sun" class="red-text">Sun</th><th data-days="Mon" class="">Mon</th><th data-days="Tue" class="">Tue</th><th data-days="Wed" class="">Wed</th><th data-days="Thu" class="">Thu</th><th data-days="Fri" class="">Fri</th><th data-days="Sat" class="">Sat</th></tr></thead>
+				<tbody id="calendar-body"><tr><td></td><td></td><td></td><td></td><td></td><td></td><td data-date="1" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>1</span></td></tr><tr><td data-date="2" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>2</span></td><td data-date="3" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>3</span></td><td data-date="4" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>4</span></td><td data-date="5" data-month="10" data-year="2022" data-month-name="October" class="date-picker selected"><span>5</span></td><td data-date="6" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>6</span></td><td data-date="7" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>7</span></td><td data-date="8" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>8</span></td></tr><tr><td data-date="9" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>9</span></td><td data-date="10" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>10</span></td><td data-date="11" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>11</span></td><td data-date="12" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>12</span></td><td data-date="13" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>13</span></td><td data-date="14" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>14</span></td><td data-date="15" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>15</span></td></tr><tr><td data-date="16" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>16</span></td><td data-date="17" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>17</span></td><td data-date="18" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>18</span></td><td data-date="19" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>19</span></td><td data-date="20" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>20</span></td><td data-date="21" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>21</span></td><td data-date="22" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>22</span></td></tr><tr><td data-date="23" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>23</span></td><td data-date="24" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>24</span></td><td data-date="25" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>25</span></td><td data-date="26" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>26</span></td><td data-date="27" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>27</span></td><td data-date="28" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>28</span></td><td data-date="29" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>29</span></td></tr><tr><td data-date="30" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>30</span></td><td data-date="31" data-month="10" data-year="2022" data-month-name="October" class="date-picker"><span>31</span></td></tr></tbody>
+			</table>
 
-                </div>
-                <br>
-                <br>
-                <hr>
-                <br>
-                <br>
-                <h3>이사 희망 시간을 선택해주세요. 집에가고싶다!!!!!</h3>
-                <br>
-                <div>
-                  <input type='time' name='movingTime' />
-                </div>
-                <div>
-                  <button id="selectBtn-bday" class="custom-btn btn-3">선택완료</button>
-                </div>
+			<div class="footer-container-calendar">
+				<label for="month">Jump To: </label>
+				<select id="month">
+					<option value="0">Jan</option>
+					<option value="1">Feb</option>
+					<option value="2">Mar</option>
+					<option value="3">Apr</option>
+					<option value="4">May</option>
+					<option value="5">Jun</option>
+					<option value="6">Jul</option>
+					<option value="7">Aug</option>
+					<option value="8">Sep</option>
+					<option value="9">Oct</option>
+					<option value="10">Nov</option>
+					<option value="11">Dec</option>
+				</select>
+				<select id="year"><option value="1970">1970</option><option value="1971">1971</option><option value="1972">1972</option><option value="1973">1973</option><option value="1974">1974</option><option value="1975">1975</option><option value="1976">1976</option><option value="1977">1977</option><option value="1978">1978</option><option value="1979">1979</option><option value="1980">1980</option><option value="1981">1981</option><option value="1982">1982</option><option value="1983">1983</option><option value="1984">1984</option><option value="1985">1985</option><option value="1986">1986</option><option value="1987">1987</option><option value="1988">1988</option><option value="1989">1989</option><option value="1990">1990</option><option value="1991">1991</option><option value="1992">1992</option><option value="1993">1993</option><option value="1994">1994</option><option value="1995">1995</option><option value="1996">1996</option><option value="1997">1997</option><option value="1998">1998</option><option value="1999">1999</option><option value="2000">2000</option><option value="2001">2001</option><option value="2002">2002</option><option value="2003">2003</option><option value="2004">2004</option><option value="2005">2005</option><option value="2006">2006</option><option value="2007">2007</option><option value="2008">2008</option><option value="2009">2009</option><option value="2010">2010</option><option value="2011">2011</option><option value="2012">2012</option><option value="2013">2013</option><option value="2014">2014</option><option value="2015">2015</option><option value="2016">2016</option><option value="2017">2017</option><option value="2018">2018</option><option value="2019">2019</option><option value="2020">2020</option><option value="2021">2021</option><option value="2022">2022</option><option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option><option value="2031">2031</option><option value="2032">2032</option><option value="2033">2033</option><option value="2034">2034</option><option value="2035">2035</option><option value="2036">2036</option><option value="2037">2037</option><option value="2038">2038</option><option value="2039">2039</option><option value="2040">2040</option><option value="2041">2041</option><option value="2042">2042</option><option value="2043">2043</option><option value="2044">2044</option><option value="2045">2045</option><option value="2046">2046</option><option value="2047">2047</option><option value="2048">2048</option><option value="2049">2049</option><option value="2050">2050</option></select>
+			</div>
 
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
+			<p id="date-picked"></p>
+		</div>
+	
+<!-- 
+<div class="container-calendar">
+  <div class="button-container-calendar">
+    <button id="previous">&#8249;</button>
+    <button id="next">&#8250;</button>
+    <h3 id="monthHeader"></h3>
+    <p id="yearHeader"></p>
   </div>
-
-
+    
+  <table class="table-calendar" id="calendar">
+    <thead id="thead-month"></thead>
+    <tbody id="calendar-body"></tbody>
+  </table>
+    
+  <div class="footer-container-calendar">
+    <label for="month">Jump To: </label>
+    <select id="month">
+      <option value=0>Jan</option>
+      <option value=1>Feb</option>
+      <option value=2>Mar</option>
+      <option value=3>Apr</option>
+      <option value=4>May</option>
+      <option value=5>Jun</option>
+      <option value=6>Jul</option>
+      <option value=7>Aug</option>
+      <option value=8>Sep</option>
+      <option value=9>Oct</option>
+      <option value=10>Nov</option>
+      <option value=11>Dec</option>
+    </select>
+    <select id="year"></select>       
+  </div>
+<p id="date-picked"></p>
+</div> -->
 </body>
-<script>
-  let date = new Date();
-
-  const renderCalender = () => {
-  const viewYear = date.getFullYear();
-  const viewMonth = date.getMonth();
-
-  document.querySelector('.move-year-month').textContent = `${viewYear}년 ${viewMonth + 1}월`;
-
-  const prevLast = new Date(viewYear, viewMonth, 0);
-  const thisLast = new Date(viewYear, viewMonth + 1, 0);
-
-  const PLDate = prevLast.getDate();
-  const PLDay = prevLast.getDay();
-
-  const TLDate = thisLast.getDate();
-  const TLDay = thisLast.getDay();
-
-  const prevDates = [];
-  const thisDates = [...Array(TLDate + 1).keys()].slice(1);
-  const nextDates = [];
-
-  if (PLDay !== 6) {
-    for (let i = 0; i < PLDay + 1; i++) {
-      prevDates.unshift(PLDate - i);
-    }
-  }
-
-  for (let i = 1; i < 7 - TLDay; i++) {
-    nextDates.push(i);
-  }
-
-  const dates = prevDates.concat(thisDates, nextDates);
-  const firstDateIndex = dates.indexOf(1);
-  const lastDateIndex = dates.lastIndexOf(TLDate);
-
-  dates.forEach((date, i) => {
-    const condition = i >= firstDateIndex && i < lastDateIndex + 1
-                      ? 'this'
-                      : 'other';
-    dates[i] = `<div class="move-date"><span class=${condition}>${date}</span></div>`;
-  });
-
-  document.querySelector('.move-dates').innerHTML = dates.join('');
-
-  const today = new Date();
-  if (viewMonth === today.getMonth() && viewYear === today.getFullYear()) {
-    for (let date of document.querySelectorAll('.this')) {
-      if (+date.innerText === today.getDate()) {
-        date.classList.add('move-today');
-        break;
-      }
-    }
-  }
-};
-
-renderCalender();
-
-const prevMonth = () => {
-  date.setMonth(date.getMonth() - 1);
-  renderCalender();
-};
-
-const nextMonth = () => {
-  date.setMonth(date.getMonth() + 1);
-  renderCalender();
-};
-
-const goToday = () => {
-  date = new Date();
-  renderCalender();
-};
-
-</script>
-
 </html>
