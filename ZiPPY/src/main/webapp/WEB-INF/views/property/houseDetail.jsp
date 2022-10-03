@@ -34,7 +34,7 @@
 	<!-- header & nav -->
 	<div id="app">
 		<main-header></main-header>
-		<main-nav></main-nav>
+		<!-- <main-nav></main-nav> -->
 	</div>
 
 	<div id="container">
@@ -110,7 +110,7 @@
 					</tr>
 					<tr>
 						<th>전용면적</th>
-						<td>11.28</td>
+						<td>11.28m²</td>
 					</tr>
 					<tr>
 						<th>난방종류</th>
