@@ -17,6 +17,10 @@
 	rel="stylesheet"
 	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 	crossorigin="anonymous">
+<!-- 부트스트랩 아이콘 -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+	rel="stylesheet" />
 
 <!-- Vue -->
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
@@ -191,23 +195,20 @@
 		</section>
 
 		<aside>
-			<div class="col-lg-4">
-				<!-- Side widget-->
-				<div class="card mb-4">
-					<div class="card-body">
-						<p>매물번호 2358</p>
-						<h3>월세 500/35</h3>
-						<p>서울특별시 동작구 대방동 415-52</p>
-						<p>원룸</p>
-						<p>11.28m²</p>
-						<p>반지층</p>
-						<hr>
-						<h4>
-							<a href="/zippy/property/agentDetail">중개법인명</a> ><span
-								style="font-size: small;">여기 누르면 부동산 상세페이지로 슝</span>
-						</h4>
-						<button type="button" class="btn btn-primary">문의하기</button>
-					</div>
+			<div class="card" style="width: 18rem;">
+				<div class="card-body">
+					<p>매물번호 2358</p>
+					<h3>월세 500/35</h3>
+					<p>서울특별시 동작구 대방동 415-52</p>
+					<p>원룸</p>
+					<p>11.28m²</p>
+					<p>반지층</p>
+					<hr>
+					<h4>
+						<i class="bi bi-person-circle"></i> <a
+							href="/zippy/property/agentDetail">중개법인명</a> >
+					</h4>
+					<button type="button" class="btn btn-primary" style="width: 100%">문의하기</button>
 				</div>
 			</div>
 		</aside>
@@ -221,6 +222,7 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 		crossorigin="anonymous">
+		
 	</script>
 </body>
 </html>
