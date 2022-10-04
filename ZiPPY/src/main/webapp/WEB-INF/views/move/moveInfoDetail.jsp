@@ -1,7 +1,7 @@
-<!-- <%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%> -->
+<%@ page session="false"%> 
 <html>
 
 <head>
@@ -29,10 +29,10 @@
   </script>
 
   <!-- 컴포넌트 사용 -->
-  <!-- <script type="module"
+  <script type="module"
 	src="<%=request.getContextPath()%>/resources/js/app.js"></script>
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/resources/css/style.css"> -->
+	href="<%=request.getContextPath()%>/resources/css/style.css"> 
 
   <!-- font awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
@@ -64,6 +64,14 @@ input {
     input {
       margin: 5px;
     }
+    .move-furniture1{ 
+      display: inline-block;
+      margin: 20px;
+    }
+    .move-furniture2{ 
+      display: inline-block;
+      margin: 20px;
+    }
 
     .type-2 {
       background-color: #fafafa;
@@ -84,10 +92,10 @@ input {
       margin-top: 100px;
     }
 
-    .move-drop {
+    .move-detail-drop {
       display: inline-block;
-      width: 250px;
-      height: 200px;
+      width: 210px;
+      height: 100px;
     }
 
     .move-select-input {
@@ -132,9 +140,9 @@ input {
       background: rgb(163, 162, 162);
       background: linear-gradient(0deg, rgba(163, 162, 162, 1) 0%, rgb(163, 162, 162) 100%);
       border: none;
-      width: 80px;
-      height: 32px;
-      font-size: 15px;
+      width: 40px;
+      height: 45px;
+      font-size: 20px;
 
     }
 
@@ -220,6 +228,7 @@ input {
       /* box-shadow: 0 1px 0 1px rgba(0,0,0,.2); */
       box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
       transition: .3s box-shadow;
+      width: 200px;
     }
 
     select:hover {
@@ -265,131 +274,200 @@ input {
 
   <form action="">
 
-    <div class="depart-address">
-      <h3>출발지 주소를 입력해주세요.</h3>
-      <!-- 지도 -->
-
-      <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
-      우편번호 : <input class="type-2" type="text" name="zip" style="width: 80px; height: 26px;" />
-      <button class="custom-btn btn-4" type="button" onclick="openZipSearch()">검색</button>
-      <br>
-      주소 : <input class="type-2" type="text" name="addr1" style="width: 300px; height: 30px;" readonly /><br>
-      상세 : <input class="type-2" type="text" name="addr2" style="width: 300px; height: 30px;" />
-    </div>
-
     <br>
-    <hr>
     <br>
 
     <h3>이삿짐의 상세 정보를 입력해주세요.</h3>
-    <form>
-      <h4>가구</h4>
+    <br>
+    <form><br>
+      <h4>가구</h4><br>
       <div class="move-detail">
-        <div>
-          <input type="checkbox" name="bed"><label>침대</label><br>
+        <div class="move-furniture1">
+          <input type="checkbox" name="bed"><label>침대</label><br><br>
           <i class="fa-solid fa-bed fa-5x"></i><br>
-          <input type="text"><button>+</button>
+          <div class="move-detail-drop">
+            <select>
+              <option value="" selected>-- 사이즈 --</option>
+              <option value="1" >싱글</option>
+              <option value="2">슈퍼싱글</option>
+              <option value="3">퀸</option>
+              <option value="4">킹</option>
+              <option value="5">킹 이상</option>
+            </select>
+            </div>
+          <button class="custom-btn btn-4" type="button">+</button>
         </div>
-        <div>
-          <input type="checkbox" name="sofa"><label>소파</label><br>
+        <div class="move-furniture1">
+          <input type="checkbox" name="sofa"><label>소파</label><br><br>
           <i class="fa-solid fa-couch fa-5x"></i><br>
-          <input type="text"><button>+</button>
+          <div class="move-detail-drop">
+            <select>
+              <option value="" selected>-- 사이즈 --</option>
+              <option value="1" >싱글</option>
+              <option value="2">슈퍼싱글</option>
+              <option value="3">퀸</option>
+              <option value="4">킹</option>
+              <option value="5">킹 이상</option>
+            </select>
+            </div>
+          <button class="custom-btn btn-4" type="button">+</button>
         </div>
-        <div>
-          <input type="checkbox" name="closet"><label>옷장-단품</label><br>
+        <div class="move-furniture1">
+          <input type="checkbox" name="closet"><label>옷장-단품</label><br><br>
           <i class="fa-solid fa-toilet-portable fa-5x"></i><br>
-          <input type="text"><button>+</button>
+          <div class="move-detail-drop">
+            <select>
+              <option value="" selected>-- 사이즈 --</option>
+              <option value="1" >싱글</option>
+              <option value="2">슈퍼싱글</option>
+              <option value="3">퀸</option>
+              <option value="4">킹</option>
+              <option value="5">킹 이상</option>
+            </select>
+            </div>
+          <button class="custom-btn btn-4" type="button">+</button>
         </div>
-        <div>
-          <input type="checkbox" name="closets"><label>옷장-연결장</label><br>
+        <div class="move-furniture1">
+          <input type="checkbox" name="closets"><label>옷장-연결장</label><br><br>
           <i class="fa-solid fa-toilets-portable fa-5x"></i><br>
-          <input type="text"><button>+</button>
+          <div class="move-detail-drop">
+            <select>
+              <option value="" selected>-- 사이즈 --</option>
+              <option value="1" >싱글</option>
+              <option value="2">슈퍼싱글</option>
+              <option value="3">퀸</option>
+              <option value="4">킹</option>
+              <option value="5">킹 이상</option>
+            </select>
+            </div>
+          <button class="custom-btn btn-4" type="button">+</button>
         </div>
       </div>
+
+      <div class="move-detail">  
+        <div class="move-furniture2">
+          <input type="checkbox" name="closets"><label>의자</label><br><br>
+          <i class="fa-solid fa-chair fa-5x"></i><br>
+          <div class="move-detail-drop">
+            <select>
+              <option value="" selected>-- 사이즈 --</option>
+              <option value="1" >싱글</option>
+              <option value="2">슈퍼싱글</option>
+              <option value="3">퀸</option>
+              <option value="4">킹</option>
+              <option value="5">킹 이상</option>
+            </select>
+            </div>
+          <button class="custom-btn btn-4" type="button">+</button>
+        </div>
+     
+      <div class="move-furniture2">
+        <input type="checkbox" name="closets"><label>행거</label><br><br>
+        <i class="fa-solid fa-sign-hanging fa-5x"></i><br>
+        <div class="move-detail-drop">
+          <select>
+            <option value="" selected>-- 사이즈 --</option>
+            <option value="1" >싱글</option>
+            <option value="2">슈퍼싱글</option>
+            <option value="3">퀸</option>
+            <option value="4">킹</option>
+            <option value="5">킹 이상</option>
+          </select>
+          </div>
+        <button class="custom-btn btn-4" type="button">+</button>
+      </div>
+    
+    <div class="move-furniture2">
+      <input type="checkbox" name="closets"><label>서랍</label><br><br>
+      <i class="fa-solid fa-box-archive fa-5x"></i><br>
+      <div class="move-detail-drop">
+        <select>
+          <option value="" selected>-- 사이즈 --</option>
+          <option value="1" >싱글</option>
+          <option value="2">슈퍼싱글</option>
+          <option value="3">퀸</option>
+          <option value="4">킹</option>
+          <option value="5">킹 이상</option>
+        </select>
+        </div>
+      <button class="custom-btn btn-4" type="button">+</button>
+    </div>
+  </div>
+</div>
+
+
+
+    <br><hr><br>
+    <h4>가전</h4><br>
+      <div class="move-detail">
+        <div class="move-furniture1">
+          <input type="checkbox" name="bed"><label>TV</label><br><br>
+          <i class="fa-solid fa-tv fa-5x"></i><br>
+          <div class="move-detail-drop">
+            <select>
+              <option value="" selected>-- 사이즈 --</option>
+              <option value="1" >싱글</option>
+              <option value="2">슈퍼싱글</option>
+              <option value="3">퀸</option>
+              <option value="4">킹</option>
+              <option value="5">킹 이상</option>
+            </select>
+            </div>
+          <button class="custom-btn btn-4" type="button">+</button>
+        </div>
+        <div class="move-furniture1">
+          <input type="checkbox" name="sofa"><label>데스크탑</label><br><br>
+          <i class="fa-solid fa-desktop fa-5x"></i><br>
+          <div class="move-detail-drop">
+            <select>
+              <option value="" selected>-- 사이즈 --</option>
+              <option value="1" >싱글</option>
+              <option value="2">슈퍼싱글</option>
+              <option value="3">퀸</option>
+              <option value="4">킹</option>
+              <option value="5">킹 이상</option>
+            </select>
+            </div>
+          <button class="custom-btn btn-4" type="button">+</button>
+        </div>
+        <div class="move-furniture1">
+          <input type="checkbox" name="closet"><label>옷장-단품</label><br><br>
+          <i class="fa-solid fa-toilet-portable fa-5x"></i><br>
+          <div class="move-detail-drop">
+            <select>
+              <option value="" selected>-- 사이즈 --</option>
+              <option value="1" >싱글</option>
+              <option value="2">슈퍼싱글</option>
+              <option value="3">퀸</option>
+              <option value="4">킹</option>
+              <option value="5">킹 이상</option>
+            </select>
+            </div>
+          <button class="custom-btn btn-4" type="button">+</button>
+        </div>
+        <div class="move-furniture1">
+          <input type="checkbox" name="closets"><label>유모차</label><br><br>
+          <i class="fa-solid fa-baby-carriage fa-5x"></i><br>
+          <div class="move-detail-drop">
+            <select>
+              <option value="" selected>-- 사이즈 --</option>
+              <option value="1">싱글</option>
+              <option value="2">슈퍼싱글</option>
+              <option value="3">퀸</option>
+              <option value="4">킹</option>
+              <option value="5">킹 이상</option>
+            </select>
+            </div>
+          <button class="custom-btn btn-4" type="button">+</button>
+        </div>
       
+    </div>
     </form>
 
-
     <br>
     <hr>
     <br>
-
-    <div class="move-select-input">
-      <h3>층수</h3>
-      <input class="type-2" id="floor" type="number" min="1"><label for="floor"> 층</label>
-    </div>
-
-    <div class="move-select-input">
-      <h3>화장실 개수</h3>
-      <input class="type-2" id="toilet" type="number" min="1"><label for="toilet"> 개</label>
-    </div>
-
-    <div class="move-select-input">
-      <h3>베란다 개수</h3>
-      <input class="type-2" id="veranda" type="number" min="1"><label for="veranda"> 개</label>
-    </div>
-    <hr>
-    <br>
-
-
-    <div class="detail-info-radio">
-      <h3>1층 별도 계단</h3>
-      <label class="test_obj">
-        <input type="radio" name="stairs" value="apple">
-        <span>있음</span>
-      </label>
-
-      <label class="test_obj">
-        <input type="radio" name="stairs" value="banana">
-        <span>없음</span>
-      </label>
-    </div>
-
-    <div class="detail-info-radio">
-      <h3>엘레베이터</h3>
-      <label class="test_obj">
-        <input type="radio" name="elev" value="apple">
-        <span>있음</span>
-      </label>
-
-      <label class="test_obj">
-        <input type="radio" name="elev" value="banana">
-        <span>없음</span>
-      </label>
-    </div>
-
-    <div class="detail-info-radio">
-      <h3>주차가능</h3>
-      <label class="test_obj">
-        <input type="radio" name="parking" value="apple">
-        <span>있음</span>
-      </label>
-
-      <label class="test_obj">
-        <input type="radio" name="parking" value="banana">
-        <span>없음</span>
-      </label>
-    </div>
-    <br>
-    <br>
-    <br>
-    <hr>
-    <br>
-    <br>
-    <div class="arrive-address">
-      <h3>도착지 주소를 입력해주세요.</h3>
-      <!-- 지도 -->
-
-      <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
-      우편번호 : <input class="type-2" type="text" name="zip2" style="width: 80px; height: 26px;" />
-      <button class="custom-btn btn-4" type="button" onclick="openZipSearch2()">검색</button>
-      <br>
-      주소 : <input class="type-2" type="text" name="addr3" style="width: 300px; height: 30px;" readonly /><br>
-      상세 : <input class="type-2" type="text" name="addr4" style="width: 300px; height: 30px;" />
-    </div>
-
+    <br>  
 
     <div class="frame">
       <button id="selectBtn-bday" class="custom-btn btn-3">선택완료</button>
@@ -398,25 +476,7 @@ input {
 
 
     <script>
-      function openZipSearch() {
-        new daum.Postcode({
-          oncomplete: function (data) {
-            $('[name=zip]').val(data.zonecode); // 우편번호 (5자리)
-            $('[name=addr1]').val(data.address);
-            $('[name=addr2]').val(data.buildingName);
-          }
-        }).open();
-      }
-
-      function openZipSearch2() {
-        new daum.Postcode({
-          oncomplete: function (data) {
-            $('[name=zip2]').val(data.zonecode); // 우편번호 (5자리)
-            $('[name=addr3]').val(data.address);
-            $('[name=addr4]').val(data.buildingName);
-          }
-        }).open();
-      }
+    
     </script>
   </form>
 </body>

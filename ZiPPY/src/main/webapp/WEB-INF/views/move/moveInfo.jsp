@@ -82,6 +82,7 @@ input{
 	display: inline-block;
 	width: 250px;
 	height: 200px;
+	
 }
 .move-select-input{
 	display: inline-block;
@@ -213,6 +214,7 @@ select {
   /* box-shadow: 0 1px 0 1px rgba(0,0,0,.2); */
   box-shadow:0 0 4px rgba(0,0,0,0.2);
         transition: .3s box-shadow;
+        
 }
 
 select:hover {
@@ -279,6 +281,29 @@ label {
 		<br>
 		<hr>
 		<br>	
+		
+		<br>
+		<br>
+		
+		
+		<div class="arrive-address">
+		<h3>도착지 주소를 입력해주세요.</h3>
+		<!-- 지도 -->
+
+		<script
+			src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+			우편번호 : <input class="type-2" type="text" name="zip2" style="width: 80px; height: 26px;" />
+				<button class="custom-btn btn-4" type="button" onclick="openZipSearch2()">검색</button>
+			<br> 
+			주소 : <input class="type-2" type="text" name="addr3" style="width: 300px; height: 30px;" readonly /><br> 
+			상세 : <input class="type-2" type="text" name="addr4" style="width: 300px; height: 30px;" />
+		</div>
+		<hr>
+		<br>
+		<br>
+		<br>
+		<br>
     
       <div class="move-drop">
 			<h3>집형태</h3>
@@ -376,25 +401,7 @@ label {
 					<span>없음</span>
 				</label>			
 			</div>
-		<br>
-		<br>
-		<br>
-		<hr>
-		<br>
-		<br>
-		<div class="arrive-address">
-		<h3>도착지 주소를 입력해주세요.</h3>
-		<!-- 지도 -->
-
-		<script
-			src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
-			우편번호 : <input class="type-2" type="text" name="zip2" style="width: 80px; height: 26px;" />
-				<button class="custom-btn btn-4" type="button" onclick="openZipSearch2()">검색</button>
-			<br> 
-			주소 : <input class="type-2" type="text" name="addr3" style="width: 300px; height: 30px;" readonly /><br> 
-			상세 : <input class="type-2" type="text" name="addr4" style="width: 300px; height: 30px;" />
-		</div>	
+			
 
 
 		<div class="frame">

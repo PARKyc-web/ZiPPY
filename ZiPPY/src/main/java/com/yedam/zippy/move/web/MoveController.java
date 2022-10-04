@@ -21,9 +21,9 @@ public class MoveController {
 	}
 	
 	//이사 날짜, 시간
-	@GetMapping("/moveDateOld")
-	public String moveDateOld() {
-		return "move/moveDateOld";
+	@GetMapping("/moveDate")
+	public String moveDate() {
+		return "move/moveDate";
 	}
 	
 	@GetMapping("/moveInfo")
@@ -41,4 +41,11 @@ public class MoveController {
 	public String moveVisitDate() {
 		return "move/moveVisitDate";
 	}
+	
+	//비대면 상세
+	@GetMapping("/moveInfoDetail")
+	public String moveInfoDetail() {
+		return "move/moveInfoDetail";
+	}
+	
 }

@@ -8,7 +8,7 @@
 	<!-- datasource connection pool -->
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 	  <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
-	  <property name="jdbcUrl"         value="jdbc:log4jdbc:oracle:thin:@ZiPPY_medium?TNS_ADMIN=C:/Users/admin/Desktop/oracle_cloud/Wallet_ZiPPY" />
+	  <property name="jdbcUrl"         value="jdbc:log4jdbc:oracle:thin:@ZiPPY_medium?TNS_ADMIN=C:/Users/bbk11/Desktop/oracle_cloud/Wallet_ZiPPY" />
 	  <property name="username"   	   value="ADMIN" />
 	  <property name="password"   	   value="yedamZippyProject1" />
 	</bean>
