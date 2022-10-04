@@ -17,7 +17,9 @@
 	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
 	crossorigin="anonymous">
 <!-- ICON CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+	rel="stylesheet" />
 <!-- Vue -->
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
 <script type="module"
@@ -25,7 +27,7 @@
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/css/style.css">
 </head>
-<body>
+<body style="overflow-y: hidden">
 	<!-- header & nav -->
 	<div id="app">
 		<main-header></main-header>
@@ -78,22 +80,19 @@
 			</script>
 		</section>
 
-		<aside>
+		<aside style="overflow-y: auto;">
 			<c:forEach items="${propertyList }" var="property">
-				<div>
-				<table>
-					<tr>
-						<td>여기에 이미지</td>
-						<td>
-							<h4>${property.saleType }${property.price }</h4>
-							<p>${property.sigungu }</p>
-							<p>${property.areaExclusive }m²▫ ${property.floor}층</p>
-							<p>${property.detailContents }</p>
-						</td>
-					</tr>
-				</table>
-				<hr>
-				</div>
+					<table class="table table-hover">
+						<tr>
+							<td>여기에 이미지</td>
+							<td>
+								<h4>${property.saleType }${property.price }</h4>
+								<p>${property.sigungu }</p>
+								<p>${property.areaExclusive }m²▫${property.floor}층</p>
+								<p>${property.detailContents }</p>
+							</td>
+						</tr>
+					</table>
 			</c:forEach>
 		</aside>
 	</div>
