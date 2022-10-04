@@ -119,7 +119,7 @@
 
     /* 설명 */
 
-    .btn1 {
+    .type-btn1 {
       display: inline-block;
     }
 
@@ -128,7 +128,7 @@
 	 } */
 
 
-    .btn2 {
+    .type-btn2 {
       display: inline-block;
     }
 
@@ -137,9 +137,9 @@
 	 	display: block;
 	 }
 	 */
-    .explain1,
-    .explain2 {
-      height: 200px;
+    .explain3,
+    .explain4 {
+      height: 100px;
       display: none;
     }
   </style>
@@ -162,33 +162,29 @@
 
 
   <div class="frame">
-    <h3>이사 유형을 선택해주세요.</h3>
-    <div class="btn1">
-      <button class="custom-btn btn-1" onclick="aaa()">소형이사</button>
+    <h3>견적 방법을 선택해주세요.</h3>
+    <div class="type-btn1">
+      <button class="custom-btn btn-1" onclick="aaa()">대면 방문예약</button>
     </div>
 
 
 
-    <div class="btn2">
-      <button class="custom-btn btn-2" onclick="bbb()">가정이사</button>
+    <div class="type-btn2">
+      <button class="custom-btn btn-2" onclick="bbb()">비대면 방문예약</button>
     </div>
     <br>
-    <div class="explain1">
+    <div class="explain3">
     	<table>
-    		<tr><td>• 투룸, 20평 미만에 적합</td><tr>
-    		<tr><td>• 주요차량 : 1 ~ 2.5톤 트럭</td><tr>
-    		<tr><td>• 이사종류 : 일반 / 반포장 / 포장</td><tr>
-    		<tr><td>• 평균 작업인원 : 2명이하</td><tr>
+    		<tr><td>• 이사업체 전문가 직접방문 </td><tr>
+    		<tr><td>• 정확한 견적, 신속한 계약</td><tr>
     	</table>
     	
     </div>
 
-    <div class="explain2">
+    <div class="explain4">
     	<table>
-    		<tr><td>• 쓰리룸, 20평대 이상에 적합</td><tr>
-    		<tr><td>• 주요차량 : 2.5 ~ 5톤 트럭 이상</td><tr>
-    		<tr><td>• 이사종류 : 전문 포장이사</td><tr>
-    		<tr><td>• 평균 작업인원 : 3명 이상</td><tr>
+    		<tr><td>• 이사업체 전문가에 비대면 견적 의뢰</td><tr>
+    		<tr><td>• 유동적인 견적 가능, 프라이버시 보호</td><tr>
     	</table>
     </div>
 
@@ -201,18 +197,18 @@
  
   <script>
     function aaa() {
-      let item = document.querySelector('.explain1');
+      let item = document.querySelector('.explain3');
       item.style.display = 'inline-block';
 
-      let item2 = document.querySelector('.explain2');
+      let item2 = document.querySelector('.explain4');
       item2.style.display = 'none';
     }
 
     function bbb() {
-      let item = document.querySelector('.explain1');
+      let item = document.querySelector('.explain3');
       item.style.display = 'none';
 
-      let item2 = document.querySelector('.explain2');
+      let item2 = document.querySelector('.explain4');
       item2.style.display = 'inline-block';
     }
   </script>

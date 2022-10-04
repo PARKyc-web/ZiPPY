@@ -5,6 +5,8 @@
 <html>
 <head>
 <title>Move Home</title>
+
+
 <meta charset="UTF-8">
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
@@ -12,6 +14,10 @@
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
      -->
+
+
+
+
 
 <!-- CSS only -->
 <link
@@ -43,18 +49,43 @@ html {
   font-family: Georgia, "Times New Roman", serif;
 }
 
+/* input */
+/* 
+input {
+  display:block;
+  width:100%;
+  margin:10px 0;
+  padding:10px;
+} */
+input{ 
+  margin: 5px;
+}
 
+.type-2 {
+  background-color: #fafafa;
+  border:0;
+  box-shadow:0 0 4px rgba(0,0,0,0.3);
+  transition: .3s box-shadow;
+  width: 100px;
+  border-radius: 5px;
+}
+.type-2:hover {
+  box-shadow:0 0 4px rgba(0,0,0,0.5);
+}
+
+
+/* zip */
 .depart-address{
 	margin-top: 100px;
 }
 .move-drop{
 	display: inline-block;
-	width: 200px;
+	width: 250px;
 	height: 200px;
 }
 .move-select-input{
 	display: inline-block;
-	width: 300px;
+	width: 250px;
 	height: 200px;
 }
 
@@ -129,103 +160,89 @@ html {
   }
 
 /* 라디오 */
-/* 
-.checks {
-    position: relative;
-    height: 20px;
-    padding: 30px;
-    line-height: 20px;
-}
-.checks label {
-    font-size: 20px;
-    color: #666;
-    margin-right: 10px;
-    vertical-align: middle;
-}
-            
-.checks-radio1 input[type="radio"] {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
-}
-.checks-radio1 input[type="radio"]+label {
-    display: inline-block;
-    position: relative;
-    padding-left: 25px;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-}
-            
-.checks-radio1 input[type="radio"]+label:before {
-    content: '';
-    position: absolute;
-    left: 4px;
-    top: 0px;
-    width: 20px;
-    height: 20px;
-    text-align: center;
-    background: #fff;
-    border: 1px solid #cacece;
-    border-radius: 100%;
-    box-shadow: none;
-}
-.checks-radio1 input[type="radio"]:checked+label:before {
-    background: #fff;
-    border-color: yellowgreen;
-} 
-            
-.checks-radio1 input[type="radio"]:checked+label:after {
-    content: '';
-    position: absolute;
-    top: 1px;
-    left: 5px;
-    width: 15px;
-    height: 15px;
-    background: #B3E3C3;
-    border-radius: 100%;
-    box-shadow: none;
-}
- */
-
-/* 새로운 라디오 */
-/* 
-body,html{
-    background: #efefef;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100%;
-    z-index: -1;
-} */
-
-.black-btn{
-    border: 3px solid #1a1a1a;
-    display: inline-block;
-    padding: 10px;
-    position: relative;
-    text-align: center;
-    transition: background 600ms ease, color 600ms ease;
-    border-radius: 10px;
+.detail-info-radio{ 
+  display: inline-block;
+  width: 250px;
 }
 
-.black-btn:hover{
-	cursor: pointer;
-}
-input[type="radio"].toggle {
-    display: none;
-    
+.test_obj input[type="radio"] {
+        display: none;  
+    }
+ 
+    .test_obj input[type="radio"] + span {
+        display: inline-block;
+        padding: 10px 10px; 
+        border: 1px solid #dfdfdf;
+        background-color: #ffffff;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 20px;
+        width: 80px;
+
+        
+        box-shadow:0 0 4px rgba(0,0,0,0.2);
+        transition: .3s box-shadow;
+    }
+ 
+    .test_obj input[type="radio"]:checked + span {
+        background-color:  #B3E3C3;
+        color: #ffffff;
+    }
+
+/* 드롭 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  
+  font-family: "Noto Sansf KR", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  
+  color: #444;
+  background-color: #fff;
+  
+  padding: .6em 1.4em .5em .8em;
+  margin: 0;
+  
+  border: 1px solid #aaa;
+  border-radius: .5em;
+  /* box-shadow: 0 1px 0 1px rgba(0,0,0,.2); */
+  box-shadow:0 0 4px rgba(0,0,0,0.2);
+        transition: .3s box-shadow;
 }
 
-.black-radio input[type="radio"]:checked+label:after{
-	background: black;
+select:hover {
+  border-color: #888;
 }
+
+select:focus {
+  border-color: #aaa;
+  box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
+  box-shadow: 0 0 0 3px -moz-mac-focusring;
+  color: #222;
+  outline: none;
+}
+
+select:disabled {
+  opacity: 0.5;
+}
+
+label {
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  
+  color: #444;
+  
+  margin-right: 0.5em;
+}
+
+
 
 
 </style>
@@ -252,32 +269,32 @@ input[type="radio"].toggle {
 		<script
 			src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-			우편번호 : <input type="text" name="zip"
-			style="width: 80px; height: 26px;" />
-		<button class="custom-btn btn-4" type="button" 
-			onclick="openZipSearch()">검색</button>
-		<br> 주소 : <input type="text" name="addr1"
-			style="width: 300px; height: 30px;" readonly /><br> 
-			상세 : <input
-			type="text" name="addr2" style="width: 300px; height: 30px;" />
+			우편번호 : <input class="type-2" type="text" name="zip" style="width: 80px; height: 26px;" />
+				<button class="custom-btn btn-4" type="button" onclick="openZipSearch()">검색</button>
+			<br> 
+			주소 : <input class="type-2" type="text" name="addr1" style="width: 300px; height: 30px;" readonly /><br> 
+			상세 : <input class="type-2" type="text" name="addr2" style="width: 300px; height: 30px;" />
 		</div>	
 		
 		<br>
 		<hr>
 		<br>	
-			<div class="move-drop">
+    
+      <div class="move-drop">
 			<h3>집형태</h3>
 			<select>
-				<option value="1" selected>빌라/주택</option>
+        <option value="" selected>-- 선택하세요 --</option>
+				<option value="1">빌라/주택</option>
 				<option value="2">오피스텔</option>
 				<option value="3">아파트</option>
 			</select>
 			</div>
-			
+          
 			<div class="move-drop">
 			<h3>방구조</h3>
 			<select>
-				<option value="1" selected>원룸</option>
+        <option value="" selected>-- 선택하세요 --</option>
+				<option value="1" >원룸</option>
 				<option value="2">투룸</option>
 				<option value="3">쓰리룸</option>
 				<option value="4">쓰리룸 이상</option>
@@ -287,7 +304,8 @@ input[type="radio"].toggle {
 			<div class="move-drop">
 			<h3>집평수</h3>
 			<select>
-				<option value="1" selected>10평 이하</option>
+        <option value="" selected>-- 선택하세요 --</option>
+				<option value="1" >10평 이하</option>
 				<option value="2">10~15평</option>
 				<option value="3">15~20평</option>
 				<option value="4">20~25평</option>
@@ -304,37 +322,81 @@ input[type="radio"].toggle {
 			
 			<div class="move-select-input">
 			<h3>층수</h3>
-				<input id="floor" type="number" min="1"><label for="floor"> 층</label>
+				<input class="type-2" id="floor" type="number" min="1"><label for="floor"> 층</label>
 			</div>
 			
 			<div class="move-select-input">
 			<h3>화장실 개수</h3>
-				<input id="toilet" type="number" min="1"><label for="toilet"> 개</label>
+				<input class="type-2" id="toilet" type="number" min="1"><label for="toilet"> 개</label>
 			</div>
 			
 			<div class="move-select-input">
 			<h3>베란다 개수</h3>
-				<input id="veranda" type="number" min="1"><label for="veranda"> 개</label>
+				<input class="type-2" id="veranda" type="number" min="1"><label for="veranda"> 개</label>
 			</div>
 			<hr>
 			<br>
-			
-			<div class="checks-radio1">
-				<h3>1층 별도 계단</h3>
-			    <input type="radio" id="ex_rd" name="ex_rds">
-			    <label for="ex_rd">있음</label>
-			    <input type="radio" id="ex_rd2" name="ex_rds">
-			    <label for="ex_rd2">없음</label>
+
+
+			<div class="detail-info-radio">
+        <h3>1층 별도 계단</h3>
+				<label class="test_obj">
+					<input type="radio" name="stairs" value="apple">
+					<span>있음</span>
+				</label>
+
+				<label class="test_obj">
+					<input type="radio" name="stairs" value="banana">
+					<span>없음</span>
+				</label>			
 			</div>
-			
-			<div class="black-radio">
-			<h3>엘레베이터</h3>
-			<input id="toggle-on" class="toggle toggle-left" name="toggle" value="false" type="radio" checked>
-			<label for="toggle-on" class="black-btn">Yes</label>
-			<input id="toggle-off" class="toggle toggle-right" name="toggle" value="true" type="radio">
-			<label for="toggle-off" class="black-btn">No</label>	
+
+      <div class="detail-info-radio">
+        <h3>엘레베이터</h3>
+				<label class="test_obj">
+					<input type="radio" name="elev" value="apple">
+					<span>있음</span>
+				</label>
+
+				<label class="test_obj">
+					<input type="radio" name="elev" value="banana">
+					<span>없음</span>
+				</label>			
 			</div>
-							
+
+      <div class="detail-info-radio">
+        <h3>주차가능</h3>
+				<label class="test_obj">
+					<input type="radio" name="parking" value="apple">
+					<span>있음</span>
+				</label>
+
+				<label class="test_obj">
+					<input type="radio" name="parking" value="banana">
+					<span>없음</span>
+				</label>			
+			</div>
+		<br>
+		<br>
+		<br>
+		<hr>
+		<br>
+		<br>
+		<div class="arrive-address">
+		<h3>도착지 주소를 입력해주세요.</h3>
+		<!-- 지도 -->
+
+		<script
+			src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+			우편번호 : <input class="type-2" type="text" name="zip2" style="width: 80px; height: 26px;" />
+				<button class="custom-btn btn-4" type="button" onclick="openZipSearch2()">검색</button>
+			<br> 
+			주소 : <input class="type-2" type="text" name="addr3" style="width: 300px; height: 30px;" readonly /><br> 
+			상세 : <input class="type-2" type="text" name="addr4" style="width: 300px; height: 30px;" />
+		</div>	
+
+
 		<div class="frame">
 			<button id="selectBtn-bday" class="custom-btn btn-3">선택완료</button>
 		</div>
@@ -348,6 +410,16 @@ input[type="radio"].toggle {
 						$('[name=zip]').val(data.zonecode); // 우편번호 (5자리)
 						$('[name=addr1]').val(data.address);
 						$('[name=addr2]').val(data.buildingName);
+					}
+				}).open();
+			}
+			
+			function openZipSearch2() {
+				new daum.Postcode({
+					oncomplete : function(data) {
+						$('[name=zip2]').val(data.zonecode); // 우편번호 (5자리)
+						$('[name=addr3]').val(data.address);
+						$('[name=addr4]').val(data.buildingName);
 					}
 				}).open();
 			}

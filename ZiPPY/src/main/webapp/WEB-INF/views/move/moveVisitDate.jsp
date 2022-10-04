@@ -47,9 +47,10 @@
 
 
 		/* 버튼 */
+	
 	.wrapper{
 	 margin: 100px auto;
-	}
+	}	
 	.frame {
     width: 90%;
     margin: 100px auto;
@@ -115,7 +116,7 @@
 
 	<div class="wrapper">
 
-		<h1>이사 희망 날짜를 선택해주세요.</h1>
+		<h1>대면 견적 방문 희망 날짜를 선택해주세요.</h1>
 
     <div class="container-calendar">
 
@@ -242,8 +243,8 @@ try {
 <!-- 안보이는 폼(display:none)에 인풋하나 생성해놓고 위의 캘린더에서 onclick이벤트 발생하게 해서 인풋에 날짜값을 담아 submit으로 넘길 수 있게한다. -->
 
 <hr>
-
-<h1>이사 희망 시간을 선택해주세요.</h1>
+<br>
+<h1>방문 희망 시간을 선택해주세요.</h1>
 	<div class="frame">
 		<div>
 		<input type='time' name='movingTime' />
