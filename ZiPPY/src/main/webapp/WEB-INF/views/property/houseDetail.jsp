@@ -28,6 +28,7 @@
 	src="<%=request.getContextPath()%>/resources/js/app.js"></script>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/css/style.css">
+
 </head>
 
 <body>
@@ -159,12 +160,12 @@
 						center : mapCenter, // 지도의 중심좌표
 						level : 3
 					// 지도의 확대 레벨
-					}; 
+					};
 
 					// 지도를 표시할 div와 지도 옵션으로 지도를 생성합니다
 					var map = new kakao.maps.Map(mapContainer, mapOption);
 
-					//////////////////
+					/****** 주소로 장소 표시하기  ******/
 					// 주소-좌표 변환 객체를 생성합니다
 					var geocoder = new kakao.maps.services.Geocoder();
 
@@ -199,7 +200,7 @@
 											map.setCenter(mapCenter);
 										}
 									});
-					//////////////////
+					/****** end - 주소로 장소 표시하기  ******/
 
 					// 로드뷰 객체를 생성합니다 
 					var rv = new kakao.maps.Roadview(rvContainer);
