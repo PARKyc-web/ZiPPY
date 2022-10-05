@@ -11,7 +11,7 @@ public class UsedContoller {
 	// 전체조회
 	@RequestMapping("/main")
 	public String usedList() {
-		return "used/home";
+		return "used/main";
 	}
 
 	// 단건조회

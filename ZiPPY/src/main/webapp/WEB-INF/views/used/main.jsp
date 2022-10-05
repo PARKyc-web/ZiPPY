@@ -124,12 +124,6 @@
         display: block;
       }
 
-      #sold-out {
-        float: right;
-        padding-top: 22px;
-        padding-right: 20px;
-      }
-
       .card-li {
         border: 1px solid black;
         list-style: none;
