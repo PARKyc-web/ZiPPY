@@ -271,7 +271,7 @@ label {
 		<script
 			src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-			우편번호 : <input class="type-2" type="text" name="zip" style="width: 80px; height: 26px;" />
+			우편번호 : <input class="type-2" type="text" name="zip1" style="width: 80px; height: 26px;" />
 				<button class="custom-btn btn-4" type="button" onclick="openZipSearch()">검색</button>
 			<br> 
 			주소 : <input class="type-2" type="text" name="addr1" style="width: 300px; height: 30px;" readonly /><br> 
@@ -414,7 +414,7 @@ label {
 			function openZipSearch() {
 				new daum.Postcode({
 					oncomplete : function(data) {
-						$('[name=zip]').val(data.zonecode); // 우편번호 (5자리)
+						$('[name=zip1]').val(data.zonecode); // 우편번호 (5자리)
 						$('[name=addr1]').val(data.address);
 						$('[name=addr2]').val(data.buildingName);
 					}
@@ -429,7 +429,7 @@ label {
 						$('[name=addr4]').val(data.buildingName);
 					}
 				}).open();
-			}
+			} 
 		</script>
 	</form>
 </body>
