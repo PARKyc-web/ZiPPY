@@ -5,17 +5,18 @@ import lombok.Data;
 @Data
 public class propertyVO {
 	private int productId;
+	private String email;
+	private String houseName;
 	private int roomCnt;
 	private String saleType;
 	private String price;
 	private float areaExclusive;
 	private String floor;
 	private String mainImg;
-	private String email;
 	private int productState;
 	private String detailContents;
 	private String sigungu;
-	private String houseName;
+	private String houseType;
 	
 	private int detailId;
 //	int productId;
@@ -24,6 +25,6 @@ public class propertyVO {
 	private String houseFace;
 	private int constructionYear;
 	private String tags;
-	
+	private String streetAddress;
 	
 }
