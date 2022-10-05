@@ -24,19 +24,16 @@
       <h6>'<span>초록색 소파</span>'에 대한 검색 결과</h6>
     </div>
     <!-- 키워드 확인 끝 -->
-      <!-- 옵션 -->
-      <div class="dropdown">
-        <button class="btn btn-light dropdown-toggle" style="margin-top:15px; width:370x;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-          인기순
-        </button>
-        <ul class="dropdown-menu" id="dropdown-opt" aria-labelledby="dropdownMenuButton1">
-          <li><a class="dropdown-item" href="#">인기순</a></li>
-          <li><a class="dropdown-item" href="#">최신순</a></li>
-          <li><a class="dropdown-item" href="#">리뷰순</a></li>
-          <li><a class="dropdown-item" href="#">별점순</a></li>
-        </ul>
-      </div>
-      <!--옵션 끝-->
+       <!-- 옵션 -->
+       <v-container>
+        <v-overflow-btn
+          id="drop"
+          class="my-2"
+          :items="items"
+          label="판매순"
+          dense
+        ></v-overflow-btn>
+      </v-container>
       <!-- 상품리스트 -->
       <div id="product-list">
           <div id="product-info" v-for="i in 6" :key="6">
@@ -44,10 +41,10 @@
               <img src="http://webimage.10x10.co.kr/ckeditor/item/202012/20201215_154323_4145.jpg">
             </div>
             <div class="product-about">
-              <h6 id="small" style="color:#aaa">예담가구</h6>
-              <h6 id="product-name">딱딱의자</h6>
-              <h6>11,111</h6>
-              <h6 id="small"><i class="bi bi-star-fill"></i> 4.5(10)</h6>
+              <h6 class="product-seller-name">예담가구</h6>
+              <h6 class="product-seller-name" id="product-name">딱딱의자</h6>
+              <h5 class="pt-1">11,111</h5>
+              <h6 class="product-seller-name"><v-icon style="font-size:15px">mdi-star</v-icon> 4.5(10)</h6>
             </div>
           </div>
         </div>
@@ -78,7 +75,9 @@
 
 <script>
   export default {
-
+    data: () => ({
+    items: ['판매순', '최신순', '리뷰순', '별점순']
+    })
   };
 </script>
 
@@ -102,16 +101,14 @@ display:flex;
   color:858585;
   cursor:pointer;
 }
-/*??*/
-#category-list h5:link{
-  color:#B3E3C3;
-}
 /* 드롭다운(옵션) */
-.dropdown {
-  display: inline-block;
+.v-overflow-btn {
   float:right;
-  margin-bottom: 20px;
-  margin-right:10px;
+  width:100px;
+}
+::v-deep .my-2 .v-label {
+ font-size: 13px;
+ color:rgb(0, 0, 0, 0.87)
 }
 /* 키워드 */
 #keyword {
@@ -139,19 +136,22 @@ display:flex;
 #product-list i{
   color:#B3E3C3;
 }
-#small {
+.product-seller-name {
   font-size:smaller;
+  color:black;
+  font-weight: normal;
 }
 #product-info {
   height:440px;
   padding-right: 25px;
-}
-.product-about{
-  margin-top: 10px;
+  margin-bottom: 50px;
 }
 #product-name:hover{
   text-decoration: underline;
   cursor:pointer;
+}
+.product-about{
+  margin-top: 10px;
 }
 #product-info:hover{
   cursor:pointer;

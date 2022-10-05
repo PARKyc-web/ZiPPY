@@ -1,5 +1,5 @@
 <template>
-  <div style="padding-bottom: 100px;">
+  <div class="pb-1">
     <v-app-bar color="#fff" dense>
       <v-menu left bottom>
         <template v-slot:activator="{ on, attrs }">

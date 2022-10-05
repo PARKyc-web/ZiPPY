@@ -4,6 +4,7 @@ import HomeView from "../views/HomeView.vue";
 import shopMainView from "../views/shop/shopMainView.vue";
 import categoryListView from "../views/shop/categoryListView.vue";
 import keywordListView from "../views/shop/keywordListView.vue";
+import shopDetailView from "../views/shop/shopDetailView";
 
 Vue.use(VueRouter);
 
@@ -27,6 +28,11 @@ const routes = [
     path: "/shop/keyword",
     name: "keywordListView",
     component: keywordListView
+  },
+  {
+    path: "/shop/detail",
+    name: "shopDetailView",
+    component: shopDetailView
   }
 ];
 
