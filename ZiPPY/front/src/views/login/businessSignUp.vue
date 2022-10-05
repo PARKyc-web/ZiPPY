@@ -1,5 +1,5 @@
 <template>
-  <div class="general-signup-body">
+  <div class="signup-body">
     <div class="general-signup-container">
       <div class="row">
         <div class="col-lg-10 col-xl-9 mx-auto sign-container">
@@ -14,6 +14,33 @@
 
               <form id="signup-form" action="">
                 <div id="first-form">
+                  <div id="business-label-div">
+                    <h3>업체 유형</h3>
+                    <label class="business-label">
+                      <input
+                        type="radio"
+                        name="business-type"
+                        value="property"
+                      />
+                      <span>공인중개사</span>
+                    </label>
+
+                    <label class="business-label">
+                      <input type="radio" name="business-type" value="shop" />
+                      <span>쇼핑몰</span>
+                    </label>
+
+                    <label class="business-label">
+                      <input type="radio" name="business-type" value="move" />
+                      <span>이사업체</span>
+                    </label>
+
+                    <label class="business-label">
+                      <input type="radio" name="business-type" value="clean" />
+                      <span>청소업체</span>
+                    </label>
+                  </div>
+
                   <div class="form-floating mb-3">
                     <input
                       v-model="user_email"
@@ -188,36 +215,6 @@
                     <input
                       type="text"
                       class="form-control"
-                      id="user_name"
-                      placeholder="park"
-                    />
-                    <label for="user_name">사용자 이름</label>
-                  </div>
-
-                  <div class="form-floating mb-3">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="user_nick"
-                      placeholder="nick"
-                    />
-                    <label for="user_nick">닉네임</label>
-                  </div>
-
-                  <div class="form-floating mb-3">
-                    <input
-                      type="date"
-                      class="form-control"
-                      id="user_birth"
-                      placeholder="11223344"
-                    />
-                    <label for="user_birth">생년월일</label>
-                  </div>
-                  <br />
-                  <div class="form-floating mb-3">
-                    <input
-                      type="text"
-                      class="form-control"
                       id="addressInput"
                       placeholder="주소검색"
                       disabled
@@ -250,14 +247,104 @@
                     <button
                       class="btn btn-lg btn-primary btn-login fw-bold text-uppercase"
                       type="button"
-                      @click="signup()"
+                      @click="next()"
                     >
-                      회원가입
+                      다음 페이지
                     </button>
                   </div>
                   <a class="d-block text-center mt-2 small" href="/"
                     >이미 아이디가 있으신가요?</a
                   >
+                </div>
+
+                <!-- 이 부분부터 2번째 입력 페이지 -->
+                <div id="second-form">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="ceo_name"
+                      placeholder="ceo"
+                    />
+                    <label for="ceo_name">대표자 이름</label>
+                  </div>
+
+                  <div class="form-floating mb-3">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="business_name"
+                      placeholder="company_name"
+                    />
+                    <label for="business_name">업체명</label>
+                  </div>
+
+                  <div class="">
+                    <label for="business_explain"> 기업소개 </label>
+                    <textarea
+                      class="form-control"
+                      id="business_explain"
+                      placeholder="기업소개를 작성해주세요!"
+                      rows="15"
+                    ></textarea>
+                  </div>
+
+                  <hr />
+                  <div class="form-floating mb-3">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="business_number"
+                      placeholder="123456"
+                    />
+                    <label for="businessNumber"> 사업자번호 </label>
+                    <button type="button" class="btn btn-outline-success">
+                      사업자번호
+                    </button>
+                  </div>
+
+                  <div class="form-floating mb-3">
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="broker_number"
+                      placeholder="123456"
+                    />
+                    <button type="button" class="btn btn-outline-success">
+                      중개등록번호 검사
+                    </button>
+                    <label for="brokerNumber">중개등록번호</label>
+                  </div>
+
+                  <div class="form-floating mb-3">
+                    <input
+                      type="file"
+                      class="form-control"
+                      id="business_number_pic"
+                      placeholder="number_pic"
+                    />
+                    <label for="business_number_pic"> 사업자등록증 </label>
+                  </div>
+
+                  <div class="form-floating mb-3">
+                    <input
+                      type="file"
+                      class="form-control"
+                      id="broker_number_pic"
+                      placeholder="number_pic"
+                    />
+                    <label for="broker_number_pic"> 중개등록증 </label>
+                  </div>
+
+                  <div class="sign-up-btn">
+                    <button
+                      class="btn btn-lg btn-primary btn-login fw-bold text-uppercase"
+                      type="button"
+                      @click="sign()"
+                    >
+                      회원가입
+                    </button>
+                  </div>
                 </div>
               </form>
             </div>
@@ -269,18 +356,13 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   data() {
     return {
       user_email: "",
+      business_type: "",
       pass_valid: false,
       pass_confirm: false,
-      email_valid: false,
-      phone_valid: false,
-      emailCode: 0,
-      phoneCode: 0,
     };
   },
 
@@ -328,7 +410,6 @@ export default {
       var password = document.querySelector("#password").value;
 
       console.log(reg.test(password));
-
       this.pass_valid = !reg.test(password);
     },
 
@@ -367,22 +448,31 @@ export default {
       }).open();
     },
 
-    signup: function () {
-      var form = document.querySelector("#signup-form");
-      if (this.email_valid == true && this.phone_valid == true) {
-        form.submit();
-      }
+    next: function () {
+      console.log("next-run");
+      document.querySelector("#first-form").style.display = "none";
+      document.querySelector("#second-form").style.display = "block";
+
+      var selected = document.querySelector(
+        "input[type=radio][name=business-type]:checked"
+      );
+      this.business_type = selected.value;
+      console.log(this.business_type);
+    },
+
+    sign: function () {
+      console.log("sign-up RUN");
     },
   },
 };
 </script>
 
 <style scoped>
-.general-signup-body {
+.signup-body {
   background: white;
 }
 
-.general-signup-body button {
+.signup-body button {
   color: black;
   background-color: #b3e3c3;
 }
@@ -396,10 +486,13 @@ export default {
 #emailAuthentication,
 #phone,
 #phoneAuthentication,
-#phone {
+#phone,
+#business_number,
+#broker_number {
   min-width: 300px;
   width: 70%;
   display: inline-block;
+  margin: 5px;
 }
 
 #passwordCheck {
@@ -413,5 +506,41 @@ export default {
 
 .btn-login {
   width: 50%;
+  border: 1px solid black;
+}
+
+#second-form {
+  display: none;
+}
+
+#business-label-div {
+  padding: 5px;
+  margin: 5px;
+  text-align: center;
+}
+
+.business-label {
+  border: 1px solid black;
+  width: 22%;
+  min-width: 118px;
+  margin: 5px;
+}
+
+.business-label input[type="radio"] {
+  display: none;
+}
+
+.business-label input[type="radio"] + span {
+  display: inline-block;
+  padding: 15px 10px;
+  background-color: #ffffff;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+}
+
+.business-label input[type="radio"]:checked + span {
+  background-color: #b3e3c3;
+  color: black;
 }
 </style>
