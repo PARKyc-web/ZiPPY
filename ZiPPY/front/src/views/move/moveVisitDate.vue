@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
 
-<h3>이사 희망 날짜를 선택해주세요.</h3>
+<h3>견적 방문 희망 날짜를 선택해주세요.</h3>
 <v-row justify="space-between" locale="ko-KR">
     
       <div class="subheading">
@@ -15,7 +15,7 @@
       ></v-date-picker>  
   </v-row>
 <hr>
-<h3>이사 희망 시간을 선택해주세요.</h3>
+<h3>방문 희망 시간을 선택해주세요.</h3>
 <div class="selectTime">
 <b-row>
     <b-col md="auto">
