@@ -1,5 +1,6 @@
 let template=
 `
+<div>
 <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -41,44 +42,16 @@ let template=
 <!-- 아이템 리스트 -->
 <div class="main-item-list">
   <div id="list-name">
-    <h2 style="color:#696969">#BEST</h2>
+    <h2 style="color:#aaa">#BEST</h2>
   </div>
-  <div id="main-item">
+  <div id="main-item" v-for="i in 4" :key="4">
     <div id="main-product-img">
       <img src="http://webimage.10x10.co.kr/ckeditor/item/202012/20201215_154323_4145.jpg">
     </div>
-    <div id="product-about">
+    <div class="product-about" id="left">
       <h6 id="product-name">딱딱의자</h6>
       <h6>11,111</h6>
     </div>
-  </div>
-  <div id="main-item">
-    <div id="main-product-img">
-      <img src="http://webimage.10x10.co.kr/ckeditor/item/202012/20201215_154323_4145.jpg">
-    </div>
-    <div id="product-about">
-      <h6 id="product-name">딱딱의자</h6>
-      <h6>11,111</h6>
-    </div>
-  </div>
-  <div id="main-item">
-    <div id="main-product-img">
-      <img src="http://webimage.10x10.co.kr/ckeditor/item/202012/20201215_154323_4145.jpg">
-    </div>
-    <div id="product-about">
-      <h6 id="product-name">딱딱의자</h6>
-      <h6>11,111</h6>
-    </div>
-  </div>
-  <div id="main-item">
-    <div id="main-product-img">
-      <img src="http://webimage.10x10.co.kr/ckeditor/item/202012/20201215_154323_4145.jpg">
-    </div>
-    <div id="product-about">
-      <h6 id="product-name">딱딱의자</h6>
-      <h6>11,111</h6>
-    </div>
-  </div>
   </div>
 </div>
 <div class="main-item-color" id="main-color1">
@@ -86,45 +59,18 @@ let template=
     <div id="list-name" style="margin:0 auto">
       <h2 style="color:#fff; text-align: center;">이런 건 어떠세요?</h2>
     </div>
-    <div id="main-item">
-      <div id="main-product-img">
-        <img src="http://webimage.10x10.co.kr/ckeditor/item/202012/20201215_154323_4145.jpg">
-      </div>
-      <div id="product-about">
-        <h6 id="product-name">딱딱의자</h6>
-        <h6>11,111</h6>
-      </div>
+      <div id="main-item" v-for="i in 4" :key="4">
+    <div id="main-product-img">
+      <img src="http://webimage.10x10.co.kr/ckeditor/item/202012/20201215_154323_4145.jpg">
     </div>
-    <div id="main-item">
-      <div id="main-product-img">
-        <img src="http://webimage.10x10.co.kr/ckeditor/item/202012/20201215_154323_4145.jpg">
-      </div>
-      <div id="product-about">
-        <h6 id="product-name">딱딱의자</h6>
-        <h6>11,111</h6>
-      </div>
-    </div>
-    <div id="main-item">
-      <div id="main-product-img">
-        <img src="http://webimage.10x10.co.kr/ckeditor/item/202012/20201215_154323_4145.jpg">
-      </div>
-      <div id="product-about">
-        <h6 id="product-name">딱딱의자</h6>
-        <h6>11,111</h6>
-      </div>
-    </div>
-    <div id="main-item">
-      <div id="main-product-img">
-        <img src="http://webimage.10x10.co.kr/ckeditor/item/202012/20201215_154323_4145.jpg">
-      </div>
-      <div id="product-about">
-        <h6 id="product-name">딱딱의자</h6>
-        <h6>11,111</h6>
-      </div>
-    </div>
+    <div class="product-about" id="left">
+      <h6 id="product-name">딱딱의자</h6>
+      <h6>11,111</h6>
     </div>
   </div>
 </div>
+<div>
+<div>
 `
 
   export default {

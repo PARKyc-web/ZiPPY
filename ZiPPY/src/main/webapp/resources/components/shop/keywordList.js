@@ -44,7 +44,7 @@ let template =
             <div id="product-img">
               <img src="http://webimage.10x10.co.kr/ckeditor/item/202012/20201215_154323_4145.jpg">
             </div>
-            <div id="product-about">
+            <div class="product-about">
               <h6 id="small" style="color:#aaa">예담가구</h6>
               <h6 id="product-name">딱딱의자</h6>
               <h6>11,111</h6>

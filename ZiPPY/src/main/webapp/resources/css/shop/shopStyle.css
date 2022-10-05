@@ -1,4 +1,7 @@
 /************main****************/
+#left{
+    text-align: left;
+  }
 /* 슬라이드 */
   #default-container {
     width:70%;
@@ -20,6 +23,7 @@
     height:500px;
     margin:0 auto;
     margin-top:60px;
+    text-align: center;
   }
   #list-name {
     padding:70px 30px 30px 0;
@@ -146,7 +150,7 @@
   height:440px;
   padding-right: 25px;
 }
-#product-about{
+.product-about{
   margin-top: 10px;
 }
 #product-name:hover{
