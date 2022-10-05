@@ -29,12 +29,12 @@ public class ValidationController {
 		SimpleMailMessage msg = new SimpleMailMessage();	
 		
 		String key = "";
-		
 		for(int i=0; i<6; i++) {
 			int rand = (int) (Math.random()*10); // 0 ~ 9
 			key += rand;
 		}		
-		
+
+		System.out.println("Key set >> " + data.keySet());
 		for(String x : data.keySet()) {
 			System.out.println("ajax Key {"+x+"} : " + data.get(x));
 		}		
