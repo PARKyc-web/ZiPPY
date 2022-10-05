@@ -1,13 +1,15 @@
 import mainHeader from '../components/common/mainHeader.js';
 import mainNav from '../components/common/mainNav.js';
 import shopNav from '../components/shop/shopNav.js';
-import slide from '../components/shop/slide.js';
-import card from '../components/shop/card.js';
+import shopMain from '../components/shop/shopMain.js';
 import nav from '../components/common/mainNav.js';
 import usedMain from '../components/used/usedMain.js';
 import businessLogin from '../components/login/businessLogin.js';
 import usedDetail from '../components/used/usedDetail.js';
 import propertyNav from '../components/property/propertyNav.js';
+import categoryList from '../components/shop/categoryList.js';
+import keywordList from '../components/shop/keywordList.js';
+
 
 let app = new Vue({
     el : '#app',
@@ -17,9 +19,11 @@ let app = new Vue({
         shopNav,
         usedMain,
         usedDetail,
-        slide,
-        card,
         businessLogin,
-        propertyNav
+        propertyNav,
+        shopMain,
+        categoryList,
+        keywordList
+
     }
 });
