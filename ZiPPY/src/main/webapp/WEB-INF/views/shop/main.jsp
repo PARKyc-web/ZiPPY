@@ -23,25 +23,13 @@
   	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
 		
 		<script type="module" src="<%=request.getContextPath()%>/resources/js/app.js"></script>
-
+	
 </head>
 <body>
 	<div id="app">
 		<main-header></main-header>
 		<shop-nav></shop-nav>
-		<slide></slide>
-		<card :products="${products}"></card>
+		<shop-main></shop-main>
 	</div>
-	<table>
-	<c:forEach items="${products }" var="product">
-					<tr>
-						<td>업체명:${product.businessEmail }</td>
-						<td>상품명:${product.shopProductName }</td>
-						<td>가격:${product.shopProductPrice }</td>
-						<td>${product.shopMainImg }</td>
-						<td>사진:<img src="<c:url value='/resources/img/shop/${product.shopMainImg }.jpg'/>" style="width:200px;"></td>
-					</tr>
-	</c:forEach>
-	</table>
 </body>
 </html>

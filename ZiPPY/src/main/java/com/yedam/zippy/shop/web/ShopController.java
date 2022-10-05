@@ -34,4 +34,20 @@ public class ShopController {
 	//수정
 	
 	//삭제
+	
+	//상세페이지
+	@RequestMapping("/detail")
+	public String shopDetail() {
+	return "shop/detail";
+	}
+	//카테고리 리스트페이지
+	@RequestMapping("/categoryList")
+	public String shopCategoryList() {
+	return "shop/categoryList";
+	}
+	//키워드 리스트페이지
+	@RequestMapping("/keywordList")
+	public String shopKeywordList() {
+	return "shop/keywordList";
+	}
 }

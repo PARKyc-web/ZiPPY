@@ -75,8 +75,8 @@ nav {
     }
   /* button */
   .btn-primary {
-    color: #B3E3C3 ;
-    border-color: #B3E3C3 ;
+    color: #212529 ;
+    border-color: #212529 ;
     background-color: #fff;
   }
   .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
@@ -84,3 +84,4 @@ nav {
     background-color: #B3E3C3 ;
     border:1px solid #B3E3C3 ;
   }
+ 
