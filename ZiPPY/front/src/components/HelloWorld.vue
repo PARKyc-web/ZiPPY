@@ -6,12 +6,12 @@
 </template>
 
 <script>
-import bar from './testbar.vue';
+import bar from "./testbar.vue";
 
 export default {
   name: "HelloWorld",
-  components:{
-    testBar : bar
+  components: {
+    testBar: bar,
   },
   data: function () {
     return {
