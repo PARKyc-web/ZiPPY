@@ -53,13 +53,13 @@
 			</div>
 			<div class="carousel-inner">
 				<div class="carousel-item active">
-					<img src="잠만보2.jpg" class="d-block w-100" alt="매물사진">
+					<img src="/zippy/resources/propertyData/잠만보2.jpg" class="d-block w-100" alt="매물사진">
 				</div>
 				<div class="carousel-item">
-					<img src="잠만보2.jpg" class="d-block w-100" alt="매물사진">
+					<img src="/zippy/resources/propertyData/잠만보2.jpg" class="d-block w-100" alt="매물사진">
 				</div>
 				<div class="carousel-item">
-					<img src="잠만보2.jpg" class="d-block w-100" alt="매물사진">
+					<img src="/zippy/resources/propertyData/잠만보2.jpg" class="d-block w-100" alt="매물사진">
 				</div>
 			</div>
 			<button class="carousel-control-prev" type="button"
