@@ -16,8 +16,6 @@
         const script = document.createElement("script");
         /* global kakao */
         script.onload = () => kakao.maps.load(this.initMap);
-        script.src =
-          "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=본인이 발급받은 appkey 등록";
         document.head.appendChild(script);
       },
       initMap() {
