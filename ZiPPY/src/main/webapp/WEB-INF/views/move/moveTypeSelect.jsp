@@ -31,32 +31,13 @@
   <style type="text/css">
     /* 버튼 */
 
-    #calendarForm{ 
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .container-fluid {
-      width: 500px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .row{
-      width: 500px;
-    }
-
-    .cat-item {
-      width: 500px;
-      text-align: center;
-    }
-
     .frame {
       width: 90%;
       margin: 100px auto;
       text-align: center;
     }
 
-    #selectBtn-bday {
+    button {
       margin: 70px;
     }
 
@@ -136,6 +117,31 @@
 
 
 
+    /* 설명 */
+
+    .type-btn1 {
+      display: inline-block;
+    }
+
+    /* .btn1:hover {    
+	 	display: block;
+	 } */
+
+
+    .type-btn2 {
+      display: inline-block;
+    }
+
+    /*    
+	 .kbb-btn2:hover+.explain2 {    
+	 	display: block;
+	 }
+	 */
+    .explain3,
+    .explain4 {
+      height: 100px;
+      display: none;
+    }
   </style>
 
 </head>
@@ -149,44 +155,62 @@
     <main-nav></main-nav>
   </div>
 
-<div id="calendarForm">
-<form name="해당 폼의 이름" action="값을 보낼 주소" method="post">
-<!-- 카드 -->
-<div class="container-fluid pt-5">
-  <div class="row px-xl-5 pb-3">
-      <div class="col-lg-4 col-md-6 pb-1">
-          <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                <h3>이사 희망 날짜를 선택해주세요.</h3>
-                <br>
-                <div>
-                <input type='date' name='movingDate' />
-                </div>
-                <br>
-                <br>
-                <hr>
-                <br>
-                <br>
-                <h3>이사 희망 시간을 선택해주세요.</h3>
-                <br>
-                <div>
-                <input type='time' name='movingTime' />
-                </div>
-                <div>
-                  <button id="selectBtn-bday" class="custom-btn btn-3">선택완료</button>
-                </div>
 
-          </div>
-      </div>
-   </div>
-</div>
-</form>
-</div>
+  <!-- 버튼 -->
+
+
+
+
+  <div class="frame">
+    <h3>견적 방법을 선택해주세요.</h3>
+    <div class="type-btn1">
+      <button class="custom-btn btn-1" onclick="aaa()">대면 방문예약</button>
+    </div>
+
+
+
+    <div class="type-btn2">
+      <button class="custom-btn btn-2" onclick="bbb()">비대면 방문예약</button>
+    </div>
+    <br>
+    <div class="explain3">
+    	<table>
+    		<tr><td>• 이사업체 전문가 직접방문 </td><tr>
+    		<tr><td>• 정확한 견적, 신속한 계약</td><tr>
+    	</table>
+    	
+    </div>
+
+    <div class="explain4">
+    	<table>
+    		<tr><td>• 이사업체 전문가에 비대면 견적 의뢰</td><tr>
+    		<tr><td>• 유동적인 견적 가능, 프라이버시 보호</td><tr>
+    	</table>
+    </div>
+
+    <div>
+      <button class="custom-btn btn-3">선택완료</button>
+    </div>
+
+  </div>
+
  
   <script>
     function aaa() {
-     
+      let item = document.querySelector('.explain3');
+      item.style.display = 'inline-block';
+
+      let item2 = document.querySelector('.explain4');
+      item2.style.display = 'none';
     }
 
+    function bbb() {
+      let item = document.querySelector('.explain3');
+      item.style.display = 'none';
+
+      let item2 = document.querySelector('.explain4');
+      item2.style.display = 'inline-block';
+    }
   </script>
 
 </body>

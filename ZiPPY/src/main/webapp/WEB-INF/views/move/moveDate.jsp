@@ -1,396 +1,361 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page session="false"%>
+
 <html>
 
 <head>
-  <title>Move Home</title>
-  <meta charset="UTF-8">
 
-  <!--  -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="cssMouseDetail.css" />
-  <!--  -->
+<meta charset="utf-8">
 
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <!-- CSS only -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <!-- JavaScript Bundle with Popper -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
-  </script>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <!-- 컴포넌트 사용 -->
-  <script type="module" src="<%=request.getContextPath()%>/resources/js/app.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+<!-- 
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+     -->
+
+<!-- CSS only -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+	crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+	crossorigin="anonymous"></script>
+
+<!-- 컴포넌트 사용 -->
+<script type="module"
+	src="<%=request.getContextPath()%>/resources/js/app.js"></script>
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/style.css">
+
+
+<title>Simple Calendar Date Picker Example</title>
+
+<link href="https://www.cssscript.com/wp-includes/css/sticky.css"
+	rel="stylesheet" type="text/css">
+
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/move/date-picker_old.css" />
 
 <style>
-  /* 캘린더 */
-  * {
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-    box-sizing: border-box;
-  }
+body {
+	background: #fafafa;
+}
 
-  .move-cal-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-  }
+.wrapper {
+	margin: 150px auto;
+}
 
-  .move-calendar {
-    width: 600px;
-    margin: 50px;
-  }
+h1 {
+	text-align: center;
+}
 
-  .move-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+/* 버튼 */
+.wrapper {
+	margin: 100px auto;
+}
 
-  .move-year-month {
-    font-size: 35px;
-  }
+.frame {
+	width: 90%;
+	margin: 100px auto;
+	text-align: center;
+}
 
-  .move-nav {
-    display: flex;
-    border: 1px solid #333333;
-    border-radius: 5px;
-  }
+#selectBtn-bday {
+	margin: 70px;
+}
 
-  .move-nav-btn {
-    width: 28px;
-    height: 30px;
-    border: none;
-    font-size: 16px;
-    line-height: 34px;
-    background-color: transparent;
-    cursor: pointer;
-  }
+.custom-btn {
+	width: 200px;
+	height: 100px;
+	color: #fff;
+	border-radius: 5px;
+	padding: 10px 25px;
+	font-family: 'Lato', sans-serif;
+	font-weight: bold;
+	font-size: 20px;
+	background: transparent;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	position: relative;
+	display: inline-block;
+	box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, .5), 7px 7px 20px
+		0px rgba(0, 0, 0, .1), 4px 4px 5px 0px rgba(0, 0, 0, .1);
+	outline: none;
+}
 
-  .move-go-today {
-    width: 75px;
-    border-left: 1px solid #333333;
-    border-right: 1px solid #333333;
-  }
+.btn-3 {
+	background: rgb(163, 162, 162);
+	background: linear-gradient(0deg, rgba(163, 162, 162, 1) 0%,
+		rgb(163, 162, 162) 100%);
+	border: none;
+	height: 50px;
+	width: 150px;
+}
 
-
-  .move-days {
-    display: flex;
-    margin: 25px 0 10px;
-  }
-
-  .move-day {
-    width: calc(100% / 7);
-    text-align: center;
-  }
-
-  .move-dates {
-    display: flex;
-    flex-flow: row wrap;
-    height: 500px;
-    border-top: 1px solid #333333;
-    border-right: 1px solid #333333;
-  }
-
-  .move-date {
-    width: calc(100% / 7);
-    padding: 15px;
-    text-align: right;
-    border-bottom: 1px solid #333333;
-    border-left: 1px solid #333333;
-  }
-
-  .move-day:nth-child(7n + 1),
-  .move-date:nth-child(7n + 1) {
-  color: #D13E3E;
-  }
-
-  .move-day:nth-child(7n),
-  .move-date:nth-child(7n) {
-  color: #396EE2;
-  }
-
-  .move-other {
-    opacity: 0.3;
-  }
-
-  .move-today {
-    position: relative;
-    color: #FFFFFF;
-  }
-
-  .move-today::before {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: -1;
-    width: 30px;
-    height: 30px;
-    display: block;
-    background-color: #FF0000;
-    border-radius: 50%;
-    content: '';
-  }
-
-  /* 카드 */
-  #calendarForm {
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .container-fluid {
-    width: 500px;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .row {
-    width: 500px;
-  }
-
-  .cat-item {
-    width: 500px;
-    text-align: center;
-  }
-
-  /* 버튼 */
-  .frame {
-    width: 90%;
-    margin: 100px auto;
-    text-align: center;
-  }
-
-  #selectBtn-bday {
-    margin: 70px;
-  }
-
-  .custom-btn {
-    width: 200px;
-    height: 100px;
-    color: #fff;
-    border-radius: 5px;
-    padding: 10px 25px;
-    font-family: 'Lato', sans-serif;
-    font-weight: bold;
-    font-size: 20px;
-    background: transparent;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    display: inline-block;
-    box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, .5),
-      7px 7px 20px 0px rgba(0, 0, 0, .1),
-      4px 4px 5px 0px rgba(0, 0, 0, .1);
-    outline: none;
-  }
-
-
-  .btn-1 {
-    background: rgb(144, 198, 235);
-    background: linear-gradient(0deg, rgba(144, 198, 235, 1) 0%, rgb(127, 196, 243) 100%);
-    border: none;
-  }
-
-  .btn-1:hover {
-    /* background: rgb(63, 153, 243);
-      background: linear-gradient(0deg, rgba(63, 153, 243, 1) 0%, rgba(2, 126, 251, 1) 100%); */
-    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .5),
-      -4px -4px 6px 0 rgba(116, 125, 136, .5),
-      inset -4px -4px 6px 0 rgba(255, 255, 255, .2),
-      inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
-  }
-
-
-  .btn-2 {
-    background: rgb(rgb(150, 229, 184));
-    background: linear-gradient(0deg, rgba(150, 229, 184, 1) 0%, rgb(150, 229, 184) 100%);
-    border: none;
-
-  }
-
-  .btn-2:before {
-    height: 0%;
-    width: 2px;
-  }
-
-  .btn-2:hover {
-    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .5),
-      -4px -4px 6px 0 rgba(116, 125, 136, .5),
-      inset -4px -4px 6px 0 rgba(255, 255, 255, .2),
-      inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
-  }
-
-  .btn-3 {
-    background: rgb(163, 162, 162);
-    background: linear-gradient(0deg, rgba(163, 162, 162, 1) 0%, rgb(163, 162, 162) 100%);
-    border: none;
-    height: 50px;
-    width: 150px;
-
-  }
-
-  .btn-3:hover {
-    /* background: rgb(136, 221, 164);
+.btn-3:hover {
+	/* background: rgb(136, 221, 164);
       background: linear-gradient(0deg, rgba(136, 221, 164, 1) 0%, rgb(131, 221, 161) 100%); */
-    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .5),
-      -4px -4px 6px 0 rgba(116, 125, 136, .5),
-      inset -4px -4px 6px 0 rgba(255, 255, 255, .2),
-      inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
-  }
+	box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .5), -4px -4px 6px 0
+		rgba(116, 125, 136, .5), inset -4px -4px 6px 0 rgba(255, 255, 255, .2),
+		inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
+}
+
+/* 드롭 */
+@import
+	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap')
+	;
+
+.move-drop {
+	display: inline-block;
+	width: 250px;
+	height: 200px;
+}
+
+select {
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+	font-family: "Noto Sansf KR", sans-serif;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #444;
+	background-color: #fff;
+	padding: .6em 1.4em .5em .8em;
+	margin: 0;
+	border: 1px solid #aaa;
+	border-radius: .5em;
+	/* box-shadow: 0 1px 0 1px rgba(0,0,0,.2); */
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+	transition: .3s box-shadow;
+	text-align: center;
+}
+
+select:hover {
+	border-color: #888;
+}
+
+select:focus {
+	border-color: #aaa;
+	box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
+	box-shadow: 0 0 0 3px -moz-mac-focusring;
+	color: #222;
+	outline: none;
+}
+
+select:disabled {
+	opacity: 0.5;
+}
+
+label {
+	font-family: "Noto Sans KR", sans-serif;
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.3;
+	color: #444;
+	margin-right: 0.5em;
+}
+
+.moveDateSubmitBtn {
+	text-align: center;
+}
 </style>
 
 </head>
 
 <body>
 
-  <!-- 컴포넌트 사용 -->
-  <div class="move-cal-body">
-    <div id="app">
-      <main-header></main-header>
-      <main-nav></main-nav>
-    </div>
 
-    <div id="calendarForm">
-      <form name="해당 폼의 이름" action="값을 보낼 주소" method="post">
-        <!-- 카드 -->
-        <div class="container-fluid pt-5">
-          <div class="row px-xl-5 pb-3">
-            <div class="col-lg-4 col-md-6 pb-1">
-              <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                <h3>이사 희망 날짜를 선택해주세요.</h3>
-                <br>
-                <div>
-                  <!-- <input type='date' name='movingDate' /> -->
-                  <div class="move-calendar">
-                    <div class="move-header">
-                      <div class="move-year-month"></div>
-                      <div class="move-nav">
-                        <button class="move-nav-btn go-prev" onclick="prevMonth()">&lt;</button>
-                        <button class="move-nav-btn go-today" onclick="goToday()">Today</button>
-                        <button class="move-nav-btn go-next" onclick="nextMonth()">&gt;</button>
-                      </div>
-                    </div>
-                    <div class="move-main">
-                      <div class="move-days">
-                        <div class="move-day">일</div>
-                        <div class="move-day">월</div>
-                        <div class="move-day">화</div>
-                        <div class="move-day">수</div>
-                        <div class="move-day">목</div>
-                        <div class="move-day">금</div>
-                        <div class="move-day">토</div>
-                      </div>
-                      <div class="move-dates"></div>
-                    </div>
-                  </div>
+	<!-- 컴포넌트 사용 -->
 
-                </div>
-                <br>
-                <br>
-                <hr>
-                <br>
-                <br>
-                <h3>이사 희망 시간을 선택해주세요. 집에가고싶다!!!!!</h3>
-                <br>
-                <div>
-                  <input type='time' name='movingTime' />
-                </div>
-                <div>
-                  <button id="selectBtn-bday" class="custom-btn btn-3">선택완료</button>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
+	<div id="app">
+		<main-header></main-header>
+		<main-nav></main-nav>
+	</div>
 
 
-</body>
-<script>
-  let date = new Date();
+	<div class="wrapper">
 
-  const renderCalender = () => {
-  const viewYear = date.getFullYear();
-  const viewMonth = date.getMonth();
+		<h1>이사 희망 날짜를 선택해주세요.</h1>
 
-  document.querySelector('.move-year-month').textContent = `${viewYear}년 ${viewMonth + 1}월`;
+		<div class="container-calendar">
 
-  const prevLast = new Date(viewYear, viewMonth, 0);
-  const thisLast = new Date(viewYear, viewMonth + 1, 0);
+			<div class="button-container-calendar">
 
-  const PLDate = prevLast.getDate();
-  const PLDay = prevLast.getDay();
+				<button id="previous">&#8249;</button>
 
-  const TLDate = thisLast.getDate();
-  const TLDay = thisLast.getDay();
+				<button id="next">&#8250;</button>
 
-  const prevDates = [];
-  const thisDates = [...Array(TLDate + 1).keys()].slice(1);
-  const nextDates = [];
+				<h3 id="monthHeader"></h3>
 
-  if (PLDay !== 6) {
-    for (let i = 0; i < PLDay + 1; i++) {
-      prevDates.unshift(PLDate - i);
-    }
-  }
+				<p id="yearHeader"></p>
 
-  for (let i = 1; i < 7 - TLDay; i++) {
-    nextDates.push(i);
-  }
+			</div>
 
-  const dates = prevDates.concat(thisDates, nextDates);
-  const firstDateIndex = dates.indexOf(1);
-  const lastDateIndex = dates.lastIndexOf(TLDate);
 
-  dates.forEach((date, i) => {
-    const condition = i >= firstDateIndex && i < lastDateIndex + 1
-                      ? 'this'
-                      : 'other';
-    dates[i] = `<div class="move-date"><span class=${condition}>${date}</span></div>`;
+
+			<table class="table-calendar" id="calendar">
+
+				<thead id="thead-month"></thead>
+
+				<tbody id="calendar-body"></tbody>
+
+			</table>
+
+
+
+			<div class="footer-container-calendar">
+
+				<label for="month">Jump To: </label> <select id="month">
+
+					<option value=0>Jan</option>
+
+					<option value=1>Feb</option>
+
+					<option value=2>Mar</option>
+
+					<option value=3>Apr</option>
+
+					<option value=4>May</option>
+
+					<option value=5>Jun</option>
+
+					<option value=6>Jul</option>
+
+					<option value=7>Aug</option>
+
+					<option value=8>Sep</option>
+
+					<option value=9>Oct</option>
+
+					<option value=10>Nov</option>
+
+					<option value=11>Dec</option>
+
+				</select> <select id="year"></select>
+
+			</div>
+
+
+
+			<p id="date-picked"></p>
+
+		</div>
+
+	</div>
+
+
+
+	<script
+		src="${pageContext.request.contextPath}/resources/js/date-picker_old.js"></script>
+
+	<script>
+
+try {
+
+  fetch(new Request("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js", { method: 'HEAD', mode: 'no-cors' })).then(function(response) {
+
+    return true;
+
+  }).catch(function(e) {
+
+    var carbonScript = document.createElement("script");
+
+    carbonScript.src = "//cdn.carbonads.com/carbon.js?serve=CE7DC2JW&placement=wwwcssscriptcom";
+
+    carbonScript.id = "_carbonads_js";
+
+    document.getElementById("carbon-block").appendChild(carbonScript);
+
   });
 
-  document.querySelector('.move-dates').innerHTML = dates.join('');
+} catch (error) {
 
-  const today = new Date();
-  if (viewMonth === today.getMonth() && viewYear === today.getFullYear()) {
-    for (let date of document.querySelectorAll('.this')) {
-      if (+date.innerText === today.getDate()) {
-        date.classList.add('move-today');
-        break;
-      }
-    }
-  }
-};
+  console.log(error);
 
-renderCalender();
-
-const prevMonth = () => {
-  date.setMonth(date.getMonth() - 1);
-  renderCalender();
-};
-
-const nextMonth = () => {
-  date.setMonth(date.getMonth() + 1);
-  renderCalender();
-};
-
-const goToday = () => {
-  date = new Date();
-  renderCalender();
-};
+}
 
 </script>
 
+	<script>
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+
+
+  ga('create', 'UA-46156385-1', 'cssscript.com');
+
+  ga('send', 'pageview');
+
+
+
+</script>
+
+	<!-- 안보이는 폼(display:none)에 인풋하나 생성해놓고 위의 캘린더에서 onclick이벤트 발생하게 해서 인풋에 날짜값을 담아 submit으로 넘길 수 있게한다. -->
+
+	<hr>
+
+	<h1>이사 희망 시간을 선택해주세요.</h1>
+	<div class="frame">
+		<select>
+			<option value="" selected>-- 시간을 선택해주세요 --</option>
+			<option value="1">6:00</option>
+			<option value="2">6:30</option>
+			<option value="3">7:00</option>
+			<option value="4">7:30</option>
+			<option value="5">8:00</option>
+			<option value="6">8:30</option>
+			<option value="7">9:00</option>
+			<option value="8">9:30</option>
+			<option value="9">10:00</option>
+			<option value="10">10:30</option>
+			<option value="11">11:00</option>
+			<option value="12">11:30</option>
+			<option value="13">12:00</option>
+			<option value="14">12:30</option>
+			<option value="15">13:00</option>
+			<option value="16">13:30</option>
+			<option value="17">14:00</option>
+			<option value="18">14:30</option>
+			<option value="19">15:00</option>
+			<option value="20">15:30</option>
+			<option value="21">16:00</option>
+			<option value="22">16:30</option>
+			<option value="23">17:00</option>
+			<option value="24">17:30</option>
+			<option value="25">18:00</option>
+			<option value="26">18:30</option>
+			<option value="27">19:00</option>
+			<option value="28">19:30</option>
+			<option value="29">20:00</option>
+		</select>
+	</div>
+
+
+
+	<div class="moveDateSubmitBtn">
+		<button id="selectBtn-bday" class="custom-btn btn-3">선택완료</button>
+	</div>
+
+
+</body>
+
 </html>
+

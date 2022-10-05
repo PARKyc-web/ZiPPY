@@ -19,4 +19,33 @@ public class MoveController {
 		
 		return "move/moveSelect";
 	}
+	
+	//이사 날짜, 시간
+	@GetMapping("/moveDate")
+	public String moveDate() {
+		return "move/moveDate";
+	}
+	
+	@GetMapping("/moveInfo")
+	public String moveInfo() {
+		return "move/moveInfo";
+	}
+	
+	@GetMapping("/moveTypeSelect")
+	public String moveTypeSelect() {
+		return "move/moveTypeSelect";
+	}
+	
+	//방문 날짜, 시간
+	@GetMapping("/moveVisitDate")
+	public String moveVisitDate() {
+		return "move/moveVisitDate";
+	}
+	
+	//비대면 상세
+	@GetMapping("/moveInfoDetail")
+	public String moveInfoDetail() {
+		return "move/moveInfoDetail";
+	}
+	
 }
