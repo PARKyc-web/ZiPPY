@@ -36,7 +36,7 @@ let template = `
             <label for="chk_top"> 판매완료된 제품 보기</label>
           </p>
         </label>
-       
+        
           <div class="dropdown">
             <button class="btn btn-light dropdown-toggle" style="margin-top:20px" type="button"
               id="dropdownMenuButton11" data-bs-toggle="dropdown" aria-expanded="false">
@@ -195,6 +195,6 @@ let template = `
     </div>
 `;
 
-export default {	
-    template
+export default {
+  template
 }

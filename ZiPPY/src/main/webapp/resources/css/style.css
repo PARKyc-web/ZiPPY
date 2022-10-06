@@ -53,7 +53,7 @@ nav {
 /* === END memberSignUp.jsp CSS */
 
 /* Nav */
-.navbar {
+	.navbar {
     box-shadow: 1px 1px 10px 0 rgba(0,0,0,0.10);
   }
   .dropdown-menu a:hover{
@@ -63,7 +63,7 @@ nav {
   color:#212529;
   }
   #navbarSupportedContent a:hover{
-    color:#B3E3C3;
+   color:#B3E3C3;
   }
   /* search */
   .input-group {
