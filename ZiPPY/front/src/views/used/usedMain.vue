@@ -18,8 +18,10 @@
         </button>
         <div>
           <form action="">
-            <input type="text">
-            <button></button>
+            <div class="search">
+              <input type="text" placeholder="검색어 입력">
+              <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+            </div>
           </form>
         </div>
       </div>
@@ -34,27 +36,21 @@
         </label>
       </div>
       <!-- <nav class="navbar navbar-expand-lg navbar-light"> -->
-      <div class="dropdown">
-        <button class="btn btn-light dropdown-toggle" style="margin-top:20px" type="button" id="dropdownMenuButton"
-          data-bs-toggle="dropdown" aria-expanded="false">
-          정렬
-        </button>
-        <ul class="dropdown-menu" id="dropdown-opt" aria-labelledby="dropdownMenuButton">
-          <li><a class="dropdown-item" href="#">최고가순</a></li>
-          <li><a class="dropdown-item" href="#">최저가순</a></li>
-          <li><a class="dropdown-item" href="#">판매자평점순</a></li>
-        </ul>
+      <div>
+        <v-container>
+          <v-overflow-btn id="drop" class="my-2" :items="items" label="최고가순" dense></v-overflow-btn>
+        </v-container>
       </div>
     </div>
-    <div>
-      <div class="used-main-card">
+    <div class="used-main-card" v-if="data.length != 0" v-for="list in data">
+      <div>
         <div><img src="https://blog.kakaocdn.net/dn/bGu5TC/btrGZLBBodm/QunLukZnzgvWcoygDFziO0/img.jpg" width="194px"
             height="194px"></div>
         <div class="used-main-card-cont">
-          <div class="used-main-card-title">널 조와해</div>
+          <div class="used-main-card-title">{{list.productName}}</div>
           <div class="used-main-price-date">
-            <div class="used-main-card-price">190,100원</div>
-            <div><span>2022.10.05</span></div>
+            <div class="used-main-card-price">{{list.productPrice}}원</div>
+            <div><span>{{list.productDate}}</span></div>
           </div>
         </div>
       </div>
@@ -63,12 +59,53 @@
 </template>
 
 <script>
+import axios from 'axios';
+
   export default {
-    data() {
-      return {
-        checkbox: true,
-      }
+    data: () => ({
+      items: ['최고가순', '최저가순', '판매자평점순'],
+      data : []
+    }),
+    
+    created(){
+      axios({
+          url : "http://localhost:8089/zippy/used/main",
+          methods : "GET",          
+          params : {
+            location : "대구",
+            keyword : "햄"
+          }
+        }).then(res =>{
+          console.log(res);
+          this.data = res.data;
+          console.log(this.data);
+
+        }).catch(error => {
+          console.log(error);
+        })
+
+
+      // let aaa = async function() {
+      //   var res = await axios({
+      //     url : "http://localhost:8089/zippy/used/main",
+      //     methods : "GET",          
+      //     params : {
+      //       location : "대구",
+      //       keyword : "햄스터"
+      //     }
+      //   })
+      //   console.log(res);
+      //   this.data = res.data;
+      //   console.log(this.data);
+      // };
+      // aaa();
     },
+
+    methods:{
+      search: function(){
+        console.log(this.data);
+      }
+    }
   }
 </script>
 <style scoped>
@@ -77,10 +114,50 @@
     margin: 0 auto;
   }
 
+  .search {
+    position: relative;
+    width: 300px;
+  }
+  .search img:hover{
+    cursor: pointer;
+  }
+
+  .search input {
+    width: 100%;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+
+  .search img {
+    position: absolute;
+    width: 17px;
+    top: 10px;
+    right: 12px;
+    margin: 0;
+  }
+
   .used-main-card {
     border: 1px solid #eeeeee;
     width: 194px;
     height: auto;
+    display: inline-block;
+    margin: 20px;
+  }
+
+  v-container:hover {
+    cursor: pointer;
+  }
+
+  .v-overflow-btn {
+    float: right;
+    width: 150px;
+  }
+
+  ::v-deep .my-2 .v-label {
+    font-size: 13px;
+    color: rgb(0, 0, 0, 0.87)
   }
 
   .used-main-card:hover {
