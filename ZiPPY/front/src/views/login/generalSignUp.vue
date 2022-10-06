@@ -57,6 +57,7 @@
                     <input
                       type="password"
                       class="form-control"
+                      v-model="user_info.user_password"
                       id="password"
                       name="user_passwd"
                       placeholder="123456"
@@ -152,7 +153,7 @@
                   <div class="form-floating mb-3">
                     <input
                       type="text"
-                      class="form-control"
+                      class="form-control"                      
                       id="phone"
                       placeholder="전화번호 입력"
                     />
@@ -187,6 +188,7 @@
                     <input
                       type="text"
                       class="form-control"
+                      v-model="user_info.user_name"
                       id="user_name"
                       placeholder="park"
                     />
@@ -197,6 +199,7 @@
                     <input
                       type="text"
                       class="form-control"
+                      v-model="user_info.user_nick"
                       id="user_nick"
                       placeholder="nick"
                     />
@@ -206,7 +209,8 @@
                   <div class="form-floating mb-3">
                     <input
                       type="date"
-                      class="form-control"
+                      v-model="user_info.user_birth"
+                      class="form-control"                      
                       id="user_birth"
                       placeholder="11223344"
                     />
@@ -216,7 +220,7 @@
                   <div class="form-floating mb-3">
                     <input
                       type="text"
-                      class="form-control"
+                      class="form-control"                      
                       id="addressInput"
                       placeholder="주소검색"
                       disabled
@@ -228,6 +232,7 @@
                     <input
                       type="text"
                       class="form-control"
+                      v-model="user_info.addr_detail"
                       id="addressDetail"
                       placeholder="상세주소"
                     />
@@ -279,9 +284,10 @@ export default {
         user_password : "",
         user_name : "",
         user_addr : "",
-        user_addr_detail : "",
+        addr_detail : "",
         user_phone : "",
-        user_nick : ""
+        user_nick : "",
+        user_birth : ""
       },
 
       // 모든 데이터를 정확하게 입력했는지 검사하는 Data
@@ -306,19 +312,18 @@ export default {
       console.log(this.user_info.user_email);
       document.querySelector("#email-confirm-btn").disabled = false;
       alert("Email을 전송하였습니다.");
-      axios
-        .get("zippy/validation/email", {
-          params: {
-            email: this.user_email,
-          },
-        })
-        .then((res) => {
-          console.log(res);
-          this.emailCode = res.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      // axios.get("/validation/email", {
+      //     params: {
+      //       email: this.user_email,
+      //     },
+      //   })
+      //   .then((res) => {
+      //     console.log(res);
+      //     this.emailCode = res.data;
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
     },
 
 
@@ -347,13 +352,12 @@ export default {
      */
     password_validation: function () {
       console.log("passwd-valid");
-      var reg =
-        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-+]).{8,20}$/;
+      var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-+]).{8,20}$/;
       var password = document.querySelector("#password").value;
 
       console.log(reg.test(password));
 
-      this.pass_valid = !reg.test(password);
+      this.pass_valid = reg.test(password);
     },
 
 
@@ -372,21 +376,30 @@ export default {
      * 핸드폰 번호 인증을 하기 위해서 SMS 문자를 보내는 메소드
      */
     phone_validation: function () {
-      axios({
-        url : "zippy/validation/phone",
-        method : "GET",
+      var reg = /^010[0-9]{8}$/;       
+      var number = document.querySelector("#phone").value;
 
-        param : {
-          phone : ""
-        }
+      if(reg.test(number)){
+        alert("인증번호를 전송하였습니다!");        
+        this.user_info.user_phone = number.value;
+      // axios({
+      //   url : "/validation/phone",
+      //   method : "GET",
 
-      }).then(res => {
-        console.log(res);
+      //   param : {
+      //     phone : this.user_info.user_phone
+      //   }
 
-      }).catch(error =>{
-        console.log(error);
-      });
-        
+      // }).then(res => {
+      //   console.log(res);
+
+      // }).catch(error =>{
+      //   console.log(error);
+      // });  
+      } else {        
+        alert("휴대폰 번호를 확인해주세요!");
+        console.log(number);
+      }                    
     },
 
 
@@ -398,10 +411,15 @@ export default {
       var input_phone = document.querySelector("#phone");
       var valid = document.querySelector("#phoneAuthentication");
 
-      input_phone.disabled = true;
-      valid.disabled = true;
+      if(valid.value == this.phoneCode){
+        input_phone.disabled = true;
+        valid.disabled = true;
+        this.phone_valid = true;        
+        alert("인증이 완료되었습니다!");
 
-      this.phone_valid = true;
+      }else {
+        alert("인증번호가 일치하지 않습니다!");
+      }
     },
 
 
@@ -412,7 +430,8 @@ export default {
       new daum.Postcode({
         oncomplete: function (data) {
           console.log(data);
-          document.querySelector("#addressInput").value = "("+ data.zonecode +") "+ data.address;   
+          document.querySelector("#addressInput").value = "("+ data.zonecode +") "+ data.address;
+          this.user_info.user_addr = "("+ data.zonecode +") "+ data.address;
         },
       }).open();
     },
@@ -421,12 +440,26 @@ export default {
     /**
      * 모든 값을 입력하고, 인증까지 완료했으면 회원가입을 완료할 수 있는 메소드     * 
      */
-    signup: function () {
-      var form = document.querySelector("#signup-form");
+    signup: function () {      
+      var addr = document.querySelector("#addressInput").value;
+      console.log(this.user_info);
+      console.log(JSON.stringify(this.user_info));
+      if(this.pass_valid == true && this.pass_confirm == true 
+         && this.email_valid == true && this.phone_valid == true && addr != ""){          
+          alert("회원가입을 축하합니다!!");
+          // axios({
+          //   url : "member/gSignUp",
+          //   method : "GET",
+          //   param :{
+          //     info : this.user_info
+          //   }
+          // }).then(res => {
+          //   console.log(res);
 
-      var data = {
-        "email" : ""
-      };      
+          // }).catch(error => {
+          //   console.log(error);
+          // });
+         }
       /**
        * 회원가입시 인증 및 필요한 정보
        * 
@@ -434,9 +467,6 @@ export default {
        * 2. 비밀번호 양식
        * 3. 핸드폰 인증
        */
-      if (this.email_valid == true && this.phone_valid == true) {
-
-      }
     }
   },
 };

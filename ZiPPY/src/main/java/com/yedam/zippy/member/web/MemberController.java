@@ -18,11 +18,9 @@ public class MemberController {
 		
 		for(String x : userInfo.keySet()) {
 			System.out.println("Key : " + x + " \\ " + "Value : " + userInfo.get(x));
-		}		
+		}			
 		
-		System.out.println(model.getAttribute("password"));
-		
-		return "";		
+		return "";
 	}
 	
 }
