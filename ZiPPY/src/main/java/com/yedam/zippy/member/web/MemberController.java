@@ -1,18 +1,28 @@
 package com.yedam.zippy.member.web;
 
-import org.springframework.stereotype.Controller;
+import java.util.Map;
+
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/member")
 public class MemberController {
 	
 	
-	@GetMapping("bSignUp")
-	public String businessLoginForm() {
+	@GetMapping("gSignUp")
+	public String businessLoginForm(@RequestParam Map<String, String> userInfo, Model model) {
 		
-		return "loginOut/businessForm";
+		for(String x : userInfo.keySet()) {
+			System.out.println("Key : " + x + " \\ " + "Value : " + userInfo.get(x));
+		}		
+		
+		System.out.println(model.getAttribute("password"));
+		
+		return "";		
 	}
 	
 }

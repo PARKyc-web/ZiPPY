@@ -11,12 +11,10 @@
                 <img src="../../assets/zippy_logo.png" width="150px" />
               </h5>
               <hr class="my-4" />
-
               <form id="signup-form" action="">
                 <div id="first-form">
                   <div class="form-floating mb-3">
-                    <input
-                      v-model="user_email"
+                    <input                      
                       type="email"
                       class="form-control"
                       id="inputEmail"
@@ -47,7 +45,8 @@
                     <label for="emailAuthentication">인증번호(6자리)</label>
                     <button
                       type="button"
-                      class="btn btn-outline-success"
+                      id ="email-confirm-btn"
+                      class="btn btn-outline-success" disabled
                       @click="email_valid_check()"
                     >
                       인증번호 입력
@@ -77,7 +76,7 @@
                     <label for="passwd-confirm">비밀번호 재확인</label>
                   </div>
 
-                  <small v-if="pass_valid == true">
+                  <small v-if="pass_valid == false">
                     <p id="passwordCheck">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +94,7 @@
                     </p>
                   </small>
 
-                  <small v-if="pass_confirm == true">
+                  <small v-if="pass_confirm == false">
                     <p id="passwordCheck">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -222,7 +221,7 @@
                       placeholder="주소검색"
                       disabled
                     />
-                    <label for="addressInput">주소 (우편번호)</label>
+                    <label for="addressInput">(우편번호) 주소</label>
                   </div>
 
                   <div class="form-floating mb-3">
@@ -274,19 +273,39 @@ import axios from "axios";
 export default {
   data() {
     return {
-      user_email: "",
+      // Data : Axios로 back에 보낼 데이터
+      user_info : {
+        user_email: "",
+        user_password : "",
+        user_name : "",
+        user_addr : "",
+        user_addr_detail : "",
+        user_phone : "",
+        user_nick : ""
+      },
+
+      // 모든 데이터를 정확하게 입력했는지 검사하는 Data
       pass_valid: false,
       pass_confirm: false,
       email_valid: false,
       phone_valid: false,
-      emailCode: 0,
-      phoneCode: 0,
+
+      // 인증코드가 담기는 Data
+      emailCode: 123456723,
+      phoneCode: 12301684861,
     };
-  },
+  },  
 
   methods: {
+
+    /**
+     * Eamil 인증을 위한 Email 전송 인증번호 6자리
+     */
     email_validation: function () {
-      console.log(this.user_email);
+      this.user_info.user_email = document.querySelector("#inputEmail").value;           
+      console.log(this.user_info.user_email);
+      document.querySelector("#email-confirm-btn").disabled = false;
+      alert("Email을 전송하였습니다.");
       axios
         .get("zippy/validation/email", {
           params: {
@@ -302,25 +321,30 @@ export default {
         });
     },
 
-    email_valid_check: function () {
-      console.log("email-valid-check");
 
+    /**
+     * 인증번호와 유저가 입력한 숫자가 동일한지 확인하는 메소드
+     */
+    email_valid_check: function () {      
       var code = document.querySelector("#emailAuthentication");
       console.log(code.value);
 
       if (this.emailCode == code.value) {
-        console.log("이메일인증 성공!");
+        alert("이메일인증 성공!");
+
+        document.querySelector("#inputEmail").disabled = true;
+        document.querySelector("#emailAuthentication").disabled = true;
+        this.email_valid = true;
+
+      } else {        
+        alert("인증번호가 틀렸습니다!");
       }
-
-      var email = document.querySelector("#inputEmail");
-      var valid = document.querySelector("#emailAuthentication");
-
-      email.disabled = true;
-      valid.disabled = true;
-
-      this.email_valid = true;
     },
 
+
+    /**
+     * 비밀번호가 사이트 규정에 맞는지 확인하는 메소드
+     */
     password_validation: function () {
       console.log("passwd-valid");
       var reg =
@@ -332,21 +356,43 @@ export default {
       this.pass_valid = !reg.test(password);
     },
 
+
+    /**
+     * 비밀번호와 비밀번호 재확인이 동일한지 확인하는 메소드
+     */
     password_confirm: function () {
       var password = document.querySelector("#password").value;
       var confirm = document.querySelector("#passwd-confirm").value;
 
-      if (password == confirm) {
-        this.pass_confirm = false;
-      } else {
-        this.pass_confirm = true;
-      }
+      this.pass_confirm = (password == confirm) ? true : false;
     },
 
+
+    /**
+     * 핸드폰 번호 인증을 하기 위해서 SMS 문자를 보내는 메소드
+     */
     phone_validation: function () {
-      console.log("phone-validation");
+      axios({
+        url : "zippy/validation/phone",
+        method : "GET",
+
+        param : {
+          phone : ""
+        }
+
+      }).then(res => {
+        console.log(res);
+
+      }).catch(error =>{
+        console.log(error);
+      });
+        
     },
 
+
+    /**
+     * 핸드폰으로 보낸 인증번호가 동일한지 확인하는 메소드
+     */
     phone_valid_check: function () {
       console.log("phone-valid-check");
       var input_phone = document.querySelector("#phone");
@@ -358,21 +404,40 @@ export default {
       this.phone_valid = true;
     },
 
+
+    /**
+     * 주소를 검색하기 위해 주소검색창을 띄우는 API
+     */
     find_address: function () {
       new daum.Postcode({
         oncomplete: function (data) {
           console.log(data);
-          document.querySelector("#addressInput").value = data.address;
+          document.querySelector("#addressInput").value = "("+ data.zonecode +") "+ data.address;   
         },
       }).open();
     },
 
+
+    /**
+     * 모든 값을 입력하고, 인증까지 완료했으면 회원가입을 완료할 수 있는 메소드     * 
+     */
     signup: function () {
       var form = document.querySelector("#signup-form");
+
+      var data = {
+        "email" : ""
+      };      
+      /**
+       * 회원가입시 인증 및 필요한 정보
+       * 
+       * 1. 이메일 인증(emailValid)
+       * 2. 비밀번호 양식
+       * 3. 핸드폰 인증
+       */
       if (this.email_valid == true && this.phone_valid == true) {
-        form.submit();
+
       }
-    },
+    }
   },
 };
 </script>
@@ -414,4 +479,5 @@ export default {
 .btn-login {
   width: 50%;
 }
+
 </style>

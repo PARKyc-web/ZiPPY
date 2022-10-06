@@ -16,27 +16,24 @@
                 <div id="first-form">
                   <div id="business-label-div">
                     <h3>업체 유형</h3>
+
                     <label class="business-label">
-                      <input
-                        type="radio"
-                        name="business-type"
-                        value="property"
-                      />
+                      <input type="radio" name="business_type" value="property"/>
                       <span>공인중개사</span>
                     </label>
 
                     <label class="business-label">
-                      <input type="radio" name="business-type" value="shop" />
+                      <input type="radio" name="business_type" value="shop" />
                       <span>쇼핑몰</span>
                     </label>
 
                     <label class="business-label">
-                      <input type="radio" name="business-type" value="move" />
+                      <input type="radio" name="business_typee" value="move" />
                       <span>이사업체</span>
                     </label>
 
                     <label class="business-label">
-                      <input type="radio" name="business-type" value="clean" />
+                      <input type="radio" name="business_type" value="clean" />
                       <span>청소업체</span>
                     </label>
                   </div>
@@ -298,8 +295,8 @@
                       placeholder="123456"
                     />
                     <label for="businessNumber"> 사업자번호 </label>
-                    <button type="button" class="btn btn-outline-success">
-                      사업자번호
+                    <button type="button" class="btn btn-outline-success" @click="businessNumValid()">
+                      유효성검사
                     </button>
                   </div>
 
@@ -311,7 +308,7 @@
                       placeholder="123456"
                     />
                     <button type="button" class="btn btn-outline-success">
-                      중개등록번호 검사
+                      유효성검사
                     </button>
                     <label for="brokerNumber">중개등록번호</label>
                   </div>
@@ -340,8 +337,7 @@
                     <button
                       class="btn btn-lg btn-primary btn-login fw-bold text-uppercase"
                       type="button"
-                      @click="sign()"
-                    >
+                      @click="sign()">
                       회원가입
                     </button>
                   </div>
@@ -356,6 +352,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -369,8 +367,7 @@ export default {
   methods: {
     email_validation: function () {
       console.log(this.user_email);
-      axios
-        .get("zippy/validation/email", {
+      axios.get("zippy/validation/email", {
           params: {
             email: this.user_email,
           },
@@ -449,20 +446,49 @@ export default {
     },
 
     next: function () {
-      console.log("next-run");
-      document.querySelector("#first-form").style.display = "none";
-      document.querySelector("#second-form").style.display = "block";
+      console.log("next-run");      
+      var selected = document.querySelector("input[type=radio][name=business_type]:checked");      
 
-      var selected = document.querySelector(
-        "input[type=radio][name=business-type]:checked"
-      );
-      this.business_type = selected.value;
-      console.log(this.business_type);
+      if(selected == null){
+        console.log(this.business_type);        
+        alert("업체유형을 선택해 주세요!");
+
+      }else {
+        this.business_type = selected.value;
+        document.querySelector("#first-form").style.display = "none";
+        document.querySelector("#second-form").style.display = "block";
+
+        console.log(this.business_type);
+      }
+    },
+
+    businessNumValid : function(){
+      console.log("==Business NUMBER VALIDATION==");
+
+      axios({
+        url: "https://api.odcloud.kr/api/nts-businessman/v1/status",
+        method : "POST",
+        params :{
+          "serviceKey" : "QZf4Ip/iukGVGGNo2Yp1ei7ISnJ2sOwUgmmBjLQt6mCw73ftY5N0jt6ck1Qz34mGkNv4FQAysldaby08pQpYEg=="
+        },
+        data :{
+          "b_no" : ["1234567", "6209701458"]
+        }
+      }).then(res => {
+        console.log(res);
+
+        console.log(res.data.data);
+
+      }).catch(error =>{
+        console.log(error);
+      })
+      
     },
 
     sign: function () {
       console.log("sign-up RUN");
-    },
+
+    },  
   },
 };
 </script>
