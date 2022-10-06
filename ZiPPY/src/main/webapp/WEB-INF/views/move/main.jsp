@@ -281,7 +281,7 @@ background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
 /*  */
 
 </style>
-
+<body>
 	<!-- 컴포넌트 사용 -->
 	
 	<div id="app">
