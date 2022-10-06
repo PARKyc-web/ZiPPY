@@ -1,134 +1,86 @@
 <template>
-  <!-- 컴포넌트 사용 -->
-  <div>
-   
 
+<div class="wrap">
     <div class="frame">
       <button class="custom-btn btn-3"><span>이사 견적받기</span></button>
       <button class="custom-btn btn-8"><span>청소 견적받기</span></button>
     </div>
-
-    <!-- <div class="bg"> -->
-      <video width="400" height="240" mute autoplay loop>
+      <video width="400" height="240" autoplay="autoplay" muted="muted" loop>
           <source src="../../assets/sofa.mp4" type="video/mp4">
       </video>
-    <!-- </div> -->
-  </div>
+</div>
+
 </template>
 
 <script>
-export default {};
+  export default{ 
+
+  }
 </script>
 
 <style scoped>
-/* 배경 비디오 */
- 
-body {
-  padding: 0px;
-  margin: 0px;
-}
-.bg {
-  width: 100%;
-  height: 400px;
-  overflow: hidden;
-  margin: 0px auto;
-  position: relative;
-}
-video {
-  /* width: 100%; */
-  position: fixed; right: 0; bottom: 0;
-            width: 100%; height: 100%;
-            /* width: auto; height: auto; */ z-index: -100;
-          
-            background-size: cover;
-}
-.text {
-  position: absolute;
-  width: 100%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-}
-.text p {
-  text-align: center;
-  font-size: 48px;
-  color: #ffffff;
-}
-
-    
-/* 버튼 */
-/*  */
-.frame {
-  width: 90%;
-  margin-top: 100px;
- /*  margin: 0 auto; */
-  text-align: center;
-
-  /* 
-  position: relative;
-    top: 35%;
-    left: 50%; 
-   transform: translate(-50%, -50%);  
-   */
-}
-
-
 /* 
-.custom-btn btn-3{
-	float:left;
+  .wrap{
+    z-index: -9999;
+  } */
+
+
+
+/* 버튼 */
+.frame {
+  width: 100%;
+  padding-top: 100px;
+  margin: 0 auto; 
+  text-align: center;
+
 }
-.custom-btn btn-8{
-	float:right;
-}
-.frame div{
-	width: 50%; height: 100px;
-    border:1px solid #f00;
-	
-}
- */
+
+
 button {
-  margin: 20px;
+  margin: 50px;
+  z-index: 10000;
 }
 .custom-btn {
   width: 200px;
-  height:100px;
+  height: 100px;
   color: #fff;
   border-radius: 5px;
   padding: 10px 25px;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-weight: 500;
   background: transparent;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   display: inline-block;
-   box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
-   7px 7px 20px 0px rgba(0,0,0,.1),
-   4px 4px 5px 0px rgba(0,0,0,.1);
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
   outline: none;
 }
 
-
 /* 3 */
 .btn-3 {
-  background: rgb(0,172,238);
-  background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
+  background: rgb(0, 172, 238);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 172, 238, 1) 0%,
+    rgba(2, 126, 251, 1) 100%
+  );
 
   line-height: 42px;
   padding: 0;
   border: none;
-
 }
 .btn-3 span {
   position: relative;
   display: block;
   width: 100%;
   height: 100%;
-  
-  align-items:center; 
+
+  align-items: center;
   display: flex;
   justify-content: center;
-  
+
   font-size: 20px;
   font-weight: bold;
 }
@@ -138,7 +90,7 @@ button {
   content: "";
   right: 0;
   top: 0;
-   background: rgba(2,126,251,1);
+  background: rgba(2, 126, 251, 1);
   transition: all 0.3s ease;
 }
 .btn-3:before {
@@ -149,8 +101,8 @@ button {
   width: 0%;
   height: 2px;
 }
-.btn-3:hover{
-   background: transparent;
+.btn-3:hover {
+  background: transparent;
   box-shadow: none;
 }
 .btn-3:hover:before {
@@ -159,8 +111,8 @@ button {
 .btn-3:hover:after {
   width: 100%;
 }
-.btn-3 span:hover{
-   color: rgba(2,126,251,1);
+.btn-3 span:hover {
+  color: rgba(2, 126, 251, 1);
 }
 .btn-3 span:before,
 .btn-3 span:after {
@@ -168,7 +120,7 @@ button {
   content: "";
   left: 0;
   bottom: 0;
-   background: rgba(2,126,251,1);
+  background: rgba(2, 126, 251, 1);
   transition: all 0.3s ease;
 }
 .btn-3 span:before {
@@ -186,12 +138,11 @@ button {
   width: 100%;
 }
 
-
 /* 8 */
 .btn-8 {
- background-color: #89d8d3;
-background-image: linear-gradient(315deg, #89d8d3 0%, #03c8a8 74%);  
-line-height: 42px;
+  background-color: #89d8d3;
+  background-image: linear-gradient(315deg, #89d8d3 0%, #03c8a8 74%);
+  line-height: 42px;
   padding: 0;
   border: none;
 }
@@ -200,11 +151,11 @@ line-height: 42px;
   display: block;
   width: 100%;
   height: 100%;
-     
-  align-items:center; 
+
+  align-items: center;
   display: flex;
   justify-content: center;
-  
+
   font-size: 20px;
   font-weight: bold;
 }
@@ -215,17 +166,14 @@ line-height: 42px;
   right: 0;
   bottom: 0;
   background-color: #4dccc6;
-background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
-  box-shadow:
-   -7px -7px 20px 0px #fff9,
-   -4px -4px 5px 0px #fff9,
-   7px 7px 20px 0px #0002,
-   4px 4px 5px 0px #0001;
+  background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001;
   transition: all 0.3s ease;
 }
-.btn-8:before{
-   height: 0%;
-   width: 2px;
+.btn-8:before {
+  height: 0%;
+  width: 2px;
 }
 .btn-8:after {
   width: 0%;
@@ -237,11 +185,11 @@ background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
 .btn-8:hover:after {
   width: 100%;
 }
-.btn-8:hover{
+.btn-8:hover {
   background: transparent;
   box-shadow: none;
 }
-.btn-8 span:hover{
+.btn-8 span:hover {
   color: #89d8d3;
 }
 .btn-8 span:before,
@@ -272,4 +220,15 @@ background-image: linear-gradient(315deg, #4dccc6 0%, #96e4df 74%);
   width: 100%;
 }
 
+/* 배경 동영상 */
+video {
+  width: 100%; 
+  height: 100vh;
+  object-fit: cover;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  z-index: 2;    
+  background-size: cover;
+}
 </style>
