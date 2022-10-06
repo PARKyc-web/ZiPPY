@@ -1,16 +1,6 @@
 <template>
   <div>
-    <g-sign-up></g-sign-up>
-    <!-- <b-sign-up></b-sign-up> -->
-  
-  <!-- <hello-world /> -->
-  <clustering-map/>
-  <!-- <RoadviewMap/> -->
-  <!-- <house-detail/> -->
-  <!-- <agent-detail/> -->
-  <!-- <basic-marker-map/> -->
-    <moveFinalCheck />
-    <usedDetail></usedDetail>
+    <cart></cart>
    </div>
 </template>
 
@@ -37,15 +27,21 @@ import usedInsert from "./used/usedInsert.vue";
 import gSignUp from "./login/generalSignUp.vue";
 // import bSignUp from "./login/businessSignUp.vue";
 
+/*** shop ***/
+import shopMain from "@/components/shop/shopMain.vue";
+import categoryList from "@/components/shop/categoryList.vue";
+import keywordList from "@/components/shop/keywordList.vue";
+import shopDetail from "@/components/shop/shopDetail.vue";
+import cart from "@/components/shop/cart.vue";
+
 export default {
   name: "Home",
 
   components: {
     // HelloWorld,
-    gSignUp
+    gSignUp,
     // bSignUp,
     // HelloWorld,
-    moveFinalCheck,
     //moveDate,
     //moveVisitDate,
     //moveSelect,
@@ -63,7 +59,13 @@ export default {
     UsedDetail,
     UsedKeyword,
     UsedMain,
-    usedInsert
+    usedInsert,
+    /*** shop ***/
+    shopMain,
+    categoryList,
+    keywordList,
+    shopDetail,
+    cart 
   },
 };
 </script>
