@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.zippy.used.mapper.UsedMapper">
+	<!-- 전체조회 -->
+	<select id="usedList" resultType="UsedProductVO" parameterType="hashmap">
+		SELECT *
+		FROM used_product 
+		WHERE product_location LIKE '%'||#{location}||'%'
+		AND product_name LIKE '%'||#{keyword}||'%'
+		AND is_sell=0
+		ORDER BY product_date DESC 
+	</select>
+</mapper>

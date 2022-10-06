@@ -1,5 +1,8 @@
 <template>
-  <moveFinalCheck />
+  <div>
+    <moveFinalCheck />
+    <usedDetail></usedDetail>
+   </div>
 </template>
 
 <script>
@@ -10,11 +13,17 @@ import moveFinalCheck from "./move/moveFinalCheck.vue"; //   ./ 같은 폴더 �
 //import moveSelect from "./move/moveSelect.vue";
 //import moveTypeSelect from "./move/moveTypeSelect.vue";
 //import moveInfoDetail from "./move/moveInfoDetail.vue";
+import HelloWorld from "../components/HelloWorld";
+import UsedMain from "./used/usedMain.vue";
+import UsedDetail from "./used/usedDetail.vue";
+import UsedKeyword from "./used/usedKeyword.vue";
+import usedInsert from "./used/usedInsert.vue";
 
 export default {
   name: "Home",
 
   components: {
+
     // HelloWorld,
     moveFinalCheck,
     //moveDate,
@@ -22,6 +31,13 @@ export default {
     //moveSelect,
     //moveTypeSelect,
     //moveInfoDetail,
+    HelloWorld,
+    UsedMain,
+    UsedDetail,
+    UsedKeyword,
+    UsedMain,
+    usedInsert
+
   },
 };
 </script>
