@@ -1,6 +1,6 @@
 <template>
   <div>
-    <g-sign-up></g-sign-up>
+    <usedMain></usedMain>
     <!-- <b-sign-up></b-sign-up> -->
   
   <!-- <hello-world /> -->
@@ -10,7 +10,7 @@
   <!-- <agent-detail/> -->
   <!-- <basic-marker-map/> -->
     <moveFinalCheck />
-    <usedDetail></usedDetail>
+    
    </div>
 </template>
 
@@ -42,10 +42,10 @@ export default {
 
   components: {
     // HelloWorld,
-    gSignUp
+    gSignUp,
     // bSignUp,
     // HelloWorld,
-    moveFinalCheck,
+    // moveFinalCheck,
     //moveDate,
     //moveVisitDate,
     //moveSelect,

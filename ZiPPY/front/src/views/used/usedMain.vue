@@ -20,7 +20,7 @@
           <form action="">
             <div class="search">
               <input type="text" placeholder="검색어 입력">
-              <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+              <img @click="search()"  src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
             </div>
           </form>
         </div>
@@ -64,12 +64,13 @@ import axios from 'axios';
   export default {
     data: () => ({
       items: ['최고가순', '최저가순', '판매자평점순'],
-      data : []
+      data : [],
+      name : ""
     }),
     
     created(){
       axios({
-          url : "http://localhost:8089/zippy/used/main",
+          url : "http://localhost:8088/zippy/used/main",
           methods : "GET",          
           params : {
             location : "대구",
@@ -103,8 +104,18 @@ import axios from 'axios';
 
     methods:{
       search: function(){
-        console.log(this.data);
-      }
+        axios({
+          url : "http://localhost:8088/zippy/used/search",
+          methods : "GET",
+          params : {
+            name : ""
+          }
+        }).then(res =>{
+          console.log(res);
+          
+        })
+      },
+      
     }
   }
 </script>
