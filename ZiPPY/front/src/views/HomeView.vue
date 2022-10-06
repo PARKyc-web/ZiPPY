@@ -1,17 +1,17 @@
 <template>
   <div>
+    <g-sign-up></g-sign-up>
+    <!-- <b-sign-up></b-sign-up> -->
+  
   <!-- <hello-world /> -->
   <clustering-map/>
   <!-- <RoadviewMap/> -->
   <!-- <house-detail/> -->
   <!-- <agent-detail/> -->
   <!-- <basic-marker-map/> -->
-
-
     <moveFinalCheck />
     <usedDetail></usedDetail>
    </div>
-
 </template>
 
 <script>
@@ -23,7 +23,6 @@ import moveFinalCheck from "./move/moveFinalCheck.vue"; //   ./ 같은 폴더 �
 //import moveTypeSelect from "./move/moveTypeSelect.vue";
 //import moveInfoDetail from "./move/moveInfoDetail.vue";
 import HelloWorld from "../components/HelloWorld";
-
 import ClusteringMap from "../components/property/ClusteringMap.vue";
 import RoadviewMapVue from "@/components/property/RoadviewMap.vue";
 import RoadviewMap from "@/components/property/RoadviewMap.vue";
@@ -34,13 +33,17 @@ import UsedMain from "./used/usedMain.vue";
 import UsedDetail from "./used/usedDetail.vue";
 import UsedKeyword from "./used/usedKeyword.vue";
 import usedInsert from "./used/usedInsert.vue";
-
+// import HelloWorld from "../components/HelloWorld.vue";
+import gSignUp from "./login/generalSignUp.vue";
+// import bSignUp from "./login/businessSignUp.vue";
 
 export default {
   name: "Home",
 
   components: {
-
+    // HelloWorld,
+    gSignUp
+    // bSignUp,
     // HelloWorld,
     moveFinalCheck,
     //moveDate,
@@ -61,7 +64,6 @@ export default {
     UsedKeyword,
     UsedMain,
     usedInsert
-
   },
 };
 </script>

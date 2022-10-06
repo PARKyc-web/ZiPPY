@@ -40,7 +40,6 @@ const routes = [
     name: "cartView",
     component: cartView
   }
-
 ];
 
 const router = new VueRouter({
