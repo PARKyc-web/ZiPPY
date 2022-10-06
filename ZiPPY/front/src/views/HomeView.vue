@@ -1,28 +1,31 @@
 <template>
   <div>
-    <g-sign-up></g-sign-up>
+    <moveNav></moveNav>
+    <!-- <g-sign-up></g-sign-up> -->
     <!-- <b-sign-up></b-sign-up> -->
   
   <!-- <hello-world /> -->
-  <clustering-map/>
+  <!-- <clustering-map/> -->
   <!-- <RoadviewMap/> -->
   <!-- <house-detail/> -->
   <!-- <agent-detail/> -->
   <!-- <basic-marker-map/> -->
     <moveFinalCheck />
-    <usedDetail></usedDetail>
+    <!-- <usedDetail></usedDetail> -->
    </div>
 </template>
 
 <script>
-// import HelloWorld from "../components/HelloWorld";
-import moveFinalCheck from "./move/moveFinalCheck.vue"; //   ./ 같은 폴더 내에 있을 때 & ../ 하나 상위로
-//import moveDate from "./move/moveDate.vue";
-//import moveVisitDate from "./move/moveVisitDate.vue";
-//import moveSelect from "./move/moveSelect.vue";
-//import moveTypeSelect from "./move/moveTypeSelect.vue";
-//import moveInfoDetail from "./move/moveInfoDetail.vue";
 import HelloWorld from "../components/HelloWorld";
+//move 
+import moveFinalCheck from "./move/moveFinalCheck.vue"; //   ./ 같은 폴더 내에 있을 때 & ../ 하나 상위로
+import moveDate from "./move/moveDate.vue";
+import moveVisitDate from "./move/moveVisitDate.vue";
+import moveSelect from "./move/moveSelect.vue";
+import moveTypeSelect from "./move/moveTypeSelect.vue";
+import moveInfoDetail from "./move/moveInfoDetail.vue";
+import moveNav from "./move/moveNav.vue";
+
 import ClusteringMap from "../components/property/ClusteringMap.vue";
 import RoadviewMapVue from "@/components/property/RoadviewMap.vue";
 import RoadviewMap from "@/components/property/RoadviewMap.vue";
@@ -42,16 +45,18 @@ export default {
 
   components: {
     // HelloWorld,
-    gSignUp
+    //gSignUp
     // bSignUp,
     // HelloWorld,
+
     moveFinalCheck,
     //moveDate,
     //moveVisitDate,
     //moveSelect,
     //moveTypeSelect,
     //moveInfoDetail,
-    HelloWorld,
+    moveNav,
+
     ClusteringMap,
     RoadviewMapVue,
     RoadviewMap,
