@@ -45,32 +45,23 @@
         </div>
         <!-- 상품리스트 끝 -->
         <!-- 페이지네이션 -->
-        <div id="pagination">
-          <nav aria-label="...">
-            <ul class="pagination justify-content-center">
-              <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&lt;</a>
-              </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item active" aria-current="page">
-                <a class="page-link" href="#">2</a>
-              </li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#">&gt;</a>
-              </li>
-           </ul>
-        </nav>
-      </div>
+        <div class="pb-5">
+          <div class="text-center">
+            <v-pagination v-model="page" :length="4" circle color="#B3E3C3"></v-pagination>
+          </div>
+        </div>
         <!-- 페이지네이션 끝 -->
+      </div>
+      <!-- list container end -->
     </div>
-    <!-- list container end -->
-  </div>
-</template>
+  </template>
 
 <script>
   export default {
-
+    data: () => ({
+      items: ['판매순', '최신순', '리뷰순', '별점순'],
+      page: 1
+    })
   };
 </script>
 
@@ -91,7 +82,7 @@ display:flex;
   font-weight: bold;
 }
 #category-list h6:hover{
-  color:858585;
+  color:#858585;
   cursor:pointer;
 }
 /* 드롭다운(옵션) */
@@ -171,32 +162,5 @@ display:flex;
 }
 #product-info:hover img{
   transform: scale(1.05);
-}
-/* 페이지네이션 */
-#pagination{
-  margin-top: 50px;
-}
-.page-link {
-    color: #212529;
-}
-.page-link:hover {
-    color: #B3E3C3;
-    background-color: #fff;
-    border-color: #dee2e6;
-}
-.page-link:focus {
-    color: #fff;
-    background-color: #B3E3C3;
-    border-color: #B3E3C3;
-}
-.page-link:active {
-    color: #fff;
-    background-color: #B3E3C3;
-    border-color: #B3E3C3;
-}
-.page-item.active .page-link {
-    color: #fff;
-    background-color: #B3E3C3;
-    border-color: #B3E3C3;
 }
 </style>
