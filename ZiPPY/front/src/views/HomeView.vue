@@ -1,20 +1,14 @@
 <template>
-  <div>
-    <g-sign-up></g-sign-up>
-    <!-- <b-sign-up></b-sign-up> --> 
-   </div>
+  <hello-world />
 </template>
 
 <script>
-import gSignUp from "./login/generalSignUp.vue";
-// import bSignUp from "./login/businessSignUp.vue";
+  import HelloWorld from "../components/HelloWorld";
 
-export default {
-  name: "Home",
-
-  components: {
-    gSignUp
-
-  },
-};
+  export default {
+    name: "Home",
+    components: {
+      HelloWorld,
+    },
+  };
 </script>

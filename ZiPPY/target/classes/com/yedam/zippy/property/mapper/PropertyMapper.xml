@@ -3,14 +3,6 @@
 <mapper
 	namespace="com.yedam.zippy.property.mapper.PropertyMapper">
 	<select id="getAllPropertyList" resultType="PropertyVO">
-		<!-- select p.product_id,
-		room_cnt, sale_type, price, area_exclusive, floor, main_img, email,
-		product_state, detail_contents, sigungu, house_name,
-		detail_id, bath_cnt, parking, house_face, construction_year, tags,
-		street_address
-		from house_product p
-		inner join house_detail 
-		on p.product_id = d.product_id -->
 		select * from house_product
 	</select>
 </mapper>

@@ -2,10 +2,13 @@
   <div id="container">
     <div class="nav-scroller bg-body shadow-sm">
       <nav class="nav" aria-label="Secondary navigation">
-        <a class="nav-link active" aria-current="page" href="#">전체</a> <a class="nav-link" href="#">침실</a> <a
-          class="nav-link" href="#">옷장/수납</a>
-        <a class="nav-link" href="#">주방</a> <a class="nav-link" href="#">욕실</a>
-        <a class="nav-link" href="#">서재</a> <a class="nav-link" href="#">다용도실</a>
+        <a @click="search($event)" class="nav-link active" aria-current="page" href="#">전체</a>
+        <a @click="search($event)" class="nav-link" href="#">침실</a>
+        <a @click="search($event)" class="nav-link" href="#">수납</a>
+        <a @click="search($event)" class="nav-link" href="#">주방</a>
+        <a @click="search($event)" class="nav-link" href="#">욕실</a>
+        <a @click="search($event)" class="nav-link" href="#">서재</a>
+        <a @click="search($event)" class="nav-link" href="#">다용도실</a>
       </nav>
     </div>
     <div>
@@ -17,12 +20,11 @@
           <i class="fa-solid fa-location-dot fa-2x"></i>
         </button>
         <div>
-          <form action="">
-            <div class="search">
-              <input type="text" placeholder="검색어 입력">
-              <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
-            </div>
-          </form>
+          <div class="search">
+            <input type="text" placeholder="검색어 입력" id="used-main-search-input" v-model="word"
+              @keyup="enterkey($event);">
+            <img @click="search($event)" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+          </div>
         </div>
       </div>
     </div>
@@ -30,7 +32,7 @@
     <hr>
     <div id="used-soldot-drop">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+        <input @click="checkbox()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
         <label class="form-check-label" for="flexCheckDefault">
           판매완료된 상품보기
         </label>
@@ -38,7 +40,8 @@
       <!-- <nav class="navbar navbar-expand-lg navbar-light"> -->
       <div>
         <v-container>
-          <v-overflow-btn id="drop" class="my-2" :items="items" label="최고가순" dense></v-overflow-btn>
+          <v-overflow-btn @click="search($event)" id="drop" class="my-2" :items="items" label="정렬" dense>
+          </v-overflow-btn>
         </v-container>
       </div>
     </div>
@@ -59,51 +62,83 @@
 </template>
 
 <script>
-import axios from 'axios';
+  import axios from 'axios';
 
   export default {
     data: () => ({
       items: ['최고가순', '최저가순', '판매자평점순'],
-      data : []
+      data: [],
+      word: ""
     }),
-    
-    created(){
+
+    created() {
       axios({
-          url : "http://localhost:8089/zippy/used/main",
-          methods : "GET",          
-          params : {
-            location : "대구",
-            keyword : "햄"
-          }
-        }).then(res =>{
-          console.log(res);
-          this.data = res.data;
-          console.log(this.data);
+        url: "http://localhost:8088/zippy/used/main",
+        methods: "GET",
+        params: {
+          location: "대구",
+          keyword: "",
+          category: "",
+          checked : ""
+        }
+      }).then(res => {
+        console.log(res);
+        this.data = res.data;
+        console.log(this.data);
 
-        }).catch(error => {
-          console.log(error);
-        })
-
-
-      // let aaa = async function() {
-      //   var res = await axios({
-      //     url : "http://localhost:8089/zippy/used/main",
-      //     methods : "GET",          
-      //     params : {
-      //       location : "대구",
-      //       keyword : "햄스터"
-      //     }
-      //   })
-      //   console.log(res);
-      //   this.data = res.data;
-      //   console.log(this.data);
-      // };
-      // aaa();
+      }).catch(error => {
+        console.log(error);
+      })
     },
 
-    methods:{
-      search: function(){
-        console.log(this.data);
+    methods: {
+      search: function (e) {
+        var searchValue = document.querySelector("#used-main-search-input").value;
+        this.category = e.target.innerText;
+        var priceVal = document.querySelector("#drop").value;
+        console.log(priceVal);
+        axios({
+          url: "http://localhost:8088/zippy/used/main",
+          methods: "GET",
+          params: {
+            keyword: searchValue,
+            location: "",
+            category: this.category,
+            checked : ""
+          }
+        }).then(res => {
+          console.log(res);
+          this.data = res.data;
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      enterkey: function (e) {
+        if (window.event.keyCode == 13) {
+          this.search(e);
+        }
+      },
+      checkbox: function () {
+        const ckbox = document.querySelector(".form-check-input");
+        const is_cked = ckbox.checked;
+        var isChecked = document.querySelector(".form-check-input").innerText = is_cked
+        console.log(isChecked);
+        axios({
+          url: "http://localhost:8088/zippy/used/main",
+          methods: "GET",
+          params: {
+            keyword: "",
+            location: "",
+            category: "",
+            checked : isChecked
+          }
+        }).then(res => {
+          console.log(res);
+          this.data = res.data;
+        }).catch(err => {
+          console.log(err)
+        })
+        
       }
     }
   }
@@ -118,7 +153,8 @@ import axios from 'axios';
     position: relative;
     width: 300px;
   }
-  .search img:hover{
+
+  .search img:hover {
     cursor: pointer;
   }
 
