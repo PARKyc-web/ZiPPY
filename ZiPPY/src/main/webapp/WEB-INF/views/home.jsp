@@ -22,9 +22,6 @@
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css">
 </head>
 <body>	
-	<div id="app">
-		<main-header></main-header>
-		<main-nav></main-nav>
-	</div>
+	<h1>Hello Zippy!</h1>
 </body>
 </html>
