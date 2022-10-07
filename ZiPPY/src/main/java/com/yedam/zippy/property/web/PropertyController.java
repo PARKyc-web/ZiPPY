@@ -25,12 +25,6 @@ public class PropertyController {
     return service.getAllPropertyList();
   }
 
-//  @GetMapping("/main")
-//  public String propertyMain(Model model) {
-//    model.addAttribute("propertyList", service.getAllPropertyList());
-//    return "property/main";
-//  }
-
   @GetMapping("/houseDetail")
   public String houseDetail() {
     return "property/houseDetail";

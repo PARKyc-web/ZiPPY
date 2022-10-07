@@ -22,7 +22,18 @@
       SearchBar,
     },
     created() {
-
+      axios({
+          uri: "http://localhost:8090/zippy/property/main",
+          methods: "GET",
+        }).then(function (response) {
+          // 성공했을 때
+          console.log(response);
+        })
+        .catch(function (error) {
+          // 에러가 났을 때
+          console.log(error);
+          
+        });
     },
     mounted() {
       window.kakao && window.kakao.maps ?
@@ -31,7 +42,8 @@
     },
     data() {
       return {
-        data: chickenJson
+        data: chickenJson,
+        houseProducts : []
       }
     },
     methods: {
@@ -54,7 +66,7 @@
         /* 현재 위치로 지도의 중심 위치를 변경 */
         // HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
         if (navigator.geolocation) {
-          
+
           // GeoLocation을 이용해서 접속 위치를 얻어옵니다
           navigator.geolocation.getCurrentPosition(function (position) {
 
@@ -66,8 +78,8 @@
           });
 
         } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-            message = 'geolocation을 사용할수 없어요..'
-            console.log(message);
+          message = 'geolocation을 사용할수 없어요..'
+          console.log(message);
         }
 
         // 마커 클러스터러를 생성합니다 
@@ -91,7 +103,7 @@
         // 클러스터러에 마커들을 추가합니다
         clusterer.addMarkers(markers);
       },
-      
+
     }
   };
 </script>

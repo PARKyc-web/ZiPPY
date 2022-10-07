@@ -1,6 +1,6 @@
 <template>
   <v-toolbar dense floating style="z-index: 2;">
-    <v-text-field hide-details prepend-icon="mdi-magnify" single-line placeholder=" 지역명 검색"></v-text-field>
+    <v-text-field hide-details prepend-icon="mdi-magnify" single-line placeholder=" 지역명 검색" @keyup.enter="test()" v-model="sigungu"></v-text-field>
     <v-row justify="center">
       <v-dialog v-model="dialog" scrollable max-width="300px">
         <template v-slot:activator="{ on, attrs }">
@@ -50,11 +50,15 @@
         dialogm1: '',
         dialog: false,
         selected: [],
+        sigungu : ''
       }
     },
     methods : {
       save() {
         this.dialog = false;
+      },
+      test(value) {
+        console.log(this.sigungu);
       }
     }
   }
