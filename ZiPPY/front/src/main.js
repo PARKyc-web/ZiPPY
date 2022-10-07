@@ -16,14 +16,9 @@ axios.defaults.crossDomain = true;
 // port는 sts의 포트넘버
 axios.defaults.baseURL = "http://localhost:8090/";
 
-
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.config.productionTip = false;
-
-
-
-
 
 new Vue({
   router,

@@ -2,22 +2,25 @@
   <div class="wrap">
     <h2>자세한 견적을 받을 수 있도록 사진을 첨부해주세요.</h2>
 
-
     <v-stepper v-model="e6" vertical>
-
       <v-stepper-step :complete="e6 > 1" step="1">
         각 방입구에서 사진을 촬영해주세요.
         <small>(거실 포함)</small>
       </v-stepper-step>
 
-
       <v-stepper-content step="1">
         <v-card color="white" class="mb-12" height="400px">
-          <img src="../../assets/enter.jpg">
+          <img src="../../assets/enter.jpg" />
 
           <div id="step1">
-            <v-file-input outlined v-model="files1" placeholder="Upload your documents" label="사진첨부" multiple
-              prepend-icon="mdi-paperclip">
+            <v-file-input
+              outlined
+              v-model="files1"
+              placeholder="Upload your documents"
+              label="사진첨부"
+              multiple
+              prepend-icon="mdi-paperclip"
+            >
               <template v-slot:selection="{ text }">
                 <v-chip small label color="primary">
                   {{ text }}
@@ -26,12 +29,8 @@
             </v-file-input>
           </div>
         </v-card>
-        <v-btn color="primary lighten-2" @click="e6 = 2">
-          다음
-        </v-btn>
-        <v-btn color="#B3E3C3 lighten-2" @click="e6 = 1">
-          취소
-        </v-btn>
+        <v-btn color="primary lighten-2" @click="e6 = 2"> 다음 </v-btn>
+        <v-btn color="#B3E3C3 lighten-2" @click="e6 = 1"> 취소 </v-btn>
       </v-stepper-content>
 
       <v-stepper-step :complete="e6 > 2" step="2">
@@ -40,11 +39,17 @@
 
       <v-stepper-content step="2">
         <v-card color="white lighten-5" class="mb-12" height="400px">
-          <img src="../../assets/center.jpg">
+          <img src="../../assets/center.jpg" />
 
           <div id="step2">
-            <v-file-input outlined v-model="files2" placeholder="Upload your documents" label="사진첨부" multiple
-              prepend-icon="mdi-paperclip">
+            <v-file-input
+              outlined
+              v-model="files2"
+              placeholder="Upload your documents"
+              label="사진첨부"
+              multiple
+              prepend-icon="mdi-paperclip"
+            >
               <template v-slot:selection="{ text }">
                 <v-chip small label color="primary">
                   {{ text }}
@@ -52,14 +57,9 @@
               </template>
             </v-file-input>
           </div>
-
         </v-card>
-        <v-btn color="primary lighten-2" @click="e6 = 3">
-          다음
-        </v-btn>
-        <v-btn color="#B3E3C3 lighten-2" @click="e6 = 1">
-          이전
-        </v-btn>
+        <v-btn color="primary lighten-2" @click="e6 = 3"> 다음 </v-btn>
+        <v-btn color="#B3E3C3 lighten-2" @click="e6 = 1"> 이전 </v-btn>
       </v-stepper-content>
 
       <v-stepper-step :complete="e6 > 3" step="3">
@@ -68,11 +68,17 @@
 
       <v-stepper-content step="3">
         <v-card color="white lighten-5" class="mb-12" height="400px">
-          <img src="../../assets/inside.jpg">
+          <img src="../../assets/inside.jpg" />
 
           <div id="step3">
-            <v-file-input outlined v-model="files3" placeholder="Upload your documents" label="사진첨부" multiple
-              prepend-icon="mdi-paperclip">
+            <v-file-input
+              outlined
+              v-model="files3"
+              placeholder="Upload your documents"
+              label="사진첨부"
+              multiple
+              prepend-icon="mdi-paperclip"
+            >
               <template v-slot:selection="{ text }">
                 <v-chip small label color="primary">
                   {{ text }}
@@ -80,77 +86,67 @@
               </template>
             </v-file-input>
           </div>
-
         </v-card>
-        <v-btn color="primary lighten-2" @click="e6 = 4">
-          완료
-        </v-btn>
-        <v-btn color="#B3E3C3 lighten-2" @click="e6 = 2">
-          이전
-        </v-btn>
+        <v-btn color="primary lighten-2" @click="e6 = 4"> 완료 </v-btn>
+        <v-btn color="#B3E3C3 lighten-2" @click="e6 = 2"> 이전 </v-btn>
       </v-stepper-content>
-
     </v-stepper>
-
-
   </div>
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        e6: 1,
-        files1: [],
-        files2: [],
-        files3: [],
-      }
-    },
-    // data: () => ({
-    //   files: [],
-    //  }),
-  }
+export default {
+  data() {
+    return {
+      e6: 1,
+      files1: [],
+      files2: [],
+      files3: [],
+    };
+  },
+  // data: () => ({
+  //   files: [],
+  //  }),
+};
 </script>
 
 <style scoped>
-  h2 {
-    text-align: center;
-    padding-top: 100px;
-    padding-bottom: 100px;
-  }
+h2 {
+  text-align: center;
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
 
-  .v-stepper {
-    width: 100%;
-    text-align: center;
-  }
+.v-stepper {
+  width: 100%;
+  text-align: center;
+}
 
-  .v-file {
-    width: 100%;
-    text-align: center;
-  
-  }
+.v-file {
+  width: 100%;
+  text-align: center;
+}
 
-  .v-input {
+.v-input {
+  padding-top: 20px;
+  width: 600px;
+}
 
-    padding-top: 20px;
-    width: 600px;
-  }
+#step1 {
+  float: right;
+  margin-top: 90px;
+  margin-right: 200px;
+}
 
-  #step1 {
-    float: right;
-    margin-top: 90px;
-    margin-right: 200px;
-  }
+#step2 {
+  float: right;
+  margin-top: 90px;
+  margin-right: 200px;
+}
 
-  #step2 {
-    float: right;
-    margin-top: 90px;
-    margin-right: 200px;
-  }
-
-  #step3 {
-    float: right;
-    margin-top: 90px;
-    margin-right: 200px;
-  }
+#step3 {
+  float: right;
+  margin-top: 90px;
+  margin-right: 200px;
+}
 </style>

@@ -28,11 +28,15 @@
       </v-form>
       <!-- 검색창 끝 -->
       <!-- 장바구니 -->
-      <v-badge :value="hover" color="#B3E3C3" content="10" left transition="slide-x-transition">
+      <v-badge
+        :value="hover"
+        color="#B3E3C3"
+        content="10"
+        left
+        transition="slide-x-transition"
+      >
         <v-hover v-model="hover">
-          <v-icon color="#212529">
-            mdi-cart
-          </v-icon>
+          <v-icon color="#212529"> mdi-cart </v-icon>
         </v-hover>
       </v-badge>
       <!-- 장바구니-->
@@ -41,9 +45,9 @@
 </template>
 
 <script>
-  export default {
-    data: () => ({
+export default {
+  data: () => ({
     hover: false,
-  })
-  };
+  }),
+};
 </script>

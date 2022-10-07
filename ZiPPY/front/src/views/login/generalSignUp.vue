@@ -14,7 +14,7 @@
               <form id="signup-form" action="">
                 <div id="first-form">
                   <div class="form-floating mb-3">
-                    <input                      
+                    <input
                       type="email"
                       class="form-control"
                       id="inputEmail"
@@ -45,8 +45,9 @@
                     <label for="emailAuthentication">인증번호(6자리)</label>
                     <button
                       type="button"
-                      id ="email-confirm-btn"
-                      class="btn btn-outline-success" disabled
+                      id="email-confirm-btn"
+                      class="btn btn-outline-success"
+                      disabled
                       @click="email_valid_check()"
                     >
                       인증번호 입력
@@ -274,14 +275,14 @@ export default {
   data() {
     return {
       // Data : Axios로 back에 보낼 데이터
-      user_info : {
+      user_info: {
         user_email: "",
-        user_password : "",
-        user_name : "",
-        user_addr : "",
-        user_addr_detail : "",
-        user_phone : "",
-        user_nick : ""
+        user_password: "",
+        user_name: "",
+        user_addr: "",
+        user_addr_detail: "",
+        user_phone: "",
+        user_nick: "",
       },
 
       // 모든 데이터를 정확하게 입력했는지 검사하는 Data
@@ -294,15 +295,14 @@ export default {
       emailCode: 123456723,
       phoneCode: 12301684861,
     };
-  },  
+  },
 
   methods: {
-
     /**
      * Eamil 인증을 위한 Email 전송 인증번호 6자리
      */
     email_validation: function () {
-      this.user_info.user_email = document.querySelector("#inputEmail").value;           
+      this.user_info.user_email = document.querySelector("#inputEmail").value;
       console.log(this.user_info.user_email);
       document.querySelector("#email-confirm-btn").disabled = false;
       alert("Email을 전송하였습니다.");
@@ -321,11 +321,10 @@ export default {
         });
     },
 
-
     /**
      * 인증번호와 유저가 입력한 숫자가 동일한지 확인하는 메소드
      */
-    email_valid_check: function () {      
+    email_valid_check: function () {
       var code = document.querySelector("#emailAuthentication");
       console.log(code.value);
 
@@ -335,12 +334,10 @@ export default {
         document.querySelector("#inputEmail").disabled = true;
         document.querySelector("#emailAuthentication").disabled = true;
         this.email_valid = true;
-
-      } else {        
+      } else {
         alert("인증번호가 틀렸습니다!");
       }
     },
-
 
     /**
      * 비밀번호가 사이트 규정에 맞는지 확인하는 메소드
@@ -356,7 +353,6 @@ export default {
       this.pass_valid = !reg.test(password);
     },
 
-
     /**
      * 비밀번호와 비밀번호 재확인이 동일한지 확인하는 메소드
      */
@@ -364,31 +360,28 @@ export default {
       var password = document.querySelector("#password").value;
       var confirm = document.querySelector("#passwd-confirm").value;
 
-      this.pass_confirm = (password == confirm) ? true : false;
+      this.pass_confirm = password == confirm ? true : false;
     },
-
 
     /**
      * 핸드폰 번호 인증을 하기 위해서 SMS 문자를 보내는 메소드
      */
     phone_validation: function () {
       axios({
-        url : "zippy/validation/phone",
-        method : "GET",
+        url: "zippy/validation/phone",
+        method: "GET",
 
-        param : {
-          phone : ""
-        }
-
-      }).then(res => {
-        console.log(res);
-
-      }).catch(error =>{
-        console.log(error);
-      });
-        
+        param: {
+          phone: "",
+        },
+      })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
-
 
     /**
      * 핸드폰으로 보낸 인증번호가 동일한지 확인하는 메소드
@@ -404,7 +397,6 @@ export default {
       this.phone_valid = true;
     },
 
-
     /**
      * 주소를 검색하기 위해 주소검색창을 띄우는 API
      */
@@ -412,32 +404,31 @@ export default {
       new daum.Postcode({
         oncomplete: function (data) {
           console.log(data);
-          document.querySelector("#addressInput").value = "("+ data.zonecode +") "+ data.address;   
+          document.querySelector("#addressInput").value =
+            "(" + data.zonecode + ") " + data.address;
         },
       }).open();
     },
 
-
     /**
-     * 모든 값을 입력하고, 인증까지 완료했으면 회원가입을 완료할 수 있는 메소드     * 
+     * 모든 값을 입력하고, 인증까지 완료했으면 회원가입을 완료할 수 있는 메소드     *
      */
     signup: function () {
       var form = document.querySelector("#signup-form");
 
       var data = {
-        "email" : ""
-      };      
+        email: "",
+      };
       /**
        * 회원가입시 인증 및 필요한 정보
-       * 
+       *
        * 1. 이메일 인증(emailValid)
        * 2. 비밀번호 양식
        * 3. 핸드폰 인증
        */
       if (this.email_valid == true && this.phone_valid == true) {
-
       }
-    }
+    },
   },
 };
 </script>
@@ -479,5 +470,4 @@ export default {
 .btn-login {
   width: 50%;
 }
-
 </style>

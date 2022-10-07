@@ -9,10 +9,10 @@
 import shopSubBar from "../../components/shop/shopSubBar.vue";
 import keywordList from "../../components/shop/keywordList.vue";
 
-export default {  
+export default {
   components: {
     shopSubBar,
-    keywordList
-  }
+    keywordList,
+  },
 };
 </script>

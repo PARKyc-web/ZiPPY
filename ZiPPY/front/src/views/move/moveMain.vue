@@ -1,21 +1,17 @@
 <template>
-
-<div class="wrap">
+  <div class="wrap">
     <div class="frame">
       <button class="custom-btn btn-3"><span>이사 견적받기</span></button>
       <button class="custom-btn btn-8"><span>청소 견적받기</span></button>
     </div>
-      <video width="400" height="240" autoplay="autoplay" muted="muted" loop>
-          <source src="../../assets/sofa.mp4" type="video/mp4">
-      </video>
-</div>
-
+    <video width="400" height="240" autoplay="autoplay" muted="muted" loop>
+      <source src="../../assets/sofa.mp4" type="video/mp4" />
+    </video>
+  </div>
 </template>
 
 <script>
-  export default{ 
-
-  }
+export default {};
 </script>
 
 <style scoped>
@@ -24,17 +20,13 @@
     z-index: -9999;
   } */
 
-
-
 /* 버튼 */
 .frame {
   width: 100%;
   padding-top: 100px;
-  margin: 0 auto; 
+  margin: 0 auto;
   text-align: center;
-
 }
-
 
 button {
   margin: 50px;
@@ -222,13 +214,13 @@ button {
 
 /* 배경 동영상 */
 video {
-  width: 100%; 
+  width: 100%;
   height: 100vh;
   object-fit: cover;
   position: fixed;
   right: 0;
   bottom: 0;
-  z-index: 2;    
+  z-index: 2;
   background-size: cover;
 }
 </style>

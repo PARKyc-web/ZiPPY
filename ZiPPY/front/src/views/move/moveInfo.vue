@@ -1,5 +1,6 @@
 <template>
   <div class="wrap">
+    <form id="move-form">
     <h2>이사 견적을 위한 기본 정보를 입력해주세요.</h2>
     <div class="depart-address">
       <h3>출발지 주소를 입력해주세요.</h3>
@@ -7,34 +8,35 @@
 
       우편번호 :
       <input
-        v-model="postcode"
+        
         class="type-2"
         type="text"
         name="zip1"
+        id ="post1"
         style="width: 80px; height: 26px"
       />
       <button
         class="custom-btn btn-4"
         type="button"
-        @click="execDaumPostcode()"
+        @click="execDaumPostcode(1)"
       >
         검색
       </button>
       <br />
       주소 :
       <input
-        v-model="address"
-        id="address"
+        
+        id="address1"
         class="type-2"
         type="text"
-        name="addr1"
+        name="addr1"               
         style="width: 300px; height: 30px"
         readonly
       /><br />
       상세 :
       <input
-        v-model="extraAddress"
-        id="detailAddress"
+        
+        id="detailAddress1"
         class="type-2"
         type="text"
         name="addr2"
@@ -42,8 +44,9 @@
       /><br />
       참고항목 :
       <input
+        
         type="text"
-        id="extraAddress"
+        id="extraAddress1"
         class="type-2"
         placeholder="참고항목"
       />
@@ -61,45 +64,51 @@
 
       우편번호 :
       <input
-        v-model="postcode2"
+        
         class="type-2"
         type="text"
         name="zip2"
+        id="post2"  
         style="width: 80px; height: 26px"
       />
       <button
         class="custom-btn btn-4"
         type="button"
-        @click="execDaumPostcode2()"
+        @click="execDaumPostcode(2)"
       >
         검색
       </button>
       <br />
       주소 :
       <input
-        v-model="address2"
+       
         id="address2"
         class="type-2"
         type="text"
         name="addr3"
         style="width: 300px; height: 30px"
         readonly
+       
       /><br />
       상세 :
       <input
-        v-model="extraAddress2"
+     
         id="detailAddress2"
         class="type-2"
         type="text"
         name="addr4"
         style="width: 300px; height: 30px"
+        
       /><br />
       참고항목 :
       <input
+       
         type="text"
         id="extraAddress2"
         class="type-2"
         placeholder="참고항목"
+        
+      
       />
     </div>
     <br />
@@ -111,7 +120,7 @@
 
     <div class="move-drop">
       <h3>집형태</h3>
-      <select>
+      <select id="houseType" v-model="moveInfo.houseType">
         <option value="" selected>-- 선택하세요 --</option>
         <option value="1">빌라/주택</option>
         <option value="2">오피스텔</option>
@@ -121,27 +130,27 @@
 
     <div class="move-drop">
       <h3>방구조</h3>
-      <select>
+      <select id="roomNum" v-model="moveInfo.roomNum">
         <option value="" selected>-- 선택하세요 --</option>
         <option value="1">원룸</option>
         <option value="2">투룸</option>
         <option value="3">쓰리룸</option>
-        <option value="4">쓰리룸 이상</option>
+        <option value="over3">쓰리룸 이상</option>
       </select>
     </div>
 
     <div class="move-drop">
       <h3>집평수</h3>
-      <select>
+      <select id="spaceOfHome" v-model="moveInfo.spaceOfHome">
         <option value="" selected>-- 선택하세요 --</option>
-        <option value="1">10평 이하</option>
-        <option value="2">10~15평</option>
-        <option value="3">15~20평</option>
-        <option value="4">20~25평</option>
-        <option value="5">25~30평</option>
-        <option value="6">30~35평</option>
-        <option value="7">35~40평</option>
-        <option value="8">40평 이상</option>
+        <option value="below10">10평 이하</option>
+        <option value="11to15">10~15평</option>
+        <option value="11to15">15~20평</option>
+        <option value="11to15">20~25평</option>
+        <option value="11to15">25~30평</option>
+        <option value="11to15">30~35평</option>
+        <option value="11to15">35~40평</option>
+        <option value="over40">40평 이상</option>
       </select>
     </div>
 
@@ -151,7 +160,7 @@
 
     <div class="move-select-input">
       <h3>층수</h3>
-      <input class="type-2" id="floor" type="number" min="1" /><label
+      <input class="type-2" id="floor" type="number" min="1" v-model="moveInfo.floor"/><label
         for="floor"
       >
         층</label
@@ -160,7 +169,7 @@
 
     <div class="move-select-input">
       <h3>화장실 개수</h3>
-      <input class="type-2" id="toilet" type="number" min="1" /><label
+      <input class="type-2" id="toilet" type="number" min="1" v-model="moveInfo.toilet"/><label
         for="toilet"
       >
         개</label
@@ -169,11 +178,9 @@
 
     <div class="move-select-input">
       <h3>베란다 개수</h3>
-      <input class="type-2" id="veranda" type="number" min="1" /><label
-        for="veranda"
-      >
-        개</label
-      >
+      <input class="type-2" id="veranda" type="number" min="0" v-model="moveInfo.veranda" /><label
+        for="veranda" 
+      >개</label>
     </div>
     <hr />
     <br />
@@ -181,12 +188,12 @@
     <div class="detail-info-radio">
       <h3>1층 별도 계단</h3>
       <label class="test_obj">
-        <input type="radio" name="stairs" value="apple" />
+        <input type="radio" name="stairs" value="yes" v-model="moveInfo.extraStairs"/>
         <span>있음</span>
       </label>
 
       <label class="test_obj">
-        <input type="radio" name="stairs" value="banana" />
+        <input type="radio" name="stairs" value="no" v-model="moveInfo.extraStairs"/>
         <span>없음</span>
       </label>
     </div>
@@ -194,12 +201,12 @@
     <div class="detail-info-radio">
       <h3>엘레베이터</h3>
       <label class="test_obj">
-        <input type="radio" name="elev" value="apple" />
+        <input type="radio" name="elev" value="yes" v-model="moveInfo.elevator"/>
         <span>있음</span>
       </label>
 
       <label class="test_obj">
-        <input type="radio" name="elev" value="banana" />
+        <input type="radio" name="elev" value="no" v-model="moveInfo.elevator" />
         <span>없음</span>
       </label>
     </div>
@@ -207,18 +214,18 @@
     <div class="detail-info-radio">
       <h3>주차가능</h3>
       <label class="test_obj">
-        <input type="radio" name="parking" value="apple" />
+        <input type="radio" name="parking" value="available" v-model="moveInfo.parkable"/>
         <span>있음</span>
       </label>
 
       <label class="test_obj">
-        <input type="radio" name="parking" value="banana" />
+        <input type="radio" name="parking" value="notAvailable" v-model="moveInfo.parkable" />
         <span>없음</span>
       </label>
     </div>
-
+  </form>
     <div class="frame">
-      <button id="selectBtn-bday" class="custom-btn btn-3">선택완료</button>
+      <button id="selectBtn-bday" class="custom-btn btn-3" @click="sign_in()">선택완료</button>
     </div>
   </div>
 </template>
@@ -227,27 +234,53 @@
 export default {
   data() {
     return {
-      postcode: "",
-      address: "",
-      extraAddress: "",
-      postcode2: "",
-      address2: "",
-      extraAddress2: "",
+      moveInfo : {   
+        houseType : "",     
+        roomNum : "",
+        spaceOfHome : "",
+        floor : "",
+        toilet : "",
+        veranda : "",
+        extraStairs : "",
+        elevator :"",
+        parkable : "",
+        veranda:"",
+
+        addr : {
+          postcode: "",
+          address: "",
+          detailAddress:"",
+          extraAddress: "",
+          
+          postcode2: "",
+          address2: "",
+          detailAddress2:"",
+          extraAddress2: "",
+        },
+      },
+
+     
     };
   },
   methods: {
-    execDaumPostcode() {
+
+    execDaumPostcode(number) {  
+      console.log(number);
+      var postcode = document.querySelector("#post"+number);
+      var addr = document.querySelector("#address"+number);
+      var detail = document.querySelector("#detailAddress"+number);  
+      var extra = document.querySelector("#extraAddress"+number);     
+
       new window.daum.Postcode({
         oncomplete: (data) => {
-          if (this.extraAddress !== "") {
-            this.extraAddress = "";
-          }
+          console.log(data);
           if (data.userSelectedType === "R") {
             // 사용자가 도로명 주소를 선택했을 경우
-            this.address = data.roadAddress;
+            // this.moveInfo.addr1.address = data.roadAddress;
+            addr.value = data.roadAddress;
           } else {
             // 사용자가 지번 주소를 선택했을 경우(J)
-            this.address = data.jibunAddress;
+            addr.value = data.jibunAddress;
           }
 
           // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
@@ -255,67 +288,60 @@ export default {
             // 법정동명이 있을 경우 추가한다. (법정리는 제외)
             // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
             if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
-              this.extraAddress += data.bname;
+              detail.value += data.bname;
             }
-            // 건물명이 있고, 공동주택일 경우 추가한다.
-            if (data.buildingName !== "" && data.apartment === "Y") {
-              this.extraAddress +=
-                this.extraAddress !== ""
-                  ? `, ${data.buildingName}`
-                  : data.buildingName;
-            }
-            // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-            if (this.extraAddress !== "") {
-              this.extraAddress = `(${this.extraAddress})`;
-            }
-          } else {
-            this.extraAddress = "";
-          }
-          // 우편번호를 입력한다.
-          this.postcode = data.zonecode;
-        },
-      }).open();
-    },
-    execDaumPostcode2() {
-      new window.daum.Postcode({
-        oncomplete: (data) => {
-          if (this.extraAddress2 !== "") {
-            this.extraAddress2 = "";
-          }
-          if (data.userSelectedType === "R") {
-            // 사용자가 도로명 주소를 선택했을 경우
-            this.address2 = data.roadAddress;
-          } else {
-            // 사용자가 지번 주소를 선택했을 경우(J)
-            this.address2 = data.jibunAddress;
-          }
 
-          // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-          if (data.userSelectedType === "R") {
-            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-            if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
-              this.extraAddress2 += data.bname;
-            }
             // 건물명이 있고, 공동주택일 경우 추가한다.
             if (data.buildingName !== "" && data.apartment === "Y") {
-              this.extraAddress2 +=
-                this.extraAddress2 !== ""
-                  ? `, ${data.buildingName}`
-                  : data.buildingName;
+              detail.value +=
+              (detail.value !== "") ? `, ${data.buildingName}` : data.buildingName;
             }
             // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-            if (this.extraAddress2 !== "") {
-              this.extraAddress2 = `(${this.extraAddress2})`;
+            if (detail.value !== "") {
+              detail.value = `(${detail.value})`;
             }
           } else {
-            this.extraAddress2 = "";
+            detail.value = "";
           }
           // 우편번호를 입력한다.
-          this.postcode2 = data.zonecode;
+          postcode.value = data.zonecode;
         },
       }).open();
-    },
+      
+    },   
+
+    sign_in : function(){    
+      console.log(this.moveInfo);
+      
+      // 출발지
+      var postcode = document.querySelector("#post1");
+      var addr = document.querySelector("#address1");
+      var detail = document.querySelector("#detailAddress1");  
+      var extra = document.querySelector("#extraAddress1"); 
+      
+      this.moveInfo.addr.postcode = postcode.value;
+      this.moveInfo.addr.address = addr.value;
+      this.moveInfo.addr.detailAddress = detail.value;
+      this.moveInfo.addr.extraAddress = extra.value;
+      
+      //도착지
+      var postcode = document.querySelector("#post2");
+      var addr = document.querySelector("#address2");
+      var detail = document.querySelector("#detailAddress2");  
+      var extra = document.querySelector("#extraAddress2"); 
+      
+      this.moveInfo.addr.postcode2 = postcode.value;
+      this.moveInfo.addr.address2 = addr.value;
+      this.moveInfo.addr.detailAddress2 = detail.value;
+      this.moveInfo.addr.extraAddress2 = extra.value;
+
+
+      this.$router.push({
+        name: "move",
+        params:{data:this.moveInfo}
+      })
+    }
+
   },
 };
 </script>

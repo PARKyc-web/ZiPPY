@@ -1,11 +1,7 @@
 <template>
-  <div>
-   여기는 장바구니
-  </div>
+  <div>여기는 장바구니</div>
 </template>
 
 <script>
-  export default {
-  
-  };
+export default {};
 </script>

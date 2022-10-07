@@ -6,6 +6,7 @@ import categoryListView from "../views/shop/categoryListView.vue";
 import keywordListView from "../views/shop/keywordListView.vue";
 import shopDetailView from "../views/shop/shopDetailView.vue";
 import cartView from "../views/shop/cartView.vue";
+import moveFinalCheck from "../views/move/moveFinalCheck.vue";
 
 Vue.use(VueRouter);
 
@@ -16,29 +17,10 @@ const routes = [
     component: HomeView,
   },
   {
-    path: "/shop/main",
-    name: "shopMain",
-    component: shopMainView
-  },
-  {
-    path: "/shop/category",
-    name: "categoryListView",
-    component: categoryListView
-  },
-  {
-    path: "/shop/keyword",
-    name: "keywordListView",
-    component: keywordListView
-  },
-  {
-    path: "/shop/detail",
-    name: "shopDetailView",
-    component: shopDetailView
-  },
-  {
-    path: "/shop/cart",
-    name: "cartView",
-    component: cartView
+    path: "/move",
+    name: "move",
+    component: moveFinalCheck,
+    props:true, //변수를 받겠다. 
   }
 ];
 

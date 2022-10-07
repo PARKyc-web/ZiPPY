@@ -275,9 +275,9 @@
 
 <script>
 export default {
-   data: () => ({
-    img: require("../../assets/box.jpg")
-   }),
+  data: () => ({
+    img: require("../../assets/box.jpg"),
+  }),
 };
 </script>
 
@@ -337,11 +337,11 @@ i {
   height: 100px;
 }
 
-.wrap{
+.wrap {
   text-align: center;
 }
 
-h3{
+h3 {
   padding-top: 100px;
 }
 
@@ -568,8 +568,7 @@ label {
 }
 
 /* 사진 */
-img{
+img {
   width: 300px;
 }
-
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+  <div>
     <shopSubBar></shopSubBar>
     <shopDetail></shopDetail>
   </div>
@@ -9,10 +9,10 @@
 import shopSubBar from "../../components/shop/shopSubBar.vue";
 import shopDetail from "../../components/shop/shopDetail.vue";
 
-export default {  
+export default {
   components: {
     shopSubBar,
-    shopDetail
-  }
+    shopDetail,
+  },
 };
 </script>

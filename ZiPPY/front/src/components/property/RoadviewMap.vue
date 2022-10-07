@@ -4,9 +4,7 @@
   </section>
 </template>
 
-
 <script>
-
 export default {
   name: "test",
   data() {
@@ -14,8 +12,8 @@ export default {
       map: null,
       markers: [],
       latitude: 0,
-      longitude: 0
-    }
+      longitude: 0,
+    };
   },
   created() {
     if (!("geolocation" in navigator)) {
@@ -23,24 +21,24 @@ export default {
     }
 
     // get position
-    navigator.geolocation.getCurrentPosition(pos => {
-      this.latitude = pos.coords.latitude;
-      this.longitude = pos.coords.longitude;
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        this.latitude = pos.coords.latitude;
+        this.longitude = pos.coords.longitude;
 
-      if (window.kakao && window.kakao.maps) {
-
-        this.initMap();
-
-      } else {
-        const script = document.createElement("script");
-        /* global kakao */
-        script.onload = () => kakao.maps.load(this.initMap);
-        document.head.appendChild(script);
+        if (window.kakao && window.kakao.maps) {
+          this.initMap();
+        } else {
+          const script = document.createElement("script");
+          /* global kakao */
+          script.onload = () => kakao.maps.load(this.initMap);
+          document.head.appendChild(script);
+        }
+      },
+      (err) => {
+        alert(err.message);
       }
-
-    }, err => {
-      alert(err.message);
-    })
+    );
   },
   methods: {
     initMap() {
@@ -58,30 +56,29 @@ export default {
       }
 
       const positions = markerPositions.map(
-          (position) => new kakao.maps.LatLng(...position)
+        (position) => new kakao.maps.LatLng(...position)
       );
 
       if (positions.length > 0) {
         this.markers = positions.map(
-            (position) =>
-                new kakao.maps.Marker({
-                  map: this.map,
-                  position,
-                })
+          (position) =>
+            new kakao.maps.Marker({
+              map: this.map,
+              position,
+            })
         );
 
         const bounds = positions.reduce(
-            (bounds, latlng) => bounds.extend(latlng),
-            new kakao.maps.LatLngBounds()
+          (bounds, latlng) => bounds.extend(latlng),
+          new kakao.maps.LatLngBounds()
         );
 
         this.map.setBounds(bounds);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
-
 
 <style scoped>
 .test {
