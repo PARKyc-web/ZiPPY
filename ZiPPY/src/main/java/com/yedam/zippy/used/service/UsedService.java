@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UsedService {
 	// 전체조회
-	public List<UsedProductVO> usedList(String location, String keyword);
+	public List<UsedProductVO> usedList(String location, String keyword, String category, String checked);
 	
 	// 검색조회
 	public List<UsedProductVO> usedSearchList(String word);

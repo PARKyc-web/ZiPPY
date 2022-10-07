@@ -6,6 +6,7 @@ import categoryListView from "../views/shop/categoryListView.vue";
 import keywordListView from "../views/shop/keywordListView.vue";
 import shopDetailView from "../views/shop/shopDetailView.vue";
 import cartView from "../views/shop/cartView.vue";
+import usedMain from "../views/used/usedMain.vue";
 
 Vue.use(VueRouter);
 
@@ -19,6 +20,11 @@ const routes = [
     path: "/shop/main",
     name: "shopMain",
     component: shopMainView
+  },
+  {
+    path : "/used",
+    name : "used",
+    component : usedMain
   },
   {
     path: "/shop/category",

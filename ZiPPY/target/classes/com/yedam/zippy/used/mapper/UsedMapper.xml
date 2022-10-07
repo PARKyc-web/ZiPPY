@@ -7,31 +7,29 @@
 		SELECT *
 		FROM used_product
 		WHERE product_location LIKE '%'||#{location}||'%'
-		AND product_name LIKE
-		'%'||#{keyword}||'%'
-		AND is_sell=0
-		ORDER BY product_date DESC
+		AND product_name LIKE '%'||#{keyword}||'%'
+		AND product_category LIKE '%'||#{category}||'%'
+		<if test="checked==1">
+			AND is_sell=0
+			OR is_sell=1
+		</if>
+		<if test="checked != 1">
+			AND is_sell=0
+		</if>
+		<!-- 최저가순 -->
+		<!-- <if test="product_price ">
+			ORDER BY product_price ASC
+		</if>
+		최고가순
+		<if test="product_price">
+			ORDER BY product_price DESC
+		</if> -->
+		
+		<!-- <if test="product_date "> -->
+			ORDER BY product_date DESC
+		<!-- </if> -->
 	</select>
-
-	<!-- 검색출력 -->
-	<select id="usedSearchList" resultType="UsedProductVO"
-		parameterType="String">
-		SELECT *
-		FROM used_product
-		WHERE product_location LIKE
-		'%'||#{word}||'%'
-		OR product_name LIKE '%'||#{word}||'%'
-		AND is_sell=0
-		ORDER BY product_date DESC
-	</select>
-
-	<!-- 단건조회 -->
-	<select id="usedOne" resultType="UsedProductVO"
-		parameterType="int">
-		SELECT *
-		FROM used_product
-		WHERE product_no = ${pNo}
-	</select>
+	
 
 	<!-- 등록 -->
 	<insert id="insertUsed" parameterType="usedProductVO">

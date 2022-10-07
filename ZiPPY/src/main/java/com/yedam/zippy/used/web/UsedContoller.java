@@ -27,19 +27,23 @@ public class UsedContoller {
 
   // 전체조회
   @GetMapping("/main")
-  public List<UsedProductVO> search(@RequestParam String location, @RequestParam String keyword) {
-
-    System.out.println(location + " , " + keyword);
-
-    return service.usedList(location, keyword);
-  }
-
-  // 검색조회
-  @GetMapping("/search")
-  public String usedSearch(@RequestParam String word) {
-    System.out.println(word);
-    System.out.println(service.usedSearchList(word));
-    return "";
+  public List<UsedProductVO> search(@RequestParam String location, @RequestParam String keyword,
+      @RequestParam String category, @RequestParam String checked) {
+    
+    
+    System.out.println(location + ", " + keyword);
+    if (category.equals("전체")) {
+      category = "";
+    }
+    if(checked.equals("true")) {
+      checked="1";
+    }else if(checked.equals("false")) {
+      checked="0";
+    }
+//    if (keyword.equals("")) {
+//      keyword = "";
+//    }
+    return service.usedList(location, keyword, category,checked);
   }
 
   // 단건조회
