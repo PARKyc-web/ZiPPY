@@ -1,8 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import shopMainView from "../views/shop/shopMainView.vue";
 import PropertyView from "../views/property/PropertyView.vue";
+import shopView from "../views/shopView.vue";
 
 Vue.use(VueRouter);
 
@@ -18,9 +18,9 @@ const routes = [
     component : PropertyView,
   },
   {
-    path: "/shop/main",
-    name: "shopMain",
-    component: shopMainView
+    path: "/shop",
+    name: "shop",
+    component: shopView,
   }
 ];
 
