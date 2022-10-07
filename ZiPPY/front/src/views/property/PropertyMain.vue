@@ -22,15 +22,7 @@
       SearchBar,
     },
     created() {
-      axios({
-          url: "http://localhost:8090/zippy/property/main",
-          methods: "GET",
-        }).then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error.response);
-        });
+
     },
     mounted() {
       window.kakao && window.kakao.maps ?
@@ -53,18 +45,36 @@
         var container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
         var options = {
           center: new kakao.maps.LatLng(36.2683, 127.6358), // 지도의 중심좌표 
-          level: 12 // 지도의 확대 레벨 
+          level: 8 // 지도의 확대 레벨 
         };
 
         var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-
         map.setMaxLevel(12); // 지도 최소 축소 레벨
+
+        /* 현재 위치로 지도의 중심 위치를 변경 */
+        // HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
+        if (navigator.geolocation) {
+          
+          // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+          navigator.geolocation.getCurrentPosition(function (position) {
+
+            var lat = position.coords.latitude, // 위도
+              lon = position.coords.longitude; // 경도
+
+            var locPosition = new kakao.maps.LatLng(lat, lon) // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+            map.setCenter(locPosition);
+          });
+
+        } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+            message = 'geolocation을 사용할수 없어요..'
+            console.log(message);
+        }
 
         // 마커 클러스터러를 생성합니다 
         var clusterer = new kakao.maps.MarkerClusterer({
           map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
           averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
-          minLevel: 10 // 클러스터 할 최소 지도 레벨 
+          minLevel: 1 // 클러스터 할 최소 지도 레벨 
         });
 
         var markers = [];
@@ -80,7 +90,8 @@
 
         // 클러스터러에 마커들을 추가합니다
         clusterer.addMarkers(markers);
-      }
+      },
+      
     }
   };
 </script>

@@ -4,28 +4,35 @@
     <v-row justify="center">
       <v-dialog v-model="dialog" scrollable max-width="300px">
         <template v-slot:activator="{ on, attrs }">
-          <!--  -->
+          <!-- 필터 추가 버튼 -->
           <v-btn icon color="primary" dark v-bind="attrs" v-on="on" style="margin-bottom: 12px;">
             <v-icon>mdi-playlist-plus</v-icon>
           </v-btn>
-          <!--  -->
         </template>
         <v-card>
-          <v-card-title>필터 선택하기</v-card-title>
+          <v-card-title>필터 선택</v-card-title>
           <v-divider></v-divider>
-          <v-card-text style="height: 300px;">
-            <v-radio-group v-model="dialogm1" column>
-              <v-radio label="Botswana" value="botswana"></v-radio>
-              <v-radio label="Brazil" value="brazil"></v-radio>
-              <v-radio label="Brunei" value="brunei"></v-radio>
-            </v-radio-group>
+          <!--  -->
+          <v-card-text>
+
+            <template>
+              <v-container fluid>
+                <v-checkbox v-model="selected" label="John" value="John"></v-checkbox>
+                <v-checkbox v-model="selected" label="Jacob" value="Jacob"></v-checkbox>
+                <p>{{ selected }}</p>
+              </v-container>
+            </template>
+
           </v-card-text>
+
+          <!--  -->
+
           <v-divider></v-divider>
           <v-card-actions>
             <v-btn color="blue darken-1" text @click="dialog = false">
               닫기
             </v-btn>
-            <v-btn color="blue darken-1" text @click="dialog = false">
+            <v-btn color="blue darken-1" text @click="save">
               저장
             </v-btn>
           </v-card-actions>
@@ -42,7 +49,13 @@
       return {
         dialogm1: '',
         dialog: false,
+        selected: [],
       }
     },
+    methods : {
+      save() {
+        this.dialog = false;
+      }
+    }
   }
 </script>
