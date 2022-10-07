@@ -1,6 +1,5 @@
 <template>
   <div>
-    <cart></cart>
    </div>
 </template>
 
@@ -27,13 +26,6 @@ import usedInsert from "./used/usedInsert.vue";
 import gSignUp from "./login/generalSignUp.vue";
 // import bSignUp from "./login/businessSignUp.vue";
 
-/*** shop ***/
-import shopMain from "@/components/shop/shopMain.vue";
-import categoryList from "@/components/shop/categoryList.vue";
-import keywordList from "@/components/shop/keywordList.vue";
-import shopDetail from "@/components/shop/shopDetail.vue";
-import cart from "@/components/shop/cart.vue";
-
 export default {
   name: "Home",
 
@@ -59,13 +51,7 @@ export default {
     UsedDetail,
     UsedKeyword,
     UsedMain,
-    usedInsert,
-    /*** shop ***/
-    shopMain,
-    categoryList,
-    keywordList,
-    shopDetail,
-    cart 
+    usedInsert
   },
 };
 </script>
