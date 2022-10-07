@@ -77,7 +77,7 @@
         methods: "GET",
         params: {
           location: "대구",
-          keyword: "",
+          keyword: "햄",
           category: "",
           checked : ""
         }

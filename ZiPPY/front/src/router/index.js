@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import PropertyView from "../views/property/PropertyView.vue";
 import shopView from "../views/shopView.vue";
+import usedMain from "../views/used/usedMain.vue";
 
 Vue.use(VueRouter);
 
@@ -26,6 +27,11 @@ const routes = [
     path: "/shop",
     name: "shop",
     component: shopView,
+  },
+  {
+    path : "/used",
+    name : "used",
+    component : usedMain,
   }
 ];
 
