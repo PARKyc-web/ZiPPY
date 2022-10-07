@@ -13,12 +13,24 @@
 </template>
 
 <script>
-  import SearchBar from "./SearchBar.vue";
+  import SearchBar from "../../components/property/SearchBar.vue";
   import chickenJson from "../../assets/chicken.json";
+  import axios from "axios";
 
   export default {
     components: {
       SearchBar,
+    },
+    created() {
+      axios({
+          url: "http://localhost:8090/zippy/property/main",
+          methods: "GET",
+        }).then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error.response);
+        });
     },
     mounted() {
       window.kakao && window.kakao.maps ?
@@ -28,7 +40,7 @@
     data() {
       return {
         data: chickenJson
-        }
+      }
     },
     methods: {
       addKakaoMapScript() {
