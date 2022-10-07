@@ -1,25 +1,14 @@
 <template>
-  <div>
-    <usedMain></usedMain>
-  </div>
-
+  <hello-world />
 </template>
 
 <script>
-  import UsedMain from "./used/usedMain.vue";
-  import UsedDetail from "./used/usedDetail.vue";
-  import UsedKeyword from "./used/usedKeyword.vue";
-  import usedInsert from "./used/usedInsert.vue";
-
+  import HelloWorld from "../components/HelloWorld";
 
   export default {
     name: "Home",
     components: {
-      UsedMain,
-      UsedDetail,
-      UsedKeyword,
-      UsedMain,
-      usedInsert
+      HelloWorld,
     },
   };
 </script>
