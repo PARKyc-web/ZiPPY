@@ -1,8 +1,8 @@
 <template>
   <div>
     <usedMain></usedMain>
-
   </div>
+
 </template>
 
 <script>
@@ -14,7 +14,6 @@
 
   export default {
     name: "Home",
-
     components: {
       UsedMain,
       UsedDetail,
