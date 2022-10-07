@@ -177,8 +177,10 @@
                     <label for="phoneAuthentication">인증번호</label>
                     <button
                       type="button"
+                      id="phoneNumberBtn"
                       class="btn btn-outline-success"
                       @click="phone_valid_check()"
+                      disabled
                     >
                       전화번호 인증
                     </button>
@@ -354,7 +356,6 @@ export default {
       console.log("passwd-valid");
       var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-+]).{8,20}$/;
       var password = document.querySelector("#password").value;
-
       console.log(reg.test(password));
 
       this.pass_valid = reg.test(password);
@@ -382,6 +383,7 @@ export default {
       if(reg.test(number)){
         alert("인증번호를 전송하였습니다!");        
         this.user_info.user_phone = number.value;
+        document.querySelector("#phoneNumberBtn").disabled = false;
       // axios({
       //   url : "/validation/phone",
       //   method : "GET",
@@ -391,7 +393,7 @@ export default {
       //   }
 
       // }).then(res => {
-      //   console.log(res);
+      //   console.log(res);      
 
       // }).catch(error =>{
       //   console.log(error);
@@ -427,13 +429,17 @@ export default {
      * 주소를 검색하기 위해 주소검색창을 띄우는 API
      */
     find_address: function () {
+      var addr =  document.querySelector("#addressInput");
+
       new daum.Postcode({
         oncomplete: function (data) {
           console.log(data);
-          document.querySelector("#addressInput").value = "("+ data.zonecode +") "+ data.address;
-          this.user_info.user_addr = "("+ data.zonecode +") "+ data.address;
-        },
+          addr.value = "("+ data.zonecode +") "+ data.address;          
+        },        
       }).open();
+      console.log(addr.value);
+      console.log(addr.innerText);
+      this.user_info.user_addr = addr.value;
     },
 
 
@@ -447,18 +453,23 @@ export default {
       if(this.pass_valid == true && this.pass_confirm == true 
          && this.email_valid == true && this.phone_valid == true && addr != ""){          
           alert("회원가입을 축하합니다!!");
-          // axios({
-          //   url : "member/gSignUp",
-          //   method : "GET",
-          //   param :{
-          //     info : this.user_info
-          //   }
-          // }).then(res => {
-          //   console.log(res);
+          axios({
+            url : "http://localhost:8090/zippy/member/gSignUp",
+            method : "POST",
+            param :{
+              info : JSON.stringify(this.user_info)
+            },
 
-          // }).catch(error => {
-          //   console.log(error);
-          // });
+            data :{
+              info : JSON.stringify(this.user_info)
+            }
+            
+          }).then(res => {
+            console.log(res);
+
+          }).catch(error => {
+            console.log(error);
+          });
          }
       /**
        * 회원가입시 인증 및 필요한 정보

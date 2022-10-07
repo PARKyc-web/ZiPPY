@@ -25,7 +25,7 @@ public class UsedContoller {
 	
 	// 전체조회
 	@GetMapping("/main")
-	public List<UsedProductVO> search(@RequestParam String location, @RequestParam String keyword) {
+	public List<UsedProductVO> search(@RequestParam String location, @RequestParam String keyword, @RequestParam String categori) {
 		
 		System.out.println(location +" , "+keyword);		
 		
