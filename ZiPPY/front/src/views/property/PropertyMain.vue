@@ -8,6 +8,7 @@
     </section>
     <aside>
       <p>list</p>
+      {{this.houseProducts}}
     </aside>
   </div>
 </template>
@@ -21,13 +22,21 @@
     components: {
       SearchBar,
     },
+      data() {
+        return {
+          data: chickenJson,
+          houseProducts : []
+        }
+      },
     created() {
       axios({
-          uri: "http://localhost:8090/zippy/property/main",
+          url: "http://localhost:8090/zippy/property/main",
           methods: "GET",
         }).then(function (response) {
           // 성공했을 때
           console.log(response);
+          this.houseProducts = response.data;
+          console.log(this.houseProducts);
         })
         .catch(function (error) {
           // 에러가 났을 때
@@ -39,12 +48,6 @@
       window.kakao && window.kakao.maps ?
         this.initMap() :
         this.addKakaoMapScript();
-    },
-    data() {
-      return {
-        data: chickenJson,
-        houseProducts : []
-      }
     },
     methods: {
       addKakaoMapScript() {
