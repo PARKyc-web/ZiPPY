@@ -34,7 +34,7 @@
           </tr>
         </table>
         <!-- 지도 -->
-        <basic-marker-map/>
+        <!-- <basic-marker-map/> -->
       </div>
     </div>
     <hr>
@@ -43,43 +43,15 @@
         매물 목록 <i class="bi bi-plus-circle-fill"></i>
       </h2>
       <div class="row">
-        <v-card style="width: 45%; margin: 1%">
+        <v-card v-if="properties.length != 0" v-for="item in properties" style="width: 45%; margin: 1%">
           <table>
             <tr>
               <td>여기에 이미지</td>
               <td>
-                <h4>월세1000/50</h4>
-                <p>대전광역시 중구 문화동</p>
-                <p>49.32m²▫ 2층</p>
-                <p>매물 상세 설명</p>
-              </td>
-            </tr>
-          </table>
-        </v-card>
-
-        <v-card style="width: 45%; margin: 1%">
-          <table>
-            <tr>
-              <td>여기에 이미지</td>
-              <td>
-                <h4>월세1000/50</h4>
-                <p>대전광역시 중구 문화동</p>
-                <p>49.32m²▫ 2층</p>
-                <p>매물 상세 설명</p>
-              </td>
-            </tr>
-          </table>
-        </v-card>
-
-        <v-card style="width: 45%; margin: 1%">
-          <table>
-            <tr>
-              <td>여기에 이미지</td>
-              <td>
-                <h4>월세1000/50</h4>
-                <p>대전광역시 중구 문화동</p>
-                <p>49.32m²▫ 2층</p>
-                <p>매물 상세 설명</p>
+                <h4>{{item.saleType}} {{item.price}}</h4>
+                <p>{{item.sigungu}}</p>
+                <p>{{item.areaExclusive}}m²▫ {{item.floor}}층</p>
+                <p>{{item.detailContents}}</p>
               </td>
             </tr>
           </table>
@@ -141,10 +113,36 @@
 
 <script>
   import BasicMarkerMap from "./BasicMarkerMap.vue";
+  import axios from 'axios';
 
   export default {
     components: {
       BasicMarkerMap,
+    },
+    data() {
+      return {
+        properties : [],
+      }
+    },
+    created() {
+      axios({
+          url: "http://localhost:8090/zippy/property/getAgentProperties",
+          methods: "GET",
+          params: {
+            email : 'youngran@email.com'
+          }
+        }).then(response => {
+          // 성공했을 때
+          console.log('success!');
+          console.log(response);
+          this.properties = response.data;
+        })
+        .catch(error => {
+          // 에러가 났을 때
+          console.log('fail!');
+          console.log(error);
+          
+        });
     },
   };
 </script>

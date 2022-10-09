@@ -20,4 +20,19 @@ public class PropertyServiceImpl implements PropertyService{
 		return mapper.getAllPropertyList();
 	}
 	
+	@Override
+	public String getAgentEmail(int productId) {
+	  return mapper.getAgentEmail(productId);
+	}
+	
+	@Override
+	public List<propertyVO> gethouseDetail(int productId) {
+	  return mapper.gethouseDetail(productId);
+	}
+	
+	@Override
+	public List<propertyVO> getAgentProperties(String email){
+	  return mapper.getAgentProperties(email);
+	}
+	
 }

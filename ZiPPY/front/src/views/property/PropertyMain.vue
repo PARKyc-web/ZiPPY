@@ -7,8 +7,16 @@
       </div>
     </section>
     <aside>
-      <p>list</p>
-      {{this.houseProducts}}
+      <div v-if="houseProducts.length != 0" v-for="item in houseProducts" @click="getAgentEmail(item.productId)">
+        <v-card>
+          <div>매물번호 {{item.productId}}</div>
+          <div>{{item.houseName}}</div>
+          <div>{{item.saleType}} {{item.price}}</div>
+          <div>{{item.sigungu}}</div>
+          <div>{{item.areaExclusive}}m^2 {{item.floor}}층</div>
+          <div>{{item.detailContents}}</div>
+        </v-card>
+      </div>
     </aside>
   </div>
 </template>
@@ -22,24 +30,25 @@
     components: {
       SearchBar,
     },
-      data() {
-        return {
-          data: chickenJson,
-          houseProducts : []
+    data() {
+      return {
+        data: chickenJson,
+        houseProducts : [],
         }
       },
     created() {
       axios({
           url: "http://localhost:8090/zippy/property/main",
           methods: "GET",
-        }).then(function (response) {
+        }).then(response => {
           // 성공했을 때
+          console.log('success!');
           console.log(response);
           this.houseProducts = response.data;
-          console.log(this.houseProducts);
         })
-        .catch(function (error) {
+        .catch(error => {
           // 에러가 났을 때
+          console.log('fail!');
           console.log(error);
           
         });
@@ -50,6 +59,27 @@
         this.addKakaoMapScript();
     },
     methods: {
+      getAgentEmail(productId) {
+
+        axios({
+          url: "http://localhost:8090/zippy/property/agentDetail",
+          methods: "GET",
+          params: {
+            productId : productId
+          }
+        }).then(response => {
+          // 성공했을 때
+          console.log('success!');
+          console.log(response.data); 
+        })
+        .catch(error => {
+          // 에러가 났을 때
+          console.log('fail!');
+          console.log(error);
+          
+        });
+
+      },
       addKakaoMapScript() {
         const script = document.createElement("script");
         /* global kakao */

@@ -4,4 +4,10 @@ import java.util.List;
 
 public interface PropertyService {
 	public List<propertyVO> getAllPropertyList();
+	
+	public String getAgentEmail(int productId);
+	
+	public List<propertyVO> gethouseDetail(int productId);
+	
+	public List<propertyVO> getAgentProperties(String email);
 }

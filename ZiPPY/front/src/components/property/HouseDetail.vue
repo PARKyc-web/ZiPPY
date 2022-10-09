@@ -1,5 +1,5 @@
 <template>
-  <div id="container">
+  <div id="container" v-if="this.houseDetail[0]">
     <v-carousel cycle height="400" hide-delimiter-background show-arrows-on-hover>
       <v-carousel-item v-for="(slide, i) in slides" :key="i">
         <v-sheet :color="colors[i]" height="100%">
@@ -17,8 +17,8 @@
         <h4>가격정보</h4>
         <table>
           <tr>
-            <th>월세</th>
-            <td>500/35</td>
+            <th>{{this.houseDetail[0].saleType}}</th>
+            <td>{{this.houseDetail[0].price}}</td>
           </tr>
           <tr>
             <th>관리비</th>
@@ -26,7 +26,8 @@
           </tr>
           <tr>
             <th>주차</th>
-            <td>불가능</td>
+            <td v-if="houseDetail[0].parking == 1 ">가능</td>
+            <td v-else>불가능</td>
           </tr>
           <tr>
             <th>한달 예상 주거비용</th>
@@ -40,16 +41,16 @@
         <h4>상세정보</h4>
         <table>
           <tr>
-            <th>방종류</th>
-            <td>원룸</td>
+            <th>집종류</th>
+            <td>{{this.houseDetail[0].houseType}}</td>
           </tr>
           <tr>
             <th>층수</th>
-            <td>반지층</td>
+            <td>{{this.houseDetail[0].floor}}층</td>
           </tr>
           <tr>
             <th>전용면적</th>
-            <td>11.28m²</td>
+            <td>{{this.houseDetail[0].areaExclusive}}m²</td>
           </tr>
           <tr>
             <th>난방종류</th>
@@ -61,15 +62,15 @@
           </tr>
           <tr>
             <th>건축년도</th>
-            <td>2022년</td>
+            <td>{{this.houseDetail[0].constructionYear}}년</td>
           </tr>
         </table>
         <hr>
       </article>
       <article>
         <h4>위치 및 주변 시설</h4>
-        <p>서울시 은평구 진관동 66</p>
-        <basic-marker-map/>
+        <p>{{this.houseDetail[0].sigungu}} {{this.houseDetail[0].streetAddress}}</p>
+        <basic-marker-map :address="houseDetail[0].streetAddress" :name="houseDetail[0].houseName" />
         <hr>
       </article>
       <article>
@@ -79,9 +80,7 @@
       </article>
       <article>
         <h4>상세 설명</h4>
-        <p>보라매역 도보 3분 역세권, 저렴한 풀옵션 원룸입니다. ★ 특징 ★ ✔ 7호선 보라매역 도보 3분거리 역세권!
-          ✔ 공동현관 보안 등으로 안전합니다. ✔ 즉시입주 풀옵션 매물로 너무 좋습니다. ✔ 카페, 편의점, 병원, 은행이 가까워
-          살기 좋습니다.</p>
+        <p>{{this.houseDetail[0].detailContents}}</p>
       </article>
     </section>
 
@@ -91,23 +90,26 @@
           <v-card class="mx-auto my-12" max-width="374" style="width: 100%;">
             <v-card-text>
               <v-row align="center" class="mx-0">
-                <div>매물번호 2358</div>
+                <div>매물번호 {{this.houseDetail[0].productId}}</div>
               </v-row>
-              <v-card-title>월세 500/35</v-card-title>
+              <v-card-title>{{this.houseDetail[0].houseName}} | {{this.houseDetail[0].saleType}} {{this.houseDetail[0].price}}</v-card-title>
               <div class="my-4 text-subtitle-1">
-                서울특별시 동작구 대방동 415-52
+                {{this.houseDetail[0].sigungu}}
               </div>
               <div class="my-4 text-subtitle-1">
-                원룸
+                {{this.houseDetail[0].streetAddress}}
               </div>
               <div class="my-4 text-subtitle-1">
-                11.28m²
+                {{this.houseDetail[0].houseType}}
               </div>
               <div class="my-4 text-subtitle-1">
-                반지층
+                {{this.houseDetail[0].areaExclusive}}m²
+              </div>
+              <div class="my-4 text-subtitle-1">
+                {{this.houseDetail[0].floor}}층
               </div>
               <hr>
-              <v-card-title>지피공인중개법인</v-card-title>
+              <v-card-title><a href="">지피공인중개법인</a> </v-card-title>
               <v-btn block color="primary" elevation="2">문의하기</v-btn>
             </v-card-text>
 
@@ -122,6 +124,7 @@
 
 <script>
   import BasicMarkerMap from "./BasicMarkerMap.vue";
+  import axios from 'axios';
 
   export default {
     components: {
@@ -143,8 +146,30 @@
           'Fourth',
           'Fifth',
         ],
+        houseDetail: [],
+        // productId: 650
       }
     },
+    created() {
+      axios({
+          url: "http://localhost:8090/zippy/property/houseDetail",
+          methods: "GET",
+          params: {
+            productId: 650 // this.productId
+          }
+        }).then(response => {
+          // 성공했을 때
+          console.log('success!');
+          console.log(response.data);
+          this.houseDetail = response.data;
+        })
+        .catch(error => {
+          // 에러가 났을 때
+          console.log('fail!');
+          console.log(error);
+
+        });
+    }
   }
 </script>
 
