@@ -6,36 +6,40 @@
 		parameterType="hashmap">
 		SELECT *
 		FROM used_product
-		WHERE product_location LIKE '%'||#{location}||'%'
+		WHERE product_location LIKE
+		'%'||#{location}||'%'
 		AND product_name LIKE '%'||#{keyword}||'%'
-		AND product_category LIKE '%'||#{category}||'%'
-		<if test="checked==1">
+		AND
+		product_category LIKE '%'||#{category}||'%'
+		<if test="checked == 1">
 			AND is_sell=0
 			OR is_sell=1
 		</if>
-		<if test="checked != 1">
+		<if test="checked == 0">
 			AND is_sell=0
 		</if>
 		<!-- 최저가순 -->
-		<!-- <if test="product_price ">
+		<if test="dropbox == 0">
 			ORDER BY product_price ASC
 		</if>
-		최고가순
-		<if test="product_price">
+		<!-- 최고가순 -->
+		<if test="dropbox == 1">
 			ORDER BY product_price DESC
-		</if> -->
-		
-		<!-- <if test="product_date "> -->
+		</if>
+
+		<!-- <if test="dropVal == 판매자평점">
 			ORDER BY product_date DESC
-		<!-- </if> -->
+		</if> -->
+			<!-- ORDER BY product_date DESC -->
 	</select>
-	
+
 
 	<!-- 등록 -->
 	<insert id="insertUsed" parameterType="usedProductVO">
 		<selectKey keyProperty="productNo" order="BEFORE"
 			resultType="int">
-			SELECT NVL(MAX(product_no),0) +1 AS productNo FROM used_product
+			SELECT NVL(MAX(product_no),0) +1 AS productNo FROM
+			used_product
 		</selectKey>
 		INSERT INTO used_product
 		(

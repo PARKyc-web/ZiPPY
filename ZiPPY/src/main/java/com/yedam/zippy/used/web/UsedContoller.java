@@ -1,5 +1,6 @@
 package com.yedam.zippy.used.web;
 
+import java.io.Console;
 import java.util.List;
 import java.util.Map;
 
@@ -28,22 +29,30 @@ public class UsedContoller {
   // 전체조회
   @GetMapping("/main")
   public List<UsedProductVO> search(@RequestParam String location, @RequestParam String keyword,
-      @RequestParam String category, @RequestParam String checked) {
-    
-    
+      @RequestParam String category, @RequestParam String checked, @RequestParam(value="dropbox", required=false) String dropbox) {
+
     System.out.println(location + ", " + keyword);
     if (category.equals("전체")) {
       category = "";
     }
-    if(checked.equals("true")) {
-      checked="1";
-    }else if(checked.equals("false")) {
-      checked="0";
+    System.out.println(dropbox);
+
+    if (checked.equals("true")) {
+      checked = "1";
+    } else if (checked.equals("false")) {
+      checked = "0";
     }
+
+    if (dropbox.equals("최저가순")) {
+      dropbox = "0";
+    } else if (dropbox.equals("최고가순")) {
+      dropbox = "1";
+    }
+
 //    if (keyword.equals("")) {
 //      keyword = "";
 //    }
-    return service.usedList(location, keyword, category,checked);
+    return service.usedList(location, keyword, category, checked, dropbox);
   }
 
   // 단건조회

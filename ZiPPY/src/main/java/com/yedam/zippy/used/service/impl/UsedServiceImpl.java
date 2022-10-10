@@ -17,8 +17,8 @@ public class UsedServiceImpl implements UsedService {
 	UsedMapper mapper;
 
 	@Override
-	public List<UsedProductVO> usedList(String location, String keyword, String category, String checked) {
-		return mapper.usedList(location,keyword,category,checked);
+	public List<UsedProductVO> usedList(String location, String keyword, String category, String checked, String dropbox) {
+		return mapper.usedList(location,keyword,category,checked,dropbox);
 	}
 	
 	@Override

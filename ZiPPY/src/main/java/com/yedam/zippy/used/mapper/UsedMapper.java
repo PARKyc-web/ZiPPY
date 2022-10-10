@@ -9,7 +9,7 @@ import com.yedam.zippy.used.service.UsedProductVO;
 
 public interface UsedMapper {
 	// 전체조회
-	public List<UsedProductVO> usedList(@Param("location")String location, @Param("keyword")String keyword, @Param("category")String category, @Param("checked")String checked);
+	public List<UsedProductVO> usedList(@Param("location")String location, @Param("keyword")String keyword, @Param("category")String category, @Param("checked")String checked, @Param("dropbox")String dropbox);
 	
 	// 검색조회
 	public List<UsedProductVO> usedSearchList(@Param("word")String word);
