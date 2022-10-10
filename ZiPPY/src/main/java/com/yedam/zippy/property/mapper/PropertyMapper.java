@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.yedam.zippy.property.service.agentVO;
 import com.yedam.zippy.property.service.propertyVO;
 
 public interface PropertyMapper {
@@ -18,4 +19,8 @@ public interface PropertyMapper {
 	
 	// 공인중개사의 email을 이용해 해당 업체가 가진 매물 목록을 나타냅니다.
 	public List<propertyVO> getAgentProperties(@Param("email")String email);
+	
+	// 공인중개사의 email을 이용해 해당 업체의 정보를 나타냅니다.
+	public List<agentVO> getAgentProfile(@Param("businessEmail")String businessEmail);
+	
 }

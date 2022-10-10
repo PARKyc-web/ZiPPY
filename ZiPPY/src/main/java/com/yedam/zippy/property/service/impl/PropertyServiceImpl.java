@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.yedam.zippy.property.mapper.PropertyMapper;
 import com.yedam.zippy.property.service.PropertyService;
+import com.yedam.zippy.property.service.agentVO;
 import com.yedam.zippy.property.service.propertyVO;
 
 @Service
@@ -33,6 +34,11 @@ public class PropertyServiceImpl implements PropertyService{
 	@Override
 	public List<propertyVO> getAgentProperties(String email){
 	  return mapper.getAgentProperties(email);
+	}
+	
+	@Override
+	public List<agentVO> getAgentProfile(String businessEmail){
+	  return mapper.getAgentProfile(businessEmail);
 	}
 	
 }

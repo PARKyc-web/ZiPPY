@@ -25,4 +25,9 @@
 		resultType="propertyVO">
 		select * from house_product where email = #{email}
 	</select>
+	
+	<select id="getAgentProfile" parameterType="String"
+		resultType="agentVO">
+		select * from business where business_email = #{businessEmail}
+	</select>
 </mapper>
