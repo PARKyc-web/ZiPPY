@@ -50,18 +50,10 @@
           <span>카테고리</span>
         </div>
         <div class="dropdown">
-          <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            분류
-          </button>
-          <ul class="dropdown-menu" id="dropdown-opt" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">침실</a></li>
-            <li><a class="dropdown-item" href="#">옷장/수납</a></li>
-            <li><a class="dropdown-item" href="#">주방</a></li>
-            <li><a class="dropdown-item" href="#">욕실</a></li>
-            <li><a class="dropdown-item" href="#">서재</a></li>
-            <li><a class="dropdown-item" href="#">다용도실</a></li>
-          </ul>
+          <div id="used-main-dropbox">
+            <v-select v-model="select" :items="items" item-text="name" item-value="value" label="카테고리" color="#212529"
+              persistent-hint return-object single-line dense width="50"></v-select>
+          </div>
         </div>
       </div>
       <hr />
@@ -87,23 +79,35 @@
 
 <script>
   export default {
+    data: () => ({
+      items: [{
+          name: '침실',
+          value: '침실'
+        },
+        {
+          name: '옷장/수납',
+          value: '옷장/수납'
+        },
+        {
+          name: '주방',
+          value: '주방'
+        },
+        {
+          name: '욕실',
+          value: '욕실'
+        },
+        {
+          name: '서재',
+          value: '서재'
+        },
+        {
+          name: '다용도실',
+          value: '다용도실'
+        },
+      ],
+    }),
     methods: {
-      imageUpload() {
-        let num = -1;
-        for (let i = 0; i < this.$refs.files.files.length; i++) {
-          this.files = [
-            ...this.files,
-            {
-              file: this.$refs.files.files[i],
-              preview: URL.createObjectURL(this.$refs.files.files[i]),
-              number: i,
-              index: this.index,
-            },
-          ];
-          num = i;
-        }
-        this.uploadImageIndex = num + 1;
-      },
+
     }
   };
 </script>
@@ -234,6 +238,7 @@
   #used-insert-textarea {
     margin: 10px 0 10px 150px;
     resize: none;
+    border: 1px solid #c3c2cc;
   }
 
   .used-insert-submit {
