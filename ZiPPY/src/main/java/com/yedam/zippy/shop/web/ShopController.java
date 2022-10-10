@@ -1,53 +1,47 @@
 package com.yedam.zippy.shop.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.yedam.zippy.shop.service.ProductVO;
 import com.yedam.zippy.shop.service.ShopService;
 
-@Controller
+@CrossOrigin
+@RestController
 @RequestMapping("/shop")
 public class ShopController {
 
-	@Autowired
-	ShopService service;
-	
-	//전체조회
-	@RequestMapping("/main")
-	public String productList(Model model, ProductVO vo) {
-		model.addAttribute("products", service.getProductList());
-		//select해서 가져온 값
-		return "shop/main";
-		//jsp파일 위치
-	}
-	//단건조회
-	@RequestMapping("/shop")
-	public String product(ProductVO vo, Model model) {
-	model.addAttribute("shop", service.getProduct(vo));
-	return "shop";
-	}
-	//등록
-	
-	//수정
-	
-	//삭제
-	
-	//상세페이지
-	@RequestMapping("/detail")
-	public String shopDetail() {
-	return "shop/detail";
-	}
-	//카테고리 리스트페이지
-	@RequestMapping("/categoryList")
-	public String shopCategoryList() {
-	return "shop/categoryList";
-	}
-	//키워드 리스트페이지
-	@RequestMapping("/keywordList")
-	public String shopKeywordList() {
-	return "shop/keywordList";
-	}
+  @Autowired
+  ShopService service;
+
+  // 전체조회
+  @RequestMapping("/main")
+  public List<ProductVO> productList() {
+    return service.getProductList();
+  }
+
+  // 전체조회(카테고리)
+  @RequestMapping("/category")
+  public List<ProductVO> categoryList(@RequestParam("cate") String shopCategory) {
+    return service.getCategoryList(shopCategory);
+  }
+  
+//전체조회(키워드)
+ @RequestMapping("/keyword")
+ public List<ProductVO> keywordList(@RequestParam("keyw") String keyword) {
+   return service.getKeywordList(keyword);
+ }
+
+  // 단건조회(디테일)
+  @RequestMapping("/detail")
+  public ProductVO productDetail(@RequestParam int shopProductNo) {
+    return service.getProduct(shopProductNo);
+  }
 }

@@ -21,28 +21,31 @@
       <div id="list-name">
         <h2 style="color:#B3E3C3">#BEST</h2>
       </div>
-      <div id="main-item" v-for="i in 4" :key="4">
-        <div id="main-product-img">
-          <img src="http://webimage.10x10.co.kr/ckeditor/item/202012/20201215_154323_4145.jpg">
+      <!-- 아이템 -->
+        <div id="main-item" v-for="product in products" :key="product.shopProductNo" @click="goDetail(product.shopProductNo)">
+          <div id="main-product-img">
+            <img :src="product.shopMainImg">
+          </div>
+          <div class="product-about" id="left">
+            <h6 id="product-name">{{ product.shopProductName }}</h6>
+            <h6>{{ product.shopProductPrice }}</h6>
+          </div>
         </div>
-        <div class="product-about" id="left">
-          <h6 id="product-name">딱딱의자</h6>
-          <h6>11,111</h6>
-        </div>
-      </div>
+      <!-- 아이템 끝 -->
     </div>
+    <!-- 아이템 리스트 -->
     <div class="main-item-color" id="main-color1">
       <div class="main-item-list">
         <div id="list-name" style="margin:0 auto">
           <h2 style="color:#212529; text-align: center;">이런 건 어떠세요?</h2>
         </div>
-        <div id="main-item" v-for="i in 4" :key="4">
+        <div id="main-item" v-for="product in products" :key="product.shopProductNo">
           <div id="main-product-img">
-            <img src="http://webimage.10x10.co.kr/ckeditor/item/202012/20201215_154323_4145.jpg">
+            <img :src="product.shopMainImg">
           </div>
           <div class="product-about" id="left">
-            <h6 id="product-name">딱딱의자</h6>
-            <h6>11,111</h6>
+            <h6 id="product-name">{{ product.shopProductName }}</h6>
+             <h6>{{ product.shopProductPrice }}</h6>
           </div>
         </div>
       </div>
@@ -51,6 +54,8 @@
 </template>
 
 <script>
+  import axios from 'axios';
+
   export default {
     data() {
       return {
@@ -67,7 +72,25 @@
           'Third',
           'Fourth',
           'Fifth',
-        ]
+        ],
+        products: []
+      }
+    },
+    created() {
+      axios({
+        url: "http://localhost:8088/zippy/shop/main",
+        methods: "GET"
+      }).then(res => {
+        console.log(res);
+        this.products = res.data;
+        console.log(this.products);
+      }).catch(error => {
+        console.log(error);
+      })
+    },
+    methods: {
+      goDetail(no) {
+        this.$router.push('/shop/detail?shopProductNo='+no)
       }
     }
   };
@@ -84,6 +107,7 @@
   }
   #main-background {
     width:100%;
+    margin-top:68px;
     height:450px;
     background-color:#B3E3C3;
     position:absolute;
@@ -113,8 +137,8 @@
   /*** 아마 공통? ***/
 
   .main-item-list {
-    width: 70%;
-    height: 530px;
+    margin-top: 150px;
+    width: 80%;
     margin: 0 auto;
     margin-top: 60px;
     text-align: center;
@@ -127,12 +151,6 @@
   #list-name h2 {
     font-weight: bold;
   }
-
-  .main-item-color {
-    height: 530px;
-    margin-top: 150px;
-  }
-
   #main-color1 {
     background-color: #F7F7F7;
   }

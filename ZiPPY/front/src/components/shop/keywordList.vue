@@ -4,15 +4,7 @@
     <div id="category">
       <hr>
       <div id="category-list">
-        <h6>침대</h6>
-        <h6>매트리스/토퍼</h6>
-        <h6>소파</h6>
-        <h6>테이블/식탁/책상</h6>
-        <h6>서랍/수납장</h6>
-        <h6>책장</h6>
-        <h6>의자</h6>
-        <h6>거울</h6>
-        <h6>조명</h6>
+        <h6 v-for="cate in categories" :key="cate" @click="goList(cate)">{{cate}}</h6>
       </div>
       <hr>
     </div>
@@ -21,30 +13,39 @@
     <div id="list-container">
       <!-- 키워드 확인 -->
       <div id="keyword">
-        <h6>'<span>초록색 소파</span>'에 대한 검색 결과</h6>
+        <h6>'<span>{{this.$route.query.keyw}}</span>'에 대한 검색 결과</h6>
       </div>
       <!-- 키워드 확인 끝 -->
       <!-- 옵션 -->
-      <v-container>
-        <v-overflow-btn id="drop" class="my-2" :items="items" label="판매순" dense></v-overflow-btn>
-      </v-container>
+      <div style="width:100px" class="ml-auto py-10">
+        <v-select v-model="select" :items="items" item-text="state" item-value="abbr" label="판매순" color="#212529"
+          persistent-hint return-object single-line dense width="50"></v-select>
+      </div>
       <!-- 상품리스트 -->
       <div id="product-list">
-        <div id="product-info" v-for="i in 6" :key="6">
+        <!-- 상품 없을 때-->
+        <div id="noProduct" class="mx-auto pt-10" v-if="products.length == 0">
+          <v-icon style="font-size:100px; color:#B3E3C3" class="mb-5">mdi-alert-circle-outline</v-icon>
+          <h2 style="font-weight:bold">고객님께서 찾으시는 상품이 없습니다.</h2>
+          <p>다시 검색해주세요.</p>
+        </div>
+        <!-- 상품정보 -->
+        <div id="product-info" v-for="product in products" :key="product.shopProductNo"
+          @click="goDetail(product.shopProductNo)">
           <div id="product-img">
-            <img src="http://webimage.10x10.co.kr/ckeditor/item/202012/20201215_154323_4145.jpg">
+            <img :src="product.shopMainImg">
           </div>
           <div class="product-about">
-            <h6 class="product-seller-name">예담가구</h6>
-            <h6 class="product-seller-name" id="product-name">딱딱의자</h6>
-            <h5 class="pt-1">11,111</h5>
-            <h6 class="product-seller-name">
-              <v-icon style="font-size:15px">mdi-star</v-icon> 4.5(10)
-            </h6>
+            <h6 class="product-seller-name">{{product.compName}}</h6>
+            <h6 style="font-weight:bold" class="product-seller-name" id="product-name">{{product.shopProductName}}</h6>
+            <h5 style="display:inline-block">{{product.shopProductPrice}}</h5>
+            <p class="ma-0" style="display:inline-block; font-size:small">원</p>
           </div>
+          <h6 class="product-seller-name">
+            <v-icon style="font-size:15px">mdi-star</v-icon> 4.5(10)
+          </h6>
         </div>
       </div>
-      <!-- 상품리스트 끝 -->
       <!-- 페이지네이션 -->
       <div class="pb-5">
         <div class="text-center">
@@ -53,22 +54,66 @@
       </div>
       <!-- 페이지네이션 끝 -->
     </div>
-    <!-- list container end -->
+    <!-- 상품리스트 끝 -->
   </div>
+  <!-- list container end -->
 </template>
 
 <script>
+  import axios from 'axios';
+
   export default {
     data: () => ({
       items: ['판매순', '최신순', '리뷰순', '별점순'],
-      page: 1
-    })
+      page: 1,
+      categories: [
+        '침대',
+        '토퍼/매트리스',
+        '소파',
+        '테이블/식탁/책상',
+        '서랍/수납장',
+        '책장',
+        '의자',
+        '거울',
+        '조명',
+        '소품'
+      ],
+      products: []
+    }),
+    methods: {
+      //디테일 페이지로 이동
+      goDetail(no) {
+        this.$router.push('/shop/detail?shopProductNo=' + no)
+      },
+      //카테고리 선택
+      goList(cate) {
+        this.$router.push('/shop/category?cate=' + cate);
+        //새로고침
+        this.$router.go(0);
+      }
+    },
+    created() {
+      axios({
+        url: "http://localhost:8088/zippy/shop/keyword",
+        methods: "GET",
+        params: {
+          keyw: this.$route.query.keyw
+        }
+      }).then(res => {
+        console.log(res);
+        this.products = res.data;
+        console.log(this.products);
+      }).catch(error => {
+        console.log(error);
+      })
+    }
   };
 </script>
 
 <style scoped>
   #main-container {
     display: flex;
+    margin: 0;
   }
 
   /* 카테고리 */
@@ -92,30 +137,14 @@
   }
 
   /* 드롭다운(옵션) */
-  .v-overflow-btn {
-    float: right;
-    width: 100px;
-  }
-
-  ::v-deep .my-2 .v-label {
-    font-size: 13px;
-    color: rgb(0, 0, 0, 0.87)
-  }
-
-  /* 키워드 */
-  #keyword {
-    text-align: center;
-    margin-top: 50px;
-  }
-
-  #keyword span {
-    color: #B3E3C3;
+  .v-application .primary--text {
+    color: #212529 !important;
   }
 
   /* 상품리스트 */
   #list-container {
-    width: 920px;
-    margin-left: 50px;
+    width: 950px;
+    margin-left: 30px;
   }
 
   #list-container h5,
@@ -123,6 +152,12 @@
   h6 {
     font-weight: bold;
     margin-bottom: 3px;
+  }
+
+  /* 상품없을 시 표현 박스 */
+  #noProduct {
+    height: 400px;
+    text-align: center;
   }
 
   #product-list {
@@ -137,14 +172,16 @@
   }
 
   .product-seller-name {
-    font-size: smaller;
+    font-size: 12px;
     color: black;
     font-weight: normal;
   }
-
+  #product-name {
+    font-size: 14px;
+  }
   #product-info {
     height: 440px;
-    padding-right: 25px;
+    padding-left: 20px;
     margin-bottom: 50px;
   }
 
@@ -163,10 +200,6 @@
 
   #product-info span {
     color: 858585;
-  }
-
-  #product-info:nth-child(3n) {
-    padding-right: 0;
   }
 
   #product-info img {
@@ -188,11 +221,13 @@
   #product-info:hover img {
     transform: scale(1.05);
   }
+
   /* 키워드 */
   #keyword {
     text-align: center;
     margin-top: 50px;
   }
+
   #keyword span {
     color: #B3E3C3;
   }

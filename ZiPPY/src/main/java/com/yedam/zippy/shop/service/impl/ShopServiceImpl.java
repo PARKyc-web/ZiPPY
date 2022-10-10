@@ -11,33 +11,25 @@ import com.yedam.zippy.shop.service.ShopService;
 
 @Service
 public class ShopServiceImpl implements ShopService {
-	
-	@Autowired
-	ShopMapper mapper;
-	
-	@Override
-	public List<ProductVO> getProductList() {
-		return mapper.getProductList();
-	}
 
-	@Override
-	public ProductVO getProduct(ProductVO productVO) {
-		return mapper.getProduct(productVO);
-	}
+  @Autowired
+  ShopMapper mapper;
 
-	@Override
-	public void insertProduct(ProductVO productVO) {
-		mapper.insertProduct(productVO);
-	}
-
-	@Override
-	public void updateProduct(ProductVO productVO) {
-		mapper.updateProduct(productVO);
-	}
-
-	@Override
-	public void deleteProduct(ProductVO productVO) {
-		mapper.deleteProduct(productVO);
-	}
+  @Override
+  public List<ProductVO> getProductList() {
+    return mapper.getProductList();
+  }
+  @Override
+  public List<ProductVO> getCategoryList(String category) {
+    return mapper.getCategoryList(category);
+  }
+  @Override
+  public List<ProductVO> getKeywordList(String keyword) {
+    return mapper.getKeywordList(keyword);
+  }
+  @Override
+  public ProductVO getProduct(int shopProductNo) {
+    return mapper.getProduct(shopProductNo);
+  }
 
 }

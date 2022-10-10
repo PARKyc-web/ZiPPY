@@ -3,6 +3,33 @@
 <mapper namespace="com.yedam.zippy.shop.mapper.ShopMapper">
 	<!-- 전체조회 -->
 	<select id="getProductList" resultType="ProductVO">
-			SELECT * FROM shop_product
+		SELECT * FROM shop_product
+	</select>
+	<!-- 카테고리 조회 -->
+	<select id="getCategoryList" resultType="ProductVO" parameterType="ProductVO">
+		SELECT s.*, b.comp_name FROM shop_product s
+		JOIN business b
+		ON s.business_email = b.business_email
+		WHERE s.shop_category = #{shopCategory}
+	</select>
+	<!-- 키워드 조회 -->
+	<select id="getKeywordList" resultType="ProductVO" parameterType="ProductVO">
+		SELECT s.* , b.comp_name FROM shop_product s
+        JOIN business b
+        ON s.business_email = b.business_email
+		WHERE s.shop_product_name LIKE '%'||#{keyword}||'%'
+		OR s.shop_category LIKE '%'||#{keyword}||'%'
+		OR s.business_email IN
+		(SELECT business_email FROM business
+		WHERE comp_name LIKE '%'||#{keyword}||'%'
+		AND member_type=2)
+	</select>
+	<!-- 단건조회(디테일) -->
+	<select id="getProduct" resultType="ProductVO"
+		parameterType="ProductVO">
+		SELECT s.*, b.comp_name FROM shop_product s
+		JOIN business b
+		ON s.business_email = b.business_email
+		WHERE s.shop_product_no = #{shopProductNo}
 	</select>
 </mapper>

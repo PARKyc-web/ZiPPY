@@ -3,6 +3,9 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import PropertyView from "../views/property/PropertyView.vue";
 import shopView from "../views/shopView.vue";
+import shopDetailView from "../views/shop/shopDetailView.vue";
+import categoryList from "../views/shop/categoryListView.vue";
+import keywordList from "../views/shop/keywordListView.vue";
 
 Vue.use(VueRouter);
 
@@ -26,6 +29,22 @@ const routes = [
     path: "/shop",
     name: "shop",
     component: shopView,
+  },
+  /** 삭제 에정 **/
+  {
+    path: "/shop/detail",
+    name: "detail",
+    component: shopDetailView,
+  },
+  {
+    path: "/shop/category",
+    name: "category",
+    component: categoryList,
+  },
+  {
+    path: "/shop/keyword",
+    name: "category",
+    component: keywordList,
   }
 ];
 
