@@ -4,7 +4,7 @@
     <v-row justify="space-between" locale="ko-KR">
       <div class="subheading"></div>
       <v-date-picker
-        v-model="date1"
+        v-model="moveInfo.visitDate"
         :events="arrayEvents"
         color="green lighten-1"
         event-color="blue lighten-1"
@@ -16,13 +16,13 @@
     <div class="selectTime">
       <b-row>
         <b-col md="auto">
-          <b-time v-model="value" locale="ko-KR" @context="onContext"></b-time>
+          <b-time v-model="moveInfo.visitTime" locale="ko-KR" @context="onContext"></b-time>
         </b-col>
         <b-col>
           <!-- v-if를 걸어서 널값일때는 시간 선택해달라고 안내문구 -->
 
           <p>
-            선택 시간: <b>{{ value }}</b>
+            선택 시간: <b>{{ moveInfo.visitTime }}</b>
           </p>
           <!-- <p class="mb-0">Context:</p>
       <pre v-if="context != null" class="small">{{ context.Value }}</pre> -->
@@ -30,7 +30,7 @@
       </b-row>
     </div>
 
-    <div class="v-btn"><v-btn elevation="7">선택완료</v-btn></div>
+    <div class="v-btn"><v-btn type="button" elevation="7" @click="final_signIn()">선택완료</v-btn></div>
   </div>
 </template>
 <script>
@@ -46,6 +46,12 @@ export default {
       .substr(0, 10),
     value: "",
     context: null,
+
+    //moveInfo
+    moveInfo : {
+      visitDate : "",
+      visitTime : "",
+    },
   }),
 
   mounted() {
@@ -67,6 +73,17 @@ export default {
       if ([1, 19, 22].includes(parseInt(day, 10))) return ["red", "#00f"];
       return false;
     },
+
+    final_signIn: function(){
+      console.log(this.moveInfo);
+
+      // this.$router.go(this.$router.currentRoute);
+      this.$router.push({
+          name : "moveContactCheck",
+          params:{data: this.moveInfo}
+        })
+
+    }
   },
 };
 </script>

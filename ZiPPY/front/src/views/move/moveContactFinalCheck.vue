@@ -4,6 +4,7 @@
 
     <h2>이사 견적을 위해 입력한 정보를 확인해주세요.</h2>
 
+    <!-- 이사유형 -->
     <v-expansion-panels>
       <v-expansion-panel>
         <v-expansion-panel-header v-slot="{ open }">
@@ -32,33 +33,12 @@
                 <v-btn text color="primary"> 수정 </v-btn>
               </div>
             </v-col>
-            <!-- 
-          <v-divider
-            vertical
-            class="mx-4"
-          ></v-divider>
-
-          <v-col cols="3">
-            Select your destination of choice
-            <br>
-            <a href="#">Learn more</a>
-          </v-col> 
-          <v-btn
-            text
-            color="secondary"
-          >
-            취소
-          </v-btn>
-          <v-btn
-            text
-            color="primary"
-          >
-            수정
-          </v-btn>-->
+            
           </v-row>
         </v-expansion-panel-content>
       </v-expansion-panel>
 
+      <!-- 이사날짜 -->
       <v-expansion-panel>
         <v-expansion-panel-header v-slot="{ open }">
           <v-row no-gutters>
@@ -126,6 +106,77 @@
           </v-row>
         </v-expansion-panel-content>
       </v-expansion-panel>
+
+
+      <!-- 방문 희망 날짜 및 시간 -->
+      <v-expansion-panel>
+        <v-expansion-panel-header v-slot="{ open }">
+          <v-row no-gutters>
+            <v-col cols="4"> 견적 방문 희망일 및 시간 </v-col>
+            <v-col cols="8" class="text--secondary">
+              <v-fade-transition leave-absolute>
+                <span v-if="open">방문희망 날짜와 시간을 선택해주세요.</span>
+                <v-row v-else no-gutters style="width: 100%">
+                  <v-col cols="6">
+                    방문 희망일: {{ move.visitStart || "Not set" }}
+                  </v-col>
+                  <v-col cols="6">
+                    방문 희망시간: {{ move.visitEnd || "Not set" }}
+                  </v-col>
+                </v-row>
+              </v-fade-transition>
+            </v-col>
+          </v-row>
+        </v-expansion-panel-header>
+
+        <v-expansion-panel-content>
+          <v-row justify="space-around" no-gutters>
+            <v-col cols="3">
+              <v-menu ref="startMenu" :close-on-content-click="false" :return-value.sync="move.visitStart" offset-y
+                min-width="290px">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field v-model="move.visitStart" label="방문희망일" prepend-icon="mdi-calendar" readonly v-bind="attrs"
+                    v-on="on"></v-text-field>
+                </template>
+                <v-date-picker v-model="visitDate" no-title scrollable>
+                  <v-spacer></v-spacer>
+                  <v-btn text color="primary" @click="$refs.startMenu.isActive = false">
+                    취소
+                  </v-btn>
+                  <v-btn text color="primary" @click="$refs.startMenu.save(visitDate)">
+                    수정
+                  </v-btn>
+                </v-date-picker>
+              </v-menu>
+            </v-col>
+
+            <v-col cols="3">
+              <v-menu ref="endMenu" :close-on-content-click="false" :return-value.sync="move.visitEnd" offset-y
+                min-width="290px">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field v-model="move.visitEnd" label="방문 희망시간" prepend-icon="mdi-clock" readonly v-bind="attrs"
+                    v-on="on"></v-text-field>
+                </template>
+                <!-- <v-date-picker
+                v-model="date"
+                no-title
+                scrollable
+              > -->
+                <v-time-picker v-model="visitTime" ampm-in-title format="ampm">
+                  <v-spacer></v-spacer>
+                  <v-btn text color="primary" @click="$refs.endMenu.isActive = false">
+                    취소
+                  </v-btn>
+                  <v-btn text color="primary" @click="$refs.endMenu.save(visitTime)">
+                    수정
+                  </v-btn>
+                </v-time-picker>
+              </v-menu>
+            </v-col>
+          </v-row>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+
 
       <!-- 3. 주소 -->
       <v-expansion-panel>
@@ -377,7 +428,8 @@
     </v-expansion-panels>
 
     <!-- <v-sheet color="white" elevation="3" height="250" width="250"></v-sheet> -->
-    <div>
+    <div class="table">
+      
     <table>
       <thead><h4>유의사항을 확인해주세요.</h4></thead>
       <tbody>
@@ -387,12 +439,26 @@
         <tr><td>※ 한 번 견적요청을 신청하면 영업일 기준 3일동안 견적 요청이 유효합니다. </td></tr>
       </tbody>
     </table>
+  
     <div class="agree">
-    <input type="checkbox" id="agree">
-    <label for="agree">유의사항을 확인하고 숙지하였습니다.</label>
+      <v-checkbox
+              v-model="ex4"
+              label="유의사항을 확인하고 숙지하였습니다."
+              color="success"
+              value="success"
+              hide-details
+              class="agree-check"
+            ></v-checkbox>
     </div>
   </div> 
-  <button @click="moveInfo()">MOVE-INFO</button>
+  <div class="final-btn">
+  <v-btn
+  color="success"
+  elevation="10"
+  
+  @click="moveInfo()"
+>확인완료</v-btn>
+</div>
   </div>
 </template>
 
@@ -408,6 +474,8 @@
     data: () => ({
       date: null,
       time: null,
+      visitDate: null,
+      visitTime: null,
       postcode: null,
       postcode2: null,
       move: {
@@ -429,6 +497,9 @@
         stair: null,
         elevator: null,
         parking: null,
+
+        visitStart: null,
+        visitEnd: null,
       },
       types: ["소형이사", "가정이사"],
       houses: ["빌라/주택", "오피스텔", "아파트"],
@@ -489,6 +560,9 @@
       postcode2: "",
       address2: "",
       extraAddress2: "",
+
+      // checkbox
+      ex4: ['success'],
     }),
 
     methods: {
@@ -583,16 +657,26 @@
 <style scoped>
   table{
     width: 100%;
+    text-align: center;
   }
   thead{
     text-align: center;
-    padding-bottom: 30px;
+    padding-bottom: 50px;
   }
   .agree{
     text-align: center;
     padding-top: 50px;
-    padding-bottom: 100px;
+    padding-bottom: 50px;
   }
+.agree-check{
+  display: inline-block;
+}
+.final-btn{
+  text-align: center;
+  padding-bottom: 50px;
+}
+
+
   h2 {
     text-align: center;
     padding-top: 100px;

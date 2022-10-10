@@ -3,10 +3,12 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import PropertyView from "../views/property/PropertyView.vue";
 import shopView from "../views/shopView.vue";
-import moveFinalCheck from "../views/move/moveFinalCheck.vue";
+import moveContactFinalCheck from "../views/move/moveContactFinalCheck.vue";
 import moveSelect from "../views/move/moveSelect";
 import moveDate from "../views/move/moveDate";
+import moveVisitDate from "../views/move/moveVisitDate";
 import moveInfo from "../views/move/moveInfo";
+import moveInfoDetail from "../views/move/moveInfoDetail";
 import moveTypeSelect from "../views/move/moveTypeSelect";
 
 Vue.use(VueRouter);
@@ -32,31 +34,28 @@ const routes = [
     name: "shop",
     component: shopView,
   },
+  
   {
-    path: "/move",
-    name: "move",
-    component: moveFinalCheck,
-    props: true, //변수를 받겠다. 
-  },
-  {
-    path: "/move",
-    name: "moveSelect",
-    component: moveSelect,
-    children: [
+    path:"/moveContact",
+    name: "moveContact",
+    component : moveVisitDate,
+    props : true,
+    children : [
       {
-        path: "moveDate",
-        component: moveDate,
-      },
-      {
-        path: "moveInfo",
-        component: moveInfo,
-      },
-      {
-        path: "moveTypeSelect",
-        component: moveTypeSelect,
+        path: "moveContactCheck",
+        name: "moveContactCheck",
+        component: moveContactFinalCheck,
+        props: true, //변수를 받겠다. 
       },
     ]
-  }
+
+  },
+  {
+    path:"/moveUntact",
+    name: "moveUntact",
+    component : moveInfoDetail,
+    props : true,
+  },
 ];
 
 const router = new VueRouter({

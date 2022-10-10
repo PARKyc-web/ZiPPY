@@ -1,15 +1,19 @@
 <template>
   <div class="whole-wrap">
+    <form>
+
   <!-- <moveNav></moveNav> -->
   <!-- moveSelect (이사유형 선택) -->
-  <div class="frame">
+  <div class="moveSelect-wrap">
     <h3>이사 유형을 선택해주세요.</h3>
     <div class="btn1">
-      <button class="custom-btn btn-1" @click="small()">소형이사</button>
+      <!-- <button type="button" class="custom-btn btn-1" @click="small()" value="typeSmall">소형이사</button> -->
+      <input type="button" class="custom-btn btn-1" @click="small()" value="소형이사">
     </div>
 
     <div class="btn2">
-      <button class="custom-btn btn-2" @click="big()">가정이사</button>
+      <!-- <button type="button" class="custom-btn btn-2" @click="big()" value="typeBig">가정이사</button> -->
+      <input type="button" class="custom-btn btn-2" @click="big()" value="가정이사">
     </div>
     <br />
     <div class="explain1">
@@ -47,20 +51,18 @@
     </div>
 
     <div>
-      <button class="custom-btn btn-3">선택완료</button>
+      <button type="button" class="custom-btn btn-3" @click="moveSelectNext()">선택완료</button>
     </div>
   </div>
-  <br>
-  <hr>
-  <br>
+  
 
 <!-- 날짜, 시간 선택 -->
-<div class="wrapper">
+<div class="moveDate-wrap">
     <h3>이사 희망 날짜를 선택해주세요.</h3>
     <v-row justify="space-between" locale="ko-KR">
       <div class="subheading"></div>
       <v-date-picker
-        v-model="date1"
+        v-model="moveInfo.date"
         :events="arrayEvents"
         color="green lighten-1"
         event-color="blue lighten-1"
@@ -72,13 +74,13 @@
     <div class="selectTime">
       <b-row>
         <b-col md="auto">
-          <b-time v-model="value" locale="ko-KR" @context="onContext"></b-time>
+          <b-time v-model="moveInfo.time" locale="ko-KR" @context="onContext"></b-time>
         </b-col>
         <b-col>
           <!-- v-if를 걸어서 널값일때는 시간 선택해달라고 안내문구 -->
 
           <p>
-            선택 시간: <b>{{ value }}</b>
+            선택 시간: <b>{{ moveInfo.time }}</b>
           </p>
           <!-- <p class="mb-0">Context:</p>
       <pre v-if="context != null" class="small">{{ context.Value }}</pre> -->
@@ -86,14 +88,13 @@
       </b-row>
     </div>
 
-    <v-btn elevation="7">선택완료</v-btn>
+    <v-btn elevation="7" @click="moveDateNext()">선택완료</v-btn>
   </div>
 
-  <br><hr><br>
   
 
   <!-- moveInfo 이사기본정보 -->
-  <div class="wrap-info">
+  <div class="moveInfo-wrap">
     <form id="move-form">
     <h2>이사 견적을 위한 기본 정보를 입력해주세요.</h2>
     <div class="depart-address">
@@ -109,13 +110,12 @@
         id ="post1"
         style="width: 80px; height: 26px"
       />
-      <button
-        class="custom-btn btn-4"
-        type="button"
-        @click="execDaumPostcode(1)"
-      >
-        검색
-      </button>
+      <v-btn
+  color="accent"
+  elevation="8"
+  small
+  @click="execDaumPostcode(1)"
+>검색</v-btn>
       <br />
       주소 :
       <input
@@ -165,13 +165,19 @@
         id="post2"  
         style="width: 80px; height: 26px"
       />
-      <button
+      <!-- <button
         class="custom-btn btn-4"
         type="button"
         @click="execDaumPostcode(2)"
       >
         검색
-      </button>
+      </button> -->
+      <v-btn
+  color="accent"
+  elevation="8"
+  small
+  @click="execDaumPostcode(2)"
+>검색</v-btn>
       <br />
       주소 :
       <input
@@ -205,20 +211,15 @@
       
       />
     </div>
-    <br />
-    <hr />
-    <br />
-    <br />
-    <br />
-    <br />
+   
 
     <div class="move-drop">
       <h3>집형태</h3>
       <select id="houseType" v-model="moveInfo.houseType">
         <option value="" selected>-- 선택하세요 --</option>
-        <option value="1">빌라/주택</option>
-        <option value="2">오피스텔</option>
-        <option value="3">아파트</option>
+        <option value="villa/housing">빌라/주택</option>
+        <option value="eff-apt">오피스텔</option>
+        <option value="apt">아파트</option>
       </select>
     </div>
 
@@ -319,10 +320,52 @@
     </div>
   </form>
     <div class="frame">
-      <button id="selectBtn-bday" class="custom-btn btn-3" @click="sign_in()">선택완료</button>
+      <button type="button" id="selectBtn-bday" class="custom-btn btn-3" @click="moveInfoNext()">선택완료</button>
     </div>
   </div>
-  
+
+
+  <!-- 견적방법 -->
+  <div class="moveType-wrap">
+    <h3>견적 방법을 선택해주세요.</h3>
+    <div class="contact-btn1">
+      <input type="button" class="custom-btn btn-1" @click="contact()" value="대면 방문예약">
+    </div>
+
+    <div class="untact-btn2">
+      <input type="button" class="custom-btn btn-2" @click="untact()" value="비대면 방문예약">
+        
+    </div>
+    <br />
+    <div class="contact-explain1">
+      <table>
+        <tr>
+          <td>• 이사업체 전문가 직접방문</td>
+        </tr>
+        <tr>
+          <td>• 정확한 견적, 신속한 계약</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="untact-explain2">
+      <table>
+        <tr>
+          <td>• 이사업체 전문가에 비대면 견적 의뢰</td>
+        </tr>
+        <tr>
+          <td>• 유동적인 견적 가능, 프라이버시 보호</td>
+        </tr>
+      </table>
+    </div>
+
+    <div>
+      <button type="button" class="custom-btn btn-3" @click="sign_in()">선택완료</button>
+    </div>
+  </div>
+
+
+</form>
 </div>
 </template>
 
@@ -330,6 +373,7 @@
   export default {
 
     data: () => ({
+
     //moveDate
     arrayEvents: null,
     date1: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
@@ -341,9 +385,19 @@
     value: "",
     context: null,
 
+    //moveType
+    moveType : "",
+
+    //moveEstimateType
+    moveEstimateType : "",
+ 
     //moveInfo
 
-    moveInfo : {   
+    moveInfo : {    
+
+      date : "",
+      time : "",
+      
         houseType : "",     
         roomNum : "",
         spaceOfHome : "",
@@ -354,6 +408,10 @@
         elevator :"",
         parkable : "",
         veranda:"",
+
+        //moveVisitDate
+        visitDate : "",
+      visitTime : "",
 
         addr : {
           postcode: "",
@@ -368,6 +426,8 @@
         },
       },
 
+    
+
   }),
 
   mounted() {
@@ -378,6 +438,8 @@
       d.setDate(day);
       return d.toISOString().substr(0, 10);
     });
+
+    
   },
 
     methods: {
@@ -388,6 +450,8 @@
   
         let item2 = document.querySelector(".explain2");
         item2.style.display = "none";
+
+        this.moveType = "소형이사";
       },
   
       big() {
@@ -396,6 +460,21 @@
   
         let item2 = document.querySelector(".explain2");
         item2.style.display = "inline-block";
+
+        this.moveType = "가정이사";
+      },
+
+
+      moveSelectNext(){
+        console.log(this.moveType);
+
+        let moveSelectNext = document.querySelector(".moveSelect-wrap");
+        moveSelectNext.style.display = "none";
+
+        let moveDateNext = document.querySelector(".moveDate-wrap");
+        moveDateNext.style.display = "inline-block";
+        window.scrollTo(0,0);
+        
       },
 
       //moveDate
@@ -408,8 +487,27 @@
       if ([1, 19, 22].includes(parseInt(day, 10))) return ["red", "#00f"];
       return false;
     },
+    moveDateNext(){
+        let moveDateNext = document.querySelector(".moveDate-wrap");
+        moveDateNext.style.display = "none";
+
+        let moveInfoNext = document.querySelector(".moveInfo-wrap");
+        moveInfoNext.style.display = "inline-block";
+        window.scrollTo(0,0);
+        
+      },
 
     //moveInfo
+    moveInfoNext(){
+        let moveInfoNext = document.querySelector(".moveInfo-wrap");
+        moveInfoNext.style.display = "none";
+
+        let moveTypeNext = document.querySelector(".moveType-wrap");
+        moveTypeNext.style.display = "inline-block";
+        window.scrollTo(0,0);
+        
+      },
+
     execDaumPostcode(number) {  
       console.log(number);
       var postcode = document.querySelector("#post"+number);
@@ -456,8 +554,19 @@
       
     },   
 
+    //moveVisitDate
+    onContext(ctx) {
+      this.VisitContext = ctx;
+    },
+    functionEvents(date) {
+      const [, , day] = date.split("-");
+      if ([12, 17, 28].includes(parseInt(day, 10))) return true;
+      if ([1, 19, 22].includes(parseInt(day, 10))) return ["red", "#00f"];
+      return false;
+    },
+
     sign_in : function(){    
-      console.log(this.moveInfo);
+      console.log(this.moveEstimateType);
       
       // 출발지
       var postcode = document.querySelector("#post1");
@@ -482,12 +591,55 @@
       this.moveInfo.addr.extraAddress2 = extra.value;
 
 
-      this.$router.push({
-        name: "move",
+      if(this.moveEstimateType == "대면 방문예약"){
+        
+        this.$router.push({
+        name: "moveContact",
+        params:{data:this.moveInfo}
+
+      })
+      
+
+      } else if(this.moveEstimateType == "비대면 방문예약"){
+        this.$router.push({
+        name: "moveUntact",
         params:{data:this.moveInfo}
       })
+      
+      };
+
+        //moveFinalCheck 페이지로 
+      // this.$router.push({
+      //   name: "move",
+      //   params:{data:this.moveInfo}
+      // })
     },
 
+    // 견적방법선택
+    contact() {
+      let item = document.querySelector(".contact-explain1");
+      item.style.display = "inline-block";
+
+      let item2 = document.querySelector(".untact-explain2");
+      item2.style.display = "none";
+
+      this.moveEstimateType = "대면 방문예약";
+
+      console.log(this.moveEstimateType);
+    },
+
+    untact() {
+      let item = document.querySelector(".contact-explain1");
+      item.style.display = "none";
+
+      let item2 = document.querySelector(".untact-explain2");
+      item2.style.display = "inline-block";
+
+      this.moveEstimateType = "비대면 방문예약";
+      console.log(this.moveEstimateType);
+    },
+
+    
 
     },
   };
@@ -495,12 +647,28 @@
   </script>
   
   <style scoped>
+form{
+  text-align: center;
+}  
+/* 기본 display상태 */
+.moveSelect-wrap {
+  display: inline-block;
+}
+.moveDate-wrap {
+  display: none;
+}
+.moveInfo-wrap {
+  display: none;
+}
+.moveType-wrap {
+  display: none;
+}
   
 /* moveSelect */
 
   /* 버튼 */
 
-.frame {
+.moveSelect-wrap {
   width: 90%;
   margin: 100px auto;
   text-align: center;
@@ -610,7 +778,7 @@ button {
 
 /* moveDate */
 
-.wrapper {
+.moveDate-wrap {
   width: 500px;
   text-align: center;
   margin: 0 auto;
@@ -645,7 +813,7 @@ h2 {
   padding-top: 100px;
 }
 
-.wrap-info {
+.moveInfo-wrap {
   text-align: center;
 }
 input {
@@ -760,5 +928,27 @@ label {
 
   margin-right: 0.5em;
 }
+
+/* moveTypeSelect */
+.moveType-wrap {
+  width: 90%;
+  margin: 100px auto;
+  text-align: center;
+}
+
+.contact-btn1 {
+  display: inline-block;
+}
+
+.untact-btn2 {
+  display: inline-block;
+}
+.contact-explain1,
+.untact-explain2 {
+  height: 100px;
+  display: none;
+}
+
+
 
   </style>
