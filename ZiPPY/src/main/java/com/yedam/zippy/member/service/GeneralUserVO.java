@@ -16,4 +16,5 @@ public class GeneralUserVO {
     private String zipCode;
     private Integer userState;
     private String addressDetail;
+    private String profileImage;
 }

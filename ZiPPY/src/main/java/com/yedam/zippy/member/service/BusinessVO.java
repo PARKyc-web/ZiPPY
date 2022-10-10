@@ -3,7 +3,7 @@ package com.yedam.zippy.member.service;
 import lombok.Data;
 
 @Data
-public class businessVO {
+public class BusinessVO {
     private String businessEmail;
     private String compName;
     private String compIntro;

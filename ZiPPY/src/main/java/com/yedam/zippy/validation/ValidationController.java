@@ -57,7 +57,7 @@ public class ValidationController {
 		msg.setText("회원가입을 위한 인증번호 입니다"
 				  + "\n 아래의 인증번호를 입력하여 인증을 완료해주세요 "
 				  + "\n" + key);
-		msg.setFrom("erty1201@naver.com");
+		msg.setFrom("noreply@naver.com");
 		mailSender.send(msg);
 		
 		return Integer.parseInt(key);
