@@ -3,10 +3,15 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import PropertyView from "../views/property/PropertyView.vue";
 import shopView from "../views/shopView.vue";
+
 import usedUpdate from "../views/used/usedUpdate.vue";
 import usedDetail from "../views/used/usedDetail.vue";
 import usedMain from "../views/used/usedMain.vue";
 import usedInsert from "../views/used/usedInsert.vue";
+
+import shopDetailView from "../views/shop/shopDetailView.vue";
+import categoryList from "../views/shop/categoryListView.vue";
+import keywordList from "../views/shop/keywordListView.vue";
 
 
 Vue.use(VueRouter);
@@ -32,6 +37,7 @@ const routes = [
     name: "shop",
     component: shopView,
   },
+
   {
     path : "/used",
     name : "used",
@@ -46,6 +52,22 @@ const routes = [
     path : "/used/update",
     name : "update",
     component : usedUpdate
+},
+  /** 삭제 에정 **/
+  {
+    path: "/shop/detail",
+    name: "detail",
+    component: shopDetailView,
+  },
+  {
+    path: "/shop/category",
+    name: "category",
+    component: categoryList,
+  },
+  {
+    path: "/shop/keyword",
+    name: "keyword",
+    component: keywordList,
   }
 ];
 

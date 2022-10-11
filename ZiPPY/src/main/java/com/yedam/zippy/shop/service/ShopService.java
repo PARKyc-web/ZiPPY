@@ -9,12 +9,14 @@ public interface ShopService {
 	//상품 CRUD
 	//전체조회
 	public List<ProductVO> getProductList();
-	//단건조회
-	public ProductVO getProduct(ProductVO productVO);
-	//등록
-	public void insertProduct(ProductVO productVO);
-	//수정
-	public void updateProduct(ProductVO productVO);
-	//삭제
-	public void deleteProduct(ProductVO productVO);
+	//전체조회(카테고리)
+	public List<ProductVO> getCategoryList(String category);
+	//전체조회(키워드)
+	public List<ProductVO> getKeywordList(String keyword);
+	//단건조회(디테일)
+	public ProductVO getProduct(int shopProductNo);
+	//디테일 이미지 조회
+	public String[] getDetailImg(int shopProductNo);
+	//디테일 옵션 조회
+    public List<ProductOptionVO> getDetailOpt(int shopProductNo);
 }

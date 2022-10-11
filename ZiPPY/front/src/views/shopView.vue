@@ -1,8 +1,7 @@
 <template>
   <div>
     <shop-subbar></shop-subbar>
-    <cart></cart>
-    <order></order>
+    <shopMain></shopMain>
   </div>
 </template>
 
@@ -14,6 +13,7 @@
   import shopDetail from "@/components/shop/shopDetail.vue";
   import cart from "@/components/shop/cart.vue";
   import order from "@/components/shop/order.vue"
+  import orderComplete from "@/components/shop/orderComplete.vue"
 
   export default {
   components: {
@@ -23,7 +23,8 @@
     keywordList,
     shopDetail,
     cart,
-    order
+    order,
+    orderComplete
   },
 };
 </script>

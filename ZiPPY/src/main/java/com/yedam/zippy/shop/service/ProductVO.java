@@ -13,4 +13,7 @@ public class ProductVO {
 	private String shopProductInfo;
 	private String shopDeliveryCost;
 	private String shopProductStatus;
+	
+	//business
+	private String compName;
 }
