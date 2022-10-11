@@ -391,13 +391,13 @@
                 <span v-if="open">1층 별도계단, 엘레베이터, 주차장 유무를 확인해주세요.</span>
                 <v-row v-else no-gutters style="width: 100%">
                   <v-col cols="4">
-                    1층 별도계단: {{ move.stair || "Not set" }}
+                    1층 별도계단: {{ moveInfo.extraStairs || "Not set" }}
                   </v-col>
                   <v-col cols="4">
-                    엘레베이터: {{ move.elevator || "Not set" }}
+                    엘레베이터: {{ moveInfo.elevator || "Not set" }}
                   </v-col>
                   <v-col cols="4">
-                    주차장: {{ move.parking || "Not set" }}
+                    주차장: {{ moveInfo.parkable || "Not set" }}
                   </v-col>
                 </v-row>
               </v-fade-transition>
@@ -409,13 +409,14 @@
           <v-row no-gutters>
             <v-spacer></v-spacer>
             <v-col cols="10">
-              <v-select class="select-home" v-model="move.stair" :items="stairs" chips flat solo outlined
-                placeholder="선택한 방 개수 불러오기"></v-select>
+              <v-select class="select-home" v-model="moveInfo.extraStairs" :items="extraStairs" chips flat solo outlined
+                placeholder="1층 별도 계단"></v-select>
 
-              <v-select class="select-home" v-model="move.elevator" :items="elevators" chips flat solo outlined
-                placeholder="선택한 화장실 개수 불러오기"></v-select>
-              <v-select class="select-home" v-model="move.parking" :items="parkings" chips flat solo outlined
-                placeholder="선택한 베란다 개수 불러오기"></v-select>
+              <v-select class="select-home" v-model="moveInfo.elevator" :items="elevator" chips flat solo outlined
+                placeholder="엘레베이터"></v-select>
+
+              <v-select class="select-home" v-model="moveInfo.parkable" :items="parkable" chips flat solo outlined
+                placeholder="주차가능 여부"></v-select>
 
               <div class="drop-btn">
                 <v-btn text color="secondary"> 취소 </v-btn>
@@ -423,15 +424,16 @@
               </div>
             </v-col>
           </v-row>
-        </v-expansion-panel-content>
+        </v-expansion-panel-content>        
       </v-expansion-panel>
+    
     </v-expansion-panels>
 
     <v-btn
   color="success"
   elevation="10"
   
-  @click="moveInfo()"
+  @click="moveInfoCheck()"
 >확인완료</v-btn>
 
     <!-- <v-sheet color="white" elevation="3" height="250" width="250"></v-sheet> -->
@@ -463,8 +465,11 @@
   color="success"
   elevation="10"
   
-  @click="moveInfo()"
+  @click="moveInfoCheck()"
 >확인완료</v-btn>
+
+
+
 </div>
   </div>
 </template>
@@ -473,8 +478,7 @@
   import moveNav from './moveNav.vue';
   export default {
 
-    props : ['moveVisit', 'moveContact', 'moveCon'],
-   
+    props : ['moveVisit', 'moveEstimateType', 'moveType', 'moveInfo'],   
     components: {
       moveNav,
     },
@@ -522,44 +526,16 @@
         "40평 이상",
       ],
       floors: [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-        "10",
-        "11",
-        "12",
-        "13",
-        "14",
-        "15",
-        "16",
-        "17",
-        "18",
-        "19",
-        "20",
-        "21",
-        "22",
-        "23",
-        "24",
-        "25",
-        "26",
-        "27",
-        "28",
-        "29",
-        "30",
-        "30층 이상",
+        "1","2","3","4","5","6","7","8","9","10","11","12","13","14","15",
+        "16","17","18","19","20","21","22","23","24","25","26","27","28","29",
+        "30","30층 이상",
       ],
       rooms: ["원룸", "투룸", "쓰리룸", "쓰리룸 이상"],
       toilets: ["1개", "2개", "3개", "3개 이상"],
       verandas: ["1개", "2개", "3개", "3개 이상"],
-      stairs: ["있음", "없음"],
-      elevators: ["있음", "없음"],
-      parkings: ["있음", "없음"],
+      extraStairs: ["있음", "없음"],
+      elevator: ["있음", "없음"],
+      parkable: ["가능", "불가능"],
 
       // 우편번호
       postcode: "",
@@ -574,9 +550,11 @@
     }),
 
     methods: {
-      moveInfo : function(){
-        // console.log(this.$data);
-        console.log(this.moveVisit, this.moveContact, this.moveCon);
+      moveInfoCheck : function(){        
+        console.log(this.moveVisit);
+        console.log(this.moveInfo);
+        console.log(this.moveType);
+        console.log(this.moveEstimateType);        
       },
 
       execDaumPostcode() {

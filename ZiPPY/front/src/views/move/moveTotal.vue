@@ -283,12 +283,12 @@
     <div class="detail-info-radio">
       <h3>1층 별도 계단</h3>
       <label class="test_obj">
-        <input type="radio" name="stairs" value="yes" v-model="moveInfo.extraStairs"/>
+        <input type="radio" name="stairs" value="있음" v-model="moveInfo.extraStairs"/>
         <span>있음</span>
       </label>
 
       <label class="test_obj">
-        <input type="radio" name="stairs" value="no" v-model="moveInfo.extraStairs"/>
+        <input type="radio" name="stairs" value="없음" v-model="moveInfo.extraStairs"/>
         <span>없음</span>
       </label>
     </div>
@@ -296,12 +296,12 @@
     <div class="detail-info-radio">
       <h3>엘레베이터</h3>
       <label class="test_obj">
-        <input type="radio" name="elev" value="yes" v-model="moveInfo.elevator"/>
+        <input type="radio" name="elev" value="있음" v-model="moveInfo.elevator"/>
         <span>있음</span>
       </label>
 
       <label class="test_obj">
-        <input type="radio" name="elev" value="no" v-model="moveInfo.elevator" />
+        <input type="radio" name="elev" value="없음" v-model="moveInfo.elevator" />
         <span>없음</span>
       </label>
     </div>
@@ -309,12 +309,12 @@
     <div class="detail-info-radio">
       <h3>주차가능</h3>
       <label class="test_obj">
-        <input type="radio" name="parking" value="available" v-model="moveInfo.parkable"/>
+        <input type="radio" name="parking" value="가능" v-model="moveInfo.parkable"/>
         <span>있음</span>
       </label>
 
       <label class="test_obj">
-        <input type="radio" name="parking" value="notAvailable" v-model="moveInfo.parkable" />
+        <input type="radio" name="parking" value="불가능" v-model="moveInfo.parkable" />
         <span>없음</span>
       </label>
     </div>
@@ -378,10 +378,10 @@
     arrayEvents: null,
     date1: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
       .toISOString()
-      .substr(0, 10),
+      .substring(0, 10),
     date2: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
       .toISOString()
-      .substr(0, 10),
+      .substring(0, 10),
     value: "",
     context: null,
 
@@ -436,7 +436,7 @@
       const day = Math.floor(Math.random() * 30);
       const d = new Date();
       d.setDate(day);
-      return d.toISOString().substr(0, 10);
+      return d.toISOString().substring(0, 10);
     });
 
     
@@ -595,7 +595,7 @@
         
         this.$router.push({
         name: "moveContact",
-        params:{moveContact:this.moveInfo, moveContact1:this.moveEstimateType, moveContact2:this.moveType}
+        params:{moveInfo:this.moveInfo, moveEstimateType:this.moveEstimateType, moveType:this.moveType}
 
       })
       
