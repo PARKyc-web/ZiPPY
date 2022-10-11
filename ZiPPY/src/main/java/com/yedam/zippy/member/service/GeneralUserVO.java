@@ -11,9 +11,10 @@ public class GeneralUserVO {
     private String nickName;
     private String phoneNumber;
     private Date userBirth;
-    private String gender;
+    private String userGender;
     private String userAddress;
-    private String zipCode;
+    private String zipCode; 
     private Integer userState;
+    private String profileImage;
     private String addressDetail;
 }

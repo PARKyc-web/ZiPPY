@@ -14,7 +14,7 @@
               <form id="signup-form" action="">
                 <div id="first-form">
                   <div class="form-floating mb-3">
-                    <input                      
+                    <input
                       type="email"
                       class="form-control"
                       id="inputEmail"
@@ -25,6 +25,7 @@
                     />
                     <label for="inputEmail">이메일(아이디)</label>
                     <button
+                      id="email_code"
                       type="button"
                       class="btn btn-outline-success"
                       @click="email_validation()"
@@ -45,8 +46,9 @@
                     <label for="emailAuthentication">인증번호(6자리)</label>
                     <button
                       type="button"
-                      id ="email-confirm-btn"
-                      class="btn btn-outline-success" disabled
+                      id="email-confirm-btn"
+                      class="btn btn-outline-success"
+                      disabled
                       @click="email_valid_check()"
                     >
                       인증번호 입력
@@ -77,8 +79,8 @@
                     <label for="passwd-confirm">비밀번호 재확인</label>
                   </div>
 
-                  <small v-if="pass_valid == false">
-                    <p id="passwordCheck">
+                  <small>
+                    <p class="passwordCheck">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
@@ -95,8 +97,8 @@
                     </p>
                   </small>
 
-                  <small v-if="pass_confirm == false">
-                    <p id="passwordCheck">
+                  <small>
+                    <p class="passwordCheck">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
@@ -153,12 +155,13 @@
                   <div class="form-floating mb-3">
                     <input
                       type="text"
-                      class="form-control"                      
+                      class="form-control"
                       id="phone"
                       placeholder="전화번호 입력"
                     />
                     <label for="phone">전화번호</label>
                     <button
+                      id="phone_code"
                       type="button"
                       class="btn btn-outline-success"
                       @click="phone_validation()"
@@ -212,19 +215,31 @@
                     <input
                       type="date"
                       v-model="user_info.user_birth"
-                      class="form-control"                      
+                      class="form-control"
                       id="user_birth"
                       placeholder="11223344"
                     />
                     <label for="user_birth">생년월일</label>
+                  </div>                  
+                  <div id="gender-label-div">
+                  <label class="gender-label">
+                      <input type="radio" name="gender" value="M"/>
+                      <span>남자</span>
+                    </label>
+
+                    <label class="gender-label">
+                      <input type="radio" name="gender" value="F" />
+                      <span>여자</span>
+                    </label>
                   </div>
                   <br />
                   <div class="form-floating mb-3">
-                    <input
+                    <input                      
                       type="text"
-                      class="form-control"                      
+                      class="form-control"
                       id="addressInput"
                       placeholder="주소검색"
+                      v-model="user_info.user_addr"
                       disabled
                     />
                     <label for="addressInput">(우편번호) 주소</label>
@@ -235,7 +250,7 @@
                       type="text"
                       class="form-control"
                       v-model="user_info.addr_detail"
-                      id="addressDetail"
+                      id="addressDetail"                      
                       placeholder="상세주소"
                     />
                     <label for="addressDetail">상세주소</label>
@@ -276,209 +291,137 @@
 
 <script>
 import axios from "axios";
+import loginFunc from '../../script/loginFunc.js';
 
 export default {
   data() {
     return {
       // Data : Axios로 back에 보낼 데이터
-      user_info : {
+      user_info: {
         user_email: "",
-        user_password : "",
-        user_name : "",
-        user_addr : "",
-        addr_detail : "",
-        user_phone : "",
-        user_nick : "",
-        user_birth : ""
+        user_password: "",
+        user_phone: "",
+        user_name: "",
+        user_nick: "",
+        user_gender : "",
+        user_birth: "",
+        user_addr: "",        
+        addr_detail: "",
+        addr_postzone : ""          
       },
 
       // 모든 데이터를 정확하게 입력했는지 검사하는 Data
       pass_valid: false,
       pass_confirm: false,
       email_valid: false,
-      phone_valid: false,
+      phone_valid: false,      
 
       // 인증코드가 담기는 Data
-      emailCode: 123456723,
+      emailCode: 12345672387,
       phoneCode: 12301684861,
     };
-  },  
+  },
 
   methods: {
-
-    /**
-     * Eamil 인증을 위한 Email 전송 인증번호 6자리
-     */
-    email_validation: function () {
-      this.user_info.user_email = document.querySelector("#inputEmail").value;           
-      console.log(this.user_info.user_email);
-      document.querySelector("#email-confirm-btn").disabled = false;
-      alert("Email을 전송하였습니다.");
-      // axios.get("/validation/email", {
-      //     params: {
-      //       email: this.user_email,
-      //     },
-      //   })
-      //   .then((res) => {
-      //     console.log(res);
-      //     this.emailCode = res.data;
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
+    email_validation: async function () {      
+      var data = await loginFunc.email_validation();
+      console.log("이메일 Validation 실행한 후 : ", data);
+      if(data != null){
+        this.user_info.user_email = data.email;        
+        this.emailCode = data.email_code;        
+      }      
     },
 
-
-    /**
-     * 인증번호와 유저가 입력한 숫자가 동일한지 확인하는 메소드
-     */
-    email_valid_check: function () {      
-      var code = document.querySelector("#emailAuthentication");
-      console.log(code.value);
-
-      if (this.emailCode == code.value) {
-        alert("이메일인증 성공!");
-
-        document.querySelector("#inputEmail").disabled = true;
-        document.querySelector("#emailAuthentication").disabled = true;
-        this.email_valid = true;
-
-      } else {        
-        alert("인증번호가 틀렸습니다!");
-      }
+    email_valid_check: function(){      
+      this.email_valid = loginFunc.email_valid_check(this.emailCode);
+      console.log("email_valid :: ", this.email_valid);
+      console.log("user_email :: ", this.user_info.user_email);
     },
 
-
-    /**
-     * 비밀번호가 사이트 규정에 맞는지 확인하는 메소드
-     */
     password_validation: function () {
       console.log("passwd-valid");
-      var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-+]).{8,20}$/;
-      var password = document.querySelector("#password").value;
-      console.log(reg.test(password));
-
-      this.pass_valid = reg.test(password);
+      this.pass_valid = loginFunc.password_validation();
     },
 
-
-    /**
-     * 비밀번호와 비밀번호 재확인이 동일한지 확인하는 메소드
-     */
     password_confirm: function () {
-      var password = document.querySelector("#password").value;
-      var confirm = document.querySelector("#passwd-confirm").value;
-
-      this.pass_confirm = (password == confirm) ? true : false;
+      this.pass_confirm = loginFunc.password_confirm();
     },
 
-
-    /**
-     * 핸드폰 번호 인증을 하기 위해서 SMS 문자를 보내는 메소드
-     */
-    phone_validation: function () {
-      var reg = /^010[0-9]{8}$/;       
-      var number = document.querySelector("#phone").value;
-
-      if(reg.test(number)){
-        alert("인증번호를 전송하였습니다!");        
-        this.user_info.user_phone = number.value;
-        document.querySelector("#phoneNumberBtn").disabled = false;
-      // axios({
-      //   url : "/validation/phone",
-      //   method : "GET",
-
-      //   param : {
-      //     phone : this.user_info.user_phone
-      //   }
-
-      // }).then(res => {
-      //   console.log(res);      
-
-      // }).catch(error =>{
-      //   console.log(error);
-      // });  
-      } else {        
-        alert("휴대폰 번호를 확인해주세요!");
-        console.log(number);
-      }                    
+    phone_validation: async function () {
+      var data = await loginFunc.phone_validation();
+      if(data != null){
+        this.user_info.user_phone = data.phone;
+        this.phoneCode = data.phone_code;
+      }      
+      console.log("인증번호 받기 후 잘 들어감? ",this.user_info.user_phone, this.phoneCode);
     },
 
-
-    /**
-     * 핸드폰으로 보낸 인증번호가 동일한지 확인하는 메소드
-     */
     phone_valid_check: function () {
-      console.log("phone-valid-check");
-      var input_phone = document.querySelector("#phone");
-      var valid = document.querySelector("#phoneAuthentication");
+      console.log(this.phoneCode);
+      this.phone_valid = loginFunc.phone_valid_check(this.phoneCode);
 
-      if(valid.value == this.phoneCode){
-        input_phone.disabled = true;
-        valid.disabled = true;
-        this.phone_valid = true;        
-        alert("인증이 완료되었습니다!");
-
-      }else {
-        alert("인증번호가 일치하지 않습니다!");
-      }
+      console.log("==번호인증 완료 후==");
+      console.log("user_phone :: ", this.user_info.user_phone);
     },
-
 
     /**
      * 주소를 검색하기 위해 주소검색창을 띄우는 API
      */
     find_address: function () {
-      var addr =  document.querySelector("#addressInput");
-
+      var addr = document.querySelector("#addressInput");
+      var outside = this;
       new daum.Postcode({
         oncomplete: function (data) {
           console.log(data);
-          addr.value = "("+ data.zonecode +") "+ data.address;          
-        },        
-      }).open();
-      console.log(addr.value);
-      console.log(addr.innerText);
-      this.user_info.user_addr = addr.value;
+          addr.value = "(" + data.zonecode + ")" + data.address;
+          outside.user_info.user_addr = data.address;
+          outside.user_info.addr_postzone = data.zonecode;
+        },
+      }).open();     
     },
 
-
     /**
-     * 모든 값을 입력하고, 인증까지 완료했으면 회원가입을 완료할 수 있는 메소드     * 
+     * 모든 값을 입력하고, 인증까지 완료했으면 회원가입을 완료할 수 있는 메소드     *
      */
-    signup: function () {      
-      var addr = document.querySelector("#addressInput").value;
+    signup: async function () {            
+      var selected = document.querySelector("input[type=radio][name=gender]:checked");
+      this.user_info.user_gender = selected.value;
       console.log(this.user_info);
       console.log(JSON.stringify(this.user_info));
-      if(this.pass_valid == true && this.pass_confirm == true 
-         && this.email_valid == true && this.phone_valid == true && addr != ""){          
-          alert("회원가입을 축하합니다!!");
-          axios({
-            url : "http://localhost:8090/zippy/member/gSignUp",
-            method : "POST",
-            param :{
-              info : JSON.stringify(this.user_info)
-            },
+      console.log(this.pass_valid);
+      console.log(this.pass_confirm);
+      console.log(this.email_valid);
+      console.log(this.phone_valid);
 
-            data :{
-              info : JSON.stringify(this.user_info)
-            }
-            
-          }).then(res => {
+      if (this.pass_valid == true && this.pass_confirm == true &&
+          this.email_valid == true && this.phone_valid == true &&
+          this.user_info.user_addr != "" && this.user_info.user_name != ""  &&
+          this.user_info.user_nick != "" && this.user_info.user_birth != "") {    
+        alert("회원가입을 축하합니다!!");
+        var temp = await axios({
+          url: "http://localhost:8090/zippy/member/gSignUp",
+          method: "POST",
+          param: {
+            info: JSON.stringify(this.user_info),
+          },
+
+          data: {
+            info: JSON.stringify(this.user_info),            
+          },
+        })
+          .then((res) => {
             console.log(res);
-
-          }).catch(error => {
+          })
+          .catch((error) => {
             console.log(error);
           });
-         }
-      /**
-       * 회원가입시 인증 및 필요한 정보
-       * 
-       * 1. 이메일 인증(emailValid)
-       * 2. 비밀번호 양식
-       * 3. 핸드폰 인증
-       */
-    }
+
+          this.$router.push("/");
+
+      } else{
+        alert("모든 정보를 입력해주세요!");
+      }
+    },    
   },
 };
 </script>
@@ -494,7 +437,7 @@ export default {
 }
 
 .sign-container {
-  width: 40%;
+  width: 35%;
   min-width: 600px;
 }
 
@@ -507,9 +450,9 @@ export default {
   width: 70%;
   display: inline-block;
 }
-
-#passwordCheck {
+.passwordCheck {
   color: red;
+  display: none;
 }
 
 .sign-up-btn {
@@ -521,4 +464,33 @@ export default {
   width: 50%;
 }
 
+#gender-label-div {
+  padding: 5px;
+  margin: 5px;
+  text-align: center;
+}
+
+.gender-label {
+  border: 1px solid black;
+  width: 22%;
+  min-width: 118px;
+  margin: 5px;
+}
+
+.gender-label input[type="radio"] {
+  display: none;
+}
+
+.gender-label input[type="radio"] + span {
+  display: inline-block;
+  padding: 15px 10px;
+  background-color: #ffffff;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+}
+.gender-label input[type="radio"]:checked + span {
+  background-color: #b3e3c3;
+  color: black;
+}
 </style>

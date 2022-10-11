@@ -3,6 +3,7 @@
 </template>
 
 <script>
+
   import HelloWorld from "../components/HelloWorld";
   import moveNav from "./move/moveNav.vue";
   import moveContactFinalCheck from "./move/moveContactFinalCheck.vue";
@@ -15,6 +16,7 @@
   import moveTypeSelect from "./move/moveTypeSelect";
   import move1 from "./move/move1";
   import generalSignUp from "./login/generalSignUp.vue";
+
 
   export default {
     name: "Home",

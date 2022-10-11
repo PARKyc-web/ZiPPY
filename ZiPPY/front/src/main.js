@@ -14,16 +14,12 @@ Vue.prototype.$http = axios;
 Vue.prototype.$axios = axios;
 axios.defaults.crossDomain = true;
 // port는 sts의 포트넘버
-axios.defaults.baseURL = "http://localhost:8090/";
+axios.defaults.baseURL = "http://localhost:8090/zippy";
 
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.config.productionTip = false;
-
-
-Vue.use(router);
-
 
 new Vue({
   router,

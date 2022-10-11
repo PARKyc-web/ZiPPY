@@ -10,12 +10,11 @@
               <h5 class="card-title text-center mb-5 fw-light fs-5">
                 <img src="../../assets/zippy_logo.png" width="150px" />
               </h5>
-              <hr class="my-4" />
-
+              <hr class="my-4" />              
               <form id="signup-form" action="">
                 <div id="first-form">
                   <div id="business-label-div">
-                    <h3>업체 유형</h3>
+                    <h5>업체 유형</h5>
 
                     <label class="business-label">
                       <input type="radio" name="business_type" value="property"/>
@@ -28,7 +27,7 @@
                     </label>
 
                     <label class="business-label">
-                      <input type="radio" name="business_typee" value="move" />
+                      <input type="radio" name="business_type" value="move" />
                       <span>이사업체</span>
                     </label>
 
@@ -37,10 +36,9 @@
                       <span>청소업체</span>
                     </label>
                   </div>
-
+                  <hr class="my-4" />
                   <div class="form-floating mb-3">
-                    <input
-                      v-model="user_email"
+                    <input                      
                       type="email"
                       class="form-control"
                       id="inputEmail"
@@ -51,6 +49,7 @@
                     />
                     <label for="inputEmail">이메일(아이디)</label>
                     <button
+                      id="email_code"
                       type="button"
                       class="btn btn-outline-success"
                       @click="email_validation()"
@@ -70,9 +69,11 @@
                     />
                     <label for="emailAuthentication">인증번호(6자리)</label>
                     <button
+                      id="email-confirm-btn"
                       type="button"
                       class="btn btn-outline-success"
                       @click="email_valid_check()"
+                      disabled
                     >
                       인증번호 입력
                     </button>
@@ -82,9 +83,10 @@
                     <input
                       type="password"
                       class="form-control"
+                      v-model="user_info.user_password"
                       id="password"
                       name="user_passwd"
-                      placeholder="123456"
+                      placeholder="123456"                      
                       @change="password_validation()"
                     />
                     <label for="password">비밀번호</label>
@@ -101,8 +103,8 @@
                     <label for="passwd-confirm">비밀번호 재확인</label>
                   </div>
 
-                  <small v-if="pass_valid == true">
-                    <p id="passwordCheck">
+                  <small>
+                    <p class="passwordCheck">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
@@ -119,8 +121,8 @@
                     </p>
                   </small>
 
-                  <small v-if="pass_confirm == true">
-                    <p id="passwordCheck">
+                  <small>
+                    <p class="passwordCheck">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
@@ -183,6 +185,7 @@
                     />
                     <label for="phone">전화번호</label>
                     <button
+                      id="phone_code"
                       type="button"
                       class="btn btn-outline-success"
                       @click="phone_validation()"
@@ -201,8 +204,10 @@
                     <label for="phoneAuthentication">인증번호</label>
                     <button
                       type="button"
+                      id="phoneNumberBtn"
                       class="btn btn-outline-success"
                       @click="phone_valid_check()"
+                      disabled
                     >
                       전화번호 인증
                     </button>
@@ -216,7 +221,7 @@
                       placeholder="주소검색"
                       disabled
                     />
-                    <label for="addressInput">주소 (우편번호)</label>
+                    <label for="addressInput">업체주소 (우편번호)</label>
                   </div>
 
                   <div class="form-floating mb-3">
@@ -224,15 +229,14 @@
                       type="text"
                       class="form-control"
                       id="addressDetail"
+                      v-model="user_info.addr_detail"
                       placeholder="상세주소"
                     />
                     <label for="addressDetail">상세주소</label>
                     <button
                       type="button"
                       class="btn btn-outline-success"
-                      @click="find_address()"
-                      return
-                      false
+                      @click="find_address()"                      
                     >
                       주소검색
                     </button>
@@ -262,6 +266,7 @@
                       class="form-control"
                       id="ceo_name"
                       placeholder="ceo"
+                      v-model="user_info.ceo_name"
                     />
                     <label for="ceo_name">대표자 이름</label>
                   </div>
@@ -272,6 +277,7 @@
                       class="form-control"
                       id="business_name"
                       placeholder="company_name"
+                      v-model = "user_info.company_name"
                     />
                     <label for="business_name">업체명</label>
                   </div>
@@ -283,6 +289,7 @@
                       id="business_explain"
                       placeholder="기업소개를 작성해주세요!"
                       rows="15"
+                      v-model = "user_info.company_intro"
                     ></textarea>
                   </div>
 
@@ -300,7 +307,7 @@
                     </button>
                   </div>
 
-                  <div class="form-floating mb-3">
+                  <div class="form-floating mb-3" v-if="user_info.business_type == 'property'">
                     <input
                       type="email"
                       class="form-control"
@@ -323,7 +330,8 @@
                     <label for="business_number_pic"> 사업자등록증 </label>
                   </div>
 
-                  <div class="form-floating mb-3">
+                  <div class="form-floating mb-3" v-if="user_info.business_type == 'property'">
+                    
                     <input
                       type="file"
                       class="form-control"
@@ -353,140 +361,165 @@
 
 <script>
 import axios from 'axios';
+import loginFunc from '@/script/loginFunc';
 
 export default {
   data() {
     return {
-      user_email: "",
-      business_type: "",
+      // 회원가입 시, 필요한 정보
+      user_info : {
+        user_email: "",
+        user_password : "",
+        user_phone : "",
+        user_addr : "",
+        addr_detail : "",
+        addr_postzone : "",
+        business_type: "",
+        ceo_name : "",
+        company_name : "",
+        company_intro : "",
+        business_number : "",
+        business_img : "",
+        broker_id : "",
+        broker_img : ""
+      },
+
+      // valid 되었는지 확인하는 정보
+      email_valid : false,
       pass_valid: false,
       pass_confirm: false,
+      phone_valid : false,
+
+      // 인증코드가 담기는 Data
+      emailCode: 12345672387,
+      phoneCode: 12301684861,
     };
   },
 
   methods: {
-    email_validation: function () {
-      console.log(this.user_email);
-      axios.get("zippy/validation/email", {
-          params: {
-            email: this.user_email,
-          },
-        })
-        .then((res) => {
-          console.log(res);
-          this.emailCode = res.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
+    email_validation: async function () {      
+      var data = await loginFunc.email_validation();
+      console.log("이메일 Validation 실행한 후 : ", data);
+      if(data != null){
+        this.user_info.user_email = data.email;        
+        this.emailCode = data.email_code;        
+      }      
+    },    
 
-    email_valid_check: function () {
-      console.log("email-valid-check");
-
-      var code = document.querySelector("#emailAuthentication");
-      console.log(code.value);
-
-      if (this.emailCode == code.value) {
-        console.log("이메일인증 성공!");
-      }
-
-      var email = document.querySelector("#inputEmail");
-      var valid = document.querySelector("#emailAuthentication");
-
-      email.disabled = true;
-      valid.disabled = true;
-
-      this.email_valid = true;
+    email_valid_check: function(){      
+      this.email_valid = loginFunc.email_valid_check(this.emailCode);
+      console.log("email_valid :: ", this.email_valid);
+      console.log("user_email :: ", this.user_info.user_email);
     },
 
     password_validation: function () {
       console.log("passwd-valid");
-      var reg =
-        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-+]).{8,20}$/;
-      var password = document.querySelector("#password").value;
-
-      console.log(reg.test(password));
-      this.pass_valid = !reg.test(password);
+      this.pass_valid = loginFunc.password_validation();
     },
 
     password_confirm: function () {
-      var password = document.querySelector("#password").value;
-      var confirm = document.querySelector("#passwd-confirm").value;
-
-      if (password == confirm) {
-        this.pass_confirm = false;
-      } else {
-        this.pass_confirm = true;
-      }
+      this.pass_confirm = loginFunc.password_confirm();
     },
 
-    phone_validation: function () {
-      console.log("phone-validation");
+    phone_validation: async function () {
+      var data = await loginFunc.phone_validation();
+      if(data != null){
+        this.user_info.user_phone = data.phone;
+        this.phoneCode = data.phone_code;
+      }      
+      console.log("인증번호 받기 후 잘 들어감? ",this.user_info.user_phone, this.phoneCode);
     },
 
     phone_valid_check: function () {
-      console.log("phone-valid-check");
-      var input_phone = document.querySelector("#phone");
-      var valid = document.querySelector("#phoneAuthentication");
+      console.log(this.phoneCode);
+      this.phone_valid = loginFunc.phone_valid_check(this.phoneCode);
 
-      input_phone.disabled = true;
-      valid.disabled = true;
-
-      this.phone_valid = true;
+      console.log("==번호인증 완료 후==");
+      console.log("user_phone :: ", this.user_info.user_phone);
     },
 
+    /**
+     * 주소를 검색하기 위해 주소검색창을 띄우는 API
+     */
     find_address: function () {
+      var addr = document.querySelector("#addressInput");
+      var outside = this;
       new daum.Postcode({
         oncomplete: function (data) {
           console.log(data);
-          document.querySelector("#addressInput").value = data.address;
+          addr.value = "(" + data.zonecode + ") " + data.address;
+          outside.user_info.user_addr = data.address;
+          outside.user_info.addr_postzone = data.zonecode;
         },
-      }).open();
+      }).open();     
     },
 
-    next: function () {
-      console.log("next-run");      
+    next: function () {            
       var selected = document.querySelector("input[type=radio][name=business_type]:checked");      
 
-      if(selected == null){
-        console.log(this.business_type);        
+      if(selected == null){        
         alert("업체유형을 선택해 주세요!");
 
-      }else {
-        this.business_type = selected.value;
-        document.querySelector("#first-form").style.display = "none";
-        document.querySelector("#second-form").style.display = "block";
+      }else if(this.email_valid == false || this.phone_valid == false || this.pass_valid == false || this.user_info.user_addr == ""){
+        alert("모든 정보를 인증 및 확인해주세요!");
 
-        console.log(this.business_type);
+      }else {
+        this.user_info.business_type = selected.value;
+        document.querySelector("#first-form").style.display = "none";
+        document.querySelector("#second-form").style.display = "block";      
       }
+      console.log(this.user_info);
     },
 
-    businessNumValid : function(){
+    businessNumValid : async function(){
       console.log("==Business NUMBER VALIDATION==");
-
-      axios({
+      var number = document.querySelector("#business_number").value;
+      var temp = await axios({
         url: "https://api.odcloud.kr/api/nts-businessman/v1/status",
         method : "POST",
         params :{
           "serviceKey" : "QZf4Ip/iukGVGGNo2Yp1ei7ISnJ2sOwUgmmBjLQt6mCw73ftY5N0jt6ck1Qz34mGkNv4FQAysldaby08pQpYEg=="
         },
         data :{
-          "b_no" : ["1234567", "6209701458"]
+          "b_no" : [number]
         }
       }).then(res => {
         console.log(res);
-
         console.log(res.data.data);
 
       }).catch(error =>{
         console.log(error);
-      })
-      
+      })      
     },
 
     sign: function () {
-      console.log("sign-up RUN");
+      console.log("sign-up RUN");      
+      console.log(this.info);
+      console.log(JSON.stringify(this.info));
+            
+      // if (this.pass_valid == true && this.pass_confirm == true &&
+      //     this.email_valid == true && this.phone_valid == true) {    
+      //   alert("회원가입을 축하합니다!!");
+      //   axios({
+      //     url: "http://localhost:8090/zippy/member/bSignUp",
+      //     method: "POST",
+      //     param: {
+      //       info: JSON.stringify(this.user_info),
+      //     },
+
+      //     data: {
+      //       info: JSON.stringify(this.user_info),            
+      //     },
+      //   })
+      //     .then((res) => {
+      //       console.log(res);
+      //     })
+      //     .catch((error) => {
+      //       console.log(error);
+      //     });
+      // } else{
+      //   alert("모든 정보를 입력해주세요!");
+      // }
 
     },  
   },
@@ -504,7 +537,7 @@ export default {
 }
 
 .sign-container {
-  width: 40%;
+  width: 35%;
   min-width: 600px;
 }
 
@@ -547,8 +580,8 @@ export default {
 
 .business-label {
   border: 1px solid black;
-  width: 22%;
-  min-width: 118px;
+  width: 15%;
+  min-width: 110px;
   margin: 5px;
 }
 
@@ -568,5 +601,9 @@ export default {
 .business-label input[type="radio"]:checked + span {
   background-color: #b3e3c3;
   color: black;
+}
+.passwordCheck {
+  color: red;
+  display: none;
 }
 </style>
