@@ -17,12 +17,14 @@
           <p>{{product.compName}}></p>
           <!--heart-->
           <div class="ml-auto">
-            <v-btn v-if="heart==0" class="mx-2" color='#D6D6D6' fab depressed dark small @click="changeHeart(product.shopProductNo)">
+            <v-btn v-if="heart==0" class="mx-2" color='#D6D6D6' fab depressed dark small
+              @click="changeHeart(product.shopProductNo)">
               <v-icon dark>
                 mdi-heart
               </v-icon>
             </v-btn>
-            <v-btn v-if="heart==1" class="mx-2" color='#FF4063' fab depressed dark small @click="changeHeart(product.shopProductNo)">
+            <v-btn v-if="heart==1" class="mx-2" color='#FF4063' fab depressed dark small
+              @click="changeHeart(product.shopProductNo)">
               <v-icon dark>
                 mdi-heart
               </v-icon>
@@ -36,12 +38,12 @@
           <v-icon color="#B3E3C3" class="pr-2">mdi-truck</v-icon>배송비<span> {{product.shopDeliveryCost}}</span>원
         </h6>
         <!-- 옵션 -->
-        <div>                                      
+        <div>
           <!--colors-->
           <v-select v-model="selectedColor" :items="colors" label="색상" dense outlined width="330"></v-select>
         </div>
         <div>
-                                                  <!--sizes-->
+          <!--sizes-->
           <v-select v-model="selectedSize" :items="sizes" label="사이즈" dense outlined width="330"></v-select>
         </div>
         <!-- 옵션 끝 -->
@@ -49,6 +51,11 @@
           <div style="font-size:smaller">
             <div style="display:flex">
               {{product.shopProductName}} {{selectedColor}} / {{selectedSize}}
+              <div class="ml-2" v-for="addPrice in addPrices" :key=addPrice.optName>
+                <p class="ma-0" v-if="selectedColor==addPrice.optName || selectedSize==addPrice.optName">
+                  +({{addPrice.optPrice}}원)
+                </p>
+              </div>
               <span class="ml-auto" @click="deleteOpt()" style="cursor:pointer">X</span>
             </div>
             <!-- 수량조절 -->
@@ -312,9 +319,9 @@
     data: () => ({
       tab: null,
       imgs: [],
-      colors: ['white', 'wood', 'black'],
+      colors: [],
       selectedColor: '',
-      sizes: ['S', 'M', 'L'],
+      sizes: [],
       selectedSize: '',
       page: 1,
       tabs: null,
@@ -323,14 +330,7 @@
       qty: 1,
       heart: 0,
       opts: [],
-      addPrices: [{
-        optName : '',
-        optPrice : 0
-      }],
-      ap: {
-        optName : '',
-        optPrice : 0
-      }
+      addPrices: []
     }),
     methods: {
       //수량 감소
@@ -355,21 +355,21 @@
         this.qty = 1;
       },
       changeHeart() {
-        if(this.heart == 0){ //찜x
-          this.heart=1; //찜on
+        if (this.heart == 0) { //찜x
+          this.heart = 1; //찜on
           alert('상품을 찜했습니다.');
-        }else{ //찜on
-          this.heart=0;  //찜x
+        } else { //찜on
+          this.heart = 0; //찜x
           alert('상품의 찜을 해제하였습니다.')
         }
       },
       goBasket() {
-        if(this.selectedColor == '' || this.selectedSize == ''){
+        if (this.selectedColor == '' || this.selectedSize == '') {
           alert('상품의 옵션을 선택해주세요.')
         }
       },
       goOrder() {
-        if(this.selectedColor == '' || this.selectedSize == ''){
+        if (this.selectedColor == '' || this.selectedSize == '') {
           alert('상품의 옵션을 선택해주세요.')
         }
       }
@@ -377,67 +377,71 @@
     created() {
       //단건조회
       axios({
-        url: "http://localhost:8088/zippy/shop/detail",
-        methods: "GET",
-        params: {
-          no: this.$route.query.no
-        }
-      }).then(res => {
-        console.log(res);
-        this.product = res.data; 
-        console.log(this.product);
-      }).catch(error => {
-        console.log(error);
-      }),
-      //이미지조회
-      axios({
-        url: "http://localhost:8088/zippy/shop/img",
-        methods: "GET",
-        params: {
-          no: this.$route.query.no
-        }
-      }).then(res => {
-        console.log(res);
-        this.imgs = res.data;
-        this.imgs.unshift(this.product.shopMainImg)
-      }).catch(error => {
-        console.log(error);
-      }),
-      //옵션조회
-      axios({
-        url: "http://localhost:8088/zippy/shop/opt",
-        methods: "GET",
-        params: {
-          no: this.$route.query.no
-        }
-      }).then(res => {
-        console.log(res);
-        this.opts = res.data;
-        //색상, 사이즈 분리 작업
-        for(var i in this.opts) {
-          if(this.opts[i].shopProductOptColor !== ''){
-            this.colors.push(this.opts[i].shopProductOptColor)
-            if(this.opts[i].shopProductOptPrice !== ''){
-              this.ap.optName=this.opts[i].shopProductOptColor;
-              this.ap.optPrice=this.opts[i].shopProductOptPrice;
-              this.addPrices.push(this.ap)
+          url: "http://localhost:8088/zippy/shop/detail",
+          methods: "GET",
+          params: {
+            no: this.$route.query.no
+          }
+        }).then(res => {
+          console.log(res);
+          this.product = res.data;
+          console.log(this.product);
+        }).catch(error => {
+          console.log(error);
+        }),
+        //이미지조회
+        axios({
+          url: "http://localhost:8088/zippy/shop/img",
+          methods: "GET",
+          params: {
+            no: this.$route.query.no
+          }
+        }).then(res => {
+          console.log(res);
+          this.imgs = res.data;
+          this.imgs.unshift(this.product.shopMainImg)
+        }).catch(error => {
+          console.log(error);
+        }),
+        //옵션조회
+        axios({
+          url: "http://localhost:8088/zippy/shop/opt",
+          methods: "GET",
+          params: {
+            no: this.$route.query.no
+          }
+        }).then(res => {
+          console.log(res);
+          this.opts = res.data;
+          //색상, 사이즈 분리 작업
+          for (var i in this.opts) {
+            if (this.opts[i].shopProductOptColor !== null) {
+              this.colors.push(this.opts[i].shopProductOptColor)
+              //추가가격
+              if (this.opts[i].shopProductOptPrice !== null) {
+                this.addPrices.push({
+                  optName: this.opts[i].shopProductOptSize,
+                  optPrice: this.opts[i].shopProductOptPrice
+                });
+              }
+            }
+            if (this.opts[i].shopProductOptSize !== null) {
+              this.sizes.push(this.opts[i].shopProductOptSize)
+              //추가가격
+              if (this.opts[i].shopProductOptPrice !== null) {
+                this.addPrices.push({
+                  optName: this.opts[i].shopProductOptSize,
+                  optPrice: this.opts[i].shopProductOptPrice
+                });
+              }
             }
           }
-          if(this.opts[i].shopProductOptSize !== ''){
-            this.sizes.push(this.opts[i].shopProductOptSize)
-            if(this.opts[i].shopProductOptPrice !== ''){
-              this.ap.optName=this.opts[i].shopProductOptSize;
-              this.ap.optPrice=this.opts[i].shopProductOptPrice;
-              this.addPrices.push(this.ap)
-            }
-          }
-        }
-        console.log(this.addPrices)
-      }).catch(error => {
-        console.log(error);
-      })
+          console.log(this.addPrices)
+        }).catch(error => {
+          console.log(error);
+        })
     },
-    computed : {
+    computed: {
       countAmount() {
         let amount = 0;
         amount += this.product.shopProductPrice * this.qty;
@@ -472,11 +476,13 @@
   #heart {
     margin-left: auto;
   }
+
   #detail-info {
     width: 390px;
     height: 500px;
     padding: 40px 0 0 40px;
   }
+
   #detail-button {
     clear: both;
     padding-top: 20px;
