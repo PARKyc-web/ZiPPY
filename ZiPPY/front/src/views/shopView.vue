@@ -1,8 +1,7 @@
 <template>
   <div>
-    <shopMain></shopMain>
     <shop-subbar></shop-subbar>
-    <shop-detail></shop-detail>
+    <shopMain></shopMain>
   </div>
 </template>
 

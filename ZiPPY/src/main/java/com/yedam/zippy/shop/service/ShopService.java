@@ -15,4 +15,8 @@ public interface ShopService {
 	public List<ProductVO> getKeywordList(String keyword);
 	//단건조회(디테일)
 	public ProductVO getProduct(int shopProductNo);
+	//디테일 이미지 조회
+	public String[] getDetailImg(int shopProductNo);
+	//디테일 옵션 조회
+    public List<ProductOptionVO> getDetailOpt(int shopProductNo);
 }

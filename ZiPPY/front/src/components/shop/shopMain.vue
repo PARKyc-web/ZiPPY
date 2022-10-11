@@ -24,7 +24,7 @@
       <!-- 아이템 -->
         <div id="main-item" v-for="product in products" :key="product.shopProductNo" @click="goDetail(product.shopProductNo)">
           <div id="main-product-img">
-            <img :src="product.shopMainImg">
+            <img :src="require(`../../assets/shop/productImg/${product.shopMainImg}.jpg`)">
           </div>
           <div class="product-about" id="left">
             <h6 id="product-name">{{ product.shopProductName }}</h6>
@@ -39,9 +39,9 @@
         <div id="list-name" style="margin:0 auto">
           <h2 style="color:#212529; text-align: center;">이런 건 어떠세요?</h2>
         </div>
-        <div id="main-item" v-for="product in products" :key="product.shopProductNo">
+        <div id="main-item" v-for="product in products" :key="product.shopProductNo" @click="goDetail(product.shopProductNo)">
           <div id="main-product-img">
-            <img :src="product.shopMainImg">
+            <img :src="require(`../../assets/shop/mainImg/${product.shopMainImg}.jpg`)">
           </div>
           <div class="product-about" id="left">
             <h6 id="product-name">{{ product.shopProductName }}</h6>

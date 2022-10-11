@@ -33,7 +33,7 @@
         <div id="product-info" v-for="product in products" :key="product.shopProductNo"
           @click="goDetail(product.shopProductNo)">
           <div id="product-img">
-            <img :src="product.shopMainImg">
+            <img :src="require(`../../assets/shop/productImg/${product.shopMainImg}.jpg`)">
           </div>
           <div class="product-about">
             <h6 class="product-seller-name">{{product.compName}}</h6>
@@ -83,7 +83,7 @@
     methods: {
       //디테일 페이지로 이동
       goDetail(no) {
-        this.$router.push('/shop/detail?shopProductNo=' + no)
+        this.$router.push('/shop/detail?no=' + no)
       },
       //카테고리 선택
       goList(cate) {

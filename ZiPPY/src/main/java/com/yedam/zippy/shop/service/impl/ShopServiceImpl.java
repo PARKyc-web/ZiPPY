@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yedam.zippy.shop.mapper.ShopMapper;
+import com.yedam.zippy.shop.service.ProductOptionVO;
 import com.yedam.zippy.shop.service.ProductVO;
 import com.yedam.zippy.shop.service.ShopService;
 
@@ -30,6 +31,14 @@ public class ShopServiceImpl implements ShopService {
   @Override
   public ProductVO getProduct(int shopProductNo) {
     return mapper.getProduct(shopProductNo);
+  }
+  @Override
+  public String[] getDetailImg(int shopProductNo) {
+    return mapper.getDetailImg(shopProductNo);
+  }
+  @Override
+  public List<ProductOptionVO> getDetailOpt(int shopProductNo) {
+    return mapper.getDetailOpt(shopProductNo);
   }
 
 }

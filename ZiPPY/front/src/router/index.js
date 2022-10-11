@@ -43,7 +43,7 @@ const routes = [
   },
   {
     path: "/shop/keyword",
-    name: "category",
+    name: "keyword",
     component: keywordList,
   }
 ];

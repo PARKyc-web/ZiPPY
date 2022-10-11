@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yedam.zippy.shop.service.ProductOptionVO;
 import com.yedam.zippy.shop.service.ProductVO;
 import com.yedam.zippy.shop.service.ShopService;
 
@@ -32,16 +33,28 @@ public class ShopController {
   public List<ProductVO> categoryList(@RequestParam("cate") String shopCategory) {
     return service.getCategoryList(shopCategory);
   }
-  
-//전체조회(키워드)
- @RequestMapping("/keyword")
- public List<ProductVO> keywordList(@RequestParam("keyw") String keyword) {
-   return service.getKeywordList(keyword);
- }
+
+  // 전체조회(키워드)
+  @RequestMapping("/keyword")
+  public List<ProductVO> keywordList(@RequestParam("keyw") String keyword) {
+    return service.getKeywordList(keyword);
+  }
 
   // 단건조회(디테일)
   @RequestMapping("/detail")
-  public ProductVO productDetail(@RequestParam int shopProductNo) {
+  public ProductVO productDetail(@RequestParam("no") int shopProductNo) {
     return service.getProduct(shopProductNo);
+  }
+
+  //조회(이미지)
+  @RequestMapping("/img")
+  public String[] imgDetail(@RequestParam("no") int shopProductNo) {
+    return service.getDetailImg(shopProductNo);
+  }
+  
+  //조회(옵션)
+  @RequestMapping("/opt")
+  public List<ProductOptionVO> optDetail(@RequestParam("no") int shopProductNo) {
+    return service.getDetailOpt(shopProductNo);
   }
 }

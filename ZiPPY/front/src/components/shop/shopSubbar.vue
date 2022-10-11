@@ -20,7 +20,7 @@
       <v-spacer></v-spacer>
       <!--검색창-->
       <v-icon>mdi-magnify</v-icon>
-      <v-form>
+      <v-form onsubmit="return false">
         <v-container class="mt-3">
           <v-text-field @keyup="enterkey()" color="#B3E3C3" id="search"></v-text-field>
         </v-container>
@@ -59,14 +59,12 @@
     methods: {
       goList(cate) {
         this.$router.push('/shop/category?cate=' + cate);
-        //새로고침
         this.$router.go(0);
       },
       enterkey: function () {
         var searchValue = document.querySelector("#search").value;
         if (window.event.keyCode == 13) {
           this.$router.push('/shop/keyword?keyw=' + searchValue);
-          //새로고침
           this.$router.go(0);
         }
       }
