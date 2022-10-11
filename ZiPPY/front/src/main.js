@@ -22,7 +22,7 @@ Vue.use(IconsPlugin);
 Vue.config.productionTip = false;
 
 
-
+Vue.use(router);
 
 
 new Vue({

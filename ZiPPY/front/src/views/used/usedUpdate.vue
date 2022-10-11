@@ -24,42 +24,61 @@
       </div>
       <hr />
       <div>
-        <div class="used-insert-img"><span>이미지 0/6</span></div>
-        <div id="used-insert-main"></div>
-        <hr />
-        <div class="used-insert-img">
-          <span>제목
-            <input type="text" placeholder="상품 제목을 2글자 이상 입력해주세요" />
-          </span>
+        <div>
+          <div id="used-insert-main">
+            <div class="used-insert-img" id="used-insert-img-div">
+              <span>이미지</span> 0/6
+            </div>
+            <div>
+              <form>
+                <label htmlFor="profile-upload" />
+                <input @change="values()" type="file" id="profile-upload" multiple accept="image/*" />
+              </form>
+            </div>
+          </div>
         </div>
-        <hr />
+      </div>
+      <hr />
+      <div class="used-insert-img">
+        <span>제목
+          <input @change="values()" id="used-product-name" type="text" placeholder="상품 제목을 2글자 이상 입력해주세요" :value="product.productName" />
+        </span>
+      </div>
+      <hr />
+      <div id="used-insert-main">
         <div class="used-insert-img">
           <span>카테고리</span>
         </div>
         <div class="dropdown">
           <div id="used-main-dropbox">
-            <v-select v-model="select" :items="items" item-text="name" item-value="value" label="카테고리" color="#212529"
-              persistent-hint return-object single-line dense width="50"></v-select>
+            <v-select @change="values()" v-model="select" :items="items" item-text="name" item-value="value"
+              :label="product.productCategory" color="#212529" persistent-hint single-line dense width="50"></v-select>
           </div>
         </div>
-        <hr />
-        <div class="used-insert-img">
-          <span>가격 <input id="used-insert-price" type="text" /> 원</span>
-        </div>
-        <hr />
+      </div>
+      <hr />
+      <div class="used-insert-img">
+        <span>가격<input @change="values()" id="used-insert-price" type="text" :value="product.productPrice" /> 원</span>
+      </div>
+      <hr />
+      <div class="used-wish-detailInfo">
         <div class="used-insert-img">
           <span>설명</span>
         </div>
-        <textarea id="used-insert-textarea" cols="80" rows="10"></textarea>
-        <div class="used-insert-submit">
-          <button>수정</button>
+        <div>
+          <textarea @change="values()" id="used-insert-textarea" cols="110" rows="10"> {{product.productInfo}} </textarea>
         </div>
+      </div>
+      <div class="used-insert-submit">
+        <button>수정</button>
       </div>
     </div>
   </form>
 </template>
 
 <script>
+  import axios from 'axios';
+
   export default {
     data: () => ({
       items: [{
@@ -87,9 +106,43 @@
           value: '다용도실'
         },
       ],
+      select: '',
+      product : ''
     }),
+    created() {
+      axios({
+        url: "http://localhost:8088/zippy/used/detail",
+        methods: "GET",
+        params: {
+          pNo: this.$route.query.pNo
+        }
+      }).then(res => {
+        console.log(res);
+        this.product = res.data;
+      }).catch(error => {
+        console.log(error);
+      })
+    },
     methods: {
+      values: function () {
+        var dropVal = this.select;
+        console.log(dropVal);
+        var priceVal = document.querySelector('#used-insert-price').value;
+        console.log(priceVal);
+        var productVal = document.querySelector('#used-product-name').value;
+        console.log(productVal);
+        var productCont = document.querySelector('#used-insert-textarea').value;
+        console.log(productCont);
+        var productImg = document.querySelector('#profile-upload').src;
+        console.log(productImg);
+        axios({
+          url: "http://localhost:8088/zippy/used/update",
+          methods: "POST",
+          params: {
 
+          }
+        })
+      }
     }
   };
 </script>
@@ -161,16 +214,11 @@
   }
 
   .nav-link dropdown-toggle {
-    float: right;
     width: 50px;
   }
 
   .nav-link:hover {
     color: #b3e3c3;
-  }
-
-  .nav-item dropdown {
-    float: right;
   }
 
   .used-dropdown {
@@ -199,33 +247,38 @@
     background-color: white;
   }
 
+  #used-insert-img-div {
+    width: 180px;
+  }
+
   .used-insert-img span {
     font-weight: bolder;
-    font-size: x-large;
+    font-size: large;
     margin: 10px 0 10px 10px;
   }
 
-  .upload:nth-child(2) {
-    color: grey;
-  }
-
   .used-insert-img input {
-    width: 70%;
-    margin: 10px 0 10px 100px;
+    width: 40%;
+    height: 40px;
+    margin: 10px 0 10px 145px;
+    background-color: #f5f5f5;
+    border: 1px solid #c3c2cc;
   }
 
   #used-insert-price {
     width: 10%;
-    margin: 10px 0 10px 100px;
+    margin: 10px 0 10px 145px;
   }
 
   #used-insert-textarea {
-    margin: 10px 0 10px 165px;
+    margin: 10px 0 10px 150px;
+    resize: none;
+    border: 1px solid #c3c2cc;
   }
 
   .used-insert-submit {
     float: right;
-    margin-top: 300px;
+    margin: 50px 20px 30px 0;
   }
 
   .used-insert-submit button {
@@ -234,5 +287,30 @@
     color: white;
     width: 100px;
     height: 50px;
+  }
+
+  .used-wish-detailInfo {
+    display: flex;
+  }
+
+  #used-insert-main {
+    display: flex;
+  }
+
+  #dropdownMenuButton1 {
+    text-align: left;
+  }
+
+  #dropdown-opt a:hover {
+    color: #212529;
+    background-color: #b3e3c3;
+  }
+
+  .dropdown {
+    margin-left: 115px;
+  }
+
+  #dropdownMenuButton1 {
+    width: 150px;
   }
 </style>
