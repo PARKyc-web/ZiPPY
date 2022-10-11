@@ -15,7 +15,7 @@ public interface UsedMapper {
 	public List<UsedProductVO> usedSearchList(@Param("word")String word);
 
 	// 단건조회
-	public UsedProductVO usedOne(int pNo);
+	public UsedProductVO usedOne(@Param("pNo")int pNo);
 
 	// 등록
 	public void insertUsed(Map<String, String> insertProduct);
@@ -25,4 +25,10 @@ public interface UsedMapper {
 
 	// 삭제
 	public void deleteUsed(String key);
+	
+	// 조회수 증가
+	public void viewCnt(@Param("pNo") int pNo);
+	
+	// 찜 추가
+	public String addWish(@Param("id") String id);
 }

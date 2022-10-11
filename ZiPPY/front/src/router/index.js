@@ -3,7 +3,11 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import PropertyView from "../views/property/PropertyView.vue";
 import shopView from "../views/shopView.vue";
+import usedUpdate from "../views/used/usedUpdate.vue";
 import usedDetail from "../views/used/usedDetail.vue";
+import usedMain from "../views/used/usedMain.vue";
+import usedInsert from "../views/used/usedInsert.vue";
+
 
 Vue.use(VueRouter);
 
@@ -31,7 +35,17 @@ const routes = [
   {
     path : "/used",
     name : "used",
-    component : usedDetail,
+    component : usedMain,
+  },
+  {
+    path : "/used/detail",
+    name : "detail",
+    component : usedDetail
+  },
+  {
+    path : "/used/update",
+    name : "update",
+    component : usedUpdate
   }
 ];
 

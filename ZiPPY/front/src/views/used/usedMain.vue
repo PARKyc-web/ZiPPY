@@ -43,7 +43,7 @@
           color="#212529" persistent-hint single-line dense width="50"></v-select>
       </div>
     </div>
-    <div class="used-main-card" v-if="data.length != 0" v-for="list in data">
+    <div @click="goDetail(list.productNo)" class="used-main-card" v-if="data.length != 0" v-for="list in data">
       <div>
         <div><img src="https://blog.kakaocdn.net/dn/bGu5TC/btrGZLBBodm/QunLukZnzgvWcoygDFziO0/img.jpg" width="194px"
             height="194px"></div>
@@ -52,6 +52,7 @@
           <div class="used-main-price-date">
             <div class="used-main-card-price">{{list.productPrice}}원</div>
             <div><span>{{list.productDate}}</span></div>
+            <div type="hidden"></div>
           </div>
         </div>
       </div>
@@ -73,13 +74,19 @@
           value: '최저가순'
         },
         {
-          name: '판매자평점순',
-          value: '판매자평점순'
+          name: '최신등록일자순',
+          value: '최신등록일자순'
+        },
+        {
+          name: '오래된등록일자순',
+          value: '오래된등록일자순'
         },
       ],
       data: [],
       word: "",
       select: '',
+      categoryVal: '',
+      searchValue : ''
     }),
 
     created() {
@@ -88,7 +95,7 @@
         methods: "GET",
         params: {
           location: "대구",
-          keyword: "햄",
+          keyword: "",
           category: "",
           checked: "",
           dropbox: ""
@@ -105,15 +112,15 @@
 
     methods: {
       search: function (e) {
-        var searchValue = document.querySelector("#used-main-search-input").value;
-        this.category = e.target.innerText;
+        this.searchValue = document.querySelector("#used-main-search-input").value;
+        this.categoryVal = e.target.innerText;
         axios({
           url: "http://localhost:8088/zippy/used/main",
           methods: "GET",
           params: {
-            keyword: searchValue,
+            keyword: this.searchValue,
             location: "",
-            category: this.category,
+            category: this.categoryVal,
             checked: "",
             dropbox: ""
           }
@@ -138,9 +145,9 @@
           url: "http://localhost:8088/zippy/used/main",
           methods: "GET",
           params: {
-            keyword: "",
+            keyword: this.searchValue,
             location: "",
-            category: "",
+            category: this.categoryVal,
             checked: isChecked,
             dropbox: ""
           }
@@ -158,9 +165,9 @@
           url: "http://localhost:8088/zippy/used/main",
           methods: "GET",
           params: {
-            keyword: "",
+            keyword: this.searchValue,
             location: "",
-            category: "",
+            category: this.categoryVal,
             checked: "",
             dropbox: dropValue
           }
@@ -168,8 +175,15 @@
           console.log(res);
           this.data = res.data;
         }).catch(err => {
-          console.log(err)
+          console.log(err);
         })
+      },
+      goDetail (no) {
+        console.log(no);
+        // var cardNo = this.data.findIndex(i => i.productNo == productNo);
+        // console.log(cardNo);
+        this.$router.push('/used/detail?pNo=' + no);
+      
       }
     }
   }

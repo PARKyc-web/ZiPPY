@@ -45,5 +45,15 @@ public class UsedServiceImpl implements UsedService {
 	public void deleteUsed(String key) {
 		mapper.deleteUsed(key);
 	}
+	
+	@Override
+	public void viewCnt(int pNo) {
+	  mapper.viewCnt(pNo);
+	}
+	
+	@Override
+	public String addWish(String id) {
+	 return mapper.addWish(id);
+	}
 
 }

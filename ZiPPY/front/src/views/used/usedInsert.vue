@@ -32,7 +32,7 @@
             <div>
               <form>
                 <label htmlFor="profile-upload" />
-                <input type="file" id="profile-upload" multiple accept="image/*" onChange={onChangeImg} />
+                <input @change="values()" type="file" id="profile-upload" multiple accept="image/*" />
               </form>
             </div>
           </div>
@@ -41,7 +41,7 @@
       <hr />
       <div class="used-insert-img">
         <span>제목
-          <input type="text" placeholder="상품 제목을 2글자 이상 입력해주세요" />
+          <input @change="values()" id="used-product-name" type="text" placeholder="상품 제목을 2글자 이상 입력해주세요" />
         </span>
       </div>
       <hr />
@@ -51,14 +51,14 @@
         </div>
         <div class="dropdown">
           <div id="used-main-dropbox">
-            <v-select v-model="select" :items="items" item-text="name" item-value="value" label="카테고리" color="#212529"
-              persistent-hint return-object single-line dense width="50"></v-select>
+            <v-select @change="values()" v-model="select" :items="items" item-text="name" item-value="value"
+              label="카테고리" color="#212529" persistent-hint single-line dense width="50"></v-select>
           </div>
         </div>
       </div>
       <hr />
       <div class="used-insert-img">
-        <span>가격 <input id="used-insert-price" type="text" /> 원</span>
+        <span>가격<input @change="values()" id="used-insert-price" type="text" /> 원</span>
       </div>
       <hr />
       <div class="used-wish-detailInfo">
@@ -66,18 +66,19 @@
           <span>설명</span>
         </div>
         <div>
-          <textarea id="used-insert-textarea" cols="110" rows="10"></textarea>
+          <textarea @change="values()" id="used-insert-textarea" cols="110" rows="10"></textarea>
         </div>
       </div>
       <div class="used-insert-submit">
         <button>등록</button>
       </div>
     </div>
-    </div>
   </form>
 </template>
 
 <script>
+  import axios from 'axios';
+
   export default {
     data: () => ({
       items: [{
@@ -105,9 +106,28 @@
           value: '다용도실'
         },
       ],
+      select: ''
     }),
     methods: {
+      values: function () {
+        var dropVal = this.select;
+        console.log(dropVal);
+        var priceVal = document.querySelector('#used-insert-price').value;
+        console.log(priceVal);
+        var productVal = document.querySelector('#used-product-name').value;
+        console.log(productVal);
+        var productCont = document.querySelector('#used-insert-textarea').value;
+        console.log(productCont);
+        var productImg = document.querySelector('#profile-upload').src;
+        console.log(productImg);
+        axios({
+          url: "http://localhost:8088/zippy/used/insert",
+          methods: "POST",
+          params: {
 
+          }
+        })
+      }
     }
   };
 </script>
