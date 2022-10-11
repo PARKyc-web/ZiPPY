@@ -8,6 +8,7 @@ import shopView from "../views/shopView.vue";
 
 import GeneralSign from '../views/login/generalSignUp.vue';
 import BusinessSign from '../views/login/businessSignUp.vue';
+import selectSign from '@/views/login/selectSignType.vue';
 
 import moveContactFinalCheck from "../views/move/moveContactFinalCheck.vue";
 import moveUntactFinalCheck from "../views/move/moveUntactFinalCheck.vue";
@@ -41,7 +42,7 @@ const routes = [{
   {
     path: "/login",
     name: "login",
-    component: HomeView,
+    component: selectSign,
   },
   {
     path: "/generalSign",

@@ -471,17 +471,18 @@ export default {
       console.log(this.user_info);
     },
 
-    businessNumValid : async function(){
+    businessNumValid : function(){
       console.log("==Business NUMBER VALIDATION==");
       var number = document.querySelector("#business_number").value;
-      var temp = await axios({
+      console.log("NUBMER :: ", number);
+      axios({
         url: "https://api.odcloud.kr/api/nts-businessman/v1/status",
         method : "POST",
         params :{
           "serviceKey" : "QZf4Ip/iukGVGGNo2Yp1ei7ISnJ2sOwUgmmBjLQt6mCw73ftY5N0jt6ck1Qz34mGkNv4FQAysldaby08pQpYEg=="
         },
         data :{
-          "b_no" : [number]
+          "b_no" : ["123456789"]
         }
       }).then(res => {
         console.log(res);
@@ -494,32 +495,33 @@ export default {
 
     sign: function () {
       console.log("sign-up RUN");      
-      console.log(this.info);
-      console.log(JSON.stringify(this.info));
+      console.log(this.user_info);
+      console.log(JSON.stringify(this.user_info));
+      console.log("==================");
             
-      // if (this.pass_valid == true && this.pass_confirm == true &&
-      //     this.email_valid == true && this.phone_valid == true) {    
-      //   alert("회원가입을 축하합니다!!");
-      //   axios({
-      //     url: "http://localhost:8090/zippy/member/bSignUp",
-      //     method: "POST",
-      //     param: {
-      //       info: JSON.stringify(this.user_info),
-      //     },
+      if (this.pass_valid == true && this.pass_confirm == true &&
+          this.email_valid == true && this.phone_valid == true) {    
+        alert("회원가입을 축하합니다!!");
+        axios({
+          url: "http://localhost:8090/zippy/member/bSignUp",
+          method: "POST",
+          param: {
+            info: JSON.stringify(this.user_info),
+          },
 
-      //     data: {
-      //       info: JSON.stringify(this.user_info),            
-      //     },
-      //   })
-      //     .then((res) => {
-      //       console.log(res);
-      //     })
-      //     .catch((error) => {
-      //       console.log(error);
-      //     });
-      // } else{
-      //   alert("모든 정보를 입력해주세요!");
-      // }
+          data: {
+            info: JSON.stringify(this.user_info),            
+          },
+        })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else{
+        alert("모든 정보를 입력해주세요!");
+      }
 
     },  
   },
