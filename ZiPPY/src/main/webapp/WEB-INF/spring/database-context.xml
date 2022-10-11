@@ -12,6 +12,7 @@
 	  <property name="username"   	   value="zippy" />
 	  <property name="password"   	   value="zippy" />
 	  <property name="maximumPoolSize" value= "3" />
+
 	</bean>
 	
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">

@@ -3,6 +3,15 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import PropertyView from "../views/property/PropertyView.vue";
 import shopView from "../views/shopView.vue";
+import moveContactFinalCheck from "../views/move/moveContactFinalCheck.vue";
+import moveUntactFinalCheck from "../views/move/moveUntactFinalCheck.vue";
+import moveSelect from "../views/move/moveSelect";
+import moveDate from "../views/move/moveDate";
+import moveVisitDate from "../views/move/moveVisitDate";
+import moveInfo from "../views/move/moveInfo";
+import moveInfoDetail from "../views/move/moveInfoDetail";
+import moveTypeSelect from "../views/move/moveTypeSelect";
+import moveImage from "../views/move/moveImage";
 
 import usedUpdate from "../views/used/usedUpdate.vue";
 import usedDetail from "../views/used/usedDetail.vue";
@@ -37,6 +46,39 @@ const routes = [
     name: "shop",
     component: shopView,
   },
+
+  {
+    path:"/moveContact",
+    name: "moveContact",
+    component : moveVisitDate, 
+    props : true,
+ 
+  },
+  {
+    path:"/moveUntact",
+    name: "moveUntact",
+    component : moveInfoDetail,
+    props : true,
+  },
+
+  {
+        path: "/moveContactCheck",
+        name: "moveContactCheck",
+        component: moveContactFinalCheck,
+        props: true, //변수를 받겠다. 
+  },
+  {
+    path: "/moveUntactImg",
+    name: "moveUntactImg",
+    component: moveImage,
+    props: true,
+  },
+  {
+    path: "/moveUntactCheck",
+    name: "moveUntactCheck",
+    component: moveUntactFinalCheck,
+    props: true,
+},
 
   {
     path : "/used",
