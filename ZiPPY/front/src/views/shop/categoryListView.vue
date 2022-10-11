@@ -9,7 +9,7 @@
 import shopSubbar from "../../components/shop/shopSubbar.vue";
 import categoryList from "../../components/shop/categoryList.vue";
 
-export default {  
+export default {
   components: {
     shopSubbar,
     categoryList

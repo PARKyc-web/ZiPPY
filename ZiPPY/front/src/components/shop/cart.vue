@@ -173,16 +173,6 @@
         return amount;
       },
       //배송비 계산
-      // countDelCost() {
-      //   for (var i in this.products) {
-      //   var j=i+1;
-      //   for (var j in this.products) {
-      //     if(this.products[i].business_email == this.products[j].business_email)
-      //     this.products[j].shop_delivery_cost = 0;
-      //   }
-      //   return;
-      // }
-      // }
     },
   };
 </script>

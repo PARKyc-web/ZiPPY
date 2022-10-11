@@ -57,15 +57,31 @@
       hover: false,
     }),
     methods: {
+      // 수정전
+      // goList(cate) {
+      //   this.$router.push('/shop/category?cate=' + cate);
+      //   this.$router.go(0);
+      // },
+      // enterkey: function () {
+      //   var searchValue = document.querySelector("#search").value;
+      //   if (window.event.keyCode == 13) {
+      //     this.$router.push('/shop/keyword?keyw=' + searchValue);
+      //     this.$router.go(0);
+      //   }
+      // }
       goList(cate) {
-        this.$router.push('/shop/category?cate=' + cate);
-        this.$router.go(0);
+        this.$router.push(({
+          name: 'shopList',
+          query: {cate: cate}
+        }));
       },
       enterkey: function () {
         var searchValue = document.querySelector("#search").value;
         if (window.event.keyCode == 13) {
-          this.$router.push('/shop/keyword?keyw=' + searchValue);
-          this.$router.go(0);
+          this.$router.push(({
+          name: 'shopList',
+          query: {keyw: searchValue}
+        }));
         }
       }
     }
