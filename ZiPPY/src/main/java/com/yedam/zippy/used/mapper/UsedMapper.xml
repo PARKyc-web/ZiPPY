@@ -57,12 +57,19 @@
 		</selectKey>
 		INSERT INTO used_product
 		(
-		productNo,
-
-
+		product_no,
+		PRODUCT_NAME,
+		PRODUCT_CATEGORY,
+		PRODUCT_PRICE,
+		PRODUCT_INFO
 		)
 		VALUES
 		(
+		 #{productNo}
+		 #{name}
+		 ,#{dropVal}
+		 ,#{price}
+		 ,#{content}
 		)
 	</insert>
 	
@@ -90,13 +97,18 @@
 	<!-- 수정 -->
 	<update id="updateUsed" parameterType="usedProductVO">
 		UPDATE used_product
-
+		SET
+		product_name = #{name},
+		product_category = #{category},
+		product_price = #{price},
+		product_info = #{content}
+		WHERE product_no = #{pNo}
 	</update>
 	
 	<!-- 삭제 -->
-	<delete id="deleteUsed" parameterType="usedProductVO">
+	<delete id="deleteUsed" parameterType="UsedProductVO">
 		DELETE FROM used_product
-		WHERE product_no = ${productNo}
+		WHERE product_no = ${pNo}
 	</delete>
 	
 	<!-- 조회수 증가 -->

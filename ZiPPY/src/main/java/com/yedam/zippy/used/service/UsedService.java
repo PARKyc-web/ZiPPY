@@ -20,10 +20,10 @@ public interface UsedService {
   public void insertUsed(Map<String, String> insertProduct);
 
   // 수정
-  public void updateUsed(String value);
+  public int updateUsed(String img, String name, String price, String category, String content, int pNo);
 
   // 삭제
-  public void deleteUsed(String key);
+  public int deleteUsed(int pNo);
 
   // 조회수 증가
   public void viewCnt(int pNo);

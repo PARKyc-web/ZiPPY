@@ -71,6 +71,9 @@
   import navBar from '../../components/used/navBar.vue';
 
   export default {
+    components: {
+      navBar
+    },
     data: () => ({
       items: [{
           name: '침실',
@@ -115,8 +118,17 @@
           url: "http://localhost:8088/zippy/used/insert",
           methods: "POST",
           params: {
-
+            // img : "",
+            name: productVal,
+            price: priceVal,
+            category: dropVal,
+            content: productCont,
           }
+        }).then(res => {
+          console.log(res);
+          this.data = res.data;
+        }).catch(err => {
+          console.log(err)
         })
       }
     }

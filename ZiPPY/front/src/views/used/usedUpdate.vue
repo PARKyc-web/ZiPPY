@@ -1,5 +1,5 @@
 <template>
-  <form action="post">
+  <form action="PUT">
     <div id="container">
       <nav-bar @click="search($event)"></nav-bar>
       <div>
@@ -71,6 +71,9 @@
   import navBar from '../../components/used/navBar.vue';
 
   export default {
+    components : {
+      navBar
+    },
     data: () => ({
       items: [{
           name: '침실',
@@ -116,23 +119,34 @@
     },
     methods: {
       values: function () {
-        var dropVal = this.select;
-        console.log(dropVal);
-        var priceVal = document.querySelector('#used-insert-price').value;
-        console.log(priceVal);
-        var productVal = document.querySelector('#used-product-name').value;
-        console.log(productVal);
-        var productCont = document.querySelector('#used-insert-textarea').value;
-        console.log(productCont);
         var productImg = document.querySelector('#profile-upload').src;
         console.log(productImg);
-        // axios({
-        //   url: "http://localhost:8088/zippy/used/update",
-        //   methods: "PUT",
-        //   params: {
-          
-        //   }
-        // })
+        var productVal = document.querySelector('#used-product-name').value;
+        console.log(productVal);
+        var priceVal = document.querySelector('#used-insert-price').value;
+        console.log(priceVal);
+        var dropVal = this.select;
+        console.log(dropVal);
+        var productCont = document.querySelector('#used-insert-textarea').value;
+        console.log(productCont);
+        var pNo = this.$route.query.pNo;
+        console.log(pNo);
+        axios({
+          url: "http://localhost:8088/zippy/used/update",
+          methods: "PUT",
+          params: {
+            // img : "",
+            name : productVal,
+            price : priceVal,
+            category : dropVal,
+            content : productCont,
+            pNo : pNo
+          }
+        }).then(res =>{
+          console.log(res);
+        }).catch(err =>{
+          console.log(err)
+        })
       }
     }
   };

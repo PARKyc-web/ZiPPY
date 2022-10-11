@@ -21,10 +21,10 @@ public interface UsedMapper {
 	public void insertUsed(Map<String, String> insertProduct);
 
 	// 수정
-	public void updateUsed(String value);
+	public int updateUsed(@Param("img") String img, @Param("name")String name, @Param("price")String price, @Param("category")String category, @Param("content")String content, @Param("pNo")int pNo);
 
 	// 삭제
-	public void deleteUsed(String key);
+	public int deleteUsed(@Param("pNo") int pNo);
 	
 	// 조회수 증가
 	public void viewCnt(@Param("pNo") int pNo);
