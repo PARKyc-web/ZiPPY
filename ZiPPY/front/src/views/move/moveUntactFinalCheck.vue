@@ -33,7 +33,7 @@
                 <v-btn text color="primary"> 수정 </v-btn>
               </div>
             </v-col>
-            
+
           </v-row>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -106,77 +106,6 @@
           </v-row>
         </v-expansion-panel-content>
       </v-expansion-panel>
-
-
-      <!-- 방문 희망 날짜 및 시간 -->
-      <v-expansion-panel>
-        <v-expansion-panel-header v-slot="{ open }">
-          <v-row no-gutters>
-            <v-col cols="4"> 견적 방문 희망일 및 시간 </v-col>
-            <v-col cols="8" class="text--secondary">
-              <v-fade-transition leave-absolute>
-                <span v-if="open">방문희망 날짜와 시간을 선택해주세요.</span>
-                <v-row v-else no-gutters style="width: 100%">
-                  <v-col cols="6">
-                    방문 희망일: {{ move.visitStart || "Not set" }}
-                  </v-col>
-                  <v-col cols="6">
-                    방문 희망시간: {{ move.visitEnd || "Not set" }}
-                  </v-col>
-                </v-row>
-              </v-fade-transition>
-            </v-col>
-          </v-row>
-        </v-expansion-panel-header>
-
-        <v-expansion-panel-content>
-          <v-row justify="space-around" no-gutters>
-            <v-col cols="3">
-              <v-menu ref="startMenu" :close-on-content-click="false" :return-value.sync="move.visitStart" offset-y
-                min-width="290px">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field v-model="move.visitStart" label="방문희망일" prepend-icon="mdi-calendar" readonly v-bind="attrs"
-                    v-on="on"></v-text-field>
-                </template>
-                <v-date-picker v-model="visitDate" no-title scrollable>
-                  <v-spacer></v-spacer>
-                  <v-btn text color="primary" @click="$refs.startMenu.isActive = false">
-                    취소
-                  </v-btn>
-                  <v-btn text color="primary" @click="$refs.startMenu.save(visitDate)">
-                    수정
-                  </v-btn>
-                </v-date-picker>
-              </v-menu>
-            </v-col>
-
-            <v-col cols="3">
-              <v-menu ref="endMenu" :close-on-content-click="false" :return-value.sync="move.visitEnd" offset-y
-                min-width="290px">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field v-model="move.visitEnd" label="방문 희망시간" prepend-icon="mdi-clock" readonly v-bind="attrs"
-                    v-on="on"></v-text-field>
-                </template>
-                <!-- <v-date-picker
-                v-model="date"
-                no-title
-                scrollable
-              > -->
-                <v-time-picker v-model="visitTime" ampm-in-title format="ampm">
-                  <v-spacer></v-spacer>
-                  <v-btn text color="primary" @click="$refs.endMenu.isActive = false">
-                    취소
-                  </v-btn>
-                  <v-btn text color="primary" @click="$refs.endMenu.save(visitTime)">
-                    수정
-                  </v-btn>
-                </v-time-picker>
-              </v-menu>
-            </v-col>
-          </v-row>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-
 
       <!-- 3. 주소 -->
       <v-expansion-panel>
@@ -410,12 +339,12 @@
             <v-spacer></v-spacer>
             <v-col cols="10">
               <v-select class="select-home" v-model="move.stair" :items="stairs" chips flat solo outlined
-                placeholder="선택한 방 개수 불러오기"></v-select>
+                placeholder="1층별도계단 유무 불러오기"></v-select>
 
               <v-select class="select-home" v-model="move.elevator" :items="elevators" chips flat solo outlined
-                placeholder="선택한 화장실 개수 불러오기"></v-select>
+                placeholder="엘레베이터 유무 불러오기"></v-select>
               <v-select class="select-home" v-model="move.parking" :items="parkings" chips flat solo outlined
-                placeholder="선택한 베란다 개수 불러오기"></v-select>
+                placeholder="주차장 유무 불러오기"></v-select>
 
               <div class="drop-btn">
                 <v-btn text color="secondary"> 취소 </v-btn>
@@ -425,40 +354,403 @@
           </v-row>
         </v-expansion-panel-content>
       </v-expansion-panel>
+
+
+      <!-- 이삿짐 상세옵션 -->
+      <v-expansion-panel>
+        <v-expansion-panel-header v-slot="{ open }">
+          <v-row no-gutters>
+            <v-col cols="4"> 이삿짐 상세 정보 </v-col>
+            <v-col cols="8" class="text--secondary">
+              <v-fade-transition leave-absolute>
+                <span v-if="open">각 이삿짐별 개수와 사이즈를 확인해주세요.</span>
+                <v-row v-else no-gutters style="width: 100%">
+                  <v-col cols="4">
+                    가구: {{ move.stair || "Not set" }}
+                  </v-col>
+                  <v-col cols="4">
+                    가전: {{ move.elevator || "Not set" }}
+                  </v-col>
+                  <v-col cols="4">
+                    기타: {{ move.parking || "Not set" }}
+                  </v-col>
+                </v-row>
+              </v-fade-transition>
+            </v-col>
+          </v-row>
+        </v-expansion-panel-header>
+
+        <v-expansion-panel-content>
+          <v-row no-gutters>
+            <v-spacer></v-spacer>
+            <v-col cols="10">
+              <!-- <v-select class="select-home" v-model="move.stair" :items="stairs" chips flat solo outlined
+                placeholder="선택한 방 개수 불러오기"></v-select>
+
+              <v-select class="select-home" v-model="move.elevator" :items="elevators" chips flat solo outlined
+                placeholder="선택한 화장실 개수 불러오기"></v-select>
+              <v-select class="select-home" v-model="move.parking" :items="parkings" chips flat solo outlined
+                placeholder="선택한 베란다 개수 불러오기"></v-select> -->
+
+
+              <br />
+              <h4>가구</h4>
+              <br />
+              <div class="move-detail">
+                <div class="move-furniture1">
+                  <input type="checkbox" name="bed" /><label>침대</label><br /><br />
+                  <i class="fa-solid fa-bed fa-5x"></i><br />
+                  <div class="move-detail-drop">
+                    <select>
+                      <option value="" selected>-- 사이즈 --</option>
+                      <option value="1">싱글</option>
+                      <option value="2">슈퍼싱글</option>
+                      <option value="3">퀸</option>
+                      <option value="4">킹</option>
+                      <option value="5">킹 이상</option>
+                    </select>
+                    <button class="custom-btn btn-4" type="button">+</button>
+                  </div>
+                </div>
+                <div class="move-furniture1">
+                  <input type="checkbox" name="sofa" /><label>소파</label><br /><br />
+                  <i class="fa-solid fa-couch fa-5x"></i><br />
+                  <div class="move-detail-drop">
+                    <select>
+                      <option value="" selected>-- 사이즈 --</option>
+                      <option value="1">싱글</option>
+                      <option value="2">슈퍼싱글</option>
+                      <option value="3">퀸</option>
+                      <option value="4">킹</option>
+                      <option value="5">킹 이상</option>
+                    </select>
+                    <button class="custom-btn btn-4" type="button">+</button>
+                  </div>
+                </div>
+                <div class="move-furniture1">
+                  <input type="checkbox" name="closet" /><label>옷장-단품</label><br /><br />
+                  <i class="fa-solid fa-toilet-portable fa-5x"></i><br />
+                  <div class="move-detail-drop">
+                    <select>
+                      <option value="" selected>-- 사이즈 --</option>
+                      <option value="1">싱글</option>
+                      <option value="2">슈퍼싱글</option>
+                      <option value="3">퀸</option>
+                      <option value="4">킹</option>
+                      <option value="5">킹 이상</option>
+                    </select>
+                    <button class="custom-btn btn-4" type="button">+</button>
+                  </div>
+                </div>
+                <div class="move-furniture1">
+                  <input type="checkbox" name="closets" /><label>옷장-연결장</label><br /><br />
+                  <i class="fa-solid fa-toilets-portable fa-5x"></i><br />
+                  <div class="move-detail-drop">
+                    <select>
+                      <option value="" selected>-- 사이즈 --</option>
+                      <option value="1">싱글</option>
+                      <option value="2">슈퍼싱글</option>
+                      <option value="3">퀸</option>
+                      <option value="4">킹</option>
+                      <option value="5">킹 이상</option>
+                    </select>
+                    <button class="custom-btn btn-4" type="button">+</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="move-detail">
+                <div class="move-furniture2">
+                  <input type="checkbox" name="closets" /><label>의자</label><br /><br />
+                  <i class="fa-solid fa-chair fa-5x"></i><br />
+                  <div class="move-detail-drop">
+                    <select>
+                      <option value="" selected>-- 사이즈 --</option>
+                      <option value="1">싱글</option>
+                      <option value="2">슈퍼싱글</option>
+                      <option value="3">퀸</option>
+                      <option value="4">킹</option>
+                      <option value="5">킹 이상</option>
+                    </select>
+                    <button class="custom-btn btn-4" type="button">+</button>
+                  </div>
+                </div>
+
+                <div class="move-furniture2">
+                  <input type="checkbox" name="closets" /><label>행거</label><br /><br />
+                  <i class="fa-solid fa-sign-hanging fa-5x"></i><br />
+                  <div class="move-detail-drop">
+                    <select>
+                      <option value="" selected>-- 사이즈 --</option>
+                      <option value="1">싱글</option>
+                      <option value="2">슈퍼싱글</option>
+                      <option value="3">퀸</option>
+                      <option value="4">킹</option>
+                      <option value="5">킹 이상</option>
+                    </select>
+                    <button class="custom-btn btn-4" type="button">+</button>
+                  </div>
+                </div>
+
+                <div class="move-furniture2">
+                  <input type="checkbox" name="closets" /><label>서랍</label><br /><br />
+                  <i class="fa-solid fa-box-archive fa-5x"></i><br />
+                  <div class="move-detail-drop">
+                    <select>
+                      <option value="" selected>-- 사이즈 --</option>
+                      <option value="1">싱글</option>
+                      <option value="2">슈퍼싱글</option>
+                      <option value="3">퀸</option>
+                      <option value="4">킹</option>
+                      <option value="5">킹 이상</option>
+                    </select>
+                    <button class="custom-btn btn-4" type="button">+</button>
+                  </div>
+                </div>
+              </div>
+
+
+              <br />
+              <hr />
+              <br />
+              <h4>가전</h4>
+              <br />
+              <div class="move-detail">
+                <div class="move-furniture1">
+                  <input type="checkbox" name="bed" /><label>TV</label><br /><br />
+                  <i class="fa-solid fa-tv fa-5x"></i><br />
+                  <div class="move-detail-drop">
+                    <select>
+                      <option value="" selected>-- 사이즈 --</option>
+                      <option value="1">싱글</option>
+                      <option value="2">슈퍼싱글</option>
+                      <option value="3">퀸</option>
+                      <option value="4">킹</option>
+                      <option value="5">킹 이상</option>
+                    </select>
+                    <button class="custom-btn btn-4" type="button">+</button>
+                  </div>
+                </div>
+                <div class="move-furniture1">
+                  <input type="checkbox" name="sofa" /><label>데스크탑</label><br /><br />
+                  <i class="fa-solid fa-desktop fa-5x"></i><br />
+                  <div class="move-detail-drop">
+                    <select>
+                      <option value="" selected>-- 사이즈 --</option>
+                      <option value="1">싱글</option>
+                      <option value="2">슈퍼싱글</option>
+                      <option value="3">퀸</option>
+                      <option value="4">킹</option>
+                      <option value="5">킹 이상</option>
+                    </select>
+                    <button class="custom-btn btn-4" type="button">+</button>
+                  </div>
+                </div>
+                <div class="move-furniture1">
+                  <input type="checkbox" name="closet" /><label>냉장고</label><br /><br />
+                  <i class="material-icons md-54">kitchen</i><br />
+                  <div class="move-detail-drop">
+                    <select>
+                      <option value="" selected>-- 사이즈 --</option>
+                      <option value="1">싱글</option>
+                      <option value="2">슈퍼싱글</option>
+                      <option value="3">퀸</option>
+                      <option value="4">킹</option>
+                      <option value="5">킹 이상</option>
+                    </select>
+                    <button class="custom-btn btn-4" type="button">+</button>
+                  </div>
+                </div>
+                <div class="move-furniture1">
+                  <input type="checkbox" name="closets" /><label>유모차</label><br /><br />
+                  <i class="fa-solid fa-baby-carriage fa-5x"></i><br />
+                  <div class="move-detail-drop">
+                    <select>
+                      <option value="" selected>-- 사이즈 --</option>
+                      <option value="1">싱글</option>
+                      <option value="2">슈퍼싱글</option>
+                      <option value="3">퀸</option>
+                      <option value="4">킹</option>
+                      <option value="5">킹 이상</option>
+                    </select>
+                    <button class="custom-btn btn-4" type="button">+</button>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <br />
+                <hr />
+                <br />
+                <h4>기타</h4>
+                <br />
+                <div class="move-detail-2">
+                  <div class="move-furniture1">
+                    <br />
+                    <div class="move-detail-drop">
+                      <label>사용자 기타 짐</label><br /><br />
+                      <input class="type-2" type="text" placeholder="기타이삿짐 이름" /><br />
+                      <input class="type-2" type="text" placeholder="이삿짐 사이즈(cm * cm)" />
+                      <button class="custom-btn btn-4" type="button">+</button>
+                    </div>
+                  </div>
+                </div>
+
+                <br />
+                <hr />
+                <br />
+                <h4>박스 수량</h4>
+                <br />
+                <div class="move-detail-2">
+                  <div class="move-furniture3">
+                    <br />
+                    <br />
+                    <div class="move-detail-drop">
+                      <select>
+                        <option value="" selected>-- 박스개수 --</option>
+                        <option value="1">5개이하</option>
+                        <option value="2">5~10개</option>
+                        <option value="3">11~15개</option>
+                        <option value="4">16~20개</option>
+                        <option value="5">21~25개</option>
+                        <option value="6">26~30개</option>
+                        <option value="7">30개 이상</option>
+                      </select>
+                    </div>
+                    <!-- <div><img src="../../assets/박스예시.jpg" style="width: 200px;"></div> -->
+                    <div><img :src="img" alt="boxExample" /></div>
+                  </div>
+                </div>
+
+                <br />
+                <hr />
+                <br />
+                <h4>짐사진 첨부(선택)</h4>
+                <br />
+                <div class="move-detail-2">
+                  <div class="move-furniture1">
+                    <br />
+                    
+                    <br />
+                    <div class="move-detail-drop">
+                      <v-file-input outlined v-model="filesLaug" placeholder="Upload your documents" label="사진첨부" multiple
+              prepend-icon="mdi-paperclip">
+              <template v-slot:selection="{ text }">
+                <v-chip small label color="success">
+                  {{ text }}
+                </v-chip>
+              </template>
+            </v-file-input>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </v-col>
+          </v-row>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+
+
+      <!-- 집구조 사진 -->
+      <v-expansion-panel>
+        <v-expansion-panel-header v-slot="{ open }">
+          <v-row no-gutters>
+            <v-col cols="4"> 집 구조 사진 </v-col>
+            <v-col cols="8" class="text--secondary">
+              <v-fade-transition leave-absolute>
+                <span v-if="open">구도별 첨부 사진을 확인해주세요.</span>
+                <v-row v-else no-gutters style="width: 100%">
+                  <v-col cols="4">
+                    입구: {{ move.stair || "Not set" }}
+                  </v-col>
+                  <v-col cols="4">
+                    중앙: {{ move.elevator || "Not set" }}
+                  </v-col>
+                  <v-col cols="4">
+                    내부: {{ move.parking || "Not set" }}
+                  </v-col>
+                </v-row>
+              </v-fade-transition>
+            </v-col>
+          </v-row>
+        </v-expansion-panel-header>
+
+        <v-expansion-panel-content>
+          <v-row no-gutters>
+            <v-spacer></v-spacer>
+            <v-col cols="10">
+              <v-file-input outlined v-model="files1" placeholder="Upload your documents" label="방 입구 사진첨부" multiple
+              prepend-icon="mdi-paperclip">
+              <template v-slot:selection="{ text }">
+                <v-chip small label color="success">
+                  {{ text }}
+                </v-chip>
+              </template>
+            </v-file-input>
+
+            <v-file-input outlined v-model="files2" placeholder="Upload your documents" label="방 중앙에서 사진첨부" multiple
+              prepend-icon="mdi-paperclip">
+              <template v-slot:selection="{ text }">
+                <v-chip small label color="success">
+                  {{ text }}
+                </v-chip>
+              </template>
+            </v-file-input>
+
+            <v-file-input outlined v-model="files3" placeholder="Upload your documents" label="짐 내부 사진첨부" multiple
+              prepend-icon="mdi-paperclip">
+              <template v-slot:selection="{ text }">
+                <v-chip small label color="success">
+                  {{ text }}
+                </v-chip>
+              </template>
+            </v-file-input>
+
+              <div class="drop-btn">
+                <v-btn text color="secondary"> 취소 </v-btn>
+                <v-btn text color="primary"> 수정 </v-btn>
+              </div>
+            </v-col>
+          </v-row>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+
+
     </v-expansion-panels>
 
     <!-- <v-sheet color="white" elevation="3" height="250" width="250"></v-sheet> -->
     <div class="table">
-      
-    <table>
-      <thead><h4>유의사항을 확인해주세요.</h4></thead>
-      <tbody>
-        <tr><td>※ 비대면 견적 서비스는 이사출발지와 도착지의 집구조와, 옮겨야하는 짐의 자세한 정보가 있어야 정확한 견적이 가능합니다. </td></tr>
-        <tr><td>※ 견적 요청에 기재한 정보가 실제 집구조와 이삿짐 정보와 다를 경우, 이삿날 추가 비용이 발생할 수 있습니다. </td></tr>
-        <tr><td>※ 부정확한 정보 기재와 소비자의 단순변심으로 인한 추가비용발생에 대해서 본 웹사이트는 책임이 없습니다. </td></tr>
-        <tr><td>※ 한 번 견적요청을 신청하면 영업일 기준 3일동안 견적 요청이 유효합니다. </td></tr>
-      </tbody>
-    </table>
-  
-    <div class="agree">
-      <v-checkbox
-              v-model="ex4"
-              label="유의사항을 확인하고 숙지하였습니다."
-              color="success"
-              value="success"
-              hide-details
-              class="agree-check"
-            ></v-checkbox>
+
+      <table>
+        <thead>
+          <h4>유의사항을 확인해주세요.</h4>
+        </thead>
+        <tbody>
+          <tr>
+            <td>※ 비대면 견적 서비스는 이사출발지와 도착지의 집구조와, 옮겨야하는 짐의 자세한 정보가 있어야 정확한 견적이 가능합니다. </td>
+          </tr>
+          <tr>
+            <td>※ 견적 요청에 기재한 정보가 실제 집구조와 이삿짐 정보와 다를 경우, 이삿날 추가 비용이 발생할 수 있습니다. </td>
+          </tr>
+          <tr>
+            <td>※ 부정확한 정보 기재와 소비자의 단순변심으로 인한 추가비용발생에 대해서 본 웹사이트는 책임이 없습니다. </td>
+          </tr>
+          <tr>
+            <td>※ 한 번 견적요청을 신청하면 영업일 기준 3일동안 견적 요청이 유효합니다. </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="agree">
+        <v-checkbox v-model="ex4" label="유의사항을 확인하고 숙지하였습니다." color="success" value="success" hide-details
+          class="agree-check"></v-checkbox>
+      </div>
     </div>
-  </div> 
-  <div class="final-btn">
-  <v-btn
-  color="success"
-  elevation="10"
-  
-  @click="moveInfo()"
->확인완료</v-btn>
-</div>
+    <div class="final-btn">
+      <v-btn color="success" elevation="10" @click="moveInfo()">확인완료</v-btn>
+    </div>
   </div>
 </template>
 
@@ -466,7 +758,7 @@
   import moveNav from './moveNav.vue';
   export default {
 
-    props: ['data'],
+    props: ['moveImg'],
     components: {
       moveNav,
     },
@@ -563,10 +855,27 @@
 
       // checkbox
       ex4: ['success'],
+
+      furniture: "",
+
+      // 사진
+      filesLaug: [],
+      files1: [],
+      files2: [],
+      files3: [],
+      img: require("../../assets/box.jpg")
     }),
 
+    computed: {
+
+      lauguageCount: function () {
+        return this.furniture.length || '';
+      }
+    },
+
+
     methods: {
-      moveInfo : function(){
+      moveInfo: function () {
         console.log(this.data);
       },
 
@@ -655,26 +964,106 @@
 </script>
 
 <style scoped>
-  table{
+  .v-input{
+    width: 500px;
+  }
+
+  .move-detail {
+    width: 1500px;
+  }
+
+  .move-detail-drop{
+    width: 1500px;
+  }
+
+  .move-furniture1 {
+    width: 250px;
+    display: inline-block;
+    margin: 40px;
+  }
+
+  .move-furniture2 {
+    width: 250px;
+    display: inline-block;
+    margin: 40px;
+  }
+
+
+
+  .material-icons.md-54 {
+  font-size: 80px;
+}
+
+/* input */
+
+.type-2 {
+  background-color: #fafafa;
+  border: 0;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+  transition: 0.3s box-shadow;
+  width: 300px;
+  border-radius: 5px;
+}
+
+.type-2:hover {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+}
+
+input {
+  margin: 5px;
+}
+
+.move-furniture1 {
+  display: inline-block;
+  margin: 20px;
+}
+
+.move-furniture2 {
+  display: inline-block;
+  margin: 20px;
+}
+
+.type-2 {
+  background-color: #fafafa;
+  border: 0;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+  transition: 0.3s box-shadow;
+  width: 200px;
+  height: 40px;
+  border-radius: 5px;
+}
+
+.type-2:hover {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+}
+
+
+
+
+  table {
     width: 100%;
     text-align: center;
   }
-  thead{
+
+  thead {
     text-align: center;
     padding-bottom: 50px;
   }
-  .agree{
+
+  .agree {
     text-align: center;
     padding-top: 50px;
     padding-bottom: 50px;
   }
-.agree-check{
-  display: inline-block;
-}
-.final-btn{
-  text-align: center;
-  padding-bottom: 50px;
-}
+
+  .agree-check {
+    display: inline-block;
+  }
+
+  .final-btn {
+    text-align: center;
+    padding-bottom: 50px;
+  }
 
 
   h2 {
@@ -748,8 +1137,8 @@
         rgba(163, 162, 162, 1) 0%,
         rgb(163, 162, 162) 100%);
     border: none;
-    width: 80px;
-    height: 32px;
+    width: 50px;
+    height: 50px;
     font-size: 15px;
   }
 
@@ -780,5 +1169,93 @@
       -4px -4px 6px 0 rgba(116, 125, 136, 0.5),
       inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2),
       inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  /* 라디오 */
+  .detail-info-radio {
+    display: inline-block;
+    width: 250px;
+  }
+
+  .test_obj input[type="radio"] {
+    display: none;
+  }
+
+  .test_obj input[type="radio"]+span {
+    display: inline-block;
+    padding: 10px 10px;
+    border: 1px solid #dfdfdf;
+    background-color: #ffffff;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 20px;
+    width: 80px;
+
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+    transition: 0.3s box-shadow;
+  }
+
+  .test_obj input[type="radio"]:checked+span {
+    background-color: #b3e3c3;
+    color: #ffffff;
+  }
+
+  /* 드롭 */
+  @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
+
+  select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+
+    font-family: "Noto Sansf KR", sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+
+    color: #444;
+    background-color: #fff;
+
+    padding: 0.6em 1.4em 0.5em 0.8em;
+    margin: 0;
+
+    border: 1px solid #aaa;
+    border-radius: 0.5em;
+    /* box-shadow: 0 1px 0 1px rgba(0,0,0,.2); */
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+    transition: 0.3s box-shadow;
+    width: 200px;
+  }
+
+  select:hover {
+    border-color: #888;
+  }
+
+  select:focus {
+    border-color: #aaa;
+    box-shadow: 0 0 1px 3px rgba(59, 153, 252, 0.7);
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    color: #222;
+    outline: none;
+  }
+
+  select:disabled {
+    opacity: 0.5;
+  }
+
+  label {
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
+
+    color: #444;
+
+    margin-right: 0.5em;
+  }
+
+  /* 사진 */
+  img {
+    width: 300px;
   }
 </style>

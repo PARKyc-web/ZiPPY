@@ -409,9 +409,9 @@
         parkable : "",
         veranda:"",
 
-        //moveVisitDate
-        visitDate : "",
-      visitTime : "",
+      //   //moveVisitDate
+      //   visitDate : "",
+      // visitTime : "",
 
         addr : {
           postcode: "",
@@ -595,7 +595,7 @@
         
         this.$router.push({
         name: "moveContact",
-        params:{data:this.moveInfo}
+        params:{moveContact:this.moveInfo, moveContact1:this.moveEstimateType, moveContact2:this.moveType}
 
       })
       
@@ -603,7 +603,7 @@
       } else if(this.moveEstimateType == "비대면 방문예약"){
         this.$router.push({
         name: "moveUntact",
-        params:{data:this.moveInfo}
+        params:{moveUntact:this.moveInfo}
       })
       
       };

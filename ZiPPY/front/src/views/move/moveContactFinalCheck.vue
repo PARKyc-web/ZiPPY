@@ -427,6 +427,13 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
+    <v-btn
+  color="success"
+  elevation="10"
+  
+  @click="moveInfo()"
+>확인완료</v-btn>
+
     <!-- <v-sheet color="white" elevation="3" height="250" width="250"></v-sheet> -->
     <div class="table">
       
@@ -466,7 +473,8 @@
   import moveNav from './moveNav.vue';
   export default {
 
-    props: ['data'],
+    props : ['moveVisit', 'moveContact', 'moveCon'],
+   
     components: {
       moveNav,
     },
@@ -567,7 +575,8 @@
 
     methods: {
       moveInfo : function(){
-        console.log(this.data);
+        // console.log(this.$data);
+        console.log(this.moveVisit, this.moveContact, this.moveCon);
       },
 
       execDaumPostcode() {

@@ -12,7 +12,7 @@
       ></v-date-picker>
     </v-row>
     <hr />
-    <h3>방문 희망 시간을 선택해주세요.</h3>
+    <h3>방문 희망 시간을 선택해주세요.</h3>    
     <div class="selectTime">
       <b-row>
         <b-col md="auto">
@@ -30,20 +30,28 @@
       </b-row>
     </div>
 
-    <div class="v-btn"><v-btn type="button" elevation="7" @click="final_signIn()">선택완료</v-btn></div>
+    <v-flex xs12>
+    <v-btn type="button" elevation="7" @click="final_signIn()">선택완료</v-btn>
+  </v-flex>
+  <v-flex xs12>
+    <router-view></router-view>
+  </v-flex>
+    
   </div>
 </template>
 <script>
 export default {
+  // props : ['moveContact', ''],
+  props : ['moveContact'],
   data: () => ({
     //날짜
     arrayEvents: null,
     date1: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
       .toISOString()
-      .substr(0, 10),
+      .substring(0, 10),
     date2: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
       .toISOString()
-      .substr(0, 10),
+      .substring(0, 10),
     value: "",
     context: null,
 
@@ -64,6 +72,9 @@ export default {
   },
 
   methods: {
+    check_pro : function(){
+      console.log(this.moveContact);
+    },
     onContext(ctx) {
       this.context = ctx;
     },
@@ -79,8 +90,15 @@ export default {
 
       // this.$router.go(this.$router.currentRoute);
       this.$router.push({
-          name : "moveContactCheck",
-          params:{data: this.moveInfo}
+         
+          name : "moveContactCheck", 
+          params:{moveVisit: this.moveInfo,                  
+                  // moveContact:this.moveInfo,
+                  moveContact:this.moveEstimateType, 
+                  moveCon : this.moveContact,
+                  moveVisit : 123
+                  // moveContact:this.moveType}
+          }
         })
 
     }

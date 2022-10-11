@@ -6,6 +6,7 @@
   import HelloWorld from "../components/HelloWorld";
   import moveNav from "./move/moveNav.vue";
   import moveContactFinalCheck from "./move/moveContactFinalCheck.vue";
+  import moveUntactFinalCheck from "./move/moveUntactFinalCheck.vue";
   import moveSelect from "./move/moveSelect";
   import moveDate from "./move/moveDate";
   import moveVisitDate from "./move/moveVisitDate";
@@ -28,6 +29,7 @@
       moveTypeSelect,
       move1,
       moveContactFinalCheck,
+      moveUntactFinalCheck,
       generalSignUp
     },
   };
