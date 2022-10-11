@@ -1,17 +1,17 @@
 <template>
   <div>
-    <shopSubBar></shopSubBar>
+    <shop-subbar></shop-subbar>
     <keywordList></keywordList>
   </div>
 </template>
 
 <script>
-import shopSubBar from "../../components/shop/shopSubBar.vue";
+import shopSubbar from "../../components/shop/shopSubbar.vue";
 import keywordList from "../../components/shop/keywordList.vue";
 
 export default {  
   components: {
-    shopSubBar,
+    shopSubbar,
     keywordList
   }
 };
