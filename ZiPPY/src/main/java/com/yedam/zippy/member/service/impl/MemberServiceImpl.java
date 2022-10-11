@@ -24,26 +24,26 @@ public class MemberServiceImpl implements MemberService{
     }
     
     @Override
-    public String insertLoginInfo(LoginVO vo) {
-        
-        return null;
+    public void insertLoginInfo(LoginVO vo) {
+        mapper.insertLoginInfo(vo);        
     }
     
     @Transactional
     @Override
-    public String insertGeneralMember(LoginVO loginVO, GeneralUserVO gVO) {      
+    public void insertGeneralMember(LoginVO loginVO, GeneralUserVO gVO) {      
         insertLoginInfo(loginVO);
-      
-        return null;
+        mapper.insertGeneralUser(gVO);
     }
     
     @Transactional
     @Override
-    public String insertBusinessMember(LoginVO loginVO, BusinessVO bVO) {
-      insertLoginInfo(loginVO);
+    public void insertBusinessMember(LoginVO loginVO, BusinessVO bVO) {
+      insertLoginInfo(loginVO);      
       
-      return null;
     }   
     
-    
+    @Override
+    public int emailRedundancy(String email) {
+      return mapper.emailRedundacyCheck(email);
+    }
 }

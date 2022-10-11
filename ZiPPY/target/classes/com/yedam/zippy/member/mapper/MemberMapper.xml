@@ -8,4 +8,23 @@
 	 	FROM login	 	
 	</select>
 	
+	<insert id="insertLoginInfo" parameterType="LoginVO">
+		INSERT INTO login
+		VALUES(#{email}, #{password}, #{isSocial}, #{token}, #{memberType}, systimestamp)
+	</insert>
+	
+	<select id="emailRedundacyCheck" parameterType="String" resultType="Integer">
+		SELECT count(*)
+		FROM login
+		WHERE email = #{email}
+	</select>
+	
+	<insert id="insertGeneralUser" parameterType="GeneralUserVO">
+		INSERT INTO general_user
+		VALUES(
+		#{userEmail}, #{userName}, #{nickName}, #{phoneNumber}, #{userBirth}, #{userGender}, #{userAddress},
+		#{zipCode}, #{profileImage}, 0, #{addressDetail}
+		)
+	</insert>
+	
 </mapper>

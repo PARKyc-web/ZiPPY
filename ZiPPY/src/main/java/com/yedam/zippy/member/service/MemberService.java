@@ -9,9 +9,12 @@ public interface MemberService {
   
   public List<LoginVO> getAllMember();  
   
-  public String insertLoginInfo(LoginVO vo);
+  public void insertLoginInfo(LoginVO vo);
   
-  public String insertGeneralMember(LoginVO loginVO, GeneralUserVO generalVO);
+  public void insertGeneralMember(LoginVO loginVO, GeneralUserVO generalVO);
   
-  public String insertBusinessMember(LoginVO loginVO, BusinessVO businessVO);
+  public void insertBusinessMember(LoginVO loginVO, BusinessVO businessVO);
+  
+  public int emailRedundancy(String email);
+  
 }

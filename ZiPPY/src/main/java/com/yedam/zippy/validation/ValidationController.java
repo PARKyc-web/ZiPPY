@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yedam.zippy.member.service.MemberService;
+
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
@@ -24,6 +26,9 @@ public class ValidationController {
 	
 	@Autowired
 	MailSender mailSender;
+		
+	@Autowired
+	MemberService mService;
 	
 	private final DefaultMessageService smsService = NurigoApp.INSTANCE.initialize("", "", "https://api.coolsms.co.kr");
 	
@@ -37,7 +42,7 @@ public class ValidationController {
 	 * @return int(인증번호)
 	 */		
 	@GetMapping("/email")
-	public int emailValidation(@RequestParam Map<String, String> data) {
+	public String emailValidation(@RequestParam Map<String, String> data) {
 		System.out.println("===========Mail Validation RUN");				
 		SimpleMailMessage msg = new SimpleMailMessage();
 		
@@ -52,17 +57,16 @@ public class ValidationController {
 			System.out.println("ajax Key {"+x+"} : " + data.get(x));
 		}		
 		
-		msg.setTo(data.get("email"));
-		msg.setSubject("mail이 잘 가는지 확인해보자!");		
-		msg.setText("회원가입을 위한 인증번호 입니다"
-				  + "\n 아래의 인증번호를 입력하여 인증을 완료해주세요 "
-				  + "\n" + key);
-		msg.setFrom("noreply@naver.com");
-		mailSender.send(msg);
+//		msg.setTo(data.get("email"));
+//		msg.setSubject("mail이 잘 가는지 확인해보자!");		
+//		msg.setText("회원가입을 위한 인증번호 입니다"
+//				  + "\n 아래의 인증번호를 입력하여 인증을 완료해주세요 "
+//				  + "\n" + key);
+//		msg.setFrom("erty1201@naver.com");
+//		mailSender.send(msg);
 		
-		return Integer.parseInt(key);
-	}
-	
+		return key;
+	}	
 	
 	/**
 	 * 핸드폰 인증할때 사용하는 메소드
@@ -74,7 +78,7 @@ public class ValidationController {
 	 * @return int(인증번호)
 	 */
 	@GetMapping("/phone")
-	public int phoneValidation(@RequestParam Map<String, String> data) {		
+	public String phoneValidation(@RequestParam Map<String, String> data) {		
 		Message sms = new Message();				
 		String key = "";
 		for(int i=0; i<6; i++) {
@@ -86,16 +90,28 @@ public class ValidationController {
 		for(String x : data.keySet()) {
 			System.out.println("ajax Key {"+x+"} : " + data.get(x));
 		}				
+		System.out.println("받는 번호 : " + data.get("phone"));
+		System.out.println("메세지 받았다고 칩시다");
+		System.out.println("Key 값 : " + key);
+//		sms.setFrom("01054068096");
+//		sms.setTo("01076197555");
+//		sms.setText("[ZiPPY] 인증번호는 " + key + "입니다");
+//		
+//		SingleMessageSentResponse res = smsService.sendOne(new SingleMessageSendingRequest(sms));
+//		System.out.println(res);
 		
-		sms.setFrom("01054068096");
-		sms.setTo("01076197555");
-		sms.setText("[ZiPPY] 인증번호는 " + key + "입니다");
-		
-		SingleMessageSentResponse res = smsService.sendOne(new SingleMessageSendingRequest(sms));
-		System.out.println(res);
-		
-		return Integer.parseInt(key);
+		return key;
 	}	
 	
+	@GetMapping("/emailRedundancy")
+	public int emailRedundancy(@RequestParam String email) {
+	  System.out.println("emailRedundancy");
+	  
+	  System.out.println(email);
+	  int result = mService.emailRedundancy(email);
+	  System.out.println("Redundancy Check :: " + result);	  
+	  
+	  return result; 	  
+	}
 	
 }

@@ -10,8 +10,7 @@
               <h5 class="card-title text-center mb-5 fw-light fs-5">
                 <img src="../../assets/zippy_logo.png" width="150px" />
               </h5>
-              <hr class="my-4" />
-              <button @click="test()">test</button>
+              <hr class="my-4" />              
               <form id="signup-form" action="">
                 <div id="first-form">
                   <div id="business-label-div">
@@ -84,10 +83,10 @@
                     <input
                       type="password"
                       class="form-control"
+                      v-model="user_info.user_password"
                       id="password"
                       name="user_passwd"
-                      placeholder="123456"
-                      v-model ="info.user_password"
+                      placeholder="123456"                      
                       @change="password_validation()"
                     />
                     <label for="password">비밀번호</label>
@@ -230,6 +229,7 @@
                       type="text"
                       class="form-control"
                       id="addressDetail"
+                      v-model="user_info.addr_detail"
                       placeholder="상세주소"
                     />
                     <label for="addressDetail">상세주소</label>
@@ -266,7 +266,7 @@
                       class="form-control"
                       id="ceo_name"
                       placeholder="ceo"
-                      v-model="info.ceo_name"
+                      v-model="user_info.ceo_name"
                     />
                     <label for="ceo_name">대표자 이름</label>
                   </div>
@@ -277,7 +277,7 @@
                       class="form-control"
                       id="business_name"
                       placeholder="company_name"
-                      v-model = "info.company_name"
+                      v-model = "user_info.company_name"
                     />
                     <label for="business_name">업체명</label>
                   </div>
@@ -289,7 +289,7 @@
                       id="business_explain"
                       placeholder="기업소개를 작성해주세요!"
                       rows="15"
-                      v-model = "info.company_intro"
+                      v-model = "user_info.company_intro"
                     ></textarea>
                   </div>
 
@@ -307,7 +307,7 @@
                     </button>
                   </div>
 
-                  <div class="form-floating mb-3" v-if="info.business_type == 'property'">
+                  <div class="form-floating mb-3" v-if="user_info.business_type == 'property'">
                     <input
                       type="email"
                       class="form-control"
@@ -330,7 +330,7 @@
                     <label for="business_number_pic"> 사업자등록증 </label>
                   </div>
 
-                  <div class="form-floating mb-3" v-if="info.business_type == 'property'">
+                  <div class="form-floating mb-3" v-if="user_info.business_type == 'property'">
                     
                     <input
                       type="file"
@@ -361,17 +361,17 @@
 
 <script>
 import axios from 'axios';
-import commFunc from '../../script/commonFunc.js';
+import loginFunc from '@/script/loginFunc';
 
 export default {
   data() {
     return {
       // 회원가입 시, 필요한 정보
-      info : {
+      user_info : {
         user_email: "",
         user_password : "",
         user_phone : "",
-        addr : "",
+        user_addr : "",
         addr_detail : "",
         addr_postzone : "",
         business_type: "",
@@ -397,144 +397,45 @@ export default {
   },
 
   methods: {
-      test : function(){
-        commFunc.commFunc();
-      },
-    /**
-     * Eamil 인증을 위한 Email 전송 인증번호 6자리
-     */
-     email_validation: function () {
-      var reg =
-        /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-      var email = document.querySelector("#inputEmail").value;      
-      if (reg.test(email)) {
-        this.info.user_email = email;        
-        document.querySelector("#email-confirm-btn").disabled = false;
-        alert("Email을 전송하였습니다.");
-        // axios.get("/validation/email", {
-        //     params: {
-        //       email: this.user_email,
-        //     },
-        //   })
-        //   .then((res) => {
-        //     console.log(res);
-        //     this.emailCode = res.data;
-        //   })
-        //   .catch((error) => {
-        //     console.log(error);
-        //   });
-      } else {
-        alert("이메일 양식을 맞춰주세요!");
-      }
+    email_validation: async function () {      
+      var data = await loginFunc.email_validation();
+      console.log("이메일 Validation 실행한 후 : ", data);
+      if(data != null){
+        this.user_info.user_email = data.email;        
+        this.emailCode = data.email_code;        
+      }      
+    },    
+
+    email_valid_check: function(){      
+      this.email_valid = loginFunc.email_valid_check(this.emailCode);
+      console.log("email_valid :: ", this.email_valid);
+      console.log("user_email :: ", this.user_info.user_email);
     },
 
-    /**
-     * 인증번호와 유저가 입력한 숫자가 동일한지 확인하는 메소드
-     */
-    email_valid_check: function () {
-      var code = document.querySelector("#emailAuthentication");      
-
-      if (this.emailCode == code.value) {
-        alert("이메일인증 성공!");
-        document.querySelector("#inputEmail").disabled = true;
-        document.querySelector("#emailAuthentication").disabled = true;
-        document.querySelector("#email-confirm-btn").disabled = true;
-        document.querySelector("#email_code").disabled = true;
-        this.email_valid = true;
-      } else {
-        alert("인증번호가 틀렸습니다!");
-      }
-    },
-
-    /**
-     * 비밀번호가 사이트 규정에 맞는지 확인하는 메소드
-     */
     password_validation: function () {
       console.log("passwd-valid");
-      var reg =
-        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-+]).{8,20}$/;
-      var password = document.querySelector("#password").value;
-
-
-      if(reg.test(password)){
-        this.pass_valid = reg.test(password);
-        document.getElementsByClassName("passwordCheck")[0].style.display =
-        "none";
-      } else{
-        document.getElementsByClassName("passwordCheck")[0].style.display =
-        "block";
-      }      
+      this.pass_valid = loginFunc.password_validation();
     },
 
-    /**
-     * 비밀번호와 비밀번호 재확인이 동일한지 확인하는 메소드
-     */
     password_confirm: function () {
-      var password = document.querySelector("#password").value;
-      var confirm = document.querySelector("#passwd-confirm").value;      
-            
-      this.pass_confirm = password == confirm ? true : false;
-      if(this.pass_confirm){
-        document.getElementsByClassName("passwordCheck")[1].style.display =
-        "none";
-      } else{
-        document.getElementsByClassName("passwordCheck")[1].style.display =
-        "block";
-      }
-      
+      this.pass_confirm = loginFunc.password_confirm();
     },
 
-    /**
-     * 핸드폰 번호 인증을 하기 위해서 SMS 문자를 보내는 메소드
-     */
-    phone_validation: function () {
-      var reg = /^010[0-9]{8}$/;
-      var number = document.querySelector("#phone").value;
-
-      if (reg.test(number)) {
-        alert("인증번호를 전송하였습니다!");
-        this.info.phone = number;
-        document.querySelector("#phoneNumberBtn").disabled = false;
-        // axios({
-        //   url : "/validation/phone",
-        //   method : "GET",
-
-        //   param : {
-        //     phone : this.user_info.user_phone
-        //   }
-
-        // }).then(res => {
-        //   console.log(res);
-
-        // }).catch(error =>{
-        //   console.log(error);
-        // });
-      } else {
-        alert("휴대폰 번호를 확인해주세요!");
-        console.log(number);
-      }
+    phone_validation: async function () {
+      var data = await loginFunc.phone_validation();
+      if(data != null){
+        this.user_info.user_phone = data.phone;
+        this.phoneCode = data.phone_code;
+      }      
+      console.log("인증번호 받기 후 잘 들어감? ",this.user_info.user_phone, this.phoneCode);
     },
 
-    /**
-     * 핸드폰으로 보낸 인증번호가 동일한지 확인하는 메소드
-     */
     phone_valid_check: function () {
-      console.log("phone-valid-check");
-      var input_phone = document.querySelector("#phone");
-      var valid = document.querySelector("#phoneAuthentication");
-      var send_btn = document.querySelector("#phone_code");
-      var valid_btn = document.querySelector("#phoneNumberBtn");
-      if (valid.value == this.phoneCode) {
-        input_phone.disabled = true;
-        valid.disabled = true;
-        send_btn.disabled = true;
-        valid_btn.disabled = true;
-        this.phone_valid = true;        
-        alert("인증이 완료되었습니다!");
+      console.log(this.phoneCode);
+      this.phone_valid = loginFunc.phone_valid_check(this.phoneCode);
 
-      } else {
-        alert("인증번호가 일치하지 않습니다!");
-      }
+      console.log("==번호인증 완료 후==");
+      console.log("user_phone :: ", this.user_info.user_phone);
     },
 
     /**
@@ -547,35 +448,33 @@ export default {
         oncomplete: function (data) {
           console.log(data);
           addr.value = "(" + data.zonecode + ") " + data.address;
-          outside.info.addr = data.address;
-          outside.info.addr_postzone = data.zonecode;
+          outside.user_info.user_addr = data.address;
+          outside.user_info.addr_postzone = data.zonecode;
         },
       }).open();     
     },
 
-    next: function () {
-      console.log("next-run");      
+    next: function () {            
       var selected = document.querySelector("input[type=radio][name=business_type]:checked");      
 
       if(selected == null){        
         alert("업체유형을 선택해 주세요!");
 
-      }else if(this.email_valid == false || this.phone_valid == false || this.pass_valid == false || this.info.addr == ""){
+      }else if(this.email_valid == false || this.phone_valid == false || this.pass_valid == false || this.user_info.user_addr == ""){
         alert("모든 정보를 인증 및 확인해주세요!");
 
       }else {
-        this.info.business_type = selected.value;
+        this.user_info.business_type = selected.value;
         document.querySelector("#first-form").style.display = "none";
-        document.querySelector("#second-form").style.display = "block";
-
-        console.log(this.info.business_type);
+        document.querySelector("#second-form").style.display = "block";      
       }
+      console.log(this.user_info);
     },
 
-    businessNumValid : function(){
+    businessNumValid : async function(){
       console.log("==Business NUMBER VALIDATION==");
       var number = document.querySelector("#business_number").value;
-      axios({
+      var temp = await axios({
         url: "https://api.odcloud.kr/api/nts-businessman/v1/status",
         method : "POST",
         params :{
@@ -586,7 +485,6 @@ export default {
         }
       }).then(res => {
         console.log(res);
-
         console.log(res.data.data);
 
       }).catch(error =>{

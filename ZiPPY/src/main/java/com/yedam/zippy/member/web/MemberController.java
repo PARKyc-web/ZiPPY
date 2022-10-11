@@ -1,5 +1,7 @@
 package com.yedam.zippy.member.web;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,27 +39,34 @@ public class MemberController {
              System.out.println(x + " : " + data.get(x));
            }           
            
-//           LoginVO login = new LoginVO();
-//           login.setEmail(data.get("user_email"));
-//           login.setPassword(data.get("user_password"));
-//           login.setMemberType(0);
-//           login.setIsSocial(0);        
-//           
-//           
-//           GeneralUserVO gVO = new GeneralUserVO();
-//           gVO.setUserEmail(data.get("user_email"));
-//           gVO.setUserName(data.get("user_name"));
-//           gVO.setNickName(null);
-//           gVO.setPhoneNumber(null);
-//           gVO.setUserBirth(null);
-//           gVO.setGender(null);
-//           gVO.setUserAddress(null);           
-//           gVO.setAddressDetail(null);           
-//           gVO.setUserState(null);
-//           gVO.setZipCode(null);
-//           gVO.setProfileImage(null);                      
-//           
-//           service.insertGeneralMember(login, gVO);
+           LoginVO login = new LoginVO();
+           login.setEmail(data.get("user_email"));
+           login.setPassword(data.get("user_password"));           
+           login.setIsSocial(0);
+           login.setMemberType(0);
+           
+           GeneralUserVO gVO = new GeneralUserVO();
+           gVO.setUserEmail(data.get("user_email"));
+           gVO.setUserName(data.get("user_name"));
+           gVO.setNickName(data.get("user_nick"));
+           gVO.setPhoneNumber(data.get("user_phone"));
+           
+           try {
+             gVO.setUserBirth(new SimpleDateFormat("yyyy-MM-dd").parse(data.get("user_birth")));
+          } catch (ParseException e) {
+            e.printStackTrace();
+          }  
+//           ;
+           gVO.setUserGender(data.get("user_gender"));
+           gVO.setUserAddress(data.get("user_addr"));           
+           gVO.setAddressDetail(data.get("addr_detail"));           
+           gVO.setZipCode(data.get("addr_postzone"));
+           gVO.setUserState(0);           
+           gVO.setProfileImage("default.png");                      
+           
+           System.out.println("LoginVO info > " + login);
+           System.out.println("GeneralUserVO info > " + gVO);           
+           service.insertGeneralMember(login, gVO);
            
            return "Congratulations To Sign-Up SITE";
        }  
