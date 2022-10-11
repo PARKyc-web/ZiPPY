@@ -217,9 +217,9 @@
       <h3>집형태</h3>
       <select id="houseType" v-model="moveInfo.houseType">
         <option value="" selected>-- 선택하세요 --</option>
-        <option value="villa/housing">빌라/주택</option>
-        <option value="eff-apt">오피스텔</option>
-        <option value="apt">아파트</option>
+        <option value="빌라/주택">빌라/주택</option>
+        <option value="오피스텔">오피스텔</option>
+        <option value="아파트">아파트</option>
       </select>
     </div>
 
@@ -227,10 +227,10 @@
       <h3>방구조</h3>
       <select id="roomNum" v-model="moveInfo.roomNum">
         <option value="" selected>-- 선택하세요 --</option>
-        <option value="1">원룸</option>
-        <option value="2">투룸</option>
-        <option value="3">쓰리룸</option>
-        <option value="over3">쓰리룸 이상</option>
+        <option value="원룸">원룸</option>
+        <option value="투룸">투룸</option>
+        <option value="쓰리룸">쓰리룸</option>
+        <option value="쓰리룸이상">쓰리룸 이상</option>
       </select>
     </div>
 
@@ -238,14 +238,14 @@
       <h3>집평수</h3>
       <select id="spaceOfHome" v-model="moveInfo.spaceOfHome">
         <option value="" selected>-- 선택하세요 --</option>
-        <option value="below10">10평 이하</option>
-        <option value="11to15">10~15평</option>
-        <option value="11to15">15~20평</option>
-        <option value="11to15">20~25평</option>
-        <option value="11to15">25~30평</option>
-        <option value="11to15">30~35평</option>
-        <option value="11to15">35~40평</option>
-        <option value="over40">40평 이상</option>
+        <option value="10평이하">10평 이하</option>
+        <option value="11-15평">10~15평</option>
+        <option value="16-20평">15~20평</option>
+        <option value="21-25평">20~25평</option>
+        <option value="26-30평">25~30평</option>
+        <option value="31-35평">30~35평</option>
+        <option value="36-40평">35~40평</option>
+        <option value="40평이상">40평 이상</option>
       </select>
     </div>
 
