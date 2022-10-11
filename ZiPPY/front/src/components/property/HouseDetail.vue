@@ -89,10 +89,25 @@
         <v-app id="inspire">
           <v-card class="mx-auto my-12" max-width="374" style="width: 100%;">
             <v-card-text>
+              <!--heart-->
+              <div>
+                <v-btn v-if="heart==0" class="mx-2" color='#D6D6D6' fab depressed dark small @click="changeHeart()">
+                  <v-icon dark>
+                    mdi-heart
+                  </v-icon>
+                </v-btn>
+                <v-btn v-if="heart==1" class="mx-2" color='#FF4063' fab depressed dark small @click="changeHeart()">
+                  <v-icon dark>
+                    mdi-heart
+                  </v-icon>
+                </v-btn>
+              </div>
+
               <v-row align="center" class="mx-0">
                 <div>매물번호 {{this.houseDetail[0].productId}}</div>
               </v-row>
-              <v-card-title>{{this.houseDetail[0].houseName}} | {{this.houseDetail[0].saleType}} {{this.houseDetail[0].price}}</v-card-title>
+              <v-card-title>{{this.houseDetail[0].houseName}} | {{this.houseDetail[0].saleType}}
+                {{this.houseDetail[0].price}}</v-card-title>
               <div class="my-4 text-subtitle-1">
                 {{this.houseDetail[0].sigungu}}
               </div>
@@ -109,8 +124,8 @@
                 {{this.houseDetail[0].floor}}층
               </div>
               <hr>
-              <v-card-title><a href="">지피공인중개법인</a> </v-card-title>
-              <v-btn block color="primary" elevation="2">문의하기</v-btn>
+              <v-card-title @click="goAgentDetail">{{this.houseDetail[0].compName}}</v-card-title>
+              <v-btn block color="primary" elevation="2">문의하기(채팅)</v-btn>
             </v-card-text>
 
           </v-card>
@@ -147,7 +162,8 @@
           'Fifth',
         ],
         houseDetail: [],
-        // productId: 650
+        heart: 0,
+        compName: ''
       }
     },
     created() {
@@ -155,20 +171,36 @@
           url: "http://localhost:8090/zippy/property/houseDetail",
           methods: "GET",
           params: {
-            productId: 650 // this.productId
+            productId: this.$route.query.productId // this.productId
           }
         }).then(response => {
           // 성공했을 때
-          console.log('success!');
+          console.log('houseDetail success!');
           console.log(response.data);
           this.houseDetail = response.data;
         })
         .catch(error => {
           // 에러가 났을 때
-          console.log('fail!');
+          console.log('houseDetail fail!');
           console.log(error);
-
-        });
+        })
+    },
+    methods: {
+      goAgentDetail() {
+        this.$router.push({
+          name: 'AgentDetail',
+          query: {businessEmail: this.houseDetail[0].email}
+        })
+      },
+      changeHeart() {
+        if (this.heart == 0) { //찜x
+          this.heart = 1; //찜on
+          alert('상품을 찜했습니다.');
+        } else { //찜on
+          this.heart = 0; //찜x
+          alert('상품의 찜을 해제하였습니다.')
+        }
+      },
     }
   }
 </script>

@@ -12,4 +12,6 @@ public interface PropertyService {
 	public List<propertyVO> getAgentProperties(String email);
 	
 	public List<agentVO> getAgentProfile(String businessEmail);
+	
+	public String getCompName(String businessEmail);
 }

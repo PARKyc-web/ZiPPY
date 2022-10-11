@@ -1,7 +1,7 @@
 <template>
-  <!-- <property-main/> -->
+  <property-main/>
   <!-- <houseDetail/> -->
-  <AgentDetail></AgentDetail>
+  <!-- <AgentDetail></AgentDetail> -->
   <!-- <BasicMarkerMap></BasicMarkerMap> -->
 </template>
 

@@ -7,7 +7,7 @@
       </div>
     </section>
     <aside>
-      <div v-if="houseProducts.length != 0" v-for="item in houseProducts" @click="getAgentEmail(item.productId)">
+      <div v-if="houseProducts.length != 0" v-for="item in houseProducts" @click="goHouseDetail(item.productId)">
         <v-card>
           <div>매물번호 {{item.productId}}</div>
           <div>{{item.houseName}}</div>
@@ -33,9 +33,9 @@
     data() {
       return {
         data: chickenJson,
-        houseProducts : [],
-        }
-      },
+        houseProducts: [],
+      }
+    },
     created() {
       axios({
           url: "http://localhost:8090/zippy/property/main",
@@ -50,7 +50,7 @@
           // 에러가 났을 때
           console.log('fail!');
           console.log(error);
-          
+
         });
     },
     mounted() {
@@ -59,26 +59,11 @@
         this.addKakaoMapScript();
     },
     methods: {
-      getAgentEmail(productId) {
-
-        axios({
-          url: "http://localhost:8090/zippy/property/agentDetail",
-          methods: "GET",
-          params: {
-            productId : productId
-          }
-        }).then(response => {
-          // 성공했을 때
-          console.log('success!');
-          console.log(response.data); 
+      goHouseDetail(productId) {
+        this.$router.push({
+          name: 'HouseDetail',
+          query: {productId: productId}
         })
-        .catch(error => {
-          // 에러가 났을 때
-          console.log('fail!');
-          console.log(error);
-          
-        });
-
       },
       addKakaoMapScript() {
         const script = document.createElement("script");

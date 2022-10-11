@@ -41,4 +41,9 @@ public class PropertyServiceImpl implements PropertyService{
 	  return mapper.getAgentProfile(businessEmail);
 	}
 	
+	@Override
+	public String getCompName(String businessEmail) {
+	  return mapper.getCompName(businessEmail);
+	}
+	
 }

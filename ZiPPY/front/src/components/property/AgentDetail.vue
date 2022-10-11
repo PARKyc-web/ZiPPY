@@ -37,7 +37,7 @@
     <hr>
     <div>
       <h2>
-        매물 목록 <i class="bi bi-plus-circle-fill"></i>
+        매물 목록 <insert-property/>
       </h2>
       <div class="row">
         <v-card v-if="properties.length != 0" v-for="item in properties" style="width: 45%; margin: 1%">
@@ -112,15 +112,17 @@
 <script>
   import BasicMarkerMap from "./BasicMarkerMap.vue";
   import axios from 'axios';
+  import InsertProperty from './InsertProperty.vue';
 
   export default {
     components: {
       BasicMarkerMap,
+      InsertProperty,
     },
     data() {
       return {
-        properties : [],
-        profile : [],
+        properties: [],
+        profile: [],
       }
     },
     created() {
@@ -128,7 +130,7 @@
           url: "http://localhost:8090/zippy/property/getAgentProperties",
           methods: "GET",
           params: {
-            email : 'youngran@email.com'
+            email: this.$route.query.businessEmail
           }
         }).then(response => {
           // 성공했을 때
@@ -140,13 +142,12 @@
           // 에러가 났을 때
           console.log('fail!');
           console.log(error);
-          
         }),
         axios({
           url: "http://localhost:8090/zippy/property/getAgentProfile",
           methods: "GET",
           params: {
-            businessEmail : 'youngran@email.com'
+            businessEmail: this.$route.query.businessEmail
           }
         }).then(response => {
           // 성공했을 때
@@ -158,7 +159,7 @@
           // 에러가 났을 때
           console.log('fail!');
           console.log(error);
-          
+
         })
     },
   };

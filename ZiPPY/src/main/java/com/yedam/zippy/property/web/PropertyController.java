@@ -2,9 +2,7 @@ package com.yedam.zippy.property.web;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,13 +37,18 @@ public String agentDetail(@RequestParam int productId) {
   }
   
   @GetMapping("/getAgentProperties")
-  public List<propertyVO> getAgentProperties(@RequestParam("email")String email){
+  public List<propertyVO> getAgentProperties(@RequestParam("email")String email) {
     return service.getAgentProperties(email);
   }
   
   @GetMapping("/getAgentProfile")
-  public List<agentVO> getAgentProfile(@RequestParam("businessEmail")String businessEmail){
+  public List<agentVO> getAgentProfile(@RequestParam("businessEmail")String businessEmail) {
     return service.getAgentProfile(businessEmail);
+  }
+  
+  @GetMapping("/getCompName")
+  public String getCompName(@RequestParam("businessEmail")String businessEmail) {
+    return service.getCompName(businessEmail);
   }
 
 //  @GetMapping("/houseDetail")

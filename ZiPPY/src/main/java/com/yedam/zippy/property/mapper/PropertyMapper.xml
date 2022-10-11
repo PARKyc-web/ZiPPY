@@ -15,9 +15,14 @@
 
 	<select id="gethouseDetail" parameterType="Integer"
 		resultType="propertyVO">
-		select *
+		<!-- select *
 		from house_product p join house_detail d on
 		p.product_id = d.product_id
+		where p.product_id = #{productId} -->
+		select p.*, d.*, b.comp_name
+		from house_product p join house_detail d
+        on p.product_id = d.product_id join business b
+        on p.email = b.business_email
 		where p.product_id = #{productId}
 	</select>
 
@@ -29,5 +34,10 @@
 	<select id="getAgentProfile" parameterType="String"
 		resultType="agentVO">
 		select * from business where business_email = #{businessEmail}
+	</select>
+	
+	<select id="getCompName" parameterType="String"
+		resultType="String">
+		select comp_name from business where business_email = #{businessEmail}
 	</select>
 </mapper>
