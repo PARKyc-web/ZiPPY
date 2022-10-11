@@ -32,16 +32,16 @@ import keywordList from "../views/shop/keywordListView.vue";
 
 Vue.use(VueRouter);
 
-const routes = [
-  {
+const routes = [{
     path: "/",
     name: "home",
     component: HomeView,
   },
+  //login
   {
     path: "/login",
     name: "login",
-    component : HomeView,
+    component: HomeView,
   },
   {
     path: "/generalSign",
@@ -52,77 +52,33 @@ const routes = [
     path: "/businessSign",
     name: "businessSign",
     component: BusinessSign
-  },  
+  },
+
+  // property
   {
     path: "/property/main",
-    name : "property",
-    component : PropertyView,
+    name: "property",
+    component: PropertyView,
   },
   {
     path: "/property/HouseDetail",
-    name : "HouseDetail",
-    component : HouseDetail,
+    name: "HouseDetail",
+    component: HouseDetail,
   },
   {
     path: "/property/AgentDetail",
-    name : "AgentDetail",
-    component : AgentDetail,
+    name: "AgentDetail",
+    component: AgentDetail,
   },
+
+
+  // shop
   {
     path: "/shop",
     name: "shop",
     component: shopView,
   },
 
-  {
-    path:"/moveContact",
-    name: "moveContact",
-    component : moveVisitDate, 
-    props : true,
- 
-  },
-  {
-    path:"/moveUntact",
-    name: "moveUntact",
-    component : moveInfoDetail,
-    props : true,
-  },
-
-  {
-        path: "/moveContactCheck",
-        name: "moveContactCheck",
-        component: moveContactFinalCheck,
-        props: true, //변수를 받겠다. 
-  },
-  {
-    path: "/moveUntactImg",
-    name: "moveUntactImg",
-    component: moveImage,
-    props: true,
-  },
-  {
-    path: "/moveUntactCheck",
-    name: "moveUntactCheck",
-    component: moveUntactFinalCheck,
-    props: true,
-},
-
-  {
-    path : "/used",
-    name : "used",
-    component : usedMain,
-  },
-  {
-    path : "/used/detail",
-    name : "detail",
-    component : usedDetail
-  },
-  {
-    path : "/used/update",
-    name : "update",
-    component : usedUpdate
-},
-  /** 삭제 에정 **/
   {
     path: "/shop/detail",
     name: "detail",
@@ -137,6 +93,57 @@ const routes = [
     path: "/shop/keyword",
     name: "keyword",
     component: keywordList,
+  },
+
+  //move
+  {
+    path: "/moveContact",
+    name: "moveContact",
+    component: moveVisitDate,
+    props: true,
+
+  },
+  {
+    path: "/moveUntact",
+    name: "moveUntact",
+    component: moveInfoDetail,
+    props: true,
+  },
+
+  {
+    path: "/moveContactCheck",
+    name: "moveContactCheck",
+    component: moveContactFinalCheck,
+    props: true, //변수를 받겠다. 
+  },
+  {
+    path: "/moveUntactImg",
+    name: "moveUntactImg",
+    component: moveImage,
+    props: true,
+  },
+  {
+    path: "/moveUntactCheck",
+    name: "moveUntactCheck",
+    component: moveUntactFinalCheck,
+    props: true,
+  },
+
+  //used
+  {
+    path: "/used",
+    name: "used",
+    component: usedMain,
+  },
+  {
+    path: "/used/detail",
+    name: "detail",
+    component: usedDetail
+  },
+  {
+    path: "/used/update",
+    name: "update",
+    component: usedUpdate
   }
 ];
 
