@@ -4,7 +4,7 @@
     <v-row justify="space-between" locale="ko-KR">
       <div class="subheading"></div>
       <v-date-picker
-        v-model="date1"
+        v-model="moveInfo.visitDate"
         :events="arrayEvents"
         color="green lighten-1"
         event-color="blue lighten-1"
@@ -12,17 +12,17 @@
       ></v-date-picker>
     </v-row>
     <hr />
-    <h3>방문 희망 시간을 선택해주세요.</h3>
+    <h3>방문 희망 시간을 선택해주세요.</h3>    
     <div class="selectTime">
       <b-row>
         <b-col md="auto">
-          <b-time v-model="value" locale="ko-KR" @context="onContext"></b-time>
+          <b-time v-model="moveInfo.visitTime" locale="ko-KR" @context="onContext"></b-time>
         </b-col>
         <b-col>
           <!-- v-if를 걸어서 널값일때는 시간 선택해달라고 안내문구 -->
 
           <p>
-            선택 시간: <b>{{ value }}</b>
+            선택 시간: <b>{{ moveInfo.visitTime }}</b>
           </p>
           <!-- <p class="mb-0">Context:</p>
       <pre v-if="context != null" class="small">{{ context.Value }}</pre> -->
@@ -30,22 +30,36 @@
       </b-row>
     </div>
 
-    <div class="v-btn"><v-btn elevation="7">선택완료</v-btn></div>
+    <v-flex xs12>
+    <v-btn type="button" elevation="7" @click="final_signIn()">선택완료</v-btn>
+  </v-flex>
+  <v-flex xs12>
+    <router-view></router-view>
+  </v-flex>
+    
   </div>
 </template>
 <script>
 export default {
+  // props : ['moveContact', ''],
+  props : ['moveContact'],
   data: () => ({
     //날짜
     arrayEvents: null,
     date1: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
       .toISOString()
-      .substr(0, 10),
+      .substring(0, 10),
     date2: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
       .toISOString()
-      .substr(0, 10),
+      .substring(0, 10),
     value: "",
     context: null,
+
+    //moveInfo
+    moveInfo : {
+      visitDate : "",
+      visitTime : "",
+    },
   }),
 
   mounted() {
@@ -58,6 +72,9 @@ export default {
   },
 
   methods: {
+    check_pro : function(){
+      console.log(this.moveContact);
+    },
     onContext(ctx) {
       this.context = ctx;
     },
@@ -67,6 +84,24 @@ export default {
       if ([1, 19, 22].includes(parseInt(day, 10))) return ["red", "#00f"];
       return false;
     },
+
+    final_signIn: function(){
+      console.log(this.moveInfo);
+
+      // this.$router.go(this.$router.currentRoute);
+      this.$router.push({
+         
+          name : "moveContactCheck", 
+          params:{moveVisit: this.moveInfo,                  
+                  // moveContact:this.moveInfo,
+                  moveContact:this.moveEstimateType, 
+                  moveCon : this.moveContact,
+                  moveVisit : 123
+                  // moveContact:this.moveType}
+          }
+        })
+
+    }
   },
 };
 </script>

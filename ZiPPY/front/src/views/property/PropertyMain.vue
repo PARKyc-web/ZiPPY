@@ -7,7 +7,16 @@
       </div>
     </section>
     <aside>
-      <p>list</p>
+      <div v-if="houseProducts.length != 0" v-for="item in houseProducts" @click="goHouseDetail(item.productId)">
+        <v-card>
+          <div>매물번호 {{item.productId}}</div>
+          <div>{{item.houseName}}</div>
+          <div>{{item.saleType}} {{item.price}}</div>
+          <div>{{item.sigungu}}</div>
+          <div>{{item.areaExclusive}}m^2 {{item.floor}}층</div>
+          <div>{{item.detailContents}}</div>
+        </v-card>
+      </div>
     </aside>
   </div>
 </template>
@@ -21,18 +30,27 @@
     components: {
       SearchBar,
     },
+    data() {
+      return {
+        data: chickenJson,
+        houseProducts: [],
+      }
+    },
     created() {
       axios({
-          uri: "http://localhost:8090/zippy/property/main",
+          url: "http://localhost:8090/zippy/property/main",
           methods: "GET",
-        }).then(function (response) {
+        }).then(response => {
           // 성공했을 때
+          console.log('success!');
           console.log(response);
+          this.houseProducts = response.data;
         })
-        .catch(function (error) {
+        .catch(error => {
           // 에러가 났을 때
+          console.log('fail!');
           console.log(error);
-          
+
         });
     },
     mounted() {
@@ -40,13 +58,13 @@
         this.initMap() :
         this.addKakaoMapScript();
     },
-    data() {
-      return {
-        data: chickenJson,
-        houseProducts : []
-      }
-    },
     methods: {
+      goHouseDetail(productId) {
+        this.$router.push({
+          name: 'HouseDetail',
+          query: {productId: productId}
+        })
+      },
       addKakaoMapScript() {
         const script = document.createElement("script");
         /* global kakao */
@@ -57,11 +75,11 @@
         var container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
         var options = {
           center: new kakao.maps.LatLng(36.2683, 127.6358), // 지도의 중심좌표 
-          level: 8 // 지도의 확대 레벨 
+          level: 3 // 지도의 확대 레벨 
         };
 
         var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-        map.setMaxLevel(12); // 지도 최소 축소 레벨
+        map.setMaxLevel(4); // 지도 최소 축소 레벨
 
         /* 현재 위치로 지도의 중심 위치를 변경 */
         // HTML5의 geolocation으로 사용할 수 있는지 확인합니다 

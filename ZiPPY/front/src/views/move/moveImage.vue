@@ -1,5 +1,6 @@
 <template>
   <div class="wrap">
+    <form>
     <h2>자세한 견적을 받을 수 있도록 사진을 첨부해주세요.</h2>
 
 
@@ -92,23 +93,45 @@
 
     </v-stepper>
 
-
+    <div class="next-btn">
+      <v-btn
+    @click="un_final_signIn()"
+    color="success"
+    elevation="11"
+  >다음페이지로</v-btn>
+</div>
+</form>
   </div>
 </template>
 
 <script>
   export default {
+    props:[
+      'moveInfoDetail'
+    ],
     data() {
       return {
         e6: 1,
         files1: [],
         files2: [],
         files3: [],
+        img: require("../../assets/box.jpg")
       }
     },
-    // data: () => ({
-    //   files: [],
-    //  }),
+    
+    methods : {
+      un_final_signIn: function(){
+      console.log(this.moveInfo);
+
+      // this.$router.go(this.$router.currentRoute);
+      this.$router.push({
+         
+          name : "moveUntactCheck",
+          params:{moveImg: this.files1, moveImg:this.files2, moveImg:this.files3}
+        })
+
+    }
+    }
   }
 </script>
 
@@ -134,6 +157,11 @@
 
     padding-top: 20px;
     width: 600px;
+  }
+
+  .next-btn{
+    text-align: center;
+    padding: 100px;
   }
 
   #step1 {

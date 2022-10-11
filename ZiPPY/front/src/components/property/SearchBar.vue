@@ -17,9 +17,9 @@
 
             <template>
               <v-container fluid>
-                <v-checkbox v-model="selected" label="John" value="John"></v-checkbox>
-                <v-checkbox v-model="selected" label="Jacob" value="Jacob"></v-checkbox>
-                <p>{{ selected }}</p>
+                <v-checkbox v-model="selected" label="조용한" value="조용한"></v-checkbox>
+                <v-checkbox v-model="selected" label="역세권" value="역세권"></v-checkbox>
+                <p>선택한 필터 목록 {{ selected }}</p>
               </v-container>
             </template>
 

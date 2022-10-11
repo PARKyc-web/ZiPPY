@@ -32,20 +32,18 @@
     <hr>
     <div id="used-soldot-drop">
       <div class="form-check">
-        <input @click="checkbox()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+        <input @click="checkbox ()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
         <label class="form-check-label" for="flexCheckDefault">
           판매완료된 상품보기
         </label>
       </div>
       <!-- <nav class="navbar navbar-expand-lg navbar-light"> -->
-      <div>
-        <v-container>
-          <v-overflow-btn @click="search($event)" id="drop" class="my-2" :items="items" label="정렬" dense>
-          </v-overflow-btn>
-        </v-container>
+      <div id="used-main-dropbox">
+        <v-select @change="dropVal()" v-model="select" :items="items" item-text="name" item-value="value" label="정렬"
+          color="#212529" persistent-hint single-line dense width="50"></v-select>
       </div>
     </div>
-    <div class="used-main-card" v-if="data.length != 0" v-for="list in data">
+    <div @click="goDetail(list.productNo)" class="used-main-card" v-if="data.length != 0" v-for="list in data">
       <div>
         <div><img src="https://blog.kakaocdn.net/dn/bGu5TC/btrGZLBBodm/QunLukZnzgvWcoygDFziO0/img.jpg" width="194px"
             height="194px"></div>
@@ -54,6 +52,7 @@
           <div class="used-main-price-date">
             <div class="used-main-card-price">{{list.productPrice}}원</div>
             <div><span>{{list.productDate}}</span></div>
+            <div type="hidden"></div>
           </div>
         </div>
       </div>
@@ -66,9 +65,28 @@
 
   export default {
     data: () => ({
-      items: ['최고가순', '최저가순', '판매자평점순'],
+      items: [{
+          name: '최고가순',
+          value: '최고가순'
+        },
+        {
+          name: '최저가순',
+          value: '최저가순'
+        },
+        {
+          name: '최신등록일자순',
+          value: '최신등록일자순'
+        },
+        {
+          name: '오래된등록일자순',
+          value: '오래된등록일자순'
+        },
+      ],
       data: [],
-      word: ""
+      word: "",
+      select: '',
+      categoryVal: '',
+      searchValue : ''
     }),
 
     created() {
@@ -79,7 +97,8 @@
           location: "대구",
           keyword: "",
           category: "",
-          checked : ""
+          checked: "",
+          dropbox: ""
         }
       }).then(res => {
         console.log(res);
@@ -93,18 +112,17 @@
 
     methods: {
       search: function (e) {
-        var searchValue = document.querySelector("#used-main-search-input").value;
-        this.category = e.target.innerText;
-        var priceVal = document.querySelector("#drop").value;
-        console.log(priceVal);
+        this.searchValue = document.querySelector("#used-main-search-input").value;
+        this.categoryVal = e.target.innerText;
         axios({
           url: "http://localhost:8088/zippy/used/main",
           methods: "GET",
           params: {
-            keyword: searchValue,
+            keyword: this.searchValue,
             location: "",
-            category: this.category,
-            checked : ""
+            category: this.categoryVal,
+            checked: "",
+            dropbox: ""
           }
         }).then(res => {
           console.log(res);
@@ -127,10 +145,11 @@
           url: "http://localhost:8088/zippy/used/main",
           methods: "GET",
           params: {
-            keyword: "",
+            keyword: this.searchValue,
             location: "",
-            category: "",
-            checked : isChecked
+            category: this.categoryVal,
+            checked: isChecked,
+            dropbox: ""
           }
         }).then(res => {
           console.log(res);
@@ -138,7 +157,33 @@
         }).catch(err => {
           console.log(err)
         })
-        
+      },
+      dropVal: function () {
+        var dropValue = this.select;
+        console.log(dropValue);
+        axios({
+          url: "http://localhost:8088/zippy/used/main",
+          methods: "GET",
+          params: {
+            keyword: this.searchValue,
+            location: "",
+            category: this.categoryVal,
+            checked: "",
+            dropbox: dropValue
+          }
+        }).then(res => {
+          console.log(res);
+          this.data = res.data;
+        }).catch(err => {
+          console.log(err);
+        })
+      },
+      goDetail (no) {
+        console.log(no);
+        // var cardNo = this.data.findIndex(i => i.productNo == productNo);
+        // console.log(cardNo);
+        this.$router.push('/used/detail?pNo=' + no);
+      
       }
     }
   }
@@ -147,6 +192,10 @@
   #container {
     width: 1200px;
     margin: 0 auto;
+  }
+
+  #used-main-dropbox {
+    margin-top: 40px;
   }
 
   .search {

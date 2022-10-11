@@ -6,116 +6,71 @@
     <br />
     <div class="move-detail">
       <div class="move-furniture1">
+        <button class="custom-btn btn-4" type="button" @click="addRowBed()">+</button>
         <input type="checkbox" name="bed" /><label>침대</label><br /><br />
         <i class="fa-solid fa-bed fa-5x"></i><br />
-        <div class="move-detail-drop">
-          <select>
+        <div class="move-detail-drop" v-for="(row, i) in rows">
+          <select v-model="row.bed">
             <option value="" selected>-- 사이즈 --</option>
-            <option value="1">싱글</option>
-            <option value="2">슈퍼싱글</option>
-            <option value="3">퀸</option>
-            <option value="4">킹</option>
-            <option value="5">킹 이상</option>
-          </select>
+            <option value="single">싱글</option>
+            <option value="super-single">슈퍼싱글</option>
+            <option value="queen">퀸</option>
+            <option value="king">킹</option>
+            <option value="over-king">킹 이상</option>
+          </select><br>
+          <button class="custom-btn btn-4" type="button" @click="removeRowBed(i)">-</button>
         </div>
-        <button class="custom-btn btn-4" type="button">+</button>
       </div>
+
       <div class="move-furniture1">
+        <button class="custom-btn btn-4" type="button" @click="addRowSofa()">+</button>
         <input type="checkbox" name="sofa" /><label>소파</label><br /><br />
         <i class="fa-solid fa-couch fa-5x"></i><br />
-        <div class="move-detail-drop">
-          <select>
+        <div class="move-detail-drop" v-for="(row, index) in rows">
+          <select v-model="row.sofa">
             <option value="" selected>-- 사이즈 --</option>
-            <option value="1">싱글</option>
-            <option value="2">슈퍼싱글</option>
-            <option value="3">퀸</option>
-            <option value="4">킹</option>
-            <option value="5">킹 이상</option>
-          </select>
+            <option value="single">싱글</option>
+            <option value="super-single">슈퍼싱글</option>
+            <option value="queen">퀸</option>
+            <option value="king">킹</option>
+            <option value="over-king">킹 이상</option>
+          </select><br>
+          <button class="custom-btn btn-4" type="button" @click="removeRowSofa(index)">-</button>
         </div>
-        <button class="custom-btn btn-4" type="button">+</button>
       </div>
+
       <div class="move-furniture1">
-        <input type="checkbox" name="closet" /><label>옷장-단품</label
-        ><br /><br />
+        <button class="custom-btn btn-4" type="button" @click="addRowcloset()">+</button>
+        <input type="checkbox" name="closet" /><label>옷장-단품</label><br /><br />
         <i class="fa-solid fa-toilet-portable fa-5x"></i><br />
-        <div class="move-detail-drop">
-          <select>
+        <div class="move-detail-drop" v-for="(row, index) in rows">
+          <select v-model="row.closet">
             <option value="" selected>-- 사이즈 --</option>
-            <option value="1">싱글</option>
-            <option value="2">슈퍼싱글</option>
-            <option value="3">퀸</option>
-            <option value="4">킹</option>
-            <option value="5">킹 이상</option>
-          </select>
+            <option value="single">싱글</option>
+            <option value="super-single">슈퍼싱글</option>
+            <option value="queen">퀸</option>
+            <option value="king">킹</option>
+            <option value="over-king">킹 이상</option>
+          </select><br>
+          <button class="custom-btn btn-4" type="button" @click="removeRowCloset(index)">-</button>
         </div>
-        <button class="custom-btn btn-4" type="button">+</button>
       </div>
+
       <div class="move-furniture1">
-        <input type="checkbox" name="closets" /><label>옷장-연결장</label
-        ><br /><br />
+        <button class="custom-btn btn-4" type="button" @click="addRowClosets()">+</button>
+        <input type="checkbox" name="closets" /><label>옷장-연결장</label><br /><br />
         <i class="fa-solid fa-toilets-portable fa-5x"></i><br />
-        <div class="move-detail-drop">
-          <select>
+        <div class="move-detail-drop" v-for="(row, index) in rows">
+          <select v-model="row.closets">
             <option value="" selected>-- 사이즈 --</option>
-            <option value="1">싱글</option>
-            <option value="2">슈퍼싱글</option>
-            <option value="3">퀸</option>
-            <option value="4">킹</option>
-            <option value="5">킹 이상</option>
-          </select>
+            <option value="single">싱글</option>
+            <option value="super-single">슈퍼싱글</option>
+            <option value="queen">퀸</option>
+            <option value="king">킹</option>
+            <option value="over-king">킹 이상</option>
+          </select><br>
+          <button class="custom-btn btn-4" type="button" @click="removeRowClosets(index)">-</button>
         </div>
-        <button class="custom-btn btn-4" type="button">+</button>
-      </div>
-    </div>
-
-    <div class="move-detail">
-      <div class="move-furniture2">
-        <input type="checkbox" name="closets" /><label>의자</label><br /><br />
-        <i class="fa-solid fa-chair fa-5x"></i><br />
-        <div class="move-detail-drop">
-          <select>
-            <option value="" selected>-- 사이즈 --</option>
-            <option value="1">싱글</option>
-            <option value="2">슈퍼싱글</option>
-            <option value="3">퀸</option>
-            <option value="4">킹</option>
-            <option value="5">킹 이상</option>
-          </select>
-        </div>
-        <button class="custom-btn btn-4" type="button">+</button>
-      </div>
-
-      <div class="move-furniture2">
-        <input type="checkbox" name="closets" /><label>행거</label><br /><br />
-        <i class="fa-solid fa-sign-hanging fa-5x"></i><br />
-        <div class="move-detail-drop">
-          <select>
-            <option value="" selected>-- 사이즈 --</option>
-            <option value="1">싱글</option>
-            <option value="2">슈퍼싱글</option>
-            <option value="3">퀸</option>
-            <option value="4">킹</option>
-            <option value="5">킹 이상</option>
-          </select>
-        </div>
-        <button class="custom-btn btn-4" type="button">+</button>
-      </div>
-
-      <div class="move-furniture2">
-        <input type="checkbox" name="closets" /><label>서랍</label><br /><br />
-        <i class="fa-solid fa-box-archive fa-5x"></i><br />
-        <div class="move-detail-drop">
-          <select>
-            <option value="" selected>-- 사이즈 --</option>
-            <option value="1">싱글</option>
-            <option value="2">슈퍼싱글</option>
-            <option value="3">퀸</option>
-            <option value="4">킹</option>
-            <option value="5">킹 이상</option>
-          </select>
-        </div>
-        <button class="custom-btn btn-4" type="button">+</button>
       </div>
     </div>
 
@@ -129,7 +84,7 @@
         <input type="checkbox" name="bed" /><label>TV</label><br /><br />
         <i class="fa-solid fa-tv fa-5x"></i><br />
         <div class="move-detail-drop">
-          <select>
+          <select v-model="row.tv">
             <option value="" selected>-- 사이즈 --</option>
             <option value="1">싱글</option>
             <option value="2">슈퍼싱글</option>
@@ -144,7 +99,7 @@
         <input type="checkbox" name="sofa" /><label>데스크탑</label><br /><br />
         <i class="fa-solid fa-desktop fa-5x"></i><br />
         <div class="move-detail-drop">
-          <select>
+          <select v-model="row.pc">
             <option value="" selected>-- 사이즈 --</option>
             <option value="1">싱글</option>
             <option value="2">슈퍼싱글</option>
@@ -159,7 +114,7 @@
         <input type="checkbox" name="closet" /><label>냉장고</label><br /><br />
         <i class="material-icons md-54">kitchen</i><br />
         <div class="move-detail-drop">
-          <select>
+          <select v-model="row.fridge">
             <option value="" selected>-- 사이즈 --</option>
             <option value="1">싱글</option>
             <option value="2">슈퍼싱글</option>
@@ -171,11 +126,10 @@
         <button class="custom-btn btn-4" type="button">+</button>
       </div>
       <div class="move-furniture1">
-        <input type="checkbox" name="closets" /><label>유모차</label
-        ><br /><br />
+        <input type="checkbox" name="closets" /><label>유모차</label><br /><br />
         <i class="fa-solid fa-baby-carriage fa-5x"></i><br />
         <div class="move-detail-drop">
-          <select>
+          <select v-model="row.trolley">
             <option value="" selected>-- 사이즈 --</option>
             <option value="1">싱글</option>
             <option value="2">슈퍼싱글</option>
@@ -202,16 +156,8 @@
           <br />
           <div class="move-detail-drop">
             <label>사용자 기타</label><br /><br />
-            <input
-              class="type-2"
-              type="text"
-              placeholder="기타이삿짐 이름"
-            /><br />
-            <input
-              class="type-2"
-              type="text"
-              placeholder="이삿짐 사이즈(cm * cm)"
-            /><br />
+            <input v-model="row.etcName" class="type-2" type="text" placeholder="기타이삿짐 이름" /><br />
+            <input v-model="row.etcSize" class="type-2" type="text" placeholder="이삿짐 사이즈(cm * cm)" /><br />
           </div>
           <button class="custom-btn btn-4" type="button">+</button>
         </div>
@@ -231,7 +177,7 @@
           </h5>
           <br />
           <div class="move-detail-drop">
-            <select>
+            <select v-model="row.box">
               <option value="" selected>-- 박스개수 --</option>
               <option value="1">5개이하</option>
               <option value="2">5~10개</option>
@@ -268,308 +214,390 @@
     </div>
 
     <div class="frame">
-      <button id="selectBtn-bday" class="custom-btn btn-3">선택완료</button>
+      <button id="selectBtn-bday" class="custom-btn btn-3" @click="un_final_signIn()">선택완료</button>
     </div>
   </div>
 </template>
 
 <script>
-export default {
-   data: () => ({
-    img: require("../../assets/box.jpg")
-   }),
-};
+  export default {
+    props: [
+      'moveUntact'
+    ],
+    data: () => ({
+      row:"",
+      rows: [{
+
+        bed: "",
+        sofa: "",
+        closet: "",
+        closets: "",
+
+        tv: "",
+        pc: "",
+        fridge: "",
+        trolley: "",
+
+        etcName: "",
+        etcSize: "",
+
+        box: "",
+
+      }],
+
+      img: require("../../assets/box.jpg")
+    }),
+
+    methods: {
+      addRowBed: function () {
+        this.rows.push({
+          bed: ""
+        })
+      },
+      removeRowBed: function (i) {
+        // this.rows.$remove(row);
+        this.$delete(this.rows, i);
+      },
+
+      addRowSofa: function () {
+        this.rows.push({
+          sofa: ""
+        })
+      },
+      removeRowSofa: function (index) {
+        // this.rows.$remove(row);
+        this.$delete(this.rows, index);
+      },
+
+      addRowCloset: function () {
+        this.rows.push({
+          closet: ""
+        })
+      },
+      removeRowCloset: function (index) {
+        // this.rows.$remove(row);
+        this.$delete(this.rows, index);
+      },
+
+      addRowClosets: function () {
+        this.rows.push({
+          closets: ""
+        })
+      },
+      removeRowClosets: function (index) {
+        // this.rows.$remove(row);
+        this.$delete(this.rows, index);
+      },
+
+
+
+      un_final_signIn: function () {
+        console.log(this.moveInfo);
+
+        // this.$router.go(this.$router.currentRoute);
+        this.$router.push({
+
+          name: "moveUntactImg",
+          params: {
+            moveInfoDetail: this.moveInfo
+          }
+        })
+
+      }
+
+    }
+  };
 </script>
 
 <style scoped>
-/* google font */
+  .head {
+    display: inline-block;
+  }
 
-.material-icons {
-  font-family: "Material Icons";
-  font-weight: normal;
-  font-style: normal;
-  font-size: 40px;
-  /* Preferred icon size */
-  display: inline-block;
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-  word-wrap: normal;
-  white-space: nowrap;
-  direction: ltr;
+  /* google font */
 
-  /* Support for all WebKit browsers. */
-  -webkit-font-smoothing: antialiased;
+  .material-icons {
+    font-family: "Material Icons";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 40px;
+    /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
 
-  /* Support for Safari and Chrome. */
-  text-rendering: optimizeLegibility;
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
 
-  /* Support for Firefox. */
-  -moz-osx-font-smoothing: grayscale;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
 
-  /* Support for IE. */
-  font-feature-settings: "liga";
-}
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
 
-.material-icons.md-18 {
-  font-size: 18px;
-}
+    /* Support for IE. */
+    font-feature-settings: "liga";
+  }
 
-.material-icons.md-24 {
-  font-size: 24px;
-}
+  .material-icons.md-18 {
+    font-size: 18px;
+  }
 
-.material-icons.md-36 {
-  font-size: 36px;
-}
+  .material-icons.md-24 {
+    font-size: 24px;
+  }
 
-.material-icons.md-48 {
-  font-size: 48px;
-}
+  .material-icons.md-36 {
+    font-size: 36px;
+  }
 
-.material-icons.md-54 {
-  font-size: 80px;
-}
+  .material-icons.md-48 {
+    font-size: 48px;
+  }
 
-/* font awesome */
-i {
-  width: 100px;
-  height: 100px;
-}
+  .material-icons.md-54 {
+    font-size: 80px;
+  }
 
-.wrap{
-  text-align: center;
-}
+  /* font awesome */
+  i {
+    width: 100px;
+    height: 100px;
+  }
 
-h3{
-  padding-top: 100px;
-}
+  .wrap {
+    text-align: center;
+  }
 
-/* input */
+  h3 {
+    padding-top: 100px;
+  }
 
-.type-2 {
-  background-color: #fafafa;
-  border: 0;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
-  transition: 0.3s box-shadow;
-  width: 300px;
-  border-radius: 5px;
-}
+  /* input */
 
-.type-2:hover {
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
-}
+  .type-2 {
+    background-color: #fafafa;
+    border: 0;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+    transition: 0.3s box-shadow;
+    width: 300px;
+    border-radius: 5px;
+  }
 
-input {
-  margin: 5px;
-}
+  .type-2:hover {
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+  }
 
-.move-furniture1 {
-  display: inline-block;
-  margin: 20px;
-}
+  input {
+    margin: 5px;
+  }
 
-.move-furniture2 {
-  display: inline-block;
-  margin: 20px;
-}
+  .move-furniture1 {
+    display: inline-block;
+    margin: 20px;
+  }
 
-.type-2 {
-  background-color: #fafafa;
-  border: 0;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
-  transition: 0.3s box-shadow;
-  width: 200px;
-  height: 40px;
-  border-radius: 5px;
-}
+  .move-furniture2 {
+    display: inline-block;
+    margin: 20px;
+  }
 
-.type-2:hover {
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
-}
+  .type-2 {
+    background-color: #fafafa;
+    border: 0;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+    transition: 0.3s box-shadow;
+    width: 200px;
+    height: 40px;
+    border-radius: 5px;
+  }
 
-.move-detail-2 {
-  text-align: center;
-}
+  .type-2:hover {
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+  }
 
-/* zip */
-.depart-address {
-  margin-top: 100px;
-}
+  .move-detail-2 {
+    text-align: center;
+  }
 
-.move-detail-drop {
-  display: inline-block;
-  width: 210px;
-  height: 100px;
-}
 
-.move-select-input {
-  display: inline-block;
-  width: 250px;
-  height: 200px;
-}
+  /* zip */
+  .depart-address {
+    margin-top: 100px;
+  }
 
-/* 버튼 */
+  .move-detail-drop {
+    display: inline-block;
+    width: 210px;
+    height: 100px;
+  }
 
-.frame {
-  width: 90%;
-  margin: 100px auto;
-  text-align: center;
-}
+  .move-select-input {
+    display: inline-block;
+    width: 250px;
+    height: 200px;
+  }
 
-#selectBtn-bday {
-  margin: 70px;
-}
+  /* 버튼 */
 
-.custom-btn {
-  width: 200px;
-  height: 100px;
-  color: #fff;
-  border-radius: 5px;
-  padding: 10px 25px;
-  font-family: "Lato", sans-serif;
-  font-weight: bold;
-  /* font-size: 20px; */
-  background: transparent;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  display: inline-block;
-  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
-    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
-  outline: none;
-}
+  .frame {
+    width: 90%;
+    margin: 100px auto;
+    text-align: center;
+  }
 
-.btn-4 {
-  background: rgb(163, 162, 162);
-  background: linear-gradient(
-    0deg,
-    rgba(163, 162, 162, 1) 0%,
-    rgb(163, 162, 162) 100%
-  );
-  border: none;
-  width: 40px;
-  height: 45px;
-  font-size: 20px;
-}
+  #selectBtn-bday {
+    margin: 70px;
+  }
 
-.btn-4:hover {
-  /* background: rgb(136, 221, 164);
+  .custom-btn {
+    width: 200px;
+    height: 100px;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-family: "Lato", sans-serif;
+    font-weight: bold;
+    /* font-size: 20px; */
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+      7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+    outline: none;
+  }
+
+  .btn-4 {
+    background: rgb(163, 162, 162);
+    background: linear-gradient(0deg,
+        rgba(163, 162, 162, 1) 0%,
+        rgb(163, 162, 162) 100%);
+    border: none;
+    width: 40px;
+    height: 45px;
+    font-size: 20px;
+  }
+
+  .btn-4:hover {
+    /* background: rgb(136, 221, 164);
       background: linear-gradient(0deg, rgba(136, 221, 164, 1) 0%, rgb(131, 221, 161) 100%); */
-  box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5),
-    -4px -4px 6px 0 rgba(116, 125, 136, 0.5),
-    inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2),
-    inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
-}
+    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5),
+      -4px -4px 6px 0 rgba(116, 125, 136, 0.5),
+      inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2),
+      inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
+  }
 
-.btn-3 {
-  background: rgb(163, 162, 162);
-  background: linear-gradient(
-    0deg,
-    rgba(163, 162, 162, 1) 0%,
-    rgb(163, 162, 162) 100%
-  );
-  border: none;
-  height: 50px;
-  width: 150px;
-  font-size: 20px;
-}
+  .btn-3 {
+    background: rgb(163, 162, 162);
+    background: linear-gradient(0deg,
+        rgba(163, 162, 162, 1) 0%,
+        rgb(163, 162, 162) 100%);
+    border: none;
+    height: 50px;
+    width: 150px;
+    font-size: 20px;
+  }
 
-.btn-3:hover {
-  /* background: rgb(136, 221, 164);
+  .btn-3:hover {
+    /* background: rgb(136, 221, 164);
       background: linear-gradient(0deg, rgba(136, 221, 164, 1) 0%, rgb(131, 221, 161) 100%); */
-  box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5),
-    -4px -4px 6px 0 rgba(116, 125, 136, 0.5),
-    inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2),
-    inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
-}
+    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, 0.5),
+      -4px -4px 6px 0 rgba(116, 125, 136, 0.5),
+      inset -4px -4px 6px 0 rgba(255, 255, 255, 0.2),
+      inset 4px 4px 6px 0 rgba(0, 0, 0, 0.4);
+  }
 
-/* 라디오 */
-.detail-info-radio {
-  display: inline-block;
-  width: 250px;
-}
+  /* 라디오 */
+  .detail-info-radio {
+    display: inline-block;
+    width: 250px;
+  }
 
-.test_obj input[type="radio"] {
-  display: none;
-}
+  .test_obj input[type="radio"] {
+    display: none;
+  }
 
-.test_obj input[type="radio"] + span {
-  display: inline-block;
-  padding: 10px 10px;
-  border: 1px solid #dfdfdf;
-  background-color: #ffffff;
-  text-align: center;
-  cursor: pointer;
-  border-radius: 20px;
-  width: 80px;
+  .test_obj input[type="radio"]+span {
+    display: inline-block;
+    padding: 10px 10px;
+    border: 1px solid #dfdfdf;
+    background-color: #ffffff;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 20px;
+    width: 80px;
 
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-  transition: 0.3s box-shadow;
-}
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+    transition: 0.3s box-shadow;
+  }
 
-.test_obj input[type="radio"]:checked + span {
-  background-color: #b3e3c3;
-  color: #ffffff;
-}
+  .test_obj input[type="radio"]:checked+span {
+    background-color: #b3e3c3;
+    color: #ffffff;
+  }
 
-/* 드롭 */
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
+  /* 드롭 */
+  @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
 
-select {
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
+  select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
 
-  font-family: "Noto Sansf KR", sans-serif;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
+    font-family: "Noto Sansf KR", sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
 
-  color: #444;
-  background-color: #fff;
+    color: #444;
+    background-color: #fff;
 
-  padding: 0.6em 1.4em 0.5em 0.8em;
-  margin: 0;
+    padding: 0.6em 1.4em 0.5em 0.8em;
+    margin: 0;
 
-  border: 1px solid #aaa;
-  border-radius: 0.5em;
-  /* box-shadow: 0 1px 0 1px rgba(0,0,0,.2); */
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-  transition: 0.3s box-shadow;
-  width: 200px;
-}
+    border: 1px solid #aaa;
+    border-radius: 0.5em;
+    /* box-shadow: 0 1px 0 1px rgba(0,0,0,.2); */
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+    transition: 0.3s box-shadow;
+    width: 200px;
+  }
 
-select:hover {
-  border-color: #888;
-}
+  select:hover {
+    border-color: #888;
+  }
 
-select:focus {
-  border-color: #aaa;
-  box-shadow: 0 0 1px 3px rgba(59, 153, 252, 0.7);
-  box-shadow: 0 0 0 3px -moz-mac-focusring;
-  color: #222;
-  outline: none;
-}
+  select:focus {
+    border-color: #aaa;
+    box-shadow: 0 0 1px 3px rgba(59, 153, 252, 0.7);
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    color: #222;
+    outline: none;
+  }
 
-select:disabled {
-  opacity: 0.5;
-}
+  select:disabled {
+    opacity: 0.5;
+  }
 
-label {
-  font-family: "Noto Sans KR", sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 1.3;
+  label {
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
 
-  color: #444;
+    color: #444;
 
-  margin-right: 0.5em;
-}
+    margin-right: 0.5em;
+  }
 
-/* 사진 */
-img{
-  width: 300px;
-}
-
+  /* 사진 */
+  img {
+    width: 300px;
+  }
 </style>
