@@ -1,17 +1,7 @@
 <template>
   <form action="post">
     <div id="container">
-      <div class="nav-scroller bg-body shadow-sm">
-        <nav class="nav" aria-label="Secondary navigation">
-          <a class="nav-link active" aria-current="page" href="#">전체</a>
-          <a class="nav-link" href="#">침실</a>
-          <a class="nav-link" href="#">옷장/수납</a>
-          <a class="nav-link" href="#">주방</a>
-          <a class="nav-link" href="#">욕실</a>
-          <a class="nav-link" href="#">서재</a>
-          <a class="nav-link" href="#">다용도실</a>
-        </nav>
-      </div>
+      <nav-bar @click="search($event)"></nav-bar>
       <div>
         <div class="used-main-title">
           <h3>상품 등록</h3>
@@ -78,6 +68,7 @@
 
 <script>
   import axios from 'axios';
+  import navBar from '../../components/used/navBar.vue';
 
   export default {
     data: () => ({

@@ -1,16 +1,6 @@
 <template>
   <div id="container">
-    <div class="nav-scroller bg-body shadow-sm">
-      <nav class="nav" aria-label="Secondary navigation">
-        <a class="nav-link active" aria-current="page" href="#">전체</a>
-        <a class="nav-link" href="#">침실</a>
-        <a class="nav-link" href="#">옷장/수납</a>
-        <a class="nav-link" href="#">주방</a>
-        <a class="nav-link" href="#">욕실</a>
-        <a class="nav-link" href="#">서재</a>
-        <a class="nav-link" href="#">다용도실</a>
-      </nav>
-    </div>
+    <nav-bar @click="search($event)"></nav-bar>
     <div>
       <div class="used-main-title">
         <h3>판매중인 중고제품</h3>
@@ -125,8 +115,12 @@
 
 <script>
   import axios from 'axios';
+  import navBar from '../../components/used/navBar.vue';
 
   export default {
+    components : {
+      navBar
+    },
     data: () => ({
       imgs: [
         "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcnRs2T%2FbtrG3rPqyGx%2FgvSvyKfokqo8yQomsVjuQK%2Fimg.jpg",
@@ -151,11 +145,30 @@
         console.log(error);
       })
     },
-    methods : {
+    methods: {
       goUpdate(no) {
         console.log(this.product.productNo);
         this.$router.push('/used/update?pNo=' + no);
-      }
+      },
+      search: function (e) {
+        var categoryVal = e.target.innerText;
+        axios({
+          url: "http://localhost:8088/zippy/used/main",
+          methods: "GET",
+          params: {
+            keyword: "",
+            location: "",
+            category: categoryVal,
+            checked: "",
+            dropbox: ""
+          }
+        }).then(res => {
+          console.log(res);
+          this.data = res.data;
+        }).catch(err => {
+          console.log(err)
+        })
+      },
     }
   };
 </script>
