@@ -32,7 +32,7 @@
             <div>
               <form>
                 <label htmlFor="profile-upload" />
-                <input type="file" id="profile-upload" multiple accept="image/*" onChange={onChangeImg} />
+                <input @change="values()" type="file" id="profile-upload" multiple accept="image/*" />
               </form>
             </div>
           </div>
@@ -41,7 +41,7 @@
       <hr />
       <div class="used-insert-img">
         <span>제목
-          <input type="text" placeholder="상품 제목을 2글자 이상 입력해주세요" />
+          <input @change="values()" id="used-product-name" type="text" placeholder="상품 제목을 2글자 이상 입력해주세요" />
         </span>
       </div>
       <hr />
@@ -50,23 +50,15 @@
           <span>카테고리</span>
         </div>
         <div class="dropdown">
-          <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            분류
-          </button>
-          <ul class="dropdown-menu" id="dropdown-opt" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">침실</a></li>
-            <li><a class="dropdown-item" href="#">옷장/수납</a></li>
-            <li><a class="dropdown-item" href="#">주방</a></li>
-            <li><a class="dropdown-item" href="#">욕실</a></li>
-            <li><a class="dropdown-item" href="#">서재</a></li>
-            <li><a class="dropdown-item" href="#">다용도실</a></li>
-          </ul>
+          <div id="used-main-dropbox">
+            <v-select @change="values()" v-model="select" :items="items" item-text="name" item-value="value"
+              label="카테고리" color="#212529" persistent-hint single-line dense width="50"></v-select>
+          </div>
         </div>
       </div>
       <hr />
       <div class="used-insert-img">
-        <span>가격 <input id="used-insert-price" type="text" /> 원</span>
+        <span>가격<input @change="values()" id="used-insert-price" type="text" /> 원</span>
       </div>
       <hr />
       <div class="used-wish-detailInfo">
@@ -74,36 +66,68 @@
           <span>설명</span>
         </div>
         <div>
-          <textarea id="used-insert-textarea" cols="110" rows="10"></textarea>
+          <textarea @change="values()" id="used-insert-textarea" cols="110" rows="10"></textarea>
         </div>
       </div>
       <div class="used-insert-submit">
         <button>등록</button>
       </div>
     </div>
-    </div>
   </form>
 </template>
 
 <script>
+  import axios from 'axios';
+
   export default {
+    data: () => ({
+      items: [{
+          name: '침실',
+          value: '침실'
+        },
+        {
+          name: '옷장/수납',
+          value: '옷장/수납'
+        },
+        {
+          name: '주방',
+          value: '주방'
+        },
+        {
+          name: '욕실',
+          value: '욕실'
+        },
+        {
+          name: '서재',
+          value: '서재'
+        },
+        {
+          name: '다용도실',
+          value: '다용도실'
+        },
+      ],
+      select: ''
+    }),
     methods: {
-      imageUpload() {
-        let num = -1;
-        for (let i = 0; i < this.$refs.files.files.length; i++) {
-          this.files = [
-            ...this.files,
-            {
-              file: this.$refs.files.files[i],
-              preview: URL.createObjectURL(this.$refs.files.files[i]),
-              number: i,
-              index: this.index,
-            },
-          ];
-          num = i;
-        }
-        this.uploadImageIndex = num + 1;
-      },
+      values: function () {
+        var dropVal = this.select;
+        console.log(dropVal);
+        var priceVal = document.querySelector('#used-insert-price').value;
+        console.log(priceVal);
+        var productVal = document.querySelector('#used-product-name').value;
+        console.log(productVal);
+        var productCont = document.querySelector('#used-insert-textarea').value;
+        console.log(productCont);
+        var productImg = document.querySelector('#profile-upload').src;
+        console.log(productImg);
+        axios({
+          url: "http://localhost:8088/zippy/used/insert",
+          methods: "POST",
+          params: {
+
+          }
+        })
+      }
     }
   };
 </script>
@@ -234,6 +258,7 @@
   #used-insert-textarea {
     margin: 10px 0 10px 150px;
     resize: none;
+    border: 1px solid #c3c2cc;
   }
 
   .used-insert-submit {

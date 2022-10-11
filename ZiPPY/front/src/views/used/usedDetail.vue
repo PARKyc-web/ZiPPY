@@ -16,7 +16,7 @@
         <h3>판매중인 중고제품</h3>
       </div>
       <hr />
-      <div id="used-cate-main">침실</div>
+      <div id="used-cate-main">{{product.productCategory}}</div>
     </div>
     <hr />
     <div id="used-cate-update">
@@ -24,7 +24,7 @@
         <div></div>
       </div>
       <div>
-        <button>수정하기</button>
+        <button @click="goUpdate(product.productNo)">수정하기</button>
       </div>
     </div>
     <div id="used-detail-main">
@@ -32,12 +32,7 @@
         <div id="used-detail-img">
           <!-- slide start -->
           <div id="detail-container">
-            <v-carousel
-              height="400"
-              hide-delimiter-background
-              :show-arrows="false"
-              class="mt-5"
-            >
+            <v-carousel height="400" hide-delimiter-background :show-arrows="false" class="mt-5">
               <v-carousel-item v-for="(img, i) in imgs" :key="i">
                 <v-img :src="imgs[i]" height="100%">
                   <v-row class="fill-height" align="center" justify="center">
@@ -50,37 +45,26 @@
         </div>
         <div id="used-detail-total">
           <div id="used-product-title">
-            햄찌
+            {{product.productName}}
             <div id="used-product-price">
-              1,000,000원
+              {{product.productPrice}}원
               <hr />
               <div 찜 조회수 신고하기 판매여부 거래지역>
                 <div id="used-wish-eye">
                   <div id="used-view-wish">
-                    <img
-                      class="used-wish-view-img"
+                    <img class="used-wish-view-img"
                       src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAjhJREFUWAnFl1uPKUEUhbdCxF2Iu7h78f9/ixdexANeSNxCkJnz1ZwSRncrM0OvhK6ufVmrdiu1O/DxD/INq9VKFouFbDYbOR6PEggEJBKJSDqdlkKhIKFQ6FvE1+3pdJL5fC7EHw4HIXU4HJZEIiHZbFZSqdRdXOBaAEHj8VjW6/Wdo5kIBoNSLBalVCppYcxDNJvNNPn5fDaud9dkMimNRkMvxhgvAna7nQyHQ2EVNmBV3W5Xu45GI10tmziq1+v1JBaLaXctANLBYKDLbZPE+MTjcT3cbrdmyurKY+n3+/pRKiImk8nT5MRB/Cw5cfyu4ARqv9/LcrnUN+/8ghNuxcBhI7xcC5xwK7aMX4BbsfX8AtzKa9++Whjcij8WvwC3Yk/6BbiV+TPxQwTcKpPJ+MGtOeFWHBB+PAY44VYctZxu7waccOuzIJ/Pv7UKrB5OoAUopfQ5/a4q0BPAeRHAgG4nl8vpyVd+wQGXwZeM/3f1el2i0aix/fmV3HBc40YAZel0Oq4933Xgs2M6IXKb0pv4GwFM0ny22+1Lv2ccf3Pl195qtW56QZPvTgAG9mez2fwTEZCTy6kjhstRAAba6FqtxvBXIAe53OAqgADeASqVilvsw3liyeEFTwEElstl/fFK4mSzjXsogOSshBcRW+BrWzkrARBXq1UrEZDjawtrAUYEpXXDs+TkeUoAAZTWScRPyMnn/JqLxQPm+U6nU+2FIDPnEeZourycOlofTF4LeODqav4EUxqvNxGf2nsAAAAASUVORK5CYII="
-                      width="16"
-                      height="16"
-                      alt="상품 상태 아이콘"
-                    />
+                      width="16" height="16" alt="상품 상태 아이콘" />
                     <div class="used-wish-view-count">2 |</div>
-                    <img
-                      class="used-wish-view-img"
+                    <img class="used-wish-view-img"
                       src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAaCAYAAADMp76xAAAAAXNSR0IArs4c6QAABAdJREFUWAm9mFtIFFEYx9tZ11UW1tLoaoGEPShqq3ahgogyIgnqQXqIgih6qKgEH4JIqCgIIoowIrSn6i0irOxCQdAN7wb2IiSlSUZuGJGyumu/b9lZZo8zs7ObdeBwvvNd/uc/53zznWFcs9Js7e3tczVNWzs1NbUKiErGfJfLNYcxVyCRg8g/GAeZdiC3eTyeN2VlZd/Enm5zpRLY09Pjm5yc3EnMbghUMbpTiYd8BP8X9Dt+v/9uYWHhz1TixdcR4YGBgezh4eFD+J+gz5XAGWijYFzKycm5nArxpIQ5+hqAr9AXzgBJM4ggqXWyvLz8uplR1VkShmgOR3iVo9+jBv2LOWs9pu+H+JAdvilhyC4j6AldxqSNhT7g1Oh2u59mZWV9loDx8fGl4XB4C+IBHrpIdA7ad7C2V1RUvLPynUa4u7s7wIvVQsB8qyCDfgK5jgUaWChs0MdFyLo7OjoOo7hI98QN1sJvsHaB+cDMJYFwV1fXCnblJY5+M2dFN8GOVgcCgWeK3nQKdhXYDzE6IR2GdA2k76lgmq7o7OxcBGAzcydkJazOKVlxjvnWieyguTmZ25y21PiEFt3h/v7+rJGRkddYyhOsFhOe/gMvR6lVGliEzZL0YGPep5DTw16vd2VJScmAjhnd4WAweBaFI7KxwEaVLCQyIHOafB2ULrLo9IVkjMU0GnVJ5PmhUOim0UejIqwGuNaoTCZLNVB9yNFTkUikHqzF0kUWnepnFqv6GOdgbWYDDuo6jaduYOLWFU5Gvgk+qX4A73ei08ue6ms3B/ui3LbiozExLUd2AOxSQnWx850h2+f8/PyQYGksfoRxMhVguRRUf06qyYnOLFaNM87BjdAP0KMbq1Fu2phcMDolk2M3WIIbOGf5JjgD1hfpIosuwYmJWazqo8yvGG++6NH29vZmjo2NPcdxveJsOoXQ/yprXcKpsrLyt04kWtaKi4tDPp9vB0T6dIPdSN4Xxa5bO7dpNomR2GkGEwVchjIyMrYbyYpbwstDGSqkHL0CdJ4Jhqr6l1ezfNhvhGynumj8ahYDOSc7vI7+UeZJmke+DajjR3lAy7IoNvERX/CcfEd8pRBsMCMrfBJ2WCdITi8gpx8xD+g6u1FyGvtff15KSlLjt5aWllpumClhIdfX1+cdHR09D0gtu2TpZ/cgKdqasrOzj/M+/bKLS0qEb4JN5PU1QJbbAaVrY0M+UQKPkY73nWAkJSwgkoe84fsQ6+lLRDcD7Stkz3FV35Aq5RTPEWEdLFavt7HQXnTVPEimbnM4ThDbQtytvLy85oKCgnGHcXG3lAjHoxAogbNJlTWIq6VDQn6k5DLmih+y/EgJMsqPlFaOvZW3/y0v1A+xp9v+ADhPuomDsZuZAAAAAElFTkSuQmCC"
-                      width="21"
-                      height="13"
-                      alt="상품 상태 아이콘"
-                    />
-                    <div class="used-wish-view-count">2</div>
+                      width="21" height="13" alt="상품 상태 아이콘" />
+                    <div class="used-wish-view-count">{{product.views}}</div>
                   </div>
                   <button id="used-detail-report">
                     <img
                       src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAbBJREFUeNrsls9LAkEcxb+au+JSGIEQyGbBdg881CmConsE9Qd07S/p0qG69RcUdOzSoUt0UujS3c0kEQULU7R17c2wyhazNbvaesgHH9xZh3kzb35tpNfrUV/5fJ7+Stls9ks5FqCNKTDv/L6AjyAdiUrWi4AdcAXewDMwwTu4AQdAHbXxCrh3TJm55vpPAVvgHDyC7VEZM6M7sCbRlgGuwaGM8U9zvAkunbn0M/8nzvNpkBHr4MKnqVvHYDWI8RGY84wpFiNFUX5L8sxZlNJRL4E9UeVkMknpdJoSiQQvt9ttKpfLVK1WhVsXbIBb2RHvi96nUikyDGNgyhSPxymTyZCu614D2/UT9bqooqZpnrm6OyNYoNLGy6KKxWKRR/td3W6XCoWCV/sLfoyFJ5Bt29zAfbb3O9TpdLzaZzFND3NkcjUaDapUKoNyvV6nWq0ms7eHM2YqlUrUarXIsiwyTTPwbeX7dmJRs8hVVeXmoRkzNZtNzjCK0pg0MQ5NosX1BKwRetjCb6lcLje2ES+GHDk72G1m/MCu2hCNZ8HrZDv9j33MVtlMiJ58X38KMADfFnDPWur9bAAAAABJRU5ErkJggg=="
-                      width="15"
-                      height="15"
-                      alt="신고 아이콘"
-                    />신고하기
+                      width="15" height="15" alt="신고 아이콘" />신고하기
                   </button>
                 </div>
                 <div class="used-issell-location">
@@ -89,20 +73,28 @@
                       <div>
                         <li>판매여부</li>
                       </div>
-                      <div class="used-sell-location">판매중</div>
+                      <div v-if="product.isSell == 0" class="used-sell-location">
+                        판매중
+                      </div>
+                      <div v-if="product.isSell == 1" class="used-sell-location">
+                        판매완료
+                      </div>
+                      <div v-if="product.isSell == 2" class="used-sell-location">
+                        예약중
+                      </div>
                     </div>
                     <div class="used-issell-location">
                       <div>
                         <li>거래지역</li>
                       </div>
-                      <div class="used-sell-location">대구</div>
+                      <div class="used-sell-location">{{product.productLocation}}</div>
                     </div>
                   </ul>
                 </div>
                 <div id="used-profile-chat">
                   <div>
                     <button id="used-detail-pofile">
-                      <i class="fa-solid fa-user"> 사용자</i>
+                      <i class="fa-solid fa-user"> {{product.userEmail}}</i>
                     </button>
                   </div>
                   <div>
@@ -126,277 +118,294 @@
       <hr />
     </div>
     <div>
-      상세정보입니다 상세정보입니다 상세정보입니다 상세정보입니다 상세정보입니다
-      상세정보입니다 상세정보입니다 상세정보입니다 상세정보입니다 상세정보입니다
-      상세정보입니다 상세정보입니다 상세정보입니다 상세정보입니다 상세정보입니다
-      상세정보입니다 상세정보입니다 상세정보입니다 상세정보입니다 상세정보입니다
-      상세정보입니다 상세정보입니다 상세정보입니다 상세정보입니다 상세정보입니다
-      상세정보입니다 상세정보입니다 상세정보입니다 상세정보입니다 상세정보입니다
-      상세정보입니다
+      {{product.productInfo}}
     </div>
   </div>
 </template>
 
 <script>
-export default {
-  data: () => ({
-    imgs: [
-      "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcnRs2T%2FbtrG3rPqyGx%2FgvSvyKfokqo8yQomsVjuQK%2Fimg.jpg",
-      "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F5uP60%2FbtrG1yIxNDo%2FMkSJGDgRBgyPwKLI9ScpQ0%2Fimg.jpg",
-      "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fq1sNB%2FbtrGYzH9LU7%2FjjirX71ixJbzVZnpWFztZ0%2Fimg.jpg",
-      "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcTUnnS%2FbtrGYAmNubZ%2FSJK5DEd6123GknUvGn6ZDK%2Fimg.jpg",
-      "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F87q2z%2FbtrG5rIA9pm%2FtaxgrZ6iQb1pJdwUltMls1%2Fimg.jpg",
-    ],
-  }),
-};
+  import axios from 'axios';
+
+  export default {
+    data: () => ({
+      imgs: [
+        "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcnRs2T%2FbtrG3rPqyGx%2FgvSvyKfokqo8yQomsVjuQK%2Fimg.jpg",
+        "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F5uP60%2FbtrG1yIxNDo%2FMkSJGDgRBgyPwKLI9ScpQ0%2Fimg.jpg",
+        "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fq1sNB%2FbtrGYzH9LU7%2FjjirX71ixJbzVZnpWFztZ0%2Fimg.jpg",
+        "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcTUnnS%2FbtrGYAmNubZ%2FSJK5DEd6123GknUvGn6ZDK%2Fimg.jpg",
+        "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F87q2z%2FbtrG5rIA9pm%2FtaxgrZ6iQb1pJdwUltMls1%2Fimg.jpg",
+      ],
+      product: {},
+    }),
+    created() {
+      axios({
+        url: "http://localhost:8088/zippy/used/detail",
+        methods: "GET",
+        params: {
+          pNo: this.$route.query.pNo
+        }
+      }).then(res => {
+        console.log(res);
+        this.product = res.data;
+      }).catch(error => {
+        console.log(error);
+      })
+    },
+    methods : {
+      goUpdate(no) {
+        console.log(this.product.productNo);
+        this.$router.push('/used/update?pNo=' + no);
+      }
+    }
+  };
 </script>
 
 <style>
-#container {
-  width: 1200px;
-  margin: 0 auto;
-}
-
-.used-main-title {
-  margin: 50px;
-}
-
-/* css 디테일 슬라이드 */
-.v-carousel {
-  width: 430px;
-  border-radius: 1.5em;
-}
-
-.bd-placeholder-img {
-  font-size: 1.125rem;
-  text-anchor: middle;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-}
-
-@media (min-width: 768px) {
-  .bd-placeholder-img-lg {
-    font-size: 3.5rem;
+  #container {
+    width: 1200px;
+    margin: 0 auto;
   }
-}
 
-.b-example-divider {
-  height: 3rem;
-  background-color: rgba(0, 0, 0, 0.1);
-  border: solid rgba(0, 0, 0, 0.15);
-  border-width: 1px 0;
-  box-shadow: inset 0 0.5em 1.5em rgba(0, 0, 0, 0.1),
-    inset 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
-}
+  .used-main-title {
+    margin: 50px;
+  }
 
-.b-example-vr {
-  flex-shrink: 0;
-  width: 1.5rem;
-  height: 100vh;
-}
+  /* css 디테일 슬라이드 */
+  .v-carousel {
+    width: 430px;
+    border-radius: 1.5em;
+  }
 
-.bi {
-  vertical-align: -0.125em;
-  fill: currentColor;
-}
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
 
-.nav-scroller {
-  position: relative;
-  z-index: 2;
-  height: 2.75rem;
-  overflow-y: hidden;
-}
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
 
-.nav-scroller .nav {
-  display: flex;
-  flex-wrap: nowrap;
-  padding-bottom: 1rem;
-  margin-top: -1px;
-  overflow-x: auto;
-  text-align: center;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-}
+  .b-example-divider {
+    height: 3rem;
+    background-color: rgba(0, 0, 0, 0.1);
+    border: solid rgba(0, 0, 0, 0.15);
+    border-width: 1px 0;
+    box-shadow: inset 0 0.5em 1.5em rgba(0, 0, 0, 0.1),
+      inset 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
+  }
 
-.nav-link {
-  color: black;
-}
+  .b-example-vr {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 100vh;
+  }
 
-.nav-link dropdown-toggle {
-  float: right;
-  width: 50px;
-}
+  .bi {
+    vertical-align: -0.125em;
+    fill: currentColor;
+  }
 
-.nav-link:hover {
-  color: #b3e3c3;
-}
+  .nav-scroller {
+    position: relative;
+    z-index: 2;
+    height: 2.75rem;
+    overflow-y: hidden;
+  }
 
-.nav-item dropdown {
-  float: right;
-}
+  .nav-scroller .nav {
+    display: flex;
+    flex-wrap: nowrap;
+    padding-bottom: 1rem;
+    margin-top: -1px;
+    overflow-x: auto;
+    text-align: center;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
 
-.used-dropdown {
-  list-style: none;
-}
+  .nav-link {
+    color: black;
+  }
 
-#navbarDropdown {
-  color: #212529;
-}
+  .nav-link dropdown-toggle {
+    float: right;
+    width: 50px;
+  }
 
-.thumbnail-wrap {
-  display: block;
-}
+  .nav-link:hover {
+    color: #b3e3c3;
+  }
 
-.container-fluid pt-5 {
-  width: 1200px;
-}
+  .nav-item dropdown {
+    float: right;
+  }
 
-.form-control {
-  width: 150px;
-}
+  .used-dropdown {
+    list-style: none;
+  }
 
-#used-cate-update {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
+  #navbarDropdown {
+    color: #212529;
+  }
 
-#used-cate-update button {
-  border: none;
-  color: white;
-  background-color: #b3e3c3;
-  font-size: x-large;
-  border-radius: 10px;
-}
+  .thumbnail-wrap {
+    display: block;
+  }
 
-#used-img-slide {
-  display: flex;
-  padding: 30px 0;
-}
+  .container-fluid pt-5 {
+    width: 1200px;
+  }
 
-#used-detail-img {
-  width: 450px;
-  height: 500px;
-}
+  .form-control {
+    width: 150px;
+  }
 
-#used-detail-info {
-  color: black;
-}
+  #used-cate-update {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
 
-#used-product-title {
-  font-size: 24px;
-  padding-left: 30px;
-}
+  #used-cate-update button {
+    border: none;
+    color: white;
+    background-color: #b3e3c3;
+    font-size: x-large;
+    border-radius: 10px;
+  }
 
-#used-product-price {
-  font-size: 40px;
-}
+  #used-img-slide {
+    display: flex;
+    padding: 30px 0;
+  }
 
-#bi bi-heart {
-  width: 20px;
-  height: 20px;
-}
+  #used-detail-img {
+    width: 450px;
+    height: 500px;
+  }
 
-.used-issell-location {
-  font-size: 15px;
-  display: flex;
-}
+  #used-detail-info {
+    color: black;
+  }
 
-.used-issell-location ul li {
-  color: rgb(153, 153, 153);
-  margin-bottom: 20px;
-  margin-right: 10px;
-}
+  #used-product-title {
+    font-size: 24px;
+    padding-left: 30px;
+  }
 
-.used-sell-location {
-  display: flex;
-}
+  #used-product-price {
+    font-size: 40px;
+  }
 
-#used-detail-report {
-  color: rgb(204, 204, 204);
-  font-size: 16px;
-  display: inline-block;
-  -webkit-box-align: center;
-  align-items: center;
-  border: none;
-  margin-bottom: 20px;
-}
+  #bi bi-heart {
+    width: 20px;
+    height: 20px;
+  }
 
-#used-wish-eye {
-  justify-content: space-between;
-  display: flex;
-  padding-left: 10px;
-}
+  .used-issell-location {
+    font-size: 15px;
+    display: flex;
+  }
 
-#used-detail-total {
-  width: 750px;
-}
+  .used-issell-location ul li {
+    color: rgb(153, 153, 153);
+    margin-bottom: 20px;
+    margin-right: 10px;
+  }
 
-#used-profile-chat {
-  display: flex;
-  margin-top: 95px;
-  justify-content: space-between;
-  border-top: 1px solid #c8c9ca;
-}
+  .used-sell-location {
+    display: flex;
+  }
 
-#used-view-wish {
-  display: flex;
-}
+  #used-detail-report {
+    color: rgb(204, 204, 204);
+    font-size: 16px;
+    display: inline-block;
+    -webkit-box-align: center;
+    align-items: center;
+    border: none;
+    margin-bottom: 20px;
+  }
 
-#used-detail-img {
-  width: 430px;
-  height: 430px;
-  padding-right: 40px;
-}
+  #used-wish-eye {
+    justify-content: space-between;
+    display: flex;
+    padding-left: 10px;
+  }
 
-#used-detail-img img {
-  width: 100%;
-  height: 100%;
-}
+  #used-detail-total {
+    width: 750px;
+  }
 
-#used-detail-info-div {
-  width: 1200px;
-}
+  #used-profile-chat {
+    display: flex;
+    margin-top: 95px;
+    justify-content: space-between;
+    border-top: 1px solid #c8c9ca;
+  }
 
-#used-detail-pofile {
-  border: none;
-  background-color: white;
-  font-size: x-large;
-}
+  #used-view-wish {
+    display: flex;
+  }
 
-#used-detail-main {
-  margin-bottom: 60px;
-}
+  #used-detail-img {
+    width: 430px;
+    height: 430px;
+    padding-right: 40px;
+  }
 
-.used-detail-wish {
-  border: none;
-  color: white;
-  background-color: #b3e3c3;
-  font-size: x-large;
-  border-radius: 10px;
-  margin-left: 10px;
-  width: 150px;
-}
+  #used-detail-img img {
+    width: 100%;
+    height: 100%;
+  }
 
-#used-detail-info-div {
-  margin-bottom: 30px;
-}
+  #used-detail-info-div {
+    width: 1200px;
+  }
 
-.used-wish-view-img {
-  margin-right: 5px;
-  margin-top: 5px;
-}
+  #used-detail-pofile {
+    border: none;
+    background-color: white;
+    font-size: x-large;
+  }
 
-.used-wish-view-count {
-  font-size: medium;
-  color: rgb(204, 204, 204);
-  margin-right: 5px;
-}
+  #used-detail-main {
+    margin-bottom: 60px;
+  }
 
-#used-cate-main {
-  text-align: center;
-  font-size: xx-large;
-}
+  .used-detail-wish {
+    border: none;
+    color: white;
+    background-color: #b3e3c3;
+    font-size: x-large;
+    border-radius: 10px;
+    margin-left: 10px;
+    width: 150px;
+  }
+
+  #used-detail-info-div {
+    margin-bottom: 30px;
+  }
+
+  .used-wish-view-img {
+    margin-right: 5px;
+    margin-top: 5px;
+  }
+
+  .used-wish-view-count {
+    font-size: medium;
+    color: rgb(204, 204, 204);
+    margin-right: 5px;
+  }
+
+  #used-cate-main {
+    text-align: center;
+    font-size: xx-large;
+  }
 </style>
