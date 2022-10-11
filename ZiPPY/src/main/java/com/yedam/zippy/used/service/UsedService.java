@@ -7,21 +7,27 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface UsedService {
-	// 전체조회
-	public List<UsedProductVO> usedList(String location, String keyword, String category, String checked);
-	
-	// 검색조회
-	public List<UsedProductVO> usedSearchList(String word);
+  // 전체조회
+  public List<UsedProductVO> usedList(String location, String keyword, String category, String checked, String dropbox);
 
-	// 단건조회
-	public UsedProductVO usedOne(int pNo);
+  // 검색조회
+  public List<UsedProductVO> usedSearchList(String word);
 
-	// 등록
-	public void insertUsed(Map<String,String> insertProduct);
+  // 단건조회
+  public UsedProductVO usedOne(int pNo);
 
-	// 수정
-	public void updateUsed(String value);
+  // 등록
+  public void insertUsed(Map<String, String> insertProduct);
 
-	// 삭제
-	public void deleteUsed(String key);
+  // 수정
+  public void updateUsed(String value);
+
+  // 삭제
+  public void deleteUsed(String key);
+
+  // 조회수 증가
+  public void viewCnt(int pNo);
+
+  // 찜 추가
+  public String addWish(String id);
 }

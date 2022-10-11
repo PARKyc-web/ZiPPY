@@ -6,36 +6,54 @@
 		parameterType="hashmap">
 		SELECT *
 		FROM used_product
-		WHERE product_location LIKE '%'||#{location}||'%'
+		WHERE product_location LIKE
+		'%'||#{location}||'%'
 		AND product_name LIKE '%'||#{keyword}||'%'
-		AND product_category LIKE '%'||#{category}||'%'
-		<if test="checked==1">
+		AND
+		product_category LIKE '%'||#{category}||'%'
+		<if test="checked == 1">
 			AND is_sell=0
 			OR is_sell=1
 		</if>
-		<if test="checked != 1">
+		<if test="checked == 0">
 			AND is_sell=0
 		</if>
 		<!-- 최저가순 -->
-		<!-- <if test="product_price ">
+		<if test="dropbox == 0">
 			ORDER BY product_price ASC
 		</if>
-		최고가순
-		<if test="product_price">
+		<!-- 최고가순 -->
+		<if test="dropbox == 1">
 			ORDER BY product_price DESC
-		</if> -->
-		
-		<!-- <if test="product_date "> -->
+		</if>
+		<!-- 최신등록일자순 -->
+		<if test="dropbox == 2">
 			ORDER BY product_date DESC
-		<!-- </if> -->
+		</if>
+		<!-- 오래된등록일자순 -->
+		<if test="dropbox == 3">
+			ORDER BY product_date ASC
+		</if>
+		
+		
+
+		<!-- <if test="dropVal == 판매자평점">
+			ORDER BY product_date DESC
+		</if> -->
+			<!-- ORDER BY product_date DESC -->
 	</select>
-	
+	<select id="usedOne" resultType="UsedProductVO" parameterType="Integer">
+	SELECT * 
+	FROM used_product
+	WHERE product_no = ${pNo}		
+	</select>
+
 
 	<!-- 등록 -->
 	<insert id="insertUsed" parameterType="usedProductVO">
-		<selectKey keyProperty="productNo" order="BEFORE"
-			resultType="int">
-			SELECT NVL(MAX(product_no),0) +1 AS productNo FROM used_product
+		<selectKey keyProperty="productNo" order="BEFORE" resultType="int">
+			SELECT NVL(MAX(product_no),0) +1 AS productNo 
+			FROM used_product
 		</selectKey>
 		INSERT INTO used_product
 		(
@@ -47,14 +65,47 @@
 		(
 		)
 	</insert>
+	
+	<!-- 찜 추가 -->
+	<insert id="addWish" parameterType="BookmarkVO">
+	<selectKey keyProperty="bookmarkNo" order="BEFORE" resultType="int">
+			SELECT NVL(MAX(bookmark_no),0) +1 AS bookmarkNo 
+			FROM bookmark
+		</selectKey>
+		INSERT INTO bookmark
+		(
+		 bookmarkNo,
+		 user_email,
+		 service_type,
+		 service_id
+		)
+		VALUES
+		(
+		 bookmarkNo
+		 ,#{userEmail}
+		 ,1
+		 ,#{productNo}
+		)
+	</insert>
 	<!-- 수정 -->
 	<update id="updateUsed" parameterType="usedProductVO">
 		UPDATE used_product
 
 	</update>
-
+	
+	<!-- 삭제 -->
 	<delete id="deleteUsed" parameterType="usedProductVO">
 		DELETE FROM used_product
 		WHERE product_no = ${productNo}
 	</delete>
+	
+	<!-- 조회수 증가 -->
+	<update id="viewCnt" parameterType="UsedProductVO">
+		UPDATE used_product
+		SET views = NVL(views,0) +1
+		WHERE product_no = ${pNo}
+	</update>
+	
+	
+	
 </mapper>

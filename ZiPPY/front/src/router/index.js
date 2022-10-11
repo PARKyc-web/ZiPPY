@@ -13,6 +13,16 @@ import moveInfoDetail from "../views/move/moveInfoDetail";
 import moveTypeSelect from "../views/move/moveTypeSelect";
 import moveImage from "../views/move/moveImage";
 
+import usedUpdate from "../views/used/usedUpdate.vue";
+import usedDetail from "../views/used/usedDetail.vue";
+import usedMain from "../views/used/usedMain.vue";
+import usedInsert from "../views/used/usedInsert.vue";
+
+import shopDetailView from "../views/shop/shopDetailView.vue";
+import categoryList from "../views/shop/categoryListView.vue";
+import keywordList from "../views/shop/keywordListView.vue";
+
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -36,7 +46,7 @@ const routes = [
     name: "shop",
     component: shopView,
   },
-  
+
   {
     path:"/moveContact",
     name: "moveContact",
@@ -68,6 +78,38 @@ const routes = [
     name: "moveUntactCheck",
     component: moveUntactFinalCheck,
     props: true,
+},
+
+  {
+    path : "/used",
+    name : "used",
+    component : usedMain,
+  },
+  {
+    path : "/used/detail",
+    name : "detail",
+    component : usedDetail
+  },
+  {
+    path : "/used/update",
+    name : "update",
+    component : usedUpdate
+},
+  /** 삭제 에정 **/
+  {
+    path: "/shop/detail",
+    name: "detail",
+    component: shopDetailView,
+  },
+  {
+    path: "/shop/category",
+    name: "category",
+    component: categoryList,
+  },
+  {
+    path: "/shop/keyword",
+    name: "keyword",
+    component: keywordList,
   }
 ];
 

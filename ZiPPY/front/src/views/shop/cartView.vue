@@ -1,17 +1,17 @@
 <template>
   <div>
-    <shopSubBar></shopSubBar>
+    <shop-subbar></shop-subbar>
     <cart></cart>
   </div>
 </template>
 
 <script>
-import shopSubBar from "../../components/shop/shopSubBar.vue";
+import shopSubbar from "../../components/shop/shopSubbar.vue";
 import cart from "../../components/shop/cart.vue";
 
 export default {  
   components: {
-    shopSubBar,
+    shopSubbar,
     cart
   }
 };
