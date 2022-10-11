@@ -2,6 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import PropertyView from "../views/property/PropertyView.vue";
+import HouseDetail from "../components/property/HouseDetail.vue";
+import AgentDetail from "../components/property/AgentDetail.vue";
 import shopView from "../views/shopView.vue";
 import moveContactFinalCheck from "../views/move/moveContactFinalCheck.vue";
 import moveUntactFinalCheck from "../views/move/moveUntactFinalCheck.vue";
@@ -40,6 +42,16 @@ const routes = [
     path: "/property/main",
     name : "property",
     component : PropertyView,
+  },
+  {
+    path: "/property/HouseDetail",
+    name : "HouseDetail",
+    component : HouseDetail,
+  },
+  {
+    path: "/property/AgentDetail",
+    name : "AgentDetail",
+    component : AgentDetail,
   },
   {
     path: "/shop",

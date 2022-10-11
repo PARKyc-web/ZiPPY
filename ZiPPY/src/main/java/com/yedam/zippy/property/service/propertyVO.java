@@ -27,4 +27,6 @@ public class propertyVO {
 	private String tags;
 	private String streetAddress;
 	
+	private String compName;
+	
 }
