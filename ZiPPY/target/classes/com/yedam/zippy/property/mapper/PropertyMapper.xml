@@ -50,14 +50,15 @@
 		house_name, sale_type, price,
 		sigungu, house_type, floor,
 		area_exclusive, room_cnt, detail_contents
-		) values(#{productId}, #{email}, #{mainImg}, #{houseName}, #{saleType}, #{price}, #{sigungu}, #{houseType},
-		#{floor}, #{areaExclusive}, #{roomCnt}, #{detailContents}
+		) values(#{productId}, #{email}, #{mainImg},
+		#{houseName}, #{saleType}, #{price},
+		#{sigungu}, #{houseType}, #{floor},
+		#{areaExclusive}, #{roomCnt}, #{detailContents}
 		)
 	</insert>
 
 	<update id="updateHouseProduct" parameterType="propertyVO">
-		update
-		house_product
+		update house_product
 		set main_img = #{mainImg},
 		house_name = #{houseName},
 		sale_type = #{saleType},
@@ -65,11 +66,9 @@
 		sigungu = #{sigungu},
 		house_type = #{houseType},
 		floor = #{floor},
-		area_exclusive =
-		#{areaExclusive},
+		area_exclusive = #{areaExclusive},
 		room_cnt = #{roomCnt},
-		detail_contents =
-		#{detailContents },
+		detail_contents = #{detailContents}
 		where product_id = #{productId}
 	</update>
 

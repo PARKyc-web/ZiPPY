@@ -8,46 +8,54 @@
       </template>
       <v-card>
         <v-card-title>
-          <span class="text-h5">{{profile.compName}}</span>
+          <span class="text-h5">회원 정보 수정</span>
         </v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
-              <v-col cols="12" sm="6" md="4">
-                <v-text-field label="Legal first name*" required></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <v-text-field label="Legal middle name" hint="example of helper text only on focus"></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <v-text-field label="Legal last name*" hint="example of persistent helper text" persistent-hint
-                  required></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field label="Email*" required></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field label="Password*" type="password" required></v-text-field>
+              <v-col cols="12" sm="6">
+                <v-text-field label="이메일" :value="profile.email" readonly></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-select :items="['0-17', '18-29', '30-54', '54+']" label="Age*" required></v-select>
+                <v-file-input label="프로필 사진" required></v-file-input>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-autocomplete
-                  :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
-                  label="Interests" multiple></v-autocomplete>
+                <v-text-field label="공인중개법인명" required :value="profile.compName"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field label="주소" required :value="profile.compAddress"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field label="이름" :value="profile.ceoName"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field label="전화번호" required :value="profile.phone"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-file-input label="사업자등록증" required :value="profile.businessImg"></v-file-input>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-file-input label="중개등록증" required :value="profile.brokerImg"></v-file-input>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field label="사업자등록번호" required :value="profile.businessId"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field label="중개등록번호" required :value="profile.brokerId"></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-textarea label="인사말" required :value="profile.compIntro"></v-textarea>
               </v-col>
             </v-row>
           </v-container>
-          <small>*indicates required field</small>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="dialog = false">
-            Close
+            닫기
           </v-btn>
           <v-btn color="blue darken-1" text @click="dialog = false">
-            Save
+            저장
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -56,12 +64,12 @@
 </template>
 
 <script>
-import axios from 'axios';
+  import axios from 'axios';
 
   export default {
     data: () => ({
       dialog: false,
-    
+
     }),
     props: {
       profile: Object

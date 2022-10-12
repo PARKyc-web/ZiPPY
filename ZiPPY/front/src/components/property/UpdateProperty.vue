@@ -8,7 +8,7 @@
       </template>
       <v-card>
         <v-card-title>
-          <span class="text-h5">매물 수정하기</span>
+          <span class="text-h5">매물 정보 수정</span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -77,7 +77,7 @@
           <v-btn color="blue darken-1" text @click="dialog = false">
             닫기
           </v-btn>
-          <v-btn color="blue darken-1" text @click="dialog = false">
+          <v-btn color="blue darken-1" text @click="updateProperty">
             저장
           </v-btn>
         </v-card-actions>
@@ -117,6 +117,10 @@ import axios from 'axios';
         })
     },
     methods: {
+      updateProperty() {
+        
+        this.dialog = false;
+      }
     }
   }
 </script>

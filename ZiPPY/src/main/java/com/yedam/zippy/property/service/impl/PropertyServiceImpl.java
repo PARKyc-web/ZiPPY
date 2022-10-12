@@ -52,13 +52,13 @@ public class PropertyServiceImpl implements PropertyService {
   }
 
   @Override
-  public void updateHouseProduct(propertyVO vo) {
-    mapper.updateHouseProduct(vo);
+  public int updateHouseProduct(propertyVO vo) {
+    return mapper.updateHouseProduct(vo);
   }
 
   @Override
-  public void updateHouseDetail(propertyVO vo) {
-    mapper.updateHouseDetail(vo);
+  public int updateHouseDetail(propertyVO vo) {
+    return mapper.updateHouseDetail(vo);
   }
   
 

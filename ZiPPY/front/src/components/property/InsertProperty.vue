@@ -8,7 +8,7 @@
       </template>
       <v-card>
         <v-card-title>
-          <span class="text-h5">매물 등록하기</span>
+          <span class="text-h5">매물 등록</span>
         </v-card-title>
         <v-card-text>
           <v-container>

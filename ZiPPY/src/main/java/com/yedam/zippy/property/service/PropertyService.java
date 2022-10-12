@@ -17,7 +17,7 @@ public interface PropertyService {
   
   public int insertHouseProduct(propertyVO vo);
 
-  public void updateHouseProduct(propertyVO vo);
+  public int updateHouseProduct(propertyVO vo);
 
-  public void updateHouseDetail(propertyVO vo);
+  public int updateHouseDetail(propertyVO vo);
 }

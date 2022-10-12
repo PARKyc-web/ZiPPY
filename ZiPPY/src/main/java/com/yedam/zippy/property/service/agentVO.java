@@ -13,4 +13,10 @@ public class agentVO {
   private String phone;
   private int memberType;
   private int businessState;
+  
+  private String businessImg;
+  private String brokerImg;
+  
+  private int businessId;
+  private int brokerId;
 }
