@@ -3,7 +3,9 @@ package com.yedam.zippy.shop.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import com.yedam.zippy.shop.service.BasketVO;
 import com.yedam.zippy.shop.service.ProductOptionVO;
 import com.yedam.zippy.shop.service.ProductVO;
 
@@ -21,4 +23,8 @@ public interface ShopMapper {
   public String[] getDetailImg(int shopProductNo);
   //디테일 옵션 조회
   public List<ProductOptionVO> getDetailOpt(int shopProductNo);
+  
+  // 장바구니 CRUD
+  //등록
+  public void insertBasket(BasketVO basketVo);
 }

@@ -13,7 +13,7 @@
           <div>{{item.houseName}}</div>
           <div>{{item.saleType}} {{item.price}}</div>
           <div>{{item.sigungu}}</div>
-          <div>{{item.areaExclusive}}m^2 {{item.floor}}층</div>
+          <div>{{item.areaExclusive}}m² {{item.floor}}층</div>
           <div>{{item.detailContents}}</div>
         </v-card>
       </div>
@@ -96,7 +96,7 @@
           });
 
         } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-          message = 'geolocation을 사용할수 없어요..'
+          message = 'HTML5의 GeoLocation를 사용 할 수 없습니다.'
           console.log(message);
         }
 

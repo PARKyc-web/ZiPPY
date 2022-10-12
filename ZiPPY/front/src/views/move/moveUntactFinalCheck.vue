@@ -14,7 +14,7 @@
               <v-fade-transition leave-absolute>
                 <span v-if="open" key="0"> 선택한 이사유형 </span>
                 <span v-else key="1">
-                  이사유형:{{ move.type || "Not set" }}
+                  이사유형:{{ moveType || "Not set" }}
                 </span>
               </v-fade-transition>
             </v-col>
@@ -25,7 +25,7 @@
           <v-row no-gutters>
             <v-spacer></v-spacer>
             <v-col cols="5">
-              <v-select v-model="move.type" :items="types" chips flat solo outlined placeholder="선택한 이사유형 불러오기">
+              <v-select v-model="moveType" :items="types" chips flat solo outlined placeholder="선택한 이사유형 불러오기">
               </v-select>
 
               <div class="drop-btn">
@@ -33,7 +33,7 @@
                 <v-btn text color="primary"> 수정 </v-btn>
               </div>
             </v-col>
-
+            
           </v-row>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -48,10 +48,10 @@
                 <span v-if="open">이사희망 날짜와 시간을 선택해주세요.</span>
                 <v-row v-else no-gutters style="width: 100%">
                   <v-col cols="6">
-                    이사 희망일: {{ move.start || "Not set" }}
+                    이사 희망일: {{ moveInfo.date || "Not set" }}
                   </v-col>
                   <v-col cols="6">
-                    이사 희망시간: {{ move.end || "Not set" }}
+                    이사 희망시간: {{ moveInfo.time || "Not set" }}
                   </v-col>
                 </v-row>
               </v-fade-transition>
@@ -62,10 +62,10 @@
         <v-expansion-panel-content>
           <v-row justify="space-around" no-gutters>
             <v-col cols="3">
-              <v-menu ref="startMenu" :close-on-content-click="false" :return-value.sync="move.start" offset-y
+              <v-menu ref="startMenu" :close-on-content-click="false" :return-value.sync="moveInfo.date" offset-y
                 min-width="290px">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-text-field v-model="move.start" label="이사희망일" prepend-icon="mdi-calendar" readonly v-bind="attrs"
+                  <v-text-field v-model="moveInfo.date" label="이사희망일" prepend-icon="mdi-calendar" readonly v-bind="attrs"
                     v-on="on"></v-text-field>
                 </template>
                 <v-date-picker v-model="date" no-title scrollable>
@@ -81,10 +81,10 @@
             </v-col>
 
             <v-col cols="3">
-              <v-menu ref="endMenu" :close-on-content-click="false" :return-value.sync="move.end" offset-y
+              <v-menu ref="endMenu" :close-on-content-click="false" :return-value.sync="moveInfo.time" offset-y
                 min-width="290px">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-text-field v-model="move.end" label="이사 희망시간" prepend-icon="mdi-clock" readonly v-bind="attrs"
+                  <v-text-field v-model="moveInfo.time" label="이사 희망시간" prepend-icon="mdi-clock" readonly v-bind="attrs"
                     v-on="on"></v-text-field>
                 </template>
                 <!-- <v-date-picker
@@ -107,8 +107,8 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
 
-      <!-- 3. 주소 -->
-      <v-expansion-panel>
+     <!-- 3. 주소 -->
+     <v-expansion-panel>
         <v-expansion-panel-header v-slot="{ open }">
           <v-row no-gutters>
             <v-col cols="4"> 이사 출발지 도착지 주소 </v-col>
@@ -117,10 +117,10 @@
                 <span v-if="open">이사 출발지와 도착지 주소를 확인해주세요.</span>
                 <v-row v-else no-gutters style="width: 100%">
                   <v-col cols="6">
-                    이사 출발지 주소: {{ move.depart || "Not set" }}
+                    이사 출발지 주소: {{ moveInfo.addr.address,moveInfo.addr.detailAddress || "Not set" }}
                   </v-col>
                   <v-col cols="6">
-                    이사 도착지 주소: {{ move.arrive || "Not set" }}
+                    이사 도착지 주소: {{ moveInfo.addr.address2,moveInfo.addr.detailAddress2 || "Not set" }}
                   </v-col>
                 </v-row>
               </v-fade-transition>
@@ -131,37 +131,66 @@
         <v-expansion-panel-content>
           <v-row justify="space-around" no-gutters>
             <v-col cols="3">
-              <v-menu ref="startMenu" :close-on-content-click="false" :return-value.sync="move.depart" offset-y
+              <v-menu ref="startMenu" :close-on-content-click="false" :return-value.sync="moveInfo.addr.address" offset-y
                 min-width="290px">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-text-field v-model="move.depart" label="출발지 주소" prepend-icon="mdi-home" readonly v-bind="attrs"
-                    v-on="on"></v-text-field>
+                  <v-text-field v-model="moveInfo.addr.address" label="출발지 주소" prepend-icon="mdi-home" readonly v-bind="attrs"
+                  v-on="on" ></v-text-field>
+                    
                 </template>
-                <!-- <v-date-picker
-                v-model="date"
-                no-title
-                scrollable
-              > -->
+                
                 <v-card>
+                  
                   우편번호 :
-                  <input v-model="postcode" class="type-2" type="text" name="zip1" style="width: 80px; height: 26px" />
-                  <button class="custom-btn btn-4" type="button" @click="execDaumPostcode()">
-                    검색
-                  </button>
-                  <br />
-                  주소 :
-                  <input v-model="address" id="address" class="type-2" type="text" name="addr1"
-                    style="width: 300px; height: 30px" readonly /><br />
-                  상세 :
-                  <input v-model="extraAddress" id="detailAddress" class="type-2" type="text" name="addr2"
-                    style="width: 300px; height: 30px" /><br />
-                  참고항목 :
-                  <input type="text" id="extraAddress" class="type-2" placeholder="참고항목" />
+                <input
+                  v-model="moveInfo.addr.postcode"
+                  class="type-2"
+                  type="text"
+                  name="zip1"
+                  id ="post1"
+                  style="width: 80px; height: 26px"
+                />
+                <button
+                  class="custom-btn btn-4"
+                  type="button"
+                  @click="execDaumPostcode(1)"
+                >
+                  검색
+                </button>
+                <br />
+                주소 :
+                <input
+                v-model="moveInfo.addr.address"
+                  id="address1"
+                  class="type-2"
+                  type="text"
+                  name="addr1"               
+                  style="width: 300px; height: 30px"
+                  readonly
+                /><br />
+                상세 :
+                <input
+                v-model="moveInfo.addr.detailAddress"
+                  id="detailAddress1"
+                  class="type-2"
+                  type="text"
+                  name="addr2"
+                  style="width: 300px; height: 30px"
+                /><br />
+                참고항목 :
+                <input
+                v-model="moveInfo.addr.extraAddress"
+                  type="text"
+                  id="extraAddress1"
+                  class="type-2"
+                  placeholder="참고항목"
+                />
+
                   <v-spacer></v-spacer>
                   <v-btn text color="primary" @click="$refs.startMenu.isActive = false">
                     취소
                   </v-btn>
-                  <v-btn text color="primary" @click="$refs.startMenu.save(postcode)">
+                  <v-btn text color="primary" @click="$refs.startMenu.save(address, detailAddress)">
                     수정
                   </v-btn>
                 </v-card>
@@ -170,28 +199,64 @@
             </v-col>
 
             <v-col cols="3">
-              <v-menu ref="endMenu" :close-on-content-click="false" :return-value.sync="move.arrive" offset-y
+              <v-menu ref="endMenu" :close-on-content-click="false" :return-value.sync="moveInfo.addr.address2" offset-y
                 min-width="290px">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-text-field v-model="move.arrive" label="도착지 주소" prepend-icon="mdi-home" readonly v-bind="attrs"
+                  <v-text-field v-model="moveInfo.addr.address2" label="도착지 주소" prepend-icon="mdi-home" readonly v-bind="attrs"
                     v-on="on"></v-text-field>
                 </template>
 
                 <v-card>
+                  
                   우편번호 :
-                  <input v-model="postcode2" class="type-2" type="text" name="zip2" style="width: 80px; height: 26px" />
-                  <button class="custom-btn btn-4" type="button" @click="execDaumPostcode2()">
-                    검색
-                  </button>
-                  <br />
-                  주소 :
-                  <input v-model="address2" id="address2" class="type-2" type="text" name="addr3"
-                    style="width: 300px; height: 30px" readonly /><br />
-                  상세 :
-                  <input v-model="extraAddress2" id="detailAddress2" class="type-2" type="text" name="addr4"
-                    style="width: 300px; height: 30px" /><br />
-                  참고항목 :
-                  <input type="text" id="extraAddress2" class="type-2" placeholder="참고항목" />
+      <input
+      v-model="moveInfo.addr.postcode2"
+        class="type-2"
+        type="text"
+        name="zip2"
+        id="post2"  
+        style="width: 80px; height: 26px"
+      />
+      <button
+        class="custom-btn btn-4"
+        type="button"
+        @click="execDaumPostcode(2)"
+      >
+        검색
+      </button>
+      <br />
+      주소 :
+      <input
+      v-model="moveInfo.addr.address2"
+        id="address2"
+        class="type-2"
+        type="text"
+        name="addr3"
+        style="width: 300px; height: 30px"
+        readonly
+       
+      /><br />
+      상세 :
+      <input
+      v-model="moveInfo.addr.detailAddress2"
+        id="detailAddress2"
+        class="type-2"
+        type="text"
+        name="addr4"
+        style="width: 300px; height: 30px"
+        
+      /><br />
+      참고항목 :
+      <input
+      v-model="moveInfo.addr.extraAddress2"
+        type="text"
+        id="extraAddress2"
+        class="type-2"
+        placeholder="참고항목"
+        
+      
+      />
+
                   <v-spacer></v-spacer>
                   <v-btn text color="primary" @click="$refs.endMenu.isActive = false">
                     취소
@@ -231,13 +296,13 @@
             </v-fade-transition> -->
 
               <v-fade-transition leave-absolute>
-                <span v-if="open">이사 출발지와 도착지 주소를 확인해주세요.</span>
+                <span v-if="open">집 정보를 확인해주세요.</span>
                 <v-row v-else no-gutters style="width: 100%">
                   <v-col cols="4">
-                    거주형태: {{ move.house || "Not set" }}
+                    거주형태: {{ moveInfo.houseType || "Not set" }}
                   </v-col>
-                  <v-col cols="4"> 평수: {{ move.square || "Not set" }} </v-col>
-                  <v-col cols="4"> 층수: {{ move.floor || "Not set" }} </v-col>
+                  <v-col cols="4"> 평수: {{ moveInfo.spaceOfHome || "Not set" }} </v-col>
+                  <v-col cols="4"> 층수: {{ moveInfo.floor || "Not set" }} </v-col>
                 </v-row>
               </v-fade-transition>
             </v-col>
@@ -248,12 +313,12 @@
           <v-row no-gutters>
             <v-spacer></v-spacer>
             <v-col cols="10">
-              <v-select class="select-home" v-model="move.house" :items="houses" chips flat solo outlined
+              <v-select class="select-home" v-model="moveInfo.houseType" :items="houses" chips flat solo outlined
                 placeholder="선택한 집형태 불러오기"></v-select>
 
-              <v-select v-model="move.square" :items="squares" chips flat solo outlined placeholder="선택한 집평수 불러오기">
+              <v-select v-model="moveInfo.spaceOfHome" :items="squares" chips flat solo outlined placeholder="선택한 집평수 불러오기">
               </v-select>
-              <v-select class="select-home" v-model="move.floor" :items="floors" chips flat solo outlined
+              <v-select class="select-home" v-model="moveInfo.floor" :items="floors" chips flat solo outlined
                 placeholder="선택한 집층수 불러오기"></v-select>
 
               <div class="drop-btn">
@@ -275,13 +340,13 @@
                 <span v-if="open">방, 화장실, 베란다 개수를 확인해주세요.</span>
                 <v-row v-else no-gutters style="width: 100%">
                   <v-col cols="4">
-                    방 개수: {{ move.room || "Not set" }}
+                    방 개수: {{ moveInfo.roomNum || "Not set" }}
                   </v-col>
                   <v-col cols="4">
-                    화장실 개수: {{ move.toilet || "Not set" }}
+                    화장실 개수: {{ moveInfo.toilet || "Not set" }}
                   </v-col>
                   <v-col cols="4">
-                    베란다 개수: {{ move.veranda || "Not set" }}
+                    베란다 개수: {{ moveInfo.veranda || "Not set" }}
                   </v-col>
                 </v-row>
               </v-fade-transition>
@@ -293,12 +358,12 @@
           <v-row no-gutters>
             <v-spacer></v-spacer>
             <v-col cols="10">
-              <v-select class="select-home" v-model="move.room" :items="rooms" chips flat solo outlined
+              <v-select class="select-home" v-model="moveInfo.roomNum" :items="rooms" chips flat solo outlined
                 placeholder="선택한 방 개수 불러오기"></v-select>
 
-              <v-select class="select-home" v-model="move.toilet" :items="toilets" chips flat solo outlined
+              <v-select class="select-home" v-model="moveInfo.toilet" :items="toilets" chips flat solo outlined
                 placeholder="선택한 화장실 개수 불러오기"></v-select>
-              <v-select class="select-home" v-model="move.veranda" :items="verandas" chips flat solo outlined
+              <v-select class="select-home" v-model="moveInfo.veranda" :items="verandas" chips flat solo outlined
                 placeholder="선택한 베란다 개수 불러오기"></v-select>
 
               <div class="drop-btn">
@@ -320,13 +385,13 @@
                 <span v-if="open">1층 별도계단, 엘레베이터, 주차장 유무를 확인해주세요.</span>
                 <v-row v-else no-gutters style="width: 100%">
                   <v-col cols="4">
-                    1층 별도계단: {{ move.stair || "Not set" }}
+                    1층 별도계단: {{ moveInfo.extraStairs || "Not set" }}
                   </v-col>
                   <v-col cols="4">
-                    엘레베이터: {{ move.elevator || "Not set" }}
+                    엘레베이터: {{ moveInfo.elevator || "Not set" }}
                   </v-col>
                   <v-col cols="4">
-                    주차장: {{ move.parking || "Not set" }}
+                    주차장: {{ moveInfo.parkable || "Not set" }}
                   </v-col>
                 </v-row>
               </v-fade-transition>
@@ -338,13 +403,14 @@
           <v-row no-gutters>
             <v-spacer></v-spacer>
             <v-col cols="10">
-              <v-select class="select-home" v-model="move.stair" :items="stairs" chips flat solo outlined
-                placeholder="1층별도계단 유무 불러오기"></v-select>
+              <v-select class="select-home" v-model="moveInfo.extraStairs" :items="extraStairs" chips flat solo outlined
+                placeholder="1층 별도 계단"></v-select>
 
-              <v-select class="select-home" v-model="move.elevator" :items="elevators" chips flat solo outlined
-                placeholder="엘레베이터 유무 불러오기"></v-select>
-              <v-select class="select-home" v-model="move.parking" :items="parkings" chips flat solo outlined
-                placeholder="주차장 유무 불러오기"></v-select>
+              <v-select class="select-home" v-model="moveInfo.elevator" :items="elevator" chips flat solo outlined
+                placeholder="엘레베이터"></v-select>
+
+              <v-select class="select-home" v-model="moveInfo.parkable" :items="parkable" chips flat solo outlined
+                placeholder="주차가능 여부"></v-select>
 
               <div class="drop-btn">
                 <v-btn text color="secondary"> 취소 </v-btn>
@@ -352,11 +418,13 @@
               </div>
             </v-col>
           </v-row>
-        </v-expansion-panel-content>
+        </v-expansion-panel-content>        
       </v-expansion-panel>
 
 
       <!-- 이삿짐 상세옵션 -->
+        
+
       <v-expansion-panel>
         <v-expansion-panel-header v-slot="{ open }">
           <v-row no-gutters>
@@ -365,275 +433,102 @@
               <v-fade-transition leave-absolute>
                 <span v-if="open">각 이삿짐별 개수와 사이즈를 확인해주세요.</span>
                 <v-row v-else no-gutters style="width: 100%">
-                  <v-col cols="4">
-                    가구: {{ move.stair || "Not set" }}
+                  <v-col>
+                    입력한 이삿짐 상세 정보를 확인해주세요.
+                  </v-col>
+                  <!-- <v-col cols="4">
+                    가구: {{ moveInfo.extraStairs || "Not set" }}
                   </v-col>
                   <v-col cols="4">
-                    가전: {{ move.elevator || "Not set" }}
+                    가전: {{ moveInfo.elevator || "Not set" }}
                   </v-col>
                   <v-col cols="4">
-                    기타: {{ move.parking || "Not set" }}
-                  </v-col>
+                    기타: {{ moveInfo.parkable || "Not set" }}
+                  </v-col> -->
                 </v-row>
               </v-fade-transition>
             </v-col>
           </v-row>
         </v-expansion-panel-header>
-
+        
         <v-expansion-panel-content>
           <v-row no-gutters>
+            <h4>가구</h4>
             <v-spacer></v-spacer>
-            <v-col cols="10">
-              <!-- <v-select class="select-home" v-model="move.stair" :items="stairs" chips flat solo outlined
-                placeholder="선택한 방 개수 불러오기"></v-select>
-
-              <v-select class="select-home" v-model="move.elevator" :items="elevators" chips flat solo outlined
-                placeholder="선택한 화장실 개수 불러오기"></v-select>
-              <v-select class="select-home" v-model="move.parking" :items="parkings" chips flat solo outlined
-                placeholder="선택한 베란다 개수 불러오기"></v-select> -->
-
-
-              <br />
-              <h4>가구</h4>
-              <br />
-              <div class="move-detail">
-                <div class="move-furniture1">
-                  <input type="checkbox" name="bed" /><label>침대</label><br /><br />
-                  <i class="fa-solid fa-bed fa-5x"></i><br />
-                  <div class="move-detail-drop">
-                    <select>
-                      <option value="" selected>-- 사이즈 --</option>
-                      <option value="1">싱글</option>
-                      <option value="2">슈퍼싱글</option>
-                      <option value="3">퀸</option>
-                      <option value="4">킹</option>
-                      <option value="5">킹 이상</option>
-                    </select>
-                    <button class="custom-btn btn-4" type="button">+</button>
-                  </div>
-                </div>
-                <div class="move-furniture1">
-                  <input type="checkbox" name="sofa" /><label>소파</label><br /><br />
-                  <i class="fa-solid fa-couch fa-5x"></i><br />
-                  <div class="move-detail-drop">
-                    <select>
-                      <option value="" selected>-- 사이즈 --</option>
-                      <option value="1">싱글</option>
-                      <option value="2">슈퍼싱글</option>
-                      <option value="3">퀸</option>
-                      <option value="4">킹</option>
-                      <option value="5">킹 이상</option>
-                    </select>
-                    <button class="custom-btn btn-4" type="button">+</button>
-                  </div>
-                </div>
-                <div class="move-furniture1">
-                  <input type="checkbox" name="closet" /><label>옷장-단품</label><br /><br />
-                  <i class="fa-solid fa-toilet-portable fa-5x"></i><br />
-                  <div class="move-detail-drop">
-                    <select>
-                      <option value="" selected>-- 사이즈 --</option>
-                      <option value="1">싱글</option>
-                      <option value="2">슈퍼싱글</option>
-                      <option value="3">퀸</option>
-                      <option value="4">킹</option>
-                      <option value="5">킹 이상</option>
-                    </select>
-                    <button class="custom-btn btn-4" type="button">+</button>
-                  </div>
-                </div>
-                <div class="move-furniture1">
-                  <input type="checkbox" name="closets" /><label>옷장-연결장</label><br /><br />
-                  <i class="fa-solid fa-toilets-portable fa-5x"></i><br />
-                  <div class="move-detail-drop">
-                    <select>
-                      <option value="" selected>-- 사이즈 --</option>
-                      <option value="1">싱글</option>
-                      <option value="2">슈퍼싱글</option>
-                      <option value="3">퀸</option>
-                      <option value="4">킹</option>
-                      <option value="5">킹 이상</option>
-                    </select>
-                    <button class="custom-btn btn-4" type="button">+</button>
-                  </div>
-                </div>
+            <v-col cols="8">
+              <div class="furniture">
+              <i class="fa-solid fa-bed fa-5x"></i><br />
+              <v-select class="select-home" v-model="moveDetail.bed" :items="beds" chips flat solo outlined
+                placeholder="침대사이즈"></v-select>
               </div>
 
-              <div class="move-detail">
-                <div class="move-furniture2">
-                  <input type="checkbox" name="closets" /><label>의자</label><br /><br />
-                  <i class="fa-solid fa-chair fa-5x"></i><br />
-                  <div class="move-detail-drop">
-                    <select>
-                      <option value="" selected>-- 사이즈 --</option>
-                      <option value="1">싱글</option>
-                      <option value="2">슈퍼싱글</option>
-                      <option value="3">퀸</option>
-                      <option value="4">킹</option>
-                      <option value="5">킹 이상</option>
-                    </select>
-                    <button class="custom-btn btn-4" type="button">+</button>
-                  </div>
-                </div>
-
-                <div class="move-furniture2">
-                  <input type="checkbox" name="closets" /><label>행거</label><br /><br />
-                  <i class="fa-solid fa-sign-hanging fa-5x"></i><br />
-                  <div class="move-detail-drop">
-                    <select>
-                      <option value="" selected>-- 사이즈 --</option>
-                      <option value="1">싱글</option>
-                      <option value="2">슈퍼싱글</option>
-                      <option value="3">퀸</option>
-                      <option value="4">킹</option>
-                      <option value="5">킹 이상</option>
-                    </select>
-                    <button class="custom-btn btn-4" type="button">+</button>
-                  </div>
-                </div>
-
-                <div class="move-furniture2">
-                  <input type="checkbox" name="closets" /><label>서랍</label><br /><br />
-                  <i class="fa-solid fa-box-archive fa-5x"></i><br />
-                  <div class="move-detail-drop">
-                    <select>
-                      <option value="" selected>-- 사이즈 --</option>
-                      <option value="1">싱글</option>
-                      <option value="2">슈퍼싱글</option>
-                      <option value="3">퀸</option>
-                      <option value="4">킹</option>
-                      <option value="5">킹 이상</option>
-                    </select>
-                    <button class="custom-btn btn-4" type="button">+</button>
-                  </div>
-                </div>
+              <div class="furniture">
+                <i class="fa-solid fa-couch fa-5x"></i><br />  
+              <v-select class="select-home" v-model="moveDetail.sofa" :items="sofas" chips flat solo outlined
+                placeholder="소파사이즈"></v-select>
               </div>
 
+                <div class="furniture">
+                <i class="fa-solid fa-toilet-portable fa-5x"></i><br />  
+              <v-select class="select-home" v-model="moveDetail.closet" :items="closets" chips flat solo outlined
+                placeholder="옷장단품사이즈"></v-select>
+              </div>
 
-              <br />
-              <hr />
-              <br />
+                <div class="furniture">
+                <i class="fa-solid fa-toilets-portable fa-5x"></i><br />
+                <v-select class="select-home" v-model="moveDetail.closets" :items="closetss" chips flat solo outlined
+                placeholder="옷장세트사이즈"></v-select>  
+              </div>
+
+              <br><hr><br>
               <h4>가전</h4>
-              <br />
-              <div class="move-detail">
-                <div class="move-furniture1">
-                  <input type="checkbox" name="bed" /><label>TV</label><br /><br />
-                  <i class="fa-solid fa-tv fa-5x"></i><br />
-                  <div class="move-detail-drop">
-                    <select>
-                      <option value="" selected>-- 사이즈 --</option>
-                      <option value="1">싱글</option>
-                      <option value="2">슈퍼싱글</option>
-                      <option value="3">퀸</option>
-                      <option value="4">킹</option>
-                      <option value="5">킹 이상</option>
-                    </select>
-                    <button class="custom-btn btn-4" type="button">+</button>
-                  </div>
-                </div>
-                <div class="move-furniture1">
-                  <input type="checkbox" name="sofa" /><label>데스크탑</label><br /><br />
-                  <i class="fa-solid fa-desktop fa-5x"></i><br />
-                  <div class="move-detail-drop">
-                    <select>
-                      <option value="" selected>-- 사이즈 --</option>
-                      <option value="1">싱글</option>
-                      <option value="2">슈퍼싱글</option>
-                      <option value="3">퀸</option>
-                      <option value="4">킹</option>
-                      <option value="5">킹 이상</option>
-                    </select>
-                    <button class="custom-btn btn-4" type="button">+</button>
-                  </div>
-                </div>
-                <div class="move-furniture1">
-                  <input type="checkbox" name="closet" /><label>냉장고</label><br /><br />
-                  <i class="material-icons md-54">kitchen</i><br />
-                  <div class="move-detail-drop">
-                    <select>
-                      <option value="" selected>-- 사이즈 --</option>
-                      <option value="1">싱글</option>
-                      <option value="2">슈퍼싱글</option>
-                      <option value="3">퀸</option>
-                      <option value="4">킹</option>
-                      <option value="5">킹 이상</option>
-                    </select>
-                    <button class="custom-btn btn-4" type="button">+</button>
-                  </div>
-                </div>
-                <div class="move-furniture1">
-                  <input type="checkbox" name="closets" /><label>유모차</label><br /><br />
-                  <i class="fa-solid fa-baby-carriage fa-5x"></i><br />
-                  <div class="move-detail-drop">
-                    <select>
-                      <option value="" selected>-- 사이즈 --</option>
-                      <option value="1">싱글</option>
-                      <option value="2">슈퍼싱글</option>
-                      <option value="3">퀸</option>
-                      <option value="4">킹</option>
-                      <option value="5">킹 이상</option>
-                    </select>
-                    <button class="custom-btn btn-4" type="button">+</button>
-                  </div>
-                </div>
-              </div>
+              <i class="fa-solid fa-tv fa-5x"></i><br />
+              <v-select class="select-home" v-model="moveDetail.tv" :items="tvs" chips flat solo outlined
+                placeholder="TV사이즈"></v-select>
 
-              <div>
+                <i class="fa-solid fa-desktop fa-5x"></i><br /> 
+              <v-select class="select-home" v-model="moveDetail.pc" :items="pcs" chips flat solo outlined
+                placeholder="데스크탑사이즈"></v-select>
+
+                <i class="material-icons md-54">kitchen</i><br /> 
+              <v-select class="select-home" v-model="moveDetail.fridge" :items="fridges" chips flat solo outlined
+                placeholder="냉장고사이즈"></v-select>
+
+                <i class="fa-solid fa-baby-carriage fa-5x"></i><br />
+                <v-select class="select-home" v-model="moveDetail.trolley" :items="trolleys" chips flat solo outlined
+                placeholder="유모차사이즈"></v-select> 
+
+
                 <br />
                 <hr />
                 <br />
                 <h4>기타</h4>
+                <v-col cols="10" sm="6" md="3">
+                  <v-text-field label="Outlined" 
+                  v-model="moveDetail.etcName" placeholder="기타이삿짐 이름" outlined>
+                  </v-text-field>
+                  <v-text-field label="Outlined" 
+                  v-model="moveDetail.etcSize" placeholder="이삿짐 사이즈(cm * cm)" outlined>
+                  </v-text-field>
+                
+                </v-col>
+
+                
                 <br />
-                <div class="move-detail-2">
-                  <div class="move-furniture1">
-                    <br />
-                    <div class="move-detail-drop">
-                      <label>사용자 기타 짐</label><br /><br />
-                      <input class="type-2" type="text" placeholder="기타이삿짐 이름" /><br />
-                      <input class="type-2" type="text" placeholder="이삿짐 사이즈(cm * cm)" />
-                      <button class="custom-btn btn-4" type="button">+</button>
-                    </div>
-                  </div>
-                </div>
+                  <hr />
+                  <br />
+                  <h4>박스 수량</h4>
+                  <v-col cols="10" sm="6" md="3">
+                  <v-select class="select-home" v-model="moveDetail.box" :items="boxes" chips flat solo outlined
+                placeholder="선택한 박스 개수를 확인해주세요."></v-select>
+              </v-col>
 
                 <br />
-                <hr />
-                <br />
-                <h4>박스 수량</h4>
-                <br />
-                <div class="move-detail-2">
-                  <div class="move-furniture3">
-                    <br />
-                    <br />
-                    <div class="move-detail-drop">
-                      <select>
-                        <option value="" selected>-- 박스개수 --</option>
-                        <option value="1">5개이하</option>
-                        <option value="2">5~10개</option>
-                        <option value="3">11~15개</option>
-                        <option value="4">16~20개</option>
-                        <option value="5">21~25개</option>
-                        <option value="6">26~30개</option>
-                        <option value="7">30개 이상</option>
-                      </select>
-                    </div>
-                    <!-- <div><img src="../../assets/박스예시.jpg" style="width: 200px;"></div> -->
-                    <div><img :src="img" alt="boxExample" /></div>
-                  </div>
-                </div>
-
-                <br />
-                <hr />
-                <br />
-                <h4>짐사진 첨부(선택)</h4>
-                <br />
-                <div class="move-detail-2">
-                  <div class="move-furniture1">
-                    <br />
-                    
-                    <br />
-                    <div class="move-detail-drop">
-                      <v-file-input outlined v-model="filesLaug" placeholder="Upload your documents" label="사진첨부" multiple
+                  <hr />    
+            <br />
+            <h4>짐사진 첨부(선택)</h4>
+            <br />
+            <v-file-input outlined v-model="moveDetail.filesPhoto" placeholder="Upload your documents" label="사진첨부" 
               prepend-icon="mdi-paperclip">
               <template v-slot:selection="{ text }">
                 <v-chip small label color="success">
@@ -641,16 +536,16 @@
                 </v-chip>
               </template>
             </v-file-input>
-                    </div>
-                  </div>
-                </div>
+
+              <div class="drop-btn">
+                <v-btn text color="secondary"> 취소 </v-btn>
+                <v-btn text color="primary"> 수정 </v-btn>
               </div>
-
-
             </v-col>
           </v-row>
-        </v-expansion-panel-content>
+        </v-expansion-panel-content>        
       </v-expansion-panel>
+        
 
 
       <!-- 집구조 사진 -->
@@ -662,15 +557,20 @@
               <v-fade-transition leave-absolute>
                 <span v-if="open">구도별 첨부 사진을 확인해주세요.</span>
                 <v-row v-else no-gutters style="width: 100%">
+                  
                   <v-col cols="4">
-                    입구: {{ move.stair || "Not set" }}
+                    첨부한 집 구조 사진을 확인해주세요.
+
+                  </v-col>
+                  <!-- <v-col cols="4">
+                    입구: {{ moveImage.files1 || "Not set" }}
                   </v-col>
                   <v-col cols="4">
-                    중앙: {{ move.elevator || "Not set" }}
+                    중앙: {{ moveImage.files2 || "Not set" }}
                   </v-col>
                   <v-col cols="4">
-                    내부: {{ move.parking || "Not set" }}
-                  </v-col>
+                    내부: {{ moveImage.files3 || "Not set" }}
+                  </v-col> -->
                 </v-row>
               </v-fade-transition>
             </v-col>
@@ -681,7 +581,7 @@
           <v-row no-gutters>
             <v-spacer></v-spacer>
             <v-col cols="10">
-              <v-file-input outlined v-model="files1" placeholder="Upload your documents" label="방 입구 사진첨부" multiple
+              <v-file-input outlined v-model="moveImage.files1" placeholder="Upload your documents" label="방 입구 사진첨부" multiple
               prepend-icon="mdi-paperclip">
               <template v-slot:selection="{ text }">
                 <v-chip small label color="success">
@@ -690,7 +590,7 @@
               </template>
             </v-file-input>
 
-            <v-file-input outlined v-model="files2" placeholder="Upload your documents" label="방 중앙에서 사진첨부" multiple
+            <v-file-input outlined v-model="moveImage.files2" placeholder="Upload your documents" label="방 중앙에서 사진첨부" multiple
               prepend-icon="mdi-paperclip">
               <template v-slot:selection="{ text }">
                 <v-chip small label color="success">
@@ -699,7 +599,7 @@
               </template>
             </v-file-input>
 
-            <v-file-input outlined v-model="files3" placeholder="Upload your documents" label="짐 내부 사진첨부" multiple
+            <v-file-input outlined v-model="moveImage.files3" placeholder="Upload your documents" label="짐 내부 사진첨부" multiple
               prepend-icon="mdi-paperclip">
               <template v-slot:selection="{ text }">
                 <v-chip small label color="success">
@@ -707,6 +607,8 @@
                 </v-chip>
               </template>
             </v-file-input>
+
+           
 
               <div class="drop-btn">
                 <v-btn text color="secondary"> 취소 </v-btn>
@@ -719,6 +621,14 @@
 
 
     </v-expansion-panels>
+
+    <v-btn
+  color="success"
+  elevation="10"
+  
+  @click="moveInfoCheck()"
+>확인완료</v-btn>
+
 
     <!-- <v-sheet color="white" elevation="3" height="250" width="250"></v-sheet> -->
     <div class="table">
@@ -758,7 +668,7 @@
   import moveNav from './moveNav.vue';
   export default {
 
-    props: ['moveImg'],
+    props: ['moveImage','moveDetail', 'moveEstimateType', 'moveType', 'moveInfo'],
     components: {
       moveNav,
     },
@@ -770,88 +680,54 @@
       visitTime: null,
       postcode: null,
       postcode2: null,
-      move: {
-        name: "",
-        type: null,
-        start: null,
-        end: null,
-        depart: null,
-        arrive: null,
-
-        house: null,
-        square: null,
-        floor: null,
-
-        room: null,
-        toilet: null,
-        veranda: null,
-
-        stair: null,
-        elevator: null,
-        parking: null,
-
-        visitStart: null,
-        visitEnd: null,
-      },
+      
+      //items
       types: ["소형이사", "가정이사"],
       houses: ["빌라/주택", "오피스텔", "아파트"],
       squares: [
-        "10평 이하",
-        "10~15평",
-        "16~20평",
-        "21평~25평",
-        "26~30평",
-        "31~35평",
-        "36~40평",
-        "40평 이상",
+        "10평이하",
+        "11-15평",
+        "16-20평",
+        "21-25평",
+        "26-30평",
+        "31-35평",
+        "36-40평",
+        "40평이상",
       ],
       floors: [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-        "10",
-        "11",
-        "12",
-        "13",
-        "14",
-        "15",
-        "16",
-        "17",
-        "18",
-        "19",
-        "20",
-        "21",
-        "22",
-        "23",
-        "24",
-        "25",
-        "26",
-        "27",
-        "28",
-        "29",
-        "30",
-        "30층 이상",
+        "1","2","3","4","5","6","7","8","9","10","11","12","13","14","15",
+        "16","17","18","19","20","21","22","23","24","25","26","27","28","29",
+        "30","30층 이상",
       ],
-      rooms: ["원룸", "투룸", "쓰리룸", "쓰리룸 이상"],
-      toilets: ["1개", "2개", "3개", "3개 이상"],
-      verandas: ["1개", "2개", "3개", "3개 이상"],
-      stairs: ["있음", "없음"],
-      elevators: ["있음", "없음"],
-      parkings: ["있음", "없음"],
+      rooms: ["원룸", "투룸", "쓰리룸", "쓰리룸이상"],
+      toilets: ["1", "2", "3", "4", "5개 이상"],
+      verandas: ["0","1", "2", "3", "4", "5개 이상"],
+      extraStairs: ["있음", "없음"],
+      elevator: ["있음", "없음"],
+      parkable: ["가능", "불가능"],
+
+      // 짐
+      beds: ["싱글", "슈퍼싱글", "퀸", "킹", "킹이상"],
+      sofas: ["싱글", "슈퍼싱글", "퀸", "킹", "킹이상"],
+      closets: ["싱글", "슈퍼싱글", "퀸", "킹", "킹이상"],
+      closetss: ["싱글", "슈퍼싱글", "퀸", "킹", "킹이상"],
+      tvs: ["싱글", "슈퍼싱글", "퀸", "킹", "킹이상"],
+      pcs: ["싱글", "슈퍼싱글", "퀸", "킹", "킹이상"],
+      fridges: ["싱글", "슈퍼싱글", "퀸", "킹", "킹이상"],
+      trolleys: ["싱글", "슈퍼싱글", "퀸", "킹", "킹이상"],
+      boxes: ["5개이하","5-10개","11-15개","16-20개","21-25개","26-30개","30개이상"],
+      
 
       // 우편번호
-      postcode: "",
-      address: "",
-      extraAddress: "",
-      postcode2: "",
-      address2: "",
-      extraAddress2: "",
+          postcode: "",
+          address: "",
+          detailAddress:"",
+          extraAddress: "",
+          
+          postcode2: "",
+          address2: "",
+          detailAddress2:"",
+          extraAddress2: "",
 
       // checkbox
       ex4: ['success'],
@@ -875,96 +751,68 @@
 
 
     methods: {
-      moveInfo: function () {
-        console.log(this.data);
+      moveInfoCheck : function(){   
+        console.log(this.moveImage);     
+        console.log(this.moveDetail);
+        console.log(this.moveInfo);
+        console.log(this.moveType);
+        console.log(this.moveEstimateType);        
       },
 
-      execDaumPostcode() {
-        new window.daum.Postcode({
-          oncomplete: (data) => {
-            if (this.extraAddress !== "") {
-              this.extraAddress = "";
-            }
-            if (data.userSelectedType === "R") {
-              // 사용자가 도로명 주소를 선택했을 경우
-              this.address = data.roadAddress;
-            } else {
-              // 사용자가 지번 주소를 선택했을 경우(J)
-              this.address = data.jibunAddress;
+      execDaumPostcode(number) {  
+      console.log(number);
+      var postcode = document.querySelector("#post"+number);
+      var addr = document.querySelector("#address"+number);
+      var detail = document.querySelector("#detailAddress"+number);  
+      var extra = document.querySelector("#extraAddress"+number);     
+
+      new window.daum.Postcode({
+        oncomplete: (data) => {
+          console.log(data);
+          if (data.userSelectedType === "R") {
+            // 사용자가 도로명 주소를 선택했을 경우
+            // this.moveInfo.addr1.address = data.roadAddress;
+            addr.value = data.roadAddress;
+          } else {
+            // 사용자가 지번 주소를 선택했을 경우(J)
+            addr.value = data.jibunAddress;
+          }
+
+          // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+          if (data.userSelectedType === "R") {
+            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+            if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
+              detail.value += data.bname;
             }
 
-            // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-            if (data.userSelectedType === "R") {
-              // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-              // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-              if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
-                this.extraAddress += data.bname;
-              }
-              // 건물명이 있고, 공동주택일 경우 추가한다.
-              if (data.buildingName !== "" && data.apartment === "Y") {
-                this.extraAddress +=
-                  this.extraAddress !== "" ?
-                  `, ${data.buildingName}` :
-                  data.buildingName;
-              }
-              // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-              if (this.extraAddress !== "") {
-                this.extraAddress = `(${this.extraAddress})`;
-              }
-            } else {
-              this.extraAddress = "";
+            // 건물명이 있고, 공동주택일 경우 추가한다.
+            if (data.buildingName !== "" && data.apartment === "Y") {
+              detail.value +=
+              (detail.value !== "") ? `, ${data.buildingName}` : data.buildingName;
             }
-            // 우편번호를 입력한다.
-            this.postcode = data.zonecode;
-          },
-        }).open();
-      },
-      execDaumPostcode2() {
-        new window.daum.Postcode({
-          oncomplete: (data) => {
-            if (this.extraAddress2 !== "") {
-              this.extraAddress2 = "";
+            // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+            if (detail.value !== "") {
+              detail.value = `(${detail.value})`;
             }
-            if (data.userSelectedType === "R") {
-              // 사용자가 도로명 주소를 선택했을 경우
-              this.address2 = data.roadAddress;
-            } else {
-              // 사용자가 지번 주소를 선택했을 경우(J)
-              this.address2 = data.jibunAddress;
-            }
+          } else {
+            detail.value = "";
+          }
+          // 우편번호를 입력한다.
+          postcode.value = data.zonecode;
+        },
+      }).open();
+      
+    },
 
-            // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-            if (data.userSelectedType === "R") {
-              // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-              // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-              if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
-                this.extraAddress2 += data.bname;
-              }
-              // 건물명이 있고, 공동주택일 경우 추가한다.
-              if (data.buildingName !== "" && data.apartment === "Y") {
-                this.extraAddress2 +=
-                  this.extraAddress2 !== "" ?
-                  `, ${data.buildingName}` :
-                  data.buildingName;
-              }
-              // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-              if (this.extraAddress2 !== "") {
-                this.extraAddress2 = `(${this.extraAddress2})`;
-              }
-            } else {
-              this.extraAddress2 = "";
-            }
-            // 우편번호를 입력한다.
-            this.postcode2 = data.zonecode;
-          },
-        }).open();
-      },
     },
   };
 </script>
 
 <style scoped>
-  .v-input{
+
+
+.v-input{
     width: 500px;
   }
 

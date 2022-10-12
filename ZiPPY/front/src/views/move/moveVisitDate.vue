@@ -4,7 +4,7 @@
     <v-row justify="space-between" locale="ko-KR">
       <div class="subheading"></div>
       <v-date-picker
-        v-model="moveInfo.visitDate"
+        v-model="moveVisit.visitDate"
         :events="arrayEvents"
         color="green lighten-1"
         event-color="blue lighten-1"
@@ -16,13 +16,13 @@
     <div class="selectTime">
       <b-row>
         <b-col md="auto">
-          <b-time v-model="moveInfo.visitTime" locale="ko-KR" @context="onContext"></b-time>
+          <b-time v-model="moveVisit.visitTime" locale="ko-KR" @context="onContext"></b-time>
         </b-col>
         <b-col>
           <!-- v-if를 걸어서 널값일때는 시간 선택해달라고 안내문구 -->
 
           <p>
-            선택 시간: <b>{{ moveInfo.visitTime }}</b>
+            선택 시간: <b>{{ moveVisit.visitTime }}</b>
           </p>
           <!-- <p class="mb-0">Context:</p>
       <pre v-if="context != null" class="small">{{ context.Value }}</pre> -->
@@ -42,7 +42,7 @@
 <script>
 export default {
   // props : ['moveContact', ''],
-  props : ['moveContact'],
+  props : ['moveInfo','moveEstimateType','moveType'],
   data: () => ({
     //날짜
     arrayEvents: null,
@@ -56,7 +56,7 @@ export default {
     context: null,
 
     //moveInfo
-    moveInfo : {
+    moveVisit : {
       visitDate : "",
       visitTime : "",
     },
@@ -87,17 +87,15 @@ export default {
 
     final_signIn: function(){
       console.log(this.moveInfo);
-
+      console.log(this.moveVisit);
       // this.$router.go(this.$router.currentRoute);
       this.$router.push({
          
           name : "moveContactCheck", 
-          params:{moveVisit: this.moveInfo,                  
-                  // moveContact:this.moveInfo,
-                  moveContact:this.moveEstimateType, 
-                  moveCon : this.moveContact,
-                  moveVisit : 123
-                  // moveContact:this.moveType}
+          params:{moveVisit: this.moveVisit,                                    
+                  moveEstimateType:this.moveEstimateType, 
+                  moveInfo : this.moveInfo,
+                  moveType:this.moveType
           }
         })
 

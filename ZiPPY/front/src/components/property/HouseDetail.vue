@@ -189,7 +189,7 @@
       goAgentDetail() {
         this.$router.push({
           name: 'AgentDetail',
-          query: {businessEmail: this.houseDetail[0].email}
+          query: {email: this.houseDetail[0].email}
         })
       },
       changeHeart() {

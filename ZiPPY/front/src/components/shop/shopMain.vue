@@ -41,7 +41,7 @@
         </div>
         <div id="main-item" v-for="product in products" :key="product.shopProductNo" @click="goDetail(product.shopProductNo)">
           <div id="main-product-img">
-            <img :src="require(`../../assets/shop/mainImg/${product.shopMainImg}.jpg`)">
+            <img :src="require(`../../assets/shop/productImg/${product.shopMainImg}.jpg`)">
           </div>
           <div class="product-about" id="left">
             <h6 id="product-name">{{ product.shopProductName }}</h6>
@@ -90,7 +90,7 @@
     },
     methods: {
       goDetail(no) {
-        this.$router.push('/shop/detail?shopProductNo='+no)
+        this.$router.push('/shop/detail?no='+no)
       }
     }
   };
