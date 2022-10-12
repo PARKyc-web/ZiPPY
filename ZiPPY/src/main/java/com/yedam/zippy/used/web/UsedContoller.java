@@ -7,12 +7,15 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.used.service.UsedImagesVO;
+import com.yedam.zippy.used.service.UsedKeywordVO;
 import com.yedam.zippy.used.service.UsedProductVO;
 import com.yedam.zippy.used.service.UsedService;
 
@@ -91,7 +94,24 @@ public class UsedContoller {
 
   // 찜 추가
   @PostMapping("/idk")
-  public String addWish(@RequestParam String id) {
-    return service.addWish(id);
+  public String addWish(@RequestParam BookmarkVO bookmark) {
+//     service.addWish(bookmark);
+     return "";
+  }
+  
+  // 키워드 추가
+  @PostMapping("/addKeyword")
+  public String addKeyword(@RequestBody UsedKeywordVO keyword) {
+    System.out.println(keyword);
+    System.out.println(service.addKeyword(keyword));
+    return "";
+  }
+  
+  // 키워드 삭제
+  @DeleteMapping("/delKeyword")
+  public String delKeyword(@RequestParam int kNo) {
+    System.out.println(kNo);
+    System.out.println(service.delKeyword(kNo));
+    return "";
   }
 }

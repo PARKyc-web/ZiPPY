@@ -12,13 +12,14 @@
         <div>
           <div class="used-keyword-location"><span>키워드 {{keywordValue.length}}/10</span></div>
           <div>
-            <form class="d-flex">
-              <input id="keyinputid" class="form-control" type="search" placeholder="Search" aria-label="Search" v-model="keyword" />
-              <button type="button" @click="addKey()" @keyup="enterkey()">등록</button>
+            <div class="d-flex">
+              <input id="keyinputid" class="form-control" type="search" placeholder="Search" aria-label="Search"
+                v-model="data.keyword" @keyup="enterkey()" />
+              <button class="submitBtn" type="button" @click="addKey()">등록</button>
               <!-- <button @click="addKeyword()" class="btn btn-primary" type="button" style="margin-right: 10px">
                 <i class="fa-solid fa-magnifying-glass"></i>
               </button> -->
-            </form>
+            </div>
           </div>
           <div class="used-key-flex">
             <div class="used-keyword-content" v-for="keyword in keywordValue">
@@ -40,10 +41,11 @@
           </div>
         </div>
         <div>
-          <form class="d-flex">
-            <input class="form-control" type="search" placeholder="Search" aria-label="Search" v-model="location" />
-            <button type="button" @click="addLoc()" @keyup="enterkey()">등록</button>
-          </form>
+          <div class="d-flex">
+            <input class="form-control" type="search" placeholder="Search" aria-label="Search"
+              v-model="data.keywordLocation" @keyup="enterkey()" />
+            <button class="submitBtn" type="button" @click="addLoc()">등록</button>
+          </div>
         </div>
       </div>
       <div class="used-key-flex">
@@ -70,30 +72,90 @@
       keywordValue: [],
       locationvalue: [],
       keyword: "",
-      location: ""
+      location: "",
+      data: {
+        email: "zippy@naver.com",
+        keyword: "",
+        keywordLocation: ""
+      }
     }),
     methods: {
       addKey: function () {
-        // const makeDiv = document.createElement('div');
-        // const keyword = document.querySelector('#keywordVal').value;
-        // makeDiv.appendChild(keyword);
-        this.keywordValue.push(this.keyword);
-        this.keyword = "";
-        
+        this.keywordValue.push(this.data.keyword);
+        console.log(this.data.keyword.length);
+        console.log(this.keywordValue.length)
+        console.log(this.keywordValue)
+        if (this.keywordValue == "") {
+
+        }
+        if (this.keywordValue.length >= 10) {
+          alert("stop")
+        }
+        axios({
+          url: "http://localhost:8088/zippy/used/addKeyword",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          data: JSON.stringify(this.data)
+        }).then(res => {
+          console.log(res);
+          console.log(this.data);
+          this.data.keyword = "";
+        }).catch(err => {
+          console.log(err)
+        })
       },
       addLoc: function () {
-        this.locationvalue.push(this.location);
-        this.location = "";
+        this.locationvalue.push(this.data.keywordLocation);
+        console.log(this.locationvalue.length)
+        axios({
+          url: "http://localhost:8088/zippy/used/addKeyword",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          data: JSON.stringify(this.data)
+        }).then(res => {
+          console.log(res);
+          console.log(this.data);
+          this.data.keywordLocation = "";
+        }).catch(err => {
+          console.log(err)
+        })
       },
       DelKey: function () {
         this.keywordValue.pop();
+        axios({
+          url: "http://localhost:8088/zippy/used/delKeyword",
+          method: "DELETE",
+          params: {
+            kNo: a
+          }
+        }).then(res => {
+          console.log(res);
+        }).catch(err => {
+          console.log(err)
+        })
       },
       DelLoc: function () {
         this.locationvalue.pop();
+        axios({
+          url: "http://localhost:8088/zippy/used/delKeyword",
+          method: "DELETE",
+          params: {
+            kNo: a
+          }
+        }).then(res => {
+          console.log(res);
+        }).catch(err => {
+          console.log(err)
+        })
       },
       enterkey: function () {
         if (window.event.keyCode == 13) {
-          this.addKeyword();
+          this.addKey();
+          this.data.keyword = "";
         }
       }
     }
@@ -105,7 +167,16 @@
     width: 1200px;
     margin: 0 auto;
   }
-  .used-key-flex{
+
+  .submitBtn {
+    border: none;
+    background-color: #b3e3c3;
+    color: white;
+    width: 100px;
+    height: 50px;
+  }
+
+  .used-key-flex {
     width: 1200px;
   }
 
