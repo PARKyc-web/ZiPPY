@@ -14,15 +14,17 @@ public interface ShopService {
 	//전체조회(키워드)
 	public List<ProductVO> getKeywordList(String keyword);
 	//단건조회(디테일)
-	public ProductVO getProduct(int shopProductNo);
+	public ProductVO getProduct(int proNo);
 	//디테일 이미지 조회
-	public String[] getDetailImg(int shopProductNo);
+	public String[] getDetailImg(int proNo);
 	//디테일 옵션 조회
-    public List<ProductOptionVO> getDetailOpt(int shopProductNo);
+    public List<ProductOptionVO> getDetailOpt(int proNo);
     
     // 장바구니 CRUD
     //등록
-    public void insertBasket(BasketVO basketVO);
-    //조회
-    public List<ProductVO> getBasketList(String email);
+    public void insertCart(CartVO cartVO);
+    //장바구니 상품 조회
+    public List<ProductVO> getCartList(String email);
+    //장바구니 상품개수 조회
+    public int getMyCart(String email);
 }

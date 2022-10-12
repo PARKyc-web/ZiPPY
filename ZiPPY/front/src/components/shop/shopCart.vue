@@ -8,30 +8,30 @@
       </v-btn>
     </v-toolbar>
     <v-data-table v-model="selected" :headers="headers" :items="products" :single-select="singleSelect"
-      style="text-align:center" item-key="item.shopProductName" show-select class="elevation-1">
+      style="text-align:center" item-key="item.proName" show-select class="elevation-1">
       <!-- 상품명 -->
-      <template v-slot:item.shopProductName="{ item }">
-        {{ item.shopProductName }}
+      <template v-slot:item.proName="{ item }">
+        {{ item.proName }}
       </template>
       <!-- 이미지 -->
-      <template v-slot:item.shopMainImg="{ item }">
+      <template v-slot:item.proMainImg="{ item }">
         <v-img class="ma-5" width="150px" height="150px"
-          :src="require(`../../assets/shop/productImg/${item.shopMainImg}.jpg`)"></v-img>
+          :src="require(`../../assets/shop/productImg/${item.proMainImg}.jpg`)"></v-img>
       </template>
       <!-- 수량 조절 -->
-      <template v-slot:item.basketProductQty="{ item }">
+      <template v-slot:item.cartQty="{ item }">
         <!-- minus -->
         <div>
           <v-btn class="mr-1" fab depressed width="20px" height="20px" color="#F7F7F7"
-            @click="minusQty(item.shopProductNo)">
+            @click="minusQty(item.proNo)">
             <v-icon dark>
               mdi-minus
             </v-icon>
           </v-btn>
-          {{ item.basketProductQty }}
+          {{ item.cartQty }}
           <!-- plus -->
           <v-btn class="ml-1" fab depressed width="20px" height="20px" color="#F7F7F7"
-            @click="plusQty(item.shopProductNo)">
+            @click="plusQty(item.proNo)">
             <v-icon dark>
               mdi-plus
             </v-icon>
@@ -57,11 +57,11 @@
             text: '상품명',
             align: 'start',
             sortable: false,
-            value: 'shopProductName',
+            value: 'proName',
           },
           {
             text: '',
-            value: 'shopMainImg'
+            value: 'proMainImg'
           },
           {
             text: '옵션',
@@ -73,15 +73,15 @@
           },
           {
             text: '가격',
-            value: 'shopProductPrice' //computed로 계산 다시 해야될듯?
+            value: 'proPrice' //computed로 계산 다시 해야될듯?
           },
           {
             text: '수량',
-            value: 'basketProductQty'
+            value: 'cartQty'
           },
           {
             text: '배송비',
-            value: 'shopDeliveryCost'
+            value: 'deliveryCost'
           }
         ],
         products: []
@@ -92,7 +92,7 @@
       deleteProduct() {
         for (var i in this.selected) {
           for (var j in this.products) {
-            if (this.products[j].shopProductNo == this.selected[i].shopProductNo) {
+            if (this.products[j].proNo == this.selected[i].proNo) {
               this.products.splice(j, 1);
             }
           }
@@ -104,9 +104,9 @@
       //수량 감소
       minusQty(no) {
         for (var i in this.products) {
-          if (this.products[i].shopProductNo == no) {
-            if (this.products[i].basketProductQty > 1) {
-              this.products[i].basketProductQty--;
+          if (this.products[i].proNo == no) {
+            if (this.products[i].cartQty > 1) {
+              this.products[i].cartQty--;
             } else {
               //button disabled?
               alert('최소수량은 1개입니다.')
@@ -117,12 +117,12 @@
       //수량 증가
       plusQty(no) {
         for (var i in this.products) {
-          if (this.products[i].shopProductNo == no) {
-            if (this.products[i].basketProductQty > 9) {
+          if (this.products[i].proNo == no) {
+            if (this.products[i].cartQty > 9) {
               alert('최대수량은 10개입니다.')
               break;
             }
-            this.products[i].basketProductQty++;
+            this.products[i].cartQty++;
           }
         }
       },
@@ -130,7 +130,7 @@
     created() {
       //전체조회
       axios({
-          url: "http://localhost:8088/zippy/shop/basket",
+          url: "http://localhost:8088/zippy/shop/cart",
           methods: "GET",
           params: {
             email: this.$route.query.email
@@ -147,7 +147,7 @@
           url: "http://localhost:8088/zippy/shop/opt",
           methods: "GET",
           params: {
-            no: 1
+            pno: 1
           }
         }).then(res => {
           console.log(res);
@@ -162,8 +162,8 @@
       countAmount() {
         let amount = 0;
         for (var i in this.products) {
-          amount += this.products[i].shopProductPrice * this.products[i].basketProduct_qty;
-          amount += this.products[i].shopDeliveryCost;
+          amount += this.products[i].proPrice * this.products[i].cartQty;
+          amount += this.products[i].deliveryCost;
         }
         return amount;
       }

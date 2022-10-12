@@ -13,8 +13,8 @@
 		JOIN business
 		b
 		ON s.email = b.email
-		WHERE s.shop_category =
-		#{shopCategory}
+		WHERE s.category =
+		#{category}
 	</select>
 	<!-- 키워드 조회 -->
 	<select id="getKeywordList" resultType="ProductVO"
@@ -24,9 +24,9 @@
 		business b
 		ON s.email = b.email
 		WHERE
-		s.shop_product_name LIKE
+		s.pro_name LIKE
 		'%'||#{keyword}||'%'
-		OR s.shop_category LIKE
+		OR s.category LIKE
 		'%'||#{keyword}||'%'
 		OR
 		s.email IN
@@ -43,47 +43,56 @@
 		JOIN business
 		b
 		ON s.email = b.email
-		WHERE s.shop_product_no =
-		#{shopProductNo}
+		WHERE s.pro_no =
+		#{proNo}
 	</select>
 	<!-- 상세이미지 불러오기 -->
 	<select id="getDetailImg" resultType="String"
 		parameterType="ProductVO">
-		SELECT shop_product_img
+		SELECT pro_img
 		FROM shop_product_img
 		WHERE
-		shop_product_no = #{shopProductNo}
+		pro_no = #{proNo}
 	</select>
 	<!-- 상세옵션 불러오기 -->
 	<select id="getDetailOpt" resultType="ProductOptionVO"
 		parameterType="ProductOptionVO">
-		select *
-		from shop_product_option
-		where shop_product_no = #{shopProductNo}
+		SELECT *
+		FROM shop_product_option
+		WHERE pro_no = #{proNo}
 	</select>
 	
 	<!-- 장바구니 -->
 	<!-- 장바구니 등록 --> 
-	<insert id="insertBasket" parameterType="BasketVO">
-		INSERT INTO shop_basket
+	<insert id="insertCart" parameterType="CartVO">
+		INSERT INTO shop_cart
 		VALUES(
-		( SELECT NVL( MAX(basket_no) , 0) + 1 FROM shop_basket),
+		( SELECT NVL( MAX(cart_no) , 0) + 1 FROM shop_cart),
 		#{email},
-		#{basketProductNo},
-		#{basketProductOptNo},
-		#{basketProductQty})
+		#{cartPno},
+		#{cartOptNo},
+		#{cartQty})
 	</insert>
-	<select id="getBasketList" resultType="ProductVO"
-		parameterType="BasketVO">
-		SELECT s.*, b.comp_name FROM shop_product s
-		JOIN shop_basket b
-		ON b.basket_product_no = s.shop_product_no
+	<!-- 장바구니 리스트 조회 -->
+	<select id="getCartList" resultType="ProductVO"
+		parameterType="CartVO">
+		SELECT s.*, b.comp_name
+		FROM shop_product s
+		JOIN shop_cart c
+		ON c.cart_pno = s.pro_no
 		JOIN business b
 		ON s.email = b.email
-		WHERE s.shop_product_no IN
-		(SELECT basket_product_no
-		FROM shop_basket
+		WHERE s.pro_no IN
+		(SELECT cart_pno
+		FROM shop_cart
 		WHERE email = #{email})
+	</select>
+	<!-- 장바구니 개수 조회 -->
+	<select id="getMyCart" resultType="Integer"
+		parameterType="CartVO">
+		SELECT count(*) countMycart
+		FROM shop_cart
+		WHERE email = #{email}
 	</select>
 
 </mapper>

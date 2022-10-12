@@ -18,38 +18,38 @@
           <!--heart-->
           <div class="ml-auto">
             <v-btn v-if="heart==0" class="mx-2" color='#D6D6D6' fab depressed dark small
-              @click="changeHeart(product.shopProductNo)">
+              @click="changeHeart(product.proNo)">
               <v-icon dark>
                 mdi-heart
               </v-icon>
             </v-btn>
             <v-btn v-if="heart==1" class="mx-2" color='#FF4063' fab depressed dark small
-              @click="changeHeart(product.shopProductNo)">
+              @click="changeHeart(product.proNo)">
               <v-icon dark>
                 mdi-heart
               </v-icon>
             </v-btn>
           </div>
         </div>
-        <h4 style="display:block; padding-bottom: 10px;">{{product.shopProductName}}</h4>
-        <h1 style="display:inline-block">{{product.shopProductPrice}}</h1>
+        <h4 style="display:block; padding-bottom: 10px;">{{product.proName}}</h4>
+        <h1 style="display:inline-block">{{product.proPrice}}</h1>
         <h5 style="display:inline-block">원</h5>
         <h6 class="pb-5">
-          <v-icon color="#B3E3C3" class="pr-2">mdi-truck</v-icon>배송비<span> {{product.shopDeliveryCost}}</span>원
+          <v-icon color="#B3E3C3" class="pr-2">mdi-truck</v-icon>배송비<span> {{product.deliveryCost}}</span>원
         </h6>
         <!-- 옵션 -->
         <div>
-          <v-select v-model="selectedOpt" @change="selectOptAc" :items="opts" item-text="shopOptName"
-            item-value="shopProductOptNo" label="옵션" return-object dense outlined width="330"></v-select>
+          <v-select v-model="selectedOpt" @change="selectOptAc" :items="opts" item-text="optName" item-value="optNo"
+            label="옵션" return-object dense outlined width="330"></v-select>
         </div>
         <!-- 옵션 여러개 선택하는 기능 만들기... 나중에 -->
         <!-- 옵션 끝 -->
         <!-- 상품선택 박스 -->
-        <div class="pa-5" v-if="selectOption.shopProductOptNo" style="background-color:#F7F7F7; border-radius:0.8em">
+        <div class="pa-5" v-if="selectOption.optNo" style="background-color:#F7F7F7; border-radius:0.8em">
           <div style="font-size:smaller">
             <div style="display:flex">
-              {{product.shopProductName}} {{selectOption.shopOptName}}
-              <div v-if="selectOption.shopProductOptPrice > 0" class="ml-2">(+{{selectOption.shopProductOptPrice}}원)
+              {{product.proName}} {{selectOption.optName}}
+              <div v-if="selectOption.optPrice > 0" class="ml-2">(+{{selectOption.optPrice}}원)
               </div>
               <span class="ml-auto" @click="deleteOpt()" style="cursor:pointer">X</span>
             </div>
@@ -92,14 +92,14 @@
     <!-- 탭 -->
     <!-- 상품 상세정보 -->
     <div class="mx-auto pb-5" style="width:810px">
-      <shop-tab :no="product.shopProductNo"></shop-tab>
+      <shop-tab :pno="product.proNo"></shop-tab>
     </div>
   </div>
 </template>
 
 <script>
   import axios from 'axios';
-  import shopTab from './shopTab.vue'
+  import shopTab from './shopTab.vue';
 
   export default {
     components: {
@@ -117,10 +117,16 @@
       //선택한 옵션이 담김(나중에 []형태로 수정합시다)
       selectOption: {},
       //수량(기본:1)
-      basketProd: {},
       qty: 1,
+      //장바구니에 담을 상품
+      selectPro: {},
+      //장바구니에 있는 상품목록
+      cartPros: [],
       //찜(기본:0)
-      heart: 0
+      heart: 0,
+
+      //dummy 
+      email: 'zippy@naver.com'
     }),
     methods: {
       //수량 감소
@@ -139,9 +145,12 @@
         }
         this.qty++;
       },
+      //선택한 상품 삭제
       deleteOpt() {
+        this.selectedOpt = {};
         this.selectOption = {};
       },
+      //찜등록/해제
       changeHeart() {
         if (this.heart == 0) { //찜x
           this.heart = 1; //찜onc
@@ -154,34 +163,75 @@
       goBasket() {
         //장바구니 등록
         if (Object.keys(this.selectOption) == 0) {
+          //체크용
           alert('상품의 옵션을 선택해주세요.')
-        }else {
-         axios({
-          url: "http://localhost:8088/zippy/shop/insertBasket",
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
-          },
-          data: {
-            email: 'zippy@naver.com',
-            basketProductNo : this.selectOption.shopProductNo,
-            basketProductOptNo : this.selectOption.shopProductOptNo,
-            basketProductQty : this.qty,
+        } else {
+          let check = '';
+          //장바구니에 존재한 상품 check
+          axios({
+            url: "http://localhost:8088/zippy/shop/cart",
+            methods: "GET",
+            params: {
+              email: this.email
+            }
+          }).then(res => {
+            console.log(res);
+            this.cartPros = res.data;
+            console.log(this.cartPros)
+            console.log(cartPros)
+            for (var i in this.cartPros) {
+              console.log(this.selectOption.proNo)
+              console.log(this.cartPros[i].cartPno)
+              if (this.selectOption.proNo == this.cartPros[i].cartPno &&
+                this.selectOption.optNo == this.cartPros[i].cartOptNo) {
+                check = false;
+                alert('이미 장바구니에 있는 상품입니다.');
+                this.selectedOpt = {};
+                this.selectOption = {};
+                break;
+              }
+            }
+            //장바구니에 존재하지 않음
+            check = true;
+            console.log('check:' + check)
+
+          }).catch(error => {
+            console.log(error);
+          })
+          //check=true(존재하지 않음) 상태이면 장바구니에 상품담기 진행
+          console.log(check);
+          if (check) {
+            axios({
+              url: "http://localhost:8088/zippy/shop/inserCart",
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+              },
+              data: {
+                email: this.email,
+                cartPno: this.selectOption.proNo,
+                cartOptNo: this.selectOption.optNo,
+                cartQty: this.qty,
+              }
+            }).then(res => {
+              console.log(res);
+              this.selectPro = res.data;
+              alert('장바구니에 상품이 담겼습니다.');
+              //선택했던 상품 삭제
+              this.selectedOpt = {};
+              this.selectOption = {};
+            }).catch(error => {
+              console.log(error);
+            })
           }
-        }).then(res => {
-          console.log(res);
-          this.basketProd = res.data;
-          alert('장바구니에 상품을 담았습니다.')
-        }).catch(error => {
-          console.log(error);
-        })
-      }
+        }
       },
       goOrder() {
         if (Object.keys(this.selectOption) == 0) {
           alert('상품의 옵션을 선택해주세요.')
         }
       },
+      //선택한 옵션을 담는 행위 
       selectOptAc() {
         this.selectOption = {
           ...this.selectedOpt
@@ -195,7 +245,7 @@
           url: "http://localhost:8088/zippy/shop/detail",
           methods: "GET",
           params: {
-            no: this.$route.query.no
+            pno: this.$route.query.pno
           }
         }).then(res => {
           console.log(res);
@@ -209,12 +259,12 @@
           url: "http://localhost:8088/zippy/shop/img",
           methods: "GET",
           params: {
-            no: this.$route.query.no
+            pno: this.$route.query.pno
           }
         }).then(res => {
           console.log(res);
           this.imgs = res.data;
-          this.imgs.unshift(this.product.shopMainImg)
+          this.imgs.unshift(this.product.proMainImg)
         }).catch(error => {
           console.log(error);
         }),
@@ -223,7 +273,7 @@
           url: "http://localhost:8088/zippy/shop/opt",
           methods: "GET",
           params: {
-            no: this.$route.query.no
+            pno: this.$route.query.pno
           }
         }).then(res => {
           console.log(res);
@@ -236,10 +286,10 @@
     computed: {
       countAmount() {
         let amount = 0;
-        amount += this.product.shopProductPrice * this.qty;
-        amount += Number(this.product.shopDeliveryCost);
-        if (this.selectOption.shopProductOptNo) {
-          amount += Number(this.selectOption.shopProductOptPrice) * this.qty;
+        amount += this.product.proPrice * this.qty;
+        amount += Number(this.product.deliveryCost);
+        if (this.selectOption.optNo) {
+          amount += Number(this.selectOption.optPrice) * this.qty;
         }
         return amount;
       },

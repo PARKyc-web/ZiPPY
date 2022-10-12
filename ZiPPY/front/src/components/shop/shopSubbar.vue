@@ -27,7 +27,7 @@
       </v-form>
       <!-- 검색창 끝 -->
       <!-- 장바구니 -->
-      <v-badge :value="hover" color="#B3E3C3" content="10" left transition="slide-x-transition">
+      <v-badge :value="hover" color="#B3E3C3" :content="count" left transition="slide-x-transition">
         <v-hover v-model="hover">
           <v-icon color="rgba(0, 0, 0, 0.54)" @click="goCart">
             mdi-cart
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
   export default {
     data: () => ({
       categories: [
@@ -55,6 +57,8 @@
         '소품'
       ],
       hover: false,
+      email: 'zippy@naver.com',
+      count: ''
     }),
     methods: {
       //카테고리 이동
@@ -89,7 +93,22 @@
           }
         })).catch(() => {});;
         this.$router.go(0);
-      }
+      },
+    },
+    created() {
+      axios({
+          url: "http://localhost:8088/zippy/shop/myCart",
+          methods: "GET",
+          params: {
+            email: this.email
+          }
+        }).then(res => {
+          console.log(res);
+          this.count = res.data;
+          console.log(this.count);
+        }).catch(error => {
+          console.log(error);
+        })
     }
   }
 </script>

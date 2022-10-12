@@ -20,8 +20,8 @@
           <v-card>
             <v-card flat style="width:8100px">
               <v-card-text>
-                {{this.no}}
-                {{product.shopProductInfo}}
+                {{this.pno}}
+                {{product.proInfo}}
               </v-card-text>
             </v-card>
           </v-card>
@@ -221,7 +221,7 @@
   import axios from 'axios';
 
   export default {
-    props: ['no'],
+    props: ['pno'],
     data: () => ({
       tab: null,
       imgs: [],

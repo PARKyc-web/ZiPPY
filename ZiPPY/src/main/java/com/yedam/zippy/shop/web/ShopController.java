@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.yedam.zippy.shop.service.BasketVO;
+import com.yedam.zippy.shop.service.CartVO;
 import com.yedam.zippy.shop.service.ProductOptionVO;
 import com.yedam.zippy.shop.service.ProductVO;
 import com.yedam.zippy.shop.service.ShopService;
@@ -36,8 +36,8 @@ public class ShopController {
 
   // 전체조회(카테고리)
   @RequestMapping("/category")
-  public List<ProductVO> categoryList(@RequestParam("cate") String shopCategory) {
-    return service.getCategoryList(shopCategory);
+  public List<ProductVO> categoryList(@RequestParam("cate") String category) {
+    return service.getCategoryList(category);
   }
 
   // 전체조회(키워드)
@@ -48,31 +48,37 @@ public class ShopController {
 
   // 단건조회(디테일)
   @RequestMapping("/detail")
-  public ProductVO productDetail(@RequestParam("no") int shopProductNo) {
-    return service.getProduct(shopProductNo);
+  public ProductVO productDetail(@RequestParam("pno") int proNo) {
+    return service.getProduct(proNo);
   }
 
   //조회(이미지)
   @RequestMapping("/img")
-  public String[] imgDetail(@RequestParam("no") int shopProductNo) {
-    return service.getDetailImg(shopProductNo);
+  public String[] imgDetail(@RequestParam("pno") int proNo) {
+    return service.getDetailImg(proNo);
   }
   
   //조회(옵션)
   @RequestMapping("/opt")
-  public List<ProductOptionVO> optDetail(@RequestParam("no") int shopProductNo) {
-    return service.getDetailOpt(shopProductNo);
+  public List<ProductOptionVO> optDetail(@RequestParam("pno") int proNo) {
+    return service.getDetailOpt(proNo);
   }
   
-  //등록
-  @PostMapping("/insertBasket")
+  //장바구니
+  //장바구니 등록
+  @PostMapping("/insertCart")
   @ResponseBody
-  public void insertBasket(BasketVO basketVO) {
-    service.insertBasket(basketVO);
+  public void insertCart(CartVO cartVO) {
+    service.insertCart(cartVO);
   }
-  //전체조회
-  @RequestMapping("/basket")
-  public List<ProductVO> basketList(String email) {
-    return service.getBasketList(email);
+  //장바구니 전체조회
+  @RequestMapping("/cart")
+  public List<ProductVO> cartList(String email) {
+    return service.getCartList(email);
+  }
+  //장바구니 개수 조회
+  @RequestMapping("/myCart")
+  public int countMyCart(String email) {
+    return service.getMyCart(email);
   }
 }

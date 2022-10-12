@@ -4,7 +4,11 @@ import lombok.Data;
 
 @Data
 public class ProductImgVO {
-  int shopImgNo;
-  String shopProductNo;
-  String shopProductImg;
+//  int shopImgNo;
+//  String shopProductNo;
+//  String shopProductImg;
+  
+  int proImgNo;
+  String proNo;
+  String proImg;
 }
