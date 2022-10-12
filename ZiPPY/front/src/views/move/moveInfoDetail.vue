@@ -14,7 +14,7 @@
         <div class="move-detail-drop" v-for="i in moveDetail[0].bedCount">
           <!-- v-for="(row, index) in rows" -->
           <div >
-          <select v-bind:disabled="bedAvail==false" v-model="moveDetail[0].bed[i]" >
+          <select v-bind:disabled="bedAvail==false" :id="i-1" v-model="moveDetail[0].bed[i-1]" >
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
@@ -24,7 +24,7 @@
           </select><br>
         </div>
           <button v-bind:disabled="bedAvail==false" 
-          class="custom-btn btn-4" type="button" :id="i" @click="removeBed(i)">-</button>
+          class="custom-btn btn-4" type="button"  @click="removeBed(i-1)">-</button>
         </div>
       </div>
 
@@ -34,7 +34,7 @@
         <input type="checkbox" name="sofa" v-model="sofaAvail"/><label>소파</label><br /><br />
         <i class="fa-solid fa-couch fa-5x"></i><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].sofaCount">
-          <select v-bind:disabled="sofaAvail==false" v-model="moveDetail[0].sofa[i]">
+          <select v-bind:disabled="sofaAvail==false" :id="i-1" v-model="moveDetail[0].sofa[i-1]">
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
@@ -43,7 +43,7 @@
             <option value="킹이상">킹 이상</option>
           </select><br>
           <button v-bind:disabled="sofaAvail==false" 
-          class="custom-btn btn-4" type="button" :id="i" @click="removeSofa(i)">-</button>
+          class="custom-btn btn-4" type="button"  @click="removeSofa(i-1)">-</button>
         </div>
       </div>
 
@@ -53,7 +53,7 @@
         <input type="checkbox" name="closet" v-model="closetAvail" /><label>옷장-단품</label><br /><br />
         <i class="fa-solid fa-toilet-portable fa-5x"></i><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].closetCount">
-          <select v-bind:disabled="closetAvail==false" v-model="moveDetail[0].closet[i]">
+          <select v-bind:disabled="closetAvail==false" :id="i-1" v-model="moveDetail[0].closet[i-1]">
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
@@ -62,7 +62,7 @@
             <option value="킹이상">킹 이상</option>
           </select><br>
           <button v-bind:disabled="closetAvail==false" 
-           class="custom-btn btn-4" type="button" :id="i" @click="removeCloset(i)">-</button>
+           class="custom-btn btn-4" type="button"  @click="removeCloset(i-1)">-</button>
         </div>
       </div>
 
@@ -72,7 +72,7 @@
         <input type="checkbox" name="closets" v-model="closetsAvail"/><label>옷장-연결장</label><br /><br />
         <i class="fa-solid fa-toilets-portable fa-5x"></i><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].closetsCount">
-          <select v-bind:disabled="closetsAvail==false" v-model="moveDetail[0].closets[i]">
+          <select v-bind:disabled="closetsAvail==false" :id="i-1" v-model="moveDetail[0].closets[i-1]">
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
@@ -81,7 +81,7 @@
             <option value="킹이상">킹 이상</option>
           </select><br>
           <button v-bind:disabled="closetsAvail==false" 
-          class="custom-btn btn-4" type="button" :id="i" @click="removeClosets(i)">-</button>
+          class="custom-btn btn-4" type="button"  @click="removeClosets(i-1)">-</button>
         </div>
       </div>
     </div>
@@ -102,7 +102,7 @@
         <i class="fa-solid fa-tv fa-5x"></i><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].tvCount">
           <!-- v-for="(row, index) in rows" -->
-          <select v-bind:disabled="tvAvail==false" v-model="moveDetail[0].tv[i]" >
+          <select v-bind:disabled="tvAvail==false" :id="i-1" v-model="moveDetail[0].tv[i-1]" >
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
@@ -112,7 +112,7 @@
           </select><br>
       
           <button v-bind:disabled="tvAvail==false" 
-          class="custom-btn btn-4" type="button" :id="i" @click="removeTv(i)">-</button>
+          class="custom-btn btn-4" type="button"  @click="removeTv(i-1)">-</button>
         </div>
       </div>
 
@@ -122,7 +122,7 @@
         <input type="checkbox" name="pc" v-model="pcAvail"/><label>데스크탑</label><br /><br />
         <i class="fa-solid fa-desktop fa-5x"></i><br /> 
         <div class="move-detail-drop" v-for="i in moveDetail[0].pcCount">
-          <select v-bind:disabled="pcAvail==false"  v-model="moveDetail[0].pc[i]">
+          <select v-bind:disabled="pcAvail==false" :id="i-1" v-model="moveDetail[0].pc[i-1]">
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
@@ -131,7 +131,7 @@
             <option value="킹이상">킹 이상</option>
           </select><br>
           <button v-bind:disabled="pcAvail==false"   
-          class="custom-btn btn-4" type="button" :id="i" @click="removePc(i)">-</button>
+          class="custom-btn btn-4" type="button"  @click="removePc(i-1)">-</button>
         </div>
       </div>
 
@@ -141,7 +141,7 @@
         <input type="checkbox" name="fridge" v-model="fridgeAvail"/><label>냉장고</label><br /><br />
         <i class="material-icons md-54">kitchen</i><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].fridgeCount">
-          <select v-bind:disabled="fridgeAvail==false" v-model="moveDetail[0].fridge[i]">
+          <select v-bind:disabled="fridgeAvail==false" :id="i-1" v-model="moveDetail[0].fridge[i-1]">
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
@@ -150,7 +150,7 @@
             <option value="킹이상">킹 이상</option>
           </select><br>
           <button v-bind:disabled="fridgeAvail==false" 
-          class="custom-btn btn-4" type="button" :id="i" @click="removeFridge(i)">-</button>
+          class="custom-btn btn-4" type="button"  @click="removeFridge(i-1)">-</button>
         </div>
       </div>
 
@@ -160,7 +160,7 @@
         <input type="checkbox" name="trolley" v-model="trolleyAvail" /><label>유모차</label><br /><br />
         <i class="fa-solid fa-baby-carriage fa-5x"></i><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].trolleyCount">
-          <select v-bind:disabled="trolleyAvail==false" v-model="moveDetail[0].trolley[i]">
+          <select v-bind:disabled="trolleyAvail==false" :id="i-1" v-model="moveDetail[0].trolley[i-1]">
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
@@ -169,7 +169,7 @@
             <option value="킹이상">킹 이상</option>
           </select><br>
           <button v-bind:disabled="trolleyAvail==false" 
-          class="custom-btn btn-4" type="button" :id="i" @click="removeTrolley(i)">-</button>
+          class="custom-btn btn-4" type="button"  @click="removeTrolley(i-1)">-</button>
         </div>
       </div>
     </div>
@@ -191,9 +191,9 @@
             <button class="custom-btn btn-4" type="button" @click="addEtc()">+</button>
             <div v-for="i in moveDetail[0].etcCount">
               <label >사용자 기타</label>
-            <input v-model="moveDetail[0].etcName[i]" class="type-2" type="text" placeholder="기타이삿짐 이름" /><br />
-            <input v-model="moveDetail[0].etcSize[i]" class="type-2" type="text" placeholder="이삿짐 사이즈(cm * cm)" /><br />
-            <button class="custom-btn btn-4" type="button" :id="i" @click="removeEtc(i)">-</button>
+            <input v-model="moveDetail[0].etcName[i-1]" class="type-2" type="text" placeholder="기타이삿짐 이름" /><br />
+            <input v-model="moveDetail[0].etcSize[i-1]" class="type-2" type="text" placeholder="이삿짐 사이즈(cm * cm)" /><br />
+            <button class="custom-btn btn-4" type="button" :id="i-1" @click="removeEtc(i-1)">-</button>
           </div>
           </div>
         </div>
