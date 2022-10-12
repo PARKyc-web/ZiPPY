@@ -9,6 +9,7 @@ import shopView from "../views/shopView.vue";
 import GeneralSign from '../views/login/generalSignUp.vue';
 import BusinessSign from '../views/login/businessSignUp.vue';
 import selectSign from '@/views/login/selectSignType.vue';
+import baseImage from '@/views/login/base64Image.vue';
 
 import moveContactFinalCheck from "../views/move/moveContactFinalCheck.vue";
 import moveUntactFinalCheck from "../views/move/moveUntactFinalCheck.vue";
@@ -40,8 +41,8 @@ const routes = [{
   },
   //login
   {
-    path: "/login",
-    name: "login",
+    path: "/signIn",
+    name: "signIn",
     component: selectSign,
   },
   {
@@ -53,6 +54,11 @@ const routes = [{
     path: "/businessSign",
     name: "businessSign",
     component: BusinessSign
+  },
+  {
+    path : "/baseImage",
+    name : "baseImage",
+    component: baseImage
   },
 
   // property
@@ -82,7 +88,7 @@ const routes = [{
 
   {
     path: "/shop/detail",
-    name: "detail",
+    name: "sdetail",
     component: shopDetailView,
   },
   {
@@ -138,7 +144,7 @@ const routes = [{
   },
   {
     path: "/used/detail",
-    name: "detail",
+    name: "udetail",
     component: usedDetail
   },
   {

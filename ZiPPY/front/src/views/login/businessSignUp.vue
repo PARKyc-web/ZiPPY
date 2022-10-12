@@ -17,24 +17,20 @@
                     <h5>업체 유형</h5>
 
                     <label class="business-label">
-                      <input type="radio" name="business_type" value="property"/>
+                      <input type="radio" name="business_type" value="0"/>
                       <span>공인중개사</span>
                     </label>
 
                     <label class="business-label">
-                      <input type="radio" name="business_type" value="shop" />
+                      <input type="radio" name="business_type" value="2" />
                       <span>쇼핑몰</span>
                     </label>
 
                     <label class="business-label">
-                      <input type="radio" name="business_type" value="move" />
+                      <input type="radio" name="business_type" value="3" />
                       <span>이사업체</span>
                     </label>
 
-                    <label class="business-label">
-                      <input type="radio" name="business_type" value="clean" />
-                      <span>청소업체</span>
-                    </label>
                   </div>
                   <hr class="my-4" />
                   <div class="form-floating mb-3">
@@ -83,7 +79,7 @@
                     <input
                       type="password"
                       class="form-control"
-                      v-model="user_info.user_password"
+                      v-model="user_info.userPassword"
                       id="password"
                       name="user_passwd"
                       placeholder="123456"                      
@@ -219,6 +215,7 @@
                       class="form-control"
                       id="addressInput"
                       placeholder="주소검색"
+                      v-model="user_info.userAddress"
                       disabled
                     />
                     <label for="addressInput">업체주소 (우편번호)</label>
@@ -229,7 +226,7 @@
                       type="text"
                       class="form-control"
                       id="addressDetail"
-                      v-model="user_info.addr_detail"
+                      v-model="user_info.addressDetail"
                       placeholder="상세주소"
                     />
                     <label for="addressDetail">상세주소</label>
@@ -266,7 +263,7 @@
                       class="form-control"
                       id="ceo_name"
                       placeholder="ceo"
-                      v-model="user_info.ceo_name"
+                      v-model="user_info.ceoName"
                     />
                     <label for="ceo_name">대표자 이름</label>
                   </div>
@@ -277,7 +274,7 @@
                       class="form-control"
                       id="business_name"
                       placeholder="company_name"
-                      v-model = "user_info.company_name"
+                      v-model = "user_info.compName"
                     />
                     <label for="business_name">업체명</label>
                   </div>
@@ -289,7 +286,7 @@
                       id="business_explain"
                       placeholder="기업소개를 작성해주세요!"
                       rows="15"
-                      v-model = "user_info.company_intro"
+                      v-model = "user_info.compIntro"
                     ></textarea>
                   </div>
 
@@ -307,7 +304,7 @@
                     </button>
                   </div>
 
-                  <div class="form-floating mb-3" v-if="user_info.business_type == 'property'">
+                  <div class="form-floating mb-3" v-if="user_info.business_type == '0'">
                     <input
                       type="email"
                       class="form-control"
@@ -325,18 +322,21 @@
                       type="file"
                       class="form-control"
                       id="business_number_pic"
-                      placeholder="number_pic"
+                      name="business_pic"
+                      placeholder="number_pic"          
                     />
                     <label for="business_number_pic"> 사업자등록증 </label>
                   </div>
 
-                  <div class="form-floating mb-3" v-if="user_info.business_type == 'property'">
+                  <div class="form-floating mb-3" v-if="user_info.business_type == '0'">
                     
                     <input
                       type="file"
                       class="form-control"
                       id="broker_number_pic"
+                      name="broker_pic"
                       placeholder="number_pic"
+                      @change="imageUpload('broker_pic')"
                     />
                     <label for="broker_number_pic"> 중개등록증 </label>
                   </div>
@@ -368,20 +368,23 @@ export default {
     return {
       // 회원가입 시, 필요한 정보
       user_info : {
-        user_email: "",
-        user_password : "",
-        user_phone : "",
-        user_addr : "",
-        addr_detail : "",
-        addr_postzone : "",
-        business_type: "",
-        ceo_name : "",
-        company_name : "",
-        company_intro : "",
-        business_number : "",
-        business_img : "",
+        email: "",
+        userPassword : "",
+        userPhone : "",
+        userAddress : "",
+        addressDetail : "",
+        zipCode : "",
+        memberType: "",
+        ceoName : "",
+        compName : "",
+        compIntro : "",
+        businessId : "",
+        businessImg : "",
         broker_id : "",
-        broker_img : ""
+        brokerImg : "",        
+        profilePic : "default.png",
+        impUid : "1234567890",
+        businessState : 0
       },
 
       // valid 되었는지 확인하는 정보
@@ -389,6 +392,7 @@ export default {
       pass_valid: false,
       pass_confirm: false,
       phone_valid : false,
+      business_valid : false,      
 
       // 인증코드가 담기는 Data
       emailCode: 12345672387,
@@ -401,7 +405,7 @@ export default {
       var data = await loginFunc.email_validation();
       console.log("이메일 Validation 실행한 후 : ", data);
       if(data != null){
-        this.user_info.user_email = data.email;        
+        this.user_info.email = data.email;        
         this.emailCode = data.email_code;        
       }      
     },    
@@ -409,7 +413,7 @@ export default {
     email_valid_check: function(){      
       this.email_valid = loginFunc.email_valid_check(this.emailCode);
       console.log("email_valid :: ", this.email_valid);
-      console.log("user_email :: ", this.user_info.user_email);
+      console.log("user_email :: ", this.user_info.email);
     },
 
     password_validation: function () {
@@ -424,10 +428,10 @@ export default {
     phone_validation: async function () {
       var data = await loginFunc.phone_validation();
       if(data != null){
-        this.user_info.user_phone = data.phone;
+        this.user_info.userPhone = data.phone;
         this.phoneCode = data.phone_code;
       }      
-      console.log("인증번호 받기 후 잘 들어감? ",this.user_info.user_phone, this.phoneCode);
+      console.log("인증번호 받기 후 잘 들어감? ",this.user_info.userPhone, this.phoneCode);
     },
 
     phone_valid_check: function () {
@@ -435,7 +439,7 @@ export default {
       this.phone_valid = loginFunc.phone_valid_check(this.phoneCode);
 
       console.log("==번호인증 완료 후==");
-      console.log("user_phone :: ", this.user_info.user_phone);
+      console.log("user_phone :: ", this.user_info.userPhone);
     },
 
     /**
@@ -448,8 +452,8 @@ export default {
         oncomplete: function (data) {
           console.log(data);
           addr.value = "(" + data.zonecode + ") " + data.address;
-          outside.user_info.user_addr = data.address;
-          outside.user_info.addr_postzone = data.zonecode;
+          outside.user_info.userAddress = data.address;
+          outside.user_info.zipCode = data.zonecode;
         },
       }).open();     
     },
@@ -460,11 +464,11 @@ export default {
       if(selected == null){        
         alert("업체유형을 선택해 주세요!");
 
-      }else if(this.email_valid == false || this.phone_valid == false || this.pass_valid == false || this.user_info.user_addr == ""){
+      }else if(this.email_valid == false || this.phone_valid == false || this.pass_valid == false || this.user_info.userAddress == ""){
         alert("모든 정보를 인증 및 확인해주세요!");
 
       }else {
-        this.user_info.business_type = selected.value;
+        this.user_info.memberType = selected.value;
         document.querySelector("#first-form").style.display = "none";
         document.querySelector("#second-form").style.display = "block";      
       }
@@ -482,15 +486,39 @@ export default {
           "serviceKey" : "QZf4Ip/iukGVGGNo2Yp1ei7ISnJ2sOwUgmmBjLQt6mCw73ftY5N0jt6ck1Qz34mGkNv4FQAysldaby08pQpYEg=="
         },
         data :{
-          "b_no" : ["123456789"]
+          "b_no" : [number]
         }
-      }).then(res => {
-        console.log(res);
-        console.log(res.data.data);
+      }).then(res => {        
+        console.log(res.data.match_cnt);
+        if(res.data.match_cnt != null){
+          console.log(res.data.match_cnt);
+          this.user_info.businessId = number;
+          this.business_valid = true;
 
+        }else{
+          alert("사업자번호를 확인해주세요!");
+        }
+        
       }).catch(error =>{
         console.log(error);
       })      
+    },
+
+    imageUpload : function(inputName){ 
+      console.log(inputName);
+
+      var file = document.querySelector('input[type=file][name='+inputName+']')['files'][0];      
+      var reader = new FileReader();      
+      var outside = this;
+      reader.onload = function () {
+        if(inputName == 'broker_pic'){
+          outside.user_info.brokerImg = reader.result;
+
+        } else{
+          outside.user_info.businessImg = reader.result;
+        }       
+      }
+      reader.readAsDataURL(file);
     },
 
     sign: function () {
@@ -499,19 +527,16 @@ export default {
       console.log(JSON.stringify(this.user_info));
       console.log("==================");
             
-      if (this.pass_valid == true && this.pass_confirm == true &&
-          this.email_valid == true && this.phone_valid == true) {    
+      if (this.business_valid == true && this.user_info.ceo_name != "" && 
+          this.user_info.compName != "" && this.user_info.compIntro != "") {    
         alert("회원가입을 축하합니다!!");
         axios({
-          url: "http://localhost:8090/zippy/member/bSignUp",
-          method: "POST",
-          param: {
-            info: JSON.stringify(this.user_info),
-          },
-
+          url: "http://localhost:8090/zippy/member/login",
+          method: "POST",    
           data: {
-            info: JSON.stringify(this.user_info),            
-          },
+            login : {email : "test"},
+            gVO : {email: "sadfsadf"}
+          }          
         })
           .then((res) => {
             console.log(res);

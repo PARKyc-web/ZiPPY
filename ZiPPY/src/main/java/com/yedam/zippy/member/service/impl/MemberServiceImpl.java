@@ -17,8 +17,9 @@ public class MemberServiceImpl implements MemberService{
     
     @Autowired
     MemberMapper mapper;
-  
+      
     @Override
+    @Transactional
     public List<LoginVO> getAllMember() {        
         return mapper.getAllMember();
     }
