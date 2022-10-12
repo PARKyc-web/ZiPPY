@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class BusinessVO {
-    private String businessEmail;
+    private String email;
     private String compName;
     private String compIntro;
     private String ceoName;

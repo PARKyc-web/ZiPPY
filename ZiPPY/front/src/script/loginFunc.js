@@ -135,8 +135,8 @@ export default {
         if (reg.test(number)) {
             alert("인증번호를 전송하였습니다!");
             document.querySelector("#phoneNumberBtn").disabled = false;
-            const temp = await axios({
-              url : "/validation/phone",
+            const temp = await axios({                
+              url : "http://localhost:8090/zippy/validation/phone",
               method : "GET",
               params : {
                 phone : number

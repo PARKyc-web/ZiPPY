@@ -6,11 +6,11 @@ import lombok.Data;
 
 @Data
 public class GeneralUserVO {
-    private String userEmail;
+    private String email;
     private String userName;
     private String nickName;
     private String phoneNumber;
-    private Date userBirth;
+    private String userBirth;
     private String userGender;
     private String userAddress;
     private String zipCode; 

@@ -11,15 +11,16 @@
                 <img src="../../assets/zippy_logo.png" width="150px" />
               </h5>
               <hr class="my-4" />
-              <form id="signup-form" action="">
+              <form id="generalForm">
                 <div id="first-form">
                   <div class="form-floating mb-3">
                     <input
                       type="email"
                       class="form-control"
                       id="inputEmail"
-                      name="user_email"
+                      name="email"
                       placeholder="name@example.com"
+                      v-model="user_info.email"
                       required
                       autofocus
                     />
@@ -59,10 +60,10 @@
                     <input
                       type="password"
                       class="form-control"
-                      v-model="user_info.user_password"
+                      v-model="user_info.password"
                       id="password"
-                      name="user_passwd"
-                      placeholder="123456"
+                      name="password"
+                      placeholder="123456"                      
                       @change="password_validation()"
                     />
                     <label for="password">비밀번호</label>
@@ -158,9 +159,11 @@
                       class="form-control"
                       id="phone"
                       placeholder="전화번호 입력"
+                      v-model="user_info.phoneNumber"
+                      name="phoneNumber"
                     />
                     <label for="phone">전화번호</label>
-                    <button
+                    <button                      
                       id="phone_code"
                       type="button"
                       class="btn btn-outline-success"
@@ -191,9 +194,10 @@
 
                   <div class="form-floating mb-3">
                     <input
+                      name="userName"
                       type="text"
                       class="form-control"
-                      v-model="user_info.user_name"
+                      v-model="user_info.userName"
                       id="user_name"
                       placeholder="park"
                     />
@@ -202,9 +206,10 @@
 
                   <div class="form-floating mb-3">
                     <input
+                      name="nickName"
                       type="text"
                       class="form-control"
-                      v-model="user_info.user_nick"
+                      v-model="user_info.nickName"
                       id="user_nick"
                       placeholder="nick"
                     />
@@ -213,8 +218,9 @@
 
                   <div class="form-floating mb-3">
                     <input
+                      name="userBirth"
                       type="date"
-                      v-model="user_info.user_birth"
+                      v-model="user_info.userBirth"
                       class="form-control"
                       id="user_birth"
                       placeholder="11223344"
@@ -223,23 +229,24 @@
                   </div>                  
                   <div id="gender-label-div">
                   <label class="gender-label">
-                      <input type="radio" name="gender" value="M"/>
+                      <input type="radio" name="userGender" value="M"/>
                       <span>남자</span>
                     </label>
 
                     <label class="gender-label">
-                      <input type="radio" name="gender" value="F" />
+                      <input type="radio" name="userGender" value="F" />
                       <span>여자</span>
                     </label>
                   </div>
                   <br />
                   <div class="form-floating mb-3">
-                    <input                      
+                    <input
+                      name="userAddress"
                       type="text"
                       class="form-control"
                       id="addressInput"
                       placeholder="주소검색"
-                      v-model="user_info.user_addr"
+                      v-model="user_info.userAddress"
                       disabled
                     />
                     <label for="addressInput">(우편번호) 주소</label>
@@ -247,9 +254,10 @@
 
                   <div class="form-floating mb-3">
                     <input
+                      name="addressDetail"
                       type="text"
                       class="form-control"
-                      v-model="user_info.addr_detail"
+                      v-model="user_info.addressDetail"
                       id="addressDetail"                      
                       placeholder="상세주소"
                     />
@@ -298,16 +306,20 @@ export default {
     return {
       // Data : Axios로 back에 보낼 데이터
       user_info: {
-        user_email: "",
-        user_password: "",
-        user_phone: "",
-        user_name: "",
-        user_nick: "",
-        user_gender : "",
-        user_birth: "",
-        user_addr: "",        
-        addr_detail: "",
-        addr_postzone : ""          
+        email: "",
+        password: "",
+        phoneNumber: "",
+        userName: "",
+        nickName: "",
+        userGender : "",
+        userBirth: "",
+        userAddress: "",
+        addressDetail: "",
+        zipCode : "",
+        memberType : 0,
+        userState: 0,
+        isSocial : 0,
+        profileImage : "default.png"
       },
 
       // 모든 데이터를 정확하게 입력했는지 검사하는 Data
@@ -315,7 +327,7 @@ export default {
       pass_confirm: false,
       email_valid: false,
       phone_valid: false,      
-
+      
       // 인증코드가 담기는 Data
       emailCode: 12345672387,
       phoneCode: 12301684861,
@@ -327,7 +339,7 @@ export default {
       var data = await loginFunc.email_validation();
       console.log("이메일 Validation 실행한 후 : ", data);
       if(data != null){
-        this.user_info.user_email = data.email;        
+        this.user_info.email = data.email;        
         this.emailCode = data.email_code;        
       }      
     },
@@ -335,7 +347,7 @@ export default {
     email_valid_check: function(){      
       this.email_valid = loginFunc.email_valid_check(this.emailCode);
       console.log("email_valid :: ", this.email_valid);
-      console.log("user_email :: ", this.user_info.user_email);
+      console.log("email :: ", this.user_info.email);
     },
 
     password_validation: function () {
@@ -350,10 +362,10 @@ export default {
     phone_validation: async function () {
       var data = await loginFunc.phone_validation();
       if(data != null){
-        this.user_info.user_phone = data.phone;
+        this.user_info.phoneNumber = data.phone;
         this.phoneCode = data.phone_code;
       }      
-      console.log("인증번호 받기 후 잘 들어감? ",this.user_info.user_phone, this.phoneCode);
+      console.log("인증번호 받기 후 잘 들어감? ",this.user_info.phoneNumber, this.phoneCode);
     },
 
     phone_valid_check: function () {
@@ -361,7 +373,7 @@ export default {
       this.phone_valid = loginFunc.phone_valid_check(this.phoneCode);
 
       console.log("==번호인증 완료 후==");
-      console.log("user_phone :: ", this.user_info.user_phone);
+      console.log("user_phone :: ", this.user_info.phoneNumber);
     },
 
     /**
@@ -374,8 +386,8 @@ export default {
         oncomplete: function (data) {
           console.log(data);
           addr.value = "(" + data.zonecode + ")" + data.address;
-          outside.user_info.user_addr = data.address;
-          outside.user_info.addr_postzone = data.zonecode;
+          outside.user_info.userAddress = data.address;
+          outside.user_info.zipCode = data.zonecode;
         },
       }).open();     
     },
@@ -383,40 +395,35 @@ export default {
     /**
      * 모든 값을 입력하고, 인증까지 완료했으면 회원가입을 완료할 수 있는 메소드     *
      */
-    signup: async function () {            
-      var selected = document.querySelector("input[type=radio][name=gender]:checked");
-      this.user_info.user_gender = selected.value;
-      console.log(this.user_info);
-      console.log(JSON.stringify(this.user_info));
-      console.log(this.pass_valid);
-      console.log(this.pass_confirm);
-      console.log(this.email_valid);
-      console.log(this.phone_valid);
-
+    signup: async function () {               
+      // var selected = document.querySelector("input[type=radio][name=userGender]:checked");
+      // this.user_info.userGender = selected.value;
+      // console.log(this.user_info);
+      
       if (this.pass_valid == true && this.pass_confirm == true &&
           this.email_valid == true && this.phone_valid == true &&
-          this.user_info.user_addr != "" && this.user_info.user_name != ""  &&
-          this.user_info.user_nick != "" && this.user_info.user_birth != "") {    
+          this.user_info.userAddressr != "" && this.user_info.userName != ""  &&
+          this.user_info.nickName != "" && this.user_info.userBirth != "") {   
+            
+            
+          var formdata = new FormData(document.querySelector("#generalForm"));
+          console.log(formdata);
+          console.log(formdata.data);
+
         alert("회원가입을 축하합니다!!");
         var temp = await axios({
           url: "http://localhost:8090/zippy/member/gSignUp",
           method: "POST",
-          param: {
-            info: JSON.stringify(this.user_info),
-          },
-
-          data: {
-            info: JSON.stringify(this.user_info),            
-          },
+          data: formdata          
         })
           .then((res) => {
             console.log(res);
           })
           .catch((error) => {
             console.log(error);
-          });
+          });          
 
-          this.$router.push("/");
+          // this.$router.push("/");
 
       } else{
         alert("모든 정보를 입력해주세요!");
