@@ -18,6 +18,8 @@
     <br />
     <div class="explain1">
       <table>
+        <thead style="font-weight: bold;">소형이사</thead>
+        <tbody>
         <tr>
           <td>• 투룸, 20평 미만에 적합</td>
         </tr>
@@ -30,11 +32,14 @@
         <tr>
           <td>• 평균 작업인원 : 2명이하</td>
         </tr>
+      </tbody>
       </table>
     </div>
 
     <div class="explain2">
       <table>
+        <thead style="font-weight: bold;">가정이사</thead>
+        <tbody>
         <tr>
           <td>• 쓰리룸, 20평대 이상에 적합</td>
         </tr>
@@ -47,6 +52,7 @@
         <tr>
           <td>• 평균 작업인원 : 3명 이상</td>
         </tr>
+      </tbody>
       </table>
     </div>
 
@@ -333,29 +339,35 @@
     </div>
 
     <div class="untact-btn2">
-      <input type="button" class="custom-btn btn-2" @click="untact()" value="비대면 방문예약">
+      <input type="button" class="custom-btn btn-2" @click="untact()" value="비대면 견적예약">
         
     </div>
     <br />
     <div class="contact-explain1">
       <table>
+        <thead style="font-weight: bold;">대면 방문예약</thead>
+        <tbody>
         <tr>
           <td>• 이사업체 전문가 직접방문</td>
         </tr>
         <tr>
           <td>• 정확한 견적, 신속한 계약</td>
         </tr>
+      </tbody>
       </table>
     </div>
 
     <div class="untact-explain2">
       <table>
+        <thead style="font-weight: bold;">비대면 견적예약</thead>
+        <tbody>
         <tr>
           <td>• 이사업체 전문가에 비대면 견적 의뢰</td>
         </tr>
         <tr>
           <td>• 유동적인 견적 가능, 프라이버시 보호</td>
         </tr>
+      </tbody>
       </table>
     </div>
 
@@ -600,10 +612,11 @@
       })
       
 
-      } else if(this.moveEstimateType == "비대면 방문예약"){
+      } else if(this.moveEstimateType == "비대면 견적예약"){
         this.$router.push({
         name: "moveUntact",
-        params:{moveUntact:this.moveInfo}
+        params:{moveInfo:this.moveInfo, moveEstimateType:this.moveEstimateType, moveType:this.moveType}
+
       })
       
       };
@@ -635,7 +648,7 @@
       let item2 = document.querySelector(".untact-explain2");
       item2.style.display = "inline-block";
 
-      this.moveEstimateType = "비대면 방문예약";
+      this.moveEstimateType = "비대면 견적예약";
       console.log(this.moveEstimateType);
     },
 
