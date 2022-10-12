@@ -21,6 +21,7 @@ import moveInfo from "../views/move/moveInfo";
 import moveInfoDetail from "../views/move/moveInfoDetail";
 import moveTypeSelect from "../views/move/moveTypeSelect";
 import moveImage from "../views/move/moveImage";
+import moveTotal from "../views/move/moveTotal";
 
 import usedUpdate from "../views/used/usedUpdate.vue";
 import usedDetail from "../views/used/usedDetail.vue";
@@ -91,6 +92,11 @@ const routes = [{
   
 
   //move
+  {
+    path: "/moveTotal",
+    name: "moveTotal",
+    component: moveTotal,
+  },
   {
     path: "/moveContact",
     name: "moveContact",

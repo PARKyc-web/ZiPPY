@@ -18,6 +18,8 @@
     <br />
     <div class="explain1">
       <table>
+        <thead style="font-weight: bold;">소형이사</thead>
+        <tbody>
         <tr>
           <td>• 투룸, 20평 미만에 적합</td>
         </tr>
@@ -30,11 +32,14 @@
         <tr>
           <td>• 평균 작업인원 : 2명이하</td>
         </tr>
+      </tbody>
       </table>
     </div>
 
     <div class="explain2">
       <table>
+        <thead style="font-weight: bold;">가정이사</thead>
+        <tbody>
         <tr>
           <td>• 쓰리룸, 20평대 이상에 적합</td>
         </tr>
@@ -47,6 +52,7 @@
         <tr>
           <td>• 평균 작업인원 : 3명 이상</td>
         </tr>
+      </tbody>
       </table>
     </div>
 
@@ -217,9 +223,9 @@
       <h3>집형태</h3>
       <select id="houseType" v-model="moveInfo.houseType">
         <option value="" selected>-- 선택하세요 --</option>
-        <option value="villa/housing">빌라/주택</option>
-        <option value="eff-apt">오피스텔</option>
-        <option value="apt">아파트</option>
+        <option value="빌라/주택">빌라/주택</option>
+        <option value="오피스텔">오피스텔</option>
+        <option value="아파트">아파트</option>
       </select>
     </div>
 
@@ -227,10 +233,10 @@
       <h3>방구조</h3>
       <select id="roomNum" v-model="moveInfo.roomNum">
         <option value="" selected>-- 선택하세요 --</option>
-        <option value="1">원룸</option>
-        <option value="2">투룸</option>
-        <option value="3">쓰리룸</option>
-        <option value="over3">쓰리룸 이상</option>
+        <option value="원룸">원룸</option>
+        <option value="투룸">투룸</option>
+        <option value="쓰리룸">쓰리룸</option>
+        <option value="쓰리룸이상">쓰리룸 이상</option>
       </select>
     </div>
 
@@ -238,14 +244,14 @@
       <h3>집평수</h3>
       <select id="spaceOfHome" v-model="moveInfo.spaceOfHome">
         <option value="" selected>-- 선택하세요 --</option>
-        <option value="below10">10평 이하</option>
-        <option value="11to15">10~15평</option>
-        <option value="11to15">15~20평</option>
-        <option value="11to15">20~25평</option>
-        <option value="11to15">25~30평</option>
-        <option value="11to15">30~35평</option>
-        <option value="11to15">35~40평</option>
-        <option value="over40">40평 이상</option>
+        <option value="10평이하">10평 이하</option>
+        <option value="11-15평">10~15평</option>
+        <option value="16-20평">15~20평</option>
+        <option value="21-25평">20~25평</option>
+        <option value="26-30평">25~30평</option>
+        <option value="31-35평">30~35평</option>
+        <option value="36-40평">35~40평</option>
+        <option value="40평이상">40평 이상</option>
       </select>
     </div>
 
@@ -283,12 +289,12 @@
     <div class="detail-info-radio">
       <h3>1층 별도 계단</h3>
       <label class="test_obj">
-        <input type="radio" name="stairs" value="yes" v-model="moveInfo.extraStairs"/>
+        <input type="radio" name="stairs" value="있음" v-model="moveInfo.extraStairs"/>
         <span>있음</span>
       </label>
 
       <label class="test_obj">
-        <input type="radio" name="stairs" value="no" v-model="moveInfo.extraStairs"/>
+        <input type="radio" name="stairs" value="없음" v-model="moveInfo.extraStairs"/>
         <span>없음</span>
       </label>
     </div>
@@ -296,12 +302,12 @@
     <div class="detail-info-radio">
       <h3>엘레베이터</h3>
       <label class="test_obj">
-        <input type="radio" name="elev" value="yes" v-model="moveInfo.elevator"/>
+        <input type="radio" name="elev" value="있음" v-model="moveInfo.elevator"/>
         <span>있음</span>
       </label>
 
       <label class="test_obj">
-        <input type="radio" name="elev" value="no" v-model="moveInfo.elevator" />
+        <input type="radio" name="elev" value="없음" v-model="moveInfo.elevator" />
         <span>없음</span>
       </label>
     </div>
@@ -309,12 +315,12 @@
     <div class="detail-info-radio">
       <h3>주차가능</h3>
       <label class="test_obj">
-        <input type="radio" name="parking" value="available" v-model="moveInfo.parkable"/>
+        <input type="radio" name="parking" value="가능" v-model="moveInfo.parkable"/>
         <span>있음</span>
       </label>
 
       <label class="test_obj">
-        <input type="radio" name="parking" value="notAvailable" v-model="moveInfo.parkable" />
+        <input type="radio" name="parking" value="불가능" v-model="moveInfo.parkable" />
         <span>없음</span>
       </label>
     </div>
@@ -333,29 +339,35 @@
     </div>
 
     <div class="untact-btn2">
-      <input type="button" class="custom-btn btn-2" @click="untact()" value="비대면 방문예약">
+      <input type="button" class="custom-btn btn-2" @click="untact()" value="비대면 견적예약">
         
     </div>
     <br />
     <div class="contact-explain1">
       <table>
+        <thead style="font-weight: bold;">대면 방문예약</thead>
+        <tbody>
         <tr>
           <td>• 이사업체 전문가 직접방문</td>
         </tr>
         <tr>
           <td>• 정확한 견적, 신속한 계약</td>
         </tr>
+      </tbody>
       </table>
     </div>
 
     <div class="untact-explain2">
       <table>
+        <thead style="font-weight: bold;">비대면 견적예약</thead>
+        <tbody>
         <tr>
           <td>• 이사업체 전문가에 비대면 견적 의뢰</td>
         </tr>
         <tr>
           <td>• 유동적인 견적 가능, 프라이버시 보호</td>
         </tr>
+      </tbody>
       </table>
     </div>
 
@@ -378,10 +390,10 @@
     arrayEvents: null,
     date1: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
       .toISOString()
-      .substr(0, 10),
+      .substring(0, 10),
     date2: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
       .toISOString()
-      .substr(0, 10),
+      .substring(0, 10),
     value: "",
     context: null,
 
@@ -436,7 +448,7 @@
       const day = Math.floor(Math.random() * 30);
       const d = new Date();
       d.setDate(day);
-      return d.toISOString().substr(0, 10);
+      return d.toISOString().substring(0, 10);
     });
 
     
@@ -595,15 +607,16 @@
         
         this.$router.push({
         name: "moveContact",
-        params:{moveContact:this.moveInfo, moveContact1:this.moveEstimateType, moveContact2:this.moveType}
+        params:{moveInfo:this.moveInfo, moveEstimateType:this.moveEstimateType, moveType:this.moveType}
 
       })
       
 
-      } else if(this.moveEstimateType == "비대면 방문예약"){
+      } else if(this.moveEstimateType == "비대면 견적예약"){
         this.$router.push({
         name: "moveUntact",
-        params:{moveUntact:this.moveInfo}
+        params:{moveInfo:this.moveInfo, moveEstimateType:this.moveEstimateType, moveType:this.moveType}
+
       })
       
       };
@@ -635,7 +648,7 @@
       let item2 = document.querySelector(".untact-explain2");
       item2.style.display = "inline-block";
 
-      this.moveEstimateType = "비대면 방문예약";
+      this.moveEstimateType = "비대면 견적예약";
       console.log(this.moveEstimateType);
     },
 
