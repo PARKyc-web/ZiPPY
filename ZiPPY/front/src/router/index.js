@@ -4,7 +4,10 @@ import HomeView from "../views/HomeView.vue";
 import PropertyView from "../views/property/PropertyView.vue";
 import HouseDetail from "../components/property/HouseDetail.vue";
 import AgentDetail from "../components/property/AgentDetail.vue";
+
 import shopView from "../views/shopView.vue";
+import shopList from "../views/shop/shopListView.vue";
+import shopDetail from "../views/shop/shopDetailView.vue";
 
 import GeneralSign from '../views/login/generalSignUp.vue';
 import BusinessSign from '../views/login/businessSignUp.vue';
@@ -23,11 +26,6 @@ import usedUpdate from "../views/used/usedUpdate.vue";
 import usedDetail from "../views/used/usedDetail.vue";
 import usedMain from "../views/used/usedMain.vue";
 import usedInsert from "../views/used/usedInsert.vue";
-
-import shopDetailView from "../views/shop/shopDetailView.vue";
-import categoryList from "../views/shop/categoryListView.vue";
-import keywordList from "../views/shop/keywordListView.vue";
-
 
 
 Vue.use(VueRouter);
@@ -81,19 +79,16 @@ const routes = [{
 
   {
     path: "/shop/detail",
-    name: "detail",
-    component: shopDetailView,
+    name: "shoDetail",
+    component: shopDetail,
   },
   {
-    path: "/shop/category",
-    name: "category",
-    component: categoryList,
-  },
-  {
-    path: "/shop/keyword",
-    name: "keyword",
-    component: keywordList,
-  },
+      path: "/shop/list",
+      name: "shopList",
+      component: shopList,
+    },
+  
+  
 
   //move
   {
