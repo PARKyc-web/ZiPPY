@@ -218,22 +218,7 @@
           <v-row no-gutters>
             <v-col cols="4"> 집 정보 </v-col>
             <v-col cols="8" class="text--secondary">
-              <!-- <v-fade-transition leave-absolute>
-              <span
-                v-if="open"
-                key="0"
-              >
-                
-              </span>
-              <span
-                v-else
-                key="1"
-              >
-                {{ move.house }}
-                {{ move.square }}
-                {{ move.floor }}
-              </span>
-            </v-fade-transition> -->
+              
 
               <v-fade-transition leave-absolute>
                 <span v-if="open">집 정보를 확인해주세요.</span>
@@ -388,92 +373,112 @@
           <v-row no-gutters>
             <h4>가구</h4>
             <v-spacer></v-spacer>
-            <v-col cols="8">
+            <v-col cols="20" >
+              <div class="whole-furniture">
+
+              <div class="single">
               <button class="custom-btn btn-4" type="button" @click="addBed()">+</button>
               <div class="furniture">
                 <i class="fa-solid fa-bed fa-5x"></i><br />
-                <div v-for="i in moveDetail[0].bedCount">
-                  <v-select class="select-home" v-model="moveDetail[0].bed[i-1]" id="i-1" :items="beds" chips flat solo outlined
+                <div v-for="i in moveDetail[0].bedCount" class="lauguage-info">
+                  <v-select class="select-home" v-model="moveDetail[0].bed[i]" id="i" :items="beds" chips flat solo outlined
                     placeholder="침대사이즈"></v-select>
-                  <button class="custom-btn btn-4" type="button" @click="removeBed(i-1)">-</button>
+                  <button class="custom-btn btn-4" type="button" @click="removeBed(i)">-</button>
                 </div>
               </div>
+            </div>
 
+            <div class="single">
               <button class="custom-btn btn-4" type="button" @click="addSofa()">+</button>
               <div class="furniture">
                 <i class="fa-solid fa-couch fa-5x"></i><br />
-                <div v-for="i in moveDetail[0].sofaCount">
-                  <v-select class="select-home" v-model="moveDetail[0].sofa[i-1]" id="i-1" :items="sofas" chips flat solo outlined
+                <div v-for="i in moveDetail[0].sofaCount" class="lauguage-info">
+                  <v-select class="select-home" v-model="moveDetail[0].sofa[i]" id="i" :items="sofas" chips flat solo outlined
                     placeholder="소파사이즈"></v-select>
-                  <button class="custom-btn btn-4" type="button" @click="removeSofa(i-1)">-</button>
+                  <button class="custom-btn btn-4" type="button" @click="removeSofa(i)">-</button>
                 </div>
               </div>
+            </div>
 
+            <div class="single">
               <button class="custom-btn btn-4" type="button" @click="addCloset()">+</button>
               <div class="furniture">
                 <i class="fa-solid fa-toilet-portable fa-5x"></i><br />
-                <div v-for="i in moveDetail[0].closetCount">
-                  <v-select class="select-home" v-model="moveDetail[0].closet[i-1]" id="i-1" :items="closets" chips flat solo outlined
+                <div v-for="i in moveDetail[0].closetCount" class="lauguage-info">
+                  <v-select class="select-home" v-model="moveDetail[0].closet[i]" id="i" :items="closets" chips flat solo outlined
                     placeholder="옷장-단품사이즈"></v-select>
-                  <button class="custom-btn btn-4" type="button" @click="removeCloset(i-1)">-</button>
+                  <button class="custom-btn btn-4" type="button" @click="removeCloset(i)">-</button>
                 </div>
               </div>
+            </div>
 
+
+            <div class="single">
               <button class="custom-btn btn-4" type="button" @click="addClosets()">+</button>
               <div class="furniture">
                 <i class="fa-solid fa-toilet-portable fa-5x"></i><br />
-                <div v-for="i in moveDetail[0].closetsCount">
-                  <v-select class="select-home" v-model="moveDetail[0].closets[i-1]" id="i-1" :items="closetss" chips flat solo outlined
+                <div v-for="i in moveDetail[0].closetsCount" class="lauguage-info">
+                  <v-select class="select-home" v-model="moveDetail[0].closets[i]" id="i" :items="closetss" chips flat solo outlined
                     placeholder="옷장-세트사이즈"></v-select>
-                  <button class="custom-btn btn-4" type="button" @click="removeClosets(i-1)">-</button>
+                  <button class="custom-btn btn-4" type="button" @click="removeClosets(i)">-</button>
                 </div>
               </div>
-
+            </div>
+          </div>
 
               <br>
               <hr><br>
               <h4>가전</h4>
 
+              <div class="whole-application">
+              <div class="single">
               <button class="custom-btn btn-4" type="button" @click="addTv()">+</button>
               <div class="furniture">
                 <i class="fa-solid fa-tv fa-5x"></i><br />
-                <div v-for="i in moveDetail[0].tvCount">
-                  <v-select class="select-home" v-model="moveDetail[0].tv[i-1]" id="i-1" :items="tvs" chips flat solo outlined
+                <div v-for="i in moveDetail[0].tvCount" class="lauguage-info">
+                  <v-select class="select-home" v-model="moveDetail[0].tv[i]" id="i" :items="tvs" chips flat solo outlined
                     placeholder="TV사이즈"></v-select>
-                  <button class="custom-btn btn-4" type="button" @click="removeTv(i-1)">-</button>
+                  <button class="custom-btn btn-4" type="button" @click="removeTv(i)">-</button>
                 </div>
               </div>
+            </div>
 
+            <div class="single">
               <button class="custom-btn btn-4" type="button" @click="addPc()">+</button>
               <div class="furniture">
                 <i class="fa-solid fa-desktop fa-5x"></i><br />
-                <div v-for="i in moveDetail[0].pcCount">
-                  <v-select class="select-home" v-model="moveDetail[0].pc[i-1]" id="i-1" :items="pcs" chips flat solo outlined
+                <div v-for="i in moveDetail[0].pcCount" class="lauguage-info">
+                  <v-select class="select-home" v-model="moveDetail[0].pc[i]" id="i" :items="pcs" chips flat solo outlined
                     placeholder="데스크탑사이즈"></v-select>
-                  <button class="custom-btn btn-4" type="button" @click="removePc(i-1)">-</button>
+                  <button class="custom-btn btn-4" type="button" @click="removePc(i)">-</button>
                 </div>
               </div>
+            </div>
 
+            <div class="single">
               <button class="custom-btn btn-4" type="button" @click="addFridge()">+</button>
               <div class="furniture">
                 <i class="material-icons md-54">kitchen</i><br />
-                <div v-for="i in moveDetail[0].fridgeCount">
-                  <v-select class="select-home" v-model="moveDetail[0].fridge[i-1]" id="i-1" :items="fridges" chips flat solo outlined
+                <div v-for="i in moveDetail[0].fridgeCount" class="lauguage-info">
+                  <v-select class="select-home" v-model="moveDetail[0].fridge[i]" id="i" :items="fridges" chips flat solo outlined
                     placeholder="냉장고사이즈"></v-select>
-                  <button class="custom-btn btn-4" type="button" @click="removeFridge(i-1)">-</button>
+                  <button class="custom-btn btn-4" type="button" @click="removeFridge(i)">-</button>
                 </div>
               </div>
+            </div>
 
+            <div class="single">
               <button class="custom-btn btn-4" type="button" @click="addTrolley()">+</button>
               <div class="furniture">
                 <i class="fa-solid fa-baby-carriage fa-5x"></i><br />
-                <div v-for="i in moveDetail[0].trolleyCount">
-                  <v-select class="select-home" v-model="moveDetail[0].trolley[i-1]" id="i-1" :items="trolleys" chips flat solo outlined
+                <div v-for="i in moveDetail[0].trolleyCount" class="lauguage-info">
+                  <v-select class="select-home" v-model="moveDetail[0].trolley[i]" id="i" :items="trolleys" chips flat solo outlined
                     placeholder="유모차사이즈"></v-select>
-                  <button class="custom-btn btn-4" type="button" @click="removeTrolley(i-1)">-</button>
+                  <button class="custom-btn btn-4" type="button" @click="removeTrolley(i)">-</button>
                 </div>
               </div>
-
+            </div>
+          </div>
 
               <br />
               <hr />
@@ -482,11 +487,11 @@
               <v-col cols="10" sm="6" md="3">
                 <button class="custom-btn btn-4" type="button" @click="addEtc()">+</button>
                 <div v-for="i in moveDetail[0].etcCount">
-                <v-text-field label="Outlined" v-model="moveDetail[0].etcName[i-1]" placeholder="기타이삿짐 이름" outlined>
+                <v-text-field label="Outlined" v-model="moveDetail[0].etcName[i]" placeholder="기타이삿짐 이름" outlined>
                 </v-text-field>
-                <v-text-field label="Outlined" v-model="moveDetail[0].etcSize[i-1]" placeholder="이삿짐 사이즈(cm * cm)" outlined>
+                <v-text-field label="Outlined" v-model="moveDetail[0].etcSize[i]" placeholder="이삿짐 사이즈(cm * cm)" outlined>
                 </v-text-field>
-                <button class="custom-btn btn-4" type="button" :id="i-1" @click="removeEtc(i-1)">-</button>
+                <button class="custom-btn btn-4" type="button" :id="i-1" @click="removeEtc(i)">-</button>
 
               </div>
               </v-col>
@@ -495,15 +500,18 @@
               <br />
               <hr />
               <br />
+              <div class="boxes">
               <h4>박스 수량</h4>
               <v-col cols="10" sm="6" md="3">
                 <v-select class="select-home" v-model="moveDetail.box" :items="boxes" chips flat solo outlined
                   placeholder="선택한 박스 개수를 확인해주세요."></v-select>
               </v-col>
+            </div>
 
               <br />
               <hr />
               <br />
+              <div class="photos">
               <h4>짐사진 첨부(선택)</h4>
               <br />
               <v-file-input outlined v-model="moveDetail.filesPhoto" placeholder="Upload your documents" label="사진첨부"
@@ -514,6 +522,7 @@
                   </v-chip>
                 </template>
               </v-file-input>
+            </div>
 
               <div class="drop-btn">
                 <v-btn text color="secondary"> 취소 </v-btn>
@@ -540,15 +549,7 @@
                     첨부한 집 구조 사진을 확인해주세요.
 
                   </v-col>
-                  <!-- <v-col cols="4">
-                    입구: {{ moveImage.files1 || "Not set" }}
-                  </v-col>
-                  <v-col cols="4">
-                    중앙: {{ moveImage.files2 || "Not set" }}
-                  </v-col>
-                  <v-col cols="4">
-                    내부: {{ moveImage.files3 || "Not set" }}
-                  </v-col> -->
+                  
                 </v-row>
               </v-fade-transition>
             </v-col>
@@ -727,14 +728,17 @@
 
     methods: {
 
+      //짐 추가 및 삭제
       addBed: function () {
         this.moveDetail[0].bed.push();
         this.moveDetail[0].bedCount++;
       },
       removeBed: function (i) {
         if (i > 1) {
+          this.moveDetail[0].bed[i]="";
           this.moveDetail[0].bedCount--;
         } else if (i < 1) {
+          
           this.moveDetail[0].bedCount = 1;
         }
       },
@@ -745,6 +749,7 @@
       },
       removeSofa: function(i){
        if(i>1){
+        this.moveDetail[0].sofa[i]="";
         this.moveDetail[0].sofaCount--;
        }else if(i<1){
         this.moveDetail[0].sofaCount = 1;
@@ -757,6 +762,7 @@
       },
       removeCloset: function(i){
        if(i>1){
+        this.moveDetail[0].closet[i]="";
         this.moveDetail[0].closetCount--;
        }else if(i<1){
         this.moveDetail[0].closetCount = 1;
@@ -769,6 +775,7 @@
       },
       removeClosets: function(i){
        if(i>1){
+        this.moveDetail[0].closets[i]="";
         this.moveDetail[0].closetsCount--;
        }else if(i<1){
         this.moveDetail[0].closetsCount = 1;
@@ -781,6 +788,7 @@
       },
       removeTv: function(i){
        if(i>1){
+        this.moveDetail[0].tv[i]="";
         this.moveDetail[0].tvCount--;
        }else if(i<1){
         this.moveDetail[0].tvCount = 1;
@@ -793,6 +801,7 @@
       },
       removePc: function(i){
        if(i>1){
+        this.moveDetail[0].pc[i]="";
         this.moveDetail[0].pcCount--;
        }else if(i<1){
         this.moveDetail[0].pcCount = 1;
@@ -806,6 +815,7 @@
       },
       removeFridge: function(i){
        if(i>1){
+        this.moveDetail[0].fridge[i]="";
         this.moveDetail[0].fridgeCount--;
        }else if(i<1){
         this.moveDetail[0].fridgeCount = 1;
@@ -813,11 +823,13 @@
       },
 
       addTrolley: function(){
+        
         this.moveDetail[0].trolley.push();
         this.moveDetail[0].trolleyCount++;        
       },
       removeTrolley: function(i){
        if(i>1){
+        this.moveDetail[0].trolley[i]="";
         this.moveDetail[0].trolleyCount--;
        }else if(i<1){
         this.moveDetail[0].trolleyCount = 1;
@@ -831,6 +843,8 @@
       },
       removeEtc: function(i){
        if(i>1){
+        this.moveDetail[0].etcName[i]="";
+        this.moveDetail[0].etcSize[i]="";
         this.moveDetail[0].etcCount--;
        }else if(i<1){
         this.moveDetail[0].etcCount = 1;
@@ -838,7 +852,7 @@
       },
 
 
-
+      //값 넘어가는지 확인
       moveInfoCheck: function () {
         console.log(this.moveImage);
         console.log(this.moveDetail);
@@ -847,6 +861,7 @@
         console.log(this.moveEstimateType);
       },
 
+      //우편번호api
       execDaumPostcode(number) {
         console.log(number);
         var postcode = document.querySelector("#post" + number);
@@ -898,9 +913,31 @@
 </script>
 
 <style scoped>
-  .v-input {
-    width: 500px;
+
+/* 이삿짐 상세 */
+  .furniture{
+    width: 200px;
   }
+.whole-furniture{
+  display: flex;
+}
+.whole-application{
+  display: flex;
+}
+  .lauguage-info{
+    display: inline-flex;
+    height: 150px;
+    justify-content: space-between;
+  }
+
+.select-home{
+  width: 300px;
+}
+
+.single{
+  width: 400px;
+  text-align: center;
+}
 
   .move-detail {
     width: 1500px;
