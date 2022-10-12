@@ -1,10 +1,10 @@
 package com.yedam.zippy.used.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.yedam.zippy.used.service.UsedImagesVO;
 import com.yedam.zippy.used.service.UsedProductVO;
 
 public interface UsedMapper {
@@ -18,17 +18,23 @@ public interface UsedMapper {
 	public UsedProductVO usedOne(@Param("pNo")int pNo);
 
 	// 등록
-	public void insertUsed(Map<String, String> insertProduct);
+	public void insertUsed(UsedProductVO vo);
 
 	// 수정
-	public void updateUsed(String value);
+	public int updateUsed(UsedProductVO vo);
 
 	// 삭제
-	public void deleteUsed(String key);
+	public int deleteUsed(@Param("pNo") int pNo);
 	
 	// 조회수 증가
 	public void viewCnt(@Param("pNo") int pNo);
 	
 	// 찜 추가
 	public String addWish(@Param("id") String id);
+	
+	// 이미지 등록
+	public int insertImg(UsedImagesVO images);
+	
+	// 이미지 수정
+	public int updateImg(UsedImagesVO images);
 }
