@@ -7,7 +7,7 @@
             <h2>{{this.profile[0].compName}}</h2>
           </td>
           <td>
-            <v-btn elevation="2">수정하기</v-btn>
+            <update-agent-profile :profile="this.profile[0]"></update-agent-profile>
           </td>
         </tr>
       </table>
@@ -37,7 +37,8 @@
     <hr>
     <div>
       <h2>
-        매물 목록 <insert-property/>
+        매물 목록
+        <insert-property />
       </h2>
       <div class="row">
         <v-card v-if="properties.length != 0" v-for="item in properties" style="width: 45%; margin: 1%">
@@ -45,11 +46,15 @@
             <tr>
               <td>여기에 이미지</td>
               <td>
+                <p>매물번호 {{item.productId}}</p>
                 <p>{{item.houseName}}</p>
                 <h4>{{item.saleType}} {{item.price}}</h4>
                 <p>{{item.sigungu}}</p>
                 <p>{{item.areaExclusive}}m²▫ {{item.floor}}층</p>
                 <p>{{item.detailContents}}</p>
+              </td>
+              <td>
+                <update-property :productId="item.productId"></update-property>
               </td>
             </tr>
           </table>
@@ -113,11 +118,15 @@
   import BasicMarkerMap from "./BasicMarkerMap.vue";
   import axios from 'axios';
   import InsertProperty from './InsertProperty.vue';
+  import UpdateProperty from './UpdateProperty.vue';
+import UpdateAgentProfile from './UpdateAgentProfile.vue';
 
   export default {
     components: {
       BasicMarkerMap,
       InsertProperty,
+      UpdateProperty,
+        UpdateAgentProfile,
     },
     data() {
       return {
@@ -130,34 +139,34 @@
           url: "http://localhost:8090/zippy/property/getAgentProperties",
           methods: "GET",
           params: {
-            email: this.$route.query.businessEmail
+            email: this.$route.query.email
           }
         }).then(response => {
           // 성공했을 때
-          console.log('success!');
+          console.log('getAgentProperties success!');
           console.log(response);
           this.properties = response.data;
         })
         .catch(error => {
           // 에러가 났을 때
-          console.log('fail!');
+          console.log('getAgentProperties fail!');
           console.log(error);
         }),
         axios({
           url: "http://localhost:8090/zippy/property/getAgentProfile",
           methods: "GET",
           params: {
-            businessEmail: this.$route.query.businessEmail
+            email: this.$route.query.email
           }
         }).then(response => {
           // 성공했을 때
-          console.log('success!');
+          console.log('getAgentProfile success!');
           console.log(response);
           this.profile = response.data;
         })
         .catch(error => {
           // 에러가 났을 때
-          console.log('fail!');
+          console.log('getAgentProfile fail!');
           console.log(error);
 
         })

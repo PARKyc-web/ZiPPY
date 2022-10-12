@@ -15,14 +15,12 @@
 
 	<select id="gethouseDetail" parameterType="Integer"
 		resultType="propertyVO">
-		<!-- select *
-		from house_product p join house_detail d on
-		p.product_id = d.product_id
-		where p.product_id = #{productId} -->
+		<!-- select * from house_product p join house_detail d on p.product_id 
+			= d.product_id where p.product_id = #{productId} -->
 		select p.*, d.*, b.comp_name
 		from house_product p join house_detail d
-        on p.product_id = d.product_id join business b
-        on p.email = b.business_email
+		on p.product_id = d.product_id join business b
+		on p.email = b.email
 		where p.product_id = #{productId}
 	</select>
 
@@ -30,14 +28,60 @@
 		resultType="propertyVO">
 		select * from house_product where email = #{email}
 	</select>
-	
+
 	<select id="getAgentProfile" parameterType="String"
 		resultType="agentVO">
-		select * from business where business_email = #{businessEmail}
+		select * from business where email = #{email}
 	</select>
-	
+
 	<select id="getCompName" parameterType="String"
 		resultType="String">
-		select comp_name from business where business_email = #{businessEmail}
+		select comp_name from business where email = #{email}
 	</select>
+
+	<insert id="insertHouseProduct" parameterType="propertyVO">
+		<selectKey keyProperty="productId" order="BEFORE"
+			resultType="int">
+			SELECT NVL(MAX(product_id),0) +1 FROM house_product
+		</selectKey>
+		insert into
+		house_product(
+		product_id, email, main_img,
+		house_name, sale_type, price,
+		sigungu, house_type, floor,
+		area_exclusive, room_cnt, detail_contents
+		) values(#{productId}, #{email}, #{mainImg}, #{houseName}, #{saleType}, #{price}, #{sigungu}, #{houseType},
+		#{floor}, #{areaExclusive}, #{roomCnt}, #{detailContents}
+		)
+	</insert>
+
+	<update id="updateHouseProduct" parameterType="propertyVO">
+		update
+		house_product
+		set main_img = #{mainImg},
+		house_name = #{houseName},
+		sale_type = #{saleType},
+		price = #{price},
+		sigungu = #{sigungu},
+		house_type = #{houseType},
+		floor = #{floor},
+		area_exclusive =
+		#{areaExclusive},
+		room_cnt = #{roomCnt},
+		detail_contents =
+		#{detailContents },
+		where product_id = #{productId}
+	</update>
+
+	<update id="updateHouseDetail" parameterType="propertyVO">
+		update house_detail
+		set street_address = #{streetAddress},
+		house_face = #{houseFace},
+		parking = #{parking},
+		bath_cnt = #{bathCnt},
+		construction_year =
+		#{constructionYear},
+		tags = #{tags}
+		where product_id = #{productId}
+	</update>
 </mapper>
