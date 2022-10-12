@@ -73,7 +73,8 @@
         this.$router.push(({
           name: 'shopList',
           query: {cate: cate}
-        }));
+        })).catch(()=>{});;
+        this.$router.go(0);
       },
       enterkey: function () {
         var searchValue = document.querySelector("#search").value;
@@ -82,6 +83,7 @@
           name: 'shopList',
           query: {keyw: searchValue}
         }));
+        this.$router.go(0);
         }
       }
     }

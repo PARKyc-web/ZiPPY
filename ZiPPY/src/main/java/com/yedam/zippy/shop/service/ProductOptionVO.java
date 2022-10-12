@@ -6,8 +6,7 @@ import lombok.Data;
 public class ProductOptionVO {
   int shopProductOptNo;
   int shopProductNo;
-  String shopProductOptColor;
-  String shopProductOptSize;
+  String shopOptName;
   //추가가격
   String shopProductOptPrice;
 }

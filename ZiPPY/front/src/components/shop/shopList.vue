@@ -12,7 +12,7 @@
     <!-- list container -->
     <div id="list-container">
       <!-- 키워드 확인 -->
-      <div id="keyword" v-if="this.$route.query.keyw !== null">
+      <div id="keyword" v-if="this.$route.query.keyw">
         <h6>'<span>{{this.$route.query.keyw}}</span>'에 대한 검색 결과</h6>
       </div>
       <!-- 키워드 확인 끝 -->
@@ -78,6 +78,7 @@
         '조명',
         '소품'
       ],
+      select: [],
       products: []
     }),
     methods: {
@@ -85,17 +86,16 @@
       goDetail(no) {
         this.$router.push('/shop/detail?no=' + no)
       },
-      //카테고리 선택
       goList(cate) {
-        this.$router.push('/shop/category?cate=' + cate);
-        //새로고침
+        this.$router.push(({
+          name: 'shopList',
+          query: {cate: cate}
+        })).catch(()=>{});;
         this.$router.go(0);
-      }
+      },
     },
     created() {
-      console.log(keyw)
-      console.log(cate)
-      if (this.$route.query.keyw !== null) {
+      if (this.$route.query.keyw ) {
         axios({
           url: "http://localhost:8088/zippy/shop/keyword",
           methods: "GET",
@@ -109,7 +109,7 @@
         }).catch(error => {
           console.log(error);
         })
-      }else if(this.$route.query.cate !== null) {
+      }else if(this.$route.query.cate) {
         axios({
         url: "http://localhost:8088/zippy/shop/category",
         methods: "GET",

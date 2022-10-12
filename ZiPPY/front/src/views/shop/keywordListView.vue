@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import shopSubbar from "../../components/shop/shopSubbar.vue";
-import keywordList from "../../components/shop/keywordList.vue";
+//import shopSubbar from "../../components/shop/shopSubbar.vue";
+//import keywordList from "../../components/shop/keywordList.vue";
 
 export default {  
   components: {

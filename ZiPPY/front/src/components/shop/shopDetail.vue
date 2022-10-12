@@ -2,7 +2,7 @@
   <div>
     <!-- slide start -->
     <div id="detail-container">
-      <v-carousel height="500" hide-delimiter-background :show-arrows="false" class="mt-5">
+      <v-carousel height="450" hide-delimiter-background :show-arrows="false" class="mt-5">
         <v-carousel-item v-for="(img, i) in imgs" :key="i">
           <v-img :src="require(`../../assets/shop/productImg/${imgs[i]}.jpg`)" height="100%">
             <v-row class="fill-height" align="center" justify="center">
@@ -39,19 +39,18 @@
         </h6>
         <!-- 옵션 -->
         <div>
-          <!--colors-->
-          <v-select v-model="selectedColor" :items="colors" label="색상" dense outlined width="330"></v-select>
+          <v-select v-model="selectedOpt" @change="selectOptAc" :items="opts" item-text="shopOptName"
+            item-value="shopProductOptNo" label="옵션" return-object dense outlined width="330"></v-select>
         </div>
-        <div>
-          <!--sizes-->
-          <v-select v-model="selectedSize" :items="sizes" label="사이즈" dense outlined width="330"></v-select>
-        </div>
+        <!-- 옵션 여러개 선택하는 기능 만들기... 나중에 -->
         <!-- 옵션 끝 -->
-        <div class="pa-5" v-if="selectedColor !== '' && selectedSize !== ''" id="optionBox">
+        <!-- 상품선택 박스 -->
+        <div class="pa-5" v-if="selectOption.shopProductOptNo" style="background-color:#F7F7F7; border-radius:0.8em">
           <div style="font-size:smaller">
             <div style="display:flex">
-              {{product.shopProductName}} {{selectedColor}} / {{selectedSize}}
-              <div v-if="countOptPrice > 0" class="ml-2">(+{{countOptPrice}}원)</div>
+              {{product.shopProductName}} {{selectOption.shopOptName}}
+              <div v-if="selectOption.shopProductOptPrice > 0" class="ml-2">(+{{selectOption.shopProductOptPrice}}원)
+              </div>
               <span class="ml-auto" @click="deleteOpt()" style="cursor:pointer">X</span>
             </div>
           </div>
@@ -80,10 +79,10 @@
         <!-- 총 가격 끝 -->
         <!-- 버튼 -->
         <div id="detail-button" style="margin:0">
-          <v-btn class="mr-2" width="163" outlined color="#64c481" @click="goBasket()">
+          <v-btn class="mr-2" width="160" outlined color="#64c481" @click="goBasket()">
             장바구니
           </v-btn>
-          <v-btn width="163" depressed color=#B3E3C3 @click="goOrder()">
+          <v-btn width="160" depressed color=#B3E3C3 @click="goOrder()">
             바로구매
           </v-btn>
         </div>
@@ -92,7 +91,7 @@
     </div>
     <!-- 탭 -->
     <!-- 상품 상세정보 -->
-    <div class="mx-auto pb-5" style="width:900px">
+    <div class="mx-auto pb-5" style="width:810px">
       <shop-tab :no="product.shopProductNo"></shop-tab>
     </div>
   </div>
@@ -103,7 +102,7 @@
   import shopTab from './shopTab.vue'
 
   export default {
-    components : {
+    components: {
       shopTab
     },
     data: () => ({
@@ -111,19 +110,14 @@
       product: {},
       //상세이미지
       imgs: [],
-      //상품 옵션(색상, 사이즈, 추가가격)
+      //상품 옵션 전체(색상, 사이즈, 추가가격)
       opts: [],
-      //옵션색상
-      colors: [],
-      //선택색상
-      selectedColor: '',
-      //옵션사이즈
-      sizes: [],
-      //추가가격
-      addPrices: [],
-      //선택사이즈
-      selectedSize: '',
+      //선택한 옵션
+      selectedOpt: {},
+      //선택한 옵션이 담김(나중에 []형태로 수정합시다)
+      selectOption: {},
       //수량(기본:1)
+      basketProd: {},
       qty: 1,
       //찜(기본:0)
       heart: 0
@@ -146,13 +140,11 @@
         this.qty++;
       },
       deleteOpt() {
-        this.selectedColor = '';
-        this.selectedSize = '';
-        this.qty = 1;
+        this.selectOption = {};
       },
       changeHeart() {
         if (this.heart == 0) { //찜x
-          this.heart = 1; //찜on
+          this.heart = 1; //찜onc
           alert('상품을 찜했습니다.');
         } else { //찜on
           this.heart = 0; //찜x
@@ -160,14 +152,38 @@
         }
       },
       goBasket() {
-        if (this.selectedColor == '' || this.selectedSize == '') {
+        //장바구니 등록
+        if (Object.keys(this.selectOption) == 0) {
+          alert('상품의 옵션을 선택해주세요.')
+        }else {
+         axios({
+          url: "http://localhost:8088/zippy/shop/insertBasket",
+          methods: "POST",
+          params: {
+            email: 'zippy@naver.com',
+            pNo : this.selectOption.shopProductNo,
+            oNo : this.selectOption.shopProductOptNo,
+            bQty : this.qty,
+          }
+        }).then(res => {
+          console.log(res);
+          this.basketProd = res.data;
+          alert('장바구니에 상품을 담았습니다.')
+        }).catch(error => {
+          console.log(error);
+        })
+      }
+      },
+      goOrder() {
+        if (Object.keys(this.selectOption) == 0) {
           alert('상품의 옵션을 선택해주세요.')
         }
       },
-      goOrder() {
-        if (this.selectedColor == '' || this.selectedSize == '') {
-          alert('상품의 옵션을 선택해주세요.')
+      selectOptAc() {
+        this.selectOption = {
+          ...this.selectedOpt
         }
+        this.qty = 1;
       }
     },
     created() {
@@ -209,30 +225,7 @@
         }).then(res => {
           console.log(res);
           this.opts = res.data;
-          //색상, 사이즈 분리 작업
-          for (var i in this.opts) {
-            if (this.opts[i].shopProductOptColor !== null) {
-              this.colors.push(this.opts[i].shopProductOptColor)
-              //추가가격
-              if (this.opts[i].shopProductOptPrice !== null) {
-                this.addPrices.push({
-                  optName: this.opts[i].shopProductOptSize,
-                  optPrice: this.opts[i].shopProductOptPrice
-                });
-              }
-            }
-            if (this.opts[i].shopProductOptSize !== null) {
-              this.sizes.push(this.opts[i].shopProductOptSize)
-              //추가가격
-              if (this.opts[i].shopProductOptPrice !== null) {
-                this.addPrices.push({
-                  optName: this.opts[i].shopProductOptSize,
-                  optPrice: this.opts[i].shopProductOptPrice
-                });
-              }
-            }
-          }
-          console.log(this.addPrices)
+          console.log(this.opts)
         }).catch(error => {
           console.log(error);
         })
@@ -242,20 +235,11 @@
         let amount = 0;
         amount += this.product.shopProductPrice * this.qty;
         amount += Number(this.product.shopDeliveryCost);
-        amount += Number(this.countOptPrice) * this.qty;
-        return amount;
-      },
-      countOptPrice() {
-        let amount = 0;
-        for (var i in this.addPrices) {
-          if (this.selectedColor == this.addPrices[i].optName) {
-            amount += Number(this.addPrices[i].optPrice);
-          } else if (this.selectedSize == this.addPrices[i].optName) {
-            amount += Number(this.addPrices[i].optPrice);
-          }
+        if (this.selectOption.shopProductOptNo) {
+          amount += Number(this.selectOption.shopProductOptPrice) * this.qty;
         }
         return amount;
-      }
+      },
     }
   }
 </script>
@@ -266,7 +250,7 @@
   }
 
   #detail-container {
-    width: 900px;
+    width: 810px;
     display: flex;
     margin: 0 auto;
     flex-wrap: wrap;
@@ -276,7 +260,7 @@
 
   /* 디테일 슬라이드 */
   .v-carousel {
-    width: 500px;
+    width: 440px;
     border-radius: 1.5em;
   }
 
@@ -286,8 +270,8 @@
   }
 
   #detail-info {
-    width: 390px;
-    height: 500px;
+    width: 370px;
+    height: 460px;
     padding: 40px 0 0 40px;
   }
 

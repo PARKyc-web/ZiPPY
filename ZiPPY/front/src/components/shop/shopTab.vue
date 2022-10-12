@@ -1,7 +1,7 @@
 <template>
   <!-- 탭 -->
   <!-- 상품 상세정보 -->
-  <div class="mx-auto pb-5" style="width:900px">
+  <div class="mx-auto pb-5" style="width:810px">
     <v-card color="#fff" class="mt-10">
       <v-tabs v-model="tab" background-color="transparent" color="#64c481" grow>
         <v-tab>
@@ -18,7 +18,7 @@
         <!-- 상품정보 -->
         <v-tab-item>
           <v-card>
-            <v-card flat style="width:900px">
+            <v-card flat style="width:8100px">
               <v-card-text>
                 {{this.no}}
                 {{product.shopProductInfo}}
@@ -252,7 +252,7 @@
 <style scoped>
 /* 리뷰 */
 #star-box {
-    width: 900px;
+    width: 8100px;
     text-align: center;
     display: flex;
   }
@@ -301,7 +301,7 @@
 
   /* qna */
   #qna-box {
-    width: 900px;
+    width: 810px;
   }
 
   #qna-button {
