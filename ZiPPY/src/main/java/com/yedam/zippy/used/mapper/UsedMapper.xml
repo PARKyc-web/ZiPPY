@@ -45,7 +45,7 @@
 	<select id="usedOne" resultType="UsedProductVO" parameterType="Integer">
 	SELECT * 
 	FROM used_product
-	WHERE product_no = ${pNo}		
+	WHERE product_no = ${pNo}
 	</select>
 
 
@@ -57,12 +57,48 @@
 		</selectKey>
 		INSERT INTO used_product
 		(
-		productNo,
-
-
+		 product_no,
+		 email,
+		 PRODUCT_NAME,
+		 PRODUCT_CATEGORY,
+		 PRODUCT_PRICE,
+		 PRODUCT_INFO,
+		 product_location,
+		 is_sell,
+		 views,
+		 product_date
 		)
 		VALUES
 		(
+		 #{productNo}
+		 ,#{email}
+		 ,#{productName}
+		 ,#{productCategory}
+		 ,#{productPrice}
+		 ,#{productInfo}
+		 ,#{productLocation}
+		 ,0
+		 ,0
+		 ,systimestamp
+		)
+	</insert>
+	
+	<insert id="insertImg" parameterType="UsedImagesVO">
+		<selectKey keyProperty="imagesNo" order="BEFORE" resultType="int">
+			SELECT NVL(MAX(image_no),0) +1 AS imageNo 
+			FROM used_images
+		</selectKey>
+		INSERT INTO used_images
+		(
+		 image_no,
+		 product_no,
+		 image
+		)
+		VALUES
+		(
+		 #{imageNo}
+		 ,#{productNo}
+		 ,#{image}
 		)
 	</insert>
 	
@@ -82,7 +118,7 @@
 		VALUES
 		(
 		 bookmarkNo
-		 ,#{userEmail}
+		 ,#{email}
 		 ,1
 		 ,#{productNo}
 		)
@@ -90,13 +126,26 @@
 	<!-- 수정 -->
 	<update id="updateUsed" parameterType="usedProductVO">
 		UPDATE used_product
-
+		SET
+		product_name = #{productName},
+		product_category = #{productCategory},
+		product_price = #{productPrice},
+		product_info = #{productInfo}
+		WHERE product_no = #{productNo}
+	</update>
+	
+	<!-- 사진 수정 -->
+	<update id="updateImg" parameterType="usedImagesVO">
+		UPDATE used_images
+		SET
+		image = #{image}
+		WHERE product_no = #{productNo}
 	</update>
 	
 	<!-- 삭제 -->
-	<delete id="deleteUsed" parameterType="usedProductVO">
+	<delete id="deleteUsed" parameterType="UsedProductVO">
 		DELETE FROM used_product
-		WHERE product_no = ${productNo}
+		WHERE product_no = ${pNo}
 	</delete>
 	
 	<!-- 조회수 증가 -->
@@ -105,7 +154,6 @@
 		SET views = NVL(views,0) +1
 		WHERE product_no = ${pNo}
 	</update>
-	
 	
 	
 </mapper>

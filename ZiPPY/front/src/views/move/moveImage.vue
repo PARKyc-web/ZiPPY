@@ -17,7 +17,7 @@
           <img src="../../assets/enter.jpg">
 
           <div id="step1">
-            <v-file-input outlined v-model="files1" placeholder="Upload your documents" label="사진첨부" multiple
+            <v-file-input outlined v-model="moveImage.files1" placeholder="Upload your documents" label="사진첨부" multiple
               prepend-icon="mdi-paperclip">
               <template v-slot:selection="{ text }">
                 <v-chip small label color="primary">
@@ -44,7 +44,7 @@
           <img src="../../assets/center.jpg">
 
           <div id="step2">
-            <v-file-input outlined v-model="files2" placeholder="Upload your documents" label="사진첨부" multiple
+            <v-file-input outlined v-model="moveImage.files2" placeholder="Upload your documents" label="사진첨부" multiple
               prepend-icon="mdi-paperclip">
               <template v-slot:selection="{ text }">
                 <v-chip small label color="primary">
@@ -72,7 +72,7 @@
           <img src="../../assets/inside.jpg">
 
           <div id="step3">
-            <v-file-input outlined v-model="files3" placeholder="Upload your documents" label="사진첨부" multiple
+            <v-file-input outlined v-model="moveImage.files3" placeholder="Upload your documents" label="사진첨부" multiple
               prepend-icon="mdi-paperclip">
               <template v-slot:selection="{ text }">
                 <v-chip small label color="primary">
@@ -107,14 +107,15 @@
 <script>
   export default {
     props:[
-      'moveInfoDetail'
-    ],
+    'moveDetail', 'moveEstimateType', 'moveType', 'moveInfo'],
     data() {
       return {
         e6: 1,
+        moveImage : {
         files1: [],
         files2: [],
         files3: [],
+        },
         img: require("../../assets/box.jpg")
       }
     },
@@ -127,7 +128,13 @@
       this.$router.push({
          
           name : "moveUntactCheck",
-          params:{moveImg: this.files1, moveImg:this.files2, moveImg:this.files3}
+          params:{
+            moveImage: this.moveImage,
+            moveDetail:this.moveDetail,
+            moveEstimateType:this.moveEstimateType, 
+            moveInfo : this.moveInfo,
+            moveType:this.moveType
+          }
         })
 
     }

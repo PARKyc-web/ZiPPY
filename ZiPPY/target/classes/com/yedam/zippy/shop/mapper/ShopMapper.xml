@@ -12,7 +12,7 @@
 		SELECT s.*, b.comp_name FROM shop_product s
 		JOIN business
 		b
-		ON s.business_email = b.business_email
+		ON s.email = b.email
 		WHERE s.shop_category =
 		#{shopCategory}
 	</select>
@@ -22,15 +22,15 @@
 		SELECT s.* , b.comp_name FROM shop_product s
 		JOIN
 		business b
-		ON s.business_email = b.business_email
+		ON s.email = b.email
 		WHERE
 		s.shop_product_name LIKE
 		'%'||#{keyword}||'%'
 		OR s.shop_category LIKE
 		'%'||#{keyword}||'%'
 		OR
-		s.business_email IN
-		(SELECT business_email FROM
+		s.email IN
+		(SELECT email FROM
 		business
 		WHERE comp_name
 		LIKE '%'||#{keyword}||'%'
@@ -42,7 +42,7 @@
 		SELECT s.*, b.comp_name FROM shop_product s
 		JOIN business
 		b
-		ON s.business_email = b.business_email
+		ON s.email = b.email
 		WHERE s.shop_product_no =
 		#{shopProductNo}
 	</select>
@@ -61,4 +61,17 @@
 		from shop_product_option
 		where shop_product_no = #{shopProductNo}
 	</select>
+	<!-- 장바구니 -->
+		
+	<!-- 장바구니 등록 --> 
+	<insert id="insertBasket" parameterType="BasketVO">
+		INSERT INTO shop_basket
+		VALUES(
+		( SELECT NVL( MAX(basket_no) , 0) + 1 FROM shop_basket),
+		#{email},
+		#{basketProductNo},
+		#{basketProductOptNo},
+		#{basketProductQty})
+	</insert>
+
 </mapper>

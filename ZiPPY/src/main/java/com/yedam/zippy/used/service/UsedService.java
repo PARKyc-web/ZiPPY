@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public interface UsedService {
@@ -17,17 +18,23 @@ public interface UsedService {
   public UsedProductVO usedOne(int pNo);
 
   // 등록
-  public void insertUsed(Map<String, String> insertProduct);
+  public void insertUsed(UsedProductVO vo);
 
   // 수정
-  public void updateUsed(String value);
+  public int updateUsed(UsedProductVO vo);
 
   // 삭제
-  public void deleteUsed(String key);
+  public int deleteUsed(int pNo);
 
   // 조회수 증가
   public void viewCnt(int pNo);
 
   // 찜 추가
   public String addWish(String id);
+
+  // 이미지 등록
+  public int insertImg(UsedImagesVO images);
+
+  // 이미지 수정
+  public int updateImg(UsedImagesVO images);
 }

@@ -21,8 +21,14 @@ public interface PropertyMapper {
 	public List<propertyVO> getAgentProperties(@Param("email")String email);
 	
 	// 공인중개사의 email을 이용해 해당 업체의 정보를 나타냅니다.
-	public List<agentVO> getAgentProfile(@Param("businessEmail")String businessEmail);
+	public List<agentVO> getAgentProfile(@Param("email")String email);
 	
 	// 공인중개사의 email을 이용해 해당 업체명을 나타냄
-	public String getCompName(@Param("businessEmail")String businessEmail);
+	public String getCompName(@Param("email")String email);
+	
+	public void updateHouseProduct(propertyVO vo);
+	
+	public void updateHouseDetail(propertyVO vo);
+	
+	public int insertHouseProduct(propertyVO vo);
 }

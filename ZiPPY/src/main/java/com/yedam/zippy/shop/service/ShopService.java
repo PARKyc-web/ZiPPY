@@ -19,4 +19,8 @@ public interface ShopService {
 	public String[] getDetailImg(int shopProductNo);
 	//디테일 옵션 조회
     public List<ProductOptionVO> getDetailOpt(int shopProductNo);
+    
+    // 장바구니 CRUD
+    //등록
+    public void insertBasket(BasketVO basketVO);
 }
