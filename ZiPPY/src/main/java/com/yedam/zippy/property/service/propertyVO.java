@@ -28,5 +28,4 @@ public class propertyVO {
 	private String streetAddress;
 	
 	private String compName;
-	
 }
