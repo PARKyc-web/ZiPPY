@@ -1,8 +1,21 @@
 <template>
 <div>
   <form id="testform">
-    <input type="text" name="email" v-model="data.email">
+    <div>
+      <input
+                      type="email"
+                      name="email"
+                      class="form-control"
+                      id="inputEmail"                      
+                      placeholder="name@example.com"
+                      v-model="data.email"
+                      required
+                      autofocus
+                    />
+    <!-- <input type="email" name="email" v-model="data.email"> -->
+    </div>
     <input type="password" name="password" v-model="data.password">
+
     <input multiple type="file" name="images" id="imgtest">    
 
     <button type="button" @click="imageUploaded()">button</button>
@@ -35,7 +48,7 @@ export default {
       console.log(this.data);
 
       axios({
-          url: "http://localhost:8090/zippy/member/bSignUp",
+          url: "http://localhost:8090/zippy/member/gSignUp",
           method: "POST",    
           // headers :{
           //   // 'Content-Type': 'multipart/form-data'

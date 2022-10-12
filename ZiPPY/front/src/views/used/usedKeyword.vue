@@ -1,4 +1,4 @@
-<template>flex
+<template>
   <div id="container">
     <nav-bar @click="search($event)"></nav-bar>
     <div>

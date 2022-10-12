@@ -1,31 +1,28 @@
 <template>
+  <form id="generalForm">
   <div class="general-signup-body">
     <div class="general-signup-container">
       <div class="row">
         <div class="col-lg-10 col-xl-9 mx-auto sign-container">
-          <div
-            class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden"
-          >
+          <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
             <div class="card-body p-4 p-sm-5">
               <h5 class="card-title text-center mb-5 fw-light fs-5">
                 <img src="../../assets/zippy_logo.png" width="150px" />
               </h5>
-              <hr class="my-4" />
-              <form id="generalForm">
+              <hr class="my-4" />                            
                 <div id="first-form">
                   <div class="form-floating mb-3">
                     <input
                       type="email"
-                      class="form-control"
-                      id="inputEmail"
                       name="email"
+                      class="form-control"
+                      id="inputEmail"                      
                       placeholder="name@example.com"
                       v-model="user_info.email"
-                      required
-                      autofocus
                     />
                     <label for="inputEmail">이메일(아이디)</label>
-                    <button
+                  </div>
+                  <button
                       id="email_code"
                       type="button"
                       class="btn btn-outline-success"
@@ -33,7 +30,6 @@
                     >
                       인증번호 전송
                     </button>
-                  </div>
 
                   <div class="form-floating mb-3">
                     <input
@@ -287,14 +283,14 @@
                   <a class="d-block text-center mt-2 small" href="/"
                     >이미 아이디가 있으신가요?</a
                   >
-                </div>
-              </form>
+                </div>              
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</form>
 </template>
 
 <script>
@@ -339,7 +335,8 @@ export default {
       var data = await loginFunc.email_validation();
       console.log("이메일 Validation 실행한 후 : ", data);
       if(data != null){
-        this.user_info.email = data.email;        
+        console.log(data);
+        this.user_info.email = data.email;      
         this.emailCode = data.email_code;        
       }      
     },
@@ -379,13 +376,11 @@ export default {
     /**
      * 주소를 검색하기 위해 주소검색창을 띄우는 API
      */
-    find_address: function () {
-      var addr = document.querySelector("#addressInput");
+    find_address: function () {      
       var outside = this;
       new daum.Postcode({
         oncomplete: function (data) {
-          console.log(data);
-          addr.value = "(" + data.zonecode + ")" + data.address;
+          console.log(data);          
           outside.user_info.userAddress = data.address;
           outside.user_info.zipCode = data.zonecode;
         },
@@ -393,7 +388,7 @@ export default {
     },
 
     /**
-     * 모든 값을 입력하고, 인증까지 완료했으면 회원가입을 완료할 수 있는 메소드     *
+     * 모든 값을 입력하고, 인증까지 완료했으면 회원가입을 완료할 수 있는 메소드
      */
     signup: async function () {               
       // var selected = document.querySelector("input[type=radio][name=userGender]:checked");
@@ -403,18 +398,21 @@ export default {
       if (this.pass_valid == true && this.pass_confirm == true &&
           this.email_valid == true && this.phone_valid == true &&
           this.user_info.userAddressr != "" && this.user_info.userName != ""  &&
-          this.user_info.nickName != "" && this.user_info.userBirth != "") {   
-            
-            
-          var formdata = new FormData(document.querySelector("#generalForm"));
-          console.log(formdata);
-          console.log(formdata.data);
+          this.user_info.nickName != "" && this.user_info.userBirth != "") {            
+
+          var formData = new FormData(document.querySelector('#generalForm'));          
+          console.log(formData);
+          console.log(this.user_info);
 
         alert("회원가입을 축하합니다!!");
         var temp = await axios({
           url: "http://localhost:8090/zippy/member/gSignUp",
           method: "POST",
-          data: formdata          
+          // headers :{
+          //   'Content-Type': 'multipart/form-data'
+          //   "Content-Type" : "application/x-www-form-urlencoded;charset=UTF-8"
+          // },
+          data: formData          
         })
           .then((res) => {
             console.log(res);

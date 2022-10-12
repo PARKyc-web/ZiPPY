@@ -27,4 +27,22 @@
 		)
 	</insert>
 	
+	<select id="getLoginInfo" parameterType="String" resultType="LoginVO">
+		SELECT *
+		FROM login
+		WHERE email = #{email}
+	</select>	
+	
+	<select id="getGeneralUser" parameterType="String" resultType="GeneralUserVO">
+		SELECT *
+		FROM general_user
+		WHERE email = #{email}
+	</select>
+	
+	<select id="getBusinessUser" parameterType="String" resultType="BusinessVO">
+		SELECT *
+		FROM business
+		WHERE email = #{email}
+	</select>
+	
 </mapper>

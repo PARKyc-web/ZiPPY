@@ -17,4 +17,5 @@ public interface MemberService {
   
   public int emailRedundancy(String email);
   
+  public Object login(LoginVO login);
 }
