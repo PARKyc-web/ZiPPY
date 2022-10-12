@@ -23,6 +23,7 @@ import usedUpdate from "../views/used/usedUpdate.vue";
 import usedDetail from "../views/used/usedDetail.vue";
 import usedMain from "../views/used/usedMain.vue";
 import usedInsert from "../views/used/usedInsert.vue";
+import usedKeyword from "../views/used/usedKeyword.vue";
 
 import shopDetailView from "../views/shop/shopDetailView.vue";
 import categoryList from "../views/shop/categoryListView.vue";
@@ -137,13 +138,23 @@ const routes = [{
   },
   {
     path: "/used/detail",
-    name: "detail",
+    name: "usedDetail",
     component: usedDetail
   },
   {
     path: "/used/update",
-    name: "update",
+    name: "usedUpdate",
     component: usedUpdate
+  },
+  {
+    path: "/used/insert",
+    name: "usedInsert",
+    component: usedInsert
+  },
+  {
+    path: "/used/keyword",
+    name: "usedKeyword",
+    component: usedKeyword
   }
 ];
 

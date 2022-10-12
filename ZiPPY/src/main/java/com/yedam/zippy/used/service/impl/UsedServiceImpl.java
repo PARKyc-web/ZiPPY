@@ -1,12 +1,12 @@
 package com.yedam.zippy.used.service.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yedam.zippy.used.mapper.UsedMapper;
+import com.yedam.zippy.used.service.UsedImagesVO;
 import com.yedam.zippy.used.service.UsedProductVO;
 import com.yedam.zippy.used.service.UsedService;
 
@@ -33,13 +33,13 @@ public class UsedServiceImpl implements UsedService {
   }
 
   @Override
-  public void insertUsed(Map<String, String> insertProduct) {
-    mapper.insertUsed(insertProduct);
+  public void insertUsed(UsedProductVO vo) {
+    mapper.insertUsed(vo);
   }
 
   @Override
-  public int updateUsed(String img, String name, String price, String category, String content, int pNo) {
-    return mapper.updateUsed(img, name, price, category, content, pNo);
+  public int updateUsed(UsedProductVO vo) {
+    return mapper.updateUsed(vo);
   }
 
   @Override
@@ -55,6 +55,16 @@ public class UsedServiceImpl implements UsedService {
   @Override
   public String addWish(String id) {
     return mapper.addWish(id);
+  }
+  
+  @Override
+  public int insertImg(UsedImagesVO images) {
+    return mapper.insertImg(images);
+  }
+  
+  @Override
+  public int updateImg(UsedImagesVO images) {
+    return mapper.updateImg(images);
   }
 
 }

@@ -1,4 +1,4 @@
-<template>
+<template>flex
   <div id="container">
     <nav-bar @click="search($event)"></nav-bar>
     <div>
@@ -13,18 +13,9 @@
           <div class="used-keyword-location"><span>키워드 0/30</span></div>
           <div>
             <form class="d-flex">
-              <input
-                class="form-control"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button
-                class="btn btn-primary"
-                type="submit"
-                style="margin-right: 10px"
-              >
-                <i class="bi bi-search"></i>
+              <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+              <button class="btn btn-primary" type="submit" style="margin-right: 10px">
+                <i class="fa-solid fa-magnifying-glass"></i>
               </button>
             </form>
           </div>
@@ -32,7 +23,7 @@
             <div class="used-keyword-content">
               자전거
               <div class="used-keyword-close">
-                <i class="bi bi-x-circle"></i>
+                <i class="fa-solid fa-circle-xmark"></i>
               </div>
             </div>
           </div>
@@ -48,18 +39,9 @@
           </div>
           <div>
             <form class="d-flex">
-              <input
-                class="form-control"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button
-                class="btn btn-primary"
-                type="submit"
-                style="margin-right: 10px"
-              >
-                <i class="bi bi-search"></i>
+              <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+              <button class="btn btn-primary" type="submit" style="margin-right: 10px">
+                <i class="fa-solid fa-magnifying-glass"></i>
               </button>
             </form>
           </div>
@@ -67,7 +49,7 @@
         <div>
           <div class="used-keyword-content">
             대구
-            <div class="used-keyword-close"><i class="bi bi-x-circle"></i></div>
+            <div class="used-keyword-close"><i class="fa-solid fa-circle-xmark"></i></div>
           </div>
         </div>
       </div>
@@ -79,158 +61,161 @@
   import axios from 'axios';
   import navBar from '../../components/used/navBar.vue';
 
-export default {};
+  export default {};
 </script>
 
 <style>
-#container {
-  width: 1200px;
-  margin: 0 auto;
-}
-
-.used-main-title {
-  margin: 50px;
-}
-
-.bd-placeholder-img {
-  font-size: 1.125rem;
-  text-anchor: middle;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-}
-
-@media (min-width: 768px) {
-  .bd-placeholder-img-lg {
-    font-size: 3.5rem;
+  #container {
+    width: 1200px;
+    margin: 0 auto;
   }
-}
+  .d-flex{
+    width: 400px;
+  }
 
-.b-example-divider {
-  height: 3rem;
-  background-color: rgba(0, 0, 0, 0.1);
-  border: solid rgba(0, 0, 0, 0.15);
-  border-width: 1px 0;
-  box-shadow: inset 0 0.5em 1.5em rgba(0, 0, 0, 0.1),
-    inset 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
-}
+  .used-main-title {
+    margin: 50px;
+  }
 
-.b-example-vr {
-  flex-shrink: 0;
-  width: 1.5rem;
-  height: 100vh;
-}
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
 
-.bi {
-  vertical-align: -0.125em;
-  fill: currentColor;
-}
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
 
-.nav-scroller {
-  position: relative;
-  z-index: 2;
-  height: 2.75rem;
-  overflow-y: hidden;
-}
+  .b-example-divider {
+    height: 3rem;
+    background-color: rgba(0, 0, 0, 0.1);
+    border: solid rgba(0, 0, 0, 0.15);
+    border-width: 1px 0;
+    box-shadow: inset 0 0.5em 1.5em rgba(0, 0, 0, 0.1),
+      inset 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
+  }
 
-.nav-scroller .nav {
-  display: flex;
-  flex-wrap: nowrap;
-  padding-bottom: 1rem;
-  margin-top: -1px;
-  overflow-x: auto;
-  text-align: center;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-}
+  .b-example-vr {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 100vh;
+  }
 
-.nav-link {
-  color: black;
-}
+  .bi {
+    vertical-align: -0.125em;
+    fill: currentColor;
+  }
 
-.nav-link dropdown-toggle {
-  float: right;
-  width: 50px;
-}
+  .nav-scroller {
+    position: relative;
+    z-index: 2;
+    height: 2.75rem;
+    overflow-y: hidden;
+  }
 
-.nav-link:hover {
-  color: #b3e3c3;
-}
+  .nav-scroller .nav {
+    display: flex;
+    flex-wrap: nowrap;
+    padding-bottom: 1rem;
+    margin-top: -1px;
+    overflow-x: auto;
+    text-align: center;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
 
-.nav-item dropdown {
-  float: right;
-}
+  .nav-link {
+    color: black;
+  }
 
-.used-dropdown {
-  list-style: none;
-}
+  .nav-link dropdown-toggle {
+    float: right;
+    width: 50px;
+  }
 
-#navbarDropdown {
-  color: #212529;
-}
+  .nav-link:hover {
+    color: #b3e3c3;
+  }
 
-.thumbnail-wrap {
-  display: block;
-}
+  .nav-item dropdown {
+    float: right;
+  }
 
-.container-fluid pt-5 {
-  width: 1200px;
-}
+  .used-dropdown {
+    list-style: none;
+  }
 
-.form-control {
-  width: 150px;
-}
+  #navbarDropdown {
+    color: #212529;
+  }
 
-.used-keyword-div {
-  border: none;
-  border-radius: 10px;
-  padding: 5px;
-  width: 120px;
-  margin: 10px;
-  background-color: #b3e3c3;
-  font-weight: bolder;
-  overflow: hidden;
-  text-align: center;
-}
+  .thumbnail-wrap {
+    display: block;
+  }
 
-.used-keyword-close {
-  float: right;
-}
+  .container-fluid pt-5 {
+    width: 1200px;
+  }
 
-.used-keyword-close:hover {
-  cursor: pointer;
-}
+  .form-control {
+    width: 100px;
+  }
 
-.used-keyword-loc-div {
-  border: none;
-  border-radius: 10px;
-  padding: 5px;
-  width: 150px;
-  margin: 10px;
-  background-color: #b3e3c3;
-  font-weight: bolder;
-  overflow: hidden;
-  text-align: center;
-}
+  .used-keyword-div {
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+    width: 120px;
+    margin: 10px;
+    background-color: #b3e3c3;
+    font-weight: bolder;
+    overflow: hidden;
+    text-align: center;
+  }
 
-.used-keyword-content {
-  border: none;
-  border-radius: 10px;
-  padding: 5px;
-  width: 100px;
-  margin: 10px;
-  background-color: #b3e3c3;
-  font-weight: bolder;
-}
+  .used-keyword-close {
+    float: right;
+  }
 
-.used-keyword-location {
-  font-weight: bolder;
-  font-size: larger;
-  margin-bottom: 20px;
-}
+  .used-keyword-close:hover {
+    cursor: pointer;
+  }
 
-.used-keyword-maincont {
-  width: 1024px;
-  margin-left: 30px;
-}
+  .used-keyword-loc-div {
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+    width: 150px;
+    margin: 10px;
+    background-color: #b3e3c3;
+    font-weight: bolder;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .used-keyword-content {
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+    width: 100px;
+    margin: 10px;
+    background-color: #b3e3c3;
+    font-weight: bolder;
+  }
+
+  .used-keyword-location {
+    font-weight: bolder;
+    font-size: larger;
+    margin-bottom: 20px;
+  }
+
+  .used-keyword-maincont {
+    width: 1024px;
+    margin-left: 30px;
+  }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <form action="PUT">
+  <form>
     <div id="container">
       <nav-bar @click="search($event)"></nav-bar>
       <div>
@@ -22,7 +22,7 @@
             <div>
               <form>
                 <label htmlFor="profile-upload" />
-                <input @change="values()" type="file" id="profile-upload" multiple accept="image/*" />
+                <input  type="file" id="profile-upload" multiple accept="image/*" />
               </form>
             </div>
           </div>
@@ -31,7 +31,7 @@
       <hr />
       <div class="used-insert-img">
         <span>제목
-          <input @change="values()" id="used-product-name" type="text" placeholder="상품 제목을 2글자 이상 입력해주세요" :value="product.productName" />
+          <input id="used-product-name" type="text" placeholder="상품 제목을 2글자 이상 입력해주세요" v-model="product.productName" />
         </span>
       </div>
       <hr />
@@ -41,14 +41,14 @@
         </div>
         <div class="dropdown">
           <div id="used-main-dropbox">
-            <v-select @change="values()" v-model="select" :items="items" item-text="name" item-value="value"
+            <v-select v-model="select" :items="items" item-text="name" item-value="value"
               :label="product.productCategory" color="#212529" persistent-hint single-line dense width="50"></v-select>
           </div>
         </div>
       </div>
       <hr />
       <div class="used-insert-img">
-        <span>가격<input @change="values()" id="used-insert-price" type="text" :value="product.productPrice" /> 원</span>
+        <span>가격<input id="used-insert-price" type="text" v-model="product.productPrice" /> 원</span>
       </div>
       <hr />
       <div class="used-wish-detailInfo">
@@ -56,11 +56,11 @@
           <span>설명</span>
         </div>
         <div>
-          <textarea @change="values()" id="used-insert-textarea" cols="110" rows="10"> {{product.productInfo}} </textarea>
+          <textarea id="used-insert-textarea" cols="110" v-model="product.productInfo" rows="10"></textarea>
         </div>
       </div>
       <div class="used-insert-submit">
-        <button>수정</button>
+        <button type="button" @click="updateSubmit()">수정</button>
       </div>
     </div>
   </form>
@@ -71,7 +71,7 @@
   import navBar from '../../components/used/navBar.vue';
 
   export default {
-    components : {
+    components: {
       navBar
     },
     data: () => ({
@@ -101,7 +101,9 @@
         },
       ],
       select: '',
-      product : ''
+      product: {
+        image : "test"
+      }
     }),
     created() {
       axios({
@@ -118,33 +120,35 @@
       })
     },
     methods: {
-      values: function () {
-        var productImg = document.querySelector('#profile-upload').src;
-        console.log(productImg);
-        var productVal = document.querySelector('#used-product-name').value;
-        console.log(productVal);
-        var priceVal = document.querySelector('#used-insert-price').value;
-        console.log(priceVal);
-        var dropVal = this.select;
-        console.log(dropVal);
-        var productCont = document.querySelector('#used-insert-textarea').value;
-        console.log(productCont);
-        var pNo = this.$route.query.pNo;
-        console.log(pNo);
+      // updateSubmit: function () {
+      //   console.log(this.product)
+      //   axios({
+      //     url: "http://localhost:8088/zippy/used/update",
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json; charset=utf-8"
+      //     },
+      //     data: JSON.stringify(this.product)
+      //   }).then(res => {
+      //     console.log(res);
+      //     window.location.assign('/used/detail?pNo='+this.$route.query.pNo);
+      //   }).catch(err => {
+      //     console.log(err)
+      //   })
+      // },
+      updateSubmit : function(){
+        console.log(this.product)
         axios({
           url: "http://localhost:8088/zippy/used/update",
-          methods: "PUT",
-          params: {
-            // img : "",
-            name : productVal,
-            price : priceVal,
-            category : dropVal,
-            content : productCont,
-            pNo : pNo
-          }
-        }).then(res =>{
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+          },
+          data: this.product
+        }).then(res => {
           console.log(res);
-        }).catch(err =>{
+          // window.location.assign('/used/detail?pNo='+this.$route.query.pNo);
+        }).catch(err => {
           console.log(err)
         })
       }

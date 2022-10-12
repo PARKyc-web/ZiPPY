@@ -98,7 +98,6 @@
         console.log(res);
         this.data = res.data;
         console.log(this.data);
-
       }).catch(error => {
         console.log(error);
       })
