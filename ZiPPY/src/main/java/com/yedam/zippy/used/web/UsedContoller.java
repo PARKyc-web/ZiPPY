@@ -76,8 +76,8 @@ public class UsedContoller {
   public int update(UsedProductVO product, UsedImagesVO images) {
     System.out.println("@@product : " + product);
     System.out.println("@@images : " + images);
-    System.out.println(service.updateImg(images));
-    System.out.println(service.updateUsed(product));
+//    System.out.println(service.updateImg(images));
+//    System.out.println(service.updateUsed(product));
     return 1;
   }
 

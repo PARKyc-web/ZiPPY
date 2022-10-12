@@ -1,4 +1,4 @@
-<template>flex
+<template>
   <div id="container">
     <nav-bar @click="search($event)"></nav-bar>
     <div>
@@ -10,46 +10,47 @@
     <div>
       <div class="used-keyword-maincont">
         <div>
-          <div class="used-keyword-location"><span>키워드 0/30</span></div>
+          <div class="used-keyword-location"><span>키워드 {{keywordValue.length}}/10</span></div>
           <div>
             <form class="d-flex">
-              <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
-              <button class="btn btn-primary" type="submit" style="margin-right: 10px">
+              <input id="keyinputid" class="form-control" type="search" placeholder="Search" aria-label="Search" v-model="keyword" />
+              <button type="button" @click="addKey()" @keyup="enterkey()">등록</button>
+              <!-- <button @click="addKeyword()" class="btn btn-primary" type="button" style="margin-right: 10px">
                 <i class="fa-solid fa-magnifying-glass"></i>
-              </button>
+              </button> -->
             </form>
           </div>
-          <div>
-            <div class="used-keyword-content">
-              자전거
+          <div class="used-key-flex">
+            <div class="used-keyword-content" v-for="keyword in keywordValue">
+              {{keyword}}
               <div class="used-keyword-close">
-                <i class="fa-solid fa-circle-xmark"></i>
+                <i @click="DelKey()" class="fa-solid fa-circle-xmark"></i>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <hr />
-      <div class="used-keyword-maincont">
+    </div>
+    <hr />
+    <div class="used-keyword-maincont">
+      <div>
         <div>
-          <div>
-            <div class="used-keyword-location">
-              <span>키워드 지역 0/3</span>
-            </div>
-          </div>
-          <div>
-            <form class="d-flex">
-              <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
-              <button class="btn btn-primary" type="submit" style="margin-right: 10px">
-                <i class="fa-solid fa-magnifying-glass"></i>
-              </button>
-            </form>
+          <div class="used-keyword-location">
+            <span>키워드 지역 0/3</span>
           </div>
         </div>
         <div>
-          <div class="used-keyword-content">
-            대구
-            <div class="used-keyword-close"><i class="fa-solid fa-circle-xmark"></i></div>
+          <form class="d-flex">
+            <input class="form-control" type="search" placeholder="Search" aria-label="Search" v-model="location" />
+            <button type="button" @click="addLoc()" @keyup="enterkey()">등록</button>
+          </form>
+        </div>
+      </div>
+      <div class="used-key-flex">
+        <div class="used-keyword-content" v-for="loc in locationvalue">
+          {{loc}}
+          <div class="used-keyword-close">
+            <i class="fa-solid fa-circle-xmark" @click="DelLoc()"></i>
           </div>
         </div>
       </div>
@@ -61,7 +62,42 @@
   import axios from 'axios';
   import navBar from '../../components/used/navBar.vue';
 
-  export default {};
+  export default {
+    components: {
+      navBar
+    },
+    data: () => ({
+      keywordValue: [],
+      locationvalue: [],
+      keyword: "",
+      location: ""
+    }),
+    methods: {
+      addKey: function () {
+        // const makeDiv = document.createElement('div');
+        // const keyword = document.querySelector('#keywordVal').value;
+        // makeDiv.appendChild(keyword);
+        this.keywordValue.push(this.keyword);
+        this.keyword = "";
+        
+      },
+      addLoc: function () {
+        this.locationvalue.push(this.location);
+        this.location = "";
+      },
+      DelKey: function () {
+        this.keywordValue.pop();
+      },
+      DelLoc: function () {
+        this.locationvalue.pop();
+      },
+      enterkey: function () {
+        if (window.event.keyCode == 13) {
+          this.addKeyword();
+        }
+      }
+    }
+  };
 </script>
 
 <style>
@@ -69,7 +105,11 @@
     width: 1200px;
     margin: 0 auto;
   }
-  .d-flex{
+  .used-key-flex{
+    width: 1200px;
+  }
+
+  .d-flex {
     width: 400px;
   }
 
@@ -180,6 +220,7 @@
 
   .used-keyword-close {
     float: right;
+    padding-left: 10px;
   }
 
   .used-keyword-close:hover {
@@ -202,10 +243,11 @@
     border: none;
     border-radius: 10px;
     padding: 5px;
-    width: 100px;
+    width: fit-content;
     margin: 10px;
     background-color: #b3e3c3;
     font-weight: bolder;
+    display: inline-block;
   }
 
   .used-keyword-location {
