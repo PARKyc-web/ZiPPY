@@ -27,4 +27,6 @@ public interface ShopMapper {
   // 장바구니 CRUD
   //등록
   public void insertBasket(BasketVO basketVo);
+  //전체조회
+  public List<ProductVO> getBasketList(String email);
 }

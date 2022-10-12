@@ -61,8 +61,8 @@
 		from shop_product_option
 		where shop_product_no = #{shopProductNo}
 	</select>
+	
 	<!-- 장바구니 -->
-		
 	<!-- 장바구니 등록 --> 
 	<insert id="insertBasket" parameterType="BasketVO">
 		INSERT INTO shop_basket
@@ -73,5 +73,17 @@
 		#{basketProductOptNo},
 		#{basketProductQty})
 	</insert>
+	<select id="getBasketList" resultType="ProductVO"
+		parameterType="BasketVO">
+		SELECT s.*, b.comp_name FROM shop_product s
+		JOIN shop_basket b
+		ON b.basket_product_no = s.shop_product_no
+		JOIN business b
+		ON s.email = b.email
+		WHERE s.shop_product_no IN
+		(SELECT basket_product_no
+		FROM shop_basket
+		WHERE email = #{email})
+	</select>
 
 </mapper>

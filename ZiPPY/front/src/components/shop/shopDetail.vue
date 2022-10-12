@@ -158,12 +158,15 @@
         }else {
          axios({
           url: "http://localhost:8088/zippy/shop/insertBasket",
-          methods: "POST",
-          params: {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+          },
+          data: {
             email: 'zippy@naver.com',
-            pNo : this.selectOption.shopProductNo,
-            oNo : this.selectOption.shopProductOptNo,
-            bQty : this.qty,
+            basketProductNo : this.selectOption.shopProductNo,
+            basketProductOptNo : this.selectOption.shopProductOptNo,
+            basketProductQty : this.qty,
           }
         }).then(res => {
           console.log(res);

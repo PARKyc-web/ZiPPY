@@ -45,5 +45,9 @@ public class ShopServiceImpl implements ShopService {
   public void insertBasket(BasketVO basketVO) {
     mapper.insertBasket(basketVO);
   }
+  @Override
+  public List<ProductVO> getBasketList(String email) {
+    return mapper.getBasketList(email);
+  }
 
 }

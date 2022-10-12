@@ -23,4 +23,6 @@ public interface ShopService {
     // 장바구니 CRUD
     //등록
     public void insertBasket(BasketVO basketVO);
+    //조회
+    public List<ProductVO> getBasketList(String email);
 }

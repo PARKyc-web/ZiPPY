@@ -70,4 +70,9 @@ public class ShopController {
   public void insertBasket(BasketVO basketVO) {
     service.insertBasket(basketVO);
   }
+  //전체조회
+  @RequestMapping("/basket")
+  public List<ProductVO> basketList(String email) {
+    return service.getBasketList(email);
+  }
 }
