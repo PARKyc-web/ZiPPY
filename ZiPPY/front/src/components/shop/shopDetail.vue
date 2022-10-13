@@ -38,20 +38,20 @@
           <v-icon color="#B3E3C3" class="pr-2">mdi-truck</v-icon>배송비<span> {{product.deliveryCost}}</span>원
         </h6>
         <!-- 옵션 -->
-        <div>
+        <div v-if="opts.length > 0">
           <v-select v-model="selectedOpt" @change="selectOptAc" :items="opts" item-text="optName" item-value="optNo"
             label="옵션" return-object dense outlined width="330"></v-select>
         </div>
         <!-- 옵션 여러개 선택하는 기능 만들기... 나중에 -->
         <!-- 옵션 끝 -->
         <!-- 상품선택 박스 -->
-        <div class="pa-5" v-if="selectOption.optNo" style="background-color:#F7F7F7; border-radius:0.8em">
+        <div class="pa-5" v-if="selectOption.optNo || opts.length == 0" style="background-color:#F7F7F7; border-radius:0.8em">
           <div style="font-size:smaller">
             <div style="display:flex">
               {{product.proName}} {{selectOption.optName}}
               <div v-if="selectOption.optPrice > 0" class="ml-2">(+{{selectOption.optPrice}}원)
               </div>
-              <span class="ml-auto" @click="deleteOpt()" style="cursor:pointer">X</span>
+              <span class="ml-auto" @click="deleteOpt()" style="cursor:pointer" v-if="opts.length > 0">X</span>
             </div>
           </div>
           <!-- 수량조절 -->
@@ -79,7 +79,7 @@
         <!-- 총 가격 끝 -->
         <!-- 버튼 -->
         <div id="detail-button" style="margin:0">
-          <v-btn class="mr-2" width="160" outlined color="#64c481" @click="goBasket()">
+          <v-btn class="mr-2" width="160" outlined color="#64c481" @click="goCart()">
             장바구니
           </v-btn>
           <v-btn width="160" depressed color=#B3E3C3 @click="goOrder()">
@@ -106,11 +106,11 @@
       shopTab
     },
     data: () => ({
-      //상품
+      //상품(DB)
       product: {},
-      //상세이미지
+      //상세이미지(DB)
       imgs: [],
-      //상품 옵션 전체(색상, 사이즈, 추가가격)
+      //상품 옵션 리스트(DB)
       opts: [],
       //선택한 옵션
       selectedOpt: {},
@@ -120,7 +120,7 @@
       qty: 1,
       //장바구니에 담을 상품
       selectPro: {},
-      //장바구니에 있는 상품목록
+      //장바구니에 있는 상품목록(DB)
       cartPros: [],
       //찜(기본:0)
       heart: 0,
@@ -150,7 +150,7 @@
         this.selectedOpt = {};
         this.selectOption = {};
       },
-      //찜등록/해제
+      //찜등록-해제
       changeHeart() {
         if (this.heart == 0) { //찜x
           this.heart = 1; //찜onc
@@ -160,56 +160,77 @@
           alert('상품의 찜을 해제하였습니다.')
         }
       },
-      goBasket() {
-        //장바구니 등록
-        if (Object.keys(this.selectOption) == 0) {
-          //체크용
-          alert('상품의 옵션을 선택해주세요.')
-        } else {
-          let check = '';
-          //장바구니에 존재한 상품 check
-          axios({
-            url: "http://localhost:8088/zippy/shop/cart",
-            methods: "GET",
-            params: {
-              email: this.email
-            }
-          }).then(res => {
-            console.log(res);
-            this.cartPros = res.data;
+      //장바구니 등록
+      goCart() {
+        //옵션이 존재하는 경우
+        if (this.opts.length > 0) {
+          //옵션이 없으면 다시 선택하게
+          if (Object.keys(this.selectOption) == 0) {
+            //체크용
+            alert('상품의 옵션을 선택해주세요.')
+            return;
+          }
+        }
+        let check = '';
+        //장바구니에 존재한 상품 check
+        axios({
+          url: "http://localhost:8088/zippy/shop/myCartList",
+          method: "GET",
+          params: {
+            email: this.email
+          }
+        }).then(res => {
+          console.log(res);
+          this.cartPros = res.data;
+          //옵션이 있는 경우
+          if (this.opts.length > 0) {
             console.log(this.cartPros)
-            console.log(cartPros)
             for (var i in this.cartPros) {
-              console.log(this.selectOption.proNo)
-              console.log(this.cartPros[i].cartPno)
-              if (this.selectOption.proNo == this.cartPros[i].cartPno &&
+              //상품번호, 옵션 둘다 체크
+              if (this.product.proNo == this.cartPros[i].cartPno &&
                 this.selectOption.optNo == this.cartPros[i].cartOptNo) {
+                //상품등록 불가
                 check = false;
                 alert('이미 장바구니에 있는 상품입니다.');
+                //선택 옵션 비워주기
                 this.selectedOpt = {};
                 this.selectOption = {};
-                break;
+              } else {
+                //상품등록 가능
+                check = true;
               }
             }
-            //장바구니에 존재하지 않음
-            check = true;
-            console.log('check:' + check)
+          } else {
+            //옵션이 없는 경우
+            for (var i in this.cartPros) {
+              //상품번호만 체크
+              if (this.product.proNo == this.cartPros[i].cartPno) {
+                //상품등록 불가
+                check = false;
+                alert('이미 장바구니에 있는 상품입니다.');
+              } else {
+                //상품등록 가능
+                check = true;
+              }
+            }
+          }
 
-          }).catch(error => {
-            console.log(error);
-          })
-          //check=true(존재하지 않음) 상태이면 장바구니에 상품담기 진행
-          console.log(check);
+          //장바구니에 아무것도 없을 경우
+          if (this.cartPros.length == 0) {
+            check = true;
+          }
+
+          //상품등록
           if (check) {
             axios({
-              url: "http://localhost:8088/zippy/shop/inserCart",
+              url: "http://localhost:8088/zippy/shop/insertCart",
               method: "POST",
               headers: {
                 "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
               },
               data: {
                 email: this.email,
-                cartPno: this.selectOption.proNo,
+                cartPno: this.product.proNo,
                 cartOptNo: this.selectOption.optNo,
                 cartQty: this.qty,
               }
@@ -224,7 +245,9 @@
               console.log(error);
             })
           }
-        }
+        }).catch(error => {
+          console.log(error);
+        })
       },
       goOrder() {
         if (Object.keys(this.selectOption) == 0) {
@@ -243,7 +266,7 @@
       //단건조회
       axios({
           url: "http://localhost:8088/zippy/shop/detail",
-          methods: "GET",
+          method: "GET",
           params: {
             pno: this.$route.query.pno
           }
@@ -257,7 +280,7 @@
         //이미지조회
         axios({
           url: "http://localhost:8088/zippy/shop/img",
-          methods: "GET",
+          method: "GET",
           params: {
             pno: this.$route.query.pno
           }
@@ -271,7 +294,7 @@
         //옵션조회
         axios({
           url: "http://localhost:8088/zippy/shop/opt",
-          methods: "GET",
+          method: "GET",
           params: {
             pno: this.$route.query.pno
           }
@@ -292,7 +315,7 @@
           amount += Number(this.selectOption.optPrice) * this.qty;
         }
         return amount;
-      },
+      }
     }
   }
 </script>
@@ -308,7 +331,6 @@
     margin: 0 auto;
     flex-wrap: wrap;
     padding-top: 100px;
-    padding-bottom: 50px;
   }
 
   /* 디테일 슬라이드 */
@@ -324,7 +346,7 @@
 
   #detail-info {
     width: 370px;
-    height: 460px;
+    height: 510px;
     padding: 40px 0 0 40px;
   }
 

@@ -46,12 +46,17 @@ public class ShopServiceImpl implements ShopService {
     mapper.insertCart(cartVO);
   }
   @Override
-  public List<ProductVO> getCartList(String email) {
-    return mapper.getCartList(email);
-  }
-  @Override
   public int getMyCart(String email) {
     return mapper.getMyCart(email);
+  }
+  @Override
+  public List<CartVO> getMyCartList(String email) {
+    List<CartVO> list = mapper.getMyCartList(email);
+    for(CartVO x : list) {
+      x.setOption(mapper.getDetailOpt(x.getCartPno()));
+      x.setProductVO(mapper.getProduct(x.getCartPno()));
+    }
+    return list;
   }
 
 }

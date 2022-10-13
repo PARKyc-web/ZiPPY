@@ -79,7 +79,7 @@
     created() {
       axios({
         url: "http://localhost:8088/zippy/shop/main",
-        methods: "GET"
+        method: "GET"
       }).then(res => {
         console.log(res);
         this.products = res.data;

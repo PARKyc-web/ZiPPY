@@ -90,7 +90,7 @@
     created() {
       axios({
         url: "http://localhost:8088/zippy/shop/category",
-        methods: "GET",
+        method: "GET",
         params: {
           cate: this.$route.query.cate
         }

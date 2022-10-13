@@ -1,5 +1,7 @@
 package com.yedam.zippy.shop.service;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -15,5 +17,8 @@ public class CartVO {
   
   int countMycart;
   String optName;
-  String cartProPrice;
+  String optPrice;
+  
+  ProductVO productVO;
+  List<ProductOptionVO> option;
 }

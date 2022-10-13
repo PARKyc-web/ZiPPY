@@ -71,14 +71,14 @@ public class ShopController {
   public void insertCart(CartVO cartVO) {
     service.insertCart(cartVO);
   }
-  //장바구니 전체조회
-  @RequestMapping("/cart")
-  public List<ProductVO> cartList(String email) {
-    return service.getCartList(email);
-  }
   //장바구니 개수 조회
   @RequestMapping("/myCart")
   public int countMyCart(String email) {
     return service.getMyCart(email);
+  }
+  //내 장바구니 조회
+  @RequestMapping("/myCartList")
+  public List<CartVO> getMyCartList(String email) {
+    return service.getMyCartList(email);
   }
 }

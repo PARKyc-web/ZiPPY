@@ -98,7 +98,7 @@ import axios from 'axios';
     created() {
       axios({
           url: "http://localhost:8088/zippy/shop/myCart",
-          methods: "GET",
+          method: "GET",
           params: {
             email: this.email
           }

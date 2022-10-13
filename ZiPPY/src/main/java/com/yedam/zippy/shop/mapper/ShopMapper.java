@@ -24,11 +24,12 @@ public interface ShopMapper {
   //디테일 옵션 조회
   public List<ProductOptionVO> getDetailOpt(int proNo);
   
+  
   // 장바구니 CRUD
   //등록
   public void insertCart(CartVO CartVo);
-  //장바구니 상품 조회
-  public List<ProductVO> getCartList(String email);
   //장바구니 상품개수 조회
   public int getMyCart(String email);
+  //내 장바구니 조회
+  public List<CartVO> getMyCartList(String email);
 }
