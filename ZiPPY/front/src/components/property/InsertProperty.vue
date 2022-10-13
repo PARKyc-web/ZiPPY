@@ -112,7 +112,12 @@ import axios from 'axios';
     methods: {
       insert() {
         let result = 0;
+        let tags = '';
 
+        this.tags.forEach(element => {
+          tags += element + '/';
+        });
+      
         axios({
             url: "http://localhost:8090/zippy/property/insertHouseProduct",
             methods: "POST",
@@ -147,10 +152,10 @@ import axios from 'axios';
             params: {
               streetAddress: this.streetAddress,
               houseFace:this.houseFace,
-              parking:this.parking == '가능' ? 1 : 0,
+              parking: this.parking == '가능' ? 1 : 0,
               bathCnt:this.bathCnt,
               constructionYear:this.constructionYear,
-              tags: this.tags
+              tags: tags
             }
           }).then(response => {
             // 성공했을 때
