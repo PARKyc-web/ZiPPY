@@ -56,10 +56,25 @@
 		#{areaExclusive}, #{roomCnt}, #{detailContents}
 		)
 	</insert>
+	
+	<insert id="insertHouseDetail" parameterType="propertyVO">
+		insert into
+		house_detail(
+		detail_id, product_id,
+		bath_cnt, parking, house_face,
+		construction_year, tags, street_address
+		) values( 
+		(SELECT NVL(MAX(product_id),0) +1 FROM house_detail),
+		(SELECT NVL(MAX(product_id),0) +1 FROM house_detail),
+		#{bathCnt}, #{parking}, #{houseFace},
+		#{constructionYear}, #{tags}, #{streetAddress}
+		)
+	</insert>
 
 	<update id="updateHouseProduct" parameterType="propertyVO">
 		update house_product
-		set main_img = #{mainImg},
+		set product_state = #{productState}, 
+		main_img = #{mainImg},
 		house_name = #{houseName},
 		sale_type = #{saleType},
 		price = #{price},
@@ -82,5 +97,19 @@
 		#{constructionYear},
 		tags = #{tags}
 		where product_id = #{productId}
+	</update>
+	
+	<update id="updateAgentProfile" parameterType="agentVO">
+		update business
+		set comp_name = #{compName},
+		comp_intro = #{compIntro},
+		comp_address = #{compAddress},
+		profile_pic = #{profilePic},
+		phone = #{phone},
+		business_img = #{businessImg},
+		broker_img = #{brokerImg},
+		business_id = #{businessId},
+		broker_id = #{brokerId}
+		where email = #{email}
 	</update>
 </mapper>

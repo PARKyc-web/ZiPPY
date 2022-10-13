@@ -16,8 +16,12 @@ public interface PropertyService {
   public String getCompName(String email);
   
   public int insertHouseProduct(propertyVO vo);
+  
+  public int insertHouseDetail(propertyVO vo);
 
   public int updateHouseProduct(propertyVO vo);
 
   public int updateHouseDetail(propertyVO vo);
+  
+  public int updateAgentProfile(agentVO vo);
 }

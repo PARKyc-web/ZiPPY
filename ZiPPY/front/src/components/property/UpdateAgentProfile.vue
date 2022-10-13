@@ -17,45 +17,45 @@
                 <v-text-field label="이메일" :value="profile.email" readonly></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-file-input label="프로필 사진" required></v-file-input>
+                <v-file-input label="프로필 사진" required v-model="profile.profilePic" ref="profilePic"></v-file-input>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field label="공인중개법인명" required :value="profile.compName"></v-text-field>
+                <v-text-field label="공인중개법인명" required v-model="profile.compName" ref="compName" ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field label="주소" required :value="profile.compAddress"></v-text-field>
+                <v-text-field label="주소" required v-model="profile.compAddress" ref="compAddress"></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field label="이름" :value="profile.ceoName"></v-text-field>
+                <v-text-field label="이름" :value="profile.ceoName" readonly></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field label="전화번호" required :value="profile.phone"></v-text-field>
+                <v-text-field label="전화번호" required v-model="profile.phone" ref="phone"></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-file-input label="사업자등록증" required :value="profile.businessImg"></v-file-input>
+                <v-file-input label="사업자등록증" required v-model="profile.businessImg" ref="businessImg"></v-file-input>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-file-input label="중개등록증" required :value="profile.brokerImg"></v-file-input>
+                <v-file-input label="중개등록증" required v-model="profile.brokerImg" ref="brokerImg"></v-file-input>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field label="사업자등록번호" required :value="profile.businessId"></v-text-field>
+                <v-text-field label="사업자등록번호" required v-model="profile.businessId" ref="businessId"></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field label="중개등록번호" required :value="profile.brokerId"></v-text-field>
+                <v-text-field label="중개등록번호" required v-model="profile.brokerId" ref="brokerId"></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-textarea label="인사말" required :value="profile.compIntro"></v-textarea>
+                <v-textarea label="인사말" required v-model="profile.compIntro" ref="compIntro"></v-textarea>
               </v-col>
             </v-row>
           </v-container>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false">
-            닫기
+          <v-btn color="blue darken-1" text @click="updateAgentProfile">
+            저장
           </v-btn>
           <v-btn color="blue darken-1" text @click="dialog = false">
-            저장
+            닫기
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -69,29 +69,39 @@
   export default {
     data: () => ({
       dialog: false,
-
     }),
     props: {
       profile: Object
     },
-    created() {
-      // axios({
-      //     url: "http://localhost:8090/zippy/property/",
-      //     methods: "GET",
-      //     params: {
-      //       email: this.email
-      //     }
-      //   }).then(response => {
-      //     // 성공했을 때
-      //     console.log(' success!');
-      //     console.log(response.data);
-      //     this.agentProfile = response.data;
-      //   })
-      //   .catch(error => {
-      //     // 에러가 났을 때
-      //     console.log(' fail!');
-      //     console.log(error);
-      //   })
-    },
+    methods: {
+      updateAgentProfile() {
+        axios({
+            url: "http://localhost:8090/zippy/property/updateAgentProfile",
+            methods: "PUT",
+            params: {
+              compName: this.$refs.compName.value,
+              compIntro:this.$refs.compIntro.value,
+              compAddress:this.$refs.compAddress.value,
+              profilePic:this.$refs.profilePic.value,
+              phone:this.$refs.phone.value,
+              businessImg: this.$refs.businessImg.value,
+              brokerImg: this.$refs.brokerImg.value,
+              businessId: this.$refs.businessId.value,
+              brokerId: this.$refs.brokerId.value,
+              email: this.profile.email
+            }
+          }).then(response => {
+            // 성공했을 때
+            console.log('updateAgentProfile success!');
+            alert('수정이 완료되었습니다.');
+          })
+          .catch(error => {
+            // 에러가 났을 때
+            console.log('updateAgentProfile fail!');
+            alert('수정에 실패했습니다.');
+            console.log(error);
+          })
+      }
+    }
   }
 </script>

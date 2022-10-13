@@ -59,6 +59,11 @@ public String agentDetail(@RequestParam int productId) {
     return service.insertHouseProduct(vo);
   }
   
+  @PostMapping("/insertHouseDetail")
+  public int insertHouseDetail(propertyVO vo) {
+    return service.insertHouseDetail(vo);
+  }
+  
   @PutMapping("/updateHouseProduct")
   public int updateHouseProduct(propertyVO vo) {
     return service.updateHouseProduct(vo);
@@ -67,6 +72,11 @@ public String agentDetail(@RequestParam int productId) {
   @PutMapping("/updateHouseDetail")
   public int updateHouseDetail(propertyVO vo) {
     return service.updateHouseDetail(vo);
+  }
+  
+  @PutMapping("/updateAgentProfile")
+  public int updateAgentProfile(agentVO vo) {
+    return service.updateAgentProfile(vo);
   }
 
 //  @GetMapping("/houseDetail")

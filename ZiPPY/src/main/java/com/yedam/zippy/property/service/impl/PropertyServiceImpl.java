@@ -50,6 +50,11 @@ public class PropertyServiceImpl implements PropertyService {
   public int insertHouseProduct(propertyVO vo) {
     return mapper.insertHouseProduct(vo);
   }
+  
+  @Override
+  public int insertHouseDetail(propertyVO vo) {
+      return mapper.insertHouseDetail(vo);
+  }
 
   @Override
   public int updateHouseProduct(propertyVO vo) {
@@ -59,6 +64,11 @@ public class PropertyServiceImpl implements PropertyService {
   @Override
   public int updateHouseDetail(propertyVO vo) {
     return mapper.updateHouseDetail(vo);
+  }
+  
+  @Override
+  public int updateAgentProfile(agentVO vo) {
+    return mapper.updateAgentProfile(vo);
   }
   
 
