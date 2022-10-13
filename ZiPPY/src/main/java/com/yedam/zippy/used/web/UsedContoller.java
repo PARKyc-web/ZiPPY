@@ -114,4 +114,12 @@ public class UsedContoller {
     System.out.println(service.delKeyword(kNo));
     return "";
   }
+  
+  // 키워드 전체출력
+  @GetMapping("/keyword")
+  public List<UsedKeywordVO> showKyeword(@RequestParam String email) {
+    System.out.println(email);
+    System.out.println(service.showKeyword(email));
+    return service.showKeyword(email);
+  }
 }

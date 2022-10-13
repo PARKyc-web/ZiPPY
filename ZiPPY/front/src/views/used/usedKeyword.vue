@@ -12,18 +12,20 @@
         <div>
           <div class="used-keyword-location"><span>키워드 {{keywordValue.length}}/10</span></div>
           <div>
-            <div class="d-flex">
-              <input id="keyinputid" class="form-control" type="search" placeholder="Search" aria-label="Search"
+            <div class="used-input">
+              <input id="keyinputid" class="form-control" type="search" placeholder="키워드" aria-label="Search"
                 v-model="data.keyword" @keyup="enterkey()" />
-              <button class="submitBtn" type="button" @click="addKey()">등록</button>
-              <!-- <button @click="addKeyword()" class="btn btn-primary" type="button" style="margin-right: 10px">
-                <i class="fa-solid fa-magnifying-glass"></i>
-              </button> -->
+                <input id="keyinputid" class="form-control" type="search" placeholder="키워드지역" aria-label="Search"
+                  v-model="data.keywordLocation" @keyup="enterkey()" />
+                  <button class="submitBtn" type="button" @click="addLoc()">등록</button>
+              <!-- <button class="submitBtn" type="button" @click="addKey()">등록</button> -->
+            </div>
+            <div class="used-input">
             </div>
           </div>
           <div class="used-key-flex">
-            <div class="used-keyword-content" v-for="keyword in keywordValue">
-              {{keyword}}
+            <div class="used-keyword-content" v-for="key in keywordValue">
+              <!-- {{key.keyword}} -->
               <div class="used-keyword-close">
                 <i @click="DelKey()" class="fa-solid fa-circle-xmark"></i>
               </div>
@@ -32,8 +34,8 @@
         </div>
       </div>
     </div>
-    <hr />
-    <div class="used-keyword-maincont">
+    <!-- <hr /> -->
+    <!-- <div class="used-keyword-maincont">
       <div>
         <div>
           <div class="used-keyword-location">
@@ -41,11 +43,7 @@
           </div>
         </div>
         <div>
-          <div class="d-flex">
-            <input class="form-control" type="search" placeholder="Search" aria-label="Search"
-              v-model="data.keywordLocation" @keyup="enterkey()" />
-            <button class="submitBtn" type="button" @click="addLoc()">등록</button>
-          </div>
+
         </div>
       </div>
       <div class="used-key-flex">
@@ -56,7 +54,12 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
+    <input type="hidden" v-model="data.email">
+    <!-- <div v-if="data.length != 0" v-for="key in showKey">
+      {{key.keyword}}
+      {{key.keywordLocation}}
+    </div> -->
   </div>
 </template>
 
@@ -77,20 +80,38 @@
         email: "zippy@naver.com",
         keyword: "",
         keywordLocation: ""
-      }
+      },
+      showKey: []
     }),
+    created() {
+      console.log(this.data.email)
+      console.log(this.showKey)
+      axios({
+        url: "http://localhost:8088/zippy/used/keyword",
+        method: "GET",
+        params: {
+          email: this.data.email
+        }
+      }).then(res => {
+        console.log(res);
+        console.log(res.data[0].keywordNo)
+        this.showKey = res.data;
+      }).catch(error => {
+        console.log(error);
+      })
+    },
     methods: {
       addKey: function () {
-        this.keywordValue.push(this.data.keyword);
-        console.log(this.data.keyword.length);
-        console.log(this.keywordValue.length)
-        console.log(this.keywordValue)
-        if (this.keywordValue == "") {
-
-        }
-        if (this.keywordValue.length >= 10) {
-          alert("stop")
-        }
+        this.showKey.push(this.data.keyword);
+        // console.log(this.data.keyword.length);
+        // console.log(this.keywordValue.length)
+        // console.log(this.keywordValue)
+        // if (this.keywordValue == "") {
+        //   alert("공백은 입력 불가합니다.")
+        // }
+        // if (this.keywordValue.length >= 10) {
+        //   alert("stop")
+        // }
         axios({
           url: "http://localhost:8088/zippy/used/addKeyword",
           method: "POST",
@@ -125,12 +146,12 @@
         })
       },
       DelKey: function () {
-        this.keywordValue.pop();
+        this.showKey.pop();
         axios({
           url: "http://localhost:8088/zippy/used/delKeyword",
           method: "DELETE",
           params: {
-            kNo: a
+            // kNo: 
           }
         }).then(res => {
           console.log(res);
@@ -144,7 +165,7 @@
           url: "http://localhost:8088/zippy/used/delKeyword",
           method: "DELETE",
           params: {
-            kNo: a
+            // kNo: 
           }
         }).then(res => {
           console.log(res);
@@ -172,16 +193,23 @@
     border: none;
     background-color: #b3e3c3;
     color: white;
-    width: 100px;
+    width: 150px;
     height: 50px;
+    margin-left: 1px;
+    border-radius: 5px;
   }
+  #keyinputid{
+    margin-left: 3px;
+  }
+
 
   .used-key-flex {
     width: 1200px;
   }
 
-  .d-flex {
-    width: 400px;
+  .used-input {
+    width: 700px;
+    display: flex;
   }
 
   .used-main-title {
@@ -275,6 +303,7 @@
 
   .form-control {
     width: 100px;
+    display: inline-block;
   }
 
   .used-keyword-div {

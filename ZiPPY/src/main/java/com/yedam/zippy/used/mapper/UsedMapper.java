@@ -44,5 +44,8 @@ public interface UsedMapper {
 	
 	// 키워드, 키워드 지역 삭제
 	public int delKeyword(@Param("kNo")int kNo);
+	
+	// 키워드 출력
+	public List<UsedKeywordVO> showKeyword(@Param("email") String email);
 	  
 }

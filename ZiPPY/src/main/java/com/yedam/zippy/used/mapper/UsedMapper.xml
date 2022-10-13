@@ -191,5 +191,11 @@
 		DELETE FROM used_keyword
 		WHERE keyword_no = #{kNo}
 	</delete>
+	
+	<select id="showKeyword" resultType="UsedKeywordVO" parameterType="String">
+		SELECT *
+		FROM Used_keyword
+		WHERE email = #{email}
+	</select>
 
 </mapper>

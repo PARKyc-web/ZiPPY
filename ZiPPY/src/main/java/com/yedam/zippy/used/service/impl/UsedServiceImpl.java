@@ -77,5 +77,10 @@ public class UsedServiceImpl implements UsedService {
   public int delKeyword(int kNo) {
     return mapper.deleteUsed(kNo);
   }
+  
+  @Override
+  public List<UsedKeywordVO> showKeyword(String email) {
+    return mapper.showKeyword(email);
+  }
 
 }

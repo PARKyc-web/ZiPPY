@@ -37,10 +37,13 @@ public interface UsedService {
 
   // 이미지 수정
   public int updateImg(UsedImagesVO images);
-  
+
   // 키워드, 키워드 지역 입력
   public int addKeyword(UsedKeywordVO keyword);
-  
+
   // 키워드, 키워드 지역 삭제
   public int delKeyword(int kNo);
+
+  //키워드 출력
+  public List<UsedKeywordVO> showKeyword(String email);
 }

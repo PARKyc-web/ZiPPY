@@ -136,7 +136,7 @@
         url: "http://localhost:8088/zippy/used/detail",
         methods: "GET",
         params: {
-          pNo: this.$route.query.pNo
+          pNo: this.$route.query.pNo  
         }
       }).then(res => {
         console.log(res);
