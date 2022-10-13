@@ -6,82 +6,82 @@
     <br />
     <div class="move-detail">
       <div class="move-furniture1">
+        <input type="checkbox" name="bed" v-model="bedAvail"/><label>침대</label>
         <button v-bind:disabled="bedAvail==false" 
-        class="custom-btn btn-4" type="button" @click="addBed()" >+</button>
-    
-        <input type="checkbox" name="bed" v-model="bedAvail"/><label>침대</label><br /><br />
+        class="custom-btn btn-4" type="button" @click="addBed()" >+</button><br><br />
         <i class="fa-solid fa-bed fa-5x"></i><br />
+    
         <div class="move-detail-drop" v-for="i in moveDetail[0].bedCount">
           <!-- v-for="(row, index) in rows" -->
           <div >
-          <select v-bind:disabled="bedAvail==false" v-model="moveDetail[0].bed[i]" >
+          <select v-bind:disabled="bedAvail==false" :id="i" v-model="moveDetail[0].bed[i]" >
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
             <option value="퀸">퀸</option>
             <option value="킹">킹</option>
             <option value="킹이상">킹 이상</option>
-          </select><br>
-        </div>
+          </select>
           <button v-bind:disabled="bedAvail==false" 
-          class="custom-btn btn-4" type="button" :id="i" @click="removeBed(i)">-</button>
+          class="custom-btn btn-4" type="button"  @click="removeBed(i)">-</button>
+        </div>
         </div>
       </div>
 
       <div class="move-furniture1">
+        <input type="checkbox" name="sofa" v-model="sofaAvail"/><label>소파</label>
         <button v-bind:disabled="sofaAvail==false" 
-        class="custom-btn btn-4" type="button" @click="addSofa()">+</button>
-        <input type="checkbox" name="sofa" v-model="sofaAvail"/><label>소파</label><br /><br />
+        class="custom-btn btn-4" type="button" @click="addSofa()">+</button><br><br />
         <i class="fa-solid fa-couch fa-5x"></i><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].sofaCount">
-          <select v-bind:disabled="sofaAvail==false" v-model="moveDetail[0].sofa[i]">
+          <select v-bind:disabled="sofaAvail==false" :id="i" v-model="moveDetail[0].sofa[i]">
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
             <option value="퀸">퀸</option>
             <option value="킹">킹</option>
             <option value="킹이상">킹 이상</option>
-          </select><br>
-          <button v-bind:disabled="sofaAvail==false" 
-          class="custom-btn btn-4" type="button" :id="i" @click="removeSofa(i)">-</button>
+          </select>
+            <button v-bind:disabled="sofaAvail==false" 
+            class="custom-btn btn-4" type="button"  @click="removeSofa(i)">-</button>
         </div>
       </div>
 
       <div class="move-furniture1">
+        <input type="checkbox" name="closet" v-model="closetAvail" /><label>옷장-단품</label>
         <button v-bind:disabled="closetAvail==false" 
-        class="custom-btn btn-4" type="button" @click="addCloset()">+</button>
-        <input type="checkbox" name="closet" v-model="closetAvail" /><label>옷장-단품</label><br /><br />
+        class="custom-btn btn-4" type="button" @click="addCloset()">+</button><br /><br />
         <i class="fa-solid fa-toilet-portable fa-5x"></i><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].closetCount">
-          <select v-bind:disabled="closetAvail==false" v-model="moveDetail[0].closet[i]">
+          <select v-bind:disabled="closetAvail==false" :id="i" v-model="moveDetail[0].closet[i]">
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
             <option value="퀸">퀸</option>
             <option value="킹">킹</option>
             <option value="킹이상">킹 이상</option>
-          </select><br>
+          </select>
           <button v-bind:disabled="closetAvail==false" 
-           class="custom-btn btn-4" type="button" :id="i" @click="removeCloset(i)">-</button>
+           class="custom-btn btn-4" type="button"  @click="removeCloset(i)">-</button>
         </div>
       </div>
 
       <div class="move-furniture1">
+        <input type="checkbox" name="closets" v-model="closetsAvail"/><label>옷장-연결장</label>
         <button v-bind:disabled="closetsAvail==false" 
-        class="custom-btn btn-4" type="button" @click="addClosets()">+</button>
-        <input type="checkbox" name="closets" v-model="closetsAvail"/><label>옷장-연결장</label><br /><br />
+        class="custom-btn btn-4" type="button" @click="addClosets()">+</button><br /><br />
         <i class="fa-solid fa-toilets-portable fa-5x"></i><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].closetsCount">
-          <select v-bind:disabled="closetsAvail==false" v-model="moveDetail[0].closets[i]">
+          <select v-bind:disabled="closetsAvail==false" :id="i" v-model="moveDetail[0].closets[i]">
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
             <option value="퀸">퀸</option>
             <option value="킹">킹</option>
             <option value="킹이상">킹 이상</option>
-          </select><br>
+          </select>
           <button v-bind:disabled="closetsAvail==false" 
-          class="custom-btn btn-4" type="button" :id="i" @click="removeClosets(i)">-</button>
+          class="custom-btn btn-4" type="button"  @click="removeClosets(i)">-</button>
         </div>
       </div>
     </div>
@@ -95,81 +95,81 @@
     <div class="move-detail">
 
       <div class="move-furniture1">
+        <input type="checkbox" name="tv" v-model="tvAvail"/><label>TV</label>
         <button v-bind:disabled="tvAvail==false" 
-        class="custom-btn btn-4" type="button" @click="addTv()" >+</button>
+        class="custom-btn btn-4" type="button" @click="addTv()" >+</button><br /><br />
     
-        <input type="checkbox" name="tv" v-model="tvAvail"/><label>TV</label><br /><br />
         <i class="fa-solid fa-tv fa-5x"></i><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].tvCount">
           <!-- v-for="(row, index) in rows" -->
-          <select v-bind:disabled="tvAvail==false" v-model="moveDetail[0].tv[i]" >
+          <select v-bind:disabled="tvAvail==false" :id="i" v-model="moveDetail[0].tv[i]" >
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
             <option value="퀸">퀸</option>
             <option value="킹">킹</option>
             <option value="킹이상">킹 이상</option>
-          </select><br>
+          </select>
       
           <button v-bind:disabled="tvAvail==false" 
-          class="custom-btn btn-4" type="button" :id="i" @click="removeTv(i)">-</button>
+          class="custom-btn btn-4" type="button"  @click="removeTv(i)">-</button>
         </div>
       </div>
 
       <div class="move-furniture1">
+        <input type="checkbox" name="pc" v-model="pcAvail"/><label>데스크탑</label>
         <button v-bind:disabled="pcAvail==false"  
-        class="custom-btn btn-4" type="button" @click="addPc()">+</button>
-        <input type="checkbox" name="pc" v-model="pcAvail"/><label>데스크탑</label><br /><br />
+        class="custom-btn btn-4" type="button" @click="addPc()">+</button><br /><br />
         <i class="fa-solid fa-desktop fa-5x"></i><br /> 
         <div class="move-detail-drop" v-for="i in moveDetail[0].pcCount">
-          <select v-bind:disabled="pcAvail==false"  v-model="moveDetail[0].pc[i]">
+          <select v-bind:disabled="pcAvail==false" :id="i" v-model="moveDetail[0].pc[i]">
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
             <option value="퀸">퀸</option>
             <option value="킹">킹</option>
             <option value="킹이상">킹 이상</option>
-          </select><br>
+          </select>
           <button v-bind:disabled="pcAvail==false"   
-          class="custom-btn btn-4" type="button" :id="i" @click="removePc(i)">-</button>
+          class="custom-btn btn-4" type="button"  @click="removePc(i)">-</button>
         </div>
       </div>
 
       <div class="move-furniture1">
+        <input type="checkbox" name="fridge" v-model="fridgeAvail"/><label>냉장고</label>
         <button v-bind:disabled="fridgeAvail==false"
-        class="custom-btn btn-4" type="button" @click="addFridge()">+</button>
-        <input type="checkbox" name="fridge" v-model="fridgeAvail"/><label>냉장고</label><br /><br />
+        class="custom-btn btn-4" type="button" @click="addFridge()">+</button><br /><br />
         <i class="material-icons md-54">kitchen</i><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].fridgeCount">
-          <select v-bind:disabled="fridgeAvail==false" v-model="moveDetail[0].fridge[i]">
+          <select v-bind:disabled="fridgeAvail==false" :id="i" v-model="moveDetail[0].fridge[i]">
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
             <option value="퀸">퀸</option>
             <option value="킹">킹</option>
             <option value="킹이상">킹 이상</option>
-          </select><br>
+          </select>
           <button v-bind:disabled="fridgeAvail==false" 
-          class="custom-btn btn-4" type="button" :id="i" @click="removeFridge(i)">-</button>
+          class="custom-btn btn-4" type="button"  @click="removeFridge(i)">-</button>
         </div>
       </div>
 
       <div class="move-furniture1">
+        <input type="checkbox" name="trolley" v-model="trolleyAvail" /><label>유모차</label>
         <button v-bind:disabled="trolleyAvail==false"
-         class="custom-btn btn-4" type="button" @click="addTrolley()">+</button>
-        <input type="checkbox" name="trolley" v-model="trolleyAvail" /><label>유모차</label><br /><br />
+         class="custom-btn btn-4" type="button" @click="addTrolley()">+</button><br /><br />
         <i class="fa-solid fa-baby-carriage fa-5x"></i><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].trolleyCount">
-          <select v-bind:disabled="trolleyAvail==false" v-model="moveDetail[0].trolley[i]">
+          <select v-bind:disabled="trolleyAvail==false" :id="i" v-model="moveDetail[0].trolley[i]">
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
             <option value="퀸">퀸</option>
             <option value="킹">킹</option>
             <option value="킹이상">킹 이상</option>
-          </select><br>
+          </select>
           <button v-bind:disabled="trolleyAvail==false" 
-          class="custom-btn btn-4" type="button" :id="i" @click="removeTrolley(i)">-</button>
+          class="custom-btn btn-4" type="button"  @click="removeTrolley(i)">-</button>
         </div>
       </div>
     </div>
@@ -188,12 +188,12 @@
           </h5>
           <br />
           <div class="move-detail-drop">
-            <button class="custom-btn btn-4" type="button" @click="addEtc()">+</button>
+            <button class="custom-btn btn-4" type="button" @click="addEtc()">+</button><br><br>
             <div v-for="i in moveDetail[0].etcCount">
               <label >사용자 기타</label>
+              <button class="custom-btn btn-4" type="button" :id="i-1" @click="removeEtc(i)">-</button>
             <input v-model="moveDetail[0].etcName[i]" class="type-2" type="text" placeholder="기타이삿짐 이름" /><br />
             <input v-model="moveDetail[0].etcSize[i]" class="type-2" type="text" placeholder="이삿짐 사이즈(cm * cm)" /><br />
-            <button class="custom-btn btn-4" type="button" :id="i" @click="removeEtc(i)">-</button>
           </div>
           </div>
         </div>
@@ -213,7 +213,7 @@
           </h5>
           <br />
           <div class="move-detail-drop">
-            <select v-model="moveDetail.box">
+            <select v-model="moveDetail[0].box">
               <option value="" selected>-- 박스개수 --</option>
               <option value="5개이하">5개이하</option>
               <option value="5-10개">5~10개</option>
@@ -319,16 +319,18 @@
     methods: {
 
       //짐 추가 및 삭제
-      addBed: function(){
+      addBed: function () {
         this.moveDetail[0].bed.push();
-        this.moveDetail[0].bedCount++;        
+        this.moveDetail[0].bedCount++;
       },
-      removeBed: function(i){
-       if(i>1){
-        this.moveDetail[0].bedCount--;
-       }else if(i<1){
-        this.moveDetail[0].bedCount = 1;
-       }
+      removeBed: function (i) {
+        if (i > 1) {
+          this.moveDetail[0].bed[i]="";
+          this.moveDetail[0].bedCount--;
+        } else if (i < 1) {
+          
+          this.moveDetail[0].bedCount = 1;
+        }
       },
 
       addSofa: function(){
@@ -337,6 +339,7 @@
       },
       removeSofa: function(i){
        if(i>1){
+        this.moveDetail[0].sofa[i]="";
         this.moveDetail[0].sofaCount--;
        }else if(i<1){
         this.moveDetail[0].sofaCount = 1;
@@ -349,6 +352,7 @@
       },
       removeCloset: function(i){
        if(i>1){
+        this.moveDetail[0].closet[i]="";
         this.moveDetail[0].closetCount--;
        }else if(i<1){
         this.moveDetail[0].closetCount = 1;
@@ -361,6 +365,7 @@
       },
       removeClosets: function(i){
        if(i>1){
+        this.moveDetail[0].closets[i]="";
         this.moveDetail[0].closetsCount--;
        }else if(i<1){
         this.moveDetail[0].closetsCount = 1;
@@ -373,6 +378,7 @@
       },
       removeTv: function(i){
        if(i>1){
+        this.moveDetail[0].tv[i]="";
         this.moveDetail[0].tvCount--;
        }else if(i<1){
         this.moveDetail[0].tvCount = 1;
@@ -385,6 +391,7 @@
       },
       removePc: function(i){
        if(i>1){
+        this.moveDetail[0].pc[i]="";
         this.moveDetail[0].pcCount--;
        }else if(i<1){
         this.moveDetail[0].pcCount = 1;
@@ -398,6 +405,7 @@
       },
       removeFridge: function(i){
        if(i>1){
+        this.moveDetail[0].fridge[i]="";
         this.moveDetail[0].fridgeCount--;
        }else if(i<1){
         this.moveDetail[0].fridgeCount = 1;
@@ -405,11 +413,13 @@
       },
 
       addTrolley: function(){
+        
         this.moveDetail[0].trolley.push();
         this.moveDetail[0].trolleyCount++;        
       },
       removeTrolley: function(i){
        if(i>1){
+        this.moveDetail[0].trolley[i]="";
         this.moveDetail[0].trolleyCount--;
        }else if(i<1){
         this.moveDetail[0].trolleyCount = 1;
@@ -423,6 +433,8 @@
       },
       removeEtc: function(i){
        if(i>1){
+        this.moveDetail[0].etcName[i]="";
+        this.moveDetail[0].etcSize[i]="";
         this.moveDetail[0].etcCount--;
        }else if(i<1){
         this.moveDetail[0].etcCount = 1;
@@ -437,6 +449,14 @@
       un_final_signIn: function () {
         console.log(this.moveInfo);
 
+        console.log(this.moveDetail[0].box);
+
+        if(this.moveDetail[0].box == ""){
+          alert("필요한 박스 수량을 선택해주세요."); 
+        }
+
+        else{
+
         this.$router.push({
 
           name: "moveUntactImg",
@@ -447,7 +467,7 @@
                   moveType:this.moveType
           }
         })
-
+        }
       }
 
     }
@@ -521,6 +541,7 @@
   h3 {
     padding-top: 100px;
   }
+  
 
   /* input */
 
@@ -543,7 +564,8 @@
 
   .move-furniture1 {
     display: inline-block;
-    margin: 20px;
+    margin: 35px;
+    width: 250px;
   }
 
   .move-furniture2 {
@@ -577,7 +599,7 @@
 
   .move-detail-drop {
     display: inline-block;
-    width: 210px;
+    width: 250px;
     height: 100px;
   }
 

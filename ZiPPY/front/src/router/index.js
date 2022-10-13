@@ -25,6 +25,7 @@ import moveInfoDetail from "../views/move/moveInfoDetail";
 import moveTypeSelect from "../views/move/moveTypeSelect";
 import moveImage from "../views/move/moveImage";
 import moveTotal from "../views/move/moveTotal";
+import moveCompanyList from "../views/move/moveCompanyList";
 
 import usedUpdate from "../views/used/usedUpdate.vue";
 import usedDetail from "../views/used/usedDetail.vue";
@@ -142,6 +143,12 @@ const routes = [{
     path: "/moveUntactCheck",
     name: "moveUntactCheck",
     component: moveUntactFinalCheck,
+    props: true,
+  },
+  {
+    path: "/moveCompanyList",
+    name: "moveCompanyList",
+    component: moveCompanyList,
     props: true,
   },
 
