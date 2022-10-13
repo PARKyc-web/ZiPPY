@@ -2,16 +2,6 @@
 <div>
   <form id="testform">
     <div>
-      <input
-                      type="email"
-                      name="email"
-                      class="form-control"
-                      id="inputEmail"                      
-                      placeholder="name@example.com"
-                      v-model="data.email"
-                      required
-                      autofocus
-                    />
     <!-- <input type="email" name="email" v-model="data.email"> -->
     </div>
     <input type="password" name="password" v-model="data.password">
@@ -20,7 +10,7 @@
 
     <button type="button" @click="imageUploaded()">button</button>
   </form>
-  
+  <button @click="swalert()">ALERT</button>
 </div>
 </template>
 
@@ -41,6 +31,11 @@ export default {
     }
   },
   methods : {
+    swalert : function(){
+      this.$swal({
+        icon : 'success',
+        title: 'Hello World'});
+    },
     imageUploaded : function(){
 
       var formData = new FormData(document.querySelector('#testform'));

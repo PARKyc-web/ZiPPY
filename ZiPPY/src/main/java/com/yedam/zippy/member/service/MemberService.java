@@ -3,6 +3,7 @@ package com.yedam.zippy.member.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public interface MemberService {
@@ -11,9 +12,9 @@ public interface MemberService {
   
   public void insertLoginInfo(LoginVO vo);
   
-  public void insertGeneralMember(LoginVO loginVO, GeneralUserVO generalVO);
+  public void signGeneralMember(LoginVO loginVO, GeneralUserVO generalVO);
   
-  public void insertBusinessMember(LoginVO loginVO, BusinessVO businessVO);
+  public void signBusinessMember(LoginVO loginVO, BusinessVO businessVO, List<MultipartFile> images) ;
   
   public int emailRedundancy(String email);
   

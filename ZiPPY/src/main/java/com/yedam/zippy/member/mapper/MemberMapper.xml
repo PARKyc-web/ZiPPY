@@ -8,25 +8,36 @@
 	 	FROM login	 	
 	</select>
 	
-	<insert id="insertLoginInfo" parameterType="LoginVO">
-		INSERT INTO login
-		VALUES(#{email}, #{password}, #{isSocial}, #{token}, #{memberType}, systimestamp)
-	</insert>
 	
+	<!-- 회원가입에 사용되는 SQL -->
 	<select id="emailRedundacyCheck" parameterType="String" resultType="Integer">
 		SELECT count(*)
 		FROM login
 		WHERE email = #{email}
 	</select>
 	
-	<insert id="insertGeneralUser" parameterType="GeneralUserVO">
-		INSERT INTO general_user
-		VALUES(
-		#{userEmail}, #{userName}, #{nickName}, #{phoneNumber}, #{userBirth}, #{userGender}, #{userAddress},
-		#{zipCode}, #{profileImage}, 0, #{addressDetail}
-		)
+	<insert id="insertLoginInfo" parameterType="LoginVO">
+		INSERT INTO login
+		VALUES(#{email}, #{password}, #{isSocial}, #{token}, #{memberType}, systimestamp)
 	</insert>
 	
+	<insert id="insertGeneralMember" parameterType="GeneralUserVO">
+		INSERT INTO general_user
+		VALUES(#{email}, #{userName}, #{nickName}, #{phoneNumber}, #{userBirth}, #{userGender}, #{userAddress},
+		       #{zipCode}, #{profileImage}, #{userState}, #{addressDetail})
+	</insert>
+	
+	<insert id="insertBusinessMember" parameterType="BusinessVO">
+		INSERT INTO business
+		VALUES(#{email}, #{compName}, #{compIntro}, #{ceoName}, #{businessId}, #{compAddress},
+		       #{profilePic}, #{phone}, #{brokerId}, #{businessImg}, #{brokerImg}, 
+		       #{memberType}, #{impUid}, #{zipCode}, #{businessState}, #{addressDetail}
+		)
+	 </insert>
+	
+	
+	
+	<!-- 여기서 부터 로그인에 관련된 SQL -->
 	<select id="getLoginInfo" parameterType="String" resultType="LoginVO">
 		SELECT *
 		FROM login

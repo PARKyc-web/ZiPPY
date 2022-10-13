@@ -18,11 +18,9 @@
                       class="form-control"
                       id="inputEmail"                      
                       placeholder="name@example.com"
-                      v-model="user_info.email"
+                      v-model="user_info.email"                      
                     />
-                    <label for="inputEmail">이메일(아이디)</label>
-                  </div>
-                  <button
+                    <button
                       id="email_code"
                       type="button"
                       class="btn btn-outline-success"
@@ -30,6 +28,9 @@
                     >
                       인증번호 전송
                     </button>
+                    <label for="inputEmail">이메일(아이디)</label>
+                  </div>
+
 
                   <div class="form-floating mb-3">
                     <input
@@ -243,7 +244,8 @@
                       id="addressInput"
                       placeholder="주소검색"
                       v-model="user_info.userAddress"
-                      disabled
+                      readOnly
+                      @click="find_address()"
                     />
                     <label for="addressInput">(우편번호) 주소</label>
                   </div>
@@ -290,12 +292,18 @@
       </div>
     </div>
   </div>
+  <input type="hidden" name="zipCode" v-model="user_info.zipCode">
+  <input type="hidden" name ="isSocial" value="0">
+  <input type="hidden" name ="memberType" value="0">
+  <input type="hidden" name ="userState" value="0">
+  <input type="hidden" name ="profileImage" value="default.png">
 </form>
 </template>
 
 <script>
 import axios from "axios";
 import loginFunc from '../../script/loginFunc.js';
+import swal from 'sweetalert2';
 
 export default {
   data() {
@@ -311,11 +319,7 @@ export default {
         userBirth: "",
         userAddress: "",
         addressDetail: "",
-        zipCode : "",
-        memberType : 0,
-        userState: 0,
-        isSocial : 0,
-        profileImage : "default.png"
+        zipCode : "",        
       },
 
       // 모든 데이터를 정확하게 입력했는지 검사하는 Data
@@ -400,11 +404,13 @@ export default {
           this.user_info.userAddressr != "" && this.user_info.userName != ""  &&
           this.user_info.nickName != "" && this.user_info.userBirth != "") {            
 
-          var formData = new FormData(document.querySelector('#generalForm'));          
-          console.log(formData);
-          console.log(this.user_info);
-
-        alert("회원가입을 축하합니다!!");
+          var formData = new FormData(document.querySelector('#generalForm'));
+        
+          swal.fire({
+            icon:"success",
+            title:"회원가입을 축하드립니다!",
+            test: "확인버튼을 누르시면 \n 로그인창으로 이동합니다"
+          });
         var temp = await axios({
           url: "http://localhost:8090/zippy/member/gSignUp",
           method: "POST",
@@ -412,7 +418,7 @@ export default {
           //   'Content-Type': 'multipart/form-data'
           //   "Content-Type" : "application/x-www-form-urlencoded;charset=UTF-8"
           // },
-          data: formData          
+          data: formData  
         })
           .then((res) => {
             console.log(res);
@@ -421,10 +427,13 @@ export default {
             console.log(error);
           });          
 
-          // this.$router.push("/");
+          this.$router.push("/login");
 
       } else{
-        alert("모든 정보를 입력해주세요!");
+        swal.fire({
+          icon:"error",
+          title:"모든 정보를 \n 입력 및 인증해주세요!"
+        });        
       }
     },    
   },

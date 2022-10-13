@@ -1,5 +1,5 @@
 import axios from "axios";
-import { type } from "jquery";
+import swal from 'sweetalert2';
 
 export default {
 
@@ -27,21 +27,22 @@ export default {
         var reg = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
         var email = document.querySelector("#inputEmail").value;
         var email_code = 1234567890;
-        const redundancy = await this.email_redundancy();
-        console.log(redundancy);
+        const redundancy = await this.email_redundancy();        
         if (reg.test(email)) {
 
             if (redundancy == 0) {
                 document.querySelector("#email-confirm-btn").disabled = false;
-                alert("Email을 전송하였습니다.");
+                swal.fire({
+                    icon:"success",
+                    title : "인증코드를 전송하였습니다!"
+                })
 
                 const temp = await axios({
                     url : "http://localhost:8090/zippy/validation/email",
                     params : {
                         email : email
                     }
-                }).then(res =>{
-                    console.log("Axios 실행완료 : ", res);
+                }).then(res =>{                    
                     email_code = res.data;
                     console.log("emailCode 값 : ", email_code);
 
@@ -55,11 +56,18 @@ export default {
                 };
 
             } else {
-                alert("이미 사용중인 이메일입니다!");
+                swal.fire({
+                    icon:"error",
+                    title:"이미 사용중인 이메일입니다!",                    
+                });
             }
 
         } else {
-            alert("이메일 양식을 맞춰주세요!");
+            swal.fire({
+                icon:"error",
+                title:"이메일 양식을 확인해주세요!",
+                text : "example@example.com"
+            });            
         }
     },
 
@@ -70,16 +78,22 @@ export default {
         var code = document.querySelector("#emailAuthentication");
 
         if (email_code == code.value) {
-            alert("이메일인증 성공!");
-            document.querySelector("#inputEmail").disabled = true;
-            document.querySelector("#emailAuthentication").disabled = true;
-            document.querySelector("#email-confirm-btn").disabled = true;
-            document.querySelector("#email_code").disabled = true;
+            swal.fire({
+                icon: "success",
+                title: "인증성공!"
+            })
+            document.getElementById('inputEmail').readOnly = true;
+            document.getElementById("emailAuthentication").disabled = true;
+            document.getElementById("email-confirm-btn").disabled = true;
+            document.getElementById("email_code").disabled = true;
 
             return true;
 
         } else {
-            alert("인증번호가 틀렸습니다!");
+            swal.fire({
+                icon: "error",
+                title:"인증번호를 확인해주세요!"
+            })
             return false;
         }
 
@@ -133,7 +147,11 @@ export default {
         console.log(typeof(number));
         
         if (reg.test(number)) {
-            alert("인증번호를 전송하였습니다!");
+            swal.fire({
+                icon:"success",
+                title:"인증번호를 전송하였습니다!"
+            });
+
             document.querySelector("#phoneNumberBtn").disabled = false;
             const temp = await axios({                
               url : "http://localhost:8090/zippy/validation/phone",
@@ -155,8 +173,11 @@ export default {
             }
 
         } else {
-            alert("휴대폰 번호를 확인해주세요!");
-            console.log(number);
+            swal.fire({
+                icon:"error",
+                title:"휴대폰 번호를 확인해주세요!",
+                text:"-(하이픈)을 제외하고 숫자만 입력해주세요"
+            });            
         }
     },
 
@@ -170,7 +191,7 @@ export default {
         var send_btn = document.querySelector("#phone_code");
         var valid_btn = document.querySelector("#phoneNumberBtn");
         if (valid.value == phoneCode) {
-            input_phone.disabled = true;
+            input_phone.readOnly = true;
             valid.disabled = true;
             send_btn.disabled = true;
             valid_btn.disabled = true;

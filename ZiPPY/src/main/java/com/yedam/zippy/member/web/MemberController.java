@@ -21,45 +21,32 @@ import com.yedam.zippy.member.service.MemberService;
 @RequestMapping("/member")
 public class MemberController {
 
-  @Autowired
-  MemberService service;
+    @Autowired
+    MemberService service;
+  
+    @PostMapping("/login")
+    public Object login(@RequestBody LoginVO login) {
+      System.out.println(login);
+      return service.login(login);
+    }
+  
+    @PostMapping("gSignUp")
+    public String generalSignUp(LoginVO login, GeneralUserVO gVO) {
+      service.signGeneralMember(login, gVO);
+      return "Congratulations";
+    }
 
+    @PostMapping("bSignUp")
+    public String businessSignUp(LoginVO login, BusinessVO bVO, List<MultipartFile> images) {
   
-  @PostMapping("/login")
-  public Object login(@RequestBody LoginVO login) {    
-    System.out.println(login);    
-    return service.login(login);
-  }  
+      System.out.println(login);
+      System.out.println(bVO);
+      System.out.println(images);
+      
+      service.signBusinessMember(login, bVO, images);
+      
   
-  @PostMapping("gSignUp")
-  public String generalSignUp(LoginVO login, GeneralUserVO gVO) {    
-    System.out.println(login);
-    System.out.println(gVO);
-    
-    return "Congratulations";
-  }
-
-  @PostMapping("bSignUp")
-  public String businessSignUp(LoginVO login,  BusinessVO bVO, List<MultipartFile> images) {
-        
-    System.out.println(login);
-    System.out.println(bVO);    
-    System.out.println(images);
-    
-    File file = new File("D:/imageTest.jpg");
-    try {
-      images.get(0).transferTo(file);      
-    } catch (Exception e) {
-      e.printStackTrace();
-    }     
-    
-    return "";
-  }
-
-  
-  
-
-  
-  
+      return "";
+    }
 
 }

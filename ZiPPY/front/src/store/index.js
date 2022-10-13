@@ -8,7 +8,11 @@ export default new Vuex.Store({
     login_info : {}
   },
   getters: {},
-  mutations: {},
+  mutations: {
+    login(state, info){
+      state.login_info = info;
+    }
+  },
   actions: {},
   modules: {},
 });

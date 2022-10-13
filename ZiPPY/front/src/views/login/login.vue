@@ -41,8 +41,7 @@
                <v-btn @click="login()" color="#b3e3c3" large>Enter</v-btn>
               </div>
              </v-card-text>
-             <hr>
-
+             <hr>             
              <div class="login_img">
               <button @click="kLogin()"><img src="../../assets/kakao_login.png" width="200px" height="50px"/></button>                  
               <button @click="nLogin()"><img src="../../assets/naver_login.png" width="200px" height="50px"/></button>
@@ -56,6 +55,7 @@
 
 <script>
 import axios from 'axios';
+import swal from 'sweetalert2';
 
 export default{  
   data() {
@@ -67,7 +67,10 @@ export default{
   methods: {    
     login : async function(){  
       if(this.email == "" || this.password =="") {
-        alert("ID, 비밀번호를 입력하세요!");
+        swal.fire({
+          icon:"error",
+          title:"아이디, 비밀번호를 \n 확인해주세요!"
+        });        
         return false;
       }
       var outside = this;
@@ -82,10 +85,20 @@ export default{
         console.log(res);
 
         if(res.data == "" || res.data == null){
-          console.log("로그인 실패!");          
+          swal.fire({
+            icon:"error",
+            title:"로그인 실패!",
+            text:"아이디, 비밀번호를 확인해주세요!"
+          })
         } else{
-          alert("로그인 성공!");
-          outside.$router.push("/signin");
+          swal.fire({
+            icon:"success",
+            title:"로그인 성공!"
+          })
+
+          outside.$store.commit('login', res.data);
+          // outside.$router.push("/signin");
+          console.log(outside.$store.state.login_info);          
         }
 
       }).catch(error =>{
