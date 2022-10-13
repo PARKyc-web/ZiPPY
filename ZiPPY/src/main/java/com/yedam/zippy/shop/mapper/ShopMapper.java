@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.yedam.zippy.shop.service.BasketVO;
+import com.yedam.zippy.shop.service.CartVO;
 import com.yedam.zippy.shop.service.ProductOptionVO;
 import com.yedam.zippy.shop.service.ProductVO;
 
@@ -18,13 +18,18 @@ public interface ShopMapper {
   //전체조회(키워드)
   public List<ProductVO> getKeywordList(String keyword);
   //단건조회(디테일)
-  public ProductVO getProduct(int shopProductNo);
+  public ProductVO getProduct(int proNo);
   //디테일 이미지 조회
-  public String[] getDetailImg(int shopProductNo);
+  public String[] getDetailImg(int proNo);
   //디테일 옵션 조회
-  public List<ProductOptionVO> getDetailOpt(int shopProductNo);
+  public List<ProductOptionVO> getDetailOpt(int proNo);
+  
   
   // 장바구니 CRUD
   //등록
-  public void insertBasket(BasketVO basketVo);
+  public void insertCart(CartVO CartVo);
+  //장바구니 상품개수 조회
+  public int getMyCart(String email);
+  //내 장바구니 조회
+  public List<CartVO> getMyCartList(String email);
 }

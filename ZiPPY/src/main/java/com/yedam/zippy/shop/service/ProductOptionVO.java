@@ -4,9 +4,15 @@ import lombok.Data;
 
 @Data
 public class ProductOptionVO {
-  int shopProductOptNo;
-  int shopProductNo;
-  String shopOptName;
+//  int shopProductOptNo;
+//  int shopProductNo;
+//  String shopOptName;
+//  //추가가격
+//  String shopProductOptPrice;
+  
+  int optNo;
+  int proNo;
+  String optName;
   //추가가격
-  String shopProductOptPrice;
+  String optPrice;
 }

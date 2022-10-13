@@ -72,14 +72,14 @@
                   <td>수량</td>
                   <td>배송비</td>
                 </tr>
-                <tr v-for="product in products" :key="product.shopProductNo">
-                  <td>{{product.shoPproductName}}</td>
+                <tr v-for="product in products" :key="product.proNo">
+                  <td>{{product.proName}}</td>
                   <td>
-                    <v-img width="150px" height="150px" :src="product.shopMainImg"></v-img>
+                    <v-img width="150px" height="150px" :src="product.proMainImg"></v-img>
                   </td>
                   <td>{{product.shopProductOpt}}</td>
                   <td>대충 스토어이름</td>
-                  <td>{{product.shopProductPrice}}</td>
+                  <td>{{product.proPrice}}</td>
                   <td>대충 수량</td>
                   <td>{{product.shopDeliveryCost}}</td>
                 </tr>
@@ -168,14 +168,14 @@
           }
         ],
         products: [{
-          shopProductNo: 199,
-          shoPproductName: '딱딱의자',
-          shopMainImg: "http://image.kyobobook.co.kr/newimages/giftshop_new/goods/400/1315/hot1568959544803.jpg",
+          proNo: 199,
+          proName: '딱딱의자',
+          proMainImg: "http://image.kyobobook.co.kr/newimages/giftshop_new/goods/400/1315/hot1568959544803.jpg",
           shopProductOpt: 'yellow/L',
           compName: '예담가구',
-          businessEmail: 'yedam@mail.com',
+          email: 'yedam@mail.com',
           basketProductQty: 1,
-          shopProductPrice: 20000,
+          proPrice: 20000,
           shopDeliveryCost: 3000,
         }],
       }

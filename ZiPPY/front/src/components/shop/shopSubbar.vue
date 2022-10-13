@@ -27,9 +27,9 @@
       </v-form>
       <!-- 검색창 끝 -->
       <!-- 장바구니 -->
-      <v-badge :value="hover" color="#B3E3C3" content="10" left transition="slide-x-transition">
+      <v-badge :value="hover" color="#B3E3C3" :content="count" left transition="slide-x-transition">
         <v-hover v-model="hover">
-          <v-icon color="rgba(0, 0, 0, 0.54)">
+          <v-icon color="rgba(0, 0, 0, 0.54)" @click="goCart">
             mdi-cart
           </v-icon>
         </v-hover>
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
   export default {
     data: () => ({
       categories: [
@@ -55,37 +57,58 @@
         '소품'
       ],
       hover: false,
+      email: 'zippy@naver.com',
+      count: ''
     }),
     methods: {
-      // 수정전
-      // goList(cate) {
-      //   this.$router.push('/shop/category?cate=' + cate);
-      //   this.$router.go(0);
-      // },
-      // enterkey: function () {
-      //   var searchValue = document.querySelector("#search").value;
-      //   if (window.event.keyCode == 13) {
-      //     this.$router.push('/shop/keyword?keyw=' + searchValue);
-      //     this.$router.go(0);
-      //   }
-      // }
+      //카테고리 이동
       goList(cate) {
         this.$router.push(({
           name: 'shopList',
-          query: {cate: cate}
-        })).catch(()=>{});;
+          query: {
+            cate: cate
+          }
+        })).catch(() => {});;
         this.$router.go(0);
       },
+      //키워드 검색
       enterkey: function () {
         var searchValue = document.querySelector("#search").value;
         if (window.event.keyCode == 13) {
           this.$router.push(({
-          name: 'shopList',
-          query: {keyw: searchValue}
-        }));
-        this.$router.go(0);
+            name: 'shopList',
+            query: {
+              keyw: searchValue
+            }
+          }));
+          this.$router.go(0);
         }
-      }
+      },
+      //장바구니 이동
+      goCart: function () {
+        this.$router.push(({
+          name: 'shopCart',
+          query: {
+            email: 'zippy@naver.com'
+          }
+        })).catch(() => {});;
+        this.$router.go(0);
+      },
+    },
+    created() {
+      axios({
+          url: "http://localhost:8088/zippy/shop/myCart",
+          method: "GET",
+          params: {
+            email: this.email
+          }
+        }).then(res => {
+          console.log(res);
+          this.count = res.data;
+          console.log(this.count);
+        }).catch(error => {
+          console.log(error);
+        })
     }
   }
 </script>

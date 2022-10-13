@@ -8,6 +8,7 @@ import AgentDetail from "../components/property/AgentDetail.vue";
 import shopView from "../views/shopView.vue";
 import shopList from "../views/shop/shopListView.vue";
 import shopDetail from "../views/shop/shopDetailView.vue";
+import shopCart from "../views/shop/shopCartView.vue";
 
 import GeneralSign from '../views/login/generalSignUp.vue';
 import BusinessSign from '../views/login/businessSignUp.vue';
@@ -56,8 +57,8 @@ const routes = [{
     component: BusinessSign
   },
   {
-    path : "/baseImage",
-    name : "baseImage",
+    path: "/baseImage",
+    name: "baseImage",
     component: baseImage
   },
 
@@ -93,12 +94,17 @@ const routes = [{
 
   },
   {
-      path: "/shop/list",
-      name: "shopList",
-      component: shopList,
-    },
-  
-  
+    path: "/shop/list",
+    name: "shopList",
+    component: shopList,
+  },
+  {
+    path: "/shop/cart",
+    name: "shopCart",
+    component: shopCart,
+  },
+
+
 
   //move
   {

@@ -30,15 +30,15 @@
           <p>다시 검색해주세요.</p>
         </div>
         <!-- 상품정보 -->
-        <div id="product-info" v-for="product in products" :key="product.shopProductNo"
-          @click="goDetail(product.shopProductNo)">
+        <div id="product-info" v-for="product in products" :key="product.proNo"
+          @click="goDetail(product.proNo)">
           <div id="product-img">
-            <img :src="require(`../../assets/shop/productImg/${product.shopMainImg}.jpg`)">
+            <img :src="require(`../../assets/shop/productImg/${product.proMainImg}.jpg`)">
           </div>
           <div class="product-about">
             <h6 class="product-seller-name">{{product.compName}}</h6>
-            <h6 style="font-weight:bold" class="product-seller-name" id="product-name">{{product.shopProductName}}</h6>
-            <h5 style="display:inline-block">{{product.shopProductPrice}}</h5>
+            <h6 style="font-weight:bold" class="product-seller-name" id="product-name">{{product.proName}}</h6>
+            <h5 style="display:inline-block">{{product.proPrice}}</h5>
             <p class="ma-0" style="display:inline-block; font-size:small">원</p>
           </div>
           <h6 class="product-seller-name">
@@ -84,7 +84,7 @@
     methods: {
       //디테일 페이지로 이동
       goDetail(no) {
-        this.$router.push('/shop/detail?no=' + no)
+        this.$router.push('/shop/detail?pno=' + no)
       },
       goList(cate) {
         this.$router.push(({
@@ -98,7 +98,7 @@
       if (this.$route.query.keyw ) {
         axios({
           url: "http://localhost:8088/zippy/shop/keyword",
-          methods: "GET",
+          method: "GET",
           params: {
             keyw: this.$route.query.keyw
           }
@@ -112,7 +112,7 @@
       }else if(this.$route.query.cate) {
         axios({
         url: "http://localhost:8088/zippy/shop/category",
-        methods: "GET",
+        method: "GET",
         params: {
           cate: this.$route.query.cate
         }

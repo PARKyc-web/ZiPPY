@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yedam.zippy.shop.mapper.ShopMapper;
-import com.yedam.zippy.shop.service.BasketVO;
+import com.yedam.zippy.shop.service.CartVO;
 import com.yedam.zippy.shop.service.ProductOptionVO;
 import com.yedam.zippy.shop.service.ProductVO;
 import com.yedam.zippy.shop.service.ShopService;
@@ -30,20 +30,33 @@ public class ShopServiceImpl implements ShopService {
     return mapper.getKeywordList(keyword);
   }
   @Override
-  public ProductVO getProduct(int shopProductNo) {
-    return mapper.getProduct(shopProductNo);
+  public ProductVO getProduct(int proNo) {
+    return mapper.getProduct(proNo);
   }
   @Override
-  public String[] getDetailImg(int shopProductNo) {
-    return mapper.getDetailImg(shopProductNo);
+  public String[] getDetailImg(int proNo) {
+    return mapper.getDetailImg(proNo);
   }
   @Override
-  public List<ProductOptionVO> getDetailOpt(int shopProductNo) {
-    return mapper.getDetailOpt(shopProductNo);
+  public List<ProductOptionVO> getDetailOpt(int proNo) {
+    return mapper.getDetailOpt(proNo);
   }
   @Override
-  public void insertBasket(BasketVO basketVO) {
-    mapper.insertBasket(basketVO);
+  public void insertCart(CartVO cartVO) {
+    mapper.insertCart(cartVO);
+  }
+  @Override
+  public int getMyCart(String email) {
+    return mapper.getMyCart(email);
+  }
+  @Override
+  public List<CartVO> getMyCartList(String email) {
+    List<CartVO> list = mapper.getMyCartList(email);
+    for(CartVO x : list) {
+      x.setOption(mapper.getDetailOpt(x.getCartPno()));
+      x.setProductVO(mapper.getProduct(x.getCartPno()));
+    }
+    return list;
   }
 
 }

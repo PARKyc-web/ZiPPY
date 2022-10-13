@@ -11,7 +11,7 @@
   import categoryList from "@/components/shop/categoryList.vue";
   import keywordList from "@/components/shop/keywordList.vue";
   import shopDetail from "@/components/shop/shopDetail.vue";
-  import cart from "@/components/shop/cart.vue";
+  import shopCart from "@/components/shop/shopCart.vue";
   import order from "@/components/shop/order.vue"
   import orderComplete from "@/components/shop/orderComplete.vue"
 
@@ -22,7 +22,7 @@
     categoryList,
     keywordList,
     shopDetail,
-    cart,
+    shopCart,
     order,
     orderComplete
   },

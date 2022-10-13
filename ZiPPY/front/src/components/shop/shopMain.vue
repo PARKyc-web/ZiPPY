@@ -22,13 +22,13 @@
         <h2 style="color:#B3E3C3">#BEST</h2>
       </div>
       <!-- 아이템 -->
-        <div id="main-item" v-for="product in products" :key="product.shopProductNo" @click="goDetail(product.shopProductNo)">
+        <div id="main-item" v-for="product in products" :key="product.proNo" @click="goDetail(product.proNo)">
           <div id="main-product-img">
-            <img :src="require(`../../assets/shop/productImg/${product.shopMainImg}.jpg`)">
+            <img :src="require(`../../assets/shop/productImg/${product.proMainImg}.jpg`)">
           </div>
           <div class="product-about" id="left">
-            <h6 id="product-name">{{ product.shopProductName }}</h6>
-            <h6>{{ product.shopProductPrice }}</h6>
+            <h6 id="product-name">{{ product.proName }}</h6>
+            <h6>{{ product.proPrice }}</h6>
           </div>
         </div>
       <!-- 아이템 끝 -->
@@ -39,13 +39,13 @@
         <div id="list-name" style="margin:0 auto">
           <h2 style="color:#212529; text-align: center;">이런 건 어떠세요?</h2>
         </div>
-        <div id="main-item" v-for="product in products" :key="product.shopProductNo" @click="goDetail(product.shopProductNo)">
+        <div id="main-item" v-for="product in products" :key="product.proNo" @click="goDetail(product.proNo)">
           <div id="main-product-img">
-            <img :src="require(`../../assets/shop/productImg/${product.shopMainImg}.jpg`)">
+            <img :src="require(`../../assets/shop/productImg/${product.proMainImg}.jpg`)">
           </div>
           <div class="product-about" id="left">
-            <h6 id="product-name">{{ product.shopProductName }}</h6>
-             <h6>{{ product.shopProductPrice }}</h6>
+            <h6 id="product-name">{{ product.proName }}</h6>
+             <h6>{{ product.proPrice }}</h6>
           </div>
         </div>
       </div>
@@ -79,7 +79,7 @@
     created() {
       axios({
         url: "http://localhost:8088/zippy/shop/main",
-        methods: "GET"
+        method: "GET"
       }).then(res => {
         console.log(res);
         this.products = res.data;
@@ -90,7 +90,7 @@
     },
     methods: {
       goDetail(no) {
-        this.$router.push('/shop/detail?no='+no)
+        this.$router.push('/shop/detail?pno='+no)
       }
     }
   };
