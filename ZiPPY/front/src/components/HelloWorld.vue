@@ -1,18 +1,14 @@
 <template>
-  <div>
-    <test-bar></test-bar>
+  <div>    
     <h1>text</h1>
   </div>
 </template>
 
 <script>
-import bar from "./testbar.vue";
+
 
 export default {
-  name: "HelloWorld",
-  components: {
-    testBar: bar,
-  },
+  name: "HelloWorld",  
   data: function () {
     return {
       return: {},

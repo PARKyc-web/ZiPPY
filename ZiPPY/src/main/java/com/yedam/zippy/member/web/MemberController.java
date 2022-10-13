@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,37 +21,32 @@ import com.yedam.zippy.member.service.MemberService;
 @RequestMapping("/member")
 public class MemberController {
 
-  @Autowired
-  MemberService service;
+    @Autowired
+    MemberService service;
+  
+    @PostMapping("/login")
+    public Object login(@RequestBody LoginVO login) {
+      System.out.println(login);
+      return service.login(login);
+    }
+  
+    @PostMapping("gSignUp")
+    public String generalSignUp(LoginVO login, GeneralUserVO gVO) {
+      service.signGeneralMember(login, gVO);
+      return "Congratulations";
+    }
 
-  @PostMapping("gSignUp")
-  public String generalSignUp(LoginVO login, GeneralUserVO gVO) {    
-    System.out.println(login);
-    System.out.println(gVO);
-    
-    return "Congratulations";
-  }
-
-  @PostMapping("bSignUp")
-  public String businessSignUp(LoginVO login,  BusinessVO bVO, List<MultipartFile> images) {
-        
-    System.out.println(login);
-    System.out.println(bVO);    
-    System.out.println(images);
-    
-    File file = new File("D:/imageTest.jpg");
-    try {
-      images.get(0).transferTo(file);      
-    } catch (Exception e) {
-      e.printStackTrace();
-    }     
-    
-    return "";
-  }
+    @PostMapping("bSignUp")
+    public String businessSignUp(LoginVO login, BusinessVO bVO, List<MultipartFile> images) {
   
+      System.out.println(login);
+      System.out.println(bVO);
+      System.out.println(images);
+      
+      service.signBusinessMember(login, bVO, images);
+      
   
-
-  
-  
+      return "";
+    }
 
 }

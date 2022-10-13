@@ -1,4 +1,5 @@
 <template>
+  <form id="businessForm">
   <div class="signup-body">
     <div class="general-signup-container">
       <div class="row">
@@ -11,23 +12,23 @@
                 <img src="../../assets/zippy_logo.png" width="150px" />
               </h5>
               <hr class="my-4" />              
-              <form id="signup-form" action="">
+              
                 <div id="first-form">
                   <div id="business-label-div">
                     <h5>업체 유형</h5>
 
                     <label class="business-label">
-                      <input type="radio" name="business_type" value="0"/>
+                      <input type="radio" name="memberType" value="0"/>
                       <span>공인중개사</span>
                     </label>
 
                     <label class="business-label">
-                      <input type="radio" name="business_type" value="2" />
+                      <input type="radio" name="memberType" value="2" />
                       <span>쇼핑몰</span>
                     </label>
 
                     <label class="business-label">
-                      <input type="radio" name="business_type" value="3" />
+                      <input type="radio" name="memberType" value="3" />
                       <span>이사업체</span>
                     </label>
 
@@ -38,7 +39,7 @@
                       type="email"
                       class="form-control"
                       id="inputEmail"
-                      name="user_email"
+                      name="email"
                       placeholder="name@example.com"
                       required
                       autofocus
@@ -81,7 +82,7 @@
                       class="form-control"
                       v-model="user_info.userPassword"
                       id="password"
-                      name="user_passwd"
+                      name="password"
                       placeholder="123456"                      
                       @change="password_validation()"
                     />
@@ -177,10 +178,11 @@
                       type="text"
                       class="form-control"
                       id="phone"
+                      name="phone"
                       placeholder="전화번호 입력"
                     />
                     <label for="phone">전화번호</label>
-                    <button
+                    <button                      
                       id="phone_code"
                       type="button"
                       class="btn btn-outline-success"
@@ -215,8 +217,10 @@
                       class="form-control"
                       id="addressInput"
                       placeholder="주소검색"
+                      name="compAddress"
                       v-model="user_info.userAddress"
-                      disabled
+                      readonly
+                      @click="find_address()"
                     />
                     <label for="addressInput">업체주소 (우편번호)</label>
                   </div>
@@ -226,6 +230,7 @@
                       type="text"
                       class="form-control"
                       id="addressDetail"
+                      name="addressDetail"
                       v-model="user_info.addressDetail"
                       placeholder="상세주소"
                     />
@@ -250,7 +255,7 @@
                       다음 페이지
                     </button>
                   </div>
-                  <a class="d-block text-center mt-2 small" href="/"
+                  <a class="d-block text-center mt-2 small" href="/login"
                     >이미 아이디가 있으신가요?</a
                   >
                 </div>
@@ -263,6 +268,7 @@
                       class="form-control"
                       id="ceo_name"
                       placeholder="ceo"
+                      name="ceoName"
                       v-model="user_info.ceoName"
                     />
                     <label for="ceo_name">대표자 이름</label>
@@ -274,6 +280,7 @@
                       class="form-control"
                       id="business_name"
                       placeholder="company_name"
+                      name="compName"
                       v-model = "user_info.compName"
                     />
                     <label for="business_name">업체명</label>
@@ -286,6 +293,7 @@
                       id="business_explain"
                       placeholder="기업소개를 작성해주세요!"
                       rows="15"
+                      name="compIntro"
                       v-model = "user_info.compIntro"
                     ></textarea>
                   </div>
@@ -293,10 +301,11 @@
                   <hr />
                   <div class="form-floating mb-3">
                     <input
-                      type="text"
+                      type="number"
                       class="form-control"
-                      id="business_number"
-                      placeholder="123456"
+                      id="businessId"
+                      name="businessId"
+                      placeholder="123456"                      
                     />
                     <label for="businessNumber"> 사업자번호 </label>
                     <button type="button" class="btn btn-outline-success" @click="businessNumValid()">
@@ -304,12 +313,13 @@
                     </button>
                   </div>
 
-                  <div class="form-floating mb-3" v-if="user_info.business_type == '0'">
+                  <div class="form-floating mb-3" v-if="user_info.memberType == 0">
                     <input
                       type="email"
                       class="form-control"
                       id="broker_number"
-                      placeholder="123456"
+                      name="brokerId"
+                      placeholder="123456"                      
                     />
                     <button type="button" class="btn btn-outline-success">
                       유효성검사
@@ -322,21 +332,22 @@
                       type="file"
                       class="form-control"
                       id="business_number_pic"
-                      name="business_pic"
-                      placeholder="number_pic"          
+                      name="images"
+                      placeholder="number_pic"                    
+                      required  
                     />
                     <label for="business_number_pic"> 사업자등록증 </label>
                   </div>
 
-                  <div class="form-floating mb-3" v-if="user_info.business_type == '0'">
+                  <div class="form-floating mb-3" v-if="user_info.memberType == 0">
                     
                     <input
                       type="file"
                       class="form-control"
                       id="broker_number_pic"
-                      name="broker_pic"
+                      name="images"
                       placeholder="number_pic"
-                      @change="imageUpload('broker_pic')"
+                      required        
                     />
                     <label for="broker_number_pic"> 중개등록증 </label>
                   </div>
@@ -349,19 +360,26 @@
                       회원가입
                     </button>
                   </div>
-                </div>
-              </form>
+                </div>              
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  
+  <input type="hidden" name ="isSocial" value="0">
+  <input type="hidden" name="profilePic" value="default.png">
+  <input type="hidden" name="zipCode" v-model="user_info.zipCode">
+  <input type="hidden" name="impUid" value="1234567890">
+  <input type="hidden" name="businessState" value="0">
+</form>
 </template>
 
 <script>
 import axios from 'axios';
 import loginFunc from '@/script/loginFunc';
+import swal from 'sweetalert2';
 
 export default {
   data() {
@@ -378,9 +396,9 @@ export default {
         ceoName : "",
         compName : "",
         compIntro : "",
-        businessId : "",
+        businessId : 0,
         businessImg : "",
-        broker_id : "",
+        brokerId : 0,
         brokerImg : "",        
         profilePic : "default.png",
         impUid : "1234567890",
@@ -412,8 +430,6 @@ export default {
 
     email_valid_check: function(){      
       this.email_valid = loginFunc.email_valid_check(this.emailCode);
-      console.log("email_valid :: ", this.email_valid);
-      console.log("user_email :: ", this.user_info.email);
     },
 
     password_validation: function () {
@@ -430,8 +446,7 @@ export default {
       if(data != null){
         this.user_info.userPhone = data.phone;
         this.phoneCode = data.phone_code;
-      }      
-      console.log("인증번호 받기 후 잘 들어감? ",this.user_info.userPhone, this.phoneCode);
+      }            
     },
 
     phone_valid_check: function () {
@@ -459,14 +474,19 @@ export default {
     },
 
     next: function () {            
-      var selected = document.querySelector("input[type=radio][name=business_type]:checked");      
+      var selected = document.querySelector("input[type=radio][name=memberType]:checked");      
 
       if(selected == null){        
-        alert("업체유형을 선택해 주세요!");
+        swal.fire({
+          icon:"error",
+          title:"업체유형을 선택해주세요!"
+        });        
 
       }else if(this.email_valid == false || this.phone_valid == false || this.pass_valid == false || this.user_info.userAddress == ""){
-        alert("모든 정보를 인증 및 확인해주세요!");
-
+        swal.fire({
+          icon:"error",
+          title:"모든 정보를 \n 입력 및 인증해주세요!"
+        });
       }else {
         this.user_info.memberType = selected.value;
         document.querySelector("#first-form").style.display = "none";
@@ -475,10 +495,8 @@ export default {
       console.log(this.user_info);
     },
 
-    businessNumValid : function(){
-      console.log("==Business NUMBER VALIDATION==");
-      var number = document.querySelector("#business_number").value;
-      console.log("NUBMER :: ", number);
+    businessNumValid : function(){      
+      var number = document.querySelector("#businessId").value;      
       axios({
         url: "https://api.odcloud.kr/api/nts-businessman/v1/status",
         method : "POST",
@@ -490,13 +508,19 @@ export default {
         }
       }).then(res => {        
         console.log(res.data.match_cnt);
-        if(res.data.match_cnt != null){
-          console.log(res.data.match_cnt);
+        if(res.data.match_cnt != null){          
           this.user_info.businessId = number;
           this.business_valid = true;
+          swal.fire({
+            icon:"success",
+            title:"인증성공!"
+          })
 
         }else{
-          alert("사업자번호를 확인해주세요!");
+          swal.fire({
+            icon:"error",
+            title:"사업자번호를 확인해주세요!"
+          });          
         }
         
       }).catch(error =>{
@@ -504,39 +528,36 @@ export default {
       })      
     },
 
-    imageUpload : function(inputName){ 
-      console.log(inputName);
-
-      var file = document.querySelector('input[type=file][name='+inputName+']')['files'][0];      
-      var reader = new FileReader();      
-      var outside = this;
-      reader.onload = function () {
-        if(inputName == 'broker_pic'){
-          outside.user_info.brokerImg = reader.result;
-
-        } else{
-          outside.user_info.businessImg = reader.result;
-        }       
-      }
-      reader.readAsDataURL(file);
-    },
-
     sign: function () {
-      console.log("sign-up RUN");      
-      console.log(this.user_info);
-      console.log(JSON.stringify(this.user_info));
-      console.log("==================");
-            
-      if (this.business_valid == true && this.user_info.ceo_name != "" && 
+      var bfile = document.getElementById("business_number_pic").value;
+      if(!bfile){
+        swal.fire({
+          icon:"error",
+          title: "사업자 등록증을 등록해주세요!"
+        });
+
+        return false;
+      }
+
+      if(this.user_info.memberType == 0){
+        var broker_file = document.getElementById("broker_number_pic").value;
+        if(!broker_file){
+          swal.fire({
+            icon:"error",
+            title: "중개사업자 등록증을 등록해주세요!"
+          });
+
+          return false;
+        }
+      }
+
+      var formData = new FormData(document.querySelector('#businessForm'));
+      if (this.business_valid == true && this.user_info.ceoName != "" && 
           this.user_info.compName != "" && this.user_info.compIntro != "") {    
-        alert("회원가입을 축하합니다!!");
-        axios({
-          url: "http://localhost:8090/zippy/member/login",
+         axios({
+          url: "http://localhost:8090/zippy/member/bSignUp",
           method: "POST",    
-          data: {
-            login : {email : "test"},
-            gVO : {email: "sadfsadf"}
-          }          
+          data: formData
         })
           .then((res) => {
             console.log(res);
@@ -545,7 +566,10 @@ export default {
             console.log(error);
           });
       } else{
-        alert("모든 정보를 입력해주세요!");
+        swal.fire({
+          icon:"error",
+          title:"모든 정보를 \n 입력 및 인증해주세요!"
+        });
       }
 
     },  

@@ -14,6 +14,7 @@ import GeneralSign from '../views/login/generalSignUp.vue';
 import BusinessSign from '../views/login/businessSignUp.vue';
 import selectSign from '@/views/login/selectSignType.vue';
 import baseImage from '@/views/login/base64Image.vue';
+import login from '@/views/login/login.vue';
 
 import moveContactFinalCheck from "../views/move/moveContactFinalCheck.vue";
 import moveUntactFinalCheck from "../views/move/moveUntactFinalCheck.vue";
@@ -61,6 +62,11 @@ const routes = [{
     path: "/baseImage",
     name: "baseImage",
     component: baseImage
+  },
+  {
+    path:"/login",
+    name:"login",
+    component:login
   },
 
   // property

@@ -1,13 +1,16 @@
 <template>
 <div>
   <form id="testform">
-    <input type="text" name="email" v-model="data.email">
+    <div>
+    <!-- <input type="email" name="email" v-model="data.email"> -->
+    </div>
     <input type="password" name="password" v-model="data.password">
+
     <input multiple type="file" name="images" id="imgtest">    
 
     <button type="button" @click="imageUploaded()">button</button>
   </form>
-  
+  <button @click="swalert()">ALERT</button>
 </div>
 </template>
 
@@ -28,6 +31,11 @@ export default {
     }
   },
   methods : {
+    swalert : function(){
+      this.$swal({
+        icon : 'success',
+        title: 'Hello World'});
+    },
     imageUploaded : function(){
 
       var formData = new FormData(document.querySelector('#testform'));
@@ -35,7 +43,7 @@ export default {
       console.log(this.data);
 
       axios({
-          url: "http://localhost:8090/zippy/member/bSignUp",
+          url: "http://localhost:8090/zippy/member/gSignUp",
           method: "POST",    
           // headers :{
           //   // 'Content-Type': 'multipart/form-data'
