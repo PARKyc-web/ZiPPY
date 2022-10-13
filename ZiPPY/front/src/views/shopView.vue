@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div>    
     <shop-subbar></shop-subbar>
     <shopMain></shopMain>
   </div>
@@ -14,7 +14,7 @@
   import shopCart from "@/components/shop/shopCart.vue";
   import order from "@/components/shop/order.vue"
   import orderComplete from "@/components/shop/orderComplete.vue"
-
+  
   export default {
   components: {
     shopMain,

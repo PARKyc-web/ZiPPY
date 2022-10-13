@@ -37,11 +37,18 @@ import usedKeyword from "../views/used/usedKeyword.vue";
 
 Vue.use(VueRouter);
 
-const routes = [{
+const routes = [
+  {
     path: "/",
+    name: "root",
+    component: HomeView,
+  },
+  {
+    path: "/home",
     name: "home",
     component: HomeView,
   },
+  
   //login
   {
     path: "/signIn",

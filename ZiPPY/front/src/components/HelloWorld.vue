@@ -1,14 +1,13 @@
 <template>
   <div>    
-    <h1>text</h1>
+    <p> TEXT </p>
   </div>
 </template>
 
 <script>
 
-
 export default {
-  name: "HelloWorld",  
+  name: "HelloWorld",
   data: function () {
     return {
       return: {},

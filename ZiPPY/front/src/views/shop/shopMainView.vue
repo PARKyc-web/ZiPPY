@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div>    
     <shop-subbar></shop-subbar>
     <shopMain></shopMain>
   </div>
@@ -11,6 +11,7 @@ import shopMain from "../../components/shop/shopMain.vue";
 
 export default {  
   components: {
+    mainHeader,
     shopSubbar,
     shopMain
   }
