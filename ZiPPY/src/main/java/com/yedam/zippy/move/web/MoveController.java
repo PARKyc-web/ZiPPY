@@ -23,18 +23,32 @@ public class MoveController {
   @Autowired
   MoveService service;
 
+  // 견적요청
   @PostMapping("/moveUntactCheck")
   public String moveUntactCheck(MoveRequestVO moveReq, List<MultipartFile> images1, List<MultipartFile> images2, List<MultipartFile> images3) {
     System.out.println(moveReq);
+        
+    System.out.println(images1);
+    System.out.println(images2);
+    System.out.println(images3);
     
     //images1 의 0번째 파일을 image111.jpg이름으로 사용하겠다.
 //    
 //    File file = new File("C:\\Users\\admin\\Desktop\\moveImage\\image111.jpg");
-//    images1.get(0).transferTo(file);
+//    images1.get(0).transferTo(file);    
     
-    
-//  System.out.println(service.moveUntactCheck(moveRequ));
+//  System.out.println(service.moveUntactCheck(moveRequ)); 데이터 다 넘어오는거 확인하고 서비스 실행 
     return "";
   }
+  
+  @PostMapping("/moveContactCheck")
+  public String moveContactCheck(MoveRequestVO moveReq) {
+    
+    System.out.println(moveReq);
+    
+    return "";
+  }
+  
+  
 
 }

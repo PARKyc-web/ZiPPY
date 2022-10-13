@@ -2,7 +2,10 @@
   <div class="wrapper">
     <moveNav></moveNav>
 
+    <form id="contactForm">
     <h2>이사 견적을 위해 입력한 정보를 확인해주세요.</h2>
+
+    <input type="hidden" name="movingInfo" v-model="contactCheckk">
 
     <!-- 이사유형 -->
     <v-expansion-panels>
@@ -530,12 +533,13 @@
   color="success"
   elevation="10"
   
-  @click="moveInfoCheck()"
+  @click="finalSend()"
 >확인완료</v-btn>
 
 
 
 </div>
+</form>
   </div>
 </template>
 
@@ -549,6 +553,9 @@
     },
 
     data: () => ({
+
+      contactCheckk: "",
+
       date: null,
       time: null,
       visitDate: null,
@@ -597,11 +604,40 @@
     }),
 
     methods: {
-      moveInfoCheck : function(){        
-        console.log(this.moveVisit);
-        console.log(this.moveInfo);
-        console.log(this.moveType);
-        console.log(this.moveEstimateType);        
+
+      finalSend : function(){
+
+        //form으로 데이터보내기
+        var formData = new FormData(document.querySelector('#contactForm')); 
+
+        this.$axios({
+          url: "http://localhost:8090/zippy/move/moveContactCheck",
+          method: "POST",
+          // headers: {
+          //   "Content-Type": "application/json; charset=utf-8"
+          // },
+          data: formData
+        }).then(res => {
+          console.log(res);
+        }).catch(err => {
+          console.log(err)
+        })
+
+      },
+
+      moveInfoCheck : function(){   
+        
+        //값이 잘 넘어가는지 확인
+
+        this.contactCheckk = JSON.stringify(this.moveInfo);
+
+        console.log(JSON.stringify(this.moveInfo));
+        console.log(this.contactCheckk);
+
+        // console.log(this.moveVisit);
+        // console.log(this.moveInfo);
+        // console.log(this.moveType);
+        // console.log(this.moveEstimateType);        
       },
 
       execDaumPostcode(number) {  

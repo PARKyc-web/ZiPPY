@@ -573,6 +573,8 @@
       var detail = document.querySelector("#detailAddress"+number);  
       var extra = document.querySelector("#extraAddress"+number);     
 
+      
+      //찾기
       new window.daum.Postcode({
         oncomplete: (data) => {
           console.log(data);

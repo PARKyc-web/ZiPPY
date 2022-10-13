@@ -507,7 +507,7 @@
               <div class="boxes">
               <h4>박스 수량</h4>
               <v-col cols="10" sm="6" md="3">
-                <v-select class="select-home" v-model="moveDetail.box" :items="boxes" chips flat solo outlined
+                <v-select class="select-home" v-model="moveDetail[0].box" :items="boxes" chips flat solo outlined
                   placeholder="선택한 박스 개수를 확인해주세요."></v-select>
               </v-col>
             </div>
@@ -738,6 +738,10 @@
       //데이터보내기
       finalSend: function(){
         console.log(this.moveImage);
+
+        //moveDetail 
+
+        //moveImage
         var img1 = document.getElementById("images1");
         var img2 = document.getElementById("images2");
         var img3 = document.getElementById("images3");
