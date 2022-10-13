@@ -33,6 +33,7 @@ import usedDetail from "../views/used/usedDetail.vue";
 import usedMain from "../views/used/usedMain.vue";
 import usedInsert from "../views/used/usedInsert.vue";
 import usedKeyword from "../views/used/usedKeyword.vue";
+import usedwishList from "../views/used/usedWishList.vue";
 
 
 Vue.use(VueRouter);
@@ -183,6 +184,11 @@ const routes = [{
     path: "/used/keyword",
     name: "usedKeyword",
     component: usedKeyword
+  },
+  {
+    path: "/used/wish",
+    name: "usedWishList",
+    component: usedwishList
   }
 ];
 
