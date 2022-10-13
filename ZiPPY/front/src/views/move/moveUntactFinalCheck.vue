@@ -564,7 +564,7 @@
           <v-row no-gutters>
             <v-spacer></v-spacer>
             <v-col cols="10">
-              <v-file-input outlined v-model="moveImage.files1" placeholder="Upload your documents" label="방 입구 사진첨부"
+              <v-file-input  outlined  v-model="moveImage.files1" placeholder="Upload your documents" label="방 입구 사진첨부"
                 multiple prepend-icon="mdi-paperclip">
                 <template v-slot:selection="{ text }">
                   <v-chip small label color="success">
@@ -573,7 +573,7 @@
                 </template>
               </v-file-input>
 
-              <v-file-input outlined v-model="moveImage.files2" placeholder="Upload your documents" label="방 중앙에서 사진첨부"
+              <v-file-input  outlined  v-model="moveImage.files2" placeholder="Upload your documents" label="방 중앙에서 사진첨부"
                 multiple prepend-icon="mdi-paperclip">
                 <template v-slot:selection="{ text }">
                   <v-chip small label color="success">
@@ -582,7 +582,7 @@
                 </template>
               </v-file-input>
 
-              <v-file-input outlined v-model="moveImage.files3" placeholder="Upload your documents" label="짐 내부 사진첨부"
+              <v-file-input  outlined  v-model="moveImage.files3" placeholder="Upload your documents" label="짐 내부 사진첨부"
                 multiple prepend-icon="mdi-paperclip">
                 <template v-slot:selection="{ text }">
                   <v-chip small label color="success">
@@ -735,10 +735,35 @@
 
     methods: {
       
-      
       //데이터보내기
       finalSend: function(){
-        var formData = new FormData(document.querySelector('#untactForm'));
+        console.log(this.moveImage);
+        var img1 = document.getElementById("images1");
+        var img2 = document.getElementById("images2");
+        var img3 = document.getElementById("images3");
+        // = this.moveImage.files2;
+        // = this.moveImage.files2;
+        console.log(img1);
+        console.log(img2);
+        console.log(img3);
+
+        var formData = new FormData(document.querySelector('#untactForm'));  
+        var step;
+
+        //formdata로 이미지 보내기 
+
+        for(step=0; step<this.moveImage.files1.length; step++){
+          formData.append("images1", this.moveImage.files1[step]);
+        }
+
+        for(step=0; step<this.moveImage.files2.length; step++){
+          formData.append("images2", this.moveImage.files2[step]);
+        }
+
+        for(step=0; step<this.moveImage.files3.length; step++){
+          formData.append("images3", this.moveImage.files3[step]);
+        }
+
         this.$axios({
           url: "http://localhost:8090/zippy/move/moveUntactCheck",
           method: "POST",
@@ -880,7 +905,14 @@
       //값 넘어가는지 확인
       moveInfoCheck: function () {
 
-        this.checkk= ""+JSON.stringify(this.moveDetail[0])+ JSON.stringify(this.moveInfo) + JSON.stringify(this.moveImage);
+        console.log(this.moveImage);
+        
+
+        this.checkk= "["+JSON.stringify(this.moveDetail[0])+","+ JSON.stringify(this.moveInfo) +"]";
+
+        console.log(JSON.stringify(this.moveDetail[0]));
+        console.log(JSON.stringify(this.moveInfo));
+        console.log(JSON.stringify(this.moveImage));
         console.log(this.checkk);
 
         // console.log(this.moveDetail);
