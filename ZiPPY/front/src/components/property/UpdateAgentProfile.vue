@@ -8,46 +8,54 @@
       </template>
       <v-card>
         <v-card-title>
-          <span class="text-h5">{{profile.compName}}</span>
+          <span class="text-h5">회원 정보 수정</span>
         </v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
-              <v-col cols="12" sm="6" md="4">
-                <v-text-field label="Legal first name*" required></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <v-text-field label="Legal middle name" hint="example of helper text only on focus"></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <v-text-field label="Legal last name*" hint="example of persistent helper text" persistent-hint
-                  required></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field label="Email*" required></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field label="Password*" type="password" required></v-text-field>
+              <v-col cols="12" sm="6">
+                <v-text-field label="이메일" :value="profile.email" readonly></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-select :items="['0-17', '18-29', '30-54', '54+']" label="Age*" required></v-select>
+                <v-file-input label="프로필 사진" required v-model="profile.profilePic" ref="profilePic"></v-file-input>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-autocomplete
-                  :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
-                  label="Interests" multiple></v-autocomplete>
+                <v-text-field label="공인중개법인명" required v-model="profile.compName" ref="compName" ></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field label="주소" required v-model="profile.compAddress" ref="compAddress"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field label="이름" :value="profile.ceoName" readonly></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field label="전화번호" required v-model="profile.phone" ref="phone"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-file-input label="사업자등록증" required v-model="profile.businessImg" ref="businessImg"></v-file-input>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-file-input label="중개등록증" required v-model="profile.brokerImg" ref="brokerImg"></v-file-input>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field label="사업자등록번호" required v-model="profile.businessId" ref="businessId"></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field label="중개등록번호" required v-model="profile.brokerId" ref="brokerId"></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-textarea label="인사말" required v-model="profile.compIntro" ref="compIntro"></v-textarea>
               </v-col>
             </v-row>
           </v-container>
-          <small>*indicates required field</small>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false">
-            Close
+          <v-btn color="blue darken-1" text @click="updateAgentProfile">
+            저장
           </v-btn>
           <v-btn color="blue darken-1" text @click="dialog = false">
-            Save
+            닫기
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -56,34 +64,44 @@
 </template>
 
 <script>
-import axios from 'axios';
+  import axios from 'axios';
 
   export default {
     data: () => ({
       dialog: false,
-    
     }),
     props: {
       profile: Object
     },
-    created() {
-      // axios({
-      //     url: "http://localhost:8090/zippy/property/",
-      //     methods: "GET",
-      //     params: {
-      //       email: this.email
-      //     }
-      //   }).then(response => {
-      //     // 성공했을 때
-      //     console.log(' success!');
-      //     console.log(response.data);
-      //     this.agentProfile = response.data;
-      //   })
-      //   .catch(error => {
-      //     // 에러가 났을 때
-      //     console.log(' fail!');
-      //     console.log(error);
-      //   })
-    },
+    methods: {
+      updateAgentProfile() {
+        axios({
+            url: "http://localhost:8090/zippy/property/updateAgentProfile",
+            methods: "PUT",
+            params: {
+              compName: this.$refs.compName.value,
+              compIntro:this.$refs.compIntro.value,
+              compAddress:this.$refs.compAddress.value,
+              profilePic:this.$refs.profilePic.value,
+              phone:this.$refs.phone.value,
+              businessImg: this.$refs.businessImg.value,
+              brokerImg: this.$refs.brokerImg.value,
+              businessId: this.$refs.businessId.value,
+              brokerId: this.$refs.brokerId.value,
+              email: this.profile.email
+            }
+          }).then(response => {
+            // 성공했을 때
+            console.log('updateAgentProfile success!');
+            alert('수정이 완료되었습니다.');
+          })
+          .catch(error => {
+            // 에러가 났을 때
+            console.log('updateAgentProfile fail!');
+            alert('수정에 실패했습니다.');
+            console.log(error);
+          })
+      }
+    }
   }
 </script>

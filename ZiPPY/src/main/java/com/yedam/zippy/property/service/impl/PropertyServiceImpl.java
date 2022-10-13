@@ -50,15 +50,25 @@ public class PropertyServiceImpl implements PropertyService {
   public int insertHouseProduct(propertyVO vo) {
     return mapper.insertHouseProduct(vo);
   }
-
+  
   @Override
-  public void updateHouseProduct(propertyVO vo) {
-    mapper.updateHouseProduct(vo);
+  public int insertHouseDetail(propertyVO vo) {
+      return mapper.insertHouseDetail(vo);
   }
 
   @Override
-  public void updateHouseDetail(propertyVO vo) {
-    mapper.updateHouseDetail(vo);
+  public int updateHouseProduct(propertyVO vo) {
+    return mapper.updateHouseProduct(vo);
+  }
+
+  @Override
+  public int updateHouseDetail(propertyVO vo) {
+    return mapper.updateHouseDetail(vo);
+  }
+  
+  @Override
+  public int updateAgentProfile(agentVO vo) {
+    return mapper.updateAgentProfile(vo);
   }
   
 

@@ -26,9 +26,14 @@ public interface PropertyMapper {
 	// 공인중개사의 email을 이용해 해당 업체명을 나타냄
 	public String getCompName(@Param("email")String email);
 	
-	public void updateHouseProduct(propertyVO vo);
-	
-	public void updateHouseDetail(propertyVO vo);
-	
 	public int insertHouseProduct(propertyVO vo);
+	
+	public int insertHouseDetail(propertyVO vo);
+
+	public int updateHouseProduct(propertyVO vo);
+	
+	public int updateHouseDetail(propertyVO vo);
+	
+	public int updateAgentProfile(agentVO vo);
+	
 }

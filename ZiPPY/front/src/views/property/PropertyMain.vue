@@ -34,6 +34,7 @@
       return {
         data: chickenJson,
         houseProducts: [],
+        
       }
     },
     created() {
@@ -75,11 +76,11 @@
         var container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
         var options = {
           center: new kakao.maps.LatLng(36.2683, 127.6358), // 지도의 중심좌표 
-          level: 3 // 지도의 확대 레벨 
+          level: 9 // 지도의 확대 레벨 
         };
 
         var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-        map.setMaxLevel(4); // 지도 최소 축소 레벨
+        map.setMaxLevel(10); // 지도 최소 축소 레벨
 
         /* 현재 위치로 지도의 중심 위치를 변경 */
         // HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
@@ -121,7 +122,7 @@
         // 클러스터러에 마커들을 추가합니다
         clusterer.addMarkers(markers);
       },
-
+      
     }
   };
 </script>

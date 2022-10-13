@@ -38,7 +38,7 @@
     <div>
       <h2>
         매물 목록
-        <insert-property />
+        <insert-property :email="this.profile[0].email" />
       </h2>
       <div class="row">
         <v-card v-if="properties.length != 0" v-for="item in properties" style="width: 45%; margin: 1%">
