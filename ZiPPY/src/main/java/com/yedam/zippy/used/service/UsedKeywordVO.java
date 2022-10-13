@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class UsedKeywordVO {
-	private int keyword_no;
-	private String used_email;
+	private int keywordNo;
+	private String email;
 	private String keyword;
-	private String keyword_location;
+	private String keywordLocation;
 }

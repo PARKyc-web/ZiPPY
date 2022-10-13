@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.yedam.zippy.used.service.UsedImagesVO;
+import com.yedam.zippy.used.service.UsedKeywordVO;
 import com.yedam.zippy.used.service.UsedProductVO;
 
 public interface UsedMapper {
@@ -37,4 +38,14 @@ public interface UsedMapper {
 	
 	// 이미지 수정
 	public int updateImg(UsedImagesVO images);
+	
+	// 키워드, 키워드 지역 입력
+	public int addKeyword(UsedKeywordVO keyword);
+	
+	// 키워드, 키워드 지역 삭제
+	public int delKeyword(@Param("kNo")int kNo);
+	
+	// 키워드 출력
+	public List<UsedKeywordVO> showKeyword(@Param("email") String email);
+	  
 }

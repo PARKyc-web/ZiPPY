@@ -34,93 +34,97 @@
 		<if test="dropbox == 3">
 			ORDER BY product_date ASC
 		</if>
-		
-		
 
-		<!-- <if test="dropVal == 판매자평점">
-			ORDER BY product_date DESC
-		</if> -->
-			<!-- ORDER BY product_date DESC -->
+
+
+		<!-- <if test="dropVal == 판매자평점"> ORDER BY product_date DESC </if> -->
+		<!-- ORDER BY product_date DESC -->
 	</select>
-	<select id="usedOne" resultType="UsedProductVO" parameterType="Integer">
-	SELECT * 
-	FROM used_product
-	WHERE product_no = ${pNo}
+	<select id="usedOne" resultType="UsedProductVO"
+		parameterType="Integer">
+		SELECT *
+		FROM used_product
+		WHERE product_no = ${pNo}
 	</select>
 
 
 	<!-- 등록 -->
 	<insert id="insertUsed" parameterType="usedProductVO">
-		<selectKey keyProperty="productNo" order="BEFORE" resultType="int">
-			SELECT NVL(MAX(product_no),0) +1 AS productNo 
-			FROM used_product
+		<selectKey keyProperty="productNo" order="BEFORE"
+			resultType="int">
+			SELECT NVL(MAX(product_no),0) +1 AS productNo
+			FROM
+			used_product
 		</selectKey>
 		INSERT INTO used_product
 		(
-		 product_no,
-		 email,
-		 PRODUCT_NAME,
-		 PRODUCT_CATEGORY,
-		 PRODUCT_PRICE,
-		 PRODUCT_INFO,
-		 product_location,
-		 is_sell,
-		 views,
-		 product_date
+		product_no,
+		email,
+		PRODUCT_NAME,
+		PRODUCT_CATEGORY,
+		PRODUCT_PRICE,
+		PRODUCT_INFO,
+		product_location,
+		is_sell,
+		views,
+		product_date
 		)
 		VALUES
 		(
-		 #{productNo}
-		 ,#{email}
-		 ,#{productName}
-		 ,#{productCategory}
-		 ,#{productPrice}
-		 ,#{productInfo}
-		 ,#{productLocation}
-		 ,0
-		 ,0
-		 ,systimestamp
+		#{productNo}
+		,#{email}
+		,#{productName}
+		,#{productCategory}
+		,#{productPrice}
+		,#{productInfo}
+		,#{productLocation}
+		,0
+		,0
+		,systimestamp
 		)
 	</insert>
-	
+
 	<insert id="insertImg" parameterType="UsedImagesVO">
-		<selectKey keyProperty="imagesNo" order="BEFORE" resultType="int">
-			SELECT NVL(MAX(image_no),0) +1 AS imageNo 
+		<selectKey keyProperty="imagesNo" order="BEFORE"
+			resultType="int">
+			SELECT NVL(MAX(image_no),0) +1 AS imageNo
 			FROM used_images
 		</selectKey>
 		INSERT INTO used_images
 		(
-		 image_no,
-		 product_no,
-		 image
+		image_no,
+		product_no,
+		image
 		)
 		VALUES
 		(
-		 #{imageNo}
-		 ,#{productNo}
-		 ,#{image}
+		#{imageNo}
+		,#{productNo}
+		,#{image}
 		)
 	</insert>
-	
+
 	<!-- 찜 추가 -->
 	<insert id="addWish" parameterType="BookmarkVO">
-	<selectKey keyProperty="bookmarkNo" order="BEFORE" resultType="int">
-			SELECT NVL(MAX(bookmark_no),0) +1 AS bookmarkNo 
-			FROM bookmark
+		<selectKey keyProperty="bookmarkNo" order="BEFORE"
+			resultType="int">
+			SELECT NVL(MAX(bookmark_no),0) +1 AS bookmarkNo
+			FROM
+			bookmark
 		</selectKey>
 		INSERT INTO bookmark
 		(
-		 bookmarkNo,
-		 user_email,
-		 service_type,
-		 service_id
+		bookmarkNo,
+		user_email,
+		service_type,
+		service_id
 		)
 		VALUES
 		(
-		 bookmarkNo
-		 ,#{email}
-		 ,1
-		 ,#{productNo}
+		bookmarkNo
+		,#{email}
+		,1
+		,#{productNo}
 		)
 	</insert>
 	<!-- 수정 -->
@@ -131,29 +135,67 @@
 		product_category = #{productCategory},
 		product_price = #{productPrice},
 		product_info = #{productInfo}
-		WHERE product_no = #{productNo}
+		WHERE
+		product_no = #{productNo}
 	</update>
-	
+
 	<!-- 사진 수정 -->
 	<update id="updateImg" parameterType="usedImagesVO">
 		UPDATE used_images
 		SET
-		image = #{image}
+		image
+		= #{image}
 		WHERE product_no = #{productNo}
 	</update>
-	
+
 	<!-- 삭제 -->
 	<delete id="deleteUsed" parameterType="UsedProductVO">
 		DELETE FROM used_product
-		WHERE product_no = ${pNo}
+		WHERE product_no = #{pNo}
 	</delete>
-	
+
 	<!-- 조회수 증가 -->
 	<update id="viewCnt" parameterType="UsedProductVO">
 		UPDATE used_product
-		SET views = NVL(views,0) +1
+		SET views
+		= NVL(views,0) +1
 		WHERE product_no = ${pNo}
 	</update>
+
+	<!-- 키워드 추가 -->
+	<insert id="addKeyword" parameterType="UsedKeywordVO">
+		<selectKey keyProperty="keywordNo" order="BEFORE"
+			resultType="int">
+			SELECT NVL(MAX(keyword_no),0) +1 AS keywordNo
+			FROM
+			used_keyword
+		</selectKey>
+		INSERT INTO used_keyword
+		(
+		keyword_no,
+		email,
+		keyword,
+		keyword_location
+		)
+		VALUES
+		(
+		#{keywordNo}
+		,#{email}
+		,#{keyword}
+		,#{keywordLocation}
+		)
+	</insert>
 	
+	<!-- 키워드 삭제 -->
+	<delete id="delKeyword" parameterType="UsedKeywordVO">
+		DELETE FROM used_keyword
+		WHERE keyword_no = #{kNo}
+	</delete>
 	
+	<select id="showKeyword" resultType="UsedKeywordVO" parameterType="String">
+		SELECT *
+		FROM Used_keyword
+		WHERE email = #{email}
+	</select>
+
 </mapper>

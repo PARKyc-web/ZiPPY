@@ -88,7 +88,7 @@
                     </button>
                   </div>
                   <div>
-                    <button class="used-detail-wish">
+                    <button @click="addWish()" class="used-detail-wish">
                       <i class="fa-regular fa-heart"> 찜</i>
                     </button>
                     <button class="used-detail-wish" width="30px">
@@ -118,7 +118,7 @@
   import navBar from '../../components/used/navBar.vue';
 
   export default {
-    components : {
+    components: {
       navBar
     },
     data: () => ({
@@ -129,14 +129,14 @@
         "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcTUnnS%2FbtrGYAmNubZ%2FSJK5DEd6123GknUvGn6ZDK%2Fimg.jpg",
         "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F87q2z%2FbtrG5rIA9pm%2FtaxgrZ6iQb1pJdwUltMls1%2Fimg.jpg",
       ],
-      product: {},
+      product: {}
     }),
     created() {
       axios({
         url: "http://localhost:8088/zippy/used/detail",
         methods: "GET",
         params: {
-          pNo: this.$route.query.pNo
+          pNo: this.$route.query.pNo  
         }
       }).then(res => {
         console.log(res);
@@ -169,8 +169,23 @@
           console.log(err)
         })
       },
+      addWish: function () {
+        console.log(this.product.email);
+        console.log(this.data.productNo);
+        axios({
+          url: "http://localhost:8088/zippy/common/addWish",
+          method: "POST",
+          params : {
+            
+          }
+        }).then(res => {
+          console.log(res);
+        }).catch(err => {
+          console.log(err)
+        })
+      },
     }
-  };
+  }
 </script>
 
 <style>

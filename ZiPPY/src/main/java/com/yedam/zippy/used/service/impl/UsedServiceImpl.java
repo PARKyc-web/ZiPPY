@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.yedam.zippy.used.mapper.UsedMapper;
 import com.yedam.zippy.used.service.UsedImagesVO;
+import com.yedam.zippy.used.service.UsedKeywordVO;
 import com.yedam.zippy.used.service.UsedProductVO;
 import com.yedam.zippy.used.service.UsedService;
 
@@ -65,6 +66,21 @@ public class UsedServiceImpl implements UsedService {
   @Override
   public int updateImg(UsedImagesVO images) {
     return mapper.updateImg(images);
+  }
+  
+  @Override
+  public int addKeyword(UsedKeywordVO keyword) {
+    return mapper.addKeyword(keyword);
+  }
+  
+  @Override
+  public int delKeyword(int kNo) {
+    return mapper.deleteUsed(kNo);
+  }
+  
+  @Override
+  public List<UsedKeywordVO> showKeyword(String email) {
+    return mapper.showKeyword(email);
   }
 
 }

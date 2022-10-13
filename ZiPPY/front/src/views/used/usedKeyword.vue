@@ -10,50 +10,56 @@
     <div>
       <div class="used-keyword-maincont">
         <div>
-          <div class="used-keyword-location"><span>키워드 0/30</span></div>
+          <div class="used-keyword-location"><span>키워드 {{keywordValue.length}}/10</span></div>
           <div>
-            <form class="d-flex">
-              <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
-              <button class="btn btn-primary" type="submit" style="margin-right: 10px">
-                <i class="fa-solid fa-magnifying-glass"></i>
-              </button>
-            </form>
+            <div class="used-input">
+              <input id="keyinputid" class="form-control" type="search" placeholder="키워드" aria-label="Search"
+                v-model="data.keyword" />
+                <input id="keyinputid" class="form-control" type="search" placeholder="키워드지역" aria-label="Search"
+                  v-model="data.keywordLocation" @keyup="enterkey()" />
+                  <button class="submitBtn" type="button" @click="addKey()">등록</button>
+              <!-- <button class="submitBtn" type="button" @click="addKey()">등록</button> -->
+            </div>
+            <div class="used-input">
+            </div>
           </div>
-          <div>
-            <div class="used-keyword-content">
-              자전거
+          <div class="used-key-flex">
+            <div class="used-keyword-content" v-for="value in keywordValue">
+              {{value}}
               <div class="used-keyword-close">
-                <i class="fa-solid fa-circle-xmark"></i>
+                <i @click="DelKey()" class="fa-solid fa-circle-xmark"></i>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <hr />
-      <div class="used-keyword-maincont">
+    </div>
+    <!-- <hr /> -->
+    <!-- <div class="used-keyword-maincont">
+      <div>
         <div>
-          <div>
-            <div class="used-keyword-location">
-              <span>키워드 지역 0/3</span>
-            </div>
-          </div>
-          <div>
-            <form class="d-flex">
-              <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
-              <button class="btn btn-primary" type="submit" style="margin-right: 10px">
-                <i class="fa-solid fa-magnifying-glass"></i>
-              </button>
-            </form>
+          <div class="used-keyword-location">
+            <span>키워드 지역 0/3</span>
           </div>
         </div>
         <div>
-          <div class="used-keyword-content">
-            대구
-            <div class="used-keyword-close"><i class="fa-solid fa-circle-xmark"></i></div>
+
+        </div>
+      </div>
+      <div class="used-key-flex">
+        <div class="used-keyword-content" v-for="loc in locationvalue">
+          {{loc}}
+          <div class="used-keyword-close">
+            <i class="fa-solid fa-circle-xmark" @click="DelLoc()"></i>
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
+    <input type="hidden" v-model="data.email">
+    <!-- <div v-if="data.length != 0" v-for="key in showKey">
+      {{key.keyword}}
+      {{key.keywordLocation}}
+    </div> -->
   </div>
 </template>
 
@@ -61,7 +67,113 @@
   import axios from 'axios';
   import navBar from '../../components/used/navBar.vue';
 
-  export default {};
+  export default {
+    components: {
+      navBar
+    },
+    data: () => ({
+      keywordValue: [],
+      locationvalue: [],
+      keyword: "",
+      location: "",
+      data: {
+        email: "zippy@naver.com",
+        keyword: "",
+        keywordLocation: ""
+      },
+      showKey: []
+    }),
+    // created() {
+    //   console.log(this.data.email)
+    //   axios({
+    //     url: "http://localhost:8088/zippy/used/keyword",
+    //     method: "GET",
+    //     params: {
+    //       email: this.data.email
+    //     }
+    //   }).then(res => {
+    //     console.log(res);
+    //     this.showKey = res.data;
+    //   }).catch(error => {
+    //     console.log(error);
+    //   })
+    // },
+    methods: {
+      addKey: function () {
+        this.keywordValue.push(this.data.keyword);
+        // console.log(this.data.keyword.length);
+        // console.log(this.keywordValue.length)
+        // console.log(this.keywordValue)
+        axios({
+          url: "http://localhost:8088/zippy/used/addKeyword",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          data: JSON.stringify(this.data)
+        }).then(res => {
+          console.log(res);
+          console.log(this.data);
+          this.data.keyword = "";
+          this.data.keywordLocation = "";
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      addLoc: function () {
+        this.locationvalue.push(this.data.keywordLocation);
+        console.log(this.locationvalue.length)
+        axios({
+          url: "http://localhost:8088/zippy/used/addKeyword",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          data: JSON.stringify(this.data)
+        }).then(res => {
+          console.log(res);
+          console.log(this.data);
+          this.data.keywordLocation = "";
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      DelKey: function () {
+        this.showKey.pop();
+        axios({
+          url: "http://localhost:8088/zippy/used/delKeyword",
+          method: "DELETE",
+          params: {
+            // kNo: 
+          }
+        }).then(res => {
+          console.log(res);
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      DelLoc: function () {
+        this.locationvalue.pop();
+        axios({
+          url: "http://localhost:8088/zippy/used/delKeyword",
+          method: "DELETE",
+          params: {
+            // kNo: 
+          }
+        }).then(res => {
+          console.log(res);
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      enterkey: function () {
+        if (window.event.keyCode == 13) {
+          this.addKey();
+          this.data.keyword = "";
+        }
+      }
+    }
+  };
 </script>
 
 <style>
@@ -69,8 +181,28 @@
     width: 1200px;
     margin: 0 auto;
   }
-  .d-flex{
-    width: 400px;
+
+  .submitBtn {
+    border: none;
+    background-color: #b3e3c3;
+    color: white;
+    width: 150px;
+    height: 50px;
+    margin-left: 1px;
+    border-radius: 5px;
+  }
+  #keyinputid{
+    margin-left: 3px;
+  }
+
+
+  .used-key-flex {
+    width: 1200px;
+  }
+
+  .used-input {
+    width: 700px;
+    display: flex;
   }
 
   .used-main-title {
@@ -164,6 +296,7 @@
 
   .form-control {
     width: 100px;
+    display: inline-block;
   }
 
   .used-keyword-div {
@@ -180,6 +313,7 @@
 
   .used-keyword-close {
     float: right;
+    padding-left: 10px;
   }
 
   .used-keyword-close:hover {
@@ -202,10 +336,11 @@
     border: none;
     border-radius: 10px;
     padding: 5px;
-    width: 100px;
+    width: fit-content;
     margin: 10px;
     background-color: #b3e3c3;
     font-weight: bolder;
+    display: inline-block;
   }
 
   .used-keyword-location {

@@ -2,6 +2,8 @@ package com.yedam.zippy.used.service;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
@@ -18,5 +20,6 @@ public class UsedProductVO {
 	private int isSell;
 	private String views;
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	private String productDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date productDate;
 }
