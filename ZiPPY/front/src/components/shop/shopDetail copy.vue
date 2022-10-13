@@ -264,6 +264,9 @@
   p {
     letter-spacing: -1px;
   }
+  .v-btn {
+    font-weight:bold;
+  }
 
   #detail-container {
     width: 900px;
