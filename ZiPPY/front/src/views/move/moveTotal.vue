@@ -57,6 +57,7 @@
     </div>
 
     <div>
+
       <button type="button" class="custom-btn btn-3" @click="moveSelectNext()">선택완료</button>
     </div>
   </div>
@@ -125,7 +126,7 @@
       <br />
       주소 :
       <input
-        
+      
         id="address1"
         class="type-2"
         type="text"
@@ -135,7 +136,7 @@
       /><br />
       상세 :
       <input
-        
+     
         id="detailAddress1"
         class="type-2"
         type="text"
@@ -144,7 +145,7 @@
       /><br />
       참고항목 :
       <input
-        
+     
         type="text"
         id="extraAddress1"
         class="type-2"
@@ -480,13 +481,18 @@
       moveSelectNext(){
         console.log(this.moveType);
 
+        if(this.moveType == ""){
+          alert("이사유형을 선택해주세요."); 
+        }
+        else{
+
         let moveSelectNext = document.querySelector(".moveSelect-wrap");
         moveSelectNext.style.display = "none";
 
         let moveDateNext = document.querySelector(".moveDate-wrap");
         moveDateNext.style.display = "inline-block";
         window.scrollTo(0,0);
-        
+        };
       },
 
       //moveDate
@@ -500,24 +506,64 @@
       return false;
     },
     moveDateNext(){
+
+      if(this.moveInfo.date == ""){
+          alert("이사희망 날짜를 선택해주세요.");
+        }else if(this.moveInfo.time == ""){
+          alert("이사희망 시간을 선택해주세요.");
+        }else{
+
         let moveDateNext = document.querySelector(".moveDate-wrap");
         moveDateNext.style.display = "none";
 
         let moveInfoNext = document.querySelector(".moveInfo-wrap");
         moveInfoNext.style.display = "inline-block";
         window.scrollTo(0,0);
-        
+        }
       },
 
     //moveInfo
     moveInfoNext(){
-        let moveInfoNext = document.querySelector(".moveInfo-wrap");
-        moveInfoNext.style.display = "none";
+      console.log(document.getElementById('post1'));
+      console.log(document.getElementById('post1').value);
 
-        let moveTypeNext = document.querySelector(".moveType-wrap");
-        moveTypeNext.style.display = "inline-block";
-        window.scrollTo(0,0);
-        
+        if( document.getElementById('post1').value=="" || document.getElementById('post2').value==""){
+          alert("우편번호 찾기를 해주세요."); 
+        } else if(document.getElementById('address1').value=="" || document.getElementById('address2').value==""){
+          alert("주소를 입력해주세요.");
+        } else if(document.getElementById('detailAddress1').value=="" || document.getElementById('detailAddress2').value==""){
+          alert("상세주소를 입력해주세요.");
+        } 
+        else if(this.moveInfo.houseType==""){
+          alert("집형태를 선택해주세요.");
+        } else if(this.moveInfo.roomNum ==""){
+          alert("방구조를 선택해주세요.");
+        } else if(this.moveInfo.spaceOfHome ==""){
+          alert("집평수를 선택해주세요.");
+        } 
+        else if(this.moveInfo.floor ==""){
+          alert("층수를 입력해주세요.");
+        } else if(this.moveInfo.toilet ==""){
+          alert("화장실 개수를 입력해주세요.");
+        } else if(this.moveInfo.veranda ==""){
+          alert("베란다 개수를 입력해주세요.");
+        }  
+        else if(this.moveInfo.extraStairs ==""){
+          alert("별도계단 유무를 선택해주세요.");
+        } else if(this.moveInfo.elevator ==""){
+          alert("엘레베이터 유무를 선택해주세요.");
+        } else if(this.moveInfo.parkable ==""){
+          alert("주차가능 여부를 선택해주세요.");
+        } 
+          
+          else{
+          let moveInfoNext = document.querySelector(".moveInfo-wrap");
+          moveInfoNext.style.display = "none";
+
+          let moveTypeNext = document.querySelector(".moveType-wrap");
+          moveTypeNext.style.display = "inline-block";
+          window.scrollTo(0,0);
+          }
       },
 
     execDaumPostcode(number) {  
@@ -602,6 +648,9 @@
       this.moveInfo.addr.detailAddress2 = detail.value;
       this.moveInfo.addr.extraAddress2 = extra.value;
 
+      if(this.moveEstimateType == ""){
+          alert("견적방법을 선택해주세요."); 
+        }else{
 
       if(this.moveEstimateType == "대면 방문예약"){
         
@@ -619,7 +668,9 @@
 
       })
       
-      };
+      }
+      
+    };
 
         //moveFinalCheck 페이지로 
       // this.$router.push({

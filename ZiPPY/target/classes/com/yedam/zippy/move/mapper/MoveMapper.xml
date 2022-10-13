@@ -1,3 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yedam.zippy.move.mapper.MoveMapper"></mapper>
+<mapper namespace="com.yedam.zippy.move.mapper.MoveMapper">
+
+	<insert id="moveUntactCheck" parameterType="MoveRequestVO">
+		<selectKey keyProperty="estimateNo" order="BEFORE" resultType="int">
+			SELECT NVL(MAX(estimate_no),0) +1 AS estimateNo 
+			FROM UNTACT_ESTIMATE_MOVING
+		</selectKey>
+		INSERT INTO UNTACT_ESTIMATE_MOVING
+		(
+		ESTIMATE_NO,
+		EMAIL,
+		MOVING_OPTION,
+		MOVING_MEMO,
+		MOVING_DEPART,
+		MOVING_ARRIVE,
+		MOVING_DATE,
+		MOVING_TIME,
+		VISIT_TYPE
+		)
+		VALUES
+		(
+		#{estimateNo},
+		#{email},
+		#{movingOption},
+		#{movingMemo},
+		#{movingDepart},
+		#{movingArrive},
+		#{movingDate},
+		#{movingTime},
+		#{visitType}
+		)
+	</insert>
+</mapper>

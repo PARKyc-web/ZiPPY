@@ -213,7 +213,7 @@
           </h5>
           <br />
           <div class="move-detail-drop">
-            <select v-model="moveDetail.box">
+            <select v-model="moveDetail[0].box">
               <option value="" selected>-- 박스개수 --</option>
               <option value="5개이하">5개이하</option>
               <option value="5-10개">5~10개</option>
@@ -449,6 +449,14 @@
       un_final_signIn: function () {
         console.log(this.moveInfo);
 
+        console.log(this.moveDetail[0].box);
+
+        if(this.moveDetail[0].box == ""){
+          alert("필요한 박스 수량을 선택해주세요."); 
+        }
+
+        else{
+
         this.$router.push({
 
           name: "moveUntactImg",
@@ -459,7 +467,7 @@
                   moveType:this.moveType
           }
         })
-
+        }
       }
 
     }

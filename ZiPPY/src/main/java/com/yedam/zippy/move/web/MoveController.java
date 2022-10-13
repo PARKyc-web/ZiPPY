@@ -1,51 +1,31 @@
 package com.yedam.zippy.move.web;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+import com.yedam.zippy.move.service.MoveRequestVO;
+import com.yedam.zippy.move.service.MoveService;
+
+@CrossOrigin(originPatterns = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
+    RequestMethod.DELETE })
+@RestController
 @RequestMapping("/move")
 public class MoveController {
 
-	@GetMapping("/main")
-    public String moveMain() { 
-      // => url에 /move/main으로 입력하여 화면으로 이동한다.   
-      return "move/main";   //move폴더/moveSelect(jsp)페이지로 간다.   
-    }
+  @Autowired
+  MoveService service;
 
-	@GetMapping("/moveSelect")
-	public String moveSelect() {
-		
-		return "move/moveSelect";
-	}
-	
-	//이사 날짜, 시간
-	@GetMapping("/moveDate")
-	public String moveDate() {
-		return "move/moveDate";
-	}
-	
-	@GetMapping("/moveInfo")
-	public String moveInfo() {
-		return "move/moveInfo";
-	}
-	
-	@GetMapping("/moveTypeSelect")
-	public String moveTypeSelect() {
-		return "move/moveTypeSelect";
-	}
-	
-	//방문 날짜, 시간
-	@GetMapping("/moveVisitDate")
-	public String moveVisitDate() {
-		return "move/moveVisitDate";
-	}
-	
-	//비대면 상세
-	@GetMapping("/moveInfoDetail")
-	public String moveInfoDetail() {
-		return "move/moveInfoDetail";
-	}
-	
+  @PostMapping("/moveUntactCheck")
+  public String moveUntactCheck(MoveRequestVO moveReq) {
+    System.out.println(moveReq);
+    
+    
+//  System.out.println(service.moveUntactCheck(moveRequ));
+    return "";
+  }
+
 }

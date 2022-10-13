@@ -1,8 +1,12 @@
 <template>
   <div class="wrapper">
     <moveNav></moveNav>
+    <form id="untactForm">
 
     <h2>이사 견적을 위해 입력한 정보를 확인해주세요.</h2>
+
+
+    <input type="hidden" name="movingOption" v-model="checkk">
 
     <!-- 이사유형 -->
     <v-expansion-panels>
@@ -25,7 +29,7 @@
           <v-row no-gutters>
             <v-spacer></v-spacer>
             <v-col cols="5">
-              <v-select v-model="moveType" :items="types" chips flat solo outlined placeholder="선택한 이사유형 불러오기">
+              <v-select name="moveType" v-model="moveType" :items="types" chips flat solo outlined placeholder="선택한 이사유형 불러오기">
               </v-select>
 
               <div class="drop-btn">
@@ -65,7 +69,7 @@
               <v-menu ref="startMenu" :close-on-content-click="false" :return-value.sync="moveInfo.date" offset-y
                 min-width="290px">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-text-field v-model="moveInfo.date" label="이사희망일" prepend-icon="mdi-calendar" readonly
+                  <v-text-field name="movingDate" v-model="moveInfo.date" label="이사희망일" prepend-icon="mdi-calendar" readonly
                     v-bind="attrs" v-on="on"></v-text-field>
                 </template>
                 <v-date-picker v-model="date" no-title scrollable>
@@ -84,7 +88,7 @@
               <v-menu ref="endMenu" :close-on-content-click="false" :return-value.sync="moveInfo.time" offset-y
                 min-width="290px">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-text-field v-model="moveInfo.time" label="이사 희망시간" prepend-icon="mdi-clock" readonly v-bind="attrs"
+                  <v-text-field name="movingTime" v-model="moveInfo.time" label="이사 희망시간" prepend-icon="mdi-clock" readonly v-bind="attrs"
                     v-on="on"></v-text-field>
                 </template>
                 <!-- <v-date-picker
@@ -142,20 +146,20 @@
                 <v-card>
 
                   우편번호 :
-                  <input v-model="moveInfo.addr.postcode" class="type-2" type="text" name="zip1" id="post1"
+                  <input name="departZipCode" v-model="moveInfo.addr.postcode" class="type-2" type="text" id="post1"
                     style="width: 80px; height: 26px" />
                   <button class="custom-btn btn-4" type="button" @click="execDaumPostcode(1)">
                     검색
                   </button>
                   <br />
                   주소 :
-                  <input v-model="moveInfo.addr.address" id="address1" class="type-2" type="text" name="addr1"
+                  <input name="departAddress" v-model="moveInfo.addr.address" id="address1" class="type-2" type="text" 
                     style="width: 300px; height: 30px" readonly /><br />
                   상세 :
                   <input v-model="moveInfo.addr.detailAddress" id="detailAddress1" class="type-2" type="text"
-                    name="addr2" style="width: 300px; height: 30px" /><br />
+                    name="departDetail" style="width: 300px; height: 30px" /><br />
                   참고항목 :
-                  <input v-model="moveInfo.addr.extraAddress" type="text" id="extraAddress1" class="type-2"
+                  <input name="departExtra" v-model="moveInfo.addr.extraAddress" type="text" id="extraAddress1" class="type-2"
                     placeholder="참고항목" />
 
                   <v-spacer></v-spacer>
@@ -181,20 +185,20 @@
                 <v-card>
 
                   우편번호 :
-                  <input v-model="moveInfo.addr.postcode2" class="type-2" type="text" name="zip2" id="post2"
+                  <input name="arriveZipCode" v-model="moveInfo.addr.postcode2" class="type-2" type="text"  id="post2"
                     style="width: 80px; height: 26px" />
                   <button class="custom-btn btn-4" type="button" @click="execDaumPostcode(2)">
                     검색
                   </button>
                   <br />
                   주소 :
-                  <input v-model="moveInfo.addr.address2" id="address2" class="type-2" type="text" name="addr3"
+                  <input name="arriveAddress" v-model="moveInfo.addr.address2" id="address2" class="type-2" type="text" 
                     style="width: 300px; height: 30px" readonly /><br />
                   상세 :
-                  <input v-model="moveInfo.addr.detailAddress2" id="detailAddress2" class="type-2" type="text"
-                    name="addr4" style="width: 300px; height: 30px" /><br />
+                  <input name="arriveDetail" v-model="moveInfo.addr.detailAddress2" id="detailAddress2" class="type-2" type="text"
+                    style="width: 300px; height: 30px" /><br />
                   참고항목 :
-                  <input v-model="moveInfo.addr.extraAddress2" type="text" id="extraAddress2" class="type-2"
+                  <input name="arriveExtra" v-model="moveInfo.addr.extraAddress2" type="text" id="extraAddress2" class="type-2"
                     placeholder="참고항목" />
 
                   <v-spacer></v-spacer>
@@ -633,8 +637,10 @@
       </div>
     </div>
     <div class="final-btn">
-      <v-btn color="success" elevation="10" @click="moveInfo()">확인완료</v-btn>
+      <v-btn color="success" elevation="10" @click="finalSend()">확인완료</v-btn>
     </div>
+  </form>
+
   </div>
 </template>
 
@@ -648,7 +654,8 @@
     },
 
     data: () => ({
-      i: 1,
+
+      checkk: "",
 
       date: null,
       time: null,
@@ -727,6 +734,24 @@
 
 
     methods: {
+      
+      
+      //데이터보내기
+      finalSend: function(){
+        var formData = new FormData(document.querySelector('#untactForm'));
+        this.$axios({
+          url: "http://localhost:8090/zippy/move/moveUntactCheck",
+          method: "POST",
+          // headers: {
+          //   "Content-Type": "application/json; charset=utf-8"
+          // },
+          data: formData
+        }).then(res => {
+          console.log(res);
+        }).catch(err => {
+          console.log(err)
+        })
+      }, 
 
       //짐 추가 및 삭제
       addBed: function () {
@@ -854,11 +879,20 @@
 
       //값 넘어가는지 확인
       moveInfoCheck: function () {
-        console.log(this.moveImage);
-        console.log(this.moveDetail);
-        console.log(this.moveInfo);
-        console.log(this.moveType);
-        console.log(this.moveEstimateType);
+
+        this.checkk= ""+JSON.stringify(this.moveDetail[0])+ JSON.stringify(this.moveInfo) + JSON.stringify(this.moveImage);
+        console.log(this.checkk);
+
+        // console.log(this.moveDetail);
+        // console.log(JSON.stringify(this.moveDetail));
+
+        // console.log(this.moveImage);
+        // console.log(this.moveDetail);
+        // console.log(this.moveInfo);
+        // console.log(this.moveType);
+        // console.log(this.moveEstimateType);
+        // console.log("==================")
+        // console.log(this.moveInfo.date);
       },
 
       //우편번호api

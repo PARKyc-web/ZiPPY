@@ -3,7 +3,7 @@ package com.yedam.zippy.move.service;
 import lombok.Data;
 
 @Data
-public class moveImageVO {
+public class MoveImageVO {
 
   int houseImgNo;
   int estimateNo;
