@@ -14,18 +14,18 @@
           <div>
             <div class="used-input">
               <input id="keyinputid" class="form-control" type="search" placeholder="키워드" aria-label="Search"
-                v-model="data.keyword" @keyup="enterkey()" />
+                v-model="data.keyword" />
                 <input id="keyinputid" class="form-control" type="search" placeholder="키워드지역" aria-label="Search"
                   v-model="data.keywordLocation" @keyup="enterkey()" />
-                  <button class="submitBtn" type="button" @click="addLoc()">등록</button>
+                  <button class="submitBtn" type="button" @click="addKey()">등록</button>
               <!-- <button class="submitBtn" type="button" @click="addKey()">등록</button> -->
             </div>
             <div class="used-input">
             </div>
           </div>
           <div class="used-key-flex">
-            <div class="used-keyword-content" v-for="key in keywordValue">
-              <!-- {{key.keyword}} -->
+            <div class="used-keyword-content" v-for="value in keywordValue">
+              {{value}}
               <div class="used-keyword-close">
                 <i @click="DelKey()" class="fa-solid fa-circle-xmark"></i>
               </div>
@@ -83,35 +83,27 @@
       },
       showKey: []
     }),
-    created() {
-      console.log(this.data.email)
-      console.log(this.showKey)
-      axios({
-        url: "http://localhost:8088/zippy/used/keyword",
-        method: "GET",
-        params: {
-          email: this.data.email
-        }
-      }).then(res => {
-        console.log(res);
-        console.log(res.data[0].keywordNo)
-        this.showKey = res.data;
-      }).catch(error => {
-        console.log(error);
-      })
-    },
+    // created() {
+    //   console.log(this.data.email)
+    //   axios({
+    //     url: "http://localhost:8088/zippy/used/keyword",
+    //     method: "GET",
+    //     params: {
+    //       email: this.data.email
+    //     }
+    //   }).then(res => {
+    //     console.log(res);
+    //     this.showKey = res.data;
+    //   }).catch(error => {
+    //     console.log(error);
+    //   })
+    // },
     methods: {
       addKey: function () {
-        this.showKey.push(this.data.keyword);
+        this.keywordValue.push(this.data.keyword);
         // console.log(this.data.keyword.length);
         // console.log(this.keywordValue.length)
         // console.log(this.keywordValue)
-        // if (this.keywordValue == "") {
-        //   alert("공백은 입력 불가합니다.")
-        // }
-        // if (this.keywordValue.length >= 10) {
-        //   alert("stop")
-        // }
         axios({
           url: "http://localhost:8088/zippy/used/addKeyword",
           method: "POST",
@@ -123,6 +115,7 @@
           console.log(res);
           console.log(this.data);
           this.data.keyword = "";
+          this.data.keywordLocation = "";
         }).catch(err => {
           console.log(err)
         })
