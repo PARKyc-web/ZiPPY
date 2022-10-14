@@ -1,6 +1,5 @@
 <template>
-  <div id="container">
-    <section>
+  <div>
     <div id="map" class="map">
       <search-bar style="top: 10px; left: 10px;"></search-bar>
       <div class="hAddr">
@@ -8,30 +7,17 @@
         <span id="centerAddr"><input type="text" v-model="sigungu"></span>
       </div>
     </div>
-    </section>
-    <aside>
-      <div v-if="houseProducts.length != 0" v-for="item in houseProducts" @click="goHouseDetail(item.productId)">
-        <v-card>
-          <div>매물번호 {{item.productId}}</div>
-          <div>{{item.houseName}}</div>
-          <div>{{item.saleType}} {{item.price}}</div>
-          <div>{{item.sigungu}}</div>
-          <div>{{item.areaExclusive}}m² {{item.floor}}층</div>
-          <div>{{item.detailContents}}</div>
-        </v-card>
-      </div>
-    </aside>
   </div>
 </template>
 
 <script>
-  import SearchBar from "../../components/property/SearchBar.vue";
+  import axios from 'axios';
   import chickenJson from "../../assets/chicken.json";
-  import axios from "axios";
+  import SearchBar from '../../components/property/SearchBar.vue';
 
   export default {
     components: {
-      SearchBar,
+      SearchBar
     },
     mounted() {
       window.kakao && window.kakao.maps ?
@@ -46,14 +32,6 @@
       }
     },
     methods: {
-      goHouseDetail(productId) {
-        this.$router.push({
-          name: 'HouseDetail',
-          query: {
-            productId: productId
-          }
-        })
-      },
       addKakaoMapScript() {
         const script = document.createElement("script");
         /* global kakao */
@@ -165,6 +143,7 @@
         // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우
         // 이벤트 헨들러로 cluster 객체가 넘어오지 않을 수도 있습니다
         kakao.maps.event.addListener(clusterer, 'clusterclick', function (cluster) {
+          if (map.getLevel() > MIN_LEVEL) {
             console.log(cluster.getCenter());
 
             // 현재 지도 레벨에서 1레벨 확대한 레벨
@@ -177,6 +156,7 @@
 
             console.log("click: ", initThis.sigungu);
             initThis.getPropertyList(initThis.sigungu);
+          }
         });
 
       },
@@ -199,50 +179,46 @@
             console.log(error);
           });
       }
-
     }
   };
 </script>
 
 <style scoped>
-  #container {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-  }
+  .map {
+    position: relative;
+    z-index: 1;
 
-  section {
-    width: 75vw;
-    height: 100vh;
-  }
-
-  #map {
     width: 100%;
-    height: 100%;
+    height: 400px;
   }
 
-  aside {
-    width: 25vw;
-    height: 100vh;
-    overflow-y: auto;
-    background-color: lightblue;
+  .title {
+    font-weight: bold;
+    display: block;
   }
 
-  ::-webkit-scrollbar {
-    width: 8px;
-    /* 스크롤바의 너비 */
+  .hAddr {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    border-radius: 2px;
+    background: #fff;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 2;
+    padding: 5px;
   }
 
-  ::-webkit-scrollbar-thumb {
-    height: 10%;
-    /* 스크롤바의 길이 */
-    background: #B3E3C3;
-    /* 스크롤바의 색상 */
-    border-radius: 10px;
+  #centerAddr {
+    display: block;
+    margin-top: 2px;
+    font-weight: normal;
   }
 
-  ::-webkit-scrollbar-track {
-    /*스크롤바 뒷 배경 색상*/
-    background: rgb(255, 255, 255);
+  .bAddr {
+    padding: 5px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
+</style>
 </style>

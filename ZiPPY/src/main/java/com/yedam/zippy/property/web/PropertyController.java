@@ -29,6 +29,11 @@ public class PropertyController {
     return service.getAllPropertyList();
   }
   
+  @GetMapping("/getPropertyList")
+  public List<propertyVO> getPropertyList(@RequestParam("sigungu")String sigungu) {
+    return service.getPropertyList(sigungu);
+  }
+  
   @GetMapping("/agentDetail")
 public String agentDetail(@RequestParam int productId) {
   return service.getAgentEmail(productId);
