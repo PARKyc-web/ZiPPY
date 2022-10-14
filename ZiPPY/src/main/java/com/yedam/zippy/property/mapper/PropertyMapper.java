@@ -11,6 +11,8 @@ public interface PropertyMapper {
 
 	public List<propertyVO> getAllPropertyList();
 	
+	public List<propertyVO> getPropertyList(@Param("sigungu")String sigungu);
+	
 	// 매물번호로 공인중개사 email 
 	public String getAgentEmail(@Param("productId")int productId);
 	

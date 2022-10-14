@@ -3,8 +3,14 @@
 <mapper
 	namespace="com.yedam.zippy.property.mapper.PropertyMapper">
 	<select id="getAllPropertyList" resultType="PropertyVO">
-		select * from
-		house_product
+		select street_address from
+		house_detail
+	</select>
+	
+	<select id="getPropertyList" parameterType="String" resultType="PropertyVO">
+		select *
+		from house_product
+		where sigungu = #{sigungu}
 	</select>
 
 	<select id="getAgentEmail" parameterType="Integer"
