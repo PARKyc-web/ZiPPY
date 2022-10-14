@@ -69,15 +69,28 @@ const routes = [
     component: BusinessSign
   },
   {
-    path: "/admin",
-    name: "admin",
-    component: admin
-  },
-  {
     path:"/login",
     name:"login",
     component:login
   },
+  {
+    path: "/admin",
+    name: "admin",
+    component: admin,
+    children : [
+      {
+        path :"home",
+        name: "home",
+        component: HomeView, 
+      },
+      {
+        path:"login",
+        name:"login",
+        component:login
+      }
+    ]
+  },
+
 
   // property
   {
