@@ -17,7 +17,7 @@ public class ProductVO {
 	private int proNo;
     private String email;
     private String proName;
-    private String ProPrice;
+    private int ProPrice;
     private String category;
     private String proMainImg;
     private String proInfo;

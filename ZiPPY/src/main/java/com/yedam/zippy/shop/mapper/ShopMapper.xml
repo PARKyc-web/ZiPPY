@@ -59,10 +59,15 @@
 	<!-- 상세옵션 불러오기 -->
 	<select id="getDetailOpt" resultType="ProductOptionVO"
 		parameterType="ProductOptionVO">
-		SELECT *
+		SELECT
+		opt_no,
+		pro_no,
+		opt_name,
+		NVL(opt_price,0) opt_price
 		FROM shop_product_option
 		WHERE pro_no = #{proNo}
 	</select>
+	<!-- 옵션 번호로 가격 조회 -->
 	
 	<!-- 장바구니 -->
 	<!-- 장바구니 등록 --> 
@@ -78,19 +83,56 @@
 	<!-- 내 장바구니 count -->
 	<select id="getMyCart" resultType="Integer"
 		parameterType="CartVO">
-		SELECT count(*) countMycart
+		SELECT NVL(count(*),0) countMycart
 		FROM shop_cart
 		WHERE email = #{email}
 	</select>
 	<!-- 장바구니에 등록된 내상품 전체조회 -->
 	<select id="getMyCartList" resultType="CartVO"
 		parameterType="CartVO">
-		SELECT c.*, o.* FROM shop_cart c
+		SELECT 
+		rownum,
+		c.*,
+		o.opt_no,
+		o.pro_no,
+		o.opt_name,
+		NVL(opt_price,0) opt_price
+		FROM shop_cart c
 		LEFT OUTER JOIN shop_product_option o
 		ON c.cart_opt_no = o.opt_no
 		WHERE email = #{email}
-		ORDER BY cart_pno DESC
+		ORDER BY cart_no DESC
 	</select>
-
-
+	<!-- 장바구니 삭제 -->
+	<delete id="deleteCart">
+		DELETE
+		shop_cart
+				WHERE 
+				<foreach collection="selected" item="arr" separator="or">
+					cart_no= #{arr.cartNo}
+				</foreach>	
+	</delete>
+	
+	<!-- 주문 -->
+	<insert id="insertPur" parameterType="CartVO">
+			INSERT INTO shop_purchase
+			SELECT
+			shop_pur_seq.NEXT.VAL
+			(SELECT FLOOR(DBMS_RANDOM.VALUE(1000000000, 9999999999)) RANDOM FROM DUAL),
+        #{arr.cartPno},
+        #{arr.cartOptNo} ,
+        #{arr.cartQty} ,
+        #{arr.email}' 
+       from dual
+		 union all
+         select
+			11,
+			(SELECT FLOOR(DBMS_RANDOM.VALUE(1000000000, 9999999999)) RANDOM FROM DUAL),
+       5 ,
+       6 ,
+       7 ,
+      'zippy@naver.com' 
+      from dual
+       ;
+	</insert>
 </mapper>

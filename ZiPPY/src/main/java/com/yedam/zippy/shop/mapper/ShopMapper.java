@@ -32,4 +32,8 @@ public interface ShopMapper {
   public int getMyCart(String email);
   //내 장바구니 조회
   public List<CartVO> getMyCartList(String email);
+  //삭제
+  public void deleteCart(@Param("selected") List<CartVO> selected);
+  //주문 CRUD
+  public void insertPur(@Param("selected")List<CartVO> selected);
 }

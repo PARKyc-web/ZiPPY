@@ -9,6 +9,7 @@ import shopView from "../views/shopView.vue";
 import shopList from "../views/shop/shopListView.vue";
 import shopDetail from "../views/shop/shopDetailView.vue";
 import shopCart from "../views/shop/shopCartView.vue";
+import dataTable from "../components/shop/dataTable.vue"
 
 import GeneralSign from '../views/login/generalSignUp.vue';
 import BusinessSign from '../views/login/businessSignUp.vue';
@@ -109,6 +110,11 @@ const routes = [{
     path: "/shop/cart",
     name: "shopCart",
     component: shopCart,
+  },
+  {
+    path: "/shop/data",
+    name: "data",
+    component: dataTable,
   },
 
 

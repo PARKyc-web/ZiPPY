@@ -15,6 +15,7 @@
 		ON s.email = b.email
 		WHERE s.category =
 		#{category}
+		ORDER BY pro_no DESC
 	</select>
 	<!-- 키워드 조회 -->
 	<select id="getKeywordList" resultType="ProductVO"
@@ -35,6 +36,7 @@
 		WHERE comp_name
 		LIKE '%'||#{keyword}||'%'
 		AND member_type=2)
+		ORDER BY pro_no DESC
 	</select>
 	<!-- 단건조회(디테일) -->
 	<select id="getProduct" resultType="ProductVO"
@@ -57,10 +59,15 @@
 	<!-- 상세옵션 불러오기 -->
 	<select id="getDetailOpt" resultType="ProductOptionVO"
 		parameterType="ProductOptionVO">
-		SELECT *
+		SELECT
+		opt_no,
+		pro_no,
+		opt_name,
+		NVL(opt_price,0) opt_price
 		FROM shop_product_option
 		WHERE pro_no = #{proNo}
 	</select>
+	<!-- 옵션 번호로 가격 조회 -->
 	
 	<!-- 장바구니 -->
 	<!-- 장바구니 등록 --> 
@@ -73,26 +80,29 @@
 		#{cartOptNo},
 		#{cartQty})
 	</insert>
-	<!-- 장바구니 리스트 조회 -->
-	<select id="getCartList" resultType="ProductVO"
-		parameterType="CartVO">
-		SELECT s.*, b.comp_name
-		FROM shop_product s
-		JOIN shop_cart c
-		ON c.cart_pno = s.pro_no
-		JOIN business b
-		ON s.email = b.email
-		WHERE s.pro_no IN
-		(SELECT cart_pno
-		FROM shop_cart
-		WHERE email = #{email})
-	</select>
-	<!-- 장바구니 개수 조회 -->
+	<!-- 내 장바구니 count -->
 	<select id="getMyCart" resultType="Integer"
 		parameterType="CartVO">
 		SELECT count(*) countMycart
 		FROM shop_cart
 		WHERE email = #{email}
 	</select>
+	<!-- 장바구니에 등록된 내상품 전체조회 -->
+	<select id="getMyCartList" resultType="CartVO"
+		parameterType="CartVO">
+		SELECT 
+		rownum,
+		c.*,
+		o.opt_no,
+		o.pro_no,
+		o.opt_name,
+		NVL(opt_price,0) opt_price
+		FROM shop_cart c
+		LEFT OUTER JOIN shop_product_option o
+		ON c.cart_opt_no = o.opt_no
+		WHERE email = #{email}
+		ORDER BY cart_no DESC
+	</select>
+
 
 </mapper>

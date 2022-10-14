@@ -53,10 +53,18 @@ public class ShopServiceImpl implements ShopService {
   public List<CartVO> getMyCartList(String email) {
     List<CartVO> list = mapper.getMyCartList(email);
     for(CartVO x : list) {
-      x.setOption(mapper.getDetailOpt(x.getCartPno()));
       x.setProductVO(mapper.getProduct(x.getCartPno()));
+      x.setCartPrice(x.getProductVO().getProPrice()+x.getOptPrice());
     }
     return list;
+  }
+  @Override
+  public void deleteCart(List<CartVO> selected) {
+    mapper.deleteCart(selected);
+  }
+  @Override
+  public void insertPur(List<CartVO> selected) {
+    mapper.insertPur(selected);
   }
 
 }

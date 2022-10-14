@@ -17,8 +17,8 @@ public class CartVO {
   
   int countMycart;
   String optName;
-  String optPrice;
-  
+  int optPrice;
+  int cartPrice;
   ProductVO productVO;
-  List<ProductOptionVO> option;
+  int rownum;
 }
