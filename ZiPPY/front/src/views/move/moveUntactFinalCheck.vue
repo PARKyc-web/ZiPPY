@@ -145,20 +145,20 @@
                 <v-card>
 
                   우편번호 :
-                  <input v-model="moveInfo.addr.postcode" class="type-2" type="text" id="post1"
+                  <input v-model="moveAddress.postcode" class="type-2" type="text" id="post1"
                     style="width: 80px; height: 26px" />
                   <button class="custom-btn btn-4" type="button" @click="execDaumPostcode(1)">
                     검색
                   </button>
                   <br />
                   주소 :
-                  <input v-model="moveInfo.addr.address" id="address1" class="type-2" type="text" 
+                  <input v-model="moveAddress.address" id="address1" class="type-2" type="text" 
                     style="width: 300px; height: 30px" readonly /><br />
                   상세 :
-                  <input v-model="moveInfo.addr.detailAddress" id="detailAddress1" class="type-2" type="text"
+                  <input v-model="moveAddress.detailAddress" id="detailAddress1" class="type-2" type="text"
                      style="width: 300px; height: 30px" /><br />
                   참고항목 :
-                  <input v-model="moveInfo.addr.extraAddress" type="text" id="extraAddress1" class="type-2"
+                  <input v-model="moveAddress.extraAddress" type="text" id="extraAddress1" class="type-2"
                     placeholder="참고항목" />
 
                   <v-spacer></v-spacer>
@@ -174,30 +174,30 @@
             </v-col>
 
             <v-col cols="3">
-              <v-menu ref="endMenu" :close-on-content-click="false" :return-value.sync="moveInfo.addr.address2" offset-y
+              <v-menu ref="endMenu" :close-on-content-click="false" :return-value.sync="moveAddress.address2" offset-y
                 min-width="290px">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-text-field v-model="moveInfo.addr.address2" label="도착지 주소" prepend-icon="mdi-home" readonly
+                  <v-text-field v-model="moveAddress.address2" label="도착지 주소" prepend-icon="mdi-home" readonly
                     v-bind="attrs" v-on="on"></v-text-field>
                 </template>
 
                 <v-card>
 
                   우편번호 :
-                  <input v-model="moveInfo.addr.postcode2" class="type-2" type="text"  id="post2"
+                  <input v-model="moveAddress.postcode2" class="type-2" type="text"  id="post2"
                     style="width: 80px; height: 26px" />
                   <button class="custom-btn btn-4" type="button" @click="execDaumPostcode(2)">
                     검색
                   </button>
                   <br />
                   주소 :
-                  <input v-model="moveInfo.addr.address2" id="address2" class="type-2" type="text" 
+                  <input v-model="moveAddress.address2" id="address2" class="type-2" type="text" 
                     style="width: 300px; height: 30px" readonly /><br />
                   상세 :
-                  <input v-model="moveInfo.addr.detailAddress2" id="detailAddress2" class="type-2" type="text"
+                  <input v-model="moveAddress.detailAddress2" id="detailAddress2" class="type-2" type="text"
                     style="width: 300px; height: 30px" /><br />
                   참고항목 :
-                  <input v-model="moveInfo.addr.extraAddress2" type="text" id="extraAddress2" class="type-2"
+                  <input v-model="moveAddress.extraAddress2" type="text" id="extraAddress2" class="type-2"
                     placeholder="참고항목" />
 
                   <v-spacer></v-spacer>
@@ -644,25 +644,27 @@
 
 
     <input type="hidden" name="email" v-model="emailSend">
-    <input type="hidden" name="movingOption" v-model="moveDetail">
+    <input type="hidden" name="movingOption" v-model="chekk">
+    <!-- <input type="hidden" name="movingOption" v-bind:value="moveDetail"> -->
     <input type="hidden" name="movingMemo" v-model="movingMemoSend">
     
-    <input type="hidden" name="departAddress" v-model="moveInfo.addr.address">
-    <input type="hidden" name="arriveAddress" v-model="moveInfo.addr.address2">
+    <input type="hidden" name="departAddress" v-model="moveAddress.address">
+    <input type="hidden" name="arriveAddress" v-model="moveAddress.address2">
 
-    <input type="hidden" name="movingDate" v-model="moveInfo.date">
-    <input type="hidden" name="movingTime" v-model="moveInfo.time">
+    <input type="hidden" name="movingDate" v-model="moveDate.date">
+    <input type="hidden" name="movingTime" v-model="moveDate.time">
     <input type="hidden" name="estimateType" v-model="moveEstimateType">
 
-    <input type="hidden" name="departZipCode" v-model="moveInfo.addr.postcode">
-    <input type="hidden" name="departDetail" v-model="moveInfo.addr.detailAddress">
-    <input type="hidden" name="departExtra" v-model="moveInfo.addr.extraAddress">
-    <input type="hidden" name="arriveZipCode" v-model="moveInfo.addr.postcode2">
-    <input type="hidden" name="arriveDetail" v-model="moveInfo.addr.detailAddress2">
-    <input type="hidden" name="arriveExtra" v-model="moveInfo.addr.extraAddress2">
+    <input type="hidden" name="departZipCode" v-model="moveAddress.postcode">
+    <input type="hidden" name="departDetail" v-model="moveAddress.detailAddress">
+    <input type="hidden" name="departExtra" v-model="moveAddress.extraAddress">
+    <input type="hidden" name="arriveZipCode" v-model="moveAddress.postcode2">
+    <input type="hidden" name="arriveDetail" v-model="moveAddress.detailAddress2">
+    <input type="hidden" name="arriveExtra" v-model="moveAddress.extraAddress2">
 
     <input type="hidden" name="moveType" v-model="moveType">
     <input type="hidden" name="requestDate" v-model="requestDateSend">
+    <input type="hidden" name="commonOption" v-bind:value="moveInfo">
 <!-- 
     <input type="hidden" name="visitDate" v-model="moveVisit.date">
     <input type="hidden" name="visitTime" v-model="moveVisit.time"> -->
@@ -682,6 +684,9 @@
     },
 
     data: () => ({
+      chekk : "",
+      moveInfoEmpty: {},
+
       // emailSend: this.$store.state.loginInfo.email,
       emailSend : "zippy@naver.com",
       movingMemoSend: "MemoMemo",
@@ -774,50 +779,62 @@
         console.log("moveType >> ", this.moveType);
         console.log("moveInfo >> ", this.moveInfo);
 
-        this.moveDetail= "["+JSON.stringify(this.moveDetail[0])+"]";
-        this.emailSend = document.getElementsByName('email').value;
-        this.movingMemoSend =  document.getElementsByName('movingMemo').value;
-        // this.departAddressSend= this.moveInfo.addr.address;
-        // this.arriveAddressSend= this.moveInfo.addr.address2;
-        // this.movingDateSend= this.moveInfo.date;
-        // this.movingTimeSend= this.moveInfo.time;
-        // this.visitTypeSend= this.moveEstimateType;
-        // this.departZipCodeSend= this.moveInfo.addr.postcode;
-        // this.departDetailSend= this.moveInfo.addr.detailAddress;
-        // this.departExtraSend= this.moveInfo.addr.extraAddress;
-        // this.arriveZipCodeSend= this.moveInfo.addr.postcode2;
-        // this.arriveDetailSend= this.moveInfo.addr.detailAddress2;
-        // this.arriveExtraSend= this.moveInfo.addr.extraAddress2;
-        // this.moveTypeSend= this.moveType;
-        this.requestDateSend = document.getElementsByName('requestDate').value;
+        console.log("===================================");
+        console.log(this.moveDetail[0]);
+        console.log(JSON.stringify(this.moveDetail[0]));
+        
+        // document.getElementsByName('movingOption').value
+        this.chekk  = "'"+JSON.stringify(this.moveDetail[0])+"'";        
+        console.log(this.chekk);
 
-        //moveDetail 
+        console.log(JSON.stringify(this.moveDetail[0]));
+        
+        // document.getElementsByName('commonOption').value = "[" + JSON.stringify(this.moveInfo) + "]";
+        
+        // this.emailSend = document.getElementsByName('email').value;
+        // this.movingMemoSend =  document.getElementsByName('movingMemo').value;
+       
+        // // this.departAddressSend= this.moveInfo.addr.address;
+        // // this.arriveAddressSend= this.moveInfo.addr.address2;
+        // // this.movingDateSend= this.moveInfo.date;
+        // // this.movingTimeSend= this.moveInfo.time;
+        // // this.visitTypeSend= this.moveEstimateType;
+        // // this.departZipCodeSend= this.moveInfo.addr.postcode;
+        // // this.departDetailSend= this.moveInfo.addr.detailAddress;
+        // // this.departExtraSend= this.moveInfo.addr.extraAddress;
+        // // this.arriveZipCodeSend= this.moveInfo.addr.postcode2;
+        // // this.arriveDetailSend= this.moveInfo.addr.detailAddress2;
+        // // this.arriveExtraSend= this.moveInfo.addr.extraAddress2;
+        // // this.moveTypeSend= this.moveType;
+        // this.requestDateSend = document.getElementsByName('requestDate').value;
 
-        //moveImage
-        var img1 = document.getElementById("images1");
-        var img2 = document.getElementById("images2");
-        var img3 = document.getElementById("images3");
-        // = this.moveImage.files2;
-        // = this.moveImage.files2;
-        console.log(img1);
-        console.log(img2);
-        console.log(img3);
+        // //moveDetail 
+
+        // //moveImage
+        // var img1 = document.getElementById("images1");
+        // var img2 = document.getElementById("images2");
+        // var img3 = document.getElementById("images3");
+        // // = this.moveImage.files2;
+        // // = this.moveImage.files2;
+        // console.log(img1);
+        // console.log(img2);
+        // console.log(img3);
 
         var formData = new FormData(document.querySelector('#untactForm'));  
-        var step;
+        // var step;
 
-        //formdata로 이미지 보내기 
-        for(step=0; step<this.moveImage.files1.length; step++){
-          formData.append("images1", this.moveImage.files1[step]);
-        }
+        // //formdata로 이미지 보내기 
+        // for(step=0; step<this.moveImage.files1.length; step++){
+        //   formData.append("images1", this.moveImage.files1[step]);
+        // }
 
-        for(step=0; step<this.moveImage.files2.length; step++){
-          formData.append("images2", this.moveImage.files2[step]);
-        }
+        // for(step=0; step<this.moveImage.files2.length; step++){
+        //   formData.append("images2", this.moveImage.files2[step]);
+        // }
 
-        for(step=0; step<this.moveImage.files3.length; step++){
-          formData.append("images3", this.moveImage.files3[step]);
-        }
+        // for(step=0; step<this.moveImage.files3.length; step++){
+        //   formData.append("images3", this.moveImage.files3[step]);
+        // }
         console.log("Axios 실행 전 여기까지 실행됨!");
         this.$axios({
           url: "http://localhost:8090/zippy/move/moveUntactCheck",

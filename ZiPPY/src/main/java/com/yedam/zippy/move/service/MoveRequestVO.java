@@ -22,8 +22,10 @@ public class MoveRequestVO {
   
   String movingDate;
   String movingTime;
-  String visitType;
-  
-//  추가
+  String estimateType;
   String moveType;
+  String requestDate;
+  String visitDate;
+  String visitTime;
+  String commonOption;
 }

@@ -42,7 +42,7 @@
 <script>
 export default {
   // props : ['moveContact', ''],
-  props : ['moveInfo','moveEstimateType','moveType'],
+  props : ['moveInfo','moveEstimateType','moveType', 'moveDate', 'moveAddress'],
   data: () => ({
     //날짜
     arrayEvents: null,
@@ -101,7 +101,9 @@ export default {
           params:{moveVisit: this.moveVisit,                                    
                   moveEstimateType:this.moveEstimateType, 
                   moveInfo : this.moveInfo,
-                  moveType:this.moveType
+                  moveType:this.moveType,
+                  moveDate: this.moveDate, 
+                  moveAddress: this.moveAddress
           }
         })
       }  

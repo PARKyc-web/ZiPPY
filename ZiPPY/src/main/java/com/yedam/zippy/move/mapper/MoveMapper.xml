@@ -24,7 +24,11 @@
 		ARRIVE_ZIP_CODE,
 		ARRIVE_DETAIL,
 		ARRIVE_EXTRA,
-		MOVE_TYPE
+		MOVE_TYPE,
+		REQUEST_DATE,
+		VISIT_DATE,
+		VISIT_TIME,
+		COMMON_OPTION
 		)
 		VALUES
 		(
@@ -44,6 +48,10 @@
 		#{arriveDetail},
 		#{arriveExtra},
 		#{moveType},
+		#{requestDate},
+		#{visitDate},
+		#{visitTime},
+		#{commonOption}
 		)
 	</insert>
 	
