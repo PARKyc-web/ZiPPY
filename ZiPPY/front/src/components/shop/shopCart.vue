@@ -6,23 +6,28 @@
     </v-toolbar>
     <v-data-table v-model="selected" :headers="headers" :items="products" :single-select="singleSelect"
       item-key="cartNo" show-select style="text-align:center" class="elevation-1">
+      <!-- 상품명 -->
+      <template v-slot:item.productVO.proName="{ item }" @click="goDetail(item.cartPno)">
+        {{ item.productVO.proName }}
+      </template>
       <!-- 이미지 -->
       <template v-slot:item.productVO.proMainImg="{ item }">
         <v-img class="ma-5" width="150px" height="150px"
-          :src="require(`../../assets/shop/productImg/${item.productVO.proMainImg}.jpg`)"></v-img>
+          :src="require(`../../assets/shop/productImg/${item.productVO.proMainImg}.jpg`)"
+          @click="goDetail(item.cartPno)"></v-img>
       </template>
       <!-- 수량 조절 -->
       <template v-slot:item.cartQty="{ item }">
         <!-- minus -->
         <div>
-          <v-btn class="mr-1" fab depressed width="20px" height="20px" color="#F7F7F7" @click="minusQty(item.cartNo)">
+          <v-btn class="mr-1" fab depressed width="20px" height="20px" color="#fff" @click="minusQty(item.cartNo)">
             <v-icon dark>
               mdi-minus
             </v-icon>
           </v-btn>
           {{ item.cartQty }}
           <!-- plus -->
-          <v-btn class="ml-1" fab depressed width="20px" height="20px" color="#F7F7F7" @click="plusQty(item.cartNo)">
+          <v-btn class="ml-1" fab depressed width="20px" height="20px" color="#fff" @click="plusQty(item.cartNo)">
             <v-icon dark>
               mdi-plus
             </v-icon>
@@ -45,7 +50,7 @@
     <!-- 주문하기 -->
     <div class="mb-10" style="display:flex">
       <div class="mx-auto py-6">
-        <v-btn depressed color=#B3E3C3 style="width:160px">
+        <v-btn depressed color=#B3E3C3 style="width:160px" @click="goOrder">
           주문하기
         </v-btn>
       </div>
@@ -61,6 +66,8 @@
       return {
         singleSelect: false,
         selected: [],
+        select: [],
+        amount: '',
         headers: [{
             text: '',
             align: 'start',
@@ -100,8 +107,54 @@
       }
     },
     methods: {
+      //주문
+      goOrder() {
+        //선택됐는지 체크
+        if (this.selected.length == 0) {
+          alert('선택된 상품이 존재하지 않습니다.');
+          return;
+        }
+        
+        //purchase 테이블에 등록
+        axios({
+          url: "http://localhost:8088/zippy/shop/insertPur",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          method: "POST",
+          data: JSON.stringify(this.selected)
+        }).then(res => {
+          console.log(res);
+        }).catch(error => {
+          console.log(error);
+        })
+
+        //주문페이지 이동
+      },
       //선택한 품목 삭제
       deleteCart() {
+        //선택됐는지 체크
+        if (this.selected.length == 0) {
+          alert('선택된 상품이 존재하지 않습니다.');
+          return;
+        }
+
+        console.log(JSON.stringify(this.selected))
+        //삭제
+        axios({
+          url: "http://localhost:8088/zippy/shop/delCart",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          method: "POST",
+          data: JSON.stringify(this.selected)
+        }).then(res => {
+          console.log(res);
+        }).catch(error => {
+          console.log(error);
+        })
+
+        //보는 것 삭제
         for (var i in this.selected) {
           for (var j in this.products) {
             if (this.products[j].cartNo == this.selected[i].cartNo) {
@@ -109,9 +162,8 @@
             }
           }
         }
-        if (this.selected.length == 0) {
-          alert('장바구니에서 삭제할 상품을 선택하세요.');
-        }
+
+        alert('장바구니에서 삭제되었습니다.')
       },
       //수량 감소
       minusQty(no) {
@@ -139,12 +191,16 @@
           }
         }
       },
+      //디테일 페이지로 이동
+      goDetail(no) {
+        this.$router.push('/shop/detail?pno=' + no)
+      },
     },
     created() {
       //전체 장바구니 조회
       axios({
         url: "http://localhost:8088/zippy/shop/myCartList",
-        method: "GET",
+        method: "POST",
         params: {
           email: this.$route.query.email
         }
@@ -160,11 +216,13 @@
     computed: {
       //총 주문금액 계산
       countAmount() {
-        let amount = 0;
+        var am = 0;
         for (var i in this.selected) {
-          amount += Number(this.selected[i].cartPrice) + Number(this.selected[i].productVO.deliveryCost);
+          am += Number(this.selected[i].cartPrice) * this.selected[i].cartQty + Number(this.selected[i].productVO
+            .deliveryCost);
         }
-        return amount;
+        this.amount = am;
+        return am;
       }
     }
   };
@@ -187,7 +245,12 @@
   .v-application a:hover {
     text-decoration: underline;
   }
+
   .v-btn {
-    font-weight:bold;
+    font-weight: bold;
+  }
+
+  .v-image :hover {
+    cursor: pointer;
   }
 </style>

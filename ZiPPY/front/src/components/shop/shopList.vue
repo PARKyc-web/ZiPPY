@@ -13,7 +13,7 @@
     <div id="list-container">
       <!-- 키워드 확인 -->
       <div id="keyword" v-if="this.$route.query.keyw">
-        <h6>'<span>{{this.$route.query.keyw}}</span>'에 대한 검색 결과</h6>
+        <h5>'<span>{{this.$route.query.keyw}}</span>'에 대한 검색 결과</h5>
       </div>
       <!-- 키워드 확인 끝 -->
       <!-- 옵션 -->
@@ -47,7 +47,7 @@
         </div>
       </div>
       <!-- 페이지네이션 -->
-      <div class="pb-5">
+      <div style="margin-top:20px">
         <div class="text-center">
           <v-pagination v-model="page" :length="4" circle color="#B3E3C3"></v-pagination>
         </div>
@@ -161,7 +161,7 @@
 
   /* 상품리스트 */
   #list-container {
-    width: 950px;
+    width: 1240px;
     margin-left: 30px;
   }
 

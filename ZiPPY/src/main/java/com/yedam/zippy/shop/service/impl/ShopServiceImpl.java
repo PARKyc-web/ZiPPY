@@ -58,5 +58,13 @@ public class ShopServiceImpl implements ShopService {
     }
     return list;
   }
+  @Override
+  public void deleteCart(List<CartVO> selected) {
+    mapper.deleteCart(selected);
+  }
+  @Override
+  public void insertPur(List<CartVO> selected) {
+    mapper.insertPur(selected);
+  }
 
 }
