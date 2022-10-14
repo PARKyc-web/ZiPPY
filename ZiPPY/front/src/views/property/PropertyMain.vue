@@ -207,13 +207,13 @@
 <style scoped>
   #container {
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 70.8px);
     display: flex;
   }
 
   section {
     width: 75vw;
-    height: 100vh;
+    height: 100%;
   }
 
   #map {
@@ -223,7 +223,7 @@
 
   aside {
     width: 25vw;
-    height: 100vh;
+    height: 100%;
     overflow-y: auto;
     background-color: lightblue;
   }
