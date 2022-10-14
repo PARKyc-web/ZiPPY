@@ -5,12 +5,12 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    login_info : {}
+    loginInfo : {}
   },
   getters: {},
   mutations: {
     login(state, info){
-      state.login_info = info;
+      state.loginInfo = info;
     }
   },
   actions: {},

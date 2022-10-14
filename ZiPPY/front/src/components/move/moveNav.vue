@@ -23,14 +23,14 @@
           <a href="#" class="nav-link link-dark px-2">마이페이지</a>
         </li>
       </ul>
-      <ul class="nav">
+      <!-- <ul class="nav">
         <li class="nav-item">
           <a href="#" class="nav-link link-dark px-2">Login</a>
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link link-dark px-2">Sign up</a>
         </li>
-      </ul>
+      </ul> -->
     </div>
   </nav>
 </template>
@@ -54,7 +54,11 @@ header {
 }
 
 nav {
-  background-color: white;
+  background-color: rgb(179, 227, 195, 0.5);
+}
+
+a{
+  color: #fff;
 }
 
 /* === START memberSignUp.jsp CSS */
@@ -107,7 +111,7 @@ nav {
   color: #212529;
 }
 #navbarSupportedContent a:hover {
-  color: #b3e3c3;
+  color: white;
 }
 /* search */
 .input-group {

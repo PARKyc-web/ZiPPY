@@ -103,7 +103,7 @@
 <script>
   export default {
     props: [
-      'moveDetail', 'moveEstimateType', 'moveType', 'moveInfo'
+      'moveDetail', 'moveEstimateType', 'moveType', 'moveInfo', 'moveDate', 'moveAddress'
     ],
     data() {
       return {
@@ -120,6 +120,7 @@
     methods: {
       un_final_signIn: function () {
         console.log(this.moveInfo);
+        console.log(this.moveImage);
 
         if (this.moveImage.files1 == "" || this.moveImage.files2 == "" || this.moveImage.files3 == "") {
           alert("사진을 첨부하셔야 정확한 견적을 받을 수 있습니다. 사진을 첨부해주세요.");
@@ -132,7 +133,10 @@
               moveDetail: this.moveDetail,
               moveEstimateType: this.moveEstimateType,
               moveInfo: this.moveInfo,
-              moveType: this.moveType
+              moveType: this.moveType,
+              moveDate: this.moveDate, 
+              moveAddress: this.moveAddress
+             
             }
           })
 
