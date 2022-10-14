@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.used.service.UsedImagesVO;
@@ -68,9 +69,13 @@ public class UsedContoller {
 
   // 생성
   @PostMapping("/insert")
-  public String insert(UsedProductVO product, UsedImagesVO images) {
+  public String insert(UsedProductVO product, List<MultipartFile> images) {
     System.out.println(product);
     System.out.println(images);
+    
+    product.setProductLocation("대구");
+    
+    service.insertUsedProduct(product, images);    
     return "";
   }
 
@@ -90,13 +95,6 @@ public class UsedContoller {
     System.out.println(pNo);
     System.out.println(service.deleteUsed(pNo));
     return "";
-  }
-
-  // 찜 추가
-  @PostMapping("/idk")
-  public String addWish(@RequestParam BookmarkVO bookmark) {
-//     service.addWish(bookmark);
-     return "";
   }
   
   // 키워드 추가

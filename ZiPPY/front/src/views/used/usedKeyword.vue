@@ -24,12 +24,19 @@
             </div>
           </div>
           <div class="used-key-flex">
-            <div class="used-keyword-content" v-for="value in keywordValue">
+            <div class="used-keyword-content" v-for="i in keywordValue.length">
+              키워드 : {{keywordValue[i-1]}}, 키워드 지역 : {{locationvalue[i-1]}}
+              <div class="used-keyword-close">
+                <i @click="DelKey($event)" class="fa-solid fa-circle-xmark"></i>
+              </div>
+            </div>
+            <!-- ////////////////////////// -->
+            <!-- <div class="used-keyword-content" v-for="value in keywordValue">
               {{value}}
               <div class="used-keyword-close">
                 <i @click="DelKey()" class="fa-solid fa-circle-xmark"></i>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -100,7 +107,8 @@
     // },
     methods: {
       addKey: function () {
-        this.keywordValue.push(this.data.keyword);
+        this.keywordValue.unshift(this.data.keyword);
+        this.locationvalue.unshift(this.data.keywordLocation);
         // console.log(this.data.keyword.length);
         // console.log(this.keywordValue.length)
         // console.log(this.keywordValue)
@@ -113,47 +121,34 @@
           data: JSON.stringify(this.data)
         }).then(res => {
           console.log(res);
-          console.log(this.data);
           this.data.keyword = "";
           this.data.keywordLocation = "";
         }).catch(err => {
           console.log(err)
         })
       },
-      addLoc: function () {
-        this.locationvalue.push(this.data.keywordLocation);
-        console.log(this.locationvalue.length)
-        axios({
-          url: "http://localhost:8088/zippy/used/addKeyword",
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json; charset=utf-8"
-          },
-          data: JSON.stringify(this.data)
-        }).then(res => {
-          console.log(res);
-          console.log(this.data);
-          this.data.keywordLocation = "";
-        }).catch(err => {
-          console.log(err)
-        })
-      },
-      DelKey: function () {
-        this.showKey.pop();
-        axios({
-          url: "http://localhost:8088/zippy/used/delKeyword",
-          method: "DELETE",
-          params: {
-            // kNo: 
-          }
-        }).then(res => {
-          console.log(res);
-        }).catch(err => {
-          console.log(err)
-        })
-      },
-      DelLoc: function () {
-        this.locationvalue.pop();
+      // addLoc: function () {
+      //   this.locationvalue.push(this.data.keywordLocation);
+      //   console.log(this.locationvalue.length)
+      //   axios({
+      //     url: "http://localhost:8088/zippy/used/addKeyword",
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json; charset=utf-8"
+      //     },
+      //     data: JSON.stringify(this.data)
+      //   }).then(res => {
+      //     console.log(res);
+      //     console.log(this.data);
+      //     this.data.keywordLocation = "";
+      //   }).catch(err => {
+      //     console.log(err)
+      //   })
+      // },
+      DelKey: function (e) {
+        this.keywordValue.pop();
+        // var tagsNo = this.keywordValue.findIndex(i => i.productNo == productNo);
+        // console.log(tagsNo);
         axios({
           url: "http://localhost:8088/zippy/used/delKeyword",
           method: "DELETE",
@@ -166,6 +161,20 @@
           console.log(err)
         })
       },
+      // DelLoc: function () {
+      //   this.locationvalue.pop();
+      //   axios({
+      //     url: "http://localhost:8088/zippy/used/delKeyword",
+      //     method: "DELETE",
+      //     params: {
+      //       // kNo: 
+      //     }
+      //   }).then(res => {
+      //     console.log(res);
+      //   }).catch(err => {
+      //     console.log(err)
+      //   })
+      // },
       enterkey: function () {
         if (window.event.keyCode == 13) {
           this.addKey();

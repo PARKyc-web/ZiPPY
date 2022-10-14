@@ -1,48 +1,50 @@
 <template>
-  <div id="container">
+  <div>
     <nav-bar @click="search($event)"></nav-bar>
-    <div>
-      <div class="used-main-title">
-        <h3>판매중인 중고제품</h3>
-      </div>
-      <div id="used-add-drop-search">
-        <button id="used-addr">
-          <i class="fa-solid fa-location-dot fa-2x"></i>
-        </button>
-        <div>
-          <div class="search">
-            <input type="text" placeholder="검색어 입력" id="used-main-search-input" v-model="word"
-              @keyup="enterkey($event);">
-            <img @click="search($event)" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+    <div id="container">
+      <div>
+        <div class="used-main-title">
+          <h3>판매중인 중고제품</h3>
+        </div>
+        <div id="used-add-drop-search">
+          <button id="used-addr">
+            <i class="fa-solid fa-location-dot fa-2x"></i>
+          </button>
+          <div>
+            <div class="search">
+              <input type="text" placeholder="검색어 입력" id="used-main-search-input" v-model="word"
+                @keyup="enterkey($event);">
+              <img @click="search($event)"
+                src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <hr>
-    <div id="used-soldot-drop">
-      <div class="form-check">
-        <input @click="checkbox ()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-        <label class="form-check-label" for="flexCheckDefault">
-          판매완료된 상품보기
-        </label>
+      <hr>
+      <div id="used-soldot-drop">
+        <div class="form-check">
+          <input @click="checkbox ()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+          <label class="form-check-label" for="flexCheckDefault">
+            판매완료된 상품보기
+          </label>
+        </div>
+        <!-- <nav class="navbar navbar-expand-lg navbar-light"> -->
+        <div id="used-main-dropbox">
+          <v-select @change="dropVal()" v-model="select" :items="items" item-text="name" item-value="value" label="정렬"
+            color="#212529" persistent-hint single-line dense width="50"></v-select>
+        </div>
       </div>
-      <!-- <nav class="navbar navbar-expand-lg navbar-light"> -->
-      <div id="used-main-dropbox">
-        <v-select @change="dropVal()" v-model="select" :items="items" item-text="name" item-value="value" label="정렬"
-          color="#212529" persistent-hint single-line dense width="50"></v-select>
-      </div>
-    </div>
-    <div @click="goDetail(list.productNo)" class="used-main-card" v-if="data.length != 0" v-for="list in data">
-      <div>
-        <div><img src="https://blog.kakaocdn.net/dn/bGu5TC/btrGZLBBodm/QunLukZnzgvWcoygDFziO0/img.jpg" width="194px"
-            height="194px"></div>
-        <div class="used-main-card-cont">
-          <div class="used-main-card-title">{{list.productName}}</div>
-          <div class="used-main-price-date">
-            <div class="used-main-card-price">{{list.productPrice}}원</div>
-            <div><span>{{list.productDate}}</span></div>
-            <div type="hidden"></div>
+      <div @click="goDetail(list.productNo)" class="used-main-card" v-if="data.length != 0" v-for="list in data">
+        <div>
+          <div><img src="C:/usedImage/1665730196276_71location.png" width="194px" height="194px"></div>
+          <div class="used-main-card-cont">
+            <div class="used-main-card-title">{{list.productName}}</div>
+            <div class="used-main-price-date">
+              <div class="used-main-card-price">{{list.productPrice}}원</div>
+              <div><span>{{list.productDate}}</span></div>
+              <div type="hidden"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -55,9 +57,9 @@
   import navBar from '../../components/used/navBar.vue';
 
   export default {
-    components : {
+    components: {
       navBar
-    },    
+    },
     data: () => ({
       items: [{
           name: '최고가순',
@@ -80,7 +82,7 @@
       word: "",
       select: '',
       categoryVal: '',
-      searchValue : ''
+      searchValue: ''
     }),
 
     created() {
@@ -105,25 +107,25 @@
 
     methods: {
       search: function (e) {
-      this.searchValue = document.querySelector("#used-main-search-input").value;
-      this.categoryVal = e.target.innerText;
-      axios({
-        url: "http://localhost:8088/zippy/used/main",
-        methods: "GET",
-        params: {
-          keyword: this.searchValue,
-          location: "",
-          category: this.categoryVal,
-          checked: "",
-          dropbox: ""
-        }
-      }).then(res => {
-        console.log(res);
-        this.data = res.data;
-      }).catch(err => {
-        console.log(err)
-      })
-    },
+        this.searchValue = document.querySelector("#used-main-search-input").value;
+        this.categoryVal = e.target.innerText;
+        axios({
+          url: "http://localhost:8088/zippy/used/main",
+          methods: "GET",
+          params: {
+            keyword: this.searchValue,
+            location: "",
+            category: this.categoryVal,
+            checked: "",
+            dropbox: ""
+          }
+        }).then(res => {
+          console.log(res);
+          this.data = res.data;
+        }).catch(err => {
+          console.log(err)
+        })
+      },
       enterkey: function (e) {
         if (window.event.keyCode == 13) {
           this.search(e);
@@ -171,12 +173,12 @@
           console.log(err);
         })
       },
-      goDetail (no) {
+      goDetail(no) {
         console.log(no);
         // var cardNo = this.data.findIndex(i => i.productNo == productNo);
         // console.log(cardNo);
         this.$router.push('/used/detail?pNo=' + no);
-      
+
       }
     }
   }
