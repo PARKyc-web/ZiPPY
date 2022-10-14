@@ -29,10 +29,7 @@ public interface UsedMapper {
 	
 	// 조회수 증가
 	public void viewCnt(@Param("pNo") int pNo);
-	
-	// 찜 추가
-	public String addWish(@Param("id") String id);
-	
+
 	// 이미지 등록
 	public int insertImg(UsedImagesVO images);
 	

@@ -34,7 +34,7 @@ import usedMain from "../views/used/usedMain.vue";
 import usedInsert from "../views/used/usedInsert.vue";
 import usedKeyword from "../views/used/usedKeyword.vue";
 import usedwishList from "../views/used/usedWishList.vue";
-
+import usedUserPage from "../views/used/usedUserPage.vue";
 
 Vue.use(VueRouter);
 
@@ -189,6 +189,11 @@ const routes = [{
     path: "/used/wish",
     name: "usedWishList",
     component: usedwishList
+  },
+  {
+    path: "/used/user",
+    name: "usedUserPage",
+    component: usedUserPage
   }
 ];
 

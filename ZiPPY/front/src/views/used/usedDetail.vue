@@ -171,7 +171,7 @@
       },
       addWish: function () {
         console.log(this.product.email);
-        console.log(this.data.productNo);
+        console.log(this.product.productNo);
         axios({
           url: "http://localhost:8088/zippy/common/addWish",
           method: "POST",

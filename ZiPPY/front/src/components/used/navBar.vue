@@ -13,16 +13,20 @@
 </template>
 
 <script>
-  import axios from 'axios';
-
   export default {
     data: () => ({
-      data : []
+      data: []
     }),
     methods: {
-      pushCategory : function(e){
-        this.$emit('click',e);
+      pushCategory: function (e) {
+        this.$emit('click', e);
       }
     }
   }
 </script>
+
+<style scoped>
+  .nav {
+    width: 100%;
+  }
+</style>

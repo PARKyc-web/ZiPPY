@@ -130,6 +130,9 @@
       width: 1200px;
       margin: 0 auto;
     }
+    #used-div-cont{
+      margin: 20px 0 0 100px;
+    }
 
     .used-wish-cont-div {
       display: inline-block;
@@ -298,6 +301,9 @@
       width: 500px;
       height: 200px;
       margin-right: 20px;
+    }
+    #used-wish-product:hover{
+      cursor: pointer;
     }
 
     .used-wish-heart {

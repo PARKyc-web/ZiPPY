@@ -4,39 +4,27 @@
 	<!-- 전체조회 -->
 	<select id="usedList" resultType="UsedProductVO"
 		parameterType="hashmap">
-		SELECT *
-		FROM used_product
-		WHERE product_location LIKE
-		'%'||#{location}||'%'
-		AND product_name LIKE '%'||#{keyword}||'%'
-		AND
-		product_category LIKE '%'||#{category}||'%'
+		SELECT p.PRODUCT_NO, p.PRODUCT_NAME,  p.PRODUCT_CATEGORY, p.PRODUCT_PRICE, p.PRODUCT_INFO, p.PRODUCT_LOCATION, p.IS_SELL, p.VIEWS, p.PRODUCT_DATE, i.IMAGE_NO, i.IMAGE, g.NICK_NAME
+		FROM used_product p, used_images i, general_user g
+		WHERE g.email = p.email
+		AND p.product_no = i.product_no
+		AND p.product_name LIKE '%'||#{keyword}||'%'
+		AND p.product_category LIKE '%'||#{category}||'%'
 		<if test="checked == 1">
-			AND is_sell=0
-			OR is_sell=1
+			AND p.is_sell=0
+			OR p.is_sell=1
 		</if>
 		<if test="checked == 0">
-			AND is_sell=0
+			AND p.is_sell=0
 		</if>
 		<!-- 최저가순 -->
 		<if test="dropbox == 0">
-			ORDER BY product_price ASC
+			ORDER BY p.product_price ASC
 		</if>
 		<!-- 최고가순 -->
 		<if test="dropbox == 1">
-			ORDER BY product_price DESC
+			ORDER BY p.product_price DESC
 		</if>
-		<!-- 최신등록일자순 -->
-		<if test="dropbox == 2">
-			ORDER BY product_date DESC
-		</if>
-		<!-- 오래된등록일자순 -->
-		<if test="dropbox == 3">
-			ORDER BY product_date ASC
-		</if>
-
-
-
 		<!-- <if test="dropVal == 판매자평점"> ORDER BY product_date DESC </if> -->
 		<!-- ORDER BY product_date DESC -->
 	</select>
@@ -85,7 +73,7 @@
 	</insert>
 
 	<insert id="insertImg" parameterType="UsedImagesVO">
-		<selectKey keyProperty="imagesNo" order="BEFORE"
+		<selectKey keyProperty="imageNo" order="BEFORE"
 			resultType="int">
 			SELECT NVL(MAX(image_no),0) +1 AS imageNo
 			FROM used_images
@@ -104,29 +92,6 @@
 		)
 	</insert>
 
-	<!-- 찜 추가 -->
-	<insert id="addWish" parameterType="BookmarkVO">
-		<selectKey keyProperty="bookmarkNo" order="BEFORE"
-			resultType="int">
-			SELECT NVL(MAX(bookmark_no),0) +1 AS bookmarkNo
-			FROM
-			bookmark
-		</selectKey>
-		INSERT INTO bookmark
-		(
-		bookmarkNo,
-		user_email,
-		service_type,
-		service_id
-		)
-		VALUES
-		(
-		bookmarkNo
-		,#{email}
-		,1
-		,#{productNo}
-		)
-	</insert>
 	<!-- 수정 -->
 	<update id="updateUsed" parameterType="usedProductVO">
 		UPDATE used_product
