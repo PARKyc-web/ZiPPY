@@ -15,6 +15,7 @@ import BusinessSign from '../views/login/businessSignUp.vue';
 import selectSign from '@/views/login/selectSignType.vue';
 import baseImage from '@/views/login/base64Image.vue';
 import login from '@/views/login/login.vue';
+import admin from '@/views/admin/admin.vue';
 
 import moveContactFinalCheck from "../views/move/moveContactFinalCheck.vue";
 import moveUntactFinalCheck from "../views/move/moveUntactFinalCheck.vue";
@@ -66,9 +67,9 @@ const routes = [
     component: BusinessSign
   },
   {
-    path: "/baseImage",
-    name: "baseImage",
-    component: baseImage
+    path: "/admin",
+    name: "admin",
+    component: admin
   },
   {
     path:"/login",
