@@ -1,10 +1,9 @@
 package com.yedam.zippy.used.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public interface UsedService {
@@ -29,9 +28,6 @@ public interface UsedService {
   // 조회수 증가
   public void viewCnt(int pNo);
 
-  // 찜 추가
-  public String addWish(String id);
-
   // 이미지 등록
   public int insertImg(UsedImagesVO images);
 
@@ -46,4 +42,6 @@ public interface UsedService {
 
   //키워드 출력
   public List<UsedKeywordVO> showKeyword(String email);
+  
+  public void insertUsedProduct(UsedProductVO product, List<MultipartFile> images);
 }

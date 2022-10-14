@@ -20,12 +20,15 @@ public interface ShopService {
 	//디테일 옵션 조회
     public List<ProductOptionVO> getDetailOpt(int proNo);
     
-    // 장바구니 CRUD
+    //장바구니 CRUD
     //등록
     public void insertCart(CartVO cartVO);
     //장바구니 상품개수 조회
     public int getMyCart(String email);
     //내 장바구니 조회
     public List<CartVO> getMyCartList(String email);
-    
+    //삭제
+    public void deleteCart(List<CartVO> selected);
+    //주문 CRUD
+    public void insertPur(List<CartVO> selected);
 }

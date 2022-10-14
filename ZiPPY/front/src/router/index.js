@@ -9,6 +9,7 @@ import shopView from "../views/shopView.vue";
 import shopList from "../views/shop/shopListView.vue";
 import shopDetail from "../views/shop/shopDetailView.vue";
 import shopCart from "../views/shop/shopCartView.vue";
+import dataTable from "../components/shop/dataTable.vue"
 
 import GeneralSign from '../views/login/generalSignUp.vue';
 import BusinessSign from '../views/login/businessSignUp.vue';
@@ -34,7 +35,8 @@ import usedDetail from "../views/used/usedDetail.vue";
 import usedMain from "../views/used/usedMain.vue";
 import usedInsert from "../views/used/usedInsert.vue";
 import usedKeyword from "../views/used/usedKeyword.vue";
-
+import usedwishList from "../views/used/usedWishList.vue";
+import usedUserPage from "../views/used/usedUserPage.vue";
 
 Vue.use(VueRouter);
 
@@ -118,6 +120,11 @@ const routes = [
     name: "shopCart",
     component: shopCart,
   },
+  {
+    path: "/shop/data",
+    name: "data",
+    component: dataTable,
+  },
 
 
 
@@ -191,6 +198,16 @@ const routes = [
     path: "/used/keyword",
     name: "usedKeyword",
     component: usedKeyword
+  },
+  {
+    path: "/used/wish",
+    name: "usedWishList",
+    component: usedwishList
+  },
+  {
+    path: "/used/user",
+    name: "usedUserPage",
+    component: usedUserPage
   }
 ];
 

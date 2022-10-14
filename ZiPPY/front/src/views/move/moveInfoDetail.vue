@@ -264,7 +264,7 @@
 
 <script>
   export default {
-    props: ['moveInfo','moveEstimateType','moveType'],
+    props: ['moveInfo','moveEstimateType','moveType', 'moveDate', 'moveAddress'],
     data: () => ({
       
       bedAvail: false,
@@ -464,7 +464,9 @@
                   moveDetail:this.moveDetail,
                   moveEstimateType:this.moveEstimateType, 
                   moveInfo : this.moveInfo,
-                  moveType:this.moveType
+                  moveType:this.moveType,
+                  moveDate: this.moveDate, 
+                  moveAddress: this.moveAddress
           }
         })
         }

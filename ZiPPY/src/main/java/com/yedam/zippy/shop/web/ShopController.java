@@ -77,8 +77,19 @@ public class ShopController {
     return service.getMyCart(email);
   }
   //내 장바구니 조회
-  @RequestMapping("/myCartList")
+  @PostMapping("/myCartList")
   public List<CartVO> getMyCartList(String email) {
     return service.getMyCartList(email);
+  }
+  //삭제
+  @PostMapping("/delCart")
+  public void deleteCart(@RequestBody List<CartVO> selected) {
+    service.deleteCart(selected);
+  }
+  
+  //주문
+  @PostMapping("/insertPur")
+  public void insertPur(@RequestBody List<CartVO> selected) {
+    service.insertPur(selected);
   }
 }

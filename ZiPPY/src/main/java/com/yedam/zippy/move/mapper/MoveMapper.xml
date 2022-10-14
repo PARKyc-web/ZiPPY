@@ -13,11 +13,18 @@
 		EMAIL,
 		MOVING_OPTION,
 		MOVING_MEMO,
-		MOVING_DEPART,
-		MOVING_ARRIVE,
+		DEPART_ADDRESS,
+		ARRIVE_ADDRESS,
 		MOVING_DATE,
 		MOVING_TIME,
-		VISIT_TYPE
+		VISIT_TYPE,
+		DEPART_ZIP_CODE,
+		DEPART_DETAIL,
+		DEPART_EXTRA,
+		ARRIVE_ZIP_CODE,
+		ARRIVE_DETAIL,
+		ARRIVE_EXTRA,
+		MOVE_TYPE
 		)
 		VALUES
 		(
@@ -25,11 +32,40 @@
 		#{email},
 		#{movingOption},
 		#{movingMemo},
-		#{movingDepart},
-		#{movingArrive},
+		#{departAddress},
+		#{arriveAddress},
 		#{movingDate},
 		#{movingTime},
 		#{visitType}
+		#{departZipCode},
+		#{departDetail},
+		#{departExtra},
+		#{arriveZipCode},
+		#{arriveDetail},
+		#{arriveExtra},
+		#{moveType},
+		)
+	</insert>
+	
+	<insert id="moveUntactImg" parameterType="MoveRequestVO">
+		<selectKey keyProperty="houseImgNo" order="BEFORE" resultType="int">
+			SELECT NVL(MAX(house_img_no),0) +1 AS houseImgNo 
+			FROM UNTACT_HOUSE_IMAGE
+		</selectKey>
+		
+		INSERT INTO UNTACT_HOUSE_IMAGE
+		(
+		HOUSE_IMG_NO,
+		ESTIMATE_NO,
+		HOUSE_IMG,
+		IMG_TYPE
+		)
+		VALUES
+		(
+		#{houseImgNo},
+		#{estimateNo},
+  		#{houseImg},
+  		#{imgType}
 		)
 	</insert>
 </mapper>

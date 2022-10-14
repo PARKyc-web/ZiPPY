@@ -1,8 +1,8 @@
 <template>
   <div class="whole-wrap">
+    <moveNav></moveNav>
     <form>
 
-  <!-- <moveNav></moveNav> -->
   <!-- moveSelect (이사유형 선택) -->
   <div class="moveSelect-wrap">
     <h3>이사 유형을 선택해주세요.</h3>
@@ -109,8 +109,7 @@
       <!-- 지도 -->
 
       우편번호 :
-      <input
-        
+      <input        
         class="type-2"
         type="text"
         name="zip1"
@@ -383,7 +382,13 @@
 </template>
 
 <script>
+import moveNav from "../../components/move/moveNav.vue";
+
   export default {
+
+    components:{
+      moveNav
+    },
 
     data: () => ({
 
@@ -404,13 +409,31 @@
     //moveEstimateType
     moveEstimateType : "",
  
+    //moveAddress
+    moveAddress : {
+          postcode: "",
+          address: "",
+          detailAddress:"",
+          extraAddress: "",
+          
+          postcode2: "",
+          address2: "",
+          detailAddress2:"",
+          extraAddress2: "",
+        },
+
+    //moveDate
+    moveDate:{
+      
+      date : "",
+      time : "",
+
+    } ,   
+
     //moveInfo
 
     moveInfo : {    
 
-      date : "",
-      time : "",
-      
         houseType : "",     
         roomNum : "",
         spaceOfHome : "",
@@ -426,17 +449,7 @@
       //   visitDate : "",
       // visitTime : "",
 
-        addr : {
-          postcode: "",
-          address: "",
-          detailAddress:"",
-          extraAddress: "",
-          
-          postcode2: "",
-          address2: "",
-          detailAddress2:"",
-          extraAddress2: "",
-        },
+        
       },
 
     
@@ -573,6 +586,8 @@
       var detail = document.querySelector("#detailAddress"+number);  
       var extra = document.querySelector("#extraAddress"+number);     
 
+      
+      //찾기
       new window.daum.Postcode({
         oncomplete: (data) => {
           console.log(data);

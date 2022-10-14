@@ -175,7 +175,7 @@
         //장바구니에 존재한 상품 check
         axios({
           url: "http://localhost:8088/zippy/shop/myCartList",
-          method: "GET",
+          method: "POST",
           params: {
             email: this.email
           }

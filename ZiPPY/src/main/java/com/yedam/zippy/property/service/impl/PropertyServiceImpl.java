@@ -2,6 +2,7 @@ package com.yedam.zippy.property.service.impl;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,11 @@ public class PropertyServiceImpl implements PropertyService {
   @Override
   public List<propertyVO> getAllPropertyList() {
     return mapper.getAllPropertyList();
+  }
+  
+  @Override
+  public List<propertyVO> getPropertyList(String sigungu) {
+    return mapper.getPropertyList(sigungu);
   }
 
   @Override

@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar dense floating style="z-index: 2;">
+  <v-toolbar dense floating style="z-index: 5;">
     <v-text-field hide-details prepend-icon="mdi-magnify" single-line placeholder=" 지역명 검색" @keyup.enter="test()"
       v-model="sigungu"></v-text-field>
     <v-row justify="center">

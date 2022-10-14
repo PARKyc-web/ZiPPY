@@ -88,7 +88,13 @@ export default {
     final_signIn: function(){
       console.log(this.moveInfo);
       console.log(this.moveVisit);
-      // this.$router.go(this.$router.currentRoute);
+      
+      if(this.moveVisit.visitDate==""){
+        alert("견적 방문 희망 날짜를 선택해주세요.")
+      } else if(this.moveVisit.visitTime==""){
+        alert("견적 방문 희망 시간을 선택해주세요.")
+      } 
+      else{
       this.$router.push({
          
           name : "moveContactCheck", 
@@ -98,7 +104,7 @@ export default {
                   moveType:this.moveType
           }
         })
-
+      }  
     }
   },
 };
