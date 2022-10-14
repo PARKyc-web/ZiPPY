@@ -103,7 +103,7 @@
 <script>
   export default {
     props: [
-      'moveDetail', 'moveEstimateType', 'moveType', 'moveInfo'
+      'moveDetail', 'moveEstimateType', 'moveType', 'moveInfo', 'moveDate', 'moveAddress'
     ],
     data() {
       return {
@@ -133,7 +133,10 @@
               moveDetail: this.moveDetail,
               moveEstimateType: this.moveEstimateType,
               moveInfo: this.moveInfo,
-              moveType: this.moveType
+              moveType: this.moveType,
+              moveDate: this.moveDate, 
+              moveAddress: this.moveAddress
+             
             }
           })
 

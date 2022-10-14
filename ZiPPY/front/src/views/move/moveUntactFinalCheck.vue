@@ -1,12 +1,10 @@
 <template>
   <div class="wrapper">
-    <moveNav></moveNav>
+    <!-- <moveNav></moveNav> -->
     <form id="untactForm">
 
     <h2>이사 견적을 위해 입력한 정보를 확인해주세요.</h2>
 
-
-    <input type="hidden" name="movingOption" v-model="checkk">
 
     <!-- 이사유형 -->
     <v-expansion-panels>
@@ -29,7 +27,7 @@
           <v-row no-gutters>
             <v-spacer></v-spacer>
             <v-col cols="5">
-              <v-select name="moveType" v-model="moveType" :items="types" chips flat solo outlined placeholder="선택한 이사유형 불러오기">
+              <v-select v-model="moveType" :items="types" chips flat solo outlined placeholder="선택한 이사유형 불러오기">
               </v-select>
 
               <div class="drop-btn">
@@ -52,10 +50,10 @@
                 <span v-if="open">이사희망 날짜와 시간을 선택해주세요.</span>
                 <v-row v-else no-gutters style="width: 100%">
                   <v-col cols="6">
-                    이사 희망일: {{ moveInfo.date || "Not set" }}
+                    이사 희망일: {{ moveDate.date || "Not set" }}
                   </v-col>
                   <v-col cols="6">
-                    이사 희망시간: {{ moveInfo.time || "Not set" }}
+                    이사 희망시간: {{ moveDate.time || "Not set" }}
                   </v-col>
                 </v-row>
               </v-fade-transition>
@@ -66,10 +64,10 @@
         <v-expansion-panel-content>
           <v-row justify="space-around" no-gutters>
             <v-col cols="3">
-              <v-menu ref="startMenu" :close-on-content-click="false" :return-value.sync="moveInfo.date" offset-y
+              <v-menu ref="startMenu" :close-on-content-click="false" :return-value.sync="moveDate.date" offset-y
                 min-width="290px">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-text-field name="movingDate" v-model="moveInfo.date" label="이사희망일" prepend-icon="mdi-calendar" readonly
+                  <v-text-field v-model="moveDate.date" label="이사희망일" prepend-icon="mdi-calendar" readonly
                     v-bind="attrs" v-on="on"></v-text-field>
                 </template>
                 <v-date-picker v-model="date" no-title scrollable>
@@ -85,10 +83,11 @@
             </v-col>
 
             <v-col cols="3">
-              <v-menu ref="endMenu" :close-on-content-click="false" :return-value.sync="moveInfo.time" offset-y
+              <v-menu ref="endMenu" :close-on-content-click="false" :return-value.sync="moveDate.time" offset-y
                 min-width="290px">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-text-field name="movingTime" v-model="moveInfo.time" label="이사 희망시간" prepend-icon="mdi-clock" readonly v-bind="attrs"
+                  <v-text-field
+                   v-model="moveDate.time" label="이사 희망시간" prepend-icon="mdi-clock" readonly v-bind="attrs"
                     v-on="on"></v-text-field>
                 </template>
                 <!-- <v-date-picker
@@ -121,10 +120,10 @@
                 <span v-if="open">이사 출발지와 도착지 주소를 확인해주세요.</span>
                 <v-row v-else no-gutters style="width: 100%">
                   <v-col cols="6">
-                    이사 출발지 주소: {{ moveInfo.addr.address,moveInfo.addr.detailAddress || "Not set" }}
+                    이사 출발지 주소: {{ moveAddress.address, moveAddress.detailAddress || "Not set" }}
                   </v-col>
                   <v-col cols="6">
-                    이사 도착지 주소: {{ moveInfo.addr.address2,moveInfo.addr.detailAddress2 || "Not set" }}
+                    이사 도착지 주소: {{ moveAddress.address2, moveAddress.detailAddress2 || "Not set" }}
                   </v-col>
                 </v-row>
               </v-fade-transition>
@@ -135,10 +134,10 @@
         <v-expansion-panel-content>
           <v-row justify="space-around" no-gutters>
             <v-col cols="3">
-              <v-menu ref="startMenu" :close-on-content-click="false" :return-value.sync="moveInfo.addr.address"
+              <v-menu ref="startMenu" :close-on-content-click="false" :return-value.sync="moveAddress.address"
                 offset-y min-width="290px">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-text-field v-model="moveInfo.addr.address" label="출발지 주소" prepend-icon="mdi-home" readonly
+                  <v-text-field v-model="moveAddress.address" label="출발지 주소" prepend-icon="mdi-home" readonly
                     v-bind="attrs" v-on="on"></v-text-field>
 
                 </template>
@@ -146,20 +145,20 @@
                 <v-card>
 
                   우편번호 :
-                  <input name="departZipCode" v-model="moveInfo.addr.postcode" class="type-2" type="text" id="post1"
+                  <input v-model="moveInfo.addr.postcode" class="type-2" type="text" id="post1"
                     style="width: 80px; height: 26px" />
                   <button class="custom-btn btn-4" type="button" @click="execDaumPostcode(1)">
                     검색
                   </button>
                   <br />
                   주소 :
-                  <input name="departAddress" v-model="moveInfo.addr.address" id="address1" class="type-2" type="text" 
+                  <input v-model="moveInfo.addr.address" id="address1" class="type-2" type="text" 
                     style="width: 300px; height: 30px" readonly /><br />
                   상세 :
                   <input v-model="moveInfo.addr.detailAddress" id="detailAddress1" class="type-2" type="text"
-                    name="departDetail" style="width: 300px; height: 30px" /><br />
+                     style="width: 300px; height: 30px" /><br />
                   참고항목 :
-                  <input name="departExtra" v-model="moveInfo.addr.extraAddress" type="text" id="extraAddress1" class="type-2"
+                  <input v-model="moveInfo.addr.extraAddress" type="text" id="extraAddress1" class="type-2"
                     placeholder="참고항목" />
 
                   <v-spacer></v-spacer>
@@ -185,20 +184,20 @@
                 <v-card>
 
                   우편번호 :
-                  <input name="arriveZipCode" v-model="moveInfo.addr.postcode2" class="type-2" type="text"  id="post2"
+                  <input v-model="moveInfo.addr.postcode2" class="type-2" type="text"  id="post2"
                     style="width: 80px; height: 26px" />
                   <button class="custom-btn btn-4" type="button" @click="execDaumPostcode(2)">
                     검색
                   </button>
                   <br />
                   주소 :
-                  <input name="arriveAddress" v-model="moveInfo.addr.address2" id="address2" class="type-2" type="text" 
+                  <input v-model="moveInfo.addr.address2" id="address2" class="type-2" type="text" 
                     style="width: 300px; height: 30px" readonly /><br />
                   상세 :
-                  <input name="arriveDetail" v-model="moveInfo.addr.detailAddress2" id="detailAddress2" class="type-2" type="text"
+                  <input v-model="moveInfo.addr.detailAddress2" id="detailAddress2" class="type-2" type="text"
                     style="width: 300px; height: 30px" /><br />
                   참고항목 :
-                  <input name="arriveExtra" v-model="moveInfo.addr.extraAddress2" type="text" id="extraAddress2" class="type-2"
+                  <input v-model="moveInfo.addr.extraAddress2" type="text" id="extraAddress2" class="type-2"
                     placeholder="참고항목" />
 
                   <v-spacer></v-spacer>
@@ -639,23 +638,55 @@
     <div class="final-btn">
       <v-btn color="success" elevation="10" @click="finalSend()">확인완료</v-btn>
     </div>
+
+    <!-- 필드명 -->
+
+
+
+    <input type="hidden" name="email" v-model="emailSend">
+    <input type="hidden" name="movingOption" v-model="moveDetail">
+    <input type="hidden" name="movingMemo" v-model="movingMemoSend">
+    
+    <input type="hidden" name="departAddress" v-model="moveInfo.addr.address">
+    <input type="hidden" name="arriveAddress" v-model="moveInfo.addr.address2">
+
+    <input type="hidden" name="movingDate" v-model="moveInfo.date">
+    <input type="hidden" name="movingTime" v-model="moveInfo.time">
+    <input type="hidden" name="estimateType" v-model="moveEstimateType">
+
+    <input type="hidden" name="departZipCode" v-model="moveInfo.addr.postcode">
+    <input type="hidden" name="departDetail" v-model="moveInfo.addr.detailAddress">
+    <input type="hidden" name="departExtra" v-model="moveInfo.addr.extraAddress">
+    <input type="hidden" name="arriveZipCode" v-model="moveInfo.addr.postcode2">
+    <input type="hidden" name="arriveDetail" v-model="moveInfo.addr.detailAddress2">
+    <input type="hidden" name="arriveExtra" v-model="moveInfo.addr.extraAddress2">
+
+    <input type="hidden" name="moveType" v-model="moveType">
+    <input type="hidden" name="requestDate" v-model="requestDateSend">
+<!-- 
+    <input type="hidden" name="visitDate" v-model="moveVisit.date">
+    <input type="hidden" name="visitTime" v-model="moveVisit.time"> -->
+
   </form>
 
   </div>
 </template>
 
 <script>
-  import moveNav from './moveNav.vue';
+  import moveNav from '../../components/move/moveNav.vue';
   export default {
 
-    props: ['moveImage', 'moveDetail', 'moveEstimateType', 'moveType', 'moveInfo'],
+    props: ['moveImage', 'moveDetail', 'moveEstimateType', 'moveType', 'moveInfo', 'moveDate', 'moveAddress'],
     components: {
       moveNav,
     },
 
     data: () => ({
-
-      checkk: "",
+      // emailSend: this.$store.state.loginInfo.email,
+      emailSend : "zippy@naver.com",
+      movingMemoSend: "MemoMemo",
+      requestDateSend: "2022-10-14",
+      
 
       date: null,
       time: null,
@@ -726,18 +757,39 @@
     }),
 
     computed: {
-
       lauguageCount: function () {
         return this.furniture.length || '';
       }
     },
 
+//this.$store.state.loginInfo.email => email input에 넣기 
 
     methods: {
       
       //데이터보내기
-      finalSend: function(){
-        console.log(this.moveImage);
+      finalSend: function(){        
+        console.log("moveImage >> ", this.moveImage);
+        console.log("moveDetail >> ", this.moveDetail);
+        console.log("moveEstimateType >> ", this.moveEstimateType);
+        console.log("moveType >> ", this.moveType);
+        console.log("moveInfo >> ", this.moveInfo);
+
+        this.moveDetail= "["+JSON.stringify(this.moveDetail[0])+"]";
+        this.emailSend = document.getElementsByName('email').value;
+        this.movingMemoSend =  document.getElementsByName('movingMemo').value;
+        // this.departAddressSend= this.moveInfo.addr.address;
+        // this.arriveAddressSend= this.moveInfo.addr.address2;
+        // this.movingDateSend= this.moveInfo.date;
+        // this.movingTimeSend= this.moveInfo.time;
+        // this.visitTypeSend= this.moveEstimateType;
+        // this.departZipCodeSend= this.moveInfo.addr.postcode;
+        // this.departDetailSend= this.moveInfo.addr.detailAddress;
+        // this.departExtraSend= this.moveInfo.addr.extraAddress;
+        // this.arriveZipCodeSend= this.moveInfo.addr.postcode2;
+        // this.arriveDetailSend= this.moveInfo.addr.detailAddress2;
+        // this.arriveExtraSend= this.moveInfo.addr.extraAddress2;
+        // this.moveTypeSend= this.moveType;
+        this.requestDateSend = document.getElementsByName('requestDate').value;
 
         //moveDetail 
 
@@ -755,7 +807,6 @@
         var step;
 
         //formdata로 이미지 보내기 
-
         for(step=0; step<this.moveImage.files1.length; step++){
           formData.append("images1", this.moveImage.files1[step]);
         }
@@ -767,7 +818,7 @@
         for(step=0; step<this.moveImage.files3.length; step++){
           formData.append("images3", this.moveImage.files3[step]);
         }
-
+        console.log("Axios 실행 전 여기까지 실행됨!");
         this.$axios({
           url: "http://localhost:8090/zippy/move/moveUntactCheck",
           method: "POST",
@@ -912,7 +963,7 @@
         console.log(this.moveImage);
         
 
-        this.checkk= "["+JSON.stringify(this.moveDetail[0])+","+ JSON.stringify(this.moveInfo) +"]";
+        
 
         console.log(JSON.stringify(this.moveDetail[0]));
         console.log(JSON.stringify(this.moveInfo));

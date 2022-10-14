@@ -1,5 +1,6 @@
 package com.yedam.zippy.move.mapper;
 
+import com.yedam.zippy.move.service.MoveImageVO;
 import com.yedam.zippy.move.service.MoveRequestVO;
 
 public interface MoveMapper {
@@ -11,4 +12,10 @@ public interface MoveMapper {
   public int moveContactCheck(MoveRequestVO moveReq);
   
   
+  //
+  public void insertContactEstimate(MoveRequestVO moveReq);
+  
+  public void insertImagePath(String path);
+  
+  public void insertPhoto(MoveImageVO img);
 }

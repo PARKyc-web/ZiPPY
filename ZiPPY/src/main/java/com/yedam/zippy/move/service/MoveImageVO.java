@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class MoveImageVO {
-
   int houseImgNo;
   int estimateNo;
   String houseImg;

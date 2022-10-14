@@ -5,8 +5,6 @@
     <form id="contactForm">
     <h2>이사 견적을 위해 입력한 정보를 확인해주세요.</h2>
 
-    <input type="hidden" name="movingInfo" v-model="contactCheckk">
-
     <!-- 이사유형 -->
     <v-expansion-panels>
       <v-expansion-panel>
@@ -539,12 +537,33 @@
 
 
 </div>
+
+  
+    <!-- 필드명 -->
+    <input type="hidden" name="email" v-model="emailSend">
+    <input type="hidden" name="movingOption" v-model="contactCheckk">
+    <input type="hidden" name="movingMemo" v-model="movingMemoSend">
+    <input type="hidden" name="departAddress" v-model="departAddressSend">
+    <input type="hidden" name="arriveAddress" v-model="arriveAddressSend">
+    <input type="hidden" name="movingDate" v-model="movingDateSend">
+    <input type="hidden" name="movingTime" v-model="movingTimeSend">
+    <input type="hidden" name="visitType" v-model="visitTypeSend">
+    <input type="hidden" name="departZipCode" v-model="departZipCodeSend">
+    <input type="hidden" name="departDetail" v-model="departDetailSend">
+    <input type="hidden" name="departExtra" v-model="departExtraSend">
+    <input type="hidden" name="arriveZipCode" v-model="arriveZipCodeSend">
+    <input type="hidden" name="arriveDetail" v-model="arriveDetailSend">
+    <input type="hidden" name="arriveExtra" v-model="arriveExtraSend">
+    <input type="hidden" name="moveType" v-model="moveTypeSend">
+    <input type="hidden" name="requestDate" v-model="requestDateSend" value="2022-10-14">
+
+
 </form>
   </div>
 </template>
 
 <script>
-  import moveNav from './moveNav.vue';
+  import moveNav from '../../components/move/moveNav.vue';
   export default {
 
     props : ['moveVisit', 'moveEstimateType', 'moveType', 'moveInfo'],   
@@ -553,8 +572,22 @@
     },
 
     data: () => ({
-
+      emailSend:"business@naver.com",
       contactCheckk: "",
+      movingMemoSend: "MemoMemo",
+      departAddressSend:"",
+      arriveAddressSend:"",
+      movingDateSend: "",
+      movingTimeSend: "",
+      visitTypeSend: "",
+      departZipCodeSend: "",
+      departDetailSend: "",
+      departExtraSend: "",
+      arriveZipCodeSend: "",
+      arriveDetailSend: "",
+      arriveExtraSend: "",
+      moveTypeSend: "",
+      requestDate: "",
 
       date: null,
       time: null,
@@ -606,6 +639,23 @@
     methods: {
 
       finalSend : function(){
+        console.log(this.moveVisit);
+        this.contactCheckk = this.moveInfo;
+        this.emailSend = document.getElementsByName.apply('email').value;
+        this.movingMemoSend =  document.getElementsByName.apply('movingMemo').value;
+        this.departAddressSend= this.moveInfo.addr.address;
+        this.arriveAddressSend= this.moveInfo.addr.address2;
+        this.movingDateSend= this.moveInfo.date;
+        this.movingTimeSend= this.moveInfo.time;
+        this.visitTypeSend= this.moveVisit;
+        this.departZipCodeSend= this.moveInfo.addr.postcode;
+        this.departDetailSend= this.moveInfo.addr.detailAddress;
+        this.departExtraSend= this.moveInfo.addr.extraAddress;
+        this.arriveZipCodeSend= this.moveInfo.addr.postcode2;
+        this.arriveDetailSend= this.moveInfo.addr.detailAddress2;
+        this.arriveExtraSend= this.moveInfo.addr.extraAddress2;
+        this.moveTypeSend= this.moveType;
+        this.requestDate = document.getElementsByName.apply('requestDate').value;
 
         //form으로 데이터보내기
         var formData = new FormData(document.querySelector('#contactForm')); 
@@ -629,7 +679,7 @@
         
         //값이 잘 넘어가는지 확인
 
-        this.contactCheckk = JSON.stringify(this.moveInfo);
+        
 
         console.log(JSON.stringify(this.moveInfo));
         console.log(this.contactCheckk);

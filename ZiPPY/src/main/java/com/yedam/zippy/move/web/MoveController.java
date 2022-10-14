@@ -26,11 +26,18 @@ public class MoveController {
   // 견적요청
   @PostMapping("/moveUntactCheck")
   public String moveUntactCheck(MoveRequestVO moveReq, List<MultipartFile> images1, List<MultipartFile> images2, List<MultipartFile> images3) {
-    System.out.println(moveReq);
-        
+    System.out.println(moveReq);        
     System.out.println(images1);
     System.out.println(images2);
     System.out.println(images3);
+    
+//    
+//   if(Integer.parseInt(moveReq.getVisitType())==0) {
+//     service.insertContactEstimate(moveReq);
+//   } else {
+//     service.insertUntactEstimate(moveReq, images1, images2, images3);
+//   }
+//    
     
     //images1 의 0번째 파일을 image111.jpg이름으로 사용하겠다.
 //    
