@@ -14,11 +14,11 @@
 
     <section>
       <article>
-        <h4>가격정보</h4>
+        <h4 class="title">가격정보</h4>
         <table>
           <tr>
             <th>{{this.houseDetail[0].saleType}}</th>
-            <td>{{this.houseDetail[0].price}}</td>
+            <td>{{this.price}} {{this.houseDetail[0].price}}</td>
           </tr>
           <tr>
             <th>관리비</th>
@@ -38,7 +38,7 @@
         <hr>
       </article>
       <article>
-        <h4>상세정보</h4>
+        <h4 class="title">상세정보</h4>
         <table>
           <tr>
             <th>집종류</th>
@@ -68,19 +68,19 @@
         <hr>
       </article>
       <article>
-        <h4>위치 및 주변 시설</h4>
-        <p>{{this.houseDetail[0].sigungu}} {{this.houseDetail[0].streetAddress}}</p>
+        <h4 class="title">위치 및 주변 시설</h4>
+        <p class="contents">{{this.houseDetail[0].sigungu}} {{this.houseDetail[0].streetAddress}}</p>
         <basic-marker-map :address="houseDetail[0].streetAddress" :name="houseDetail[0].houseName" />
         <hr>
       </article>
       <article>
-        <h4>시세/실거래가</h4>
+        <h4 class="title">시세/실거래가</h4>
         아파트의 경우
         <hr>
       </article>
       <article>
-        <h4>상세 설명</h4>
-        <p>{{this.houseDetail[0].detailContents}}</p>
+        <h4 class="title">상세 설명</h4>
+        <p class="contents">{{this.houseDetail[0].detailContents}}</p>
       </article>
     </section>
 
@@ -90,14 +90,14 @@
           <v-card class="mx-auto my-12" max-width="374" style="width: 100%;">
             <v-card-text>
               <!--heart-->
-              <div>
-                <v-btn v-if="heart==0" class="mx-2" color='#D6D6D6' fab depressed dark small @click="changeHeart()">
-                  <v-icon dark>
+              <div id="heart">
+                <v-btn v-if="heart==0" class="mx-2" color='#D6D6D6' fab depressed dark x-small @click="changeHeart()">
+                  <v-icon dark small>
                     mdi-heart
                   </v-icon>
                 </v-btn>
-                <v-btn v-if="heart==1" class="mx-2" color='#FF4063' fab depressed dark small @click="changeHeart()">
-                  <v-icon dark>
+                <v-btn v-if="heart==1" class="mx-2" color='#FF4063' fab depressed dark x-small @click="changeHeart()">
+                  <v-icon dark small>
                     mdi-heart
                   </v-icon>
                 </v-btn>
@@ -106,26 +106,23 @@
               <v-row align="center" class="mx-0">
                 <div>매물번호 {{this.houseDetail[0].productId}}</div>
               </v-row>
-              <v-card-title>{{this.houseDetail[0].houseName}} | {{this.houseDetail[0].saleType}}
-                {{this.houseDetail[0].price}}</v-card-title>
-              <div class="my-4 text-subtitle-1">
-                {{this.houseDetail[0].sigungu}}
-              </div>
-              <div class="my-4 text-subtitle-1">
-                {{this.houseDetail[0].streetAddress}}
-              </div>
-              <div class="my-4 text-subtitle-1">
-                {{this.houseDetail[0].houseType}}
-              </div>
-              <div class="my-4 text-subtitle-1">
-                {{this.houseDetail[0].areaExclusive}}m²
-              </div>
-              <div class="my-4 text-subtitle-1">
-                {{this.houseDetail[0].floor}}층
-              </div>
+              <v-card-title style="font-weight: bold;">{{this.houseDetail[0].houseName}} / {{this.houseDetail[0].saleType}}
+                {{this.price}}</v-card-title>
+              
+              <table style="font-size: medium;">
+                <tr>
+                  <td>{{this.houseDetail[0].sigungu}}</td>
+                </tr>
+                <tr>
+                  <td>{{this.houseDetail[0].streetAddress}}</td>
+                </tr>
+                <tr>
+                  <td>{{this.houseDetail[0].houseType}} · {{this.houseDetail[0].areaExclusive}}m² · {{this.houseDetail[0].floor}}층</td>
+                </tr>
+              </table>
               <hr>
-              <v-card-title @click="goAgentDetail">{{this.houseDetail[0].compName}}</v-card-title>
-              <v-btn block color="primary" elevation="2">문의하기(채팅)</v-btn>
+              <v-card-title style="font-weight: bold;" @click="goAgentDetail">{{this.houseDetail[0].compName}}</v-card-title>
+              <v-btn block color="#B3E3C3" elevation="2"><span style="color: white;">문의하기</span></v-btn>
             </v-card-text>
 
           </v-card>
@@ -163,7 +160,8 @@
         ],
         houseDetail: [],
         heart: 0,
-        compName: ''
+        compName: '',
+        price: '',
       }
     },
     created() {
@@ -178,6 +176,8 @@
           console.log('houseDetail success!');
           console.log(response.data);
           this.houseDetail = response.data;
+
+          this.price = this.getPrice(this.houseDetail[0].price);
         })
         .catch(error => {
           // 에러가 났을 때
@@ -189,7 +189,9 @@
       goAgentDetail() {
         this.$router.push({
           name: 'AgentDetail',
-          query: {email: this.houseDetail[0].email}
+          query: {
+            email: this.houseDetail[0].email
+          }
         })
       },
       changeHeart() {
@@ -201,6 +203,31 @@
           alert('상품의 찜을 해제하였습니다.')
         }
       },
+      getPrice(price) {
+        let result = '';
+        let quotient = Math.floor(price.length / 3);
+        let remainder = price.length % 3;
+
+        for (let i = 0; i < remainder; i++) {
+          result += price[i];
+        }
+        result += ',';
+        for (let i = 0; i < quotient - 1; i++) {
+          for (let j = 0; j < 3; j++) {
+            result += price[remainder++];
+          }
+          result += ',';
+        }
+        for (let j = 0; j < 3; j++) {
+          result += price[remainder++];
+        }
+        console.log('콤마 추가: ', result);
+
+        result = result.substring(0, result.length - 5) + '억' + result.substring(result.length - 5, result.length);
+        console.log('억 추가: ', result);
+
+        return result;
+      }
     }
   }
 </script>
@@ -215,9 +242,10 @@
     /* 줄 바꿈 */
   }
 
-  v-carousel {
+  /* v-carousel {
     width: 100%;
-  }
+    
+  } */
 
   section {
     width: 65%;
@@ -243,4 +271,19 @@
     width: 35%;
     padding: 2%;
   }
+
+  .title {
+    margin-left: 10px;
+    font-weight: bold;
+  }
+
+  .contents {
+    padding: 20px;
+  }
+
+  #heart {
+    position: absolute;
+    right: 10px;
+  }
+
 </style>

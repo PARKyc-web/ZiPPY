@@ -33,6 +33,23 @@
     components: {
       SearchBar,
     },
+    created() {
+      // 카카오맵 오류나서 안될동안 임시로..
+      axios({
+            url: "http://localhost:8090/zippy/property/main",
+            methods: "GET"
+          }).then(response => {
+            // 성공했을 때
+            console.log('getAllPropertyList success!');
+            console.log(response);
+            this.houseProducts = response.data;
+          })
+          .catch(error => {
+            // 에러가 났을 때
+            console.log('getAllPropertyList fail!');
+            console.log(error);
+          });
+    },
     mounted() {
       window.kakao && window.kakao.maps ?
         this.initMap() :

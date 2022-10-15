@@ -1,70 +1,97 @@
 <template>
   <div id="container">
     <div id="agent_profile">
-      <table>
-        <tr>
-          <td>
-            <h2>{{this.profile[0].compName}}</h2>
-          </td>
-          <td>
-            <update-agent-profile :profile="this.profile[0]"></update-agent-profile>
-          </td>
-        </tr>
-      </table>
       <div id="agent_profile_left">
-        <h3>{{this.profile[0].ceoName}}
-        </h3>
-        <h3>{{this.profile[0].phone}}
-        </h3>
-        <h3>인사말</h3>
-        <p>{{this.profile[0].compIntro}}</p>
-      </div>
-      <div id="agent_profile_right">
         <table>
           <tr>
             <td>
-              <h3>오시는 길</h3>
+              <h3 id="main_title">{{this.profile[0].compName}}</h3>
             </td>
             <td>
-              <p>{{this.profile[0].compAddress}}</p>
+              <update-agent-profile :profile="this.profile[0]"></update-agent-profile>
             </td>
           </tr>
         </table>
+        <table>
+          <tr>
+            <td>
+              <h4 class="title">대표자</h4>
+            </td>
+            <td>
+              <h5 style="margin-left: 10px;">
+                {{this.profile[0].ceoName}}
+              </h5>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <h4 class="title">연락처</h4>
+            </td>
+            <td>
+              <h5 style="margin-left: 10px;">
+                {{this.profile[0].phone}}
+              </h5>
+            </td>
+          </tr>
+        </table>
+
+        <h4 class="title">인사말</h4>
+        <p class="contents">{{this.profile[0].compIntro}}</p>
+      </div>
+      <div id="agent_profile_right">
+        <h4 class="title" style="margin-top: 83.6px;">오시는 길</h4>
+        <p class="contents">{{this.profile[0].compAddress}}</p>
         <!-- 지도 -->
         <basic-marker-map :address="this.profile[0].compAddress" :name="this.profile[0].compName" />
       </div>
     </div>
     <hr>
     <div>
-      <h2>
-        매물 목록
-        <insert-property :email="this.profile[0].email" />
-      </h2>
-      <div class="row">
-        <v-card v-if="properties.length != 0" v-for="item in properties" style="width: 45%; margin: 1%">
+      <table>
+        <tr>
+          <td>
+            <h4 class="title">
+              매물 목록
+            </h4>
+          </td>
+          <td>
+            <insert-property :email="this.profile[0].email" />
+          </td>
+        </tr>
+      </table>
+      <div class="row" style="margin-left:35px ;">
+        <v-card v-if="properties.length != 0" v-for="item in properties" style="width: 45%; margin: 1%; padding: 20px;">
           <table>
             <tr>
-              <td>여기에 이미지</td>
-              <td>
-                <p>매물번호 {{item.productId}}</p>
-                <p>{{item.houseName}}</p>
-                <h4>{{item.saleType}} {{item.price}}</h4>
-                <p>{{item.sigungu}}</p>
-                <p>{{item.areaExclusive}}m²▫ {{item.floor}}층</p>
-                <p>{{item.detailContents}}</p>
-              </td>
-              <td>
+              <td style="width: 35%;">여기에 이미지</td>
+              <td style="width: 65%;">
+                <v-row align="center" class="mx-0">
+                  <div>매물번호 {{item.productId}}</div>
+                </v-row>
+                <v-card-title style="font-weight: bold;">{{item.houseName}} / {{item.saleType}} {{item.price}}
+                </v-card-title>
+                <table style="font-size: medium; margin-left: 20px;">
+                  <tr>
+                    {{item.sigungu}}
+                  </tr>
+                  <tr>
+                    {{item.areaExclusive}}m² · {{item.floor}}층
+                  </tr>
+                  <tr>
+                    {{item.detailContents}}
+                  </tr>
+                </table>
                 <update-property :productId="item.productId"></update-property>
               </td>
             </tr>
           </table>
+          
         </v-card>
-
       </div>
     </div>
     <hr>
     <div>
-      <h2>후기</h2>
+      <h4 class="title">후기</h4>
       <div class="row">
         <v-card style="width: 45%; margin: 1%">
           <table>
@@ -119,14 +146,14 @@
   import axios from 'axios';
   import InsertProperty from './InsertProperty.vue';
   import UpdateProperty from './UpdateProperty.vue';
-import UpdateAgentProfile from './UpdateAgentProfile.vue';
+  import UpdateAgentProfile from './UpdateAgentProfile.vue';
 
   export default {
     components: {
       BasicMarkerMap,
       InsertProperty,
       UpdateProperty,
-        UpdateAgentProfile,
+      UpdateAgentProfile,
     },
     data() {
       return {
@@ -188,7 +215,8 @@ import UpdateAgentProfile from './UpdateAgentProfile.vue';
   #agent_profile_left {
     width: 50%;
     float: left;
-    background-color: lightcoral;
+
+    background-color: lightyellow;
   }
 
   #agent_profile_right {
@@ -202,7 +230,20 @@ import UpdateAgentProfile from './UpdateAgentProfile.vue';
     height: 300px;
   }
 
-  h2 {
-    padding: 10px;
+  #main_title {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    font-weight: bold;
+  }
+
+  .title {
+    margin-left: 20px;
+    font-weight: bold;
+  }
+
+  .contents {
+    margin-top: 10px;
+    margin-left: 35px;
+    margin-right: 35px;
   }
 </style>

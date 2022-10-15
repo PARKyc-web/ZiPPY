@@ -2,8 +2,8 @@
   <v-row>
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn elevation="2" fab dark v-bind="attrs" v-on="on">
-          <v-icon>mdi-plus</v-icon>
+        <v-btn x-small elevation="2" fab dark v-bind="attrs" v-on="on">
+          <v-icon small>mdi-plus</v-icon>
         </v-btn>
       </template>
       <v-card>
@@ -27,7 +27,7 @@
                 <v-select :items="['매매', '전세', '월세']" label="거래 유형" required v-model="saleType"></v-select>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field label="금액" hint="월세의 경우 보증금/월세로 입력하세요." required v-model="price"></v-text-field>
+                <v-text-field label="금액(만원)" hint="월세의 경우 보증금/월세로 입력하세요." required v-model="price"></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
                 <v-text-field label="시군구" hint="대구광역시 중구 남일동" required v-model="sigungu"></v-text-field>
