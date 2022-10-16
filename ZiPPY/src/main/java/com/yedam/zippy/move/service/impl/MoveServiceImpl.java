@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.zippy.move.mapper.MoveMapper;
+import com.yedam.zippy.move.service.MoveEstimateVO;
 import com.yedam.zippy.move.service.MoveImageVO;
 import com.yedam.zippy.move.service.MoveRequestVO;
 import com.yedam.zippy.move.service.MoveService;
@@ -132,5 +133,13 @@ public class MoveServiceImpl implements MoveService{
   public void insertContactEstimate(MoveRequestVO moveReq) {    
     mapper.insertContactEstimate(moveReq);    
   }
+  
+  //전체조회
+  @Override
+  public List<MoveEstimateVO> getEstimateList(MoveEstimateVO vo) {
+    return mapper.getEstimateList(vo);
+  }
+  //서비스 : 작업을 하는 곳 -> ex.조회는 딱히 작업할 필요가 없어서 바로 매퍼를 리턴해준다.
+  // 다른 작업이 필요한 경우에는(2차가공) ex. db에서 정보 가져와서 서비스에서 랜덤으로 숫자 발생시키고 전체견적정보를 가져와 배열에 넣는다  
   
 }

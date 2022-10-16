@@ -5,6 +5,27 @@
     <form id="contactForm">
     <h2>이사 견적을 위해 입력한 정보를 확인해주세요.</h2>
 
+    <input type="hidden" name="movingOption" v-model="checkk">
+    <input type="hidden" name="email" v-model="emailSend">
+    <input type="hidden" name="movingMemo" v-model="movingMemoSend">
+    
+    <input type="hidden" name="departAddress" v-model="moveAddress.address">
+    <input type="hidden" name="arriveAddress" v-model="moveAddress.address2">
+
+    <input type="hidden" name="movingDate" v-model="moveDate.date">
+    <input type="hidden" name="movingTime" v-model="moveDate.time">
+    <input type="hidden" name="estimateType" v-model="moveEstimateType">
+
+    <input type="hidden" name="departZipCode" v-model="moveAddress.postcode">
+    <input type="hidden" name="departDetail" v-model="moveAddress.detailAddress">
+    <input type="hidden" name="departExtra" v-model="moveAddress.extraAddress">
+    <input type="hidden" name="arriveZipCode" v-model="moveAddress.postcode2">
+    <input type="hidden" name="arriveDetail" v-model="moveAddress.detailAddress2">
+    <input type="hidden" name="arriveExtra" v-model="moveAddress.extraAddress2">
+
+    <input type="hidden" name="moveType" v-model="moveType">
+    <input type="hidden" name="requestDate" v-model="requestDateSend">
+
     <!-- 이사유형 -->
     <v-expansion-panels>
       <v-expansion-panel>
@@ -556,22 +577,10 @@
     },
 
     data: () => ({
-      emailSend:"business@naver.com",
-      contactCheckk: "",
+      checkk: "",
+      emailSend : "zippy@naver.com",
       movingMemoSend: "MemoMemo",
-      departAddressSend:"",
-      arriveAddressSend:"",
-      movingDateSend: "",
-      movingTimeSend: "",
-      visitTypeSend: "",
-      departZipCodeSend: "",
-      departDetailSend: "",
-      departExtraSend: "",
-      arriveZipCodeSend: "",
-      arriveDetailSend: "",
-      arriveExtraSend: "",
-      moveTypeSend: "",
-      requestDate: "",
+      requestDateSend: "2022-10-14",
 
       date: null,
       time: null,
@@ -647,10 +656,15 @@
         
         //값이 잘 넘어가는지 확인
 
-        
+        this.checkk= "["+JSON.stringify(this.moveDetail[0])+","+ JSON.stringify(this.moveInfo) +"]";
 
-        console.log(JSON.stringify(this.moveInfo));
-        console.log(this.contactCheckk);
+        console.log(JSON.stringify(this.moveDetail[0]));
+        
+        console.log(JSON.stringify(this.moveInfo))
+        console.log(moveInfo);
+        console.log(this.checkk);
+        // console.log(JSON.stringify(this.moveInfo));
+        // console.log(this.contactCheckk);
 
         // console.log(this.moveVisit);
         // console.log(this.moveInfo);
