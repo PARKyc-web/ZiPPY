@@ -11,7 +11,7 @@
         </v-sheet>
       </v-carousel-item>
     </v-carousel>
-
+    
     <section>
       <article>
         <h4 class="title">가격정보</h4>
@@ -69,8 +69,10 @@
       </article>
       <article>
         <h4 class="title">위치 및 주변 시설</h4>
-        <p class="contents">{{this.houseDetail[0].sigungu}} {{this.houseDetail[0].streetAddress}}</p>
-        <basic-marker-map :address="houseDetail[0].streetAddress" :name="houseDetail[0].houseName" />
+        <div class="contents">
+          <p>{{this.houseDetail[0].sigungu}} {{this.houseDetail[0].streetAddress}}</p>
+          <categoty-map :address="houseDetail[0].streetAddress" :name="houseDetail[0].houseName"></categoty-map>
+        </div>
         <hr>
       </article>
       <article>
@@ -106,9 +108,10 @@
               <v-row align="center" class="mx-0">
                 <div>매물번호 {{this.houseDetail[0].productId}}</div>
               </v-row>
-              <v-card-title style="font-weight: bold;">{{this.houseDetail[0].houseName}} / {{this.houseDetail[0].saleType}}
+              <v-card-title style="font-weight: bold;">{{this.houseDetail[0].houseName}} /
+                {{this.houseDetail[0].saleType}}
                 {{this.price}}</v-card-title>
-              
+
               <table style="font-size: medium;">
                 <tr>
                   <td>{{this.houseDetail[0].sigungu}}</td>
@@ -117,11 +120,13 @@
                   <td>{{this.houseDetail[0].streetAddress}}</td>
                 </tr>
                 <tr>
-                  <td>{{this.houseDetail[0].houseType}} · {{this.houseDetail[0].areaExclusive}}m² · {{this.houseDetail[0].floor}}층</td>
+                  <td>{{this.houseDetail[0].houseType}} · {{this.houseDetail[0].areaExclusive}}m² ·
+                    {{this.houseDetail[0].floor}}층</td>
                 </tr>
               </table>
               <hr>
-              <v-card-title style="font-weight: bold;" @click="goAgentDetail">{{this.houseDetail[0].compName}}</v-card-title>
+              <v-card-title style="font-weight: bold;" @click="goAgentDetail">{{this.houseDetail[0].compName}}
+              </v-card-title>
               <v-btn block color="#B3E3C3" elevation="2"><span style="color: white;">문의하기</span></v-btn>
             </v-card-text>
 
@@ -137,10 +142,12 @@
 <script>
   import BasicMarkerMap from "./BasicMarkerMap.vue";
   import axios from 'axios';
+  import CategotyMap from "./CategotyMap.vue";
 
   export default {
     components: {
       BasicMarkerMap,
+      CategotyMap
     },
     data() {
       return {
@@ -184,6 +191,27 @@
           console.log('houseDetail fail!');
           console.log(error);
         })
+    },
+    mounted() {
+      /* Javascript 샘플 코드 */
+      var xhr = new XMLHttpRequest();
+      var url =
+        'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev'; /*URL*/
+      var queryParams = '?' + encodeURIComponent('serviceKey') + '=' +
+        'fXQYcvdVSA+RwkypajVwQIt+pKA9zxOYqk6TqzDPacsANCI+suXZErHKSpIcvmqXarHrMNo5Kp80SvDkolPg/g=='; /*Service Key*/
+      queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /**/
+      queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /**/
+      queryParams += '&' + encodeURIComponent('LAWD_CD') + '=' + encodeURIComponent('11110'); /**/
+      queryParams += '&' + encodeURIComponent('DEAL_YMD') + '=' + encodeURIComponent('201512'); /**/
+      xhr.open('GET', url + queryParams);
+      xhr.onreadystatechange = function () {
+        if (this.readyState == 4) {
+          alert('Status: ' + this.status + 'nHeaders: ' + JSON.stringify(this.getAllResponseHeaders()) + 'nBody: ' +
+            this.responseText);
+        }
+      };
+      xhr.send('');
+
     },
     methods: {
       goAgentDetail() {
@@ -285,5 +313,4 @@
     position: absolute;
     right: 10px;
   }
-
 </style>
