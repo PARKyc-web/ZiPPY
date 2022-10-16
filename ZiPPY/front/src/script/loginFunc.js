@@ -195,11 +195,18 @@ export default {
             valid.disabled = true;
             send_btn.disabled = true;
             valid_btn.disabled = true;
-            alert("인증이 완료되었습니다!");
+            swal.fire({
+                icon:"success",
+                title:"인증을 완료하였습니다!",                
+            });        
             return true;
 
         } else {
-            alert("인증번호가 일치하지 않습니다!");
+            swal.fire({
+                icon:"error",
+                title:"인증에 실패하였습니다!",
+                text:"인증번호를 다시 확인해주세요!"
+            }); 
         }
     }
 }

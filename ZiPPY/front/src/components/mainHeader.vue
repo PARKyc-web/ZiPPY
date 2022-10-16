@@ -11,7 +11,7 @@
               <router-link to="/home" class="nav-link">Home</router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/property" class="nav-link">부동산</router-link>
+              <router-link to="/property/main" class="nav-link">부동산</router-link>
             </li>
             <li class="nav-item">
               <router-link to="/shop" class="nav-link">쇼핑몰</router-link>
@@ -20,18 +20,21 @@
               <router-link to="/used" class="nav-link">중고거래</router-link>
             </li>             
 		  </ul>                   
-          <div v-if="this.$store.state.login_info == null">
+          <div v-if="this.$store.state.loginInfo == null">
             <router-link to="/login" class="nav-link"><img id="Icon" src="@/assets/signin.png"></router-link>
           </div> 
           
-          <button v-if="this.$store.state.login_info != null"><img id="Icon" src="@/assets/chat.png"></button>
+          <button v-if="this.$store.state.loginInfo != null" @click="">
+            <router-link to="/chat" class="nav-link"><img id="Icon" src="@/assets/chat.png"></router-link>
+          </button>
 
-          <div v-if="this.$store.state.login_info != null">
+          <div v-if="this.$store.state.loginInfo != null">
             <router-link to="/mypage" class="nav-link"><img id="Icon" src="@/assets/user.png"></router-link>
           </div>
 
-          <div v-if="this.$store.state.login_info != null">
-            <router-link to="/logout" class="nav-link"><img id="Icon" src="@/assets/logout.png"></router-link>
+          <div v-if="this.$store.state.loginInfo != null">
+            <button class="nav-link" @click="logout()"><img id="Icon" src="@/assets/logout.png"></button>
+            <!-- <router-link to="/logout" class="nav-link"><img id="Icon" src="@/assets/logout.png"></router-link> -->
           </div>
 		</div>
       </nav>
@@ -39,9 +42,19 @@
 </template>
 
 <script>
+import swal from 'sweetalert2';
 
 export default{
-
+  methods :{
+    logout : function(){
+      this.$store.commit('logout');
+      swal.fire({
+        icon:"info",
+        title:"성공적으로 로그아웃하였습니다.!"
+      });
+      this.$router.push("/home");
+    }
+  }
 }
 </script>
 

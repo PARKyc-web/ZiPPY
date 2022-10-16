@@ -11,6 +11,10 @@ export default new Vuex.Store({
   mutations: {
     login(state, info){
       state.loginInfo = info;
+    },
+
+    logout(state){
+      state.loginInfo = null;
     }
   },
   actions: {},

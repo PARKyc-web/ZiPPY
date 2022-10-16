@@ -21,7 +21,7 @@
                    prepend-icon="face"
                    type="email"                   
                    color="#b3e3c3"                   
-                   @keyup="enter()"             
+                   @keyup.enter="enter()"             
                  >
                  </v-text-field>
                  <v-text-field 
@@ -32,7 +32,7 @@
                    type="password"                   
                    color="#b3e3c3"                   
                    counter="20"
-                   @keyup="enter()"
+                   @keyup.enter="enter()"
                  >
                  </v-text-field>
               </v-form>
@@ -42,11 +42,12 @@
               </div>
              </v-card-text>
              <hr>             
-             <div class="login_img">
-              <button @click="kLogin()"><img src="../../assets/kakao_login.png" width="200px" height="50px"/></button>                  
-              <button @click="nLogin()"><img src="../../assets/naver_login.png" width="200px" height="50px"/></button>
-             </div>
-             
+             <ul>
+              <li><button @click="signIn()">회원가입</button></li>
+              <li><button @click="findInfo(1)">아이디 찾기</button></li>
+              <li><button @click="findInfo(2)">비밀번호 찾기</button></li>
+             </ul>
+
            </v-card>                    
        </v-layout>
      </v-container>  
@@ -96,9 +97,9 @@ export default{
             title:"로그인 성공!"
           })
 
-          outside.$store.commit('login', res.data);
-          // outside.$router.push("/signin");
-          console.log(outside.$store.state.login_info);          
+          outside.$store.commit('login', res.data);          
+          console.log(outside.$store.state.loginInfo);
+          this.$router.push("/home");
         }
 
       }).catch(error =>{
@@ -106,26 +107,31 @@ export default{
       });
     },
 
-    nLogin : function(){
-      console.log("Naver_login");
-    },
-
-    kLogin : function(){
-      console.log("Kakao_login");
-    },
-
     enter : function(){
-      if(window.event.keyCode == 13){
-        this.login();
-      } 
+      this.login();
+    },
+
+    signIn : function(){
+      this.$router.push("/signin");
+    },
+
+    findInfo : function(num){
+      if(num == 0){
+        this.$router.push("/findUserInfo");
+      } else{
+        this.$router.push("/findUserInfo");
+      }
+      
     }
+
   }
 }
 </script>
 
 <style scoped>
 #container {
-  width: 35%;  
+  width: 35%;
+  margin-top: 7%;
 }
 
 .login_img{
@@ -138,5 +144,25 @@ export default{
 
 .login_img button{
   margin : 10px;
+}
+
+.display-2 {
+  color : #b3e3c3;
+}
+
+ul {
+  list-style:none;
+  text-align: right;
+  font-size: large;
+  font-weight: bold;
+}
+
+ul li {
+  display: inline-block;
+  margin: 0 5px 0 5px;
+}
+
+ul li:hover {
+  color : #b3e3c3;
 }
 </style>

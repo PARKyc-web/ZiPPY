@@ -25,8 +25,7 @@ public class MemberServiceImpl implements MemberService{
   
   
     @Autowired
-    MemberMapper mapper;
-      
+    MemberMapper mapper;      
     
     @Override
     public Object login(LoginVO login) {      
@@ -51,13 +50,18 @@ public class MemberServiceImpl implements MemberService{
         if(loginInfo.getMemberType() == 0) {          
           return mapper.getGeneralUser(login.getEmail());
           
-        }else {
+        }else if(loginInfo.getMemberType() == 1){
           // 멤버타입이 1이라면 business table에서 email로 가져오고 return    
           return mapper.getBusinessUser(login.getEmail());
-        }        
+          
+          
+        }else {
+          return null;
+        }
+        
       }else {        
         return null;
-      }      
+      }
     }    
     
     @Override    
