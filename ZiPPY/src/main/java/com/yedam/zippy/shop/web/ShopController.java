@@ -14,10 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.yedam.zippy.member.service.GeneralUserVO;
 import com.yedam.zippy.shop.service.CartVO;
+import com.yedam.zippy.shop.service.OrderVO;
 import com.yedam.zippy.shop.service.ProductOptionVO;
 import com.yedam.zippy.shop.service.ProductVO;
+import com.yedam.zippy.shop.service.PurchaseVO;
 import com.yedam.zippy.shop.service.ShopService;
 
 @CrossOrigin
@@ -63,6 +67,11 @@ public class ShopController {
   public List<ProductOptionVO> optDetail(@RequestParam("pno") int proNo) {
     return service.getDetailOpt(proNo);
   }
+  //조회(북마크)
+  @RequestMapping("/heart")
+  public void getHeart(String email) {
+    service.getHeart(email);
+  }
   
   //장바구니
   //장바구니 등록
@@ -88,8 +97,30 @@ public class ShopController {
   }
   
   //주문
+  //주문할 상품 등록
   @PostMapping("/insertPur")
-  public void insertPur(@RequestBody List<CartVO> selected) {
-    service.insertPur(selected);
+  public void insertPur(@RequestBody List<CartVO> selected, String payCode) {
+    service.insertPur(selected, payCode);
+  }
+  //내 정보 조회
+  @PostMapping("/myInfo")
+  public GeneralUserVO getMyInfo(String email) {
+    return service.getMyInfo(email);
+  }
+  //상품정보 조회
+  @PostMapping("/myPurPro")
+  public List<PurchaseVO> getMyPurList(String payCode) {
+    return service.getMyPurList(payCode);
+  }
+  @PostMapping("/insertOrder")
+  public void insertOrder(@RequestBody OrderVO orderVO) {
+    service.insertOrder(orderVO);
+  }
+  
+  //판매자
+  //상품등록
+  @PostMapping("/insertPro")
+  public void insertProduct(@Param("product")ProductVO productVO, String email, MultipartFile image, List<MultipartFile> images) {
+   service.insertProduct(productVO, email, image, images); 
   }
 }

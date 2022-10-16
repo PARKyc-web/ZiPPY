@@ -2,7 +2,11 @@ package com.yedam.zippy.shop.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.yedam.zippy.member.service.GeneralUserVO;
 
 @Service
 public interface ShopService {
@@ -19,6 +23,8 @@ public interface ShopService {
 	public String[] getDetailImg(int proNo);
 	//디테일 옵션 조회
     public List<ProductOptionVO> getDetailOpt(int proNo);
+    //찜 여부 조회
+    public void getHeart(String email);
     
     //장바구니 CRUD
     //등록
@@ -29,6 +35,22 @@ public interface ShopService {
     public List<CartVO> getMyCartList(String email);
     //삭제
     public void deleteCart(List<CartVO> selected);
+    
     //주문 CRUD
-    public void insertPur(List<CartVO> selected);
-}
+    //등록
+    public void insertPur(List<CartVO> selected, String payCode);
+    //내 정보 조회
+    public GeneralUserVO getMyInfo(String email);
+    //상품정보 조회
+    public List<PurchaseVO> getMyPurList(String payCode);
+    //주문등록
+    public void insertOrder(OrderVO orderVO);
+    
+    //판매자 CRUD
+    //상품등록
+    public void insertProduct(@Param("product")ProductVO productVO, String email, MultipartFile image, List<MultipartFile> images);
+    //메인이미지 등록
+    public String proMainImg(MultipartFile image);
+    //상세이미지 등록
+    public ProductImgVO[] proImgs(List<MultipartFile> images);
+};

@@ -67,16 +67,14 @@
         singleSelect: false,
         selected: [],
         select: [],
-        amount: '',
+        check: false,
+        randNom: [],
+        payCode: '',
         headers: [{
             text: '',
-            align: 'start',
+            align: '상품명',
             sortable: false,
-            value: 'rownum',
-          },
-          {
-            text: '상품명',
-            value: 'productVO.proName'
+            value: 'productVO.proName',
           },
           {
             text: '',
@@ -114,7 +112,10 @@
           alert('선택된 상품이 존재하지 않습니다.');
           return;
         }
-        
+
+        //payCode 생성
+        this.makePayCode();
+
         //purchase 테이블에 등록
         axios({
           url: "http://localhost:8088/zippy/shop/insertPur",
@@ -122,14 +123,30 @@
             "Content-Type": "application/json"
           },
           method: "POST",
-          data: JSON.stringify(this.selected)
+          data: JSON.stringify(this.selected),
+          params: {
+            payCode: this.payCode
+          }
         }).then(res => {
           console.log(res);
+          //성공시 삭제
+          //장바구니에서 삭제 & 주문 alert 처리
+          this.check = true
+          this.deleteCart();
+
+          //주문페이지 이동
+          this.$router.push({
+            name: 'order',
+            query: {
+              payCode: this.payCode
+
+            }
+          })
+
         }).catch(error => {
           console.log(error);
         })
 
-        //주문페이지 이동
       },
       //선택한 품목 삭제
       deleteCart() {
@@ -162,8 +179,14 @@
             }
           }
         }
-
-        alert('장바구니에서 삭제되었습니다.')
+        //삭제 alert
+        this.checkOrder()
+      },
+      //payCode 생성
+      makePayCode() {
+        var arr = new Uint32Array(1);
+        this.randNum = window.crypto.getRandomValues(arr);
+        this.payCode = this.randNum[0]+new Date().getTime();
       },
       //수량 감소
       minusQty(no) {
@@ -195,6 +218,12 @@
       goDetail(no) {
         this.$router.push('/shop/detail?pno=' + no)
       },
+      //삭제시에만 alert창 띄우기
+      checkOrder() {
+        if (!this.check) {
+          alert('상품을 삭제하였습니다.')
+        }
+      }
     },
     created() {
       //전체 장바구니 조회
@@ -221,7 +250,7 @@
           am += Number(this.selected[i].cartPrice) * this.selected[i].cartQty + Number(this.selected[i].productVO
             .deliveryCost);
         }
-        this.amount = am;
+        //this.amount = am;
         return am;
       }
     }
