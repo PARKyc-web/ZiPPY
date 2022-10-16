@@ -2,6 +2,7 @@ package com.yedam.zippy.common.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,9 +23,21 @@ public class CommonController {
 
   // 찜 추가
   @PostMapping("/addWish")
-  public String addWish(@RequestParam(value="bookmark", required=false) BookmarkVO bookmark) {
+  public String addWish(@RequestParam(value = "bookmark", required = false) BookmarkVO bookmark) {
     System.out.println(bookmark);
 //     System.out.println(service.addWish(bookmark));
+    return "";
+  }
+
+  // 후기작성
+  @PostMapping("/addRv")
+  public String addReview() {
+    return "";
+  }
+
+  // 후기 출력
+  @GetMapping("/showRv")
+  public String showReview() {
     return "";
   }
 

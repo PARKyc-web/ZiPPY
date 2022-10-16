@@ -83,7 +83,7 @@
 	<!-- 내 장바구니 count -->
 	<select id="getMyCart" resultType="Integer"
 		parameterType="CartVO">
-		SELECT count(*) countMycart
+		SELECT NVL(count(*),0) countMycart
 		FROM shop_cart
 		WHERE email = #{email}
 	</select>
@@ -103,6 +103,36 @@
 		WHERE email = #{email}
 		ORDER BY cart_no DESC
 	</select>
-
-
+	<!-- 장바구니 삭제 -->
+	<delete id="deleteCart">
+		DELETE
+		shop_cart
+				WHERE 
+				<foreach collection="selected" item="arr" separator="or">
+					cart_no= #{arr.cartNo}
+				</foreach>	
+	</delete>
+	
+	<!-- 주문 -->
+	<insert id="insertPur" parameterType="CartVO">
+			INSERT INTO shop_purchase
+			SELECT
+			shop_pur_seq.NEXT.VAL
+			(SELECT FLOOR(DBMS_RANDOM.VALUE(1000000000, 9999999999)) RANDOM FROM DUAL),
+        #{arr.cartPno},
+        #{arr.cartOptNo} ,
+        #{arr.cartQty} ,
+        #{arr.email}' 
+       from dual
+		 union all
+         select
+			11,
+			(SELECT FLOOR(DBMS_RANDOM.VALUE(1000000000, 9999999999)) RANDOM FROM DUAL),
+       5 ,
+       6 ,
+       7 ,
+      'zippy@naver.com' 
+      from dual
+       ;
+	</insert>
 </mapper>

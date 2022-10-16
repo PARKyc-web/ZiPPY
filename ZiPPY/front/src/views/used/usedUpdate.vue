@@ -1,66 +1,70 @@
 <template>
   <form>
-    <div id="container">
-      <nav-bar @click="search($event)"></nav-bar>
-      <div>
-        <div class="used-main-title">
-          <h3>상품 수정</h3>
-        </div>
-      </div>
-      <div class="used-insert-addr">
-        <button id="used-addr">
-          <i class="bi bi-geo-alt"></i>
-        </button>
-      </div>
-      <hr />
-      <div>
+    <div>
+      <nav-bar @click="search($event)"></nav-bar> 
+      <div id="container">
         <div>
-          <div id="used-insert-main">
-            <div class="used-insert-img" id="used-insert-img-div">
-              <span>이미지</span> 0/6
-            </div>
-            <div>
-              <form>
-                <label htmlFor="profile-upload" />
-                <input  type="file" id="profile-upload" multiple accept="image/*" />
-              </form>
+          <div class="used-main-title">
+            <h3>상품 수정</h3>
+          </div>
+        </div>
+        <div class="used-insert-addr">
+          <button id="used-addr">
+            <i class="bi bi-geo-alt"></i>
+          </button>
+        </div>
+        <hr />
+        <div>
+          <div>
+            <div id="used-insert-main">
+              <div class="used-insert-img" id="used-insert-img-div">
+                <span>이미지</span> 0/6
+              </div>
+              <div>
+                <form>
+                  <label htmlFor="profile-upload" />
+                  <input type="file" id="profile-upload" multiple accept="image/*" />
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <hr />
-      <div class="used-insert-img">
-        <span>제목
-          <input id="used-product-name" type="text" placeholder="상품 제목을 2글자 이상 입력해주세요" v-model="product.productName" />
-        </span>
-      </div>
-      <hr />
-      <div id="used-insert-main">
+        <hr />
         <div class="used-insert-img">
-          <span>카테고리</span>
+          <span>제목
+            <input id="used-product-name" type="text" placeholder="상품 제목을 2글자 이상 입력해주세요"
+              v-model="product.productName" />
+          </span>
         </div>
-        <div class="dropdown">
-          <div id="used-main-dropbox">
-            <v-select v-model="select" :items="items" item-text="name" item-value="value"
-              :label="product.productCategory" color="#212529" persistent-hint single-line dense width="50"></v-select>
+        <hr />
+        <div id="used-insert-main">
+          <div class="used-insert-img">
+            <span>카테고리</span>
+          </div>
+          <div class="dropdown">
+            <div id="used-main-dropbox">
+              <v-select v-model="select" :items="items" item-text="name" item-value="value"
+                :label="product.productCategory" color="#212529" persistent-hint single-line dense width="50">
+              </v-select>
+            </div>
           </div>
         </div>
-      </div>
-      <hr />
-      <div class="used-insert-img">
-        <span>가격<input id="used-insert-price" type="text" v-model="product.productPrice" /> 원</span>
-      </div>
-      <hr />
-      <div class="used-wish-detailInfo">
+        <hr />
         <div class="used-insert-img">
-          <span>설명</span>
+          <span>가격<input id="used-insert-price" type="text" v-model="product.productPrice" /> 원</span>
         </div>
-        <div>
-          <textarea id="used-insert-textarea" cols="110" v-model="product.productInfo" rows="10"></textarea>
+        <hr />
+        <div class="used-wish-detailInfo">
+          <div class="used-insert-img">
+            <span>설명</span>
+          </div>
+          <div>
+            <textarea id="used-insert-textarea" cols="110" v-model="product.productInfo" rows="10"></textarea>
+          </div>
         </div>
-      </div>
-      <div class="used-insert-submit">
-        <button type="button" @click="updateSubmit()">수정</button>
+        <div class="used-insert-submit">
+          <button type="button" @click="updateSubmit()">수정</button>
+        </div>
       </div>
     </div>
   </form>
@@ -102,7 +106,7 @@
       ],
       select: '',
       product: {
-        image : "test"
+        image: "test"
       }
     }),
     created() {
@@ -136,7 +140,7 @@
       //     console.log(err)
       //   })
       // },
-      updateSubmit : function(){
+      updateSubmit: function () {
         console.log(this.product)
         axios({
           url: "http://localhost:8088/zippy/used/update",

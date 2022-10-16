@@ -9,7 +9,7 @@ import com.yedam.zippy.common.service.CommonService;
 
 @Service
 public class CommonServiceIml implements CommonService {
-  
+
   @Autowired
   CommonMapper mapper;
 
@@ -17,4 +17,15 @@ public class CommonServiceIml implements CommonService {
   public String addWish(BookmarkVO bookmark) {
     return mapper.addWish(bookmark);
   }
+
+  @Override
+  public String addReview() {
+    return mapper.addReview();
+  }
+
+  @Override
+  public String showReview() {
+    return showReview();
+  }
+
 }

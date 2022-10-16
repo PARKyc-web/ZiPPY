@@ -72,7 +72,6 @@ public class UsedContoller {
   public String insert(UsedProductVO product, List<MultipartFile> images) {
     System.out.println(product);
     System.out.println(images);
-    
     product.setProductLocation("대구");
     
     service.insertUsedProduct(product, images);    
