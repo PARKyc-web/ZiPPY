@@ -61,10 +61,14 @@ public class MoveController {
     return "";
   }
   
+  //견적서 인서트- 업체
+  @PostMapping("/moveEstimate")
+  
+  
   
   //전체조회 - 업체가 받은 요청
   @GetMapping("/moveEstimate")
-  public List<MoveEstimateVO> selectAll(MoveEstimateVO vo    ){
+  public List<MoveEstimateVO> selectAll(MoveEstimateVO vo){
     
     System.out.println(vo);
     String dropbox = vo.getDropbox();
@@ -101,4 +105,5 @@ public class MoveController {
     return service.getEstimateResult(vo);
   }
 
+  
 }
