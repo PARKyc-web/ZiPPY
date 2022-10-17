@@ -1,6 +1,7 @@
 package com.yedam.zippy.validation;
 
 import java.util.Map;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
@@ -11,12 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yedam.zippy.member.service.LoginVO;
 import com.yedam.zippy.member.service.MemberService;
 
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
-import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
-import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
 
 @CrossOrigin
@@ -112,6 +112,51 @@ public class ValidationController {
 	  System.out.println("Redundancy Check :: " + result);	  
 	  
 	  return result; 	  
+	}
+	
+	
+	@GetMapping("/password")
+    public boolean password(@RequestParam String email) {            
+        SimpleMailMessage msg = new SimpleMailMessage();        
+        Random rand = new Random();
+       
+        Object obj = mService.findUserByEmail(email);        
+        if(obj == null) {
+          return false;
+        }
+        
+        String key = "";              
+        for(int i=0; i<5; i++) {
+           key += (char)(rand.nextInt(26)+65);
+        }
+        
+        key += "@";
+        key += rand.nextInt(100);
+        for(int i=0; i<5; i++) {
+          key += (char)(rand.nextInt(26)+97);
+       }
+        
+        LoginVO login = new LoginVO();
+        login.setEmail(email);
+        login.setPassword(key);
+        mService.changePassword(login);
+        
+//      msg.setTo(data.get("email"));
+//      msg.setSubject("mail이 잘 가는지 확인해보자!");       
+//      msg.setText("회원가입을 위한 인증번호 입니다"
+//                + "\n 아래의 인증번호를 입력하여 인증을 완료해주세요 "
+//                + "\n" + key);
+//      msg.setFrom("erty1201@naver.com");
+//      mailSender.send(msg);
+        
+        return true;
+    }
+	
+	@GetMapping("/findEmail")
+	public String findUserEmail(String userName, String phoneNumber) {	  
+	  System.out.println(userName);
+	  System.out.println(phoneNumber);
+	  return "";
 	}
 	
 }

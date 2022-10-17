@@ -22,4 +22,8 @@ public interface MemberMapper {
     public GeneralUserVO getGeneralUser(String email);
     public BusinessVO getBusinessUser(String email);
     
+    
+    
+//  비밀번호 변경
+    public void changePassword(LoginVO login);
 }
