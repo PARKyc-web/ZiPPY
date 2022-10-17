@@ -24,6 +24,8 @@
     <input type="hidden" name="arriveExtra" v-model="moveAddress.extraAddress2">
 
     <input type="hidden" name="moveType" v-model="moveType">
+    <input type="hidden" name="visitDate" v-model="moveVisit.date">
+    <input type="hidden" name="visitTime" v-model="moveVisit.time">
     <input type="hidden" name="requestDate" v-model="requestDateSend">
 
     <!-- 이사유형 -->
@@ -549,6 +551,7 @@
   </div> 
   <div class="final-btn">
   <v-btn
+  type="button"
   color="success"
   elevation="10"
   
@@ -633,9 +636,11 @@
 
       finalSend : function(){
         
-
+        contactForm.movingOption.value= "["+ JSON.stringify(this.moveInfo) +"]";
         //form으로 데이터보내기
         var formData = new FormData(document.querySelector('#contactForm')); 
+        
+        console.log(this.checkk);
 
         this.$axios({
           url: "http://localhost:8090/zippy/move/moveContactCheck",
@@ -649,6 +654,27 @@
         }).catch(err => {
           console.log(err)
         })
+
+
+        var confirmVal = confirm("견적 요청을 보내시겠습니까?");
+        if(confirmVal == true){
+        this.$router.push({
+
+          name: "moveResult",
+          params: {
+            moveImage: this.moveImage,
+            moveDetail: this.moveDetail,
+            moveEstimateType: this.moveEstimateType,
+            moveInfo: this.moveInfo,
+            moveType: this.moveType,
+            moveDate: this.moveDate, 
+            moveAddress: this.moveAddress
+          
+          }
+          })
+        } else {
+
+        } 
 
       },
 

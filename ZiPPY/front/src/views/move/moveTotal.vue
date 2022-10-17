@@ -335,11 +335,11 @@
   <div class="moveType-wrap">
     <h3>견적 방법을 선택해주세요.</h3>
     <div class="contact-btn1">
-      <input type="button" class="custom-btn btn-1" @click="contact()" value="대면 방문예약">
+      <input type="button" class="custom-btn btn-1" @click="contact()" value="대면견적">
     </div>
 
     <div class="untact-btn2">
-      <input type="button" class="custom-btn btn-2" @click="untact()" value="비대면 견적예약">
+      <input type="button" class="custom-btn btn-2" @click="untact()" value="비대면견적">
         
     </div>
     <br />
@@ -667,7 +667,7 @@ import moveNav from "../../components/move/moveNav.vue";
           alert("견적방법을 선택해주세요."); 
         }else{
 
-      if(this.moveEstimateType == "대면 방문예약"){
+      if(this.moveEstimateType == "대면견적"){
         
         this.$router.push({
         name: "moveContact",
@@ -676,7 +676,7 @@ import moveNav from "../../components/move/moveNav.vue";
       })
       
 
-      } else if(this.moveEstimateType == "비대면 견적예약"){
+      } else if(this.moveEstimateType == "비대면견적"){
         this.$router.push({
         name: "moveUntact",
         params:{moveInfo:this.moveInfo, moveEstimateType:this.moveEstimateType, moveType:this.moveType, moveDate: this.moveDate, moveAddress: this.moveAddress}
@@ -702,7 +702,7 @@ import moveNav from "../../components/move/moveNav.vue";
       let item2 = document.querySelector(".untact-explain2");
       item2.style.display = "none";
 
-      this.moveEstimateType = "대면 방문예약";
+      this.moveEstimateType = "대면견적";
 
       console.log(this.moveEstimateType);
     },
@@ -714,7 +714,7 @@ import moveNav from "../../components/move/moveNav.vue";
       let item2 = document.querySelector(".untact-explain2");
       item2.style.display = "inline-block";
 
-      this.moveEstimateType = "비대면 견적예약";
+      this.moveEstimateType = "비대면견적";
       console.log(this.moveEstimateType);
     },
 

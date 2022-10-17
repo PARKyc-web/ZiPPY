@@ -23,8 +23,11 @@ public interface MoveMapper {
   public void insertPhoto(MoveImageVO img);
 
 
-  //전체조회
+  //전체조회 -업체가 견적 요청 조회
   public List<MoveEstimateVO> getEstimateList(MoveEstimateVO vo);
+  
+  //전체조회 - 유저가 자기 견적 히스토리 조회
+  public List<MoveEstimateVO> getEstimateResult(MoveEstimateVO vo);
 }
 
  
