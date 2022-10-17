@@ -44,8 +44,8 @@
              <hr>             
              <ul>
               <li><button @click="signIn()">회원가입</button></li>
-              <li><button @click="findInfo(1)">아이디 찾기</button></li>
-              <li><button @click="findInfo(2)">비밀번호 찾기</button></li>
+              <li><button @click="findInfo()">아이디 찾기</button></li>
+              <li><button @click="findInfo()">비밀번호 찾기</button></li>
              </ul>
 
            </v-card>                    
@@ -66,7 +66,7 @@ export default{
     }
   },
   methods: {    
-    login : async function(){  
+    login : function(){  
       if(this.email == "" || this.password =="") {
         swal.fire({
           icon:"error",
@@ -75,7 +75,7 @@ export default{
         return false;
       }
       var outside = this;
-      var temp = await axios({
+      axios({
         url: "http://localhost:8090/zippy/member/login",
         method : "POST",
         data: {
@@ -96,10 +96,13 @@ export default{
             icon:"success",
             title:"로그인 성공!"
           })
-
-          outside.$store.commit('login', res.data);          
-          console.log(outside.$store.state.loginInfo);
-          this.$router.push("/home");
+          outside.$store.commit('login', res.data);
+          
+          if(this.$store.state.memberType == 0){
+            this.$router.push("/mypage");
+          }else {
+            this.$router.push("/home");
+          }          
         }
 
       }).catch(error =>{
@@ -115,13 +118,8 @@ export default{
       this.$router.push("/signin");
     },
 
-    findInfo : function(num){
-      if(num == 0){
-        this.$router.push("/findUserInfo");
-      } else{
-        this.$router.push("/findUserInfo");
-      }
-      
+    findInfo : function(){
+      this.$router.push("/findUserInfo");      
     }
 
   }

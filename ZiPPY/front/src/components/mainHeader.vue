@@ -1,5 +1,5 @@
 <template>
-    <header>
+    <header v-if="this.$store.state.memberType == 0 || this.$store.state.memberType == null">
       <nav class="navbar navbar-expand-sm navbar-light bg-light">
         <div class="container-fluid">
           <router-link to="/home" class="navbar-brand">
@@ -19,7 +19,7 @@
             <li class="nav-item">
               <router-link to="/used" class="nav-link">중고거래</router-link>
             </li>             
-		  </ul>                   
+		  </ul>               
           <div v-if="this.$store.state.loginInfo == null">
             <router-link to="/login" class="nav-link"><img id="Icon" src="@/assets/signin.png"></router-link>
           </div> 
@@ -33,8 +33,7 @@
           </div>
 
           <div v-if="this.$store.state.loginInfo != null">
-            <button class="nav-link" @click="logout()"><img id="Icon" src="@/assets/logout.png"></button>
-            <!-- <router-link to="/logout" class="nav-link"><img id="Icon" src="@/assets/logout.png"></router-link> -->
+            <button class="nav-link" @click="logout()"><img id="Icon" src="@/assets/logout.png"></button>            
           </div>
 		</div>
       </nav>
@@ -52,7 +51,9 @@ export default{
         icon:"info",
         title:"성공적으로 로그아웃하였습니다.!"
       });
-      this.$router.push("/home");
+      this.$router.push({
+        name : "home"
+      });
     }
   }
 }
