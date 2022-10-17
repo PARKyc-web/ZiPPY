@@ -53,7 +53,8 @@
           <td style="font-weight:bold">배송지메모</td>
           <td>
             <!-- 옵션 -->
-            <b-form-select v-model="selectedAdd" :options="delMemos"></b-form-select>
+            <v-select v-model="selectedMemo" :items="orderMemos" item-text="text" item-value="value"
+                label="배송지메모" return-object dense outlined style="width:350px"></v-select>
           </td>
         </tr>
         <tr>
@@ -83,9 +84,9 @@
                   </td>
                   <td>{{product.optName}}</td>
                   <td>{{product.productVO.compName}}</td>
-                  <td>{{product.purPrice}}</td>
+                  <td>{{product.purPrice | comma}}</td>
                   <td>{{product.purQty}}</td>
-                  <td>{{product.productVO.deliveryCost}}</td>
+                  <td>{{product.productVO.deliveryCost | comma}}</td>
                 </tr>
               </tbody>
             </table>
@@ -126,7 +127,7 @@
       </tbody>
     </table>
     <div class="mx-auto pt-5" style="width:200px; margin-top:30px; margin-bottom:100px">
-      <v-btn depressed color=#B3E3C3 style="width:150px; font-size:larger" @click="test">
+      <v-btn depressed color=#B3E3C3 style="width:150px; font-size:larger" @click="payItem">
         결제하기
       </v-btn>
     </div>
@@ -144,7 +145,7 @@
         myInfo: {},
         orderInfo: {},
         selected: 0,
-        selectedAdd: null,
+        selectedMemo: '',
         options: [{
             text: '기본배송지',
             value: 0
@@ -154,30 +155,26 @@
             value: 1
           }
         ],
-        delMemos: [{
-            text: '배송 시 요청사항을 선택해주세요.',
-            value: null
-          },
-          {
-            text: '부재 시 경비실에 맡겨주세요.',
-            value: 'a'
-          },
-          {
-            text: '부재 시 택배함에 넣어주세요.',
-            value: 'b'
-          },
-          {
-            text: '부재 시 집 앞에 놔두세요.',
-            value: 'c'
-          },
-          {
-            text: '배송 전 연락 바랍니다.',
-            value: 'd'
-          },
-          {
-            text: '파손의 위험이 있는 상품입니다.',
-            value: 'e'
-          }
+        orderMemos: [{
+          text:'배송 시 요청사항을 선택해주세요.',
+          value:null
+        },
+        {
+          text:'부재 시 경비실에 맡겨주세요.',
+          value:'부재 시 경비실에 맡겨주세요.'
+        },
+        {
+          text:'부재 시 택배함에 넣어주세요.',
+          value:'부재 시 택배함에 넣어주세요.'
+        },
+        {
+          text:'부재 시 집 앞에 놔두세요.',
+          value:'부재 시 집 앞에 놔두세요.'
+        },
+        {
+          text:'파손의 위험이 있는 상품입니다.',
+          value:'파손의 위험이 있는 상품입니다.'
+        }
         ],
         products: [],
       }
@@ -207,7 +204,9 @@
           buyer_postcode: outside.myInfo.zipCode
         }, rsp => { // callback
           if (rsp.success) {
+          
             alert('결제가 완료되었습니다.')
+            //서버에 결제 정보 저장 
             axios({
               url: "http://localhost:8088/zippy/shop/insertOrder",
               headers: {
@@ -223,12 +222,12 @@
                 buyerTel: outside.myInfo.phoneNumber,
                 buyerAddr: outside.myInfo.userAddress,
                 buyerZipcode: outside.myInfo.zipCode,
-                delMemo: outside.delMemos.value
+                orderMemo: outside.selectedMemo.value
               }
             }).then(res => {
               console.log(res);
               this.$router.push({
-                name: 'orderCom',
+                name: 'orderComplete',
                 query: {
                   payCode: outside.products[0].payCode
                 }
@@ -240,38 +239,6 @@
             console.log(rsp.error_msg)
           }
         });
-      },
-      test() {
-        var outside = this;
-        alert('결제가 완료되었습니다.')
-        axios({
-          url: "http://localhost:8088/zippy/shop/insertOrder",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          method: "POST",
-          data: {
-            email: outside.myInfo.email,
-            payCode: outside.products[0].payCode,
-            payMethod: "card",
-            amount: outside.countAmount,
-            buyerName: outside.myInfo.userName,
-            buyerTel: outside.myInfo.phoneNumber,
-            buyerAddr: outside.myInfo.userAddress,
-            buyerZipcode: outside.myInfo.zipCode,
-            orderMemo: 'dd'
-          }
-        }).then(res => {
-          console.log(res);
-          this.$router.push({
-            name: 'orderComplete',
-            query: {
-              payCode: outside.products[0].payCode
-            }
-          })
-        }).catch(error => {
-          console.log(error);
-        })
       }
     },
     created() {
@@ -312,8 +279,13 @@
           am += Number(this.products[i].productVO.deliveryCost)
         }
         return am;
+      },
+    },
+    filters : {
+      comma(val){
+        return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
       }
-    }
+    },
   }
 </script>
 

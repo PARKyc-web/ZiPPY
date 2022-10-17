@@ -27,30 +27,27 @@
           <tr>
             <td style="font-weight:bold">카테고리<span>*</span></td>
             <td>
-              <v-select v-model="product.category" :items="cates" item-text="cates" item-value="cates"
-                label="카테고리" return-object dense outlined width="350" height="30"></v-select>
+              <v-select v-model="product.category" :items="cates" item-text="cates" item-value="cates" label="카테고리"
+                return-object dense outlined width="350" height="30"></v-select>
             </td>
           </tr>
-          <td style="font-weight:bold; position:relative"><div class="mt-3" style="position:absolute; top:0">상품설명</div></td>
+          <td style="font-weight:bold; position:relative">
+            <div class="mt-3" style="position:absolute; top:0">상품설명</div>
+          </td>
           <td>
-            <v-textarea
-            width="350"
-            solo
-            name="input-7-4"
-            v-model="product.proInfo"
-            label="상품설명을 등록해주세요"
-          ></v-textarea>
+            <v-textarea width="350" solo name="input-7-4" v-model="product.proInfo" label="상품설명을 등록해주세요"></v-textarea>
           </td>
           <tr>
             <td style="font-weight:bold">대표이미지<span>*</span></td>
             <td style="padding-top:0; padding-bottom:0">
-              <v-file-input v-model="product.proMainImg" accept="image/*" label="대표이미지" style="width:350px"></v-file-input>
+              <v-file-input v-model="product.proMainImg" accept="image/*" label="대표이미지" style="width:350px">
+              </v-file-input>
             </td>
           </tr>
           <tr>
             <td style="font-weight:bold">상세이미지</td>
             <td style="padding-top:0; padding-bottom:0">
-              <v-file-input multiple label="상세이미지" style="width:350px"></v-file-input>
+              <v-file-input v-model="images" multiple label="상세이미지" style="width:350px"></v-file-input>
             </td>
           </tr>
           <tr>
@@ -80,11 +77,25 @@
           </tr>
         </tbody>
       </table>
+      <div v-for="i in option" :key="option.optname">
+        <div style="display:flex">
+          <!-- 옵션명 -->
+          <div class="pl-3" style="width:100px">옵션이름</div>
+          <div style="padding:10px; width:354px">
+            <input data-v-656fe1d6 type="text" class="form-control" id="optName" @change="inputOption">
+          </div>
+          <!-- 추가 가격-->
+          <div class="pl-3" style="width:100px">추가가격</div>
+          <div style="padding:10px; width:354px">
+            <input data-v-656fe1d6 type="text" class="form-control" id="optPrice" @change="inputOption">
+          </div>
+        </div>
+      </div>
       <!-- 상품입력 테이블 -->
       <hr>
       <div>
         <div style="width:150px; margin-top:50px; margin-bottom:120px" class="mx-auto">
-          <v-btn outlined color="#64c481" class="mr-3">
+          <v-btn outlined color="#64c481" class="mr-3" @click="insertPro">
             등록
           </v-btn>
           <v-btn depressed color=#B3E3C3>
@@ -94,7 +105,7 @@
       </div>
     </div>
   </div>
-</template>
+</template>주문
 
 <script>
   import axios from 'axios';
@@ -102,35 +113,50 @@
   export default {
     data() {
       return {
-        tr: `<tr id='new1'>
-            <td style="padding:10px; font-size:small"><div class="pl-3">옵션이름</div></td>
-            <td style="padding:10px">
-              <input data-v-656fe1d6="" type="text" class="form-control">
-            </td>
-          </tr>
-          <tr id='new2'>
-            <td style="padding:10px; font-size:small"><div class="pl-3">추가가격</div></td>
-            <td style="padding:10px">
-              <input data-v-656fe1d6="" type="text" class="form-control">
-            </td>
-          </tr>`,
         //담을 상품
         product: {},
         //상세이미지
-        imgs: [],
+        images: [],
         //카테고리 종류
         cates: ['침대', '토퍼/매트리스', '소파', '서랍/수납장', '책장', '의자', '거울', '조명', '소품'],
         //옵션
-        option: []
+        option: [],
+        email: 'shop@mail.com'
       }
     },
     methods: {
       addOpt() {
-        $('#insertTable').append(this.tr);
+        this.option.push({
+          optName: '',
+          optPrice: ''
+        })
       },
       delOpt() {
-        $('#new1').remove();
-        $('#new2').remove();
+        this.option.splice(this.option.lastIndexOf, 1);
+      },
+      insertPro() {
+        axios({
+          url: "http://localhost:8088/zippy/shop/insertPro",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          method: "POST",
+          data: {
+            product: JSON.stringify(this.product),
+            option: JSON.stringify(this.option)
+          },
+          params: {
+            email: this.email
+          }
+        }).then(res => {
+          console.log(res);
+        }).catch(error => {
+          console.log(error);
+        })
+      },
+      inputOption() {
+        this.option.optName = document.getElementById('optName').innerText;
+        this.option.optPrice = document.getElementById('optPrice').innerText;
       }
     }
   }
@@ -158,7 +184,8 @@
     width: 20px;
     height: 20px;
   }
-  span{
-    color:#64c481;
+
+  span {
+    color: #64c481;
   }
 </style>

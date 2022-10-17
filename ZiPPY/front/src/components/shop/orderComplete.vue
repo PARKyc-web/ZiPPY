@@ -6,14 +6,14 @@
     </v-toolbar>
     <div id="orderSheet">
       <h6>주문번호 {{payCode}}</h6>
-      <v-icon color=#B3E3C3 style="font-size:100px">mdi-gift</v-icon>
+      <v-icon color=#B3E3C3 class="my-5" style="font-size:150px">mdi-gift</v-icon>
       <h2 style="font-weight:bold">결제가 정상적으로 완료되었습니다</h2>
       <p>업체의 주문 확인 후 발송됩니다</p>
-    </div>
-    <div class="mx-auto pt-5" style="width:100px">
-      <v-btn depressed color=#B3E3C3 @click="goMain">
-        홈으로
-      </v-btn>
+      <div class="mx-auto pt-5" style="width:100px;">
+        <v-btn depressed color=#B3E3C3 style=" font-weight: bold;" @click="goMain">
+          홈으로
+        </v-btn>
+      </div>
     </div>
   </div>
 </template>
@@ -28,7 +28,7 @@
     methods: {
       goMain() {
         this.$router.push({
-            name: 'main'
+            name: 'shopMain'
           })
       }
     }

@@ -8,8 +8,6 @@
 <script>
   import shopMain from "@/components/shop/shopMain.vue";
   import shopSubbar from "@/components/shop/shopSubbar.vue";
-  import categoryList from "@/components/shop/categoryList.vue";
-  import keywordList from "@/components/shop/keywordList.vue";
   import shopDetail from "@/components/shop/shopDetail.vue";
   import shopCart from "@/components/shop/shopCart.vue";
   import order from "@/components/shop/order.vue";
@@ -24,8 +22,6 @@
     components: {
       shopMain,
       shopSubbar,
-      categoryList,
-      keywordList,
       shopDetail,
       shopCart,
       order,
