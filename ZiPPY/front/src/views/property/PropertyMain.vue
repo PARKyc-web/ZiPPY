@@ -2,7 +2,7 @@
   <div id="container">
     <section>
       <div id="map" class="map">
-        <search-bar style="top: 10px; left: 10px;" :sigungu="sigungu"></search-bar>
+        <search-bar style="top: 10px; left: 10px;" :sigungu="sigungu" @get-property-list="searchEvent"></search-bar>
         <div class="hAddr">
           <span class="title">지도중심기준 행정동 주소정보</span>
           <span id="centerAddr"><input type="text" v-model="sigungu"></span>
@@ -12,12 +12,36 @@
     <aside>
       <div v-if="houseProducts.length != 0" v-for="item in houseProducts" @click="goHouseDetail(item.productId)">
         <v-card>
-          <div>매물번호 {{item.productId}}</div>
+          <!-- <div>매물번호 {{item.productId}}</div>
           <div>{{item.houseName}}</div>
           <div>{{item.saleType}} {{item.price}}</div>
           <div>{{item.sigungu}}</div>
           <div>{{item.areaExclusive}}m² {{item.floor}}층</div>
-          <div>{{item.detailContents}}</div>
+          <div>{{item.detailContents}}</div> -->
+          <table>
+            <tr>
+              <td style="width: 35%;">여기에 이미지</td>
+              <td style="width: 65%;">
+                <v-row align="center" class="mx-0">
+                  <div>매물번호 {{item.productId}}</div>
+                </v-row>
+                <v-card-title style="font-weight: bold;">{{item.houseName}}<br>{{item.saleType}} {{item.price}}
+                </v-card-title>
+                <table style="font-size: medium; margin-left: 20px;">
+                  <tr>
+                    {{item.sigungu}}
+                  </tr>
+                  <tr>
+                    {{item.areaExclusive}}m² · {{item.floor}}층
+                  </tr>
+                  <tr>
+                    {{item.detailContents}}
+                  </tr>
+                </table>
+                <update-property :productId="item.productId"></update-property>
+              </td>
+            </tr>
+          </table>
         </v-card>
       </div>
     </aside>
@@ -35,24 +59,23 @@
     },
     created() {
       axios({
-              url: "http://localhost:8090/zippy/property/main",
-              methods: "GET"
-              }).then(response => {
-              // 성공했을 때
-              console.log('getStreetAddress success!');
-              console.log(response);
-              this.streetAddress = response.data;
-              })
-              .catch(error => {
-              // 에러가 났을 때
-              console.log('getStreetAddress fail!');
-              console.log(error);
-              });
-    },
-    mounted() {
-      window.kakao && window.kakao.maps ?
-        this.initMap() :
-        this.addKakaoMapScript();
+          url: "http://localhost:8090/zippy/property/main",
+          methods: "GET"
+        }).then(response => {
+          // 성공했을 때
+          console.log('getStreetAddress success!');
+          console.log(response);
+          this.streetAddress = response.data;
+
+          window.kakao && window.kakao.maps ?
+            this.initMap() :
+            this.addKakaoMapScript();
+        })
+        .catch(error => {
+          // 에러가 났을 때
+          console.log('getStreetAddress fail!');
+          console.log(error);
+        });
     },
     data() {
       return {
@@ -60,6 +83,8 @@
         houseProducts: [],
         sigungu: '',
         streetAddress: [],
+        map: 0,
+        productPosition: []
       }
     },
     methods: {
@@ -87,6 +112,8 @@
         };
 
         var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+        this.map = map;
+
         map.setMaxLevel(8); // 지도 최소 축소 레벨
         map.setMinLevel(MIN_LEVEL);
 
@@ -122,7 +149,6 @@
 
         // 현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다
         searchAddrFromCoords(map.getCenter(), displayCenterInfo);
-
 
         // 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
         kakao.maps.event.addListener(map, 'idle', function () {
@@ -161,39 +187,34 @@
             }
           }
         }
-        // console.log(' 도로명',this.streetAddress[0].streetAddress);
-        // let productPosition = '{"positions": [';
-        // this.streetAddress = this.getStreetAddress();
-        // console.log('hi',this.streetAddress);
-        // console.log('hi',initThis.houseProducts.length);
-        // for(let i=0; i<this.streetAddress.length; i++) {
-        //   // 주소로 좌표를 검색합니다
-        //   geocoder.addressSearch(this.streetAddress[i].streetAddress, function (result, status) {
-        //     // 정상적으로 검색이 완료됐으면 
-        //     if (status === kakao.maps.services.Status.OK) {
-        //       productPosition += '{"lat": ' + result[0].y + ', "lng": ' + result[0].x + '}},';
-        //       console.log('hello');
-        //     } else console.log('hi');
-        //   });
-        // }
-        // productPosition += ']}';
-        // console.log(productPosition);
-
-        var markers = [];
-
-        for (var i = 0; i < this.data.positions.length; i++) {
-          // 마커를 생성합니다
-          var marker = new kakao.maps.Marker({
-            map: map, // 마커를 표시할 지도
-            position: new kakao.maps.LatLng(this.data.positions[i].lat, this.data.positions[i].lng), // 마커를 표시할 위치
-          });
-          markers.push(marker);
-        }
 
         // 클러스터를 만들기 위해 필요한 최소 마커 개수를 설정한다.
         clusterer.setMinClusterSize(1);
-        // 클러스터러에 마커들을 추가합니다
-        clusterer.addMarkers(markers);
+
+        var markers = [];
+
+        for (let i = 0; i < this.streetAddress.length; i++) {
+          // 주소로 좌표를 검색합니다
+          geocoder.addressSearch(this.streetAddress[i].streetAddress, function (result, status) {
+            // 정상적으로 검색이 완료됐으면 
+            if (status === kakao.maps.services.Status.OK) {
+              var marker = new kakao.maps.Marker({
+                map: map, // 마커를 표시할 지도
+                position: new kakao.maps.LatLng(result[0].y, result[0].x), // 마커를 표시할 위치
+              });
+              markers.push(marker);
+            }
+          });
+        }
+
+        function makeClusterer() {
+          // 클러스터러에 마커들을 추가합니다
+          clusterer.addMarkers(markers);
+        }
+
+        setInterval(function () {
+          makeClusterer();
+        }, 500);
 
         // 마커 클러스터러에 클릭이벤트를 등록합니다
         // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우
@@ -226,6 +247,7 @@
             console.log('getPropertyList success!');
             console.log(response);
             this.houseProducts = response.data;
+            // this.sigungu = sigungu;
           })
           .catch(error => {
             // 에러가 났을 때
@@ -234,21 +256,39 @@
           });
       },
       getStreetAddress() {
-              axios({
-              url: "http://localhost:8090/zippy/property/main",
-              methods: "GET"
-              }).then(response => {
-              // 성공했을 때
-              console.log('getStreetAddress success!');
-              console.log(response);
-              // this.streetAddress = response.data;
-              return response.data;
-              })
-              .catch(error => {
-              // 에러가 났을 때
-              console.log('getStreetAddress fail!');
-              console.log(error);
-              });
+        axios({
+            url: "http://localhost:8090/zippy/property/main",
+            methods: "GET"
+          }).then(response => {
+            // 성공했을 때
+            console.log('getStreetAddress success!');
+            console.log(response);
+            this.streetAddress = response.data;
+            return response.data;
+          })
+          .catch(error => {
+            // 에러가 났을 때
+            console.log('getStreetAddress fail!');
+            console.log(error);
+          });
+      },
+      searchEvent(sigungu) {
+        this.getPropertyList(sigungu);
+
+        let map = this.map;
+
+        // 주소-좌표 변환 객체를 생성합니다
+        var geocoder = new kakao.maps.services.Geocoder();
+
+        // 주소로 좌표를 검색합니다
+        geocoder.addressSearch(sigungu, function (result, status) {
+
+          // 정상적으로 검색이 완료됐으면 
+          if (status === kakao.maps.services.Status.OK) {
+            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+            map.setCenter(new kakao.maps.LatLng(result[0].y, result[0].x));
+          }
+        });
       }
 
     }
@@ -276,7 +316,6 @@
     width: 25vw;
     height: 100%;
     overflow-y: auto;
-    background-color: lightblue;
   }
 
   ::-webkit-scrollbar {

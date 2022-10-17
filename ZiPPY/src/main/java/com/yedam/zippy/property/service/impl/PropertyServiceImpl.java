@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yedam.zippy.property.mapper.PropertyMapper;
 import com.yedam.zippy.property.service.PropertyService;
@@ -63,8 +64,10 @@ public class PropertyServiceImpl implements PropertyService {
   }
 
   @Override
+  @Transactional
   public int updateHouseProduct(propertyVO vo) {
     return mapper.updateHouseProduct(vo);
+    //return mapper.updateHouseDetail(vo);
   }
 
   @Override
