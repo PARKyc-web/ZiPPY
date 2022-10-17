@@ -4,10 +4,10 @@
 	<!-- 전체조회 -->
 	<select id="usedList" resultType="UsedProductVO"
 		parameterType="hashmap">
-		SELECT p.PRODUCT_NO, p.PRODUCT_NAME,  p.PRODUCT_CATEGORY, p.PRODUCT_PRICE, p.PRODUCT_INFO, p.PRODUCT_LOCATION, p.IS_SELL, p.VIEWS, p.PRODUCT_DATE, i.IMAGE_NO, i.IMAGE, g.NICK_NAME
-		FROM used_product p, used_images i, general_user g
-		WHERE g.email = p.email
-		AND p.product_no = i.product_no
+		SELECT p.*, g.NICK_NAME
+		FROM used_product p, general_user g
+		WHERE
+		g.email = p.email
 		AND p.product_name LIKE '%'||#{keyword}||'%'
 		AND p.product_category LIKE '%'||#{category}||'%'
 		<if test="checked == 1">
@@ -28,11 +28,14 @@
 		<!-- <if test="dropVal == 판매자평점"> ORDER BY product_date DESC </if> -->
 		<!-- ORDER BY product_date DESC -->
 	</select>
+
 	<select id="usedOne" resultType="UsedProductVO"
 		parameterType="Integer">
-		SELECT *
-		FROM used_product
-		WHERE product_no = ${pNo}
+		SELECT p.*,g.NICK_NAME
+		FROM used_product p, general_user
+		g
+		WHERE g.email = p.email
+		AND p.product_no=#{pNo}
 	</select>
 
 
@@ -99,7 +102,9 @@
 		product_name = #{productName},
 		product_category = #{productCategory},
 		product_price = #{productPrice},
-		product_info = #{productInfo}
+		product_info = #{productInfo},
+		is_sell
+		= #{isSell}
 		WHERE
 		product_no = #{productNo}
 	</update>
@@ -150,17 +155,27 @@
 		,#{keywordLocation}
 		)
 	</insert>
-	
+
 	<!-- 키워드 삭제 -->
 	<delete id="delKeyword" parameterType="UsedKeywordVO">
 		DELETE FROM used_keyword
 		WHERE keyword_no = #{kNo}
 	</delete>
-	
-	<select id="showKeyword" resultType="UsedKeywordVO" parameterType="String">
+
+	<!-- 키워드 출력 -->
+	<select id="showKeyword" resultType="UsedKeywordVO"
+		parameterType="String">
 		SELECT *
 		FROM Used_keyword
 		WHERE email = #{email}
+	</select>
+
+	<!-- 이미지 단건 조회 -->
+	<select id="getImg" resultType="UsedImagesVO"
+		parameterType="int">
+		SELECT *
+		FROM used_images
+		WHERE product_no = #{pNo}
 	</select>
 
 </mapper>

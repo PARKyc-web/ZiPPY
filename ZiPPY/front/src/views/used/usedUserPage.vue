@@ -195,7 +195,7 @@
         }),
         created() {
             axios({
-                url: "http://localhost:8088/zippy/used/main",
+                url: "http://localhost:80890/zippy/used/main",
                 methods: "GET",
                 params: {
                     location: "",
