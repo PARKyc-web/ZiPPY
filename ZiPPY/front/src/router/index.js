@@ -16,9 +16,12 @@ import orderComplete from "../views/shop/orderCompleteView.vue";
 import GeneralSign from '../views/login/generalSignUp.vue';
 import BusinessSign from '../views/login/businessSignUp.vue';
 import selectSign from '@/views/login/selectSignType.vue';
-import baseImage from '@/views/login/base64Image.vue';
 import login from '@/views/login/login.vue';
 import admin from '@/views/admin/admin.vue';
+import mypage from '@/views/mypage/mypageMain.vue';
+import chat from '@/views/chat/chat.vue';
+import chatDetail from '@/views/chat/chatDetail.vue';
+import findUserInfo from '@/views/login/findInfo.vue';
 
 import moveContactFinalCheck from "../views/move/moveContactFinalCheck.vue";
 import moveUntactFinalCheck from "../views/move/moveUntactFinalCheck.vue";
@@ -41,6 +44,9 @@ import usedInsert from "../views/used/usedInsert.vue";
 import usedKeyword from "../views/used/usedKeyword.vue";
 import usedwishList from "../views/used/usedWishList.vue";
 import usedUserPage from "../views/used/usedUserPage.vue";
+
+import page404 from '@/views/page404.vue';
+
 
 Vue.use(VueRouter);
 
@@ -73,15 +79,53 @@ const routes = [
     component: BusinessSign
   },
   {
-    path: "/admin",
-    name: "admin",
-    component: admin
-  },
-  {
     path:"/login",
     name:"login",
     component:login
   },
+  {
+    path: "/findUserInfo",
+    name: "findUserInfo",
+    component :findUserInfo
+  },
+
+
+  {
+    path:"/mypage",
+    name:"mypage",
+    component : mypage,
+    children : []
+  },
+
+  {
+    path: "/admin",
+    name: "admin",
+    component: admin,
+    children : [
+      {
+        path :"home",
+        name: "admin-home",
+        component: HomeView, 
+      },
+      {
+        path:"login",
+        name:"admin-login",
+        component:login
+      }
+    ]
+  },
+
+  {
+    path:"/chat",
+    name:"chat",
+    component: chat
+  },
+  {
+    path : "/chatDetail",
+    name :"chatDetail",
+    component : chatDetail    
+  },
+
 
   // property
   {
@@ -233,7 +277,18 @@ const routes = [
     path: "/used/user",
     name: "usedUserPage",
     component: usedUserPage
+  },
+
+
+
+  // 위에 있는 라우터의 경로에 아무곳에도 안걸리면 여기에 최종으로 걸린다.
+  // 여기에 404 PAGE 하나 만들어서 넣어두면 됨.
+  {
+    path : "/*",
+    name : "Error404",
+    component : page404
   }
+
 ];
 
 const router = new VueRouter({

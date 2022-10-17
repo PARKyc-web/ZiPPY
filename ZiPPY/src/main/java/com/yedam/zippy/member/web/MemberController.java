@@ -33,20 +33,19 @@ public class MemberController {
     @PostMapping("gSignUp")
     public String generalSignUp(LoginVO login, GeneralUserVO gVO) {
       service.signGeneralMember(login, gVO);
+      
       return "Congratulations";
     }
 
     @PostMapping("bSignUp")
-    public String businessSignUp(LoginVO login, BusinessVO bVO, List<MultipartFile> images) {
-  
+    public String businessSignUp(LoginVO login, BusinessVO bVO, List<MultipartFile> images) {  
       System.out.println(login);
       System.out.println(bVO);
       System.out.println(images);
       
-      service.signBusinessMember(login, bVO, images);
-      
+      service.signBusinessMember(login, bVO, images);      
   
-      return "";
+      return "Congratulations";
     }
 
 }

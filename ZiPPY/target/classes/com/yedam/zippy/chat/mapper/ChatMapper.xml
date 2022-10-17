@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.zippy.chat.mapper.ChatMapper">
+
+	
+	<select id="findAllRoom" parameterType="String" resultType="ChatVO">
+		SELECT *
+		FROM chat_room
+		WHERE user1 = #{email} OR user2 = #{email}
+	</select>
+	
+</mapper>

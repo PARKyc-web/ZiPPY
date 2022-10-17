@@ -317,11 +317,11 @@
                     <input
                       type="email"
                       class="form-control"
-                      id="broker_number"
+                      id="brokerNumber"
                       name="brokerId"
-                      placeholder="123456"                      
+                      placeholder="123456"              
                     />
-                    <button type="button" class="btn btn-outline-success">
+                    <button type="button" class="btn btn-outline-success" @click="brokerNumberValidation()">
                       유효성검사
                     </button>
                     <label for="brokerNumber">중개등록번호</label>
@@ -380,6 +380,7 @@
 import axios from 'axios';
 import loginFunc from '@/script/loginFunc';
 import swal from 'sweetalert2';
+import { originalPositionFor } from '@jridgewell/trace-mapping';
 
 export default {
   data() {
@@ -410,7 +411,8 @@ export default {
       pass_valid: false,
       pass_confirm: false,
       phone_valid : false,
-      business_valid : false,      
+      business_valid : false,
+      broker_valid : false,
 
       // 인증코드가 담기는 Data
       emailCode: 12345672387,
@@ -482,7 +484,8 @@ export default {
           title:"업체유형을 선택해주세요!"
         });        
 
-      }else if(this.email_valid == false || this.phone_valid == false || this.pass_valid == false || this.user_info.userAddress == ""){
+      }else if(this.email_valid == false || this.phone_valid == false || this.pass_valid == false || this.user_info.userAddress == ""
+             || this.pass_confirm == false){
         swal.fire({
           icon:"error",
           title:"모든 정보를 \n 입력 및 인증해주세요!"
@@ -496,7 +499,19 @@ export default {
     },
 
     businessNumValid : function(){      
-      var number = document.querySelector("#businessId").value;      
+      var number = document.querySelector("#businessId").value;
+      var reg = /^[0-9]{10}/;
+
+      var result = reg.test(number);
+      if(!result){
+        swal.fire({
+            icon:"error",
+            title:"사업자번호를 확인해주세요!",
+            text : "-(하이픈)빼고 숫자만 10자리 입력해주세요!"
+        });
+        return false;
+      }
+
       axios({
         url: "https://api.odcloud.kr/api/nts-businessman/v1/status",
         method : "POST",
@@ -528,6 +543,55 @@ export default {
       })      
     },
 
+
+    brokerNumberValidation : function(){
+      var outside = this;
+      var number = document.querySelector("#brokerNumber").value;
+      var reg = /^[0-9]{14}/;
+
+      var result = reg.test(number);
+      if(!result){
+        swal.fire({
+            icon:"error",
+            title:"중개등록번호를 확인해주세요!",
+            text : "-(하이픈)빼고 숫자만 14자리 입력해주세요!"
+        });
+        return false;
+      }
+
+      this.$axios({
+        url : "http://apis.data.go.kr/5690000/sjReatEstate/sj_00000460",
+
+        params : {
+          serviceKey : "QZf4Ip/iukGVGGNo2Yp1ei7ISnJ2sOwUgmmBjLQt6mCw73ftY5N0jt6ck1Qz34mGkNv4FQAysldaby08pQpYEg==",
+          pageIndex : 1,
+          pageUnit : 1,
+          dataType : "json",
+          searchCondition : "reg_no",
+          searchKeyword : number
+        }
+      }).then(res =>{
+        if(res.data.body.items.length == 0){
+          swal.fire({
+            icon:"error",
+            title:"중개등록번호를 확인해주세요!",
+            text : "등록되지 않은 중개등록번호입니다!"
+          });
+          
+        } else {
+          swal.fire({
+            icon:"success",
+            title:"인증이 완료되었습니다!"            
+          });
+
+          outside.broker_valid = true;
+        }
+
+      }).catch(error => {
+        console.log(error);
+      })
+    },
+
     sign: function () {
       var bfile = document.getElementById("business_number_pic").value;
       if(!bfile){
@@ -547,6 +611,12 @@ export default {
             title: "중개사업자 등록증을 등록해주세요!"
           });
 
+          return false;
+        }
+
+        var brokerNumber = document.getElementById("brokerNumber").value;
+        if(!brokerNumber){
+          this.brokerNumberValidation();
           return false;
         }
       }
@@ -597,8 +667,8 @@ export default {
 #phone,
 #phoneAuthentication,
 #phone,
-#business_number,
-#broker_number {
+#businessId,
+#brokerNumber {
   min-width: 300px;
   width: 70%;
   display: inline-block;

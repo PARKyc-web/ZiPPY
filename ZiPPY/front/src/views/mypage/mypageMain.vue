@@ -20,23 +20,23 @@ export default{
                 menu: [
                     {
                         header: true,
-                        title: 'Main Navigation',
+                        title: 'MENU',
                         hiddenOnCollapse: true
                     },
                     {
-                        href: '/admin',
-                        title: 'Dashboard',
+                        href: '/mypage',
+                        title: '회원정보',
                         icon: 'fa fa-user'
                     },
-                    {                           
-                        href: '/admin/home',
-                        title: 'Charts',
-                        icon: 'fa fa-chart-area'            
+                    {                       
+                        href: '/mypage/chat',
+                        title: '채팅목록',
+                        icon: 'fa-solid fa-comment'            
                     },
                     {
-                        href: '/admin/login',
-                        title: 'HOME',
-                        icon: 'fa fa-chart-area',                        
+                        href: '/mypage/login',
+                        title: '구매목록',
+                        icon: 'fa-solid fa-basket-shopping',                        
                     },
                     {
                         header: true,
