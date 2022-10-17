@@ -18,6 +18,9 @@
             </li>
             <li class="nav-item">
               <router-link to="/used" class="nav-link">중고거래</router-link>
+            </li>       
+            <li class="nav-item">
+              <router-link to="/moveMain" class="nav-link">이사도우미</router-link>
             </li>             
 		  </ul>               
           <div v-if="this.$store.state.loginInfo == null">

@@ -27,10 +27,9 @@
                    clearable                   
                    label="사용자 이름"
                    prepend-icon="person"
-                   type="userName"                   
+                   type="text"                   
                    color="#b3e3c3"
-                   id="userName"                                  
-                   @keyup.enter="enter()"
+                   id="userName" 
                  >
                  </v-text-field>
 
@@ -40,8 +39,7 @@
                    label="핸드폰 번호"
                    prepend-icon="phone_iphone"
                    type="number"                   
-                   color="#b3e3c3"                   
-                   @keyup.enter="enter()"             
+                   color="#b3e3c3"
                  >
                  </v-text-field>
                  <div id="login_btn">
@@ -57,7 +55,10 @@
                    color="#b3e3c3"                   
                    @keyup.enter="enter()"             
                  >                 
-                 </v-text-field>            
+                 </v-text-field>
+                 <div v-if="find_email == true">
+                  <p>아이디 : TEMP EMAIl</p>
+                 </div>
               </v-form>
 
               <v-form v-if="selected == 'radio2'">
@@ -66,7 +67,8 @@
                    id="email"                 
                    label="이메일"
                    prepend-icon="email"
-                   type="userName"                   
+                   type="email"
+                   name="userEmail"
                    color="#b3e3c3"                                      
                    @keyup.enter="sendValidationNum(0)"
                  >
@@ -111,8 +113,7 @@ import swal from 'sweetalert2';
           ],
 
           phoneValidNum : 123123123,
-          emailValidNum : 123812749814
-
+          find_email : false
         }
       },
 
@@ -150,6 +151,8 @@ import swal from 'sweetalert2';
                     title : "임시 비밀번호 발행",
                     text : "등록된 이메일로 임시 비밀번호를 전송하였습니다."
                   });
+
+                  this.$router.push("/login");
                 }
 
               }).catch(error =>{
@@ -162,10 +165,11 @@ import swal from 'sweetalert2';
               });
             }
 
+            // 아이디 찾기할때 휴대폰 전화 인증하는 메소드
           }else if(type == 1){
             var phone = document.querySelector("#find_phone");            
             var userName = document.querySelector("#userName")
-            result = phoneReg.test(phone.value);
+            result = phoneReg.test(phone.value);            
 
             if(result){
               this.$axios({
@@ -175,8 +179,15 @@ import swal from 'sweetalert2';
                   phoneNumber : phone.value
                 }
               });
+            }else{
+              swal.fire({
+                icon : "error",
+                title : "휴대폰 번호를 확인해주세요!",
+                text : "-(하이픈)을 제외한 11자리 숫자를 입력해주세요"
+              });
             }
           }
+
           return result;
         }
       }
