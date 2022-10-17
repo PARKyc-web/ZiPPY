@@ -16,6 +16,10 @@
           :src="require(`../../assets/shop/productImg/${item.productVO.proMainImg}.jpg`)"
           @click="goDetail(item.cartPno)"></v-img>
       </template>
+      <!-- 상품가격 -->
+      <template v-slot:item.cartPrice="{ item }">
+        {{ item.cartPrice | comma }}
+      </template>
       <!-- 수량 조절 -->
       <template v-slot:item.cartQty="{ item }">
         <!-- minus -->
@@ -34,6 +38,10 @@
           </v-btn>
         </div>
       </template>
+      <!-- 배송비 -->
+      <template v-slot:item.productVO.deliveryCost="{ item }">
+        {{ item.productVO.deliveryCost | comma }}
+      </template>
     </v-data-table>
     <!-- 삭제 총금액 -->
     <div style="display:flex">
@@ -43,7 +51,7 @@
         </v-btn>
       </div>
       <div class="ml-auto pa-5">
-        총 주문금액 <span style="font-weight:bold">{{ countAmount }}</span>원
+        <h5>총 주문금액 <span style="font-weight:bold">{{ countAmount | comma }}</span>원</h5>
       </div>
     </div>
     <!-- 삭제 총금액 끝 -->
@@ -66,7 +74,7 @@
       return {
         singleSelect: false,
         selected: [],
-        select: [],
+        //select: [],
         check: false,
         randNom: [],
         payCode: '',
@@ -139,7 +147,6 @@
             name: 'order',
             query: {
               payCode: this.payCode
-
             }
           })
 
@@ -155,7 +162,6 @@
           alert('선택된 상품이 존재하지 않습니다.');
           return;
         }
-
         console.log(JSON.stringify(this.selected))
         //삭제
         axios({
@@ -252,6 +258,11 @@
         }
         //this.amount = am;
         return am;
+      }
+    },
+    filters : {
+      comma(val){
+        return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
       }
     }
   };

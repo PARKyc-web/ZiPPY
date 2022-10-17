@@ -45,7 +45,8 @@ public class ShopServiceImpl implements ShopService {
 
   @Override
   public ProductVO getProduct(int proNo) {
-    return mapper.getProduct(proNo);
+    ProductVO vo = mapper.getProduct(proNo);
+    return vo;
   }
 
   @Override
@@ -113,12 +114,21 @@ public class ShopServiceImpl implements ShopService {
   }
 
   @Override
-  public void insertProduct(ProductVO productVO, String email, MultipartFile image, List<MultipartFile> images) {
-    mapper.insertProduct(productVO, email, image);
+  public void insertProduct(ProductVO productVO, ProductOptionVO productOptionVO, String email, MultipartFile image, List<MultipartFile> images) {
+    mapper.insertProduct(productVO, productOptionVO, email, image, images);
+    // 메인이미지
     productVO.setProMainImg(proMainImg(image));
+    // 상세이미지 등록
+    ProductImgVO[] vo = proImgs(images);
+    for (int i = 0; i < vo.length; i++) {
+      vo[i].setProNo(productVO.getProNo());
+    }
+    for (int i = 0; i < vo.length; i++) {
+      mapper.insertImg(vo[i]);
+    }
 
   }
-
+  //메인이미지
   @Override
   public String proMainImg(MultipartFile image) {
     String img;
@@ -148,7 +158,7 @@ public class ShopServiceImpl implements ShopService {
 
     return img;
   }
-
+  //상세이미지
   @Override
   public ProductImgVO[] proImgs(List<MultipartFile> images) {
     ProductImgVO[] list = new ProductImgVO[images.size()];
@@ -179,6 +189,12 @@ public class ShopServiceImpl implements ShopService {
     }
 
     return list;
+  }
+
+  @Override
+  public void insertPurOne(ProductVO product, String payCode, String email) {
+    mapper.insertPurOne(product, payCode, email);
+
   }
 
 }

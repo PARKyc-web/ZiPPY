@@ -32,10 +32,10 @@
           </div>
         </div>
         <h4 style="display:block; padding-bottom: 10px;">{{product.proName}}</h4>
-        <h1 style="display:inline-block">{{product.proPrice}}</h1>
+        <h1 style="display:inline-block">{{product.proPrice | comma}}</h1>
         <h5 style="display:inline-block">원</h5>
         <h6 class="pb-5">
-          <v-icon color="#B3E3C3" class="pr-2">mdi-truck</v-icon>배송비<span> {{product.deliveryCost}}</span>원
+          <v-icon color="#B3E3C3" class="pr-2">mdi-truck</v-icon>배송비<span> {{product.deliveryCost | comma}}</span>원
         </h6>
         <!-- 옵션 -->
         <div v-if="opts.length > 0">
@@ -50,7 +50,7 @@
           <div style="font-size:smaller">
             <div style="display:flex">
               {{product.proName}} {{selectOption.optName}}
-              <div v-if="selectOption.optPrice > 0" class="ml-2">(+{{selectOption.optPrice}}원)
+              <div v-if="selectOption.optPrice > 0" class="ml-2">(+{{selectOption.optPrice | comma}}원)
               </div>
               <span class="ml-auto" @click="deleteOpt()" style="cursor:pointer" v-if="opts.length > 0">X</span>
             </div>
@@ -74,7 +74,7 @@
         <!-- 총 가격 -->
         <div id="total-price">
           <h6 style="padding-right:10px">총 상품금액</h6>
-          <h4>{{countAmount}}</h4>
+          <h4>{{countAmount | comma}}</h4>
           <h6>원</h6>
         </div>
         <!-- 총 가격 끝 -->
@@ -83,7 +83,7 @@
           <v-btn class="mr-2" width="160" outlined color="#64c481" @click="goCart()">
             장바구니
           </v-btn>
-          <v-btn width="160" depressed color=#B3E3C3 @click="goOrder()">
+          <v-btn width="160" depressed color=#B3E3C3 @click="goOrder">
             바로구매
           </v-btn>
         </div>
@@ -268,8 +268,47 @@
         //옵션 존재여부 체크
         this.checkOption();
         if (this.optCheck) {
-          /** */
+          //payCode 생성
+          this.makePayCode();
+          //purchase 테이블에 등록(1개)
+          axios({
+            url: "http://localhost:8088/zippy/shop/insertPurOne",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            method: "POST",
+            data: {
+              proNo : this.product.proNo,
+              selectOptNo : this.selectOption.optNo,
+              qty : this.qty,
+              purPrice : this.countPurPrice
+            },
+            params: {
+              payCode: this.payCode,
+              email : this.email
+            }
+          }).then(res => {
+            console.log(res);
+
+            //주문페이지 이동
+            this.$router.push({
+              name: 'order',
+              query: {
+                payCode: this.payCode
+              }
+            })
+
+          }).catch(error => {
+            console.log(error);
+          })
+
         }
+      },
+      //payCode 생성
+      makePayCode() {
+        var arr = new Uint32Array(1);
+        this.randNum = window.crypto.getRandomValues(arr);
+        this.payCode = this.randNum[0] + new Date().getTime();
       },
       //선택한 옵션을 담는 행위 
       selectOptAc() {
@@ -344,6 +383,19 @@
           amount += Number(this.selectOption.optPrice) * this.qty;
         }
         return amount;
+      },
+      countPurPrice() {
+        let amount = 0;
+        amount += this.product.proPrice * this.qty;
+        if (this.selectOption.optNo) {
+          amount += Number(this.selectOption.optPrice) * this.qty;
+        }
+        return amount;
+      }
+    },
+    filters : {
+      comma(val){
+        return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
       }
     }
   }

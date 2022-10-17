@@ -17,7 +17,7 @@ public class ProductVO {
 	private int proNo;
     private String email;
     private String proName;
-    private int ProPrice;
+    private int proPrice;
     private String category;
     private String proMainImg;
     private String proInfo;
@@ -26,4 +26,9 @@ public class ProductVO {
 	
 	//business
 	private String compName;
+	
+	//주문테이블 입력용
+	private int qty;
+	private int selectOptNo;
+	private int purPrice;
 }
