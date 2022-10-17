@@ -63,4 +63,20 @@
 		SET password = #{password}
 		WHERE email = #{email}
 	</update>
+	
+	
+	<select id="findGeneralEmail" resultType="String">
+		SELECT email
+		FROM general_user
+		WHERE user_name = #{userName}
+		AND phone_number = #{phoneNumber}
+	</select>
+	
+	<select id="findBusinessEmail" resultType="String">
+		SELECT email
+		FROM business
+		WHERE ceo_name = #{userName}
+		AND phone = #{phoneNumber}
+	</select>
+	
 </mapper>

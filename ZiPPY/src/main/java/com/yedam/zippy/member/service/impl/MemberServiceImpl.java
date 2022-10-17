@@ -163,4 +163,16 @@ public class MemberServiceImpl implements MemberService{
       
       return sb.toString();       
     }
+    
+    @Override
+    public String findUserEmail(String userName, String phoneNumber) {      
+      String userEmail ="";      
+      userEmail = mapper.findGeneralEmail(userName, phoneNumber);
+      
+      if(userEmail == null || userEmail.length() == 0) {
+        userEmail = mapper.findBusinessEmail(userName, phoneNumber);
+      }
+      
+      return userEmail;
+    }
 }

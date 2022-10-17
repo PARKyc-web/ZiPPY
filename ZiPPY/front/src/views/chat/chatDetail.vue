@@ -44,7 +44,7 @@ export default {
                 room: {},
                 sender: '',
                 message: '',
-                messages: []
+                messages: []                
             }
         },
         mounted() {
@@ -63,12 +63,21 @@ export default {
                     this.connect();
                 })
             },
-            sendMessage: function() {
-                ws.send("/app/chat/message", JSON.stringify({type:'TALK', roomId:this.roomId, sender:this.sender, message:this.message}));
+            sendMessage: function() {                
+                ws.send("/app/chat/message", JSON.stringify({type:'TALK', roomId:this.roomId, sender:this.sender, 
+                                                                          message:this.message, time:this.getTime()}));
                 this.message = '';
             },
             recvMessage: function(recv) {
                 this.messages.unshift({"type":recv.type,"sender":recv.type=='ENTER'?'[알림]':recv.sender,"message":recv.message})
+            },
+
+            getTime : function(){
+                var now = new Date();
+                var str = ""+ now.getFullYear() + "/" + now.getMonth() + "/" + now.getDate() + "-"
+                        + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
+
+                return str;
             },
 
             connect : function(){
