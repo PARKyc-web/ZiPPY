@@ -122,6 +122,7 @@
       insert : function(){
         var formData = new FormData(document.querySelector('#usedInsert'));
         this.dropVal();
+        console.log(formData.productInfo)
         axios({
           url: "http://localhost:8088/zippy/used/insert",
           method: "POST",
