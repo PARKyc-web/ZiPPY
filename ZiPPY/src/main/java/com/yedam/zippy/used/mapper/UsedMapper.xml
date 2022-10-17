@@ -9,7 +9,8 @@
 		WHERE
 		g.email = p.email
 		AND p.product_name LIKE '%'||#{keyword}||'%'
-		AND p.product_category LIKE '%'||#{category}||'%'
+		AND
+		p.product_category LIKE '%'||#{category}||'%'
 		<if test="checked == 1">
 			AND p.is_sell=0
 			OR p.is_sell=1
@@ -58,7 +59,8 @@
 		product_location,
 		is_sell,
 		views,
-		product_date
+		product_date,
+		main_img
 		)
 		VALUES
 		(
@@ -72,6 +74,7 @@
 		,0
 		,0
 		,systimestamp
+		,#{mainImg}
 		)
 	</insert>
 
@@ -108,14 +111,33 @@
 		WHERE
 		product_no = #{productNo}
 	</update>
+	
+	<!-- 사진 삭제 -->
+	<delete id="deleteImg" parameterType="UsedProductVO">
+		DELETE 
+		FROM used_images
+		WHERE product_no = #{productNo}
+	</delete>
 
 	<!-- 사진 수정 -->
 	<update id="updateImg" parameterType="usedImagesVO">
-		UPDATE used_images
-		SET
+		<selectKey keyProperty="imageNo" order="BEFORE"
+			resultType="int">
+			SELECT NVL(MAX(image_no),0) +1 AS imageNo
+			FROM used_images
+		</selectKey>
+		INSERT INTO used_images
+		(
+		image_no,
+		product_no,
 		image
-		= #{image}
-		WHERE product_no = #{productNo}
+		)
+		VALUES
+		(
+		#{imageNo}
+		,#{productNo}
+		,#{image}
+		)
 	</update>
 
 	<!-- 삭제 -->

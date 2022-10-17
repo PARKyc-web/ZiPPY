@@ -72,7 +72,6 @@ public class UsedContoller {
     System.out.println(product);
     System.out.println(images);
     product.setProductLocation("대구");
-
     service.insertUsedProduct(product, images);
     return "";
   }
@@ -83,8 +82,7 @@ public class UsedContoller {
     System.out.println(product);
     System.out.println(images);
     product.setProductLocation("대구");
-    System.out.println(product.getIsSell());
-    
+    service.deleteImg(product);
     service.updateUsedProduct(product, images);
     return 1;
   }

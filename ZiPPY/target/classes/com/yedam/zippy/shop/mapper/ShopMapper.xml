@@ -3,42 +3,45 @@
 <mapper namespace="com.yedam.zippy.shop.mapper.ShopMapper">
 	<!-- 전체조회 -->
 	<select id="getProductList" resultType="ProductVO">
-		SELECT * FROM
-		shop_product
+		SELECT *
+		FROM shop_product
 	</select>
+
 	<!-- 카테고리 조회 -->
 	<select id="getCategoryList" resultType="ProductVO"
 		parameterType="ProductVO">
-		SELECT s.*, b.comp_name FROM shop_product s
+		SELECT s.*,
+		b.comp_name FROM shop_product s
 		JOIN business
 		b
 		ON s.email = b.email
-		WHERE s.category =
-		#{category}
+		WHERE s.category = #{category}
 		ORDER BY pro_no DESC
 	</select>
+
+
 	<!-- 키워드 조회 -->
 	<select id="getKeywordList" resultType="ProductVO"
 		parameterType="ProductVO">
-		SELECT s.* , b.comp_name FROM shop_product s
+		SELECT s.* ,
+		b.comp_name
+		FROM
+		shop_product s
 		JOIN
 		business b
 		ON s.email = b.email
 		WHERE
-		s.pro_name LIKE
-		'%'||#{keyword}||'%'
-		OR s.category LIKE
-		'%'||#{keyword}||'%'
-		OR
-		s.email IN
-		(SELECT email FROM
+		s.pro_name LIKE '%'||#{keyword}||'%'
+		OR s.category LIKE '%'||#{keyword}||'%'
+		OR s.email IN (SELECT email
+		FROM
 		business
-		WHERE comp_name
-		LIKE '%'||#{keyword}||'%'
-		AND
-		member_type=2)
+		WHERE comp_name LIKE '%'||#{keyword}||'%'
+		AND member_type=2)
 		ORDER BY pro_no DESC
 	</select>
+
+
 	<!-- 단건조회(디테일) -->
 	<select id="getProduct" resultType="ProductVO"
 		parameterType="ProductVO">
@@ -113,6 +116,7 @@
 		WHERE email = #{email}
 		ORDER BY cart_no DESC
 	</select>
+
 	<!-- 장바구니 삭제 -->
 	<delete id="deleteCart">
 		DELETE
@@ -134,15 +138,32 @@
 		<foreach collection="selected" item="arr" index="index"
 			separator="UNION ALL">
 			SELECT
-			(SELECT NVL( MAX(pur_no) , 0) + 1 FROM shop_purchase)+#{index},
+			(SELECT NVL( MAX(pur_no) , 0) + 1 FROM
+			shop_purchase)+#{index},
 			#{payCode},
 			#{arr.cartPno},
-			#{arr.cartOptNo, jdbcType=VARCHAR},
+			#{arr.cartOptNo,
+			jdbcType=VARCHAR},
 			#{arr.cartQty} ,
 			#{arr.email},
 			#{arr.cartPrice}
-			FROM dual
+			FROM
+			dual
 		</foreach>
+	</insert>
+	<!-- 디테일에서 purchase로 등록 -->
+	<insert id="insertPurOne">
+		INSERT INTO shop_purchase
+		VALUES(
+		(SELECT NVL(
+		MAX(pur_no) , 0) + 1 FROM shop_purchase),
+		#{payCode},
+		#{product.proNo},
+		#{product.selectOptNo, jdbcType=VARCHAR},
+		#{product.qty},
+		#{email},
+		#{product.purPrice}
+		)
 	</insert>
 	<!-- 내 정보 조회 -->
 	<select id="getMyInfo" resultType="GeneralUserVO">
@@ -160,7 +181,7 @@
 		shop_product_option o
 		WHERE o.opt_no IN (SELECT p.pur_no FROM
 		shop_purchase p
-		WHERE p.pay_code = 2145626670) ) opt_name
+		WHERE p.pay_code = #{payCode}) ) opt_name
 		FROM
 		shop_purchase p
 		LEFT OUTER JOIN shop_product_option o
@@ -184,7 +205,47 @@
 		#{buyerZipcode},
 		#{orderMemo},
 		0,
-		sysdate,
-		sysdate)
+		systimestamp,
+		systimestamp)
+	</insert>
+
+	<!-- 판매자 -->
+	<insert id="insertProduct">
+		INSERT ALL
+		<!-- 상품정보 -->
+		INTO shop_product(pro_no, email, pro_name, pro_price, category,
+		pro_main_img, pro_info, delivery_cost, pro_status)
+		VALUES (
+		(SELECT NVL( MAX(pro_no) , 0) + 1 FROM shop_product),
+		#{product.email},
+		#{product.proName},
+		#{product.proPrice},
+		#{product.category},
+		#{product.proMainImg},
+		#{product.proInfo},
+		#{product.deliveryCost},
+		0 <!-- 0: 정상적 판매 상태 -->
+		)
+		<!-- 이미지 정보 -->
+		<if test="iamges != null">
+		INTO shop_product_img(pro_img_no, pro_no, pro_img)
+		VALUES (
+		(SELECT NVL( MAX(pro_img_no) , 0) + 1 FROM shop_product_img),
+		(SELECT NVL( MAX(pro_no) , 0) + 1 FROM shop_product),
+		#{proImg}
+		)
+		</if>
+		<!-- 옵션정보 -->
+		<if test="option != null">
+		INTO shop_product_option(opt_no, pro_no, opt_name, opt_price)
+		VALUES (
+		(SELECT NVL( MAX(opt_no) , 0) + 1 FROM shop_product_option),
+		(SELECT NVL( MAX(pro_no) , 0) + 1 FROM shop_product),
+		#{option.optName},
+		#{option.optPrice}
+		)
+		</if>
+		SELECT *
+		FROM dual;
 	</insert>
 </mapper>

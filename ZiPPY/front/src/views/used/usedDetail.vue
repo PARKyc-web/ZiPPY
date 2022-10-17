@@ -15,7 +15,7 @@
           <div></div>
         </div>
         <div
-          v-if="this.$store.state.loginInfo.email != null && this.$store.state.loginInfo.email == this.product.email">
+          v-if="this.$store.state.loginInfo != null && this.$store.state.loginInfo.email == this.product.email">
           <button @click="goUpdate(product.productNo)">수정하기</button>
         </div>
       </div>

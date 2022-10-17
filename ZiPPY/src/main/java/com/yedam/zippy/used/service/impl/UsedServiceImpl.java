@@ -30,11 +30,6 @@ public class UsedServiceImpl implements UsedService {
   }
 
   @Override
-  public List<UsedProductVO> usedSearchList(String word) {
-    return mapper.usedSearchList(word);
-  }
-
-  @Override
   public UsedProductVO usedOne(int pNo) {
     return mapper.usedOne(pNo);
   }
@@ -62,6 +57,11 @@ public class UsedServiceImpl implements UsedService {
   @Override
   public int insertImg(UsedImagesVO images) {
     return mapper.insertImg(images);
+  }
+  
+  @Override
+  public int deleteImg(UsedProductVO product) {
+    return mapper.deleteImg(product);
   }
 
   @Override
@@ -91,7 +91,6 @@ public class UsedServiceImpl implements UsedService {
 
   @Override
   public void insertUsedProduct(UsedProductVO product, List<MultipartFile> images) {
-
     /**
      * 0. 이미지를 삽입하는 방법
      * 
@@ -129,12 +128,12 @@ public class UsedServiceImpl implements UsedService {
       Random rand = new Random();
 
       // ~~~~.jpg png
-      String imagePath = now + "_" + rand.nextInt(100) + images.get(0).getOriginalFilename();
+      String imagePath = now + "_" + rand.nextInt(100) + images.get(i).getOriginalFilename();
 
       File write = new File(folder + File.separator + imagePath);
 
       try {
-        images.get(0).transferTo(write);
+        images.get(i).transferTo(write);
       } catch (IllegalStateException e) {
         e.printStackTrace();
       } catch (IOException e) {
@@ -172,17 +171,18 @@ public class UsedServiceImpl implements UsedService {
     if (!folder.exists()) {
       folder.mkdir();
     }
+    
     for (int i = 0; i < images.size(); i++) {
       long now = System.currentTimeMillis();
       Random rand = new Random();
 
       // ~~~~.jpg png
-      String imagePath = now + "_" + rand.nextInt(100) + images.get(0).getOriginalFilename();
+      String imagePath = now + "_" + rand.nextInt(100) + images.get(i).getOriginalFilename();
 
       File write = new File(folder + File.separator + imagePath);
 
       try {
-        images.get(0).transferTo(write);
+        images.get(i).transferTo(write);
       } catch (IllegalStateException e) {
         e.printStackTrace();
       } catch (IOException e) {
