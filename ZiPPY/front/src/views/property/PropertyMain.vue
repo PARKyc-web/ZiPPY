@@ -1,13 +1,13 @@
 <template>
   <div id="container">
     <section>
-    <div id="map" class="map">
-      <search-bar style="top: 10px; left: 10px;"></search-bar>
-      <div class="hAddr">
-        <span class="title">지도중심기준 행정동 주소정보</span>
-        <span id="centerAddr"><input type="text" v-model="sigungu"></span>
+      <div id="map" class="map">
+        <search-bar style="top: 10px; left: 10px;" :sigungu="sigungu"></search-bar>
+        <div class="hAddr">
+          <span class="title">지도중심기준 행정동 주소정보</span>
+          <span id="centerAddr"><input type="text" v-model="sigungu"></span>
+        </div>
       </div>
-    </div>
     </section>
     <aside>
       <div v-if="houseProducts.length != 0" v-for="item in houseProducts" @click="goHouseDetail(item.productId)">
@@ -33,6 +33,22 @@
     components: {
       SearchBar,
     },
+    created() {
+      axios({
+              url: "http://localhost:8090/zippy/property/main",
+              methods: "GET"
+              }).then(response => {
+              // 성공했을 때
+              console.log('getStreetAddress success!');
+              console.log(response);
+              this.streetAddress = response.data;
+              })
+              .catch(error => {
+              // 에러가 났을 때
+              console.log('getStreetAddress fail!');
+              console.log(error);
+              });
+    },
     mounted() {
       window.kakao && window.kakao.maps ?
         this.initMap() :
@@ -43,6 +59,7 @@
         data: chickenJson,
         houseProducts: [],
         sigungu: '',
+        streetAddress: [],
       }
     },
     methods: {
@@ -144,6 +161,23 @@
             }
           }
         }
+        // console.log(' 도로명',this.streetAddress[0].streetAddress);
+        // let productPosition = '{"positions": [';
+        // this.streetAddress = this.getStreetAddress();
+        // console.log('hi',this.streetAddress);
+        // console.log('hi',initThis.houseProducts.length);
+        // for(let i=0; i<this.streetAddress.length; i++) {
+        //   // 주소로 좌표를 검색합니다
+        //   geocoder.addressSearch(this.streetAddress[i].streetAddress, function (result, status) {
+        //     // 정상적으로 검색이 완료됐으면 
+        //     if (status === kakao.maps.services.Status.OK) {
+        //       productPosition += '{"lat": ' + result[0].y + ', "lng": ' + result[0].x + '}},';
+        //       console.log('hello');
+        //     } else console.log('hi');
+        //   });
+        // }
+        // productPosition += ']}';
+        // console.log(productPosition);
 
         var markers = [];
 
@@ -165,18 +199,18 @@
         // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우
         // 이벤트 헨들러로 cluster 객체가 넘어오지 않을 수도 있습니다
         kakao.maps.event.addListener(clusterer, 'clusterclick', function (cluster) {
-            console.log(cluster.getCenter());
+          console.log(cluster.getCenter());
 
-            // 현재 지도 레벨에서 1레벨 확대한 레벨
-            var level = map.getLevel() - 1;
+          // 현재 지도 레벨에서 1레벨 확대한 레벨
+          var level = map.getLevel() - 1;
 
-            // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다
-            map.setLevel(level, {
-              anchor: cluster.getCenter()
-            });
+          // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다
+          map.setLevel(level, {
+            anchor: cluster.getCenter()
+          });
 
-            console.log("click: ", initThis.sigungu);
-            initThis.getPropertyList(initThis.sigungu);
+          console.log("click: ", initThis.sigungu);
+          initThis.getPropertyList(initThis.sigungu);
         });
 
       },
@@ -198,6 +232,23 @@
             console.log('getPropertyList fail!');
             console.log(error);
           });
+      },
+      getStreetAddress() {
+              axios({
+              url: "http://localhost:8090/zippy/property/main",
+              methods: "GET"
+              }).then(response => {
+              // 성공했을 때
+              console.log('getStreetAddress success!');
+              console.log(response);
+              // this.streetAddress = response.data;
+              return response.data;
+              })
+              .catch(error => {
+              // 에러가 났을 때
+              console.log('getStreetAddress fail!');
+              console.log(error);
+              });
       }
 
     }
@@ -207,13 +258,13 @@
 <style scoped>
   #container {
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 70.8px);
     display: flex;
   }
 
   section {
     width: 75vw;
-    height: 100vh;
+    height: 100%;
   }
 
   #map {
@@ -223,7 +274,7 @@
 
   aside {
     width: 25vw;
-    height: 100vh;
+    height: 100%;
     overflow-y: auto;
     background-color: lightblue;
   }

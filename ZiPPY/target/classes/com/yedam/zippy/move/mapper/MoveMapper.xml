@@ -17,14 +17,18 @@
 		ARRIVE_ADDRESS,
 		MOVING_DATE,
 		MOVING_TIME,
-		VISIT_TYPE,
+		ESTIMATE_TYPE,
 		DEPART_ZIP_CODE,
 		DEPART_DETAIL,
 		DEPART_EXTRA,
 		ARRIVE_ZIP_CODE,
 		ARRIVE_DETAIL,
 		ARRIVE_EXTRA,
-		MOVE_TYPE
+		MOVE_TYPE,
+		REQUEST_DATE,
+		VISIT_DATE,
+		VISIT_TIME,
+		COMMON_OPTION
 		)
 		VALUES
 		(
@@ -36,7 +40,7 @@
 		#{arriveAddress},
 		#{movingDate},
 		#{movingTime},
-		#{visitType}
+		#{estimateType},
 		#{departZipCode},
 		#{departDetail},
 		#{departExtra},
@@ -44,10 +48,14 @@
 		#{arriveDetail},
 		#{arriveExtra},
 		#{moveType},
+		#{requestDate},
+		#{visitDate},
+		#{visitTime},
+		#{commonOption}
 		)
 	</insert>
 	
-	<insert id="moveUntactImg" parameterType="MoveRequestVO">
+	<insert id="insertPhoto" parameterType="MoveRequestVO">
 		<selectKey keyProperty="houseImgNo" order="BEFORE" resultType="int">
 			SELECT NVL(MAX(house_img_no),0) +1 AS houseImgNo 
 			FROM UNTACT_HOUSE_IMAGE
@@ -68,4 +76,91 @@
   		#{imgType}
 		)
 	</insert>
+	
+	<insert id="insertContactEstimate" parameterType="MoveRequestVO">
+		<selectKey keyProperty="estimateNo" order="BEFORE" resultType="int">
+			SELECT NVL(MAX(estimate_no),0) +1 AS estimateNo 
+			FROM UNTACT_ESTIMATE_MOVING
+		</selectKey>
+		INSERT INTO UNTACT_ESTIMATE_MOVING
+		(
+		ESTIMATE_NO,
+		EMAIL,
+		MOVING_OPTION,
+		MOVING_MEMO,
+		DEPART_ADDRESS,
+		ARRIVE_ADDRESS,
+		MOVING_DATE,
+		MOVING_TIME,
+		ESTIMATE_TYPE,
+		DEPART_ZIP_CODE,
+		DEPART_DETAIL,
+		DEPART_EXTRA,
+		ARRIVE_ZIP_CODE,
+		ARRIVE_DETAIL,
+		ARRIVE_EXTRA,
+		MOVE_TYPE,
+		REQUEST_DATE,
+		VISIT_DATE,
+		VISIT_TIME,
+		COMMON_OPTION
+		)
+		VALUES
+		(
+		#{estimateNo},
+		#{email},
+		#{movingOption},
+		#{movingMemo},
+		#{departAddress},
+		#{arriveAddress},
+		#{movingDate},
+		#{movingTime},
+		#{estimateType},
+		#{departZipCode},
+		#{departDetail},
+		#{departExtra},
+		#{arriveZipCode},
+		#{arriveDetail},
+		#{arriveExtra},
+		#{moveType},
+		#{requestDate},
+		#{visitDate},
+		#{visitTime},
+		#{commonOption}
+		)
+	</insert>
+	
+	
+	<!-- 견적 전체조회 -->
+	<select id="getEstimateList" parameterType="MoveEstimateVO" resultType="MoveRequestVO">
+		SELECT * FROM
+		UNTACT_ESTIMATE_MOVING
+		WHERE email=#{email}
+		<!-- AND estimate_type LIKE '%'||#{estimateType}||'%' -->
+		<!-- <if test="dropbox == '전체조회'">
+		
+		</if> -->
+		<if test="dropbox == '대면견적'">
+		AND estimate_type = '대면견적'
+		</if>
+		<if test="dropbox == '비대면견적'">
+		AND estimate_type = '비대면견적'
+		</if>
+		<if test="dropbox == '최신요청일자순'">
+		ORDER BY request_date DESC
+		</if>
+		<if test="dropbox == '오래된요청일자순'">
+		ORDER BY request_date ASC
+		</if>
+		<if test="dropbox == '현재날짜요청'">
+		AND request_date =  TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		</if>
+		<if test="dropbox == '출발지순'">
+		ORDER BY SUBSTR(depart_address, 1, 2) DESC
+		</if>
+		<if test="dropbox == '도착지순'">
+		ORDER BY SUBSTR(arrive_address, 1, 2) DESC
+		</if>
+	</select>
+	
 </mapper>

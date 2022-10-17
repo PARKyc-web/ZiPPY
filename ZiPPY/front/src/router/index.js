@@ -6,10 +6,12 @@ import HouseDetail from "../components/property/HouseDetail.vue";
 import AgentDetail from "../components/property/AgentDetail.vue";
 
 import shopView from "../views/shopView.vue";
+import shopMain from "../views/shop/shopMainView.vue";
 import shopList from "../views/shop/shopListView.vue";
 import shopDetail from "../views/shop/shopDetailView.vue";
 import shopCart from "../views/shop/shopCartView.vue";
-import dataTable from "../components/shop/dataTable.vue"
+import order from "../views/shop/orderView.vue";
+import orderComplete from "../views/shop/orderCompleteView.vue";
 
 import GeneralSign from '../views/login/generalSignUp.vue';
 import BusinessSign from '../views/login/businessSignUp.vue';
@@ -31,7 +33,9 @@ import moveInfoDetail from "../views/move/moveInfoDetail";
 import moveTypeSelect from "../views/move/moveTypeSelect";
 import moveImage from "../views/move/moveImage";
 import moveTotal from "../views/move/moveTotal";
+import moveEstimate from "../views/move/moveEstimate";
 import moveCompanyList from "../views/move/moveCompanyList";
+import moveList from "../views/move/moveList";
 
 import usedUpdate from "../views/used/usedUpdate.vue";
 import usedDetail from "../views/used/usedDetail.vue";
@@ -147,6 +151,11 @@ const routes = [
     name: "shop",
     component: shopView,
   },
+  {
+    path: "/shop/main",
+    name: "shopMain",
+    component: shopMain,
+  },
 
   {
     path: "/shop/detail",
@@ -165,12 +174,15 @@ const routes = [
     component: shopCart,
   },
   {
-    path: "/shop/data",
-    name: "data",
-    component: dataTable,
+    path: "/shop/order",
+    name: "order",
+    component: order,
   },
-
-
+  {
+    path: "/shop/orderComplete",
+    name: "orderComplete",
+    component: orderComplete,
+  },
 
   //move
   {
@@ -216,6 +228,19 @@ const routes = [
     component: moveCompanyList,
     props: true,
   },
+  {
+    path: "/moveEstimate",
+    name: "moveEstimate",
+    component: moveEstimate,
+    props: true,
+  },
+  {
+    path: "/moveList",
+    name: "moveList",
+    component: moveList,
+    props: true,
+  },
+
 
   //used
   {

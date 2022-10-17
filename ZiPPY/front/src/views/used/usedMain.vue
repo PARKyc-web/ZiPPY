@@ -35,9 +35,14 @@
             color="#212529" persistent-hint single-line dense width="50"></v-select>
         </div>
       </div>
+      <div id="noProduct" class="mx-auto" v-if="data.length == 0" style="text-align:center">
+        <v-icon style="font-size:100px; color:#B3E3C3" class="mb-5">mdi-alert-circle-outline</v-icon>
+        <h2 style="font-weight:bold">고객님께서 찾으시는 상품이 없습니다.</h2>
+        <p>다시 검색해주세요.</p>
+      </div>
       <div @click="goDetail(list.productNo)" class="used-main-card" v-if="data.length != 0" v-for="list in data">
         <div>
-          <div><img src="C:/usedImage/1665730196276_71location.png" width="194px" height="194px"></div>
+          <div><img src="/used/FIzrqY3agAI_Nyy.jpg" width="194px" height="194px"></div>
           <div class="used-main-card-cont">
             <div class="used-main-card-title">{{list.productName}}</div>
             <div class="used-main-price-date">
@@ -47,6 +52,9 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="text-center">
+        <v-pagination v-model="page" :length="4" circle color="#B3E3C3"></v-pagination>
       </div>
     </div>
   </div>
@@ -82,7 +90,8 @@
       word: "",
       select: '',
       categoryVal: '',
-      searchValue: ''
+      searchValue: '',
+      page: 1
     }),
 
     created() {
@@ -90,7 +99,7 @@
         url: "http://localhost:8088/zippy/used/main",
         methods: "GET",
         params: {
-          location: "대구",
+          location: "",
           keyword: "",
           category: "",
           checked: "",

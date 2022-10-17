@@ -69,7 +69,7 @@
     <v-row justify="space-between" locale="ko-KR">
       <div class="subheading"></div>
       <v-date-picker
-        v-model="moveInfo.date"
+        v-model="moveDate.date"
         :events="arrayEvents"
         color="green lighten-1"
         event-color="blue lighten-1"
@@ -81,13 +81,13 @@
     <div class="selectTime">
       <b-row>
         <b-col md="auto">
-          <b-time v-model="moveInfo.time" locale="ko-KR" @context="onContext"></b-time>
+          <b-time v-model="moveDate.time" locale="ko-KR" @context="onContext"></b-time>
         </b-col>
         <b-col>
           <!-- v-if를 걸어서 널값일때는 시간 선택해달라고 안내문구 -->
 
           <p>
-            선택 시간: <b>{{ moveInfo.time }}</b>
+            선택 시간: <b>{{ moveDate.time }}</b>
           </p>
           <!-- <p class="mb-0">Context:</p>
       <pre v-if="context != null" class="small">{{ context.Value }}</pre> -->
@@ -520,9 +520,9 @@ import moveNav from "../../components/move/moveNav.vue";
     },
     moveDateNext(){
 
-      if(this.moveInfo.date == ""){
+      if(this.moveDate.date == ""){
           alert("이사희망 날짜를 선택해주세요.");
-        }else if(this.moveInfo.time == ""){
+        }else if(this.moveDate.time == ""){
           alert("이사희망 시간을 선택해주세요.");
         }else{
 
@@ -647,10 +647,10 @@ import moveNav from "../../components/move/moveNav.vue";
       var detail = document.querySelector("#detailAddress1");  
       var extra = document.querySelector("#extraAddress1"); 
       
-      this.moveInfo.addr.postcode = postcode.value;
-      this.moveInfo.addr.address = addr.value;
-      this.moveInfo.addr.detailAddress = detail.value;
-      this.moveInfo.addr.extraAddress = extra.value;
+      this.moveAddress.postcode = postcode.value;
+      this.moveAddress.address = addr.value;
+      this.moveAddress.detailAddress = detail.value;
+      this.moveAddress.extraAddress = extra.value;
       
       //도착지
       var postcode = document.querySelector("#post2");
@@ -658,10 +658,10 @@ import moveNav from "../../components/move/moveNav.vue";
       var detail = document.querySelector("#detailAddress2");  
       var extra = document.querySelector("#extraAddress2"); 
       
-      this.moveInfo.addr.postcode2 = postcode.value;
-      this.moveInfo.addr.address2 = addr.value;
-      this.moveInfo.addr.detailAddress2 = detail.value;
-      this.moveInfo.addr.extraAddress2 = extra.value;
+      this.moveAddress.postcode2 = postcode.value;
+      this.moveAddress.address2 = addr.value;
+      this.moveAddress.detailAddress2 = detail.value;
+      this.moveAddress.extraAddress2 = extra.value;
 
       if(this.moveEstimateType == ""){
           alert("견적방법을 선택해주세요."); 
@@ -671,7 +671,7 @@ import moveNav from "../../components/move/moveNav.vue";
         
         this.$router.push({
         name: "moveContact",
-        params:{moveInfo:this.moveInfo, moveEstimateType:this.moveEstimateType, moveType:this.moveType}
+        params:{moveInfo:this.moveInfo, moveEstimateType:this.moveEstimateType, moveType:this.moveType, moveDate: this.moveDate, moveAddress: this.moveAddress}
 
       })
       
@@ -679,7 +679,7 @@ import moveNav from "../../components/move/moveNav.vue";
       } else if(this.moveEstimateType == "비대면 견적예약"){
         this.$router.push({
         name: "moveUntact",
-        params:{moveInfo:this.moveInfo, moveEstimateType:this.moveEstimateType, moveType:this.moveType}
+        params:{moveInfo:this.moveInfo, moveEstimateType:this.moveEstimateType, moveType:this.moveType, moveDate: this.moveDate, moveAddress: this.moveAddress}
 
       })
       

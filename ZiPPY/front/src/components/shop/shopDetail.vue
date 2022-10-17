@@ -45,7 +45,8 @@
         <!-- 옵션 여러개 선택하는 기능 만들기... 나중에 -->
         <!-- 옵션 끝 -->
         <!-- 상품선택 박스 -->
-        <div class="pa-5" v-if="selectOption.optNo || opts.length == 0" style="background-color:#F7F7F7; border-radius:0.8em">
+        <div class="pa-5" v-if="selectOption.optNo || opts.length == 0"
+          style="background-color:#F7F7F7; border-radius:0.8em">
           <div style="font-size:smaller">
             <div style="display:flex">
               {{product.proName}} {{selectOption.optName}}
@@ -124,6 +125,7 @@
       cartPros: [],
       //찜(기본:0)
       heart: 0,
+      optCheck: '',
 
       //dummy 
       email: 'zippy@naver.com'
@@ -153,105 +155,120 @@
       //찜등록-해제
       changeHeart() {
         if (this.heart == 0) { //찜x
-          this.heart = 1; //찜onc
+          this.heart = 1; //찜on
           alert('상품을 찜했습니다.');
         } else { //찜on
           this.heart = 0; //찜x
           alert('상품의 찜을 해제하였습니다.')
         }
       },
-      //장바구니 등록
-      goCart() {
+      //옵션 체크(옵션이 있다고 가정)
+      checkOption() {
         //옵션이 존재하는 경우
         if (this.opts.length > 0) {
-          //옵션이 없으면 다시 선택하게
-          if (Object.keys(this.selectOption) == 0) {
+          if (!this.selectOption.hasOwnProperty("optNo")) {
             //체크용
+            this.optCheck = false;
             alert('상품의 옵션을 선택해주세요.')
-            return;
+          } else {
+            //선택한 옵션이 존재할 경우 등록 진행
+            this.optCheck = true;
           }
+        } else {
+          //옵션이 아예 없는 경우
+          this.optCheck = true;
         }
-        let check = '';
-        //장바구니에 존재한 상품 check
-        axios({
-          url: "http://localhost:8088/zippy/shop/myCartList",
-          method: "POST",
-          params: {
-            email: this.email
-          }
-        }).then(res => {
-          console.log(res);
-          this.cartPros = res.data;
-          //옵션이 있는 경우
-          if (this.opts.length > 0) {
-            console.log(this.cartPros)
-            for (var i in this.cartPros) {
-              //상품번호, 옵션 둘다 체크
-              if (this.product.proNo == this.cartPros[i].cartPno &&
-                this.selectOption.optNo == this.cartPros[i].cartOptNo) {
-                //상품등록 불가
-                check = false;
-                alert('이미 장바구니에 있는 상품입니다.');
-                //선택 옵션 비워주기
+      },
+      //장바구니 등록
+      goCart() {
+        //옵션 존재여부 체크
+        this.checkOption();
+
+        if (this.optCheck) {
+          let check = '';
+          //장바구니에 존재한 상품 check
+          axios({
+            url: "http://localhost:8088/zippy/shop/myCartList",
+            method: "POST",
+            params: {
+              email: this.email
+            }
+          }).then(res => {
+            console.log(res);
+            this.cartPros = res.data;
+            //옵션이 있는 경우
+            if (this.opts.length > 0) {
+              console.log(this.cartPros)
+              for (var i in this.cartPros) {
+                //상품번호, 옵션 둘다 체크
+                if (this.product.proNo == this.cartPros[i].cartPno &&
+                  this.selectOption.optNo == this.cartPros[i].cartOptNo) {
+                  //상품등록 불가
+                  check = false;
+                  alert('이미 장바구니에 있는 상품입니다.');
+                  //선택 옵션 비워주기
+                  this.selectedOpt = {};
+                  this.selectOption = {};
+                } else {
+                  //상품등록 가능
+                  check = true;
+                }
+              }
+            } else {
+              //옵션이 없는 경우
+              for (var i in this.cartPros) {
+                //상품번호만 체크
+                if (this.product.proNo == this.cartPros[i].cartPno) {
+                  //상품등록 불가
+                  check = false;
+                  alert('이미 장바구니에 있는 상품입니다.');
+                } else {
+                  //상품등록 가능
+                  check = true;
+                }
+              }
+            }
+
+            //장바구니에 아무것도 없을 경우
+            if (this.cartPros.length == 0) {
+              check = true;
+            }
+
+            //상품등록
+            if (check) {
+              axios({
+                url: "http://localhost:8088/zippy/shop/insertCart",
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+                },
+                data: {
+                  email: this.email,
+                  cartPno: this.product.proNo,
+                  cartOptNo: this.selectOption.optNo,
+                  cartQty: this.qty,
+                }
+              }).then(res => {
+                console.log(res);
+                this.selectPro = res.data;
+                alert('장바구니에 상품이 담겼습니다.');
+                //선택했던 상품 삭제
                 this.selectedOpt = {};
                 this.selectOption = {};
-              } else {
-                //상품등록 가능
-                check = true;
-              }
+              }).catch(error => {
+                console.log(error);
+              })
             }
-          } else {
-            //옵션이 없는 경우
-            for (var i in this.cartPros) {
-              //상품번호만 체크
-              if (this.product.proNo == this.cartPros[i].cartPno) {
-                //상품등록 불가
-                check = false;
-                alert('이미 장바구니에 있는 상품입니다.');
-              } else {
-                //상품등록 가능
-                check = true;
-              }
-            }
-          }
-
-          //장바구니에 아무것도 없을 경우
-          if (this.cartPros.length == 0) {
-            check = true;
-          }
-
-          //상품등록
-          if (check) {
-            axios({
-              url: "http://localhost:8088/zippy/shop/insertCart",
-              method: "POST",
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
-              },
-              data: {
-                email: this.email,
-                cartPno: this.product.proNo,
-                cartOptNo: this.selectOption.optNo,
-                cartQty: this.qty,
-              }
-            }).then(res => {
-              console.log(res);
-              this.selectPro = res.data;
-              alert('장바구니에 상품이 담겼습니다.');
-              //선택했던 상품 삭제
-              this.selectedOpt = {};
-              this.selectOption = {};
-            }).catch(error => {
-              console.log(error);
-            })
-          }
-        }).catch(error => {
-          console.log(error);
-        })
+          }).catch(error => {
+            console.log(error);
+          })
+        }
       },
       goOrder() {
-        if (Object.keys(this.selectOption) == 0) {
-          alert('상품의 옵션을 선택해주세요.')
+        //옵션 존재여부 체크
+        this.checkOption();
+        if (this.optCheck) {
+          /** */
         }
       },
       //선택한 옵션을 담는 행위 
@@ -305,6 +322,18 @@
         }).catch(error => {
           console.log(error);
         })
+      // //찜 여부 조회
+      // axios({
+      //   url: "http://localhost:8088/zippy/shop/getHeart",
+      //   method: "POST",
+      //   params: {
+      //     email: this.email,
+      //   }
+      // }).then(res => {
+      //   console.log(res);
+      // }).catch(error => {
+      //   console.log(error);
+      // })
     },
     computed: {
       countAmount() {
