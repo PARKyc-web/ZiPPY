@@ -148,5 +148,10 @@ public class MoveServiceImpl implements MoveService{
     return mapper.getEstimateResult(vo);
   }
   
+  //견적서 인서트 - 업체
+  @Override
+  public int makeEstimate(MoveRequestVO vo) {
+    return mapper.makeEstimate(vo);
+  }
   
 }

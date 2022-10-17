@@ -63,7 +63,11 @@ public class MoveController {
   
   //견적서 인서트- 업체
   @PostMapping("/moveEstimate")
-  
+  public String makeEstimate(MoveRequestVO vo) {
+    
+    service.makeEstimate(vo);
+    return "";
+  }
   
   
   //전체조회 - 업체가 받은 요청

@@ -28,6 +28,9 @@ public interface MoveMapper {
   
   //전체조회 - 유저가 자기 견적 히스토리 조회
   public List<MoveEstimateVO> getEstimateResult(MoveEstimateVO vo);
+  
+  //견적서 인서트 - 업체
+  public int makeEstimate(MoveRequestVO vo);
 }
 
  

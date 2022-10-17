@@ -130,6 +130,39 @@
 		)
 	</insert>
 	
+	<insert id="makeEstimate" parameterType="MoveRequestVO" useGeneratedKeys="true">
+		<selectKey keyProperty="movingResponseNo"  order="BEFORE" resultType="int">
+			SELECT NVL(MAX(moving_response_no),0) +1 AS movingResponseNo 
+			FROM MOVING_RESPONSE
+		</selectKey>
+			INSERT INTO MOVING_RESPONSE
+			(
+			MOVING_RESPONSE_NO,
+			ESTIMATE_NO,
+			EMAIL,
+			FIRST_ESTIMATE_PRICE,
+			FIRST_ESTIMATE_TYPE,
+			SECOND_ESTIMATE_PRICE,
+			SECOND_ESTIMATE_TYPE,
+			RESERV_STATUS,
+			COPM_NAME,
+			RESPONSE_MEMO
+			)
+			VALUES
+			(
+			#{movingResponseNo},
+			#{estimateNo},
+			#{email},	
+			#{firstEstimatePrice},
+			#{firstEstimateType},
+			#{secondEstimatePrice},
+			#{secondEstimateType},
+			#{reservStatus},
+			#{compName},
+			#{responseMemo},
+			)
+	</insert>
+	
 	
 	<!-- 업체가 들어온 견적 전체조회 -->
 	<select id="getEstimateList" parameterType="MoveEstimateVO" resultType="MoveRequestVO">
