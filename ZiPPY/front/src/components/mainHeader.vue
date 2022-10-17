@@ -11,7 +11,7 @@
               <router-link to="/home" class="nav-link">Home</router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/property" class="nav-link">부동산</router-link>
+              <router-link to="/property/main" class="nav-link">부동산</router-link>
             </li>
             <li class="nav-item">
               <router-link to="/shop" class="nav-link">쇼핑몰</router-link>

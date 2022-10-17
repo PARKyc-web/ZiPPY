@@ -1,7 +1,7 @@
 <template>
   <v-toolbar dense floating style="z-index: 5;">
-    <v-text-field hide-details prepend-icon="mdi-magnify" single-line placeholder=" 지역명 검색" @keyup.enter="test()"
-      v-model="sigungu"></v-text-field>
+    <v-text-field hide-details prepend-icon="mdi-magnify" single-line placeholder=" 지역명 검색"
+      @keyup.enter="getPropertyList(sigungu)" v-model="sigungu"></v-text-field>
     <v-row justify="center">
       <v-dialog v-model="dialog" scrollable max-width="600px">
         <template v-slot:activator="{ on, attrs }">
@@ -56,31 +56,49 @@
 </template>
 
 <script>
+  import axios from 'axios';
+
   export default {
+    props: ['sigungu'],
     data() {
       return {
         dialogm1: '',
         dialog: false,
         selected: [],
-        sigungu: '',
         seasons: [
-        '~10평',
-        '10평대',
-        '20평대',
-        '30평대',
-        '40평대',
-        '50평대',
-        '60평~',
-      ],
+          '~10평',
+          '10평대',
+          '20평대',
+          '30평대',
+          '40평대',
+          '50평대',
+          '60평~',
+        ],
       }
     },
     methods: {
       save() {
         this.dialog = false;
       },
-      test(value) {
-        console.log(this.sigungu);
-      },
+      getPropertyList(value) {
+        axios({
+            url: "http://localhost:8090/zippy/property/getPropertyList",
+            methods: "GET",
+            params: {
+              sigungu: value
+            }
+          }).then(response => {
+            // 성공했을 때
+            console.log('getPropertyList success!');
+            console.log(response);
+            this.houseProducts = response.data;
+          })
+          .catch(error => {
+            // 에러가 났을 때
+            console.log('getPropertyList fail!');
+            console.log(error);
+          });
+      }
     }
   }
 </script>
