@@ -190,7 +190,7 @@
             navBar
         },
         data: () => ({
-            data: [],
+            data: "",
 
         }),
         created() {

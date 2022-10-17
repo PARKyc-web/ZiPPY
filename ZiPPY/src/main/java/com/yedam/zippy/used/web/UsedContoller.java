@@ -113,7 +113,7 @@ public class UsedContoller {
 
   // 키워드 전체출력
   @GetMapping("/keyword")
-  public List<UsedKeywordVO> showKyeword(@RequestParam String email) {
+  public List<UsedKeywordVO> showKeyword(@RequestParam String email) {
     System.out.println(email);
     System.out.println(service.showKeyword(email));
     return service.showKeyword(email);

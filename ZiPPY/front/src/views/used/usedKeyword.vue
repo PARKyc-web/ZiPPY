@@ -25,7 +25,10 @@
           </div>
           <div class="used-key-flex">
             <div class="used-keyword-content" v-for="i in keywordValue.length">
-              키워드 : {{keywordValue[i-1]}}, 키워드 지역 : {{locationvalue[i-1]}}
+              <div v-for="list in showKey">
+                {{list.keyword}} {{list.keywordLocation}}
+                키워드 : {{keywordValue[i-1]}}, 키워드 지역 : {{locationvalue[i-1]}}
+              </div>
               <div class="used-keyword-close">
                 <i @click="DelKey($event)" class="fa-solid fa-circle-xmark"></i>
               </div>
@@ -84,27 +87,27 @@
       keyword: "",
       location: "",
       data: {
-        email: "zippy@naver.com",
+        email: "used@naver.com",
         keyword: "",
         keywordLocation: ""
       },
       showKey: []
     }),
-    // created() {
-    //   console.log(this.data.email)
-    //   axios({
-    //     url: "http://localhost:8088/zippy/used/keyword",
-    //     method: "GET",
-    //     params: {
-    //       email: this.data.email
-    //     }
-    //   }).then(res => {
-    //     console.log(res);
-    //     this.showKey = res.data;
-    //   }).catch(error => {
-    //     console.log(error);
-    //   })
-    // },
+    created() {
+      console.log(this.data.email)
+      axios({
+        url: "http://localhost:8088/zippy/used/keyword",
+        method: "GET",
+        params: {
+          email: this.data.email
+        }
+      }).then(res => {
+        console.log(res);
+        this.showKey = res.data;
+      }).catch(error => {
+        console.log(error);
+      })
+    },
     methods: {
       addKey: function () {
         this.keywordValue.unshift(this.data.keyword);

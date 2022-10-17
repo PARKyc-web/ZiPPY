@@ -128,9 +128,13 @@
         "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcTUnnS%2FbtrGYAmNubZ%2FSJK5DEd6123GknUvGn6ZDK%2Fimg.jpg",
         "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F87q2z%2FbtrG5rIA9pm%2FtaxgrZ6iQb1pJdwUltMls1%2Fimg.jpg",
       ],
-      product: {},
+      product: "",
+      email: "",
       img: {},
-      email: ""
+      // data : {
+      //   email : this.$store.state.loginInfo.email,
+      //   serviceId : this.$route.query.pNo
+      // }
     }),
     filters: {
       comma(val) {
@@ -147,8 +151,8 @@
         }).then(res => {
           console.log(res);
           this.product = res.data;
-          console.log(this.product.email);
-          console.log(this.product.nickName)
+          console.log(this.$store.state.loginInfo.email);
+          console.log(this.$route.query.pNo)
         }).catch(error => {
           console.log(error);
         }),
@@ -196,9 +200,10 @@
         axios({
           url: "http://localhost:8090/zippy/common/addWish",
           method: "POST",
-          params: {
-
-          }
+          headers: {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          data: JSON.stringify(this.data)
         }).then(res => {
           console.log(res);
         }).catch(err => {
