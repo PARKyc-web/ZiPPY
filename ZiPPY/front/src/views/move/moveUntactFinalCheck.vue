@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <moveNav></moveNav>
-    <form id="untactForm">
+    <form id="untactForm" name="untactForm">
 
     <h2>이사 견적을 위해 입력한 정보를 확인해주세요.</h2>
 
@@ -656,7 +656,7 @@
       </div>
     </div>
     <div class="final-btn">
-      <v-btn color="success" elevation="10" @click="finalSend()">확인완료</v-btn>
+      <v-btn type="button" color="success" elevation="10" @click="finalSend()">확인완료</v-btn>
     </div>
   </form>
 
@@ -677,7 +677,7 @@
       checkk: "",
       emailSend : "zippy@naver.com",
       movingMemoSend: "MemoMemo",
-      requestDateSend: "2022-10-14",
+      requestDateSend: new Date().toLocaleDateString(),
 
       date: null,
       time: null,
@@ -773,7 +773,10 @@
         console.log(img2);
         console.log(img3);
 
+        untactForm.movingOption.value= "["+JSON.stringify(this.moveDetail[0])+","+ JSON.stringify(this.moveInfo) +"]";
         var formData = new FormData(document.querySelector('#untactForm'));  
+        console.log(this.checkk);
+
         var step;
 
         //formdata로 이미지 보내기 
@@ -802,6 +805,27 @@
         }).catch(err => {
           console.log(err)
         })
+
+
+        var confirmVal = confirm("견적 요청을 보내시겠습니까?");
+        if(confirmVal == true){
+        this.$router.push({
+
+          name: "moveResult",
+          params: {
+            moveImage: this.moveImage,
+            moveDetail: this.moveDetail,
+            moveEstimateType: this.moveEstimateType,
+            moveInfo: this.moveInfo,
+            moveType: this.moveType,
+            moveDate: this.moveDate, 
+            moveAddress: this.moveAddress,
+            requestDate : this.requestDateSend
+          }
+          })
+        } else {
+
+        }  
       }, 
 
       //짐 추가 및 삭제
@@ -934,7 +958,7 @@
         console.log(this.moveImage);
         
 
-        this.checkk= "["+JSON.stringify(this.moveDetail[0])+","+ JSON.stringify(this.moveInfo) +"]";
+        
 
         console.log(JSON.stringify(this.moveDetail[0]));
         console.log(JSON.stringify(this.moveInfo));

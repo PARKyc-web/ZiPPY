@@ -199,6 +199,7 @@
         'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev'; /*URL*/
       var queryParams = '?' + encodeURIComponent('serviceKey') + '=' +
         'fXQYcvdVSA+RwkypajVwQIt+pKA9zxOYqk6TqzDPacsANCI+suXZErHKSpIcvmqXarHrMNo5Kp80SvDkolPg/g=='; /*Service Key*/
+        // 'fXQYcvdVSA%2BRwkypajVwQIt%2BpKA9zxOYqk6TqzDPacsANCI%2BsuXZErHKSpIcvmqXarHrMNo5Kp80SvDkolPg%2Fg%3D%3D';
       queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /**/
       queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /**/
       queryParams += '&' + encodeURIComponent('LAWD_CD') + '=' + encodeURIComponent('11110'); /**/

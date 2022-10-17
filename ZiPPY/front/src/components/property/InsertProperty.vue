@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-dialog v-model="dialog" persistent max-width="600px">
+    <v-dialog v-model="dialog2" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
         <v-btn x-small elevation="2" fab dark v-bind="attrs" v-on="on">
           <v-icon small>mdi-plus</v-icon>
@@ -71,7 +71,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false">
+          <v-btn color="blue darken-1" text @click="dialog2 = false">
             닫기
           </v-btn>
           <v-btn color="blue darken-1" text @click="insert">
@@ -84,31 +84,32 @@
 </template>
 
 <script>
-import axios from 'axios';
+  import axios from 'axios';
 
   export default {
     props: {
       email: String
     },
-    data: () => ({
-      dialog: false,
-      houseName,
-      saleType,
-      price,
-      sigungu,
-      houseType,
-      floor,
-      areaExclusive,
-      roomCnt,
-      detailContents,
-
-      streetAddress,
-      houseFace,
-      parking,
-      bathCnt,
-      constructionYear,
-      tags,
-    }),
+    data() {
+      return {
+        dialog2: false,
+        houseName: '',
+        saleType : '',
+        price : '',
+        sigungu : '',
+        houseType : '',
+        floor : '',
+        areaExclusive : '',
+        roomCnt : '',
+        detailContents : '',
+        streetAddress : '',
+        houseFace : '',
+        parking : '',
+        bathCnt : '',
+        constructionYear : '',
+        tags :'',
+      }
+    },
     methods: {
       insert() {
         let result = 0;
@@ -117,16 +118,16 @@ import axios from 'axios';
         this.tags.forEach(element => {
           tags += element + '/';
         });
-      
+
         axios({
             url: "http://localhost:8090/zippy/property/insertHouseProduct",
             methods: "POST",
             params: {
               mainImg: this.mainImg,
-              houseName:this.houseName,
-              saleType:this.saleType,
-              price:this.price,
-              sigungu:this.sigungu,
+              houseName: this.houseName,
+              saleType: this.saleType,
+              price: this.price,
+              sigungu: this.sigungu,
               houseType: this.houseType,
               floor: this.floor,
               areaExclusive: this.areaExclusive,
@@ -138,7 +139,7 @@ import axios from 'axios';
             // 성공했을 때
             console.log('insertHouseProduct success!');
             result++;
-            if(result == 2) alert('등록이 완료되었습니다.');
+            if (result == 2) alert('등록이 완료되었습니다.');
           })
           .catch(error => {
             // 에러가 났을 때
@@ -151,17 +152,17 @@ import axios from 'axios';
             methods: "POST",
             params: {
               streetAddress: this.streetAddress,
-              houseFace:this.houseFace,
+              houseFace: this.houseFace,
               parking: this.parking == '가능' ? 1 : 0,
-              bathCnt:this.bathCnt,
-              constructionYear:this.constructionYear,
+              bathCnt: this.bathCnt,
+              constructionYear: this.constructionYear,
               tags: tags
             }
           }).then(response => {
             // 성공했을 때
             console.log('insertHouseDetail success!');
             result++;
-            if(result == 2) alert('등록이 완료되었습니다.');
+            if (result == 2) alert('등록이 완료되었습니다.');
           })
           .catch(error => {
             // 에러가 났을 때

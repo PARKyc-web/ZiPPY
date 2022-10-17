@@ -38,7 +38,7 @@
           <div class="product-about">
             <h6 class="product-seller-name">{{product.compName}}</h6>
             <h6 style="font-weight:bold" class="product-seller-name" id="product-name">{{product.proName}}</h6>
-            <h5 style="display:inline-block">{{product.proPrice}}</h5>
+            <h5 style="display:inline-block">{{product.proPrice | comma}}</h5>
             <p class="ma-0" style="display:inline-block; font-size:small">원</p>
           </div>
           <h6 class="product-seller-name">
@@ -123,6 +123,10 @@
       }).catch(error => {
         console.log(error);
       })
+      }
+    }, filters : {
+      comma(val){
+        return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
       }
     }
   };

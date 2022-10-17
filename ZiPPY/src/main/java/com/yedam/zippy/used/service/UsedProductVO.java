@@ -10,16 +10,20 @@ import lombok.Data;
 
 @Data
 public class UsedProductVO {
-	private int productNo;
-	private String email;
-	private String productName;
-	private String productCategory;
-	private int productPrice;
-	private String productInfo;
-	private String productLocation;
-	private int isSell;
-	private String views;
-	@JsonFormat(pattern = "yyyy-MM-dd")
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date productDate;
+  private int productNo;
+  private String email;
+  private String productName;
+  private String productCategory;
+  private String mainImg;
+  private int productPrice;
+  private String productInfo;
+  private String productLocation;
+  private int isSell;
+  private String views;
+  @JsonFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  private Date productDate;
+  private int imageNo;
+  private String image;
+  private String nickName;
 }

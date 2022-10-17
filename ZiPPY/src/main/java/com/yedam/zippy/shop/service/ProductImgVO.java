@@ -9,6 +9,6 @@ public class ProductImgVO {
 //  String shopProductImg;
   
   int proImgNo;
-  String proNo;
+  int proNo;
   String proImg;
 }

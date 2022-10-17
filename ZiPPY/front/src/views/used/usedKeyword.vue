@@ -113,7 +113,7 @@
         // console.log(this.keywordValue.length)
         // console.log(this.keywordValue)
         axios({
-          url: "http://localhost:8088/zippy/used/addKeyword",
+          url: "http://localhost:8090/zippy/used/addKeyword",
           method: "POST",
           headers: {
             "Content-Type": "application/json; charset=utf-8"
@@ -150,7 +150,7 @@
         // var tagsNo = this.keywordValue.findIndex(i => i.productNo == productNo);
         // console.log(tagsNo);
         axios({
-          url: "http://localhost:8088/zippy/used/delKeyword",
+          url: "http://localhost:8090/zippy/used/delKeyword",
           method: "DELETE",
           params: {
             // kNo: 

@@ -67,6 +67,7 @@ public class ShopController {
   public List<ProductOptionVO> optDetail(@RequestParam("pno") int proNo) {
     return service.getDetailOpt(proNo);
   }
+  
   //조회(북마크)
   @RequestMapping("/heart")
   public void getHeart(String email) {
@@ -97,16 +98,22 @@ public class ShopController {
   }
   
   //주문
-  //주문할 상품 등록
+  //주문할 상품 등록(from 장바구니)
   @PostMapping("/insertPur")
   public void insertPur(@RequestBody List<CartVO> selected, String payCode) {
     service.insertPur(selected, payCode);
+  }
+  //주문할 상품 등록(from 디테일)
+  @PostMapping("/insertPurOne")
+  public void insertPurOne(@RequestBody ProductVO product, String payCode, String email) {
+    service.insertPurOne(product, payCode, email);
   }
   //내 정보 조회
   @PostMapping("/myInfo")
   public GeneralUserVO getMyInfo(String email) {
     return service.getMyInfo(email);
   }
+
   //상품정보 조회
   @PostMapping("/myPurPro")
   public List<PurchaseVO> getMyPurList(String payCode) {
@@ -120,7 +127,7 @@ public class ShopController {
   //판매자
   //상품등록
   @PostMapping("/insertPro")
-  public void insertProduct(@Param("product")ProductVO productVO, String email, MultipartFile image, List<MultipartFile> images) {
-   service.insertProduct(productVO, email, image, images); 
+  public void insertProduct(@RequestBody ProductVO productVO, @RequestBody ProductOptionVO productOptionVO, String email, MultipartFile image, List<MultipartFile> images) {
+   service.insertProduct(productVO, productOptionVO, email, image, images); 
   }
 }

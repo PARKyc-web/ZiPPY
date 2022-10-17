@@ -1,67 +1,73 @@
 <template>
   <form id="usedInsert">
-    <div id="container">
+    <div>
       <nav-bar @click="search($event)"></nav-bar>
-      <div>
-        <div class="used-main-title">
-          <h3>상품 등록</h3>
-        </div>
-      </div>
-      <div class="used-insert-addr">
-        <button id="used-addr">
-          <i class="fa-solid fa-location-dot fa-2x"></i>
-        </button>
-      </div>
-      <hr />
-      <div>
+      <div id="container">
         <div>
-          <div id="used-insert-main">
-            <div class="used-insert-img" id="used-insert-img-div">
-              <span>이미지</span> 0/6
-            </div>
-            <div>              
+          <div class="used-main-title">
+            <h3>상품 등록</h3>
+          </div>
+        </div>
+        <div class="used-insert-addr">
+          <button id="used-addr">
+            <i class="fa-solid fa-location-dot fa-2x"></i>
+          </button>
+        </div>
+        <hr />
+        <div>
+          <div>
+            <div id="used-insert-main">
+              <div class="used-insert-img" id="used-insert-img-div">
+                <span>이미지</span> 0/6
+              </div>
+              <div>
                 <label htmlFor="profile-upload" />
-                <input type="file" name="images" id="profile-upload" multiple accept="image/*" />              
+                <input type="file" name="images" id="profile-upload" multiple accept="image/*" />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <hr />
-      <div class="used-insert-img">
-        <span>제목
-          <input id="used-product-name" name="productName" type="text" placeholder="상품 제목을 2글자 이상 입력해주세요" v-model="data.productName" />
-        </span>
-      </div>
-      <hr />
-      <div id="used-insert-main">
+        <hr />
         <div class="used-insert-img">
-          <span>카테고리</span>
+          <span>제목
+            <input id="used-product-name" name="productName" type="text" placeholder="상품 제목을 2글자 이상 입력해주세요"
+              v-model="data.productName" />
+          </span>
         </div>
-        <div class="dropdown">
-          <div id="used-main-dropbox">
-            <v-select @change="dropVal()" v-model="select" :items="items" item-text="name" item-value="value"
-              :label="data.productCategory" label="카테고리" color="#212529" persistent-hint single-line dense width="50"></v-select>
+        <hr />
+        <div id="used-insert-main">
+          <div class="used-insert-img">
+            <span>카테고리</span>
+          </div>
+          <div class="dropdown">
+            <div id="used-main-dropbox">
+              <v-select @change="dropVal()" v-model="select" :items="items" item-text="name" item-value="value"
+                :label="data.productCategory" label="카테고리" color="#212529" persistent-hint single-line dense width="50">
+              </v-select>
+            </div>
           </div>
         </div>
-      </div>
-      <hr />
-      <div class="used-insert-img">
-        <span>가격<input id="used-insert-price" name="productPrice" type="number" v-model="data.productPrice" /> 원</span>
-      </div>
-      <hr />
-      <div class="used-wish-detailInfo">
+        <hr />
         <div class="used-insert-img">
-          <span>설명</span>
+          <span>가격<input id="used-insert-price" name="productPrice" type="number" v-model="data.productPrice" />
+            원</span>
         </div>
-        <div>
-          <textarea id="used-insert-textarea" name="productInfo" cols="110" rows="10" v-model="data.productInfo" ></textarea>
+        <hr />
+        <div class="used-wish-detailInfo">
+          <div class="used-insert-img">
+            <span>설명</span>
+          </div>
+          <div>
+            <textarea id="used-insert-textarea" name="productInfo" cols="110" rows="10"
+              v-model="data.productInfo"></textarea>
+          </div>
         </div>
-      </div>
-      <div class="used-insert-submit">
-        <button type="button" @click="insert()">등록</button>
+        <div class="used-insert-submit">
+          <button type="button" @click="insert()">등록</button>
+        </div>
       </div>
     </div>
-    <input type="hidden" name="email" v-model="data.email" >
+    <input type="hidden" name="email" v-model="data.email">
     <input type="hidden" name="productLocation" v-model="data.productLocation">
     <input type="hidden" name="productCategory" v-model="data.productCategory">
     <input type="hidden" name="isSell" v-model="data.isSell">
@@ -104,27 +110,27 @@
           value: '다용도실'
         },
       ],
-      select : '',
-      data : {
-        email : "zippy@naver.com",
-        productName : '',
-        productCategory : '',
-        productPrice : '',
-        productInfo : '',
-        productLocation : '',
-        isSell : 0,
-        views : 0,
-        productDate : '',
-        image : ''
+      select: '',
+      data: {
+        email: "zippy@naver.com",
+        productName: '',
+        productCategory: '',
+        productPrice: '',
+        productInfo: '',
+        productLocation: '',
+        isSell: 0,
+        views: 0,
+        productDate: '',
+        image: ''
       }
     }),
     methods: {
-      insert : function(){
+      insert: function () {
         var formData = new FormData(document.querySelector('#usedInsert'));
         this.dropVal();
         console.log(formData.productInfo)
         axios({
-          url: "http://localhost:8088/zippy/used/insert",
+          url: "http://localhost:8090/zippy/used/insert",
           method: "POST",
           data: formData
         }).then(res => {

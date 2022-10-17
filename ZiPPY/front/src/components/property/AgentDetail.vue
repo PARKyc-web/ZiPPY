@@ -40,9 +40,11 @@
       </div>
       <div id="agent_profile_right">
         <h4 class="title" style="margin-top: 83.6px;">오시는 길</h4>
-        <p class="contents">{{this.profile[0].compAddress}}</p>
-        <!-- 지도 -->
-        <basic-marker-map :address="this.profile[0].compAddress" :name="this.profile[0].compName" />
+        <div class="contents">
+          <p>{{this.profile[0].compAddress}}</p>
+          <!-- 지도 -->
+          <basic-marker-map :address="this.profile[0].compAddress" :name="this.profile[0].compName" />
+        </div>
       </div>
     </div>
     <hr>
@@ -85,58 +87,13 @@
               </td>
             </tr>
           </table>
-          
         </v-card>
       </div>
-    </div>
-    <hr>
-    <div>
-      <h4 class="title">후기</h4>
-      <div class="row">
-        <v-card style="width: 45%; margin: 1%">
-          <table>
-            <tr>
-              <td><i class="bi bi-person-circle"></i>
-                <p>username</p>
-              </td>
-              <td>
-                <p>★ 4.5</p>
-                <p>후기 내용</p>
-              </td>
-            </tr>
-          </table>
-        </v-card>
 
-        <v-card style="width: 45%; margin: 1%">
-          <table>
-            <tr>
-              <td><i class="bi bi-person-circle"></i>
-                <p>username</p>
-              </td>
-              <td>
-                <p>★ 4.5</p>
-                <p>후기 내용</p>
-              </td>
-            </tr>
-          </table>
-        </v-card>
-
-        <v-card style="width: 45%; margin: 1%">
-          <table>
-            <tr>
-              <td><i class="bi bi-person-circle"></i>
-                <p>username</p>
-              </td>
-              <td>
-                <p>★ 4.5</p>
-                <p>후기 내용</p>
-              </td>
-            </tr>
-          </table>
-        </v-card>
-
-
+      <div class="text-center">
+        <v-pagination v-model="page" :length="4" circle></v-pagination>
       </div>
+
     </div>
   </div>
 </template>
@@ -159,6 +116,7 @@
       return {
         properties: [],
         profile: [],
+        page: 1,
       }
     },
     created() {

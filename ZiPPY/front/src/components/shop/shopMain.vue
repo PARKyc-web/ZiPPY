@@ -28,7 +28,7 @@
           </div>
           <div class="product-about" id="left">
             <h6 id="product-name">{{ product.proName }}</h6>
-            <h6>{{ product.proPrice }}</h6>
+            <h6>{{ product.proPrice | comma }}</h6>
           </div>
         </div>
       <!-- 아이템 끝 -->
@@ -45,7 +45,7 @@
           </div>
           <div class="product-about" id="left">
             <h6 id="product-name">{{ product.proName }}</h6>
-             <h6>{{ product.proPrice }}</h6>
+             <h6>{{ product.proPrice | comma }}</h6>
           </div>
         </div>
       </div>
@@ -91,6 +91,11 @@
     methods: {
       goDetail(no) {
         this.$router.push('/shop/detail?pno='+no)
+      }
+    },
+    filters : {
+      comma(val){
+        return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
       }
     }
   };

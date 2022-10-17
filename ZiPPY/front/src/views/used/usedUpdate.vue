@@ -1,7 +1,7 @@
 <template>
-  <form>
+  <form id="usedUpdate">
     <div>
-      <nav-bar @click="search($event)"></nav-bar> 
+      <nav-bar @click="search($event)"></nav-bar>
       <div id="container">
         <div>
           <div class="used-main-title">
@@ -21,10 +21,8 @@
                 <span>이미지</span> 0/6
               </div>
               <div>
-                <form>
-                  <label htmlFor="profile-upload" />
-                  <input type="file" id="profile-upload" multiple accept="image/*" />
-                </form>
+                <label htmlFor="profile-upload" />
+                <input type="file" name="images" id="images" multiple accept="image/*" />
               </div>
             </div>
           </div>
@@ -32,7 +30,7 @@
         <hr />
         <div class="used-insert-img">
           <span>제목
-            <input id="used-product-name" type="text" placeholder="상품 제목을 2글자 이상 입력해주세요"
+            <input id="used-product-name" name="productName" type="text" placeholder="상품 제목을 2글자 이상 입력해주세요"
               v-model="product.productName" />
           </span>
         </div>
@@ -43,15 +41,29 @@
           </div>
           <div class="dropdown">
             <div id="used-main-dropbox">
-              <v-select v-model="select" :items="items" item-text="name" item-value="value"
+              <v-select @change="dropVal()" v-model="select" :items="items" item-text="name" item-value="value"
                 :label="product.productCategory" color="#212529" persistent-hint single-line dense width="50">
+              </v-select>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div id="used-insert-main">
+          <div class="used-insert-img">
+            <span>판매 여부</span>
+          </div>
+          <div class="dropdown">
+            <div id="used-main-dropbox">
+              <v-select @change="dropVal()" v-model="select2" :items="isSell" item-text="name" item-value="value"
+                :label="product.isSell" color="#212529" persistent-hint single-line dense width="50">
               </v-select>
             </div>
           </div>
         </div>
         <hr />
         <div class="used-insert-img">
-          <span>가격<input id="used-insert-price" type="text" v-model="product.productPrice" /> 원</span>
+          <span>가격<input id="used-insert-price" name="productPrice" type="number" v-model="product.productPrice" />
+            원</span>
         </div>
         <hr />
         <div class="used-wish-detailInfo">
@@ -59,7 +71,8 @@
             <span>설명</span>
           </div>
           <div>
-            <textarea id="used-insert-textarea" cols="110" v-model="product.productInfo" rows="10"></textarea>
+            <textarea id="used-insert-textarea" name="productInfo" cols="110" v-model="product.productInfo"
+              rows="10"></textarea>
           </div>
         </div>
         <div class="used-insert-submit">
@@ -67,6 +80,12 @@
         </div>
       </div>
     </div>
+    <input type="hidden" name="productNo" v-model="this.$route.query.pNo">
+    <input type="hidden" name="email" v-model="product.email">
+    <input type="hidden" name="productLocation" v-model="product.productLocation">
+    <input type="hidden" name="productCategory" v-model="product.productCategory">
+    <input type="hidden" name="views" v-model="product.views">
+    <input type="hidden" name="productDate" v-model="product.productDate">
   </form>
 </template>
 
@@ -104,14 +123,38 @@
           value: '다용도실'
         },
       ],
+      isSell: [{
+          name: '판매중',
+          value: "0"
+        },
+        {
+          name: '판매완료',
+          value: "1"
+        },
+        {
+          name: '예약중',
+          value: "2"
+        },
+      ],
       select: '',
-      product: {
-        image: "test"
-      }
+      select2: "",
+      product: ""
+      // product: {
+      //   email: "zippy@naver.com",
+      //   productName: '',
+      //   productCategory: '',
+      //   productPrice: '',
+      //   productInfo: '',
+      //   productLocation: '',
+      //   isSell: "",
+      //   views: 0,
+      //   productDate: '',
+      //   image: ''
+      // }
     }),
     created() {
       axios({
-        url: "http://localhost:8088/zippy/used/detail",
+        url: "http://localhost:8090/zippy/used/detail",
         methods: "GET",
         params: {
           pNo: this.$route.query.pNo
@@ -119,6 +162,11 @@
       }).then(res => {
         console.log(res);
         this.product = res.data;
+        this.product.isSell += "";
+        console.log(this.product.isSell)
+        this.select = this.product.productCategory;
+        console.log(this.select);
+        this.select2 = this.isSell[this.product.isSell].value;
       }).catch(error => {
         console.log(error);
       })
@@ -140,21 +188,44 @@
       //     console.log(err)
       //   })
       // },
+      // updateSubmit: function () {
+      //   console.log(this.product)
+      //   axios({
+      //     url: "http://localhost:8088/zippy/used/update",
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+      //     },
+      //     data: this.product
+      //   }).then(res => {
+      //     console.log(res);
+      //     // window.location.assign('/used/detail?pNo='+this.$route.query.pNo);
+      //   }).catch(err => {
+      //     console.log(err)
+      //   })
+      // },
       updateSubmit: function () {
-        console.log(this.product)
+        var formData = new FormData(document.querySelector('#usedUpdate'));
+        this.dropVal();
         axios({
-          url: "http://localhost:8088/zippy/used/update",
+          url: "http://localhost:8090/zippy/used/update",
           method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
-          },
-          data: this.product
+          data: formData
         }).then(res => {
           console.log(res);
-          // window.location.assign('/used/detail?pNo='+this.$route.query.pNo);
+          window.location.assign('/used/detail?pNo='+this.$route.query.pNo);
         }).catch(err => {
           console.log(err)
         })
+      },
+      dropVal: function () {
+        // console.log(this.isSell[0].value);
+        // console.log(this.isSell[1].value);
+        // console.log(this.isSell[2].value);
+        this.product.productCategory = this.select;
+        this.product.isSell = this.select2;
+        console.log(this.product.isSell)
+        console.log(this.product.productCategory);
       }
     }
   };

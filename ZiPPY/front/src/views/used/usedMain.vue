@@ -5,6 +5,7 @@
       <div>
         <div class="used-main-title">
           <h3>판매중인 중고제품</h3>
+          
         </div>
         <div id="used-add-drop-search">
           <button id="used-addr">
@@ -42,11 +43,11 @@
       </div>
       <div @click="goDetail(list.productNo)" class="used-main-card" v-if="data.length != 0" v-for="list in data">
         <div>
-          <div><img src="/used/FIzrqY3agAI_Nyy.jpg" width="194px" height="194px"></div>
+          <div><img :src="require('C:\\usedImage\\FIzrqY3agAI_Nyy.jpg')"  width="194px" height="194px"></div>
           <div class="used-main-card-cont">
             <div class="used-main-card-title">{{list.productName}}</div>
             <div class="used-main-price-date">
-              <div class="used-main-card-price">{{list.productPrice}}원</div>
+              <div class="used-main-card-price">{{list.productPrice | comma}}원</div>
               <div><span>{{list.productDate}}</span></div>
               <div type="hidden"></div>
             </div>
@@ -91,12 +92,18 @@
       select: '',
       categoryVal: '',
       searchValue: '',
-      page: 1
+      page: 1,
+      isChecked : ''
     }),
+    filters : {
+      comma(val){
+        return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      }
+    },
 
     created() {
       axios({
-        url: "http://localhost:8088/zippy/used/main",
+        url: "http://localhost:8090/zippy/used/main",
         methods: "GET",
         params: {
           location: "",
@@ -119,18 +126,19 @@
         this.searchValue = document.querySelector("#used-main-search-input").value;
         this.categoryVal = e.target.innerText;
         axios({
-          url: "http://localhost:8088/zippy/used/main",
+          url: "http://localhost:8090/zippy/used/main",
           methods: "GET",
           params: {
             keyword: this.searchValue,
             location: "",
             category: this.categoryVal,
-            checked: "",
+            checked: this.isChecked,
             dropbox: ""
           }
         }).then(res => {
           console.log(res);
           this.data = res.data;
+          console.log(this.isChecked)
         }).catch(err => {
           console.log(err)
         })
@@ -143,16 +151,16 @@
       checkbox: function () {
         const ckbox = document.querySelector(".form-check-input");
         const is_cked = ckbox.checked;
-        var isChecked = document.querySelector(".form-check-input").innerText = is_cked
-        console.log(isChecked);
+        this.isChecked = document.querySelector(".form-check-input").innerText = is_cked
+        console.log(this.isChecked);
         axios({
-          url: "http://localhost:8088/zippy/used/main",
+          url: "http://localhost:8090/zippy/used/main",
           methods: "GET",
           params: {
             keyword: this.searchValue,
             location: "",
             category: this.categoryVal,
-            checked: isChecked,
+            checked: this.isChecked,
             dropbox: ""
           }
         }).then(res => {
@@ -166,13 +174,13 @@
         var dropValue = this.select;
         console.log(dropValue);
         axios({
-          url: "http://localhost:8088/zippy/used/main",
+          url: "http://localhost:8090/zippy/used/main",
           methods: "GET",
           params: {
             keyword: this.searchValue,
             location: "",
             category: this.categoryVal,
-            checked: "",
+            checked: this.isChecked,
             dropbox: dropValue
           }
         }).then(res => {
@@ -187,7 +195,9 @@
         // var cardNo = this.data.findIndex(i => i.productNo == productNo);
         // console.log(cardNo);
         this.$router.push('/used/detail?pNo=' + no);
-
+      },
+      getImgUrl(list){
+        return require(list.image);
       }
     }
   }

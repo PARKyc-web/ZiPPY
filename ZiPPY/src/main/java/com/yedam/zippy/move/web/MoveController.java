@@ -32,13 +32,14 @@ public class MoveController {
     System.out.println(images2);
     System.out.println(images3);
     
-    System.out.println(moveReq.getEstimateType());
     
     
    if(moveReq.getEstimateType().equals("대면견적") ) {
      service.insertContactEstimate(moveReq);
+     System.out.println(moveReq);
    } else {
      service.insertUntactEstimate(moveReq, images1, images2, images3);
+     System.out.println(moveReq);
      
    }
     
@@ -61,15 +62,7 @@ public class MoveController {
   }
   
   
-  //전체조회
-  
-//  @GetMapping("/moveEstimate")
-//  public List<MoveRequestVO> selectAll(MoveRequestVO vo){
-//    
-//    System.out.println(vo);
-//    return service.getEstimateList(vo);
-//  }
-//  
+  //전체조회 - 업체가 받은 요청
   @GetMapping("/moveEstimate")
   public List<MoveEstimateVO> selectAll(MoveEstimateVO vo    ){
     
@@ -100,5 +93,12 @@ public class MoveController {
     return service.getEstimateList(vo);
   }
   
+  //사용자가 보낸 자신의 견적 히스토리 확인
+  @GetMapping("/moveResult")
+  public List<MoveEstimateVO> selectAllResult(MoveEstimateVO vo){
+    
+    System.out.println(vo);
+    return service.getEstimateResult(vo);
+  }
 
 }
