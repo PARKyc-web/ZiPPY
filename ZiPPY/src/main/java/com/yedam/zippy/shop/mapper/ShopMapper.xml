@@ -229,20 +229,29 @@
 		)
 		<!-- 옵션정보 -->
 		<if test="option != null">
-		INTO shop_product_option(opt_no, pro_no, opt_name, opt_price)
+		<!-- INTO shop_product_option(opt_no, pro_no, opt_name, opt_price)
 		VALUES (
 		(SELECT NVL( MAX(opt_no) , 0) + 1 FROM shop_product_option),
 		(SELECT NVL( MAX(pro_no) , 0) + 1 FROM shop_product),
 		#{option.optName},
 		#{option.optPrice}
-		)
+		)-->
+		<foreach collection="option" item="arr">
+		INTO shop_product_option(opt_no, pro_no, opt_name, opt_price)
+			VALUES (
+				(SELECT NVL( MAX(opt_no) , 0) + 1 FROM shop_product_option),
+				(SELECT NVL( MAX(pro_no) , 0) + 1 FROM shop_product),
+				#{option.optName},
+				#{option.optPrice}
+				)
+		</foreach>
 		</if>
 		SELECT *
 		FROM dual
 	</insert>
 	<!-- 상세이미지 등록 -->
 	<insert id="insertImg" parameterType="ProductImgVO">
-		<selectKey keyProperty="imageNo" order="BEFORE"
+		<selectKey keyProperty="proImgNo" order="BEFORE"
 			resultType="int">
 			SELECT NVL(MAX(pro_img_no),0) +1
 			FROM shop_product_img
@@ -260,4 +269,11 @@
 		,#{proImg}
 		)
 	</insert>
+	<!-- 판매상품 조회 -->
+	<select id="getMyProList" parameterType=ProductVO" resultType="ProductVO">
+		SELECT *
+		FROM shop_product
+		WHERE email = #{email}
+	</select>
+	
 </mapper>

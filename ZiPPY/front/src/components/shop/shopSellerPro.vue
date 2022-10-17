@@ -102,11 +102,15 @@
     created() {
       //전체 장바구니 조회
       axios({
-        url: "/shop/myCartList",
+        url: "/shop/myProList",
         method: "POST",
-        params: {
-          email: this.$route.query.email
-        }
+        headers: {
+            "Content-Type": "application/json"
+          },
+        data: {
+          email: 'shop@mail.com'
+        },
+          method: "POST",
       }).then(res => {
         console.log(res);
         this.products = res.data;

@@ -119,6 +119,7 @@ public class ShopController {
   public List<PurchaseVO> getMyPurList(String payCode) {
     return service.getMyPurList(payCode);
   }
+  //주문등록
   @PostMapping("/insertOrder")
   public void insertOrder(@RequestBody OrderVO orderVO) {
     service.insertOrder(orderVO);
@@ -126,8 +127,19 @@ public class ShopController {
   
   //판매자
   //상품등록
+//  @PostMapping("/insertPro")
+//  public void insertProduct(ProductVO productVO, ProductOptionVO productOptionVO, MultipartFile image, List<MultipartFile> images) {
+//   service.insertProduct(productVO, productOptionVO, image, images); 
+//  }
+  //상품등록
   @PostMapping("/insertPro")
-  public void insertProduct(ProductVO productVO, ProductOptionVO productOptionVO, String email, MultipartFile image, List<MultipartFile> images) {
-   service.insertProduct(productVO, productOptionVO, email, image, images); 
+  public void insertProduct(ProductVO productVO, List<ProductOptionVO> productOptionVO, MultipartFile image, List<MultipartFile> images) {
+   service.insertProduct(productVO, productOptionVO, image, images); 
+  }
+  //상품조회
+  @ResponseBody
+  @PostMapping("/myProList")
+  public List<ProductVO> getMyProList(@RequestBody ProductVO productVO) {
+    return service.getMyProList(productVO);
   }
 }

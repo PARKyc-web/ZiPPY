@@ -1,5 +1,6 @@
 package com.yedam.zippy.shop.service;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data

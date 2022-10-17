@@ -10,45 +10,45 @@
             <tr>
               <td style="font-weight:bold">상품명<span>*</span></td>
               <td>
-                <b-form-input v-model="product.proName" placeholder="상품명을 입력해주세요"></b-form-input>
+                <b-form-input name="proName" placeholder="상품명을 입력해주세요"></b-form-input>
               </td>
             </tr>
             <tr>
               <td style="font-weight:bold">상품가격<span>*</span></td>
               <td>
-                <b-form-input v-model="product.proPrice" placeholder="상품가격을 입력해주세요"></b-form-input>
+                <b-form-input name="proPrice" placeholder="상품가격을 입력해주세요"></b-form-input>
               </td>
             </tr>
             <tr>
               <td style="font-weight:bold">배송비<span>*</span></td>
               <td>
-                <b-form-input v-model="product.deliveryCost" placeholder="배송비를 입력해주세요"></b-form-input>
+                <b-form-input name="deliveryCost" placeholder="배송비를 입력해주세요"></b-form-input>
               </td>
             </tr>
             <tr>
               <td style="font-weight:bold">카테고리<span>*</span></td>
               <td>
-                <v-select v-model="product.category" :items="cates" item-text="cates" item-value="cates" label="카테고리"
-                  return-object dense outlined width="350" height="30"></v-select>
+                <v-select name="category" :items="cates" item-text="cates" item-value="cates" label="카테고리" return-object
+                  dense outlined width="350" height="30"></v-select>
               </td>
             </tr>
             <td style="font-weight:bold; position:relative">
               <div class="mt-3" style="position:absolute; top:0">상품설명</div>
             </td>
             <td>
-              <v-textarea width="350" solo name="input-7-4" v-model="product.proInfo" label="상품설명을 등록해주세요"></v-textarea>
+              <v-textarea width="350" solo name="proInfo" label="상품설명을 등록해주세요"></v-textarea>
             </td>
             <tr>
               <td style="font-weight:bold">대표이미지<span>*</span></td>
               <td style="padding-top:0; padding-bottom:0">
-                <v-file-input v-model="product.proMainImg" accept="image/*" label="대표이미지" style="width:350px">
+                <v-file-input name="image" accept="image/*" label="대표이미지" style="width:350px">
                 </v-file-input>
               </td>
             </tr>
             <tr>
               <td style="font-weight:bold">상세이미지</td>
               <td style="padding-top:0; padding-bottom:0">
-                <v-file-input v-model="images" multiple label="상세이미지" style="width:350px"></v-file-input>
+                <v-file-input name="images" multiple label="상세이미지" style="width:350px"></v-file-input>
               </td>
             </tr>
             <tr>
@@ -78,7 +78,7 @@
             </tr>
           </tbody>
         </table>
-        <div v-for="(item, index) in option" style="width:485px">
+        <div v-for="(item, index) in option" :key="item.optName" style="width:485px">
           <!-- 옵션명 -->
           <div class="pl-3" style="width:100px; display:inline-block">옵션이름</div>
           <div style="padding:10px; width:354px; display:inline-block">
@@ -91,6 +91,7 @@
           </div>
         </div>
         <!-- 상품입력 테이블 -->
+        <input data-v-656fe1d6 hidden type="text" class="form-control" name="email" value="shop@mail.com"></input>
         <hr>
         <div>
           <div style="width:150px; margin-top:50px; margin-bottom:120px" class="mx-auto">
@@ -120,8 +121,7 @@
         //카테고리 종류
         cates: ['침대', '토퍼/매트리스', '소파', '서랍/수납장', '책장', '의자', '거울', '조명', '소품'],
         //옵션
-        option: [],
-        email: 'shop@mail.com'
+        option: []
       }
     },
     //옵션 추가
@@ -138,18 +138,13 @@
       },
       insertPro() {
         var formData = new FormData(document.querySelector('#shopInsert'));
+        formData.append('option', new Blob([JSON.stringify(this.option)] , {type: "application/json"}));
+
+        console.log(formData);
         axios({
           url: "/shop/insertPro",
-          headers: {
-            "Content-Type": "multipart/form-data"
-          },
           method: "POST",
-          data: {
-            formData
-          },
-          params: {
-            email: this.email
-          }
+          data: formData
         }).then(res => {
           console.log(res);
         }).catch(error => {
