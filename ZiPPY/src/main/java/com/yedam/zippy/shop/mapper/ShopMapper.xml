@@ -210,6 +210,7 @@
 	</insert>
 
 	<!-- 판매자 -->
+	<!-- 상품등록 -->
 	<insert id="insertProduct">
 		INSERT ALL
 		<!-- 상품정보 -->
@@ -226,15 +227,6 @@
 		#{product.deliveryCost},
 		0 <!-- 0: 정상적 판매 상태 -->
 		)
-		<!-- 이미지 정보 -->
-		<if test="iamges != null">
-		INTO shop_product_img(pro_img_no, pro_no, pro_img)
-		VALUES (
-		(SELECT NVL( MAX(pro_img_no) , 0) + 1 FROM shop_product_img),
-		(SELECT NVL( MAX(pro_no) , 0) + 1 FROM shop_product),
-		#{proImg}
-		)
-		</if>
 		<!-- 옵션정보 -->
 		<if test="option != null">
 		INTO shop_product_option(opt_no, pro_no, opt_name, opt_price)
@@ -246,6 +238,26 @@
 		)
 		</if>
 		SELECT *
-		FROM dual;
+		FROM dual
+	</insert>
+	<!-- 상세이미지 등록 -->
+	<insert id="insertImg" parameterType="ProductImgVO">
+		<selectKey keyProperty="imageNo" order="BEFORE"
+			resultType="int">
+			SELECT NVL(MAX(pro_img_no),0) +1
+			FROM shop_product_img
+		</selectKey>
+		INSERT INTO shop_product_img
+		(
+		pro_img_no,
+		pro_no,
+		pro_img
+		)
+		VALUES
+		(
+		#{proImgNo}
+		,#{proNo}
+		,#{proImg}
+		)
 	</insert>
 </mapper>

@@ -116,7 +116,7 @@ public class ShopServiceImpl implements ShopService {
   @Override
   public void insertProduct(ProductVO productVO, ProductOptionVO productOptionVO, String email, MultipartFile image, List<MultipartFile> images) {
     mapper.insertProduct(productVO, productOptionVO, email, image, images);
-    // 메인이미지
+    // 메인이미지 등록
     productVO.setProMainImg(proMainImg(image));
     // 상세이미지 등록
     ProductImgVO[] vo = proImgs(images);

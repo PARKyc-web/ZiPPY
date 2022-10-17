@@ -127,7 +127,7 @@ public class ShopController {
   //판매자
   //상품등록
   @PostMapping("/insertPro")
-  public void insertProduct(@RequestBody ProductVO productVO, @RequestBody ProductOptionVO productOptionVO, String email, MultipartFile image, List<MultipartFile> images) {
+  public void insertProduct(ProductVO productVO, ProductOptionVO productOptionVO, String email, MultipartFile image, List<MultipartFile> images) {
    service.insertProduct(productVO, productOptionVO, email, image, images); 
   }
 }

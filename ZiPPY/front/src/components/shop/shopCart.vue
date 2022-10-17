@@ -126,7 +126,7 @@
 
         //purchase 테이블에 등록
         axios({
-          url: "http://localhost:8088/zippy/shop/insertPur",
+          url: "/shop/insertPur",
           headers: {
             "Content-Type": "application/json"
           },
@@ -165,7 +165,7 @@
         console.log(JSON.stringify(this.selected))
         //삭제
         axios({
-          url: "http://localhost:8088/zippy/shop/delCart",
+          url: "/shop/delCart",
           headers: {
             "Content-Type": "application/json"
           },
@@ -234,7 +234,7 @@
     created() {
       //전체 장바구니 조회
       axios({
-        url: "http://localhost:8088/zippy/shop/myCartList",
+        url: "/shop/myCartList",
         method: "POST",
         params: {
           email: this.$route.query.email
