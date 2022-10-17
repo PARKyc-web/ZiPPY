@@ -2,8 +2,9 @@ package com.yedam.zippy.member.service.impl;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.security.MessageDigest;
+import java.util.Base64;
 import java.util.List;
 import java.util.Random;
 
@@ -35,16 +36,17 @@ public class MemberServiceImpl implements MemberService{
       if(loginInfo == null) {
         return null;
       }
-//       비밀번호 DECODE
-      String password = "";
-      try {
-        password = URLDecoder.decode(loginInfo.getPassword(), "UTF-8");
-      } catch (UnsupportedEncodingException e) {
-        e.printStackTrace();
-      } 
+      
+      // 들어온 비밀번호를 Encode >> 같은가?
+      String password = encodingPassword(login.getPassword());
+
+      System.out.println("=================");
+      System.out.println(password);
+      System.out.println(loginInfo.getPassword());
+      System.out.println("=================");
       
       // 로그인정보에서 비밀번호가 같다면? > 멤버타입을 확인
-      if(password.equals(login.getPassword())) {
+      if(loginInfo.getPassword().equals(password)) {
         
         // 멤버타입이 0이라면 generalUser table에 email로 가져오고 return
         if(loginInfo.getMemberType() == 0) {          
@@ -52,8 +54,7 @@ public class MemberServiceImpl implements MemberService{
           
         }else if(loginInfo.getMemberType() == 1){
           // 멤버타입이 1이라면 business table에서 email로 가져오고 return    
-          return mapper.getBusinessUser(login.getEmail());
-          
+          return mapper.getBusinessUser(login.getEmail());          
           
         }else {
           return null;
@@ -71,22 +72,13 @@ public class MemberServiceImpl implements MemberService{
     
     @Override
     public void insertLoginInfo(LoginVO vo) {
+        vo.setPassword(encodingPassword(vo.getPassword()));   
         mapper.insertLoginInfo(vo);        
     }
     
     @Transactional
     @Override
-    public void signGeneralMember(LoginVO loginVO, GeneralUserVO gVO) {
-        String encodeingPassword = "";
-        
-        try {
-          encodeingPassword = URLEncoder.encode(loginVO.getPassword(), "UTF-8");
-          loginVO.setPassword(encodeingPassword);          
-          System.out.println(encodeingPassword);
-        } catch (UnsupportedEncodingException e) {
-          e.printStackTrace();
-        }
-        
+    public void signGeneralMember(LoginVO loginVO, GeneralUserVO gVO) {       
         insertLoginInfo(loginVO);
         mapper.insertGeneralMember(gVO);
     }
@@ -117,12 +109,10 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public int emailRedundancy(String email) {
       return mapper.emailRedundacyCheck(email);
-    }
+    }    
     
     
-    
-    private String storeImages(BusinessVO bVO, MultipartFile image) {
-      
+    private String storeImages(BusinessVO bVO, MultipartFile image) {      
       File folder = new File(imageFolder);      
       if(!folder.exists()) {        
          try {
@@ -147,5 +137,35 @@ public class MemberServiceImpl implements MemberService{
       }
       
       return imagePath;      
+    }
+        
+    @Override
+    public Object findUserByEmail(String email) {  
+        return mapper.getLoginInfo(email);
+    }
+    
+    @Override
+    public void changePassword(LoginVO login) {
+        login.setPassword(encodingPassword(login.getPassword()));      
+        mapper.changePassword(login);
+    }       
+    
+    private String encodingPassword(String password) {        
+      StringBuffer sb = new StringBuffer();
+      
+      try {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(password.getBytes());        
+        byte[] date = md.digest();
+        
+        for(byte b : date) {
+          sb.append(String.format("%02x", b));
+        }
+        
+      }catch (Exception e) {
+        e.getStackTrace();
+      }
+      
+      return sb.toString();       
     }
 }

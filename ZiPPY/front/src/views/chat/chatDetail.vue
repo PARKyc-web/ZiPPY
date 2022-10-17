@@ -30,8 +30,10 @@ import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
 
 // websocket & stomp initialize
-var sock = new SockJS("http://localhost:8090/zippy/ws/chat");
-var ws = Stomp.over(sock);
+// var sock = new SockJS("http://localhost:8090/zippy/ws/chat");
+// var ws = Stomp.over(sock);
+var sock;
+var ws;
 var reconnect = 0;
 
 // vue.js
@@ -45,18 +47,21 @@ export default {
                 messages: []
             }
         },
-        created() {
+        mounted() {
             this.roomId = this.$route.query.roomId;
             this.sender = this.$route.query.sender;            
-            var temp = this.findRoom();
-            this.connect();        
+            this.findRoom();            
         },
         methods: {
-            findRoom: async function() {
-                var temp = await this.$axios.get('/chat/room/'+this.roomId).then(response => { 
+            findRoom: function() {
+                var temp = this.$axios.get('/chat/room/'+this.roomId).then(response => { 
                     console.log(response);
                     this.room = response.data; 
-                });
+                }).finally(res =>{
+                    console.log("이부분은 FindRoom Finally 입니다.");
+                    console.log(res);
+                    this.connect();
+                })
             },
             sendMessage: function() {
                 ws.send("/app/chat/message", JSON.stringify({type:'TALK', roomId:this.roomId, sender:this.sender, message:this.message}));
@@ -68,16 +73,16 @@ export default {
 
             connect : function(){
                 var outside = this;
-                console.log("123");
+                sock = new SockJS("http://localhost:8090/zippy/ws/chat");
+                ws = Stomp.over(sock);                
                 ws.connect({}, function(frame) {
-                    console.log("구독전에 실행하는거123");
+                    // debugger
+                    console.log(frame);                    
                     ws.subscribe("/topic/chat/room/"+outside.roomId, function(message) {
                         var recv = JSON.parse(message.body);
                         console.log(recv);
-                        outside.recvMessage(recv);
-                        console.log("대화 구독함");
-                    });
-                    console.log("123123123");
+                        outside.recvMessage(recv);                        
+                    });                    
                 var connectData = JSON.stringify({type:'ENTER', roomId:outside.roomId, sender:outside.sender});                                
                 ws.send("/app/chat/message", connectData);
                 }, function(error) {
@@ -86,7 +91,7 @@ export default {
                             console.log("connection reconnect");
                             sock = new SockJS("http://localhost:8090/zippy/ws/chat");
                             ws = Stomp.over(sock);
-                            this.connect();
+                            outside.connect();
                         },10*1000);
                     }
                 });                

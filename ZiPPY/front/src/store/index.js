@@ -6,6 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     loginInfo : null,
+    memberType : null,
     cartCount : 0
   },
   getters: {},
@@ -20,10 +21,17 @@ export default new Vuex.Store({
 
     login(state, info){
       state.loginInfo = info;
+
+      if(state.loginInfo.businessId == null){
+        state.memberType = 0;
+      }else {
+        state.memberType = 1;
+      }
     },
 
     logout(state){
       state.loginInfo = null;
+      state.memberType = null;
     }
   },
   actions: {},
