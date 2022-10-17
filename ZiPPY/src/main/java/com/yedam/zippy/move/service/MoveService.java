@@ -19,5 +19,8 @@ public interface MoveService {
   public void insertUntactEstimate(MoveRequestVO moveReq, List<MultipartFile> images1, List<MultipartFile> images2, List<MultipartFile> images3);
   
   public void insertContactEstimate(MoveRequestVO moveReq);
+  
+  //전체조회
+  public List<MoveEstimateVO> getEstimateList(MoveEstimateVO vo);
 
 }

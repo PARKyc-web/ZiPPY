@@ -3,7 +3,7 @@ package com.yedam.zippy.move.service;
 import lombok.Data;
 
 @Data
-public class MoveRequestVO {
+public class MoveEstimateVO {
 
   int estimateNo;
   String email;
@@ -28,4 +28,6 @@ public class MoveRequestVO {
   String visitDate;
   String visitTime;
   String commonOption;
+  
+  String dropbox;
 }
