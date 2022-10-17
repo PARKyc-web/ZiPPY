@@ -1,7 +1,7 @@
 <template>
   <v-toolbar dense floating style="z-index: 5;">
     <v-text-field hide-details prepend-icon="mdi-magnify" single-line placeholder=" 지역명 검색"
-      @keyup.enter="getPropertyList(sigungu)" v-model="sigungu"></v-text-field>
+     @keyup.enter="sendData" v-model="sigungu"></v-text-field>
     <v-row justify="center">
       <v-dialog v-model="dialog" scrollable max-width="600px">
         <template v-slot:activator="{ on, attrs }">
@@ -80,25 +80,9 @@
       save() {
         this.dialog = false;
       },
-      getPropertyList(value) {
-        axios({
-            url: "http://localhost:8090/zippy/property/getPropertyList",
-            methods: "GET",
-            params: {
-              sigungu: value
-            }
-          }).then(response => {
-            // 성공했을 때
-            console.log('getPropertyList success!');
-            console.log(response);
-            this.houseProducts = response.data;
-          })
-          .catch(error => {
-            // 에러가 났을 때
-            console.log('getPropertyList fail!');
-            console.log(error);
-          });
-      }
+      sendData() {
+        this.$emit("get-property-list", this.sigungu);
+      },
     }
   }
 </script>

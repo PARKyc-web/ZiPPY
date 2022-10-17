@@ -15,18 +15,26 @@
 
 	<select id="getAgentEmail" parameterType="Integer"
 		resultType="String">
-		select email from house_product where product_id =
-		#{productId}
+		select email 
+		  from house_product 
+		 where product_id =	#{productId}
 	</select>
 
 	<select id="gethouseDetail" parameterType="Integer"
 		resultType="propertyVO">
 		<!-- select * from house_product p join house_detail d on p.product_id 
 			= d.product_id where p.product_id = #{productId} -->
-		select p.*, d.*, b.comp_name
-		from house_product p join house_detail d
-		on p.product_id = d.product_id join business b
-		on p.email = b.email
+		select p.*, 
+		       d.*, 
+		       b.comp_name
+		
+		from house_product p 
+		 join house_detail d
+		   on p.product_id = d.product_id 
+		
+		 join business b
+		   on p.email = b.email
+		
 		where p.product_id = #{productId}
 	</select>
 
@@ -52,14 +60,23 @@
 		</selectKey>
 		insert into
 		house_product(
-		product_id, email, main_img,
-		house_name, sale_type, price,
-		sigungu, house_type, floor,
-		area_exclusive, room_cnt, detail_contents
-		) values(#{productId}, #{email}, #{mainImg},
-		#{houseName}, #{saleType}, #{price},
-		#{sigungu}, #{houseType}, #{floor},
-		#{areaExclusive}, #{roomCnt}, #{detailContents}
+					product_id, 
+					email, main_img,
+					house_name, sale_type, price,
+					sigungu, house_type, floor,
+					area_exclusive, room_cnt, detail_contents
+		) values(#{productId}, 
+		        #{email}, 
+		        #{mainImg},
+				#{houseName}, 
+				#{saleType}, 
+				#{price},
+				#{sigungu}, 
+				#{houseType}, 
+				#{floor},
+				#{areaExclusive}, 
+				#{roomCnt}, 
+				#{detailContents}
 		)
 	</insert>
 	
@@ -79,18 +96,20 @@
 
 	<update id="updateHouseProduct" parameterType="propertyVO">
 		update house_product
-		set product_state = #{productState}, 
-		main_img = #{mainImg},
-		house_name = #{houseName},
-		sale_type = #{saleType},
-		price = #{price},
-		sigungu = #{sigungu},
-		house_type = #{houseType},
-		floor = #{floor},
-		area_exclusive = #{areaExclusive},
-		room_cnt = #{roomCnt},
-		detail_contents = #{detailContents}
-		where product_id = #{productId}
+		   set 
+				product_state = #{productState}, 
+				main_img = #{mainImg},
+				house_name = #{houseName},
+				sale_type = #{saleType},
+				price = #{price},
+				sigungu = #{sigungu},
+				house_type = #{houseType},
+				floor = #{floor},
+				area_exclusive = #{areaExclusive},
+				room_cnt = #{roomCnt},
+				detail_contents = #{detailContents}
+				
+		where  product_id = #{productId}
 	</update>
 
 	<update id="updateHouseDetail" parameterType="propertyVO">
@@ -99,8 +118,7 @@
 		house_face = #{houseFace},
 		parking = #{parking},
 		bath_cnt = #{bathCnt},
-		construction_year =
-		#{constructionYear},
+		construction_year =	#{constructionYear},
 		tags = #{tags}
 		where product_id = #{productId}
 	</update>
