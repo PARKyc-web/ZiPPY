@@ -44,5 +44,8 @@ public interface UsedMapper {
 	
 	// 키워드 출력
 	public List<UsedKeywordVO> showKeyword(@Param("email") String email);
+	
+	// 이미지 출력
+	public List<UsedImagesVO> getImg(@Param("pNo")int pNo);
 	  
 }

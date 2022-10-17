@@ -40,8 +40,15 @@ public interface UsedService {
   // 키워드, 키워드 지역 삭제
   public int delKeyword(int kNo);
 
-  //키워드 출력
+  // 키워드 출력
   public List<UsedKeywordVO> showKeyword(String email);
-  
+
+  // 이미지 포함 등록
   public void insertUsedProduct(UsedProductVO product, List<MultipartFile> images);
+
+  // 이미지 포함 수정
+  public void updateUsedProduct(UsedProductVO product, List<MultipartFile> images);
+
+  // 이미지 출력
+  public List<UsedImagesVO> getImg(int pNo);
 }

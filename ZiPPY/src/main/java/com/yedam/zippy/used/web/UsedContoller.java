@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.used.service.UsedImagesVO;
 import com.yedam.zippy.used.service.UsedKeywordVO;
 import com.yedam.zippy.used.service.UsedProductVO;
@@ -73,18 +72,20 @@ public class UsedContoller {
     System.out.println(product);
     System.out.println(images);
     product.setProductLocation("대구");
-    
-    service.insertUsedProduct(product, images);    
+
+    service.insertUsedProduct(product, images);
     return "";
   }
 
   // 수정
   @PostMapping("/update")
-  public int update(UsedProductVO product, UsedImagesVO images) {
-    System.out.println("@@product : " + product);
-    System.out.println("@@images : " + images);
-//    System.out.println(service.updateImg(images));
-//    System.out.println(service.updateUsed(product));
+  public int update(UsedProductVO product, List<MultipartFile> images) {
+    System.out.println(product);
+    System.out.println(images);
+    product.setProductLocation("대구");
+    System.out.println(product.getIsSell());
+    
+    service.updateUsedProduct(product, images);
     return 1;
   }
 
@@ -95,7 +96,7 @@ public class UsedContoller {
     System.out.println(service.deleteUsed(pNo));
     return "";
   }
-  
+
   // 키워드 추가
   @PostMapping("/addKeyword")
   public String addKeyword(@RequestBody UsedKeywordVO keyword) {
@@ -103,7 +104,7 @@ public class UsedContoller {
     System.out.println(service.addKeyword(keyword));
     return "";
   }
-  
+
   // 키워드 삭제
   @DeleteMapping("/delKeyword")
   public String delKeyword(@RequestParam int kNo) {
@@ -111,12 +112,19 @@ public class UsedContoller {
     System.out.println(service.delKeyword(kNo));
     return "";
   }
-  
+
   // 키워드 전체출력
   @GetMapping("/keyword")
   public List<UsedKeywordVO> showKyeword(@RequestParam String email) {
     System.out.println(email);
     System.out.println(service.showKeyword(email));
     return service.showKeyword(email);
+  }
+  
+  @GetMapping("getImg")
+  public List<UsedImagesVO> getImg(@RequestParam int pNo){
+    System.out.println(pNo);
+    System.out.println(service.getImg(pNo));
+    return service.getImg(pNo);
   }
 }
