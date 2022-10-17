@@ -35,7 +35,7 @@ import moveImage from "../views/move/moveImage";
 import moveTotal from "../views/move/moveTotal";
 import moveEstimate from "../views/move/moveEstimate";
 import moveCompanyList from "../views/move/moveCompanyList";
-import moveList from "../views/move/moveList";
+import moveResult from "../views/move/moveResult";
 
 import usedUpdate from "../views/used/usedUpdate.vue";
 import usedDetail from "../views/used/usedDetail.vue";
@@ -235,9 +235,9 @@ const routes = [
     props: true,
   },
   {
-    path: "/moveList",
-    name: "moveList",
-    component: moveList,
+    path: "/moveResult",
+    name: "moveResult",
+    component: moveResult,
     props: true,
   },
 

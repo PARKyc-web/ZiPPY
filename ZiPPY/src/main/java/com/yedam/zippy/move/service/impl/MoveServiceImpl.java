@@ -134,12 +134,19 @@ public class MoveServiceImpl implements MoveService{
     mapper.insertContactEstimate(moveReq);    
   }
   
-  //전체조회
+  //전체조회 - 업체
   @Override
   public List<MoveEstimateVO> getEstimateList(MoveEstimateVO vo) {
     return mapper.getEstimateList(vo);
   }
   //서비스 : 작업을 하는 곳 -> ex.조회는 딱히 작업할 필요가 없어서 바로 매퍼를 리턴해준다.
   // 다른 작업이 필요한 경우에는(2차가공) ex. db에서 정보 가져와서 서비스에서 랜덤으로 숫자 발생시키고 전체견적정보를 가져와 배열에 넣는다  
+  
+  //전체조회 - 유저
+  @Override
+  public List<MoveEstimateVO> getEstimateResult(MoveEstimateVO vo) {
+    return mapper.getEstimateResult(vo);
+  }
+  
   
 }

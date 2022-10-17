@@ -30,4 +30,5 @@ public class MoveEstimateVO {
   String commonOption;
   
   String dropbox;
+  String dropbox2;
 }

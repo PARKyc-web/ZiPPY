@@ -131,29 +131,39 @@
 	</insert>
 	
 	
-	<!-- 견적 전체조회 -->
+	<!-- 업체가 들어온 견적 전체조회 -->
 	<select id="getEstimateList" parameterType="MoveEstimateVO" resultType="MoveRequestVO">
-		SELECT * FROM
-		UNTACT_ESTIMATE_MOVING
+		SELECT *
+		FROM untact_estimate_moving
 		WHERE email=#{email}
+		<if test="dropbox2 == '내 지역만 조회'">
+		AND SUBSTR(depart_address, 1, 2) LIKE '%'||
+		(SELECT SUBSTR(comp_address, 1,2)
+		FROM business
+		WHERE email ='move123@move.com') || '%'
+		
 		<!-- AND estimate_type LIKE '%'||#{estimateType}||'%' -->
 		<!-- <if test="dropbox == '전체조회'">
+	
 		
 		</if> -->
+		</if>
 		<if test="dropbox == '대면견적'">
 		AND estimate_type = '대면견적'
 		</if>
 		<if test="dropbox == '비대면견적'">
 		AND estimate_type = '비대면견적'
 		</if>
+	
+		<if test="dropbox == '현재날짜요청'">
+		AND request_date =  TO_CHAR(SYSDATE, 'YYYY.MM.DD')
+		</if>
+		
 		<if test="dropbox == '최신요청일자순'">
 		ORDER BY request_date DESC
 		</if>
 		<if test="dropbox == '오래된요청일자순'">
 		ORDER BY request_date ASC
-		</if>
-		<if test="dropbox == '현재날짜요청'">
-		AND request_date =  TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 		</if>
 		<if test="dropbox == '출발지순'">
 		ORDER BY SUBSTR(depart_address, 1, 2) DESC
@@ -161,6 +171,19 @@
 		<if test="dropbox == '도착지순'">
 		ORDER BY SUBSTR(arrive_address, 1, 2) DESC
 		</if>
+		
 	</select>
 	
+	<!-- 전체조회 - 유저가 자기 견적히스토리 조회 -->
+	<select id="getEstimateResult" parameterType="MoveEstimateVO" resultType="MoveRequestVO">
+		SELECT * FROM
+		UNTACT_ESTIMATE_MOVING
+		WHERE email=#{email}
+		<if test="dropbox == '날짜순'">
+		ORDER BY TO_CHAR(request_date, 'YYYY. MM. DD') DESC
+		</if>
+		<if test="dropbox == '견적방법순'">
+		ORDER BY estimate_type DESC, request_date DESC
+		</if>
+	</select>
 </mapper>

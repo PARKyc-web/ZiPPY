@@ -1,106 +1,198 @@
 <template>
-  <div id="container">
-   
-    <div>
+  <div class="result-wrap">
+    <form>
       <div class="move-main-title">
         <h3>견적요청 조회</h3>
       </div>
-    </div>
-    <hr />
-    <div>
-      <div class="move-keyword-maincont">
-        <!-- <div>
-          <div class="move-keyword-location"><span>요청 건수 : 총 {{keywordValue.length}}건</span></div>
-          <div>
-            <div class="move-input">
-              <input id="keyinputid" class="form-control" type="search" placeholder="키워드" aria-label="Search"
-                v-model="data.keyword" />
-                <input id="keyinputid" class="form-control" type="search" placeholder="키워드지역" aria-label="Search"
-                  v-model="data.keywordLocation" @keyup="enterkey()" />
-                  <button class="submitBtn" type="button" @click="addKey()">등록</button>
-            </div>
-            <div class="move-input">
-            </div>
-          </div>
-          <div class="move-key-flex">
-            <div class="move-keyword-content" v-for="i in keywordValue.length">
-              키워드 : {{keywordValue[i-1]}}, 키워드 지역 : {{locationvalue[i-1]}}
-              <div class="move-keyword-close">
-                <i @click="DelKey($event)" class="fa-solid fa-circle-xmark"></i>
-              </div>
-            </div>
-          </div>
-        </div> -->
-      </div>
-    </div>
-
-    <div id="used-soldot-drop">
-        <div class="form-check">
+      
+      <div class="form-check">
           <input @click="checkbox ()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
           <label class="form-check-label" for="flexCheckDefault">
             견적완료된 요청보기
           </label>
         </div>
-        <!-- <nav class="navbar navbar-expand-lg navbar-light"> -->
-        <div id="used-main-dropbox">
-          <v-select @change="dropVal()" v-model="select" :items="items" item-text="name" item-value="value" label="정렬"
+
+      <!--  -->
+      <div id="used-main-dropbox2">
+          <v-select :disabled="select2==false" @change="dropVal()" v-model="select" :items="items" item-text="name" item-value="value" label="보기정렬"
             color="#212529" persistent-hint single-line dense width="50"></v-select>
-        </div>
       </div>
-      <div @click="goDetail(list.productNo)" class="used-main-card" v-if="list.length != 0" v-for="item in list">
-        <div class="card-wrap">
-          <!-- <div><img src="C:/usedImage/1665730196276_71location.png" width="194px" height="194px"></div> -->
-          <div class="used-main-card-cont">
-            <div class="used-main-card-title">요청 회원 : {{item.email}}</div>
-            <div class="used-main-card-price">이사 종류 : {{item.moveType}}</div>
-            <div class="used-main-card-price">견적 방법 : {{item.estimateType}}</div>
-            <div class="used-main-card-price">이사희망일 : {{item.movingDate}}</div>
-            <div class="used-main-card-price">이사희망시간 : {{item.movingTime}}</div>
-            <div class="used-main-card-price">출발지 주소 : {{item.departZipCode}} <br>{{item.departAddress}} {{item.departDetail}}</div>
-            <div class="used-main-card-price">도착지 주소 : {{item.arriveZipCode}} <br>{{item.arriveAddress}} {{item.arriveDetail}}</div>
-            <div class="used-main-card-price">이사정보 : {{item.movingOption}}</div>
+
+      <div id="used-main-dropbox1">
+          <v-select @change="dropVal2()" v-model="select2" :items="drops" item-text="name" item-value="value2" label="지역정렬"
+            color="#212529" persistent-hint single-line dense width="50"></v-select>
+      </div>  
+
+
+      <hr />
+    <div class="panel">
+      <v-expansion-panels>
+        <v-expansion-panel
+        v-if="list.length != 0" v-for="item in list"
+        >
+          <v-expansion-panel-header>
+            <span>NO.{{item.estimateNo}}</span>  &nbsp;&nbsp; 요청회원 : <span>{{item.email}}</span> &nbsp;&nbsp; 견적요청일 : <span>{{item.requestDate}}</span>&nbsp;&nbsp; 견적 방법 : <span>{{item.estimateType}}</span>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <div >이사 종류 : <span>{{item.moveType}}</span></div>
+            <div >이사희망일 : <span>{{item.movingDate}}</span></div>
+            <div >이사희망시간 : <span>{{item.movingTime}}</span></div>
+            <div >출발지 주소 : <span>{{item.departZipCode}}</span> <br><span>{{item.departAddress}}</span> <span>{{item.departDetail}}</span></div>
+            <div >도착지 주소 : <span>{{item.arriveZipCode}}</span> <br><span>{{item.arriveAddress}}</span> <span>{{item.arriveDetail}}</span></div>
+            <div >이사정보 : <span>{{item.movingOption}}</span></div>
             
             <div v-if="item.movingMemo != null">
-            <div class="used-main-card-price">이사 요청사항 : {{item.movingMemo}}</div>
+            <div >이사 요청사항 : <span>{{item.movingMemo}}</span></div>
             </div>
             <div v-if="item.estimateType == '대면견적'">
-            <div class="used-main-card-price">견적 방문희망일 : {{item.visitDate}}</div>
-            <div class="used-main-card-price">견적 방문희망시간 : {{item.visitTime}}</div>
+            <div >견적 방문희망일 : <span>{{item.visitDate}}</span></div>
+            <div >견적 방문희망시간 : <span>{{item.visitTime}}</span></div>
             </div>
-            <div class="used-main-price-date">
-
-              <div><span>견적요청 일자 : {{item.requestDate}}</span></div>
-              <div type="hidden"></div>
+            <div v-if="item.estimateType == '비대면견적'">
+            <div >이미지 : <span>{{item.moveImage}}</span></div>
             </div>
-          </div>
-        </div>
-      </div>
 
-    <input type="hidden" v-model="data.email">
+            <v-card-actions>
+          <v-spacer></v-spacer>
+          
+          <v-row justify="center">
+            <v-btn v-bind="attrs" v-on="on" width="80">채팅하기</v-btn>
+    <v-dialog v-model="dialog" persistent max-width="600px">
     
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn color="success" dark v-bind="attrs" v-on="on" width="80">
+          견적작성
+        </v-btn>
+      </template>
+
+      <!-- 모달 -->
+      <v-card>
+        <v-card-title>
+          <span class="text-h5">견적서 작성</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
+              >
+                <v-text-field
+                  label="견적번호*"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
+              >
+                <v-text-field
+                  label="요청응답 견적번호*"
+                  hint="견적서에 부여되는 번호입니다."
+                ></v-text-field>
+              </v-col>
+              
+              <v-col cols="12">
+                <v-text-field
+                  label="요청 회원*"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  label="1차 견적타입*"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  label="1차 견적가격*"
+                  type="number"
+                  required
+                ></v-text-field>
+              </v-col>
+              
+              <!-- <v-col
+                cols="12"
+                sm="6"
+              >
+                <v-select
+                  :items="['0-17', '18-29', '30-54', '54+']"
+                  label="Age*"
+                  required
+                ></v-select>
+              </v-col> -->
+              <v-col>
+                <v-autocomplete
+                  :items="['전문적이에요', '꼼꼼해요', '손이 빨라요', '저렴해요', '깔끔해요', '친절해요', '견적네고 가능해요', '고급장비 사용해요', '안전해요']"
+                  label="어필하기"
+                  multiple
+                ></v-autocomplete>
+              </v-col>
+            </v-row>
+          </v-container>
+          <small>*필수입력 사항을 입력해주세요.</small>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="gray"
+            text
+            @click="dialog = false"
+          >
+            Close
+          </v-btn>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="dialog = false"
+          >
+            Save
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
+
+        </v-card-actions>
+          </v-expansion-panel-content>
+          
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </div>
+
+
+    </form>
   </div>
 </template>
 
 <script>
-  import axios from 'axios';
+import axios from 'axios';
+export default{
 
-  export default {
-    
-    data: function(){
+  data : function () {
     return{
-      //담을 공간 만들어주기 -> 단일값이면 객체여도 상관없음 / 여러개면 배열로
       list : [],
-
-      //vo
       vo : {
-
         email : "zippy@naver.com",
         requestDate : "",
         departAddress : "",
         arriveAddress : "",
-        
+        compAddress : ""
       },
-
+      
+      drops : [
+        {
+          name: '전국으로 조회',
+          value: '전국으로 조회'
+        },
+        {
+          name: '내 지역만 조회',
+          value: '내 지역만 조회'
+        },
+      ],
       
       items: [{
           name: '전체조회',
@@ -135,45 +227,23 @@
           value: '도착지순'
         },
       ],
-      data: [],
-      word: "",
-      select: '',
-      categoryVal: '',
-      searchValue: ''
 
+      data : [],
+      select : '',
+      select2 : '', //지역
+      dialog: false,
     }
   },
-  created() {
-        axios({
+  created(){
+    axios({
           url: "http://localhost:8090/zippy/move/moveEstimate",
           methods: "GET",
           params: {
             email : "zippy@naver.com",
             movingOption : "",
-            moveType : "",
-            // estimateType : "",
-            // movingMemo : "",
-            // departZipCode : "",
-            // departAddress : "",
-            // departDetail : "",
-            // departExtra : "",
-            // arriveZipCode : "",
-            // arriveAddress : "",
-            // arriveDetail : "",
-            // arriveExtra : "",
-            // movingDate : "",
-            // movingTime : "",
-            // requestDate : "",
-            // visitDate : "",
-            // visitTime : "",
-            // commonOption : "",
-
-             //엄씨
-             location: "대구",
-          keyword: "",
-          category: "",
-          checked: "",
-          dropbox: ""
+            checked: "",
+            dropbox: "",
+            dropbox2: ""
 
           }
         }).then(res => {
@@ -182,62 +252,9 @@
         }).catch(error => {
           console.log(error);
         })
-},
-    methods: {
-      addKey: function () {
-        this.keywordValue.unshift(this.data.keyword);
-        this.locationvalue.unshift(this.data.keywordLocation);
-        // console.log(this.data.keyword.length);
-        // console.log(this.keywordValue.length)
-        // console.log(this.keywordValue)
-        axios({
-          url: "http://localhost:8088/zippy/used/addKeyword",
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json; charset=utf-8"
-          },
-          data: JSON.stringify(this.data)
-        }).then(res => {
-          console.log(res);
-          this.data.keyword = "";
-          this.data.keywordLocation = "";
-        }).catch(err => {
-          console.log(err)
-        })
-      },
-      
-      DelKey: function (e) {
-        this.keywordValue.pop();
-        // var tagsNo = this.keywordValue.findIndex(i => i.productNo == productNo);
-        // console.log(tagsNo);
-        axios({
-          url: "http://localhost:8088/zippy/used/delKeyword",
-          method: "DELETE",
-          params: {
-            // kNo: 
-          }
-        }).then(res => {
-          console.log(res);
-        }).catch(err => {
-          console.log(err)
-        })
-      },
-      
-      //원래있던 키워드
-      enterkey: function () {
-        if (window.event.keyCode == 13) {
-          this.addKey();
-          this.data.keyword = "";
-        }
-      },
-
-
-      // enterkey: function (e) {
-      //   if (window.event.keyCode == 13) {
-      //     this.search(e);
-      //   }
-      // },
-      checkbox: function () {
+  },
+  methods : {
+    checkbox: function () {
         const ckbox = document.querySelector(".form-check-input");
         const is_cked = ckbox.checked;
         var isChecked = document.querySelector(".form-check-input").innerText = is_cked
@@ -268,11 +285,11 @@
           methods: "GET",
           params: {  
             dropbox : dropValue,
+            dropbox2 : this.select2,
             email : this.vo.email,
             requestDate : this.vo.requestDate,
             departAddress : this.vo.departAddress,
             arriveAddress : this.vo.arriveAddress,
-            
           }
         }).then(res => {
           console.log(res);
@@ -281,298 +298,63 @@
           console.log(err);
         })
       },
-      goDetail(no) {
-        console.log(no);
-        // var cardNo = this.data.findIndex(i => i.productNo == productNo);
-        // console.log(cardNo);
-        this.$router.push('/used/detail?pNo=' + no);
+      dropVal2: function () {
 
-      }
-    }
-    
-  };
+        var dropValue2 = this.select2;
+        console.log(dropValue2);
+        console.log(this.vo.email);
+        axios({
+          url: "http://localhost:8090/zippy/move/moveEstimate",
+          methods: "GET",
+          params: {  
+            dropbox : this.select,
+            dropbox2 : dropValue2,  //지역
+            email : this.vo.email,
+            requestDate : this.vo.requestDate,
+            departAddress : this.vo.departAddress,
+            arriveAddress : this.vo.arriveAddress,
+            compAddress : this.vo.compAddress
+          }
+        }).then(res => {
+          console.log(res);
+          this.list = res.data;
+        }).catch(err => {
+          console.log(err);
+        })
+      },
+  }
+}
 </script>
 
-<style>
-  #container {
-    width: 1200px;
-    margin: 0 auto;
-  }
-
-  .card-wrap{
-    width: 100%;
-  }
-  .submitBtn {
-    border: none;
-    background-color: #b3e3c3;
-    color: white;
-    width: 150px;
-    height: 50px;
-    margin-left: 1px;
-    border-radius: 5px;
-  }
-  #keyinputid{
-    margin-left: 3px;
-  }
-
-
-  .move-key-flex {
-    width: 1200px;
-  }
-
-  .move-input {
-    width: 700px;
-    display: flex;
-  }
-
-  .move-main-title {
+<style scoped>
+.move-main-title {
     margin: 50px;
   }
+.panel{
+  margin: 100px;
 
-  .bd-placeholder-img {
-    font-size: 1.125rem;
-    text-anchor: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-  }
-
-  @media (min-width: 768px) {
-    .bd-placeholder-img-lg {
-      font-size: 3.5rem;
-    }
-  }
-
-  .b-example-divider {
-    height: 3rem;
-    background-color: rgba(0, 0, 0, 0.1);
-    border: solid rgba(0, 0, 0, 0.15);
-    border-width: 1px 0;
-    box-shadow: inset 0 0.5em 1.5em rgba(0, 0, 0, 0.1),
-      inset 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
-  }
-
-  .b-example-vr {
-    flex-shrink: 0;
-    width: 1.5rem;
-    height: 100vh;
-  }
-
-  .bi {
-    vertical-align: -0.125em;
-    fill: currentColor;
-  }
-
-  .nav-scroller {
-    position: relative;
-    z-index: 2;
-    height: 2.75rem;
-    overflow-y: hidden;
-  }
-
-  .nav-scroller .nav {
-    display: flex;
-    flex-wrap: nowrap;
-    padding-bottom: 1rem;
-    margin-top: -1px;
-    overflow-x: auto;
-    text-align: center;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .nav-link {
-    color: black;
-  }
-
-  .nav-link dropdown-toggle {
-    float: right;
-    width: 50px;
-  }
-
-  .nav-link:hover {
-    color: #b3e3c3;
-  }
-
-  .nav-item dropdown {
-    float: right;
-  }
-
-  .move-dropdown {
-    list-style: none;
-  }
-
-  #navbarDropdown {
-    color: #212529;
-  }
-
-  .thumbnail-wrap {
-    display: block;
-  }
-
-  .container-fluid pt-5 {
-    width: 1200px;
-  }
-
-  .form-control {
+}
+#used-main-dropbox1 {
+  margin-top: 30px;
     width: 100px;
-    display: inline-block;
-  }
-
-  .move-keyword-div {
-    border: none;
-    border-radius: 10px;
-    padding: 5px;
-    width: 120px;
-    margin: 10px;
-    background-color: #b3e3c3;
-    font-weight: bolder;
-    overflow: hidden;
-    text-align: center;
-  }
-
-  .move-keyword-close {
     float: right;
-    padding-left: 10px;
+    margin-right: 100px;
   }
-
-  .move-keyword-close:hover {
-    cursor: pointer;
-  }
-
-  .move-keyword-loc-div {
-    border: none;
-    border-radius: 10px;
-    padding: 5px;
-    width: 150px;
-    margin: 10px;
-    background-color: #b3e3c3;
-    font-weight: bolder;
-    overflow: hidden;
-    text-align: center;
-  }
-
-  .move-keyword-content {
-    border: none;
-    border-radius: 10px;
-    padding: 5px;
-    width: fit-content;
-    margin: 10px;
-    background-color: #b3e3c3;
-    font-weight: bolder;
-    display: inline-block;
-  }
-
-  .move-keyword-location {
-    font-weight: bolder;
-    font-size: larger;
-    margin-bottom: 20px;
-  }
-
-  .move-keyword-maincont {
-    width: 1024px;
-    margin-left: 30px;
-  }
-
-  /* 판매완료 */
-
-  #used-main-dropbox {
-    margin-top: 40px;
-  }
-
-  .search {
-    position: relative;
-    width: 300px;
-  }
-
-  .search img:hover {
-    cursor: pointer;
-  }
-
-  .search input {
-    width: 100%;
-    border: 1px solid #bbb;
-    border-radius: 8px;
-    padding: 10px 12px;
-    font-size: 14px;
-  }
-
-  .search img {
-    position: absolute;
-    width: 17px;
-    top: 10px;
-    right: 12px;
-    margin: 0;
-  }
-
-  .used-main-card {
-    border: 1px solid rgb(196, 195, 195);
-    border-radius: 10px;
-    width: 300px;
-    height: auto;
-    display: inline-block;
-    margin: 20px;
-  }
-
-  v-container:hover {
-    cursor: pointer;
-  }
-
-  .v-overflow-btn {
+  #used-main-dropbox2 {
+  margin-top: 30px;
+    width: 100px;
     float: right;
-    width: 150px;
+    margin-right: 100px;
   }
 
-  ::v-deep .my-2 .v-label {
-    font-size: 13px;
-    color: rgb(0, 0, 0, 0.87)
-  }
-
-  .used-main-card:hover {
-    cursor: pointer;
-  }
-
-  .used-main-title {
-    margin: 50px;
-  }
-
-  .used-main-search-btn {
-    background-color: #B3E3C3;
-  }
-
-  .used-main-card-title {
-    overflow: hidden;
-    padding-bottom: 20px;
-    font-weight: 500;
-    text-overflow: ellipsis;
-  }
-
-  .used-main-card-cont {
-    padding: 15px 10px;
-    
-  }
-
-  .used-main-price-date {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .used-main-card-price {
-    font-size: 16px;
-    font-weight: 600;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
-  .used-main-price-date span {
-    color: #888888;
-    font-size: smaller;
-  }
-
-  .form-check {
+span{
+  font-weight: bold;
+}  
+.form-check {
     margin-top: 30px;
     margin-bottom: 20px;
+    margin-left: 50px;
+    float: left;
   }
 
   .form-check-input {
@@ -583,196 +365,5 @@
     background-color: #B3E3C3;
     border: 1px solid #B3E3C3;
   }
-
-  .bd-placeholder-img {
-    font-size: 1.125rem;
-    text-anchor: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-  }
-
-  @media (min-width : 768px) {
-    .bd-placeholder-img-lg {
-      font-size: 3.5rem;
-    }
-  }
-
-  #used-add-drop-search {
-    display: flex;
-    justify-content: space-between;
-    height: 40px;
-    margin-top: 10px;
-  }
-
-  .b-example-divider {
-    height: 3rem;
-    background-color: rgba(0, 0, 0, .1);
-    border: solid rgba(0, 0, 0, .15);
-    border-width: 1px 0;
-    box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-  }
-
-  .b-example-vr {
-    flex-shrink: 0;
-    width: 1.5rem;
-    height: 100vh;
-  }
-
-  .bi {
-    vertical-align: -.125em;
-    fill: currentColor;
-  }
-
-  .nav-scroller {
-    position: relative;
-    z-index: 2;
-    height: 2.75rem;
-    overflow-y: hidden;
-  }
-
-  .nav-scroller .nav {
-    display: flex;
-    flex-wrap: nowrap;
-    padding-bottom: 1rem;
-    margin-top: -1px;
-    overflow-x: auto;
-    text-align: center;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .nav-link {
-    color: black;
-  }
-
-  .nav-link dropdown-toggle {
-    float: right;
-    width: 50px;
-  }
-
-  .nav-link:hover {
-    color: #B3E3C3;
-  }
-
-  .nav-item dropdown {
-    float: right;
-  }
-
-  .used-dropdown {
-    list-style: none;
-  }
-
-  .dropdown-menu a:hover {
-    background-color: #B3E3C3;
-  }
-
-  #navbarDropdown {
-    color: #212529;
-  }
-
-  .thumbnail-wrap {
-    display: block;
-  }
-
-
-
-  .card-li {
-    border: 1px solid black;
-    list-style: none;
-    float: left;
-    margin: 30px 10px 10px 10px;
-  }
-
-  #used-price-date {
-    display: flex;
-    justify-content: space-between;
-
-  }
-
-  .used-img-price {
-    align-items: center;
-  }
-
-  .container-fluid pt-5 {
-    width: 1200px;
-  }
-
-  .form-control {
-    width: 150px;
-  }
-
-  .used-addr {
-    cursor: pointer;
-  }
-
-  .cat-item d-flex flex-column border mb-4 {
-    border-radius: 10px;
-  }
-
-  #used-addr {
-    border: none;
-    background-color: white;
-  }
-
-
-  #dropdownMenuButton {
-    text-align: left;
-  }
-
-  #dropdown-opt {
-    width: 300px;
-  }
-
-  #dropdown-opt a:hover {
-    color: #212529;
-    background-color: #B3E3C3;
-  }
-
-  #used-soldot-drop {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  input#chk_top {
-    display: none;
-
-  }
-
-  /*input 바로 다음의 label*/
-  input#chk_top+label {
-    cursor: pointer;
-  }
-
-  /*input 바로 다음의 label:before 에 체크하기 전 CSS 설정*/
-  input#chk_top+label:before {
-    content: "";
-    display: inline-block;
-    width: 17px;
-    height: 17px;
-    line-height: 17px;
-    border: 1px solid #cbcbcb;
-    vertical-align: middle;
-    /*체크 전과 체크 후 높이 차이 때문에 설정*/
-  }
-
-  .chk_box {
-    margin-top: 30px;
-  }
-
-  /*checked된 input 바로 다음의 label:before 에 체크 후 CSS 설정*/
-  input#chk_top:checked+label:before {
-    content: "\f00c";
-    /*폰트어썸 유니코드*/
-    font-family: "Font Awesome 5 free";
-    /*폰트어썸 아이콘 사용*/
-    font-weight: 900;
-    /*폰트어썸 설정*/
-    color: #fff;
-    background-color: #B3E3C3;
-    border-color: #B3E3C3;
-    font-size: 13px;
-    text-align: center;
-  }
-
+  
 </style>
