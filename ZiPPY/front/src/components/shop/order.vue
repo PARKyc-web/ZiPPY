@@ -17,29 +17,31 @@
         </tr>
         <tr>
           <td style="font-weight:bold">수령인</td>
-          <td v-if="selected==0">김쇼핑</td>
+          <td v-if="selected==0">{{myInfo.userName}}</td>
           <td v-if="selected==1">
             <b-form-input v-model="text" placeholder="이름"></b-form-input>
           </td>
         </tr>
         <tr>
           <td style="font-weight:bold">전화번호</td>
-          <td v-if="selected==0">010-1111-1111</td>
+          <td v-if="selected==0">{{myInfo.phoneNumber}}</td>
           <td v-if="selected==1">
             <div id="phoneNum">
-            <b-form-input v-model="text"></b-form-input><b-form-input v-model="text"></b-form-input><b-form-input v-model="text"></b-form-input>
+              <b-form-input v-model="text"></b-form-input>
+              <b-form-input v-model="text"></b-form-input>
+              <b-form-input v-model="text"></b-form-input>
             </div>
           </td>
         </tr>
         <tr>
           <td style="font-weight:bold">배송지주소</td>
-          <td v-if="selected==0">(123-45)중앙로</td>
+          <td v-if="selected==0">({{myInfo.zipCode}}){{myInfo.userAddress}}</td>
           <td v-if="selected==1">
             <div id="address" style="display:flex">
               <b-form-input v-model="text" class="mb-2"></b-form-input>
-                <v-btn class="ml-10" height="30" depressed color=#B3E3C3>
+              <v-btn class="ml-10" height="30" depressed color=#B3E3C3>
                 주소찾기
-                </v-btn>
+              </v-btn>
             </div>
             <b-form-input class="mb-2" v-model="text"></b-form-input>
             <div id="address">
@@ -59,12 +61,12 @@
         </tr>
         <!-- 상품정보 tr -->
         <tr style="border:0">
-          <td colspan="2" style="padding:0">
+          <td colspan="2" style="padding:0; background-color: #EEEEEE;">
             <!-- 상품정보 테이블 -->
-            <table id="productInfo" style="width:100%">
+            <table id="productInfo" style="padding:30px; width:100%">
               <tbody>
-                <tr>
-                  <td>상품명</td>
+                <tr style="font-weight:bold">
+                  <td class="pl-9">상품명</td>
                   <td></td>
                   <td>옵션</td>
                   <td>스토어</td>
@@ -73,15 +75,17 @@
                   <td>배송비</td>
                 </tr>
                 <tr v-for="product in products" :key="product.proNo">
-                  <td>{{product.proName}}</td>
+                  <td class="pl-9">{{product.productVO.proName}}</td>
                   <td>
-                    <v-img width="150px" height="150px" :src="product.proMainImg"></v-img>
+                    <v-img width="150px" height="150px"
+                      :src="require(`../../assets/shop/productImg/${product.productVO.proMainImg}.jpg`)"
+                      style="cursor:default"></v-img>
                   </td>
-                  <td>{{product.shopProductOpt}}</td>
-                  <td>대충 스토어이름</td>
-                  <td>{{product.proPrice}}</td>
-                  <td>대충 수량</td>
-                  <td>{{product.shopDeliveryCost}}</td>
+                  <td>{{product.optName}}</td>
+                  <td>{{product.productVO.compName}}</td>
+                  <td>{{product.purPrice}}</td>
+                  <td>{{product.purQty}}</td>
+                  <td>{{product.productVO.deliveryCost}}</td>
                 </tr>
               </tbody>
             </table>
@@ -89,7 +93,7 @@
         </tr>
         <tr>
           <td colspan="2" style="text-align:right">
-            총 주문금액 <span style="font-weight:bold; font-size:20px">10000</span>원
+            총 주문금액 <span style="font-weight:bold; font-size:20px">{{countAmount}}</span>원
           </td>
         </tr>
         <tr>
@@ -102,10 +106,13 @@
               신용카드
             </v-btn>
             <v-btn class="mr-5" depressed color=#B3E3C3>
-              네이버페이
+              실시간계좌이체
             </v-btn>
             <v-btn class="mr-5" depressed color=#B3E3C3>
-              카카오페이
+              가상계좌
+            </v-btn>
+            <v-btn class="mr-5" depressed color=#B3E3C3>
+              휴대폰 결제
             </v-btn>
           </td>
         </tr>
@@ -118,18 +125,23 @@
         </tr>
       </tbody>
     </table>
-    <div class="mx-auto pt-5" style="width:100px">
-      <v-btn depressed color=#B3E3C3>
+    <div class="mx-auto pt-5" style="width:200px; margin-top:30px; margin-bottom:100px">
+      <v-btn depressed color=#B3E3C3 style="width:150px; font-size:larger" @click="test">
         결제하기
       </v-btn>
     </div>
   </div>
 </template>
 
+
 <script>
+  import axios from 'axios';
+
   export default {
     data() {
       return {
+        email: 'zippy@naver.com',
+        myInfo: {},
         orderInfo: {},
         selected: 0,
         selectedAdd: null,
@@ -167,22 +179,140 @@
             value: 'e'
           }
         ],
-        products: [{
-          proNo: 199,
-          proName: '딱딱의자',
-          proMainImg: "http://image.kyobobook.co.kr/newimages/giftshop_new/goods/400/1315/hot1568959544803.jpg",
-          shopProductOpt: 'yellow/L',
-          compName: '예담가구',
-          email: 'yedam@mail.com',
-          basketProductQty: 1,
-          proPrice: 20000,
-          shopDeliveryCost: 3000,
-        }],
+        products: [],
+      }
+    },
+    methods: {
+      payItem() {
+        var IMP = window.IMP;
+        let outside = this;
+        var countPros = '';
+        if (this.products.length > 1) {
+          countPros += ' 외 ' + (this.products.length - 1) + '건'
+        }
+
+        IMP.init("imp22120243")
+        IMP.request_pay({ // param
+          pg: "html5_inicis",
+          pay_method: "card",
+          merchant_uid: outside.products[0].payCode,
+
+          name: outside.products[0].productVO.proName + countPros,
+          amount: //outside.countAmount,
+            '1000',
+          buyer_email: outside.myInfo.email,
+          buyer_name: outside.myInfo.userName,
+          buyer_tel: outside.myInfo.phoneNumber,
+          buyer_addr: outside.myInfo.userAddress,
+          buyer_postcode: outside.myInfo.zipCode
+        }, rsp => { // callback
+          if (rsp.success) {
+            alert('결제가 완료되었습니다.')
+            axios({
+              url: "http://localhost:8088/zippy/shop/insertOrder",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              method: "POST",
+              data: {
+                email: outside.myInfo.email,
+                payCode: outside.products[0].payCode,
+                payMethod: "card",
+                amount: outside.countAmount,
+                buyerName: outside.myInfo.userName,
+                buyerTel: outside.myInfo.phoneNumber,
+                buyerAddr: outside.myInfo.userAddress,
+                buyerZipcode: outside.myInfo.zipCode,
+                delMemo: outside.delMemos.value
+              }
+            }).then(res => {
+              console.log(res);
+              this.$router.push({
+                name: 'orderCom',
+                query: {
+                  payCode: outside.products[0].payCode
+                }
+              })
+            }).catch(error => {
+              console.log(error);
+            })
+          } else {
+            console.log(rsp.error_msg)
+          }
+        });
+      },
+      test() {
+        var outside = this;
+        alert('결제가 완료되었습니다.')
+        axios({
+          url: "http://localhost:8088/zippy/shop/insertOrder",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          method: "POST",
+          data: {
+            email: outside.myInfo.email,
+            payCode: outside.products[0].payCode,
+            payMethod: "card",
+            amount: outside.countAmount,
+            buyerName: outside.myInfo.userName,
+            buyerTel: outside.myInfo.phoneNumber,
+            buyerAddr: outside.myInfo.userAddress,
+            buyerZipcode: outside.myInfo.zipCode,
+            orderMemo: 'dd'
+          }
+        }).then(res => {
+          console.log(res);
+          this.$router.push({
+            name: 'orderComplete',
+            query: {
+              payCode: outside.products[0].payCode
+            }
+          })
+        }).catch(error => {
+          console.log(error);
+        })
       }
     },
     created() {
-      console.log(selected.value)
-      console.log(option.value)
+      //내 정보조회
+      axios({
+        url: "http://localhost:8088/zippy/shop/myInfo",
+        method: "POST",
+        params: {
+          email: this.email
+        }
+      }).then(res => {
+        console.log(res);
+        this.myInfo = res.data;
+        console.log(this.myInfo);
+      }).catch(error => {
+        console.log(error);
+      })
+      //주문상품 정보조회
+      axios({
+        url: "http://localhost:8088/zippy/shop/myPurPro",
+        method: "POST",
+        params: {
+          payCode: this.$route.query.payCode
+        }
+      }).then(res => {
+        console.log(res);
+        this.products = res.data;
+        console.log(this.products);
+      }).catch(error => {
+        console.log(error);
+      })
+    },
+    computed: {
+      countAmount() {
+        var am = 0;
+        for (var i in this.products) {
+          am += Number(this.products[i].purPrice)
+          am += Number(this.products[i].productVO.deliveryCost)
+        }
+        return am;
+      }
     }
   }
 </script>
@@ -201,36 +331,42 @@
   }
 
   td {
-    padding: 10px;
+    padding: 12px;
     font-size: 13px;
   }
 
   #input-30 {
     font-size: 12px !important;
   }
-  input{
-    width:150px !important;
-    height:30px !important;
+
+  input {
+    width: 150px !important;
+    height: 30px !important;
   }
-  input::placeholder{
+
+  input::placeholder {
     font-size: 12px;
   }
+
   /* 핸드폰번호 */
   #phoneNum {
-    display:flex;
+    display: flex;
   }
-  #phoneNum :first-child{
-    width:60px !important;
-    height:30px !important;
+
+  #phoneNum :first-child {
+    width: 60px !important;
+    height: 30px !important;
   }
-  #phoneNum input{
-    width:70px !important;
-    height:30px !important;
-    margin-right:10px;
+
+  #phoneNum input {
+    width: 70px !important;
+    height: 30px !important;
+    margin-right: 10px;
   }
+
   /* 주소록 */
-  #address input{
-    width:350px !important;
-    height:30px !important;
+  #address input {
+    width: 350px !important;
+    height: 30px !important;
   }
 </style>

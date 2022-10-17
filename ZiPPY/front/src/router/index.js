@@ -6,10 +6,12 @@ import HouseDetail from "../components/property/HouseDetail.vue";
 import AgentDetail from "../components/property/AgentDetail.vue";
 
 import shopView from "../views/shopView.vue";
+import shopMain from "../views/shop/shopMainView.vue";
 import shopList from "../views/shop/shopListView.vue";
 import shopDetail from "../views/shop/shopDetailView.vue";
 import shopCart from "../views/shop/shopCartView.vue";
-import dataTable from "../components/shop/dataTable.vue"
+import order from "../views/shop/orderView.vue";
+import orderComplete from "../views/shop/orderCompleteView.vue";
 
 import GeneralSign from '../views/login/generalSignUp.vue';
 import BusinessSign from '../views/login/businessSignUp.vue';
@@ -105,6 +107,11 @@ const routes = [
     name: "shop",
     component: shopView,
   },
+  {
+    path: "/shop/main",
+    name: "shopMain",
+    component: shopMain,
+  },
 
   {
     path: "/shop/detail",
@@ -123,12 +130,15 @@ const routes = [
     component: shopCart,
   },
   {
-    path: "/shop/data",
-    name: "data",
-    component: dataTable,
+    path: "/shop/order",
+    name: "order",
+    component: order,
   },
-
-
+  {
+    path: "/shop/orderComplete",
+    name: "orderComplete",
+    component: orderComplete,
+  },
 
   //move
   {

@@ -7,14 +7,14 @@ import lombok.Data;
 @Data
 public class OrderVO {
   int OrderNo;
-  String userEmail;
+  String email;
   String payCode;
   String payMethod;
-  String orderAmount;
-  String receiverName;
-  String receiverTel;
-  String receiverAddress;
-  String receiverZipcode;
+  String amount;
+  String buyerName;
+  String buyerTel;
+  String buyerAddr;
+  String buyerZipcode;
   String orderMemo;
   String orderStatus;
   Date OrderDate;

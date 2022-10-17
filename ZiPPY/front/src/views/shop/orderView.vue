@@ -1,19 +1,18 @@
 <template>
-  <div>    
+  <div>
     <shop-subbar></shop-subbar>
-    <shopMain></shopMain>
+    <order></order>
   </div>
 </template>
 
 <script>
 import shopSubbar from "../../components/shop/shopSubbar.vue";
-import shopMain from "../../components/shop/shopMain.vue";
+import order from "../../components/shop/order.vue";
 
 export default {  
   components: {
-    //mainHeader,
     shopSubbar,
-    shopMain
+    order
   }
 };
 </script>
