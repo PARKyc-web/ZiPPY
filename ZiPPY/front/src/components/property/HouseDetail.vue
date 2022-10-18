@@ -94,7 +94,7 @@
           <v-app id="inspire">
             <v-card class="mx-auto my-12" max-width="374" style="width: 100%;">
               <v-card-text>
-                <wish-button></wish-button>
+                <wish-button :productId="this.houseDetail[0].productId"></wish-button>
                 <v-row align="center" class="mx-0">
                   <div>매물번호 {{this.houseDetail[0].productId}}</div>
                 </v-row>
