@@ -1,168 +1,194 @@
 <template>
   <div class="result-wrap">
-    
-      <div class="move-main-title">
-        <h3>견적요청 조회</h3>
-      </div>
 
-      <div class="form-check">
-        <input @click="checkbox ()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-        <label class="form-check-label" for="flexCheckDefault">
-          견적완료된 요청보기
-        </label>
-      </div>
+    <div class="move-main-title">
+      <h3>견적요청 조회</h3>
+    </div>
 
-      <!--  -->
-      <div id="used-main-dropbox2">
-        <v-select :disabled="select2==false" @change="dropVal()" v-model="select" :items="items" item-text="name"
-          item-value="value" label="보기정렬" color="#212529" persistent-hint single-line dense width="50"></v-select>
-      </div>
+    <div class="form-check">
+      <input @click="checkbox ()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+      <label class="form-check-label" for="flexCheckDefault">
+        견적완료된 요청보기
+      </label>
+    </div>
 
-      <div id="used-main-dropbox1">
-        <v-select @change="dropVal2()" v-model="select2" :items="drops" item-text="name" item-value="value2"
-          label="지역정렬" color="#212529" persistent-hint single-line dense width="50"></v-select>
-      </div>
+    <!--  -->
+    <div id="used-main-dropbox2">
+      <v-select :disabled="select2==false" @change="dropVal()" v-model="select" :items="items" item-text="name"
+        item-value="value" label="보기정렬" color="#212529" persistent-hint single-line dense width="50"></v-select>
+    </div>
+
+    <div id="used-main-dropbox1">
+      <v-select @change="dropVal2()" v-model="select2" :items="drops" item-text="name" item-value="value2" label="지역정렬"
+        color="#212529" persistent-hint single-line dense width="50"></v-select>
+    </div>
 
 
-      <hr />
-      <div class="panel">
-        <v-expansion-panels>
-          <v-expansion-panel v-if="list.length != 0" v-for="item in list">
-            <v-expansion-panel-header>
-              <span>NO.{{item.estimateNo}}</span> &nbsp;&nbsp; 요청회원 : <span>{{item.email}}</span> &nbsp;&nbsp; 견적요청일 :
-              <span>{{item.requestDate}}</span>&nbsp;&nbsp; 견적 방법 : <span>{{item.estimateType}}</span>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <div>이사 종류 : <span>{{item.moveType}}</span></div>
-              <div>이사희망일 : <span>{{item.movingDate}}</span></div>
-              <div>이사희망시간 : <span>{{item.movingTime}}</span></div>
-              <div>출발지 주소 : <span>{{item.departZipCode}}</span> <br><span>{{item.departAddress}}</span>
-                <span>{{item.departDetail}}</span></div>
-              <div>도착지 주소 : <span>{{item.arriveZipCode}}</span> <br><span>{{item.arriveAddress}}</span>
-                <span>{{item.arriveDetail}}</span></div>
-              <div>이사정보 : <span>{{item.movingOption}}</span></div>
+    <hr />
+    <div class="panel">
+      <v-expansion-panels>
+        <v-expansion-panel v-if="list.length != 0" v-for="(item,i) in list">
+          <v-expansion-panel-header>
+            <span>NO.{{item.estimateNo}}</span> &nbsp;&nbsp; 요청회원 : <span>{{item.email}}</span> &nbsp;&nbsp; 견적요청일 :
+            <span>{{item.requestDate}}</span>&nbsp;&nbsp; 견적 방법 : <span>{{item.estimateType}}</span>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <div>이사 종류 : <span>{{item.moveType}}</span></div>
+            <div>이사희망일 : <span>{{item.movingDate}}</span></div>
+            <div>이사희망시간 : <span>{{item.movingTime}}</span></div>
+            <div>출발지 주소 : <span>{{item.departZipCode}}</span> <br><span>{{item.departAddress}}</span>
+              <span>{{item.departDetail}}</span></div>
+            <div>도착지 주소 : <span>{{item.arriveZipCode}}</span> <br><span>{{item.arriveAddress}}</span>
+              <span>{{item.arriveDetail}}</span></div>
+            <div>이사정보 : <span>{{item.movingOption}}</span></div>
 
-              <div v-if="item.movingMemo != null">
-                <div>이사 요청사항 : <span>{{item.movingMemo}}</span></div>
-              </div>
-              <div v-if="item.estimateType == '대면견적'">
-                <div>견적 방문희망일 : <span>{{item.visitDate}}</span></div>
-                <div>견적 방문희망시간 : <span>{{item.visitTime}}</span></div>
-              </div>
-              <div v-if="item.estimateType == '비대면견적'">
-                <div>이미지 : <span>{{item.moveImage}}</span></div>
-              </div>
+            <div v-if="item.movingMemo != null">
+              <div>이사 요청사항 : <span>{{item.movingMemo}}</span></div>
+            </div>
+            <div v-if="item.estimateType == '대면견적'">
+              <div>견적 방문희망일 : <span>{{item.visitDate}}</span></div>
+              <div>견적 방문희망시간 : <span>{{item.visitTime}}</span></div>
+            </div>
+            <div v-if="item.estimateType == '비대면견적'">
+              <div>이미지 : <span>{{item.moveImage}}</span></div>
+            </div>
 
-              <v-card-actions>
-                <v-spacer></v-spacer>
+            <v-card-actions>
+              <v-spacer></v-spacer>
 
-                <v-row justify="center">
-                  <v-btn v-bind="attrs" v-on="on" width="80">채팅하기</v-btn>
-                  <v-dialog v-model="dialog" persistent max-width="600px">
+              <v-row justify="center">
+                <v-btn v-bind="attrs" v-on="on" width="80">채팅하기</v-btn>
+                <v-dialog v-model="dialog" persistent max-width="600px">
 
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn  @click="modalVal(i)" color="success" dark v-bind="attrs" v-on="on" width="80">
-                        견적작성
-                      </v-btn>
-                    </template>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn @click="modalVal(i)" color="success" dark v-bind="attrs" v-on="on" width="80">
+                      견적작성
+                    </v-btn>
+                  </template>
 
-                    <!-- 모달 -->
-                    <form id="estimateForm" name="estimateForm">
+                  <!-- 모달 -->
+                  <form id="estimateForm" name="estimateForm">
                     <div>
-                      <v-card :id="i" v-model="list[i]">
-                      <v-card-title>
-                        <span class="text-h5">견적서 작성</span>
-                      </v-card-title>
-                      <v-card-text>
-                        <v-container>
-                          <v-row>
-                            <v-col cols="12" sm="6" md="4">
-                              <v-text-field label="견적번호*" id="estimateNo" required readonly :value="item.estimateNo"></v-text-field>
-                            </v-col>
-                            <!-- <v-col cols="12" sm="6" md="4">
+                      <v-card :id="i" >
+                        <v-card-title>
+                          <span class="text-h5">견적서 작성</span>
+                        </v-card-title>
+                        <v-card-text>
+                          <v-container>
+                            <v-row>
+                              <v-col cols="12" sm="6" md="4">
+                                <v-text-field label="견적번호*" id="estimateNo" required readonly 
+                                  v-model="selectData.estimateNo"></v-text-field>
+                                  
+                              </v-col>
+                              <!-- <v-col cols="12" sm="6" md="4">
                               <v-text-field label="요청응답 견적번호*" hint="견적서에 부여되는 번호입니다."></v-text-field>
                             </v-col> -->
-
-                            <v-col cols="12">
-                              <v-text-field label="요청 회원*" required readonly :value="item.email"></v-text-field>
-                            </v-col>
-                            <v-col cols="12">
-                              <v-text-field label="1차 견적타입*" required readonly :value="item.estimateType"></v-text-field>
-                            </v-col>
-                            <v-col cols="12">
-                              <v-text-field v-model="firstEstimatePrice" label="1차 견적가격*" type="number" required></v-text-field>
-                            </v-col>
-
                           
-                            <v-col>
-                              <v-autocomplete v-model="responseMemo"
-                                :items="['전문적이에요', '꼼꼼해요', '손이 빨라요', '저렴해요', '깔끔해요', '친절해요', '견적네고 가능해요', '고급장비 사용해요', '안전해요']"
-                                label="어필하기" multiple></v-autocomplete>
-                            </v-col>
-                          </v-row>
-                        </v-container>
-                        <small>*필수입력 사항을 입력해주세요.</small>
-                      </v-card-text>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="gray" text @click="dialog = false">
-                          닫기
-                        </v-btn>
-                        <v-btn color="blue darken-1" text @click="dialog = false">
-                          저장
-                        </v-btn>
-                        <v-btn color="success darken-1" text @click="sendEstimate()">
-                          견적보내기
-                        </v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </div>
+
+                              <v-col cols="12">
+                                <v-text-field label="요청 회원*" required readonly v-model="selectData.email">
+                                </v-text-field>
+                              </v-col>
+                              <v-col cols="12">
+                                <v-text-field label="1차 견적타입*" required readonly 
+                                  v-model="selectData.estimateType"></v-text-field>
+                              </v-col>
+                              <v-col cols="12">
+                                <v-text-field  label="1차 견적가격*" type="number" required v-model="selectData.firstEstimatePrice">
+                                </v-text-field>
+                              </v-col>
+
+                              <v-col cols="12">
+                                <v-autocomplete v-model="selectData.secondEstimateType"
+                                  :items="['대면견적', '비대면견적']"
+                                  label="2차 견적타입*"></v-autocomplete>
+                              </v-col>
+
+                              <v-col cols="12">
+                                <v-text-field v-model="selectData.secondEstimatePrice" label="2차 견적가격*" type="number" required>
+                                </v-text-field>
+                              </v-col>
+
+                              <!-- <v-col cols="12">
+                                <v-text-field v-model="reservStatus" label="진행상태*" required>
+                                </v-text-field>
+                              </v-col> -->
+
+                              <v-col>
+                                <v-autocomplete v-model="selectData.responseMemo"
+                                  :items="['전문적이에요', '꼼꼼해요', '손이 빨라요', '저렴해요', '깔끔해요', '친절해요', '견적네고 가능해요', '고급장비 사용해요', '안전해요']"
+                                  label="어필하기" multiple></v-autocomplete>
+                              </v-col>
+                            </v-row>
+                          </v-container>
+                          <small>*필수입력 사항을 입력해주세요.</small>
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn color="gray" text @click="dialog = false">
+                            닫기
+                          </v-btn>
+                          <v-btn color="blue darken-1" text @click="dialog = false">
+                            저장
+                          </v-btn>
+                          <v-btn color="success darken-1" text @click="sendEstimate()">
+                            견적보내기
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </div>
+                    <input type="hidden" name="estimateNo" id="estimateNo" v-model="selectData.estimateNo">
+                    <input type="hidden" name="email" id="email" v-model="selectData.email">
+                    <input type="hidden" name="firstEstimateType" id="firstEstimateType" v-model="selectData.estimateType">
+
+                    <input type="hidden" name="firstEstimatePrice" v-model="selectData.firstEstimatePrice">
+                    <input type="hidden" name="secondEstimatePrice" v-model="selectData.secondEstimatePrice">
+                    <input type="hidden" name="secondEstimateType"  v-model="selectData.secondEstimateType">
+                    <input type="hidden" name="reservStatus" value="0" v-model="selectData.reservStatus">
+                    <input type="hidden" name="compName" v-model="selectData.compName">
+                    <input type="hidden" name="responseMemo" v-model="selectData.responseMemo">
                   </form>
 
-                  </v-dialog>
-                </v-row>
+                </v-dialog>
+              </v-row>
 
-              </v-card-actions>
-            </v-expansion-panel-content>
+            </v-card-actions>
+          </v-expansion-panel-content>
 
-          </v-expansion-panel>
-        </v-expansion-panels>
-      </div>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </div>
 
-      <!-- 폼에 담을 정보 -->
-      
+    <!-- 폼에 담을 정보 -->
+    <!--       
       <input type="hidden" name="estimateNo" id="estimateNo" :value="item.estimateNo"> 
       <input type="hidden" name="email" id="email" :value="item.email"> 
-      <input type="hidden" name="firstEstimatePrice" v-model="firstEstimatePrice"> 
-      <input type="hidden" name="firstEstimateType" id="firstEstimateType" :value="item.firstEstimateType"> 
-      <input type="hidden" name="secondEstimatePrice" v-model="secondEstimatePrice"> 
-      <input type="hidden" name="secondEstimateType" v-model="secondEstimateType"> 
-      <input type="hidden" name="reservStatus" v-model="reservStatus"> 
-      <input type="hidden" name="compName" v-model="compName"> 
-      <input type="hidden" name="responseMemo" v-model="responseMemo">   
+      <input type="hidden" name="firstEstimateType" id="firstEstimateType" :value="item.firstEstimateType">  -->
 
-    
+
+
+
   </div>
 </template>
 
 <script>
-
-import axios from 'axios';
+  import axios from 'axios';
   export default {
 
     data: function () {
       return {
-        i:'',
-        item:"",
-        email:"",
+      
+        item: "",
+        email: "",
         estimateNo: "",
-        responseMemo:"",
-        firstEstimateType:"",
-        firstEstimatePrice:"",
-        secondEstimateType:"",
-        secondEstimatePrice:"",
+        responseMemo: "",
+        estimateType: "",
+        firstEstimatePrice: "",
+        secondEstimateType: "",
+        secondEstimatePrice: "",
         compName: "82이사",
-        reservStatus:"",
+        reservStatus: 0,
 
         list: [],
         vo: {
@@ -171,7 +197,7 @@ import axios from 'axios';
           departAddress: "",
           arriveAddress: "",
           compAddress: "",
-          
+          estimateNo: "",
           estimateType: ""
         },
 
@@ -220,12 +246,13 @@ import axios from 'axios';
         ],
 
         data: [],
+        selectData:{},
         select: '',
         select2: '', //지역
         dialog: false,
-        on : '',
-        attrs : '',
-        
+        on: '',
+        attrs: '',
+
       }
     },
     created() {
@@ -316,18 +343,23 @@ import axios from 'axios';
           console.log(err);
         })
       },
-      modalVal: function () {
+      modalVal: function (i) {
 
         axios({
           url: "http://localhost:8090/zippy/move/moveEstimate",
           methods: "GET",
           params: {
-            
-            
+           
+            estimateNo : this.list[i].estimateNo,
             email: this.vo.email,
-            estimateType: this.vo.estimateType
+            estimateType: this.list[i].estimateType
           }
         }).then(res => {
+          this.selectData.estimateNo = this.list[i].estimateNo //{...this.list[i]}
+          this.selectData.email = this.vo.email
+          this.selectData.estimateType = this.list[i].estimateType
+          this.selectData.reservStatus = "0"
+          this.selectData.compName = "82이사"
           console.log(res);
           this.list = res.data;
         }).catch(err => {
@@ -335,29 +367,32 @@ import axios from 'axios';
         })
       },
 
-      sendEstimate: function(){
-        
-        var formData = new FormData(document.querySelector('#estimateForm'));  
+      sendEstimate: function () {
+
+        var formData = new FormData(document.querySelector('#estimateForm'));
 
         // this.estimateNo = document.getElementById(estimateNo).value;
         // this.email = document.getElementById(email).value;
         // this.firstEstimateType = document.getElementById(firstEstimateType).value;
 
-        console.log("견적번호: "+this.estimateNo);
-        console.log("회원: "+this.email);
-        console.log("1차견적가격: "+this.firstEstimatePrice);
-        console.log("1차견적타입: "+this.firstEstimateType);
-        console.log("2차견적가격: "+this.secondEstimatePrice);
-        console.log("2차견적타입: "+this.secondEstimateType);
-        console.log("견적상태: "+this.reservStatus);
-        console.log("업체명: "+this.compName);
-        console.log("견적어필: "+this.responseMemo);
+        console.log("견적번호: " + this.selectData.estimateNo);
+        console.log("회원: " + this.selectData.email);
+        console.log("1차견적가격: " + this.selectData.firstEstimatePrice);
+        console.log("1차견적타입: " + this.selectData.estimateType);
+        console.log("2차견적가격: " + this.selectData.secondEstimatePrice);
+        console.log("2차견적타입: " + this.selectData.secondEstimateType);
+        console.log("견적상태: " + this.selectData.reservStatus);
+        console.log("업체명: " + this.selectData.compName);
+        console.log("견적어필: " + this.selectData.responseMemo);
 
         this.$axios({
           url: "http://localhost:8090/zippy/move/moveEstimate",
           method: "POST",
           // headers: {
           //   "Content-Type": "application/json; charset=utf-8"
+          // },
+          // params:{
+
           // },
           data: formData
         }).then(res => {

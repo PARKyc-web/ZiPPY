@@ -13,6 +13,7 @@ import com.yedam.zippy.move.mapper.MoveMapper;
 import com.yedam.zippy.move.service.MoveEstimateVO;
 import com.yedam.zippy.move.service.MoveImageVO;
 import com.yedam.zippy.move.service.MoveRequestVO;
+import com.yedam.zippy.move.service.MoveResponseVO;
 import com.yedam.zippy.move.service.MoveService;
 
 @Service
@@ -150,8 +151,13 @@ public class MoveServiceImpl implements MoveService{
   
   //견적서 인서트 - 업체
   @Override
-  public int makeEstimate(MoveRequestVO vo) {
+  public int makeEstimate(MoveResponseVO vo) {
     return mapper.makeEstimate(vo);
   }
   
+  //견전서 조회 - 업체
+  @Override
+  public List<MoveResponseVO> companyEstimate(MoveResponseVO vo) {
+    return mapper.companyEstimate(vo);
+  }
 }

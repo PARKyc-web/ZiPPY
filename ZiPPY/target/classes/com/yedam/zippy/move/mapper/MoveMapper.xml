@@ -130,9 +130,9 @@
 		)
 	</insert>
 	
-	<insert id="makeEstimate" parameterType="MoveRequestVO" useGeneratedKeys="true">
+	<insert id="makeEstimate" parameterType="MoveResponseVO" useGeneratedKeys="true">
 		<selectKey keyProperty="movingResponseNo"  order="BEFORE" resultType="int">
-			SELECT NVL(MAX(moving_response_no),0) +1 AS movingResponseNo 
+			SELECT NVL(MAX(MOVING_RESPONSE_NO),0) +1 AS movingResponseNo 
 			FROM MOVING_RESPONSE
 		</selectKey>
 			INSERT INTO MOVING_RESPONSE
@@ -145,7 +145,7 @@
 			SECOND_ESTIMATE_PRICE,
 			SECOND_ESTIMATE_TYPE,
 			RESERV_STATUS,
-			COPM_NAME,
+			COMP_NAME,
 			RESPONSE_MEMO
 			)
 			VALUES
@@ -159,7 +159,7 @@
 			#{secondEstimateType},
 			#{reservStatus},
 			#{compName},
-			#{responseMemo},
+			#{responseMemo}
 			)
 	</insert>
 	

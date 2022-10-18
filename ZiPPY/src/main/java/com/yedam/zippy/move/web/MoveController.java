@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.zippy.move.service.MoveEstimateVO;
 import com.yedam.zippy.move.service.MoveRequestVO;
+import com.yedam.zippy.move.service.MoveResponseVO;
 import com.yedam.zippy.move.service.MoveService;
 
 @CrossOrigin(originPatterns = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
@@ -61,14 +62,7 @@ public class MoveController {
     return "";
   }
   
-  //견적서 인서트- 업체
-  @PostMapping("/moveEstimate")
-  public String makeEstimate(MoveRequestVO vo) {
-    
-    service.makeEstimate(vo);
-    return "";
-  }
-  
+
   
   //전체조회 - 업체가 받은 요청
   @GetMapping("/moveEstimate")
@@ -100,6 +94,27 @@ public class MoveController {
     
     return service.getEstimateList(vo);
   }
+  
+  //견적서 인서트- 업체
+  @PostMapping("/moveEstimate")
+  public String makeEstimate(MoveResponseVO vo) {
+    
+    service.makeEstimate(vo);
+    return "";
+  }
+  
+  
+  //업체 견적서 내역
+  @GetMapping("/moveEstimateList")
+  public List<MoveResponseVO> companyEstimate(MoveResponseVO vo){
+    
+    System.out.println(vo);
+    return service.companyEstimate(vo);
+  }
+  
+  
+  //단건조회 - 업체
+  
   
   //사용자가 보낸 자신의 견적 히스토리 확인
   @GetMapping("/moveResult")
