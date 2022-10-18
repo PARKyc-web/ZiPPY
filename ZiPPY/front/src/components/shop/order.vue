@@ -208,7 +208,7 @@
             alert('결제가 완료되었습니다.')
             //서버에 결제 정보 저장 
             axios({
-              url: "http://localhost:8088/zippy/shop/insertOrder",
+              url: "/shop/insertOrder",
               headers: {
                 "Content-Type": "application/json"
               },
@@ -244,7 +244,7 @@
     created() {
       //내 정보조회
       axios({
-        url: "http://localhost:8088/zippy/shop/myInfo",
+        url: "/shop/myInfo",
         method: "POST",
         params: {
           email: this.email
@@ -258,7 +258,7 @@
       })
       //주문상품 정보조회
       axios({
-        url: "http://localhost:8088/zippy/shop/myPurPro",
+        url: "/shop/myPurPro",
         method: "POST",
         params: {
           payCode: this.$route.query.payCode

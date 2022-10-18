@@ -113,11 +113,34 @@ public class ShopServiceImpl implements ShopService {
     mapper.getHeart(email);
   }
 
+//  @Override
+//  public void insertProduct(ProductVO productVO, ProductOptionVO productOptionVO, MultipartFile image, List<MultipartFile> images) {
+//    //사진을 productVO에 입력
+//    productVO.setProMainImg(proMainImg(image));
+//    mapper.insertProduct(productVO, productOptionVO, image, images);
+//    // 메인이미지 등록
+//    // 상세이미지 등록
+//    ProductImgVO[] vo = proImgs(images);
+//    for (int i = 0; i < vo.length; i++) {
+//      vo[i].setProNo(productVO.getProNo());
+//    }
+//    for (int i = 0; i < vo.length; i++) {
+//      mapper.insertImg(vo[i]);
+//    }
+//  }
+  
   @Override
-  public void insertProduct(ProductVO productVO, ProductOptionVO productOptionVO, String email, MultipartFile image, List<MultipartFile> images) {
-    mapper.insertProduct(productVO, productOptionVO, email, image, images);
-    // 메인이미지
+  public void insertProduct(ProductVO productVO, List<ProductOptionVO> options, MultipartFile image, List<MultipartFile> images) {
+    // 메인이미지 등록
     productVO.setProMainImg(proMainImg(image));
+    mapper.insertProduct(productVO, options, image, images);
+    // 옵션 등록
+    if(options.size() > 0) {
+    for(ProductOptionVO x : options) {
+      x.setProNo(productVO.getProNo());
+    }
+    mapper.insertOpt(options);
+    }
     // 상세이미지 등록
     ProductImgVO[] vo = proImgs(images);
     for (int i = 0; i < vo.length; i++) {
@@ -126,8 +149,9 @@ public class ShopServiceImpl implements ShopService {
     for (int i = 0; i < vo.length; i++) {
       mapper.insertImg(vo[i]);
     }
-
   }
+  //옵션 등록
+  
   //메인이미지
   @Override
   public String proMainImg(MultipartFile image) {
@@ -153,7 +177,6 @@ public class ShopServiceImpl implements ShopService {
       e.printStackTrace();
     }
 
-    ProductVO vo = new ProductVO();
     img = write.toString();
 
     return img;
@@ -195,6 +218,16 @@ public class ShopServiceImpl implements ShopService {
   public void insertPurOne(ProductVO product, String payCode, String email) {
     mapper.insertPurOne(product, payCode, email);
 
+  }
+
+  @Override
+  public List<ProductVO> getMyProList(ProductVO productVO) {
+    return mapper.getMyProList(productVO);
+  }
+
+  @Override
+  public void updateStatus(ProductVO productVO) {
+    mapper.updateStatus(productVO);
   }
 
 }

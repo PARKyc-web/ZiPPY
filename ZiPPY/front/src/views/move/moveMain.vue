@@ -2,7 +2,7 @@
 
 <div class="wrap">
     <div class="frame">
-      <button class="custom-btn btn-3"><span>이사 견적받기</span></button>
+      <button @click="goMove()" class="custom-btn btn-3"><span>이사 견적받기</span></button>
       <button class="custom-btn btn-8"><span>청소 견적받기</span></button>
     </div>
       <video width="400" height="240" autoplay="autoplay" muted="muted" loop>
@@ -14,7 +14,15 @@
 
 <script>
   export default{ 
-
+    methods : {
+      goMove : function(){
+        this.$router.push({
+        name: "moveTotal",
+        params: {}
+      })
+      
+      }
+    }
   }
 </script>
 
