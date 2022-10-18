@@ -37,6 +37,7 @@ import moveEstimate from "../views/move/moveEstimate";
 import moveCompanyList from "../views/move/moveCompanyList";
 import moveResult from "../views/move/moveResult";
 import moveMain from "../views/move/moveMain";
+import moveCompanyEstimate from "../views/move/moveCompanyEstimate";
 
 import usedUpdate from "../views/used/usedUpdate.vue";
 import usedDetail from "../views/used/usedDetail.vue";
@@ -246,6 +247,13 @@ const routes = [
     component: moveResult,
     props: true,
   },
+  {
+    path: "/moveCompanyEstimate",
+    name: "moveCompanyEstimate",
+    component: moveCompanyEstimate,
+    props: true,
+  },
+ 
 
 
   //used
