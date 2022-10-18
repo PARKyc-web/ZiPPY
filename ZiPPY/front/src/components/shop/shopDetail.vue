@@ -188,7 +188,7 @@
           let check = '';
           //장바구니에 존재한 상품 check
           axios({
-            url: "http://localhost:8088/zippy/shop/myCartList",
+            url: "/shop/myCartList",
             method: "POST",
             params: {
               email: this.email
@@ -237,7 +237,7 @@
             //상품등록
             if (check) {
               axios({
-                url: "http://localhost:8088/zippy/shop/insertCart",
+                url: "/shop/insertCart",
                 method: "POST",
                 headers: {
                   "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
@@ -272,7 +272,7 @@
           this.makePayCode();
           //purchase 테이블에 등록(1개)
           axios({
-            url: "http://localhost:8088/zippy/shop/insertPurOne",
+            url: "/shop/insertPurOne",
             headers: {
               "Content-Type": "application/json"
             },
@@ -321,7 +321,7 @@
     created() {
       //단건조회
       axios({
-          url: "http://localhost:8088/zippy/shop/detail",
+          url: "/shop/detail",
           method: "GET",
           params: {
             pno: this.$route.query.pno
@@ -335,7 +335,7 @@
         }),
         //이미지조회
         axios({
-          url: "http://localhost:8088/zippy/shop/img",
+          url: "/shop/img",
           method: "GET",
           params: {
             pno: this.$route.query.pno
@@ -349,7 +349,7 @@
         }),
         //옵션조회
         axios({
-          url: "http://localhost:8088/zippy/shop/opt",
+          url: "/shop/opt",
           method: "GET",
           params: {
             pno: this.$route.query.pno
@@ -363,7 +363,7 @@
         })
       // //찜 여부 조회
       // axios({
-      //   url: "http://localhost:8088/zippy/shop/getHeart",
+      //   url: "/shop/getHeart",
       //   method: "POST",
       //   params: {
       //     email: this.email,

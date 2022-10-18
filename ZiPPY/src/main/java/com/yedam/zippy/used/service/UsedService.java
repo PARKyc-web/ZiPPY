@@ -9,10 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface UsedService {
   // 전체조회
   public List<UsedProductVO> usedList(String location, String keyword, String category, String checked, String dropbox);
-
-  // 검색조회
-  public List<UsedProductVO> usedSearchList(String word);
-
+  
   // 단건조회
   public UsedProductVO usedOne(int pNo);
 
@@ -30,6 +27,9 @@ public interface UsedService {
 
   // 이미지 등록
   public int insertImg(UsedImagesVO images);
+  
+  // 이미지 삭제
+  public int deleteImg(UsedProductVO product);
 
   // 이미지 수정
   public int updateImg(UsedImagesVO images);

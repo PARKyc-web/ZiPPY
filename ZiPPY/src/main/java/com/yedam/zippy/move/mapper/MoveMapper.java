@@ -5,6 +5,7 @@ import java.util.List;
 import com.yedam.zippy.move.service.MoveEstimateVO;
 import com.yedam.zippy.move.service.MoveImageVO;
 import com.yedam.zippy.move.service.MoveRequestVO;
+import com.yedam.zippy.move.service.MoveResponseVO;
 
 public interface MoveMapper {
   
@@ -28,6 +29,12 @@ public interface MoveMapper {
   
   //전체조회 - 유저가 자기 견적 히스토리 조회
   public List<MoveEstimateVO> getEstimateResult(MoveEstimateVO vo);
+  
+  //견적서 인서트 - 업체
+  public int makeEstimate(MoveResponseVO vo);
+  
+  //견적서 조회 - 업체
+  public List<MoveResponseVO> companyEstimate(MoveResponseVO vo);
 }
 
  

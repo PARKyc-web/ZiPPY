@@ -13,5 +13,8 @@ public class MoveResponseVO {
   int secondEstimatePrice;
   String secondEstimateType;
   int reservStatus;
+  String compName;
+  String responseMemo;
+  
   
 }

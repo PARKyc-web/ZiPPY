@@ -11,9 +11,6 @@ import com.yedam.zippy.used.service.UsedProductVO;
 public interface UsedMapper {
 	// 전체조회
 	public List<UsedProductVO> usedList(@Param("location")String location, @Param("keyword")String keyword, @Param("category")String category, @Param("checked")String checked, @Param("dropbox")String dropbox);
-	
-	// 검색조회
-	public List<UsedProductVO> usedSearchList(@Param("word")String word);
 
 	// 단건조회
 	public UsedProductVO usedOne(@Param("pNo")int pNo);
@@ -30,8 +27,11 @@ public interface UsedMapper {
 	// 조회수 증가
 	public void viewCnt(@Param("pNo") int pNo);
 
-	// 이미지 등록
+	// 이미지 등록 및 수정
 	public int insertImg(UsedImagesVO images);
+	
+	// 이미지 삭제
+	public int deleteImg(UsedProductVO product);
 	
 	// 이미지 수정
 	public int updateImg(UsedImagesVO images);

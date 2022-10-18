@@ -187,23 +187,7 @@
       //   }).catch(err => {
       //     console.log(err)
       //   })
-      // },
-      // updateSubmit: function () {
-      //   console.log(this.product)
-      //   axios({
-      //     url: "http://localhost:8088/zippy/used/update",
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
-      //     },
-      //     data: this.product
-      //   }).then(res => {
-      //     console.log(res);
-      //     // window.location.assign('/used/detail?pNo='+this.$route.query.pNo);
-      //   }).catch(err => {
-      //     console.log(err)
-      //   })
-      // },
+      // }
       updateSubmit: function () {
         var formData = new FormData(document.querySelector('#usedUpdate'));
         this.dropVal();
@@ -213,7 +197,7 @@
           data: formData
         }).then(res => {
           console.log(res);
-          window.location.assign('/used/detail?pNo='+this.$route.query.pNo);
+          // window.location.assign('/used/detail?pNo='+this.$route.query.pNo);
         }).catch(err => {
           console.log(err)
         })

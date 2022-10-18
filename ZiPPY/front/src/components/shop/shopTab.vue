@@ -233,7 +233,7 @@
     // created() {
     //   //단건조회
     //   axios({
-    //     url: "http://localhost:8088/zippy/shop/detail",
+    //     url: "/shop/detail",
     //     method: "GET",
     //     params: {
     //       no: this.$route.query.no

@@ -19,8 +19,21 @@
 		(
 		#{bookmarkNo}
 		,#{email}
-		,1
+		,#{serviceType}
 		,#{serviceId}
 		)
 	</insert>
+	
+	<delete id="delWish" parameterType="BookmarkVO">
+		DELETE 
+		FROM bookmark
+		WHERE bookmark_no = #{bNo}
+	</delete>
+	
+	<select id="getWishOne" resultType="BookmarkVO" parameterType="hashmap">
+		SELECT * 
+		FROM bookmark
+		WHERE service_id = #{sId}
+		AND email = #{email}
+	</select>
 </mapper>
