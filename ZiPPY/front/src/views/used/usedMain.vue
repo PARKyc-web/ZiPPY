@@ -43,7 +43,7 @@
       </div>
       <div @click="goDetail(list.productNo)" class="used-main-card" v-if="data.length != 0" v-for="list in data">
         <div>
-          <div><img :src="require('C:\\usedImage\\FIzrqY3agAI_Nyy.jpg')"  width="194px" height="194px"></div>
+          <!--<div><img :src="require('C:\\usedImage\\FIzrqY3agAI_Nyy.jpg')"  width="194px" height="194px"></div>-->
           <div class="used-main-card-cont">
             <div class="used-main-card-title">{{list.productName}}</div>
             <div class="used-main-price-date">

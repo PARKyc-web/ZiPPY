@@ -1,13 +1,10 @@
 package com.yedam.zippy.shop.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.yedam.zippy.member.service.GeneralUserVO;
 import com.yedam.zippy.shop.service.CartVO;
 import com.yedam.zippy.shop.service.OrderVO;
@@ -119,6 +118,7 @@ public class ShopController {
   public List<PurchaseVO> getMyPurList(String payCode) {
     return service.getMyPurList(payCode);
   }
+  //주문등록
   @PostMapping("/insertOrder")
   public void insertOrder(@RequestBody OrderVO orderVO) {
     service.insertOrder(orderVO);
@@ -126,8 +126,27 @@ public class ShopController {
   
   //판매자
   //상품등록
+//  @PostMapping("/insertPro")
+//  public void insertProduct(ProductVO productVO, ProductOptionVO productOptionVO, MultipartFile image, List<MultipartFile> images) {
+//   service.insertProduct(productVO, productOptionVO, image, images); 
+//  }
+  //상품등록
   @PostMapping("/insertPro")
-  public void insertProduct(@RequestBody ProductVO productVO, @RequestBody ProductOptionVO productOptionVO, String email, MultipartFile image, List<MultipartFile> images) {
-   service.insertProduct(productVO, productOptionVO, email, image, images); 
+  public void insertProduct(ProductVO productVO, String option, MultipartFile image, List<MultipartFile> images) 
+  {
+    Gson gs = new Gson();
+    List<ProductOptionVO> options = gs.fromJson(option, new TypeToken<ArrayList<ProductOptionVO>>(){}.getType() );    
+    service.insertProduct(productVO, options, image, images); 
+  }
+  //상품조회
+  @ResponseBody
+  @PostMapping("/myProList")
+  public List<ProductVO> getMyProList(@RequestBody ProductVO productVO) {
+    return service.getMyProList(productVO);
+  }
+  //등록 상품상태 수정
+  @PostMapping("/updateStatus")
+  public void updateStatus(@RequestBody ProductVO productVO) {
+    service.updateStatus(productVO);
   }
 }

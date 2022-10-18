@@ -97,7 +97,7 @@
     created() {
       if (this.$route.query.keyw ) {
         axios({
-          url: "http://localhost:8088/zippy/shop/keyword",
+          url: "/shop/keyword",
           method: "GET",
           params: {
             keyw: this.$route.query.keyw
@@ -111,7 +111,7 @@
         })
       }else if(this.$route.query.cate) {
         axios({
-        url: "http://localhost:8088/zippy/shop/category",
+        url: "/shop/category",
         method: "GET",
         params: {
           cate: this.$route.query.cate

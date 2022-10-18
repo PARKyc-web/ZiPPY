@@ -51,7 +51,7 @@
     created() {
       //전체 장바구니 조회
       axios({
-        url: "http://localhost:8088/zippy/shop/myCartList",
+        url: "/shop/myCartList",
         method: "POST",
         params: {
           email: this.$route.query.email

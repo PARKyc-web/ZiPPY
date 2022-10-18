@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.zippy.member.service.GeneralUserVO;
@@ -63,13 +65,14 @@ public interface ShopService {
   public void insertOrder(OrderVO orderVO);
 
   // 판매자 CRUD
-  // 상품등록
-  public void insertProduct(ProductVO productVO, ProductOptionVO productOptionVO, String email, MultipartFile image, List<MultipartFile> images);
-
+  //상품등록
+  public void insertProduct(ProductVO productVO, List<ProductOptionVO> options, MultipartFile image, List<MultipartFile> images);
   // 메인이미지 등록
   public String proMainImg(MultipartFile image);
-
   // 상세이미지 등록
   public ProductImgVO[] proImgs(List<MultipartFile> images);
-
+  //등록 상품 조회
+  public List<ProductVO> getMyProList(ProductVO productVO);
+  //등록 상품상태 수정
+  public void updateStatus(ProductVO productVO);
 };
