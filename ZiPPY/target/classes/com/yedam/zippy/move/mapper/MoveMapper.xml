@@ -168,8 +168,9 @@
 	<select id="getEstimateList" parameterType="MoveEstimateVO" resultType="MoveRequestVO">
 		SELECT *
 		FROM untact_estimate_moving
+		WHERE request_date LIKE '%'||'2'||'%'
 		<if test="dropbox2 == '내 지역만 조회'">
-		WHERE SUBSTR(depart_address, 1, 2) LIKE 
+		AND SUBSTR(depart_address, 1, 2) LIKE 
 				'%'|| (SELECT SUBSTR(comp_address, 1,2) 
 					   FROM business
 					   WHERE email = #{businessEmail}) || '%'
@@ -187,7 +188,7 @@
 		</if>
 	
 		<if test="dropbox == '현재날짜요청'">
-		AND request_date =  TO_CHAR(SYSDATE, 'YYYY.MM.DD')
+		AND request_date =  TO_CHAR(SYSTIMESTAMP, 'YYYY.MM.DD')
 		</if>
 		
 		<if test="dropbox == '최신요청일자순'">

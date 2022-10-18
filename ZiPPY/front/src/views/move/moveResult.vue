@@ -25,8 +25,9 @@
             <div >이사희망시간 : <span>{{item.movingTime}}</span></div>
             <div >출발지 주소 : <span>{{item.departZipCode}}</span> <br><span>{{item.departAddress}}</span> <span>{{item.departDetail}}</span></div>
             <div >도착지 주소 : <span>{{item.arriveZipCode}}</span> <br><span>{{item.arriveAddress}}</span> <span>{{item.arriveDetail}}</span></div>
-            <div >이사정보 : <span>{{item.movingOption}}</span></div>
-            
+            <div >이사정보 : <span>{{my(item.movingOption)}}</span></div>
+
+
             <div v-if="item.movingMemo != null">
             <div >이사 요청사항 : <span>{{item.movingMemo}}</span></div>
             </div>
@@ -51,7 +52,7 @@ export default{
 
   data : function () {
     return{
-
+      
       list : [],
       vo : {
         email : "zippy@naver.com",
@@ -111,6 +112,21 @@ export default{
           console.log(err);
         })
       },
+      my : function(string){
+        let testString = "";
+        
+        for(let test of string.split(",")){
+          console.log(test)
+          console.log(test.split(":"));
+          if(test.split(":")[0] == 'bedCount'){
+            testString += "침대:" + test.split(":")[1];
+          }else if(test.split(":")[0] == 'sofaCount'){
+            console.log(test.split(":")[0]);
+            testString += "소파:" + test.split(":")[1];
+          }
+        }
+        return testString;
+      }
   }
 }
 </script>

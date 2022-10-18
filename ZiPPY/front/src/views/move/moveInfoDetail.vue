@@ -14,7 +14,7 @@
         <div class="move-detail-drop" v-for="i in moveDetail[0].bedCount">
           <!-- v-for="(row, index) in rows" -->
           <div >
-          <select v-bind:disabled="bedAvail==false" :id="i" v-model="moveDetail[0].bed[i]" >
+          <select v-bind:disabled="bedAvail==false" :id="i-1" v-model="moveDetail[0].bed[i-1]" >
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
@@ -23,7 +23,7 @@
             <option value="킹이상">킹 이상</option>
           </select>
           <button v-bind:disabled="bedAvail==false" 
-          class="custom-btn btn-4" type="button"  @click="removeBed(i)">-</button>
+          class="custom-btn btn-4" type="button"  @click="removeBed(i-1)">-</button>
         </div>
         </div>
       </div>
@@ -34,7 +34,7 @@
         class="custom-btn btn-4" type="button" @click="addSofa()">+</button><br><br />
         <i class="fa-solid fa-couch fa-5x"></i><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].sofaCount">
-          <select v-bind:disabled="sofaAvail==false" :id="i" v-model="moveDetail[0].sofa[i]">
+          <select v-bind:disabled="sofaAvail==false" :id="i-1" v-model="moveDetail[0].sofa[i-1]">
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
@@ -43,7 +43,7 @@
             <option value="킹이상">킹 이상</option>
           </select>
             <button v-bind:disabled="sofaAvail==false" 
-            class="custom-btn btn-4" type="button"  @click="removeSofa(i)">-</button>
+            class="custom-btn btn-4" type="button"  @click="removeSofa(i-1)">-</button>
         </div>
       </div>
 
@@ -53,7 +53,7 @@
         class="custom-btn btn-4" type="button" @click="addCloset()">+</button><br /><br />
         <i class="fa-solid fa-toilet-portable fa-5x"></i><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].closetCount">
-          <select v-bind:disabled="closetAvail==false" :id="i" v-model="moveDetail[0].closet[i]">
+          <select v-bind:disabled="closetAvail==false" :id="i-1" v-model="moveDetail[0].closet[i-1]">
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
@@ -62,7 +62,7 @@
             <option value="킹이상">킹 이상</option>
           </select>
           <button v-bind:disabled="closetAvail==false" 
-           class="custom-btn btn-4" type="button"  @click="removeCloset(i)">-</button>
+           class="custom-btn btn-4" type="button"  @click="removeCloset(i-1)">-</button>
         </div>
       </div>
 
@@ -72,7 +72,7 @@
         class="custom-btn btn-4" type="button" @click="addClosets()">+</button><br /><br />
         <i class="fa-solid fa-toilets-portable fa-5x"></i><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].closetsCount">
-          <select v-bind:disabled="closetsAvail==false" :id="i" v-model="moveDetail[0].closets[i]">
+          <select v-bind:disabled="closetsAvail==false" :id="i-1" v-model="moveDetail[0].closets[i-1]">
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
@@ -81,7 +81,7 @@
             <option value="킹이상">킹 이상</option>
           </select>
           <button v-bind:disabled="closetsAvail==false" 
-          class="custom-btn btn-4" type="button"  @click="removeClosets(i)">-</button>
+          class="custom-btn btn-4" type="button"  @click="removeClosets(i-1)">-</button>
         </div>
       </div>
     </div>
@@ -102,7 +102,7 @@
         <i class="fa-solid fa-tv fa-5x"></i><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].tvCount">
           <!-- v-for="(row, index) in rows" -->
-          <select v-bind:disabled="tvAvail==false" :id="i" v-model="moveDetail[0].tv[i]" >
+          <select v-bind:disabled="tvAvail==false" :id="i-1" v-model="moveDetail[0].tv[i-1]" >
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
@@ -112,7 +112,7 @@
           </select>
       
           <button v-bind:disabled="tvAvail==false" 
-          class="custom-btn btn-4" type="button"  @click="removeTv(i)">-</button>
+          class="custom-btn btn-4" type="button"  @click="removeTv(i-1)">-</button>
         </div>
       </div>
 
@@ -122,7 +122,7 @@
         class="custom-btn btn-4" type="button" @click="addPc()">+</button><br /><br />
         <i class="fa-solid fa-desktop fa-5x"></i><br /> 
         <div class="move-detail-drop" v-for="i in moveDetail[0].pcCount">
-          <select v-bind:disabled="pcAvail==false" :id="i" v-model="moveDetail[0].pc[i]">
+          <select v-bind:disabled="pcAvail==false" :id="i-1" v-model="moveDetail[0].pc[i-1]">
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
@@ -131,7 +131,7 @@
             <option value="킹이상">킹 이상</option>
           </select>
           <button v-bind:disabled="pcAvail==false"   
-          class="custom-btn btn-4" type="button"  @click="removePc(i)">-</button>
+          class="custom-btn btn-4" type="button"  @click="removePc(i-1)">-</button>
         </div>
       </div>
 
@@ -141,7 +141,7 @@
         class="custom-btn btn-4" type="button" @click="addFridge()">+</button><br /><br />
         <i class="material-icons md-54">kitchen</i><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].fridgeCount">
-          <select v-bind:disabled="fridgeAvail==false" :id="i" v-model="moveDetail[0].fridge[i]">
+          <select v-bind:disabled="fridgeAvail==false" :id="i-1" v-model="moveDetail[0].fridge[i-1]">
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
@@ -150,7 +150,7 @@
             <option value="킹이상">킹 이상</option>
           </select>
           <button v-bind:disabled="fridgeAvail==false" 
-          class="custom-btn btn-4" type="button"  @click="removeFridge(i)">-</button>
+          class="custom-btn btn-4" type="button"  @click="removeFridge(i-1)">-</button>
         </div>
       </div>
 
@@ -160,7 +160,7 @@
          class="custom-btn btn-4" type="button" @click="addTrolley()">+</button><br /><br />
         <i class="fa-solid fa-baby-carriage fa-5x"></i><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].trolleyCount">
-          <select v-bind:disabled="trolleyAvail==false" :id="i" v-model="moveDetail[0].trolley[i]">
+          <select v-bind:disabled="trolleyAvail==false" :id="i-1" v-model="moveDetail[0].trolley[i-1]">
             <option value="" selected>-- 사이즈 --</option>
             <option value="싱글">싱글</option>
             <option value="슈퍼싱글">슈퍼싱글</option>
@@ -169,7 +169,7 @@
             <option value="킹이상">킹 이상</option>
           </select>
           <button v-bind:disabled="trolleyAvail==false" 
-          class="custom-btn btn-4" type="button"  @click="removeTrolley(i)">-</button>
+          class="custom-btn btn-4" type="button"  @click="removeTrolley(i-1)">-</button>
         </div>
       </div>
     </div>
@@ -191,9 +191,9 @@
             <button class="custom-btn btn-4" type="button" @click="addEtc()">+</button><br><br>
             <div v-for="i in moveDetail[0].etcCount">
               <label >사용자 기타</label>
-              <button class="custom-btn btn-4" type="button" :id="i-1" @click="removeEtc(i)">-</button>
-            <input v-model="moveDetail[0].etcName[i]" class="type-2" type="text" placeholder="기타이삿짐 이름" /><br />
-            <input v-model="moveDetail[0].etcSize[i]" class="type-2" type="text" placeholder="이삿짐 사이즈(cm * cm)" /><br />
+              <button class="custom-btn btn-4" type="button" :id="i-1" @click="removeEtc(i-1)">-</button>
+            <input v-model="moveDetail[0].etcName[i-1]" class="type-2" type="text" placeholder="기타이삿짐 이름" /><br />
+            <input v-model="moveDetail[0].etcSize[i-1]" class="type-2" type="text" placeholder="이삿짐 사이즈(cm * cm)" /><br />
           </div>
           </div>
         </div>
@@ -325,7 +325,7 @@
       },
       removeBed: function (i) {
         if (i > 1) {
-          this.moveDetail[0].bed[i]="";
+          this.moveDetail[0].bed[i-1]="";
           this.moveDetail[0].bedCount--;
         } else if (i < 1) {
           
@@ -339,7 +339,7 @@
       },
       removeSofa: function(i){
        if(i>1){
-        this.moveDetail[0].sofa[i]="";
+        this.moveDetail[0].sofa[i-1]="";
         this.moveDetail[0].sofaCount--;
        }else if(i<1){
         this.moveDetail[0].sofaCount = 1;
@@ -352,7 +352,7 @@
       },
       removeCloset: function(i){
        if(i>1){
-        this.moveDetail[0].closet[i]="";
+        this.moveDetail[0].closet[i-1]="";
         this.moveDetail[0].closetCount--;
        }else if(i<1){
         this.moveDetail[0].closetCount = 1;
@@ -365,7 +365,7 @@
       },
       removeClosets: function(i){
        if(i>1){
-        this.moveDetail[0].closets[i]="";
+        this.moveDetail[0].closets[i-1]="";
         this.moveDetail[0].closetsCount--;
        }else if(i<1){
         this.moveDetail[0].closetsCount = 1;
@@ -378,7 +378,7 @@
       },
       removeTv: function(i){
        if(i>1){
-        this.moveDetail[0].tv[i]="";
+        this.moveDetail[0].tv[i-1]="";
         this.moveDetail[0].tvCount--;
        }else if(i<1){
         this.moveDetail[0].tvCount = 1;
@@ -391,7 +391,7 @@
       },
       removePc: function(i){
        if(i>1){
-        this.moveDetail[0].pc[i]="";
+        this.moveDetail[0].pc[i-1]="";
         this.moveDetail[0].pcCount--;
        }else if(i<1){
         this.moveDetail[0].pcCount = 1;
@@ -405,7 +405,7 @@
       },
       removeFridge: function(i){
        if(i>1){
-        this.moveDetail[0].fridge[i]="";
+        this.moveDetail[0].fridge[i-1]="";
         this.moveDetail[0].fridgeCount--;
        }else if(i<1){
         this.moveDetail[0].fridgeCount = 1;
@@ -419,7 +419,7 @@
       },
       removeTrolley: function(i){
        if(i>1){
-        this.moveDetail[0].trolley[i]="";
+        this.moveDetail[0].trolley[i-1]="";
         this.moveDetail[0].trolleyCount--;
        }else if(i<1){
         this.moveDetail[0].trolleyCount = 1;
@@ -433,8 +433,8 @@
       },
       removeEtc: function(i){
        if(i>1){
-        this.moveDetail[0].etcName[i]="";
-        this.moveDetail[0].etcSize[i]="";
+        this.moveDetail[0].etcName[i-1]="";
+        this.moveDetail[0].etcSize[i-1]="";
         this.moveDetail[0].etcCount--;
        }else if(i<1){
         this.moveDetail[0].etcCount = 1;

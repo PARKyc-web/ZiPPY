@@ -266,6 +266,7 @@
         params: {
           businessEmail: "move123@move.com",
           movingOption: "",
+          commonOption: "",
           checked: "",
           dropbox: "",
           dropbox2: ""
