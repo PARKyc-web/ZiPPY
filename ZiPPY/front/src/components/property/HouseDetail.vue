@@ -85,7 +85,7 @@
           <h4 class="title">상세 설명</h4>
           <p class="contents">{{this.houseDetail[0].detailContents}}</p>
           <hr>
-          <report-button></report-button>
+          <report-button :productId="this.houseDetail[0].productId"></report-button>
         </article>
       </section>
 
