@@ -52,8 +52,7 @@
                    label="인증번호"
                    prepend-icon="lock"
                    type="number"                   
-                   color="#b3e3c3"                   
-                   @keyup.enter="checkValid()"             
+                   color="#b3e3c3"                                                
                  >                 
                  </v-text-field>
               </v-form>
@@ -66,8 +65,7 @@
                    prepend-icon="email"
                    type="email"
                    name="userEmail"
-                   color="#b3e3c3"                                      
-                   @keyup.enter="sendValidationNum(0)"
+                   color="#b3e3c3"                                                         
                  >
                  </v-text-field>       
               </v-form>
@@ -147,6 +145,7 @@ import swal from 'sweetalert2';
                     title : "임시 비밀번호 발행",
                     text : "등록된 이메일로 임시 비밀번호를 전송하였습니다."
                   });
+                  console.log()
 
                   this.$router.push("/login");
                 }

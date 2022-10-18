@@ -97,7 +97,14 @@ const routes = [
     path:"/mypage",
     name:"mypage",
     component : mypage,
-    children : []
+    children : 
+    [
+      {
+        path : "/",
+        name : "mypage-main",
+        component : HomeView
+      }
+    ]
   },
 
   {
