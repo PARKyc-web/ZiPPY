@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.yedam.zippy.common.mapper.CommonMapper;
 import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.common.service.CommonService;
+import com.yedam.zippy.common.service.ReportVO;
 
 @Service
 public class CommonServiceIml implements CommonService {
@@ -19,12 +20,12 @@ public class CommonServiceIml implements CommonService {
   public int addWish(BookmarkVO bookmark) {
     return mapper.addWish(bookmark);
   }
-  
+
   @Override
   public int delWish(int bNo) {
     return mapper.delWish(bNo);
   }
-  
+
   @Override
   public BookmarkVO getWishOne(int sId, String email) {
     return mapper.getWishOne(sId, email);
@@ -34,7 +35,7 @@ public class CommonServiceIml implements CommonService {
   public List<BookmarkVO> getWishAll() {
     return mapper.getWishAll();
   }
-  
+
   @Override
   public String addReview() {
     return mapper.addReview();
@@ -43,6 +44,11 @@ public class CommonServiceIml implements CommonService {
   @Override
   public String showReview() {
     return showReview();
+  }
+  
+  @Override
+  public int addReport(ReportVO vo) {
+    return mapper.addReport(vo);
   }
 
 }

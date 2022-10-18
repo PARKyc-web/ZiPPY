@@ -36,4 +36,22 @@
 		WHERE service_id = #{sId}
 		AND email = #{email}
 	</select>
+	
+	<insert id="addReport" parameterType="ReportVO">
+		<selectKey keyProperty="reportNo" order="BEFORE"
+			resultType="int">
+			SELECT NVL(MAX(report_no),0) +1 FROM service_report
+		</selectKey>
+		insert into service_report
+		values(
+		#{reportNo},
+		#{email},
+		#{reportType},
+		#{reportContents},
+		sysdate,
+		#{serviceType},
+		#{serviceId},
+		0
+		)
+	</insert>
 </mapper>

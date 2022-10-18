@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.common.service.CommonService;
+import com.yedam.zippy.common.service.ReportVO;
 
 @CrossOrigin(originPatterns = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
     RequestMethod.DELETE })
@@ -83,5 +84,10 @@ public class CommonController {
       byte[] imageByteArray = IOUtils.toByteArray(imageStream);
       imageStream.close();
       return new ResponseEntity<byte[]>(imageByteArray, HttpStatus.OK);
+  }
+  
+  @PostMapping("/addReport")
+  public int addReport(ReportVO vo) {
+    return service.addReport(vo);
   }
 }

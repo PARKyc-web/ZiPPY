@@ -23,5 +23,8 @@ public interface CommonService {
 
   // 후기 불러오기
   public String showReview();
-
+  
+  // 신고하기
+  public int addReport(ReportVO vo);
+ 
 }
