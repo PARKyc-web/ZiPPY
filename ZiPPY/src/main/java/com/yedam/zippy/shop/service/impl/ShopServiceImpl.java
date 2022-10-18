@@ -130,10 +130,17 @@ public class ShopServiceImpl implements ShopService {
 //  }
   
   @Override
-  public void insertProduct(ProductVO productVO, List<ProductOptionVO> productOptionVO, MultipartFile image, List<MultipartFile> images) {
-    productVO.setProMainImg(proMainImg(image));
-    mapper.insertProduct(productVO, productOptionVO, image, images);
+  public void insertProduct(ProductVO productVO, List<ProductOptionVO> options, MultipartFile image, List<MultipartFile> images) {
     // 메인이미지 등록
+    productVO.setProMainImg(proMainImg(image));
+    mapper.insertProduct(productVO, options, image, images);
+    // 옵션 등록
+    if(options.size() > 0) {
+    for(ProductOptionVO x : options) {
+      x.setProNo(productVO.getProNo());
+    }
+    mapper.insertOpt(options);
+    }
     // 상세이미지 등록
     ProductImgVO[] vo = proImgs(images);
     for (int i = 0; i < vo.length; i++) {
@@ -143,6 +150,8 @@ public class ShopServiceImpl implements ShopService {
       mapper.insertImg(vo[i]);
     }
   }
+  //옵션 등록
+  
   //메인이미지
   @Override
   public String proMainImg(MultipartFile image) {
@@ -168,7 +177,6 @@ public class ShopServiceImpl implements ShopService {
       e.printStackTrace();
     }
 
-    ProductVO vo = new ProductVO();
     img = write.toString();
 
     return img;
@@ -215,6 +223,11 @@ public class ShopServiceImpl implements ShopService {
   @Override
   public List<ProductVO> getMyProList(ProductVO productVO) {
     return mapper.getMyProList(productVO);
+  }
+
+  @Override
+  public void updateStatus(ProductVO productVO) {
+    mapper.updateStatus(productVO);
   }
 
 }

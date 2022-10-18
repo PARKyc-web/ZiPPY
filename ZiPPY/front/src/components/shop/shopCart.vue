@@ -74,7 +74,6 @@
       return {
         singleSelect: false,
         selected: [],
-        //select: [],
         check: false,
         randNom: [],
         payCode: '',

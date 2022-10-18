@@ -138,7 +138,8 @@
       },
       insertPro() {
         var formData = new FormData(document.querySelector('#shopInsert'));
-        formData.append('option', new Blob([JSON.stringify(this.option)] , {type: "application/json"}));
+        // formData.append('option', new Blob([JSON.stringify(this.option)] , {type: "application/json"}));
+        formData.append('option', ""+JSON.stringify(this.option));
 
         console.log(formData);
         axios({

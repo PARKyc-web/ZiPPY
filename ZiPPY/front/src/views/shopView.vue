@@ -1,5 +1,6 @@
 <template>
   <div>
+    <shop-insert-pro></shop-insert-pro>
     <shop-seller-pro></shop-seller-pro>
   </div>
 </template>
