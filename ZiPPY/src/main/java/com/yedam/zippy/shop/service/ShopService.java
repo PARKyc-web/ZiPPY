@@ -71,7 +71,7 @@ public interface ShopService {
   public String proMainImg(MultipartFile image);
   // 상세이미지 등록
   public ProductImgVO[] proImgs(List<MultipartFile> images);
-  //등록 상품 조회
+  //등록 상품 조회(전체조회)
   public List<ProductVO> getMyProList(ProductVO productVO);
   //등록 상품상태 수정
   public void updateStatus(ProductVO productVO);

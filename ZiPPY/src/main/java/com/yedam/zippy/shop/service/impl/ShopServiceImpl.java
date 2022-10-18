@@ -112,22 +112,6 @@ public class ShopServiceImpl implements ShopService {
   public void getHeart(String email) {
     mapper.getHeart(email);
   }
-
-//  @Override
-//  public void insertProduct(ProductVO productVO, ProductOptionVO productOptionVO, MultipartFile image, List<MultipartFile> images) {
-//    //사진을 productVO에 입력
-//    productVO.setProMainImg(proMainImg(image));
-//    mapper.insertProduct(productVO, productOptionVO, image, images);
-//    // 메인이미지 등록
-//    // 상세이미지 등록
-//    ProductImgVO[] vo = proImgs(images);
-//    for (int i = 0; i < vo.length; i++) {
-//      vo[i].setProNo(productVO.getProNo());
-//    }
-//    for (int i = 0; i < vo.length; i++) {
-//      mapper.insertImg(vo[i]);
-//    }
-//  }
   
   @Override
   public void insertProduct(ProductVO productVO, List<ProductOptionVO> options, MultipartFile image, List<MultipartFile> images) {

@@ -76,7 +76,6 @@ public class ShopController {
   //장바구니
   //장바구니 등록
   @PostMapping("/insertCart")
-  @ResponseBody
   public void insertCart(CartVO cartVO) {
     service.insertCart(cartVO);
   }
@@ -123,13 +122,6 @@ public class ShopController {
   public void insertOrder(@RequestBody OrderVO orderVO) {
     service.insertOrder(orderVO);
   }
-  
-  //판매자
-  //상품등록
-//  @PostMapping("/insertPro")
-//  public void insertProduct(ProductVO productVO, ProductOptionVO productOptionVO, MultipartFile image, List<MultipartFile> images) {
-//   service.insertProduct(productVO, productOptionVO, image, images); 
-//  }
   //상품등록
   @PostMapping("/insertPro")
   public void insertProduct(ProductVO productVO, String option, MultipartFile image, List<MultipartFile> images) 

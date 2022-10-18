@@ -10,51 +10,51 @@
             <tr>
               <td style="font-weight:bold">상품번호</td>
               <td>
-                상품번호
+                <b-form-input name="proNo" readonly :value="product.proNo"></b-form-input>
               </td>
             </tr>
             <tr>
               <td style="font-weight:bold">상품명<span>*</span></td>
               <td>
-                <b-form-input name="proName" placeholder="상품명을 입력해주세요"></b-form-input>
+                <b-form-input name="proName" :value="product.proName"></b-form-input>
               </td>
             </tr>
             <tr>
               <td style="font-weight:bold">상품가격<span>*</span></td>
               <td>
-                <b-form-input name="proPrice" placeholder="상품가격을 입력해주세요"></b-form-input>
+                <b-form-input name="proPrice" :value="product.proPrice"></b-form-input>
               </td>
             </tr>
             <tr>
               <td style="font-weight:bold">배송비<span>*</span></td>
               <td>
-                <b-form-input name="deliveryCost" placeholder="배송비를 입력해주세요"></b-form-input>
+                <b-form-input name="deliveryCost" :value="product.deliveryCost"></b-form-input>
               </td>
             </tr>
             <tr>
               <td style="font-weight:bold">카테고리<span>*</span></td>
               <td>
                 <v-select name="category" :items="cates" item-text="cates" item-value="cates" label="카테고리" return-object
-                  dense outlined width="350" height="30"></v-select>
+                  dense outlined width="350" height="30" :value="product.category"></v-select>
               </td>
             </tr>
             <td style="font-weight:bold; position:relative">
               <div class="mt-3" style="position:absolute; top:0">상품설명</div>
             </td>
             <td>
-              <v-textarea width="350" solo name="proInfo" label="상품설명을 등록해주세요"></v-textarea>
+              <v-textarea width="350" solo name="proInfo" :value="product.proInfo"></v-textarea>
             </td>
             <tr>
               <td style="font-weight:bold">대표이미지<span>*</span></td>
               <td style="padding-top:0; padding-bottom:0">
-                <v-file-input name="image" accept="image/*" label="대표이미지" style="width:350px">
+                <v-file-input name="image" accept="image/*" :label="product.proMainImg" style="width:350px">
                 </v-file-input>
               </td>
             </tr>
             <tr>
               <td style="font-weight:bold">상세이미지</td>
               <td style="padding-top:0; padding-bottom:0">
-                <v-file-input name="images" multiple label="상세이미지" style="width:350px"></v-file-input>
+                <v-file-input name="images" multiple :label="imgs" style="width:350px"></v-file-input>
               </td>
             </tr>
             <tr>
@@ -86,13 +86,13 @@
         </table>
         <div v-for="(item, index) in option" :key="item.optName" style="width:485px">
           <!-- 옵션명 -->
-          <div class="pl-3" style="width:100px; display:inline-block">옵션이름</div>
+          <div class="pl-3 mt-5" style="width:100px; display:inline-block">옵션이름</div>
           <div style="padding:10px; width:354px; display:inline-block">
             <input data-v-656fe1d6 type="text" class="form-control" v-model="option[index].optName">
           </div>
           <!-- 추가 가격-->
           <div class="pl-3" style="width:100px;  display:inline-block">추가가격</div>
-          <div style="padding:10px; width:354px;  display:inline-block">
+          <div class="mb-5" style="padding:10px; width:354px;  display:inline-block">
             <input data-v-656fe1d6 type="text" class="form-control" v-model="option[index].optPrice">
           </div>
         </div>
@@ -104,7 +104,7 @@
             <v-btn outlined color="#64c481" class="mr-3" @click="insertPro">
               등록
             </v-btn>
-            <v-btn depressed color=#B3E3C3>
+            <v-btn depressed color=#B3E3C3 @click="goProList">
               취소
             </v-btn>
           </div>
@@ -116,14 +116,19 @@
 
 <script>
   import axios from 'axios';
+  import swal from 'sweetalert2';
 
   export default {
     data() {
       return {
         //담을 상품
         product: {},
+        //null 체크용
+        pro: [],
         //상세이미지
         images: [],
+        //라벨에 표현용 상세이미지
+        imgs: '',
         //카테고리 종류
         cates: ['침대', '토퍼/매트리스', '소파', '서랍/수납장', '책장', '의자', '거울', '조명', '소품'],
         //옵션
@@ -143,6 +148,18 @@
         this.option.splice(this.option.length - 1, 1);
       },
       insertPro() {
+        //null 검사
+        if (!this.product.proName || !this.product.proPrice || !this.product.deliveryCost || !this.product.category || !this.product
+          .proMainImg) {
+          swal.fire({
+            position: 'top-end',
+            icon: 'warning',
+            title: '상품등록시 필수 정보를 입력해주세요.',
+            showConfirmButton: true
+          })
+          return;
+        }
+
         var formData = new FormData(document.querySelector('#shopInsert'));
         formData.append('option', "" + JSON.stringify(this.option));
 
@@ -156,7 +173,54 @@
         }).catch(error => {
           console.log(error);
         })
+      },
+      goProList() {
+        this.$router.go(-1);
       }
+    },
+    created() {
+      //단건조회
+      axios({
+          url: "/shop/detail",
+          method: "GET",
+          params: {
+            pno: this.$route.query.proNo
+          }
+        }).then(res => {
+          console.log(res);
+          this.product = res.data;
+          console.log(this.product);
+        }).catch(error => {
+          console.log(error);
+        }),
+        //이미지조회
+        axios({
+          url: "/shop/img",
+          method: "GET",
+          params: {
+            pno: this.$route.query.proNo
+          }
+        }).then(res => {
+          console.log(res);
+          this.images = res.data;
+          this.imgs = this.images.toString();
+        }).catch(error => {
+          console.log(error);
+        }),
+        //옵션조회
+        axios({
+          url: "/shop/opt",
+          method: "GET",
+          params: {
+            pno: this.$route.query.proNo
+          }
+        }).then(res => {
+          console.log(res);
+          this.option = res.data;
+          console.log(this.option)
+        }).catch(error => {
+          console.log(error);
+        })
     }
   }
 </script>
@@ -169,14 +233,6 @@
 
   td {
     padding: 10px;
-  }
-
-  #option input {
-    width: 265px !important;
-  }
-
-  #option {
-    font-size: smaller
   }
 
   .v-btn {

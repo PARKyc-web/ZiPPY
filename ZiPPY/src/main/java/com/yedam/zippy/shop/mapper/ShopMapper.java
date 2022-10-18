@@ -73,12 +73,11 @@ public interface ShopMapper {
   // 판매자 CRUD
   // 상품등록
   public void insertProduct(@Param("product") ProductVO productVO, @Param("option") List<ProductOptionVO> option, @Param("image") MultipartFile image, @Param("images") List<MultipartFile> images);
-  // 옵션 등록
   //옵션등록
   public void insertOpt(@Param("options")List<ProductOptionVO> options);
   //상세이미지 등록
   public int insertImg(ProductImgVO images);
-  //등록 상품 조회
+  //등록 상품 조회(전체조회)
   public List<ProductVO> getMyProList(ProductVO productVO);
   //등록 상품상태 수정
   public void updateStatus(ProductVO productVO);

@@ -23,11 +23,11 @@
             @click="updateStatus(item.proNo, item.proStatus)">
             판매중지
           </v-btn>
-          <v-btn v-if="item.proStatus==1" depressed color=#B3E3C3 class="mr-2"
+          <v-btn v-if="item.proStatus==1" depressed color=#D6D6D6 class="mr-2"
             @click="updateStatus(item.proNo, item.proStatus)">
             판매가능
           </v-btn>
-          <v-btn depressed color=#B3E3C3 @click="updateProInfo(item.proNo)">
+          <v-btn depressed outlined color=#64c481 @click="updateProInfo(item.proNo)">
             수정
           </v-btn>
         </template>
