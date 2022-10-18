@@ -19,9 +19,9 @@ public interface CommonService {
   public int delWish(int bNo);
 
   // 후기 등록
-  public String addReview();
+  public int addReview( ReviewBoardVO rv);
 
   // 후기 불러오기
-  public String showReview();
+  public List<ReviewBoardVO> showReview(ReviewBoardVO rv);
 
 }

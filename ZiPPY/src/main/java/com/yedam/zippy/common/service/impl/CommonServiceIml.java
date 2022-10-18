@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.yedam.zippy.common.mapper.CommonMapper;
 import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.common.service.CommonService;
+import com.yedam.zippy.common.service.ReviewBoardVO;
 
 @Service
 public class CommonServiceIml implements CommonService {
@@ -36,13 +37,13 @@ public class CommonServiceIml implements CommonService {
   }
   
   @Override
-  public String addReview() {
-    return mapper.addReview();
+  public int addReview( ReviewBoardVO rv) {
+    return mapper.addReview(rv);
   }
 
   @Override
-  public String showReview() {
-    return showReview();
+  public List<ReviewBoardVO> showReview(ReviewBoardVO rv) {
+    return showReview(rv);
   }
 
 }

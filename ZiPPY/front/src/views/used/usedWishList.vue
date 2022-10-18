@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <nav-bar @click="search($event)"></nav-bar>
+    <!-- <nav-bar @click="search($event)"></nav-bar> -->
     <div>
       <div class="used-main-title">
         <h3>찜 목록</h3>
@@ -14,7 +14,7 @@
         </p>
       </div>
       <div id="used-wish-del-div">
-        <button class="used-wish-del-btn">선택삭제</button>
+        <button @click="delWish()" class="used-wish-del-btn">선택삭제</button>
       </div>
     </div>
     <hr />
@@ -34,9 +34,9 @@
               <div id="wish-card-ckbox">
                 <div id="wish-title-price"><span>{{list.productName}}</span></div>
                 <div>
-                  <input type="checkbox" id="chk_top" :value="list.productName" v-model="ckList"/>
                   <p class="chk_box">
-                    <!-- <label for="chk_top"></label> -->
+                    <input type="checkbox" id="chk_top" :value="list.productNo" v-model="ckList" />
+                    <label for="chk_top"></label>
                   </p>
                 </div>
               </div>
@@ -56,12 +56,12 @@
 
 <script>
   import axios from 'axios';
-  import navBar from '../../components/used/navBar.vue';
+  // import navBar from '../../components/used/navBar.vue';
 
   export default {
     data: () => ({
       data: "",
-      ckList : []
+      ckList: []
     }),
     created() {
       axios({
@@ -73,9 +73,29 @@
       }).then(res => {
         console.log(res);
         this.data = res.data;
+        console.log(this.data)
       }).catch(err => {
         console.log(err)
       })
+    },
+    methods: {
+      selectAll : function(){
+
+      },
+      // 선택 삭제 & 전체 삭제 ?
+      delWish : function(){
+        axios({
+          url : "common/delWish",
+          method : "DELETE",
+          params : {
+            bNo 
+          }
+        }).then(res=>{
+          console.log(res);
+        }).catch(err=>{
+          console.log(err)
+        })
+      }
     }
   };
 </script>

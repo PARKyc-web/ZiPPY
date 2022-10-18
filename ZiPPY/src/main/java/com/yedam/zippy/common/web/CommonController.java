@@ -7,9 +7,7 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.common.service.CommonService;
+import com.yedam.zippy.common.service.ReviewBoardVO;
 
 @CrossOrigin(originPatterns = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
     RequestMethod.DELETE })
@@ -64,14 +63,15 @@ public class CommonController {
 
   // 후기작성
   @PostMapping("/addRv")
-  public String addReview() {
-    return "";
+  public int addReview(@RequestBody ReviewBoardVO rv) {
+    service.addReview(rv);
+    return 1;
   }
 
   // 후기 출력
   @GetMapping("/showRv")
-  public String showReview() {
-    return "";
+  public List<ReviewBoardVO> showReview(@RequestBody ReviewBoardVO rv) {
+    return service.showReview(rv);
   }  
   
   @GetMapping("image/{imagename}")
