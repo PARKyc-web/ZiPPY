@@ -73,6 +73,7 @@
     <input type="hidden" name="isSell" v-model="data.isSell">
     <input type="hidden" name="views" v-model="data.views">
     <input type="hidden" name="productDate" v-model="data.productDate">
+    <input type="hidden" name="mainImg" v-model="data.mainImg">
   </form>
 </template>
 
@@ -121,12 +122,14 @@
         isSell: 0,
         views: 0,
         productDate: '',
-        image: ''
+        image: '',
+        mainImg : ''
       }
     }),
     methods: {
       insert: function () {
         var formData = new FormData(document.querySelector('#usedInsert'));
+        this.data.mainImg = document.querySelector('#profile-upload')[0];
         this.dropVal();
         console.log(formData.productInfo)
         axios({

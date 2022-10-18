@@ -18,7 +18,11 @@ import com.yedam.zippy.used.service.UsedImagesVO;
 import com.yedam.zippy.used.service.UsedKeywordVO;
 import com.yedam.zippy.used.service.UsedProductVO;
 import com.yedam.zippy.used.service.UsedService;
-
+/**
+ * 
+ * @author 엄정웅
+ * 중고거래 컨트롤러
+ */
 @CrossOrigin(originPatterns = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
     RequestMethod.DELETE })
 @RestController
@@ -30,9 +34,11 @@ public class UsedContoller {
 
   // 전체조회
   @GetMapping("/main")
-  public List<UsedProductVO> search(@RequestParam String location, @RequestParam String keyword,
-      @RequestParam String category, @RequestParam String checked,
-      @RequestParam(value = "dropbox", required = false) String dropbox) {
+  public List<UsedProductVO> search(@RequestParam String location, 
+                                    @RequestParam String keyword,
+                                    @RequestParam String category, 
+                                    @RequestParam String checked,
+                                    @RequestParam(value = "dropbox", required = false) String dropbox) {
 
     System.out.println(location + ", " + keyword);
     if (category.equals("전체")) {
@@ -69,10 +75,8 @@ public class UsedContoller {
   // 생성
   @PostMapping("/insert")
   public String insert(UsedProductVO product, List<MultipartFile> images) {
-    System.out.println(product);
-    System.out.println(images);
+    // 확인: 삭제 가능
     product.setProductLocation("대구");
-
     service.insertUsedProduct(product, images);
     return "";
   }
@@ -80,11 +84,7 @@ public class UsedContoller {
   // 수정
   @PostMapping("/update")
   public int update(UsedProductVO product, List<MultipartFile> images) {
-    System.out.println(product);
-    System.out.println(images);
     product.setProductLocation("대구");
-    System.out.println(product.getIsSell());
-    
     service.updateUsedProduct(product, images);
     return 1;
   }
@@ -92,17 +92,18 @@ public class UsedContoller {
   // 삭제
   @DeleteMapping("/delete")
   public String delete(@RequestParam int pNo) {
-    System.out.println(pNo);
-    System.out.println(service.deleteUsed(pNo));
+    int r = service.deleteUsed(pNo);
+    System.out.println(r);
     return "";
   }
 
   // 키워드 추가
   @PostMapping("/addKeyword")
-  public String addKeyword(@RequestBody UsedKeywordVO keyword) {
+  public int addKeyword(@RequestBody UsedKeywordVO keyword) {
     System.out.println(keyword);
-    System.out.println(service.addKeyword(keyword));
-    return "";
+    int r = service.addKeyword(keyword);
+    System.out.println(r);
+    return keyword.getKeywordNo();
   }
 
   // 키워드 삭제
@@ -110,12 +111,13 @@ public class UsedContoller {
   public String delKeyword(@RequestParam int kNo) {
     System.out.println(kNo);
     System.out.println(service.delKeyword(kNo));
+    service.delKeyword(kNo);
     return "";
   }
 
   // 키워드 전체출력
   @GetMapping("/keyword")
-  public List<UsedKeywordVO> showKyeword(@RequestParam String email) {
+  public List<UsedKeywordVO> showKeyword(@RequestParam String email) {
     System.out.println(email);
     System.out.println(service.showKeyword(email));
     return service.showKeyword(email);

@@ -4,38 +4,44 @@
 	<!-- 전체조회 -->
 	<select id="usedList" resultType="UsedProductVO"
 		parameterType="hashmap">
-		SELECT p.*, g.NICK_NAME
-		FROM used_product p, general_user g
-		WHERE
-		g.email = p.email
-		AND p.product_name LIKE '%'||#{keyword}||'%'
-		AND p.product_category LIKE '%'||#{category}||'%'
+		SELECT p.*, 
+		       g.NICK_NAME
+		  FROM used_product p, general_user g
+		 WHERE g.email = p.email
+		<if test="keyword != null and keyword != ''">
+		   AND p.product_name LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test="category != ''">
+		   AND	p.product_category LIKE '%'||#{category}||'%'
+		</if>
 		<if test="checked == 1">
-			AND p.is_sell=0
-			OR p.is_sell=1
+		   AND ( p.is_sell=0 OR p.is_sell=1 )
 		</if>
 		<if test="checked == 0">
-			AND p.is_sell=0
+		   AND p.is_sell=0
 		</if>
+		<choose>
 		<!-- 최저가순 -->
-		<if test="dropbox == 0">
-			ORDER BY p.product_price ASC
-		</if>
+			<when test="dropbox == 0">
+			  ORDER BY p.product_price ASC
+			</when>
 		<!-- 최고가순 -->
-		<if test="dropbox == 1">
+			<when test="dropbox == 1">
 			ORDER BY p.product_price DESC
-		</if>
-		<!-- <if test="dropVal == 판매자평점"> ORDER BY product_date DESC </if> -->
-		<!-- ORDER BY product_date DESC -->
+			</when>
+			<otherwise>
+			ORDER BY product_no DESC
+			</otherwise>
+		</choose>
 	</select>
 
 	<select id="usedOne" resultType="UsedProductVO"
 		parameterType="Integer">
-		SELECT p.*,g.NICK_NAME
-		FROM used_product p, general_user
-		g
-		WHERE g.email = p.email
-		AND p.product_no=#{pNo}
+		SELECT p.*,
+		       g.NICK_NAME
+		  FROM used_product p, general_user g
+		 WHERE g.email = p.email
+		   AND p.product_no=#{pNo}
 	</select>
 
 
@@ -49,29 +55,31 @@
 		</selectKey>
 		INSERT INTO used_product
 		(
-		product_no,
-		email,
-		PRODUCT_NAME,
-		PRODUCT_CATEGORY,
-		PRODUCT_PRICE,
-		PRODUCT_INFO,
-		product_location,
-		is_sell,
-		views,
-		product_date
+			product_no,
+			email,
+			PRODUCT_NAME,
+			PRODUCT_CATEGORY,
+			PRODUCT_PRICE,
+			PRODUCT_INFO,
+			product_location,
+			is_sell,
+			views,
+			product_date,
+			main_img
 		)
 		VALUES
 		(
-		#{productNo}
-		,#{email}
-		,#{productName}
-		,#{productCategory}
-		,#{productPrice}
-		,#{productInfo}
-		,#{productLocation}
-		,0
-		,0
-		,systimestamp
+			#{productNo}
+			,#{email}
+			,#{productName}
+			,#{productCategory}
+			,#{productPrice}
+			,#{productInfo}
+			,#{productLocation}
+			,0
+			,0
+			,systimestamp
+			,#{mainImg}
 		)
 	</insert>
 
@@ -103,19 +111,37 @@
 		product_category = #{productCategory},
 		product_price = #{productPrice},
 		product_info = #{productInfo},
-		is_sell
-		= #{isSell}
+		is_sell	= #{isSell}
 		WHERE
 		product_no = #{productNo}
 	</update>
+	
+	<!-- 사진 삭제 -->
+	<delete id="deleteImg" parameterType="UsedProductVO">
+		DELETE 
+		FROM used_images
+		WHERE product_no = #{productNo}
+	</delete>
 
 	<!-- 사진 수정 -->
 	<update id="updateImg" parameterType="usedImagesVO">
-		UPDATE used_images
-		SET
+		<selectKey keyProperty="imageNo" order="BEFORE"
+			resultType="int">
+			SELECT NVL(MAX(image_no),0) +1 AS imageNo
+			FROM used_images
+		</selectKey>
+		INSERT INTO used_images
+		(
+		image_no,
+		product_no,
 		image
-		= #{image}
-		WHERE product_no = #{productNo}
+		)
+		VALUES
+		(
+		#{imageNo}
+		,#{productNo}
+		,#{image}
+		)
 	</update>
 
 	<!-- 삭제 -->
@@ -170,7 +196,7 @@
 		WHERE email = #{email}
 	</select>
 
-	<!-- 이미지 단건 조회 -->
+	<!-- 상품 이미지 조회 -->
 	<select id="getImg" resultType="UsedImagesVO"
 		parameterType="int">
 		SELECT *

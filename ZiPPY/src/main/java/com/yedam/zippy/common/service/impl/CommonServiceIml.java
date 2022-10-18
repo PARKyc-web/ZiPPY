@@ -1,5 +1,7 @@
 package com.yedam.zippy.common.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +16,25 @@ public class CommonServiceIml implements CommonService {
   CommonMapper mapper;
 
   @Override
-  public String addWish(BookmarkVO bookmark) {
+  public int addWish(BookmarkVO bookmark) {
     return mapper.addWish(bookmark);
   }
+  
+  @Override
+  public int delWish(int bNo) {
+    return mapper.delWish(bNo);
+  }
+  
+  @Override
+  public BookmarkVO getWishOne(int sId, String email) {
+    return mapper.getWishOne(sId, email);
+  }
 
+  @Override
+  public List<BookmarkVO> getWishAll() {
+    return mapper.getWishAll();
+  }
+  
   @Override
   public String addReview() {
     return mapper.addReview();

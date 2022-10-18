@@ -7,6 +7,7 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.zippy.used.mapper.UsedMapper;
@@ -27,11 +28,6 @@ public class UsedServiceImpl implements UsedService {
   public List<UsedProductVO> usedList(String location, String keyword, String category, String checked,
       String dropbox) {
     return mapper.usedList(location, keyword, category, checked, dropbox);
-  }
-
-  @Override
-  public List<UsedProductVO> usedSearchList(String word) {
-    return mapper.usedSearchList(word);
   }
 
   @Override
@@ -63,6 +59,11 @@ public class UsedServiceImpl implements UsedService {
   public int insertImg(UsedImagesVO images) {
     return mapper.insertImg(images);
   }
+  
+  @Override
+  public int deleteImg(UsedProductVO product) {
+    return mapper.deleteImg(product);
+  }
 
   @Override
   public int updateImg(UsedImagesVO images) {
@@ -91,7 +92,6 @@ public class UsedServiceImpl implements UsedService {
 
   @Override
   public void insertUsedProduct(UsedProductVO product, List<MultipartFile> images) {
-
     /**
      * 0. 이미지를 삽입하는 방법
      * 
@@ -129,12 +129,12 @@ public class UsedServiceImpl implements UsedService {
       Random rand = new Random();
 
       // ~~~~.jpg png
-      String imagePath = now + "_" + rand.nextInt(100) + images.get(0).getOriginalFilename();
+      String imagePath = now + "_" + rand.nextInt(100) + images.get(i).getOriginalFilename();
 
       File write = new File(folder + File.separator + imagePath);
 
       try {
-        images.get(0).transferTo(write);
+        images.get(i).transferTo(write);
       } catch (IllegalStateException e) {
         e.printStackTrace();
       } catch (IOException e) {
@@ -151,8 +151,9 @@ public class UsedServiceImpl implements UsedService {
   }
 
   @Override
+  @Transactional
   public void updateUsedProduct(UsedProductVO product, List<MultipartFile> images) {
-
+    mapper.deleteImg(product);
     mapper.updateUsed(product);
     UsedImagesVO[] vo = updateImages(images);
     
@@ -172,17 +173,18 @@ public class UsedServiceImpl implements UsedService {
     if (!folder.exists()) {
       folder.mkdir();
     }
+    
     for (int i = 0; i < images.size(); i++) {
       long now = System.currentTimeMillis();
       Random rand = new Random();
 
       // ~~~~.jpg png
-      String imagePath = now + "_" + rand.nextInt(100) + images.get(0).getOriginalFilename();
+      String imagePath = now + "_" + rand.nextInt(100) + images.get(i).getOriginalFilename();
 
       File write = new File(folder + File.separator + imagePath);
 
       try {
-        images.get(0).transferTo(write);
+        images.get(i).transferTo(write);
       } catch (IllegalStateException e) {
         e.printStackTrace();
       } catch (IOException e) {
