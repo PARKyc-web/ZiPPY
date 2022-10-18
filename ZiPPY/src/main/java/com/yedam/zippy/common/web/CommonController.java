@@ -58,8 +58,8 @@ public class CommonController {
   
   // 찜 전체출력
   @GetMapping("/wishAll")
-  public List<BookmarkVO> getWishAll(){
-    return service.getWishAll();
+  public List<BookmarkVO> getWishAll(@RequestParam String email){
+    return service.getWishAll(email);
   }
 
   // 후기작성

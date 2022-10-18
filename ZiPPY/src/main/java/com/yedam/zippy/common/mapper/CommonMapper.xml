@@ -10,17 +10,17 @@
 		</selectKey>
 		INSERT INTO bookmark
 		(
-		bookmark_no,
-		email,
-		service_type,
-		service_id
+			bookmark_no,
+			email,
+			service_type,
+			service_id
 		)
 		VALUES
 		(
-		#{bookmarkNo}
-		,#{email}
-		,#{serviceType}
-		,#{serviceId}
+			#{bookmarkNo}
+			,#{email}
+			,#{serviceType}
+			,#{serviceId}
 		)
 	</insert>
 	
@@ -35,5 +35,18 @@
 		FROM bookmark
 		WHERE service_id = #{sId}
 		AND email = #{email}
+	</select>
+	
+	<select id="getWishAll" resultType="BookmarkVO" parameterType="String">
+		SELECT p.product_name,
+			   p.product_price,
+			   p.product_location,
+			   b.bookmark_no, 
+			   b.email,
+			   b.service_type,
+			   b.service_id
+		FROM used_product p, bookmark b
+		WHERE p.product_no = b.service_id
+		AND b.email = #{email}
 	</select>
 </mapper>

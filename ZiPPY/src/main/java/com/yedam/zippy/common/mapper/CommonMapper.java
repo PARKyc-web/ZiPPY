@@ -17,7 +17,7 @@ public interface CommonMapper {
   public BookmarkVO getWishOne(@Param("sId") int sId,@Param("email") String email);
   
   // 찜 전체 출력
-  public List<BookmarkVO> getWishAll();
+  public List<BookmarkVO> getWishAll(@Param("email")String email);
   
 
   // 후기 등록

@@ -135,12 +135,14 @@
             kNo
           }
         }).then(res => {
-          console.log(res);
-          for (let i of this.showKey) {
-            if (i.keyworNo == kNo) {
+          console.log(res.data);
+          //this.showKey.splice(kNo, 1);
+          for (let i in this.showKey) {
+            if (this.showKey[i].keywordNo == kNo) {
               // console.log(i.keywordNo)
               // console.log(this.showKey.splice(i.keyworNo, 1))
-              this.showKey.splice(i.keyword, 1);
+              this.showKey.splice(i, 1);
+              return
             }
           }
         }).catch(err => {

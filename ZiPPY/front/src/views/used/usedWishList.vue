@@ -19,7 +19,7 @@
     </div>
     <hr />
     <div id="used-div-cont">
-      <div class="used-wish-cont-div">
+      <div class="used-wish-cont-div" v-for="list in data">
         <div id="used-wish-product">
           <div class="used-wish-img-1">
             <img
@@ -32,122 +32,24 @@
                 </button>
               </div>
               <div id="wish-card-ckbox">
-                <div id="wish-title-price"><span>너무 하기 싫네요</span></div>
-                <div >
+                <div id="wish-title-price"><span>{{list.productName}}</span></div>
+                <div>
+                  <input type="checkbox" id="chk_top" :value="list.productName" v-model="ckList"/>
                   <p class="chk_box">
-                    <input type="checkbox" id="chk_top" />
-                    <label for="chk_top"></label>
+                    <!-- <label for="chk_top"></label> -->
                   </p>
                 </div>
               </div>
-              <div id="wish-title-price" class="used-wish-card-cont"><span>999,999원</span></div>
+              <div id="wish-title-price" class="used-wish-card-cont"><span>{{list.productPrice}}원</span></div>
               <hr />
               <div>
-                <span>거래지역</span>
-                <span>대구</span>
+                <span>거래지역 : </span>
+                <span>{{list.productLocation}}</span>
               </div>
             </div>
           </div>
-          <div></div>
         </div>
       </div>
-      <div class="used-wish-cont-div">
-        <div id="used-wish-product">
-          <div class="used-wish-img-1">
-            <img
-              src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcnRs2T%2FbtrG3rPqyGx%2FgvSvyKfokqo8yQomsVjuQK%2Fimg.jpg"
-              width="200px" height="200px" alt="" />
-            <div id="used-wish-info">
-              <div>
-                <button class="used-wish-heart">
-                  <i class="bi bi-heart-fill"></i>
-                </button>
-              </div>
-              <div id="wish-card-ckbox">
-                <div id="wish-title-price"><span>너무 하기 싫네요</span></div>
-                <div >
-                  <p class="chk_box">
-                    <input type="checkbox" id="chk_top" />
-                    <label for="chk_top"></label>
-                  </p>
-                </div>
-              </div>
-              <div id="wish-title-price" class="used-wish-card-cont"><span>999,999원</span></div>
-              <hr />
-              <div>
-                <span>거래지역</span>
-                <span>대구</span>
-              </div>
-            </div>
-          </div>
-          <div></div>
-        </div>
-      </div>
-      <div class="used-wish-cont-div">
-        <div id="used-wish-product">
-          <div class="used-wish-img-1">
-            <img
-              src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcnRs2T%2FbtrG3rPqyGx%2FgvSvyKfokqo8yQomsVjuQK%2Fimg.jpg"
-              width="200px" height="200px" alt="" />
-            <div id="used-wish-info">
-              <div>
-                <button class="used-wish-heart">
-                  <i class="bi bi-heart-fill"></i>
-                </button>
-              </div>
-              <div id="wish-card-ckbox">
-                <div id="wish-title-price"><span>너무 하기 싫네요</span></div>
-                <div >
-                  <p class="chk_box">
-                    <input type="checkbox" id="chk_top" />
-                    <label for="chk_top"></label>
-                  </p>
-                </div>
-              </div>
-              <div id="wish-title-price" class="used-wish-card-cont"><span>999,999원</span></div>
-              <hr />
-              <div>
-                <span>거래지역</span>
-                <span>대구</span>
-              </div>
-            </div>
-          </div>
-          <div></div>
-        </div>
-      </div>
-      <div class="used-wish-cont-div">
-        <div id="used-wish-product">
-          <div class="used-wish-img-1">
-            <img
-              src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcnRs2T%2FbtrG3rPqyGx%2FgvSvyKfokqo8yQomsVjuQK%2Fimg.jpg"
-              width="200px" height="200px" alt="" />
-            <div id="used-wish-info">
-              <div>
-                <button class="used-wish-heart">
-                  <i class="bi bi-heart-fill"></i>
-                </button>
-              </div>
-              <div id="wish-card-ckbox">
-                <div id="wish-title-price"><span>너무 하기 싫네요</span></div>
-                <div >
-                  <p class="chk_box">
-                    <input type="checkbox" id="chk_top" />
-                    <label for="chk_top"></label>
-                  </p>
-                </div>
-              </div>
-              <div id="wish-title-price" class="used-wish-card-cont"><span>999,999원</span></div>
-              <hr/>
-              <div>
-                <span>거래지역</span>
-                <span>대구</span>
-              </div>
-            </div>
-          </div>
-          <div></div>
-        </div>
-      </div>
-      
     </div>
   </div>
 </template>
@@ -156,7 +58,26 @@
   import axios from 'axios';
   import navBar from '../../components/used/navBar.vue';
 
-  export default {};
+  export default {
+    data: () => ({
+      data: "",
+      ckList : []
+    }),
+    created() {
+      axios({
+        url: "/common/wishAll",
+        method: "GET",
+        params: {
+          email: this.$store.state.loginInfo.email
+        }
+      }).then(res => {
+        console.log(res);
+        this.data = res.data;
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  };
 </script>
 
 <style scoped>
@@ -164,7 +85,8 @@
     width: 1200px;
     margin: 0 auto;
   }
-  #wish-card-ckbox{
+
+  #wish-card-ckbox {
     display: flex;
   }
 
@@ -275,7 +197,7 @@
   }
 
   input#chk_top {
-    display: none;
+    /* display: none; */
   }
 
   /*input 바로 다음의 label*/

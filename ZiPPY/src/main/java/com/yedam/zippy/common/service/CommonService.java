@@ -13,7 +13,7 @@ public interface CommonService {
   public BookmarkVO getWishOne(int sId, String email);
 
   // 찜 전체 출력
-  public List<BookmarkVO> getWishAll();
+  public List<BookmarkVO> getWishAll(String email);
 
   // 찜 삭제
   public int delWish(int bNo);
