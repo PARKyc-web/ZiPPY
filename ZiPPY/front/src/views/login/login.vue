@@ -97,7 +97,7 @@ export default{
             title:"로그인 성공!"
           })
           outside.$store.commit('login', res.data);
-          
+          console.log(res.data);
           if(this.$store.state.memberType == 0){
             this.$router.push("/mypage");
           }else {

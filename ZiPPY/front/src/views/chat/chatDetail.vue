@@ -16,11 +16,18 @@
         </div>
     </div>
     <ul class="list-group">
-        <li class="list-group-item" v-for="message in messages">
-            {{message.sender}} - {{message.message}}
+        <li class="list-group-item" v-for="msg in messages">
+            <div v-if="msg.sender == sender" style="text-align: right;">
+                <h5>{{msg.sender}}</h5><small>({{msg.time}})</small>
+                <p>{{msg.message}}</p>
+            </div>
+
+            <div v-if="msg.sender != sender" style="text-align: left;">
+                <h5>{{msg.sender}}</h5><small>({{msg.time}})</small>
+                <p>{{msg.message}}</p>
+            </div>
         </li>
-    </ul>
-    <button @click="connect()">Connect</button>
+    </ul>    
     <div></div>
 </div>
 </template>
@@ -49,16 +56,32 @@ export default {
         },
         mounted() {
             this.roomId = this.$route.query.roomId;
-            this.sender = this.$route.query.sender;            
-            this.findRoom();            
+            this.sender = this.$route.query.sender;      
+            this.loadContent();      
+            // this.findRoom();
+            // this.connect();
         },
         methods: {
+            loadContent : async function(){
+              var temp = await this.$axios({
+                url : "/chat/room/load",
+                params: {
+                    roomId : this.$route.query.roomId
+                }
+              });
+
+            //   for(itm in temp.data){
+            //     this.messages.unshift(item);
+            //   }
+              this.messages = temp.data;
+              console.log(temp);
+            },
+
             findRoom: function() {
                 var temp = this.$axios.get('/chat/room/'+this.roomId).then(response => { 
                     console.log(response);
                     this.room = response.data; 
-                }).finally(res =>{
-                    console.log("이부분은 FindRoom Finally 입니다.");
+                }).finally(res =>{                    
                     console.log(res);
                     this.connect();
                 })
@@ -69,13 +92,13 @@ export default {
                 this.message = '';
             },
             recvMessage: function(recv) {
-                this.messages.unshift({"type":recv.type,"sender":recv.type=='ENTER'?'[알림]':recv.sender,"message":recv.message})
+                this.messages.unshift({"type":recv.type,"sender":recv.type=='ENTER'?'[알림]':recv.sender,"message":recv.message, "time":recv.time})
             },
 
             getTime : function(){
                 var now = new Date();
                 var str = ""+ now.getFullYear() + "/" + now.getMonth() + "/" + now.getDate() + "-"
-                        + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
+                        + now.getHours() + ":" + now.getMinutes()
 
                 return str;
             },
@@ -85,15 +108,13 @@ export default {
                 sock = new SockJS("http://localhost:8090/zippy/ws/chat");
                 ws = Stomp.over(sock);                
                 ws.connect({}, function(frame) {
-                    // debugger
-                    console.log(frame);                    
+                    // debugger                                
                     ws.subscribe("/topic/chat/room/"+outside.roomId, function(message) {
                         var recv = JSON.parse(message.body);
                         console.log(recv);
                         outside.recvMessage(recv);                        
-                    });                    
-                var connectData = JSON.stringify({type:'ENTER', roomId:outside.roomId, sender:outside.sender});                                
-                ws.send("/app/chat/message", connectData);
+                    });             
+                ws.send("/app/chat/message", JSON.stringify({type:'ENTER', roomId:outside.roomId, sender:outside.sender}));
                 }, function(error) {
                     if(reconnect++ <= 5) {
                         setTimeout(function() {
@@ -108,3 +129,12 @@ export default {
         }   
 }
 </script>
+
+<style scoped>
+h5 {
+    display: inline-block;
+}
+p {
+    margin: 0px;
+}
+</style>
