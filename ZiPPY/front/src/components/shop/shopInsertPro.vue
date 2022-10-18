@@ -91,7 +91,7 @@
           </div>
         </div>
         <!-- 상품입력 테이블 -->
-        <input data-v-656fe1d6 hidden type="text" class="form-control" name="email" value="shop@mail.com"></input>
+        <input data-v-656fe1d6 hidden type="text" class="form-control" name="email" value="shop@mail.com">
         <hr>
         <div>
           <div style="width:150px; margin-top:50px; margin-bottom:120px" class="mx-auto">
@@ -138,7 +138,6 @@
       },
       insertPro() {
         var formData = new FormData(document.querySelector('#shopInsert'));
-        // formData.append('option', new Blob([JSON.stringify(this.option)] , {type: "application/json"}));
         formData.append('option', ""+JSON.stringify(this.option));
 
         console.log(formData);
@@ -151,12 +150,6 @@
         }).catch(error => {
           console.log(error);
         })
-      },
-      inputName() {
-
-      },
-      inputPrice() {
-
       }
     }
   }

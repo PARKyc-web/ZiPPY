@@ -59,7 +59,7 @@ export default {
             this.sender = this.$route.query.sender;      
             this.loadContent();      
             // this.findRoom();
-            // this.connect();
+            this.connect();
         },
         methods: {
             loadContent : async function(){
@@ -77,7 +77,7 @@ export default {
               console.log(temp);
             },
 
-            findRoom: function() {
+            findRoom: function() {                
                 var temp = this.$axios.get('/chat/room/'+this.roomId).then(response => { 
                     console.log(response);
                     this.room = response.data; 
