@@ -1,6 +1,7 @@
 package com.yedam.zippy.move.web;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -58,7 +60,7 @@ public class MoveController {
   @PostMapping("/moveContactCheck")
   public String moveContactCheck(MoveRequestVO moveReq) {
     
-    System.out.println(moveReq);
+    System.out.println(moveReq);    
     
     return "";
   }
@@ -67,39 +69,13 @@ public class MoveController {
   
   //전체조회 - 업체가 받은 요청
   @GetMapping("/moveEstimate")
-  public List<MoveEstimateVO> selectAll(MoveEstimateVO vo){
-    
-    System.out.println(vo);
-    String dropbox = vo.getDropbox();
-//    
-//    if (dropbox.equals("전체조회")) {
-//      dropbox = "전체조회";
-//    } else if (dropbox.equals("대면견적")) {
-//      dropbox = "대면견적";
-//    } else if (dropbox.equals("비대면견적")) {
-//      dropbox = "비대면견적";
-//    } else if (dropbox.equals("최신요청일자순")) {
-//      dropbox = "최신요청일자순";
-//    } else if (dropbox.equals("오래된요청일자순")) {
-//      dropbox = "오래된요청일자순";
-//    } else if (dropbox.equals("현재날짜요청")) {
-//      dropbox = "현재날짜요청";
-//    } else if (dropbox.equals("출발지순")) {
-//      dropbox = "출발지순";
-//    } else if (dropbox.equals("도착지순")) {
-//      dropbox = "도착지순";
-//    }
-    System.out.println("===========");
-    System.out.println("dropbox : "+dropbox);
-    System.out.println("vo : "+vo);
-    
+  public List<MoveRequestVO> selectAll(MoveEstimateVO vo){       
     return service.getEstimateList(vo);
   }
   
   //견적서 인서트- 업체
   @PostMapping("/moveEstimate")
-  public String makeEstimate(MoveResponseVO vo) {
-    
+  public String makeEstimate(MoveResponseVO vo) {    
     service.makeEstimate(vo);
     return "";
   }

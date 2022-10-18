@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class MoveRequestVO {
-
   int estimateNo;
   String email;
   String movingOption;

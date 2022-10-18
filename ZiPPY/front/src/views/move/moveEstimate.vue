@@ -195,7 +195,7 @@
 
         list: [],
         vo: {
-          email: "zippy@naver.com",
+          email: "move123@move.com",
           requestDate: "",
           departAddress: "",
           arriveAddress: "",
@@ -264,7 +264,7 @@
         url: "http://localhost:8090/zippy/move/moveEstimate",
         methods: "GET",
         params: {
-          email: "zippy@naver.com",
+          businessEmail: "move123@move.com",
           movingOption: "",
           checked: "",
           dropbox: "",
@@ -311,7 +311,7 @@
           params: {
             dropbox: dropValue,
             dropbox2: this.select2,
-            email: this.vo.email,
+            businessEmail: this.vo.email,
             requestDate: this.vo.requestDate,
             departAddress: this.vo.departAddress,
             arriveAddress: this.vo.arriveAddress,
@@ -334,7 +334,7 @@
           params: {
             dropbox: this.select,
             dropbox2: dropValue2, //지역
-            email: this.vo.email,
+            businessEmail: this.vo.email,
             requestDate: this.vo.requestDate,
             departAddress: this.vo.departAddress,
             arriveAddress: this.vo.arriveAddress,
@@ -363,7 +363,7 @@
           this.selectData.email = this.vo.email
           this.selectData.estimateType = this.list[i].estimateType
           this.selectData.reservStatus = "0"
-          this.selectData.compName = "456이사"
+          this.selectData.compName = "82이사"
           console.log(res);
           this.list = res.data;
         }).catch(err => {

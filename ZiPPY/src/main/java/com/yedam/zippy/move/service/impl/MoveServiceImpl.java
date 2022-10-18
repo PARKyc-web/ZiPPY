@@ -138,7 +138,7 @@ public class MoveServiceImpl implements MoveService{
   
   //전체조회 - 업체
   @Override
-  public List<MoveEstimateVO> getEstimateList(MoveEstimateVO vo) {
+  public List<MoveRequestVO> getEstimateList(MoveEstimateVO vo) {
     return mapper.getEstimateList(vo);
   }
   //서비스 : 작업을 하는 곳 -> ex.조회는 딱히 작업할 필요가 없어서 바로 매퍼를 리턴해준다.

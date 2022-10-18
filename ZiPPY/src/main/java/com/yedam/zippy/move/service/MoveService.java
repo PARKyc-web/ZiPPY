@@ -21,7 +21,7 @@ public interface MoveService {
   public void insertContactEstimate(MoveRequestVO moveReq);
   
   //전체조회 - 업체
-  public List<MoveEstimateVO> getEstimateList(MoveEstimateVO vo);
+  public List<MoveRequestVO> getEstimateList(MoveEstimateVO vo);
 
   //전체조회 - 유저
   public List<MoveEstimateVO> getEstimateResult(MoveEstimateVO vo);

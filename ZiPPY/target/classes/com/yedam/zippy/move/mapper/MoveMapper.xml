@@ -168,19 +168,17 @@
 	<select id="getEstimateList" parameterType="MoveEstimateVO" resultType="MoveRequestVO">
 		SELECT *
 		FROM untact_estimate_moving
-		WHERE email=#{email}
 		<if test="dropbox2 == '내 지역만 조회'">
-		AND SUBSTR(depart_address, 1, 2) LIKE '%'||
-		(SELECT SUBSTR(comp_address, 1,2)
-		FROM business
-		WHERE email ='move123@move.com') || '%'
+		WHERE SUBSTR(depart_address, 1, 2) LIKE 
+				'%'|| (SELECT SUBSTR(comp_address, 1,2) 
+					   FROM business
+					   WHERE email = #{businessEmail}) || '%'
+		</if>
 		
 		<!-- AND estimate_type LIKE '%'||#{estimateType}||'%' -->
-		<!-- <if test="dropbox == '전체조회'">
-	
+		<!-- <if test="dropbox == '전체조회'">	
 		
-		</if> -->
-		</if>
+		</if> -->	
 		<if test="dropbox == '대면견적'">
 		AND estimate_type = '대면견적'
 		</if>
