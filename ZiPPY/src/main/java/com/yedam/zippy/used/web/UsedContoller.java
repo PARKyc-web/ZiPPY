@@ -108,11 +108,9 @@ public class UsedContoller {
 
   // 키워드 삭제
   @DeleteMapping("/delKeyword")
-  public String delKeyword(@RequestParam int kNo) {
-    System.out.println(kNo);
-    System.out.println(service.delKeyword(kNo));
+  public int delKeyword(@RequestParam int kNo) {
     service.delKeyword(kNo);
-    return "";
+    return 0;
   }
 
   // 키워드 전체출력
