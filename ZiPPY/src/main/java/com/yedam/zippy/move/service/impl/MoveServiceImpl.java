@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.zippy.move.mapper.MoveMapper;
+import com.yedam.zippy.move.service.MoveCompanyEstimateVO;
 import com.yedam.zippy.move.service.MoveEstimateVO;
 import com.yedam.zippy.move.service.MoveImageVO;
 import com.yedam.zippy.move.service.MoveRequestVO;
@@ -157,7 +158,7 @@ public class MoveServiceImpl implements MoveService{
   
   //견전서 조회 - 업체
   @Override
-  public List<MoveResponseVO> companyEstimate(MoveResponseVO vo) {
+  public List<MoveCompanyEstimateVO> companyEstimate(MoveCompanyEstimateVO vo) {
     return mapper.companyEstimate(vo);
   }
 }

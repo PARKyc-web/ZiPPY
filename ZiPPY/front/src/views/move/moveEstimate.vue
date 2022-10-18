@@ -92,14 +92,17 @@
                               </v-col>
                               <v-col cols="12">
                                 <v-text-field label="1차 견적타입*" required readonly 
-                                  v-model="selectData.estimateType"></v-text-field>
+                                 hint="고객이 기본적으로 요청한 견적 타입입니다." 
+                                 v-model="selectData.estimateType"></v-text-field>
                               </v-col>
                               <v-col cols="12">
-                                <v-text-field  label="1차 견적가격*" type="number" required v-model="selectData.firstEstimatePrice">
+                                <v-text-field  label="1차 견적가격*" type="number" 
+                                hint="고객에게 처음 제시하는 견적가격입니다. 견적제시는 2차까지만 가능합니다. 신중하게 결정해주세요.(추후 수정불가)"
+                                required v-model="selectData.firstEstimatePrice">
                                 </v-text-field>
                               </v-col>
 
-                              <v-col cols="12">
+                              <!-- <v-col cols="12">
                                 <v-autocomplete v-model="selectData.secondEstimateType"
                                   :items="['대면견적', '비대면견적']"
                                   label="2차 견적타입*"></v-autocomplete>
@@ -108,7 +111,7 @@
                               <v-col cols="12">
                                 <v-text-field v-model="selectData.secondEstimatePrice" label="2차 견적가격*" type="number" required>
                                 </v-text-field>
-                              </v-col>
+                              </v-col> -->
 
                               <!-- <v-col cols="12">
                                 <v-text-field v-model="reservStatus" label="진행상태*" required>
@@ -118,7 +121,7 @@
                               <v-col>
                                 <v-autocomplete v-model="selectData.responseMemo"
                                   :items="['전문적이에요', '꼼꼼해요', '손이 빨라요', '저렴해요', '깔끔해요', '친절해요', '견적네고 가능해요', '고급장비 사용해요', '안전해요']"
-                                  label="어필하기" multiple></v-autocomplete>
+                                  label="어필하기" multiple hint="고객에게 어필할 업체의 특징을 선택해주세요."></v-autocomplete>
                               </v-col>
                             </v-row>
                           </v-container>
@@ -143,8 +146,8 @@
                     <input type="hidden" name="firstEstimateType" id="firstEstimateType" v-model="selectData.estimateType">
 
                     <input type="hidden" name="firstEstimatePrice" v-model="selectData.firstEstimatePrice">
-                    <input type="hidden" name="secondEstimatePrice" v-model="selectData.secondEstimatePrice">
-                    <input type="hidden" name="secondEstimateType"  v-model="selectData.secondEstimateType">
+                    <!-- <input type="hidden" name="secondEstimatePrice" v-model="selectData.secondEstimatePrice">
+                    <input type="hidden" name="secondEstimateType"  v-model="selectData.secondEstimateType"> -->
                     <input type="hidden" name="reservStatus" value="0" v-model="selectData.reservStatus">
                     <input type="hidden" name="compName" v-model="selectData.compName">
                     <input type="hidden" name="responseMemo" v-model="selectData.responseMemo">
@@ -200,6 +203,7 @@
           estimateNo: "",
           estimateType: ""
         },
+        
 
         drops: [{
             name: '전국으로 조회',
@@ -359,7 +363,7 @@
           this.selectData.email = this.vo.email
           this.selectData.estimateType = this.list[i].estimateType
           this.selectData.reservStatus = "0"
-          this.selectData.compName = "82이사"
+          this.selectData.compName = "456이사"
           console.log(res);
           this.list = res.data;
         }).catch(err => {
@@ -368,6 +372,8 @@
       },
 
       sendEstimate: function () {
+
+        this.selectData.reservStatus = "1";
 
         var formData = new FormData(document.querySelector('#estimateForm'));
 

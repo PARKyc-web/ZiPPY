@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.yedam.zippy.move.service.MoveCompanyEstimateVO;
 import com.yedam.zippy.move.service.MoveEstimateVO;
 import com.yedam.zippy.move.service.MoveRequestVO;
 import com.yedam.zippy.move.service.MoveResponseVO;
@@ -105,8 +106,8 @@ public class MoveController {
   
   
   //업체 견적서 내역
-  @GetMapping("/moveEstimateList")
-  public List<MoveResponseVO> companyEstimate(MoveResponseVO vo){
+  @GetMapping("/moveCompanyEstimate")
+  public List<MoveCompanyEstimateVO> companyEstimate(MoveCompanyEstimateVO vo){
     
     System.out.println(vo);
     return service.companyEstimate(vo);

@@ -207,6 +207,22 @@
 		
 	</select>
 	
+	<!-- 전체조회 - 업체가 자신이 보낸 견적서 조회 -->
+	<select id="companyEstimate" parameterType="MoveCompanyEstimateVO" resultType="MoveCompanyEstimateVO">
+		SELECT * FROM  untact_estimate_moving m, moving_response r
+		WHERE m.email = r.email
+		AND r.comp_name = '456이사'
+		<if test="dropbox == '날짜순'">
+		ORDER BY request_date DESC
+		</if>
+		<if test="dropbox == '견적방법순'">
+		ORDER BY m.estimate_type DESC
+		</if>
+		<if test="dropbox == '견적상태순'">
+		ORDER BY r.reserv_status DESC
+		</if>
+	</select>
+	
 	<!-- 전체조회 - 유저가 자기 견적히스토리 조회 -->
 	<select id="getEstimateResult" parameterType="MoveEstimateVO" resultType="MoveRequestVO">
 		SELECT * FROM
