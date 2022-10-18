@@ -4,7 +4,7 @@
 <mapper namespace="com.yedam.zippy.chat.mapper.ChatMapper">
 
 	
-	<select id="findAllRoom" parameterType="String" resultType="ChatVO">
+	<select id="findAllRoom" parameterType="String" resultType="ChatRoomVO">
 		SELECT *
 		FROM chat_room
 		WHERE user1 = #{email} OR user2 = #{email}

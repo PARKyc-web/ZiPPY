@@ -1,4 +1,4 @@
-package com.yedam.zippy.chat;
+package com.yedam.zippy.chat.service;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChatMessage { 
@@ -21,4 +20,5 @@ public class ChatMessage {
   private String roomId;
   private String sender;
   private String message;  
+  private String time;
 }

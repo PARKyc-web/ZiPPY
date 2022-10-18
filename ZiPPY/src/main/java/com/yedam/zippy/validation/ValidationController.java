@@ -154,9 +154,19 @@ public class ValidationController {
 	
 	@GetMapping("/findEmail")
 	public String findUserEmail(String userName, String phoneNumber) {	  
+	  
 	  System.out.println(userName);
 	  System.out.println(phoneNumber);
-	  return "";
+	  
+	  String userEmail = "";
+	  userEmail = mService.findUserEmail(userName, phoneNumber);
+	  
+	  System.out.println(userEmail);
+	  if(userEmail == null) {
+	    return "";
+	  }
+	
+	  return userEmail;
 	}
 	
 }

@@ -23,4 +23,7 @@ public interface MemberService {
   public Object findUserByEmail(String email);
   
   public void changePassword(LoginVO info);
+  
+  public String findUserEmail(String userName, String phoneNumber);
+  //사용자의 휴대폰과 이름이 일치하는 내용을 찾아서 리턴해준다
 }

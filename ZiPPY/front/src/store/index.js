@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
 
@@ -9,7 +10,15 @@ export default new Vuex.Store({
     memberType : null,
     cartCount : 0
   },
-  getters: {},
+  getters: {
+    getName : function(state){
+      if(state.memberType == 0){
+        return state.loginInfo.userName;
+      } else {
+        return state.loginInfo.compName;
+      }
+    }
+  },
   mutations: {
     addCart(state, num){
       state.cartCount += num;
@@ -22,7 +31,7 @@ export default new Vuex.Store({
     login(state, info){
       state.loginInfo = info;
 
-      if(state.loginInfo.businessId == null){
+      if(state.loginInfo.businessId == null || state.loginInfo.businessId == ""){
         state.memberType = 0;
       }else {
         state.memberType = 1;
@@ -31,9 +40,10 @@ export default new Vuex.Store({
 
     logout(state){
       state.loginInfo = null;
-      state.memberType = null;
+      state.memberType = null;      
     }
   },
   actions: {},
   modules: {},
+  plugins:[createPersistedState()],
 });

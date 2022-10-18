@@ -22,8 +22,7 @@ import com.yedam.zippy.member.service.MemberService;
 @Service
 public class MemberServiceImpl implements MemberService{
     
-    private final String imageFolder = "D:/businessImage";
-  
+    private final String imageFolder = "D:/businessImage";  
   
     @Autowired
     MemberMapper mapper;      
@@ -38,12 +37,7 @@ public class MemberServiceImpl implements MemberService{
       }
       
       // 들어온 비밀번호를 Encode >> 같은가?
-      String password = encodingPassword(login.getPassword());
-
-      System.out.println("=================");
-      System.out.println(password);
-      System.out.println(loginInfo.getPassword());
-      System.out.println("=================");
+      String password = encodingPassword(login.getPassword());     
       
       // 로그인정보에서 비밀번호가 같다면? > 멤버타입을 확인
       if(loginInfo.getPassword().equals(password)) {
@@ -146,7 +140,8 @@ public class MemberServiceImpl implements MemberService{
     
     @Override
     public void changePassword(LoginVO login) {
-        login.setPassword(encodingPassword(login.getPassword()));      
+        System.out.println("===== 새로운 비밀번호는 이거다!! >> " + login.getPassword());
+        login.setPassword(encodingPassword(login.getPassword()));
         mapper.changePassword(login);
     }       
     
@@ -167,5 +162,17 @@ public class MemberServiceImpl implements MemberService{
       }
       
       return sb.toString();       
+    }
+    
+    @Override
+    public String findUserEmail(String userName, String phoneNumber) {      
+      String userEmail ="";      
+      userEmail = mapper.findGeneralEmail(userName, phoneNumber);
+      
+      if(userEmail == null || userEmail.length() == 0) {
+        userEmail = mapper.findBusinessEmail(userName, phoneNumber);
+      }
+      
+      return userEmail;
     }
 }
