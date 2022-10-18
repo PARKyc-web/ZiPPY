@@ -2,29 +2,61 @@
   <div class="map_wrap">
     <div id="map" class="map" style="width:100%;height:350px;position:relative;overflow:hidden;"></div>
     <ul id="category">
-      <li id="BK9" data-order="0">
-        <span class="category_bg bank"></span>
-        은행
+      <li id="SW8" data-order="1">
+       <v-btn id="SW8" class="mx-2" fab dark color="blue darken-2">
+          <v-icon dark>
+            mdi-subway-variant
+          </v-icon>
+        </v-btn>
+        <p>지하철</p>
       </li>
-      <li id="MT1" data-order="1">
-        <span class="category_bg mart"></span>
-        마트
+      <li id="CS2" data-order="2">
+          <v-btn class="mx-2" fab dark color="yellow darken-2">
+          <v-icon dark>
+            mdi-store
+          </v-icon>
+        </v-btn>
+        편의점
       </li>
-      <li id="PM9" data-order="2">
-        <span class="category_bg pharmacy"></span>
-        약국
-      </li>
-      <li id="OL7" data-order="3">
-        <span class="category_bg oil"></span>
-        주유소
-      </li>
-      <li id="CE7" data-order="4">
-        <span class="category_bg cafe"></span>
+      <li id="CE7" data-order="3">
+         <v-btn class="mx-2" fab dark color="orange darken-2">
+          <v-icon dark>
+            mdi-coffee
+          </v-icon>
+        </v-btn>
         카페
       </li>
-      <li id="CS2" data-order="5">
-        <span class="category_bg store"></span>
-        편의점
+      <li id="BK9" data-order="4">
+        <v-btn class="mx-2" fab dark color="lime darken-4">
+          <v-icon dark>
+            mdi-credit-card
+          </v-icon>
+        </v-btn>
+        은행
+      </li>
+      <li id="PO3" data-order="5">
+        <v-btn class="mx-2" fab dark color="brown darken-1">
+          <v-icon dark>
+            mdi-bank
+          </v-icon>
+        </v-btn>
+        관공서
+      </li>
+      <li id="PS3" data-order="1">
+       <v-btn class="mx-2" fab dark color="deep-orange darken-1">
+          <v-icon dark>
+            mdi-palette
+          </v-icon>
+        </v-btn>
+        어린이집<br>유치원
+      </li>
+      <li id="SC4" data-order="1">
+        <v-btn class="mx-2" fab dark color="deep-purple darken-1">
+          <v-icon dark>
+            mdi-school
+          </v-icon>
+        </v-btn>
+        학교
       </li>
     </ul>
   </div>
@@ -283,18 +315,16 @@
   }
 
   .map_wrap {
-    position: relative;
+    /* position: relative; */
     width: 100%;
     height: 350px;
   }
 
   #category {
-    position: absolute;
+    /* position: absolute;
     top: 10px;
-    left: 10px;
+    left: 10px; */
     border-radius: 5px;
-    border: 1px solid #909090;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
     background: #fff;
     overflow: hidden;
     z-index: 2;
@@ -303,23 +333,12 @@
   #category li {
     float: left;
     list-style: none;
-    width: 50px;
-    border-right: 1px solid #acacac;
-    padding: 6px 0;
+    width: 70px;
+    padding: 6px;
     text-align: center;
     cursor: pointer;
   }
-
-  #category li.on {
-    background: #eee;
-  }
-
-  #category li:hover {
-    background: #ffe6e6;
-    border-left: 1px solid #acacac;
-    margin-left: -1px;
-  }
-
+  
   #category li:last-child {
     margin-right: 0;
     border-right: 0;

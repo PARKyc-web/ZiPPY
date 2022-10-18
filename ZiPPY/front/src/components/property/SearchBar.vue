@@ -18,11 +18,14 @@
             <template>
               <v-container fluid>
                 <v-row>
-                  <v-col cols="12" sm="6">
+                  <v-col cols="12" sm="6" md="4">
                     <v-select :items="['아파트', '원룸', '투룸']" label="집종류" required v-model="houseType"></v-select>
                   </v-col>
-                  <v-col cols="12" sm="6">
-                    <v-select :items="['전체', '5년 이내', '10년 이내', '15년 이내', '20년 이내', '25년 이내']" label="준공년도" required
+                  <v-col cols="12" sm="6" md="4">
+                    <v-select :items="['전체', '매매', '전세', '월세']" label="거래유형" required v-model="saleType"></v-select>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-select :items="['전체', '1년 이내', '5년 이내', '10년 이내', '15년 이내']" label="준공년도" required
                       v-model="constructionYear">
                     </v-select>
                   </v-col>
@@ -44,11 +47,11 @@
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
-            <v-btn color="blue darken-1" text @click="dialog = false">
-              닫기
-            </v-btn>
             <v-btn color="blue darken-1" text @click="save">
               저장
+            </v-btn>
+            <v-btn color="blue darken-1" text @click="dialog = false">
+              닫기
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -77,6 +80,7 @@
           '60평~',
         ],
         houseType: '아파트',
+        saleType: '전체',
         constructionYear: '전체',
         sizeLevel: [0, 6]
       }
@@ -87,6 +91,9 @@
 
         let year = new Date().getFullYear();
         switch (this.constructionYear) {
+          case '1년 이내':
+            year -= 1;
+            break;
           case '5년 이내':
             year -= 5;
             break;
@@ -95,12 +102,6 @@
             break;
           case '15년 이내':
             year -= 15;
-            break;
-          case '20년 이내':
-            year -= 20;
-            break;
-          case '25년 이내':
-            year -= 25;
             break;
           default:
             year -= 1000;
