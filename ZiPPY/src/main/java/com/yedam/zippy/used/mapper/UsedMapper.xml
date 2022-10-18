@@ -145,7 +145,7 @@
 	</update>
 
 	<!-- 삭제 -->
-	<delete id="deleteUsed" parameterType="UsedProductVO">
+	<delete id="deleteUsed" parameterType="int">
 		DELETE FROM used_product
 		WHERE product_no = #{pNo}
 	</delete>
@@ -183,7 +183,7 @@
 	</insert>
 
 	<!-- 키워드 삭제 -->
-	<delete id="delKeyword" parameterType="UsedKeywordVO">
+	<delete id="delKeyword" parameterType="Integer">
 		DELETE FROM used_keyword
 		WHERE keyword_no = #{kNo}
 	</delete>

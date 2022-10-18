@@ -159,7 +159,7 @@
         serviceType: 1
       },
       heart: 0,
-      wish : ""
+      wish: ""
     }),
     filters: {
       comma(val) {
@@ -178,7 +178,6 @@
           this.product = res.data;
           this.data.serviceId = this.product.productNo;
           this.data.email = this.$store.state.loginInfo.email;
-          console.log(this.email)
         }).catch(error => {
           console.log(error);
         }),
@@ -194,7 +193,8 @@
           console.log(this.img);
         }).catch(err => {
           console.log(err)
-        }),
+        })
+      if (this.$store.state.loginInfo != null) {
         axios({
           url: "http://localhost:8090/zippy/common/wishOne",
           methods: "GET",
@@ -212,26 +212,37 @@
         }).catch(err => {
           console.log(err)
         })
+      }
     },
     methods: {
       changeHeart() {
-        if (this.heart == 0) { //찜x일때
-          this.heart = 1; //찜on으로 변경
+        if (this.$store.state.loginInfo != null) {
+          if (this.heart == 0) { //찜x일때
+            this.addWish();
+            this.heart = 1; //찜on으로 변경
+            swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: '찜 목록에 추가되었습니다.',
+              showConfirmButton: false,
+              timer: 1500
+            });
+          } else { //찜on 일 떄
+            this.delWish();
+            this.heart = 0; //찜x로 변경
+            swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: '찜목록에서 삭제되었습니다.',
+              showConfirmButton: false,
+              timer: 1500
+            });
+          }
+        } else {
           swal.fire({
             position: 'top-end',
-            icon: 'success',
-            title: '찜 목록에 추가되었습니다.',
-            showConfirmButton: false,
-            timer: 1500
-          });
-          this.addWish();
-        } else { //찜on 일 떄
-          this.heart = 0; //찜x로 변경
-          this.delWish();
-          swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: '찜목록에서 삭제되었습니다.',
+            icon: 'warning',
+            title: '로그인 정보가 필요합니다.',
             showConfirmButton: false,
             timer: 1500
           });
@@ -279,7 +290,7 @@
           url: "http://localhost:8090/zippy/common/delWish",
           method: "DELETE",
           params: {
-            bNo : this.wish.bookmarkNo
+            bNo: this.wish.bookmarkNo
           }
         }).then(res => {
           console.log(res);
