@@ -141,10 +141,10 @@ public class ValidationController {
         login.setPassword(key);
         mService.changePassword(login);
         
+        System.out.println(key);
 //      msg.setTo(data.get("email"));
 //      msg.setSubject("mail이 잘 가는지 확인해보자!");       
-//      msg.setText("회원가입을 위한 인증번호 입니다"
-//                + "\n 아래의 인증번호를 입력하여 인증을 완료해주세요 "
+//      msg.setText("비밀번호 찾기를 통해 얻은 임시 비밀번호"                
 //                + "\n" + key);
 //      msg.setFrom("erty1201@naver.com");
 //      mailSender.send(msg);
