@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2';
+  import Swal from 'sweetalert2';
 
   export default {
     data() {
@@ -42,14 +42,24 @@ import Swal from 'sweetalert2';
     },
     methods: {
       report() {
-        this.dialog = false;
+        if (this.$store.state.loginInfo) {
+          Swal.fire({
+            icon: 'success',
+            title: '신고가 완료되었습니다.',
+            showConfirmButton: false,
+            timer: 1500
+          })
 
-        Swal.fire({
-          icon: 'success',
-          title: '신고가 완료되었습니다.',
-          showConfirmButton: false,
-          timer: 1500
-        })
+          console.log(this.productId);
+        } else {
+          Swal.fire({
+            icon: 'warning',
+            title: '로그인이 필요한 기능입니다.',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }
+        this.dialog = false;
       }
     }
   }
