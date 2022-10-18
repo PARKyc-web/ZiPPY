@@ -14,8 +14,7 @@
         <div>
           <div></div>
         </div>
-        <div
-          v-if="this.$store.state.loginInfo != null && this.$store.state.loginInfo.email == this.product.email">
+        <div v-if="this.$store.state.loginInfo != null && this.$store.state.loginInfo.email == this.product.email">
           <button @click="goUpdate(product.productNo)">수정하기</button>
         </div>
       </div>
@@ -37,7 +36,30 @@
           </div>
           <div id="used-detail-total">
             <div id="used-product-title">
-              {{product.productName}}
+              <div id="used-wish-heart">
+                <div>
+                  {{product.productName}}
+                </div>
+                <div>
+                  <button>
+                    <!--heart-->
+                    <div>
+                      <v-btn v-if="heart==0" class="mx-2" color='#D6D6D6' fab depressed dark small
+                        @click="changeHeart()">
+                        <v-icon dark>
+                          mdi-heart
+                        </v-icon>
+                      </v-btn>
+                      <v-btn v-if="heart==1" class="mx-2" color='#FF4063' fab depressed dark small
+                        @click="changeHeart()">
+                        <v-icon dark>
+                          mdi-heart
+                        </v-icon>
+                      </v-btn>
+                    </div>
+                  </button>
+                </div>
+              </div>
               <div id="used-product-price">
                 {{product.productPrice | comma}}원
                 <hr />
@@ -86,9 +108,7 @@
                       </button>
                     </div>
                     <div>
-                      <button @click="addWish()" class="used-detail-wish">
-                        <i class="fa-regular fa-heart"> 찜</i>
-                      </button>
+
                       <button class="used-detail-wish" width="30px">
                         <i class="fa-solid fa-comments"> 채팅하기</i>
                       </button>
@@ -115,6 +135,7 @@
 <script>
   import axios from 'axios';
   import navBar from '../../components/used/navBar.vue';
+  import swal from 'sweetalert2';
 
   export default {
     components: {
@@ -131,10 +152,14 @@
       product: "",
       email: "",
       img: {},
-      // data : {
-      //   email : this.$store.state.loginInfo.email,
-      //   serviceId : this.$route.query.pNo
-      // }
+      data: {
+        email: "",
+        serviceId: "",
+        bookmarkNo: "",
+        serviceType: 1
+      },
+      heart: 0,
+      wish : ""
     }),
     filters: {
       comma(val) {
@@ -151,8 +176,9 @@
         }).then(res => {
           console.log(res);
           this.product = res.data;
-          console.log(this.$store.state.loginInfo.email);
-          console.log(this.$route.query.pNo)
+          this.data.serviceId = this.product.productNo;
+          this.data.email = this.$store.state.loginInfo.email;
+          console.log(this.email)
         }).catch(error => {
           console.log(error);
         }),
@@ -165,12 +191,52 @@
         }).then(res => {
           console.log(res);
           this.img = res.data;
-          console.log(this.img)
+          console.log(this.img);
+        }).catch(err => {
+          console.log(err)
+        }),
+        axios({
+          url: "http://localhost:8090/zippy/common/wishOne",
+          methods: "GET",
+          params: {
+            email: this.$store.state.loginInfo.email,
+            sId: this.$route.query.pNo
+          }
+        }).then(res => {
+          this.wish = res.data;
+          if (res.data != "") {
+            this.heart = 1;
+          } else if (res.data == "") {
+            this.heart = 0;
+          }
         }).catch(err => {
           console.log(err)
         })
     },
     methods: {
+      changeHeart() {
+        if (this.heart == 0) { //찜x일때
+          this.heart = 1; //찜on으로 변경
+          swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: '찜 목록에 추가되었습니다.',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          this.addWish();
+        } else { //찜on 일 떄
+          this.heart = 0; //찜x로 변경
+          this.delWish();
+          swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: '찜목록에서 삭제되었습니다.',
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
+      },
       goUpdate(no) {
         console.log(this.product.productNo);
         this.$router.push('/used/update?pNo=' + no);
@@ -195,8 +261,6 @@
         })
       },
       addWish: function () {
-        console.log(this.product.email);
-        console.log(this.product.productNo);
         axios({
           url: "http://localhost:8090/zippy/common/addWish",
           method: "POST",
@@ -210,6 +274,19 @@
           console.log(err)
         })
       },
+      delWish: function () {
+        axios({
+          url: "http://localhost:8090/zippy/common/delWish",
+          method: "DELETE",
+          params: {
+            bNo : this.wish.bookmarkNo
+          }
+        }).then(res => {
+          console.log(res);
+        }).catch(err => {
+          console.log(err)
+        })
+      }
     }
   }
 </script>
@@ -218,6 +295,11 @@
   #container {
     width: 1200px;
     margin: 0 auto;
+  }
+
+  #used-wish-heart {
+    display: flex;
+    justify-content: space-between;
   }
 
   .used-main-title {

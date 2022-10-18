@@ -15,22 +15,22 @@
             <div class="used-input">
               <input id="keyinputid" class="form-control" type="search" placeholder="키워드" aria-label="Search"
                 v-model="data.keyword" />
-                <input id="keyinputid" class="form-control" type="search" placeholder="키워드지역" aria-label="Search"
-                  v-model="data.keywordLocation" @keyup="enterkey()" />
-                  <button class="submitBtn" type="button" @click="addKey()">등록</button>
+              <input id="keyinputid" class="form-control" type="search" placeholder="키워드지역" aria-label="Search"
+                v-model="data.keywordLocation" @keyup="enterkey()" />
+              <button class="submitBtn" type="button" @click="addKey()">등록</button>
               <!-- <button class="submitBtn" type="button" @click="addKey()">등록</button> -->
             </div>
             <div class="used-input">
             </div>
           </div>
           <div class="used-key-flex">
-            <div class="used-keyword-content" v-for="i in keywordValue.length">
-              <div v-for="list in showKey">
+            <div class="used-keyword-content" v-for="list in showKey">
+              <div>
                 {{list.keyword}} {{list.keywordLocation}}
-                키워드 : {{keywordValue[i-1]}}, 키워드 지역 : {{locationvalue[i-1]}}
+                {{list.keywordNo}}
               </div>
               <div class="used-keyword-close">
-                <i @click="DelKey($event)" class="fa-solid fa-circle-xmark"></i>
+                <i @click="DelKey(list.keywordNo)" class="fa-solid fa-circle-xmark"></i>
               </div>
             </div>
             <!-- ////////////////////////// -->
@@ -89,14 +89,15 @@
       data: {
         email: "used@naver.com",
         keyword: "",
-        keywordLocation: ""
+        keywordLocation: "",
+        keywordNo: ""
       },
       showKey: []
     }),
     created() {
       console.log(this.data.email)
       axios({
-        url: "http://localhost:8088/zippy/used/keyword",
+        url: "http://localhost:8090/zippy/used/keyword",
         method: "GET",
         params: {
           email: this.data.email
@@ -110,11 +111,7 @@
     },
     methods: {
       addKey: function () {
-        this.keywordValue.unshift(this.data.keyword);
-        this.locationvalue.unshift(this.data.keywordLocation);
-        // console.log(this.data.keyword.length);
-        // console.log(this.keywordValue.length)
-        // console.log(this.keywordValue)
+
         axios({
           url: "http://localhost:8090/zippy/used/addKeyword",
           method: "POST",
@@ -123,7 +120,12 @@
           },
           data: JSON.stringify(this.data)
         }).then(res => {
-          console.log(res);
+          console.log("======", res);
+          this.showKey.push({
+            "keyword": this.data.keyword,
+            "keywordLocation": this.data.keywordLocation,
+            "keywordNo": res.data
+          });
           this.data.keyword = "";
           this.data.keywordLocation = "";
         }).catch(err => {
@@ -148,18 +150,24 @@
       //     console.log(err)
       //   })
       // },
-      DelKey: function (e) {
-        this.keywordValue.pop();
+      DelKey: function (kNo) {
+        //this.keywordValue.pop();
         // var tagsNo = this.keywordValue.findIndex(i => i.productNo == productNo);
         // console.log(tagsNo);
         axios({
           url: "http://localhost:8090/zippy/used/delKeyword",
           method: "DELETE",
           params: {
-            // kNo: 
+            kNo
           }
         }).then(res => {
           console.log(res);
+          for (let i of this.showKey) {
+            if (i.keyworNo == kNo) {
+              //this.showKey.splice
+            }
+          }
+
         }).catch(err => {
           console.log(err)
         })
@@ -181,7 +189,7 @@
       enterkey: function () {
         if (window.event.keyCode == 13) {
           this.addKey();
-          this.data.keyword = "";
+
         }
       }
     }
@@ -203,7 +211,8 @@
     margin-left: 1px;
     border-radius: 5px;
   }
-  #keyinputid{
+
+  #keyinputid {
     margin-left: 3px;
   }
 

@@ -7,6 +7,7 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.zippy.used.mapper.UsedMapper;
@@ -150,8 +151,9 @@ public class UsedServiceImpl implements UsedService {
   }
 
   @Override
+  @Transactional
   public void updateUsedProduct(UsedProductVO product, List<MultipartFile> images) {
-
+    mapper.deleteImg(product);
     mapper.updateUsed(product);
     UsedImagesVO[] vo = updateImages(images);
     

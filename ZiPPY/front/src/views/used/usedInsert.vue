@@ -122,7 +122,8 @@
         isSell: 0,
         views: 0,
         productDate: '',
-        image: ''
+        image: '',
+        mainImg : ''
       }
     }),
     methods: {

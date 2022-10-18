@@ -102,46 +102,27 @@
     },
 
     created() {
-      axios({
-        url: "http://localhost:8090/zippy/used/main",
-        methods: "GET",
-        params: {
+      this.findList({
           location: "",
           keyword: "",
           category: "",
           checked: "",
           dropbox: ""
-        }
-      }).then(res => {
-        console.log(res);
-        this.data = res.data;
-        console.log(this.data);
-      }).catch(error => {
-        console.log(error);
-      })
+        })
     },
 
     methods: {
       search: function (e) {
         this.searchValue = document.querySelector("#used-main-search-input").value;
         this.categoryVal = e.target.innerText;
-        axios({
-          url: "http://localhost:8090/zippy/used/main",
-          methods: "GET",
-          params: {
-            keyword: this.searchValue,
-            location: "",
-            category: this.categoryVal,
-            checked: this.isChecked,
-            dropbox: ""
-          }
-        }).then(res => {
-          console.log(res);
-          this.data = res.data;
-          console.log(this.isChecked)
-        }).catch(err => {
-          console.log(err)
+        this.findList({
+          location: "",
+          keyword: this.searchValue,
+          category:  this.categoryVal,
+          checked: "",
+          dropbox: ""
         })
+        
       },
       enterkey: function (e) {
         if (window.event.keyCode == 13) {
@@ -153,42 +134,26 @@
         const is_cked = ckbox.checked;
         this.isChecked = document.querySelector(".form-check-input").innerText = is_cked
         console.log(this.isChecked);
-        axios({
-          url: "http://localhost:8090/zippy/used/main",
-          methods: "GET",
-          params: {
+        this.findList({
             keyword: this.searchValue,
             location: "",
             category: this.categoryVal,
             checked: this.isChecked,
             dropbox: ""
-          }
-        }).then(res => {
-          console.log(res);
-          this.data = res.data;
-        }).catch(err => {
-          console.log(err)
-        })
+          })
       },
       dropVal: function () {
         var dropValue = this.select;
         console.log(dropValue);
-        axios({
-          url: "http://localhost:8090/zippy/used/main",
-          methods: "GET",
-          params: {
+        this.findList(
+          {
             keyword: this.searchValue,
             location: "",
             category: this.categoryVal,
             checked: this.isChecked,
             dropbox: dropValue
           }
-        }).then(res => {
-          console.log(res);
-          this.data = res.data;
-        }).catch(err => {
-          console.log(err);
-        })
+        )
       },
       goDetail(no) {
         console.log(no);
@@ -198,6 +163,20 @@
       },
       getImgUrl(list){
         return require(list.image);
+      },
+
+      findList(searchData) {
+        axios({
+          url: "http://localhost:8090/zippy/used/main",
+          methods: "GET",
+          params: searchData
+        }).then(res => {
+          console.log(res);
+          this.data = res.data;
+          console.log(this.isChecked)
+        }).catch(err => {
+          console.log(err)
+        })
       }
     }
   }
