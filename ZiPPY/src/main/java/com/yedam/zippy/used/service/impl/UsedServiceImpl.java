@@ -77,7 +77,7 @@ public class UsedServiceImpl implements UsedService {
 
   @Override
   public int delKeyword(int kNo) {
-    return mapper.deleteUsed(kNo);
+    return mapper.delKeyword(kNo);
   }
 
   @Override

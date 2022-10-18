@@ -8,7 +8,7 @@ export default new Vuex.Store({
   state: {
     loginInfo : null,
     memberType : null,
-    cartCount : 0
+    cartCount : 0,
   },
   getters: {
     getName : function(state){

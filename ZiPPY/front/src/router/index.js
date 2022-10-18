@@ -12,6 +12,7 @@ import shopDetail from "../views/shop/shopDetailView.vue";
 import shopCart from "../views/shop/shopCartView.vue";
 import order from "../views/shop/orderView.vue";
 import orderComplete from "../views/shop/orderCompleteView.vue";
+import shopUpdatePro from "../views/shop/shopUpdateProView.vue";
 
 import GeneralSign from '../views/login/generalSignUp.vue';
 import BusinessSign from '../views/login/businessSignUp.vue';
@@ -37,6 +38,7 @@ import moveEstimate from "../views/move/moveEstimate";
 import moveCompanyList from "../views/move/moveCompanyList";
 import moveResult from "../views/move/moveResult";
 import moveMain from "../views/move/moveMain";
+import moveCompanyEstimate from "../views/move/moveCompanyEstimate";
 
 import usedUpdate from "../views/used/usedUpdate.vue";
 import usedDetail from "../views/used/usedDetail.vue";
@@ -191,6 +193,11 @@ const routes = [
     name: "orderComplete",
     component: orderComplete,
   },
+  {
+    path: "/shop/shopUpdateProVue",
+    name: "shopUpdatePro",
+    component: shopUpdatePro
+  },
 
   //move
   {
@@ -253,6 +260,13 @@ const routes = [
     component: moveResult,
     props: true,
   },
+  {
+    path: "/moveCompanyEstimate",
+    name: "moveCompanyEstimate",
+    component: moveCompanyEstimate,
+    props: true,
+  },
+ 
 
 
   //used

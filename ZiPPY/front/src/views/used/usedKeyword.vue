@@ -1,81 +1,51 @@
 <template>
-  <div id="container">
+  <div>
     <nav-bar @click="search($event)"></nav-bar>
-    <div>
-      <div class="used-main-title">
-        <h3>키워드 및 키워드 지역</h3>
-      </div>
-    </div>
-    <hr />
-    <div>
-      <div class="used-keyword-maincont">
-        <div>
-          <div class="used-keyword-location"><span>키워드 {{keywordValue.length}}/10</span></div>
-          <div>
-            <div class="used-input">
-              <input id="keyinputid" class="form-control" type="search" placeholder="키워드" aria-label="Search"
-                v-model="data.keyword" />
-              <input id="keyinputid" class="form-control" type="search" placeholder="키워드지역" aria-label="Search"
-                v-model="data.keywordLocation" @keyup="enterkey()" />
-              <button class="submitBtn" type="button" @click="addKey()">등록</button>
-              <!-- <button class="submitBtn" type="button" @click="addKey()">등록</button> -->
-            </div>
-            <div class="used-input">
-            </div>
-          </div>
-          <div class="used-key-flex">
-            <div class="used-keyword-content" v-for="list in showKey">
-              <div>
-                {{list.keyword}} {{list.keywordLocation}}
-                {{list.keywordNo}}
-              </div>
-              <div class="used-keyword-close">
-                <i @click="DelKey(list.keywordNo)" class="fa-solid fa-circle-xmark"></i>
-              </div>
-            </div>
-            <!-- ////////////////////////// -->
-            <!-- <div class="used-keyword-content" v-for="value in keywordValue">
-              {{value}}
-              <div class="used-keyword-close">
-                <i @click="DelKey()" class="fa-solid fa-circle-xmark"></i>
-              </div>
-            </div> -->
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- <hr /> -->
-    <!-- <div class="used-keyword-maincont">
+    <div id="container">
       <div>
-        <div>
-          <div class="used-keyword-location">
-            <span>키워드 지역 0/3</span>
-          </div>
-        </div>
-        <div>
-
+        <div class="used-main-title">
+          <h3>키워드 및 키워드 지역</h3>
         </div>
       </div>
-      <div class="used-key-flex">
-        <div class="used-keyword-content" v-for="loc in locationvalue">
-          {{loc}}
-          <div class="used-keyword-close">
-            <i class="fa-solid fa-circle-xmark" @click="DelLoc()"></i>
+      <hr />
+      <div>
+        <div class="used-keyword-maincont">
+          <div>
+            <div class="used-keyword-location"><span>키워드 {{showKey.length}}/10</span></div>
+            <div>
+              <div class="used-input">
+                <input id="keyinputid" class="form-control" type="search" placeholder="키워드" aria-label="Search"
+                  v-model="data.keyword" />
+                <input id="keyinputid" class="form-control" type="search" placeholder="키워드지역(시군구나 읍면동)"
+                  aria-label="Search" v-model="data.keywordLocation" @keyup="enterkey()" />
+                <button class="submitBtn" type="button" @click="addKey()">등록</button>
+                <!-- <button class="submitBtn" type="button" @click="addKey()">등록</button> -->
+              </div>
+              <div class="used-input">
+              </div>
+            </div>
+            <div class="used-key-flex">
+              <div class="used-keyword-content" v-for="list in showKey">
+                <div>
+                  키워드 : {{list.keyword}}, 키워드 지역 : {{list.keywordLocation}}
+                  <div class="used-keyword-close">
+                    <i @click="DelKey(list.keywordNo)" class="fa-solid fa-circle-xmark"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div> -->
-    <input type="hidden" v-model="data.email">
-    <!-- <div v-if="data.length != 0" v-for="key in showKey">
-      {{key.keyword}}
-      {{key.keywordLocation}}
-    </div> -->
+      <input type="hidden" v-model="data.email">
+    </div>
   </div>
 </template>
 
 <script>
   import axios from 'axios';
   import navBar from '../../components/used/navBar.vue';
+  import swal from 'sweetalert2';
 
   export default {
     components: {
@@ -111,7 +81,28 @@
     },
     methods: {
       addKey: function () {
-
+        if ((this.data.keyword == "" || this.data.keyword == null) || (this.data.keywordLocation == "" || this.data
+            .keywordLocation == null)) {
+          swal.fire({
+            position: 'top-end',
+            icon: 'warning',
+            title: '빈 값은 입력할 수 없습니다.',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          console.log(this.showKey.length)
+          return false;
+        }
+        if (this.showKey.length == 10) {
+          swal.fire({
+            position: 'top-end',
+            icon: 'warning',
+            title: '입력 가능한 키워드(지역)수는 10개입니다.',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          return false;
+        }
         axios({
           url: "http://localhost:8090/zippy/used/addKeyword",
           method: "POST",
@@ -126,32 +117,15 @@
             "keywordLocation": this.data.keywordLocation,
             "keywordNo": res.data
           });
+          console.log(this.data);
+
           this.data.keyword = "";
           this.data.keywordLocation = "";
         }).catch(err => {
           console.log(err)
         })
       },
-      // addLoc: function () {
-      //   this.locationvalue.push(this.data.keywordLocation);
-      //   console.log(this.locationvalue.length)
-      //   axios({
-      //     url: "http://localhost:8088/zippy/used/addKeyword",
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json; charset=utf-8"
-      //     },
-      //     data: JSON.stringify(this.data)
-      //   }).then(res => {
-      //     console.log(res);
-      //     console.log(this.data);
-      //     this.data.keywordLocation = "";
-      //   }).catch(err => {
-      //     console.log(err)
-      //   })
-      // },
       DelKey: function (kNo) {
-        //this.keywordValue.pop();
         // var tagsNo = this.keywordValue.findIndex(i => i.productNo == productNo);
         // console.log(tagsNo);
         axios({
@@ -164,32 +138,18 @@
           console.log(res);
           for (let i of this.showKey) {
             if (i.keyworNo == kNo) {
-              //this.showKey.splice
+              // console.log(i.keywordNo)
+              // console.log(this.showKey.splice(i.keyworNo, 1))
+              this.showKey.splice(i.keyword, 1);
             }
           }
-
         }).catch(err => {
           console.log(err)
         })
       },
-      // DelLoc: function () {
-      //   this.locationvalue.pop();
-      //   axios({
-      //     url: "http://localhost:8088/zippy/used/delKeyword",
-      //     method: "DELETE",
-      //     params: {
-      //       // kNo: 
-      //     }
-      //   }).then(res => {
-      //     console.log(res);
-      //   }).catch(err => {
-      //     console.log(err)
-      //   })
-      // },
       enterkey: function () {
         if (window.event.keyCode == 13) {
           this.addKey();
-
         }
       }
     }
@@ -219,6 +179,7 @@
 
   .used-key-flex {
     width: 1200px;
+    margin-top: 20px;
   }
 
   .used-input {

@@ -197,7 +197,7 @@
           data: formData
         }).then(res => {
           console.log(res);
-          // window.location.assign('/used/detail?pNo='+this.$route.query.pNo);
+          window.location.assign('/used/detail?pNo='+this.$route.query.pNo);
         }).catch(err => {
           console.log(err)
         })

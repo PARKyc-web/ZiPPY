@@ -30,5 +30,5 @@ public interface MoveService {
   public int makeEstimate(MoveResponseVO vo);
   
   //견적서 조회 - 업체
-  public List<MoveResponseVO> companyEstimate(MoveResponseVO vo);
+  public List<MoveCompanyEstimateVO> companyEstimate(MoveCompanyEstimateVO vo);
 }
