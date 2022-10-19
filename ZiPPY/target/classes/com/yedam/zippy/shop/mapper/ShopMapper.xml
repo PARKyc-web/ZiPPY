@@ -5,6 +5,7 @@
 	<select id="getProductList" resultType="ProductVO">
 		SELECT *
 		FROM shop_product
+		WHERE pro_status = 0
 	</select>
 
 	<!-- 카테고리 조회 -->
@@ -16,6 +17,7 @@
 		b
 		ON s.email = b.email
 		WHERE s.category = #{category}
+		AND pro_status = 0
 		ORDER BY pro_no DESC
 	</select>
 
@@ -38,6 +40,7 @@
 		business
 		WHERE comp_name LIKE '%'||#{keyword}||'%'
 		AND member_type=2)
+		AND pro_status = 0
 		ORDER BY pro_no DESC
 	</select>
 
@@ -49,8 +52,7 @@
 		JOIN business
 		b
 		ON s.email = b.email
-		WHERE s.pro_no =
-		#{proNo}
+		WHERE s.pro_no = #{proNo}
 	</select>
 	<!-- 상세이미지 불러오기 -->
 	<select id="getDetailImg" resultType="String"
@@ -272,7 +274,7 @@
 	<!-- 판매상품 상태변경 -->
 	<update id="updateStatus" parameterType="ProductVO">
 		UPDATE shop_product
-		SET pro_status = 1
+		SET pro_status = #{proStatus}
 		WHERE pro_no = #{proNo}
 	</update>
 
