@@ -55,90 +55,118 @@ public class ShopController {
     return service.getProduct(proNo);
   }
 
-  //조회(이미지)
+  // 조회(이미지)
   @RequestMapping("/img")
   public String[] imgDetail(@RequestParam("pno") int proNo) {
     return service.getDetailImg(proNo);
   }
-  
-  //조회(옵션)
+
+  // 조회(옵션)
   @RequestMapping("/opt")
   public List<ProductOptionVO> optDetail(@RequestParam("pno") int proNo) {
     return service.getDetailOpt(proNo);
   }
-  
-  //조회(북마크)
+
+  // 조회(북마크)
   @RequestMapping("/heart")
   public void getHeart(String email) {
     service.getHeart(email);
   }
-  
-  //장바구니
-  //장바구니 등록
+
+  // 장바구니
+  // 장바구니 등록
   @PostMapping("/insertCart")
   public void insertCart(CartVO cartVO) {
     service.insertCart(cartVO);
   }
-  //장바구니 개수 조회
+
+  // 장바구니 개수 조회
   @RequestMapping("/myCart")
   public int countMyCart(String email) {
     return service.getMyCart(email);
   }
-  //내 장바구니 조회
+
+  // 내 장바구니 조회
   @PostMapping("/myCartList")
   public List<CartVO> getMyCartList(String email) {
     return service.getMyCartList(email);
   }
-  //삭제
+
+  // 삭제
   @PostMapping("/delCart")
   public void deleteCart(@RequestBody List<CartVO> selected) {
     service.deleteCart(selected);
   }
-  
-  //주문
-  //주문할 상품 등록(from 장바구니)
+
+  // 주문
+  // 주문할 상품 등록(from 장바구니)
   @PostMapping("/insertPur")
   public void insertPur(@RequestBody List<CartVO> selected, String payCode) {
     service.insertPur(selected, payCode);
   }
-  //주문할 상품 등록(from 디테일)
+
+  // 주문할 상품 등록(from 디테일)
   @PostMapping("/insertPurOne")
   public void insertPurOne(@RequestBody ProductVO product, String payCode, String email) {
+    System.out.println(product.getEmail());
     service.insertPurOne(product, payCode, email);
   }
-  //내 정보 조회
+
+  // 내 정보 조회
   @PostMapping("/myInfo")
   public GeneralUserVO getMyInfo(String email) {
     return service.getMyInfo(email);
   }
 
-  //상품정보 조회
+  // 상품정보 조회
   @PostMapping("/myPurPro")
   public List<PurchaseVO> getMyPurList(String payCode) {
     return service.getMyPurList(payCode);
   }
-  //주문등록
+
+  // 주문등록
   @PostMapping("/insertOrder")
   public void insertOrder(@RequestBody OrderVO orderVO) {
     service.insertOrder(orderVO);
   }
-  //상품등록
+
+  // 상품등록
   @PostMapping("/insertPro")
-  public void insertProduct(ProductVO productVO, String option, MultipartFile image, List<MultipartFile> images) 
-  {
+  public void insertProduct(ProductVO productVO, String option, MultipartFile image, List<MultipartFile> images) {
     Gson gs = new Gson();
-    List<ProductOptionVO> options = gs.fromJson(option, new TypeToken<ArrayList<ProductOptionVO>>(){}.getType() );    
-    service.insertProduct(productVO, options, image, images); 
+    List<ProductOptionVO> options = gs.fromJson(option, new TypeToken<ArrayList<ProductOptionVO>>() {
+    }.getType());
+    service.insertProduct(productVO, options, image, images);
   }
-  //상품조회
+
+  // 상품조회
   @ResponseBody
   @PostMapping("/myProList")
-  public List<ProductVO> getMyProList(@RequestBody ProductVO productVO) {
-    return service.getMyProList(productVO);
+  public List<ProductVO> getMyProList(@RequestBody ProductVO productVO,
+      @RequestParam(required = false) String keyword) {
+    return service.getMyProList(productVO, keyword);
   }
-  //등록 상품상태 수정
+
+  // 등록 상품상태 수정
   @PostMapping("/updateStatus")
   public void updateStatus(@RequestBody ProductVO productVO) {
     service.updateStatus(productVO);
+  }
+
+  // 상품정보 수정
+  @PostMapping("/updatePro")
+  public void updateProduct(ProductVO productVO, String option, MultipartFile image, List<MultipartFile> images) {
+    Gson gs = new Gson();
+    List<ProductOptionVO> options = gs.fromJson(option, new TypeToken<ArrayList<ProductOptionVO>>() {
+    }.getType());
+    service.updateProduct(productVO, options, image, images);
+  }
+
+  // 상품조회
+  @ResponseBody
+  @PostMapping("/myOrdList")
+  public List<OrderVO> getMyOrdList(@RequestBody ProductVO productVO,
+      @RequestParam(required = false) String keyword) {
+    return service.getMyOrdList(productVO, keyword);
   }
 }

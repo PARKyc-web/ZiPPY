@@ -6,17 +6,18 @@
 
     <v-card>
       <v-card-title>
-        <v-text-field v-model="search" append-icon="mdi-magnify" label="상품명/상품번호" single-line hide-details>
+        <v-text-field @keyup="enterkey()" id="search" append-icon="mdi-magnify" label="상품명/상품번호" single-line
+          hide-details>
         </v-text-field>
       </v-card-title>
-      <v-data-table :headers="headers" :items="products" :search="search">
+      <v-data-table :headers="headers" :items="products">
         <!-- 이미지 -->
-        <!-- @click="goDetail(item.proNo)-->
-        <!--<template v-slot:item.proMainImg="{ item }">
+        <!-- @click="goDetail(item.proNo)
+        <template v-slot:item.proMainImg="{ item }">
         <v-img class="ma-5" width="150px" height="150px"
           :src="require(`../../assets/shop/productImg/${item.proMainImg}.jpg`)"
           @click="goDetail(item.cartPno)"></v-img>
-      </template>-->
+      </template> -->
         <!-- 수정 -->
         <template v-slot:item.update="{ item }">
           <v-btn v-if="item.proStatus==0" depressed color=#B3E3C3 class="mr-2"
@@ -57,6 +58,10 @@
             value: 'proName'
           },
           {
+            text: '카테고리',
+            value: 'category'
+          },
+          {
             text: '',
             value: 'proMainImg'
           },
@@ -66,8 +71,7 @@
 
           }
         ],
-        products: [],
-        search: ''
+        products: []
       }
     },
     methods: {
@@ -100,7 +104,7 @@
             title: '해당 상품을 다시 판매하시겠습니까?',
             showConfirmButton: true,
             showCancelButton: true
-          }).then((result) =>  {
+          }).then((result) => {
             if (result.isConfirmed) {
               //st 1->0으로 변경
               st = 0;
@@ -142,13 +146,37 @@
         }
       },
       //수정 페이지로 이동
-      updateProInfo(no){
+      updateProInfo(no) {
         this.$router.push({
-            name: 'shopUpdatePro',
-            query: {
-              proNo : no
-            }
+          name: 'shopUpdatePro',
+          query: {
+            proNo: no
+          }
+        })
+      },
+      //상품명/상품번호 검색(조건조회)
+      enterkey() {
+        if (window.event.keyCode == 13) {
+          var searchValue = document.querySelector("#search").value;
+          //키워드 상품 조회
+          axios({
+            url: "/shop/myProList",
+            method: "POST",
+            data: {
+              email: 'shop@mail.com'
+            },
+            params : {
+              keyword : searchValue
+            },
+            method: "POST",
+          }).then(res => {
+            console.log(res);
+            this.products = res.data;
+            console.log(this.products);
+          }).catch(error => {
+            console.log(error);
           })
+        }
       }
     },
     created() {

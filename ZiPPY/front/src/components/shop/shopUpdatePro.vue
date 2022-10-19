@@ -101,8 +101,8 @@
         <hr>
         <div>
           <div style="width:150px; margin-top:50px; margin-bottom:120px" class="mx-auto">
-            <v-btn outlined color="#64c481" class="mr-3" @click="insertPro">
-              등록
+            <v-btn outlined color="#64c481" class="mr-3" @click="updatePro">
+              수정
             </v-btn>
             <v-btn depressed color=#B3E3C3 @click="goProList">
               취소
@@ -147,31 +147,41 @@
       delOpt() {
         this.option.splice(this.option.length - 1, 1);
       },
-      insertPro() {
+      updatePro() {
         //null 검사
-        if (!this.product.proName || !this.product.proPrice || !this.product.deliveryCost || !this.product.category || !this.product
+        if (!this.product.proName || !this.product.proPrice || !this.product.deliveryCost || !this.product.category || !
+          this.product
           .proMainImg) {
           swal.fire({
             position: 'top-end',
             icon: 'warning',
-            title: '상품등록시 필수 정보를 입력해주세요.',
+            title: '상품수정시 필수 정보를 입력해주세요.',
             showConfirmButton: true
           })
           return;
         }
-
         var formData = new FormData(document.querySelector('#shopInsert'));
         formData.append('option', "" + JSON.stringify(this.option));
 
-        console.log(formData);
         axios({
-          url: "/shop/insertPro",
+          url: "/shop/updatePro",
           method: "POST",
           data: formData
         }).then(res => {
           console.log(res);
+          swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: '상품수정이 완료되었습니다.',
+            showConfirmButton: true
+          })
         }).catch(error => {
-          console.log(error);
+          swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: '상품수정시 필요한 정보를 모두 입력해주세요.',
+            showConfirmButton: true
+          })
         })
       },
       goProList() {

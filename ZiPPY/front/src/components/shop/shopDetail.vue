@@ -281,11 +281,12 @@
               proNo : this.product.proNo,
               selectOptNo : this.selectOption.optNo,
               qty : this.qty,
-              purPrice : this.countPurPrice
+              purPrice : this.countPurPrice,
+              email : this.product.email //업체 이메일
             },
             params: {
               payCode: this.payCode,
-              email : this.email
+              email : this.email //구매자 이메일
             }
           }).then(res => {
             console.log(res);

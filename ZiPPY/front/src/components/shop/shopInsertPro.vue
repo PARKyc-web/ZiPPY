@@ -165,7 +165,7 @@
           swal.fire({
             position: 'top-end',
             icon: 'success',
-            title: '상품이 등록되었습니다.',
+            title: '상품등록이 완료되었습니다.',
             showConfirmButton: true
           })
         }).catch(error => {

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <shop-insert-pro></shop-insert-pro>
     <shop-seller-pro></shop-seller-pro>
+    <shop-seller-order></shop-seller-order>
   </div>
 </template>
 
