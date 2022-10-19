@@ -19,7 +19,7 @@
           <table>
             <tr>
               <th>{{this.houseDetail[0].saleType}}</th>
-              <td>{{this.price}} {{this.houseDetail[0].price}}</td>
+              <td>{{this.price}}</td>
             </tr>
             <tr>
               <th>관리비</th>
@@ -137,6 +137,7 @@
   import CategotyMap from "./CategotyMap.vue";
   import ReportButton from './ReportButton.vue';
   import WishButton from './WishButton.vue';
+  import {oneHundredMillion} from '../../assets/property/propertyPrice';
 
   export default {
     components: {
@@ -179,7 +180,7 @@
           console.log(response.data);
           this.houseDetail = response.data;
 
-          this.price = this.getPrice(this.houseDetail[0].price);
+          this.price = oneHundredMillion(this.houseDetail[0].price);
         })
         .catch(error => {
           // 에러가 났을 때
@@ -217,31 +218,6 @@
             email: this.houseDetail[0].email
           }
         })
-      },
-      getPrice(price) {
-        let result = '';
-        let quotient = Math.floor(price.length / 3);
-        let remainder = price.length % 3;
-
-        for (let i = 0; i < remainder; i++) {
-          result += price[i];
-        }
-        result += ',';
-        for (let i = 0; i < quotient - 1; i++) {
-          for (let j = 0; j < 3; j++) {
-            result += price[remainder++];
-          }
-          result += ',';
-        }
-        for (let j = 0; j < 3; j++) {
-          result += price[remainder++];
-        }
-        console.log('콤마 추가: ', result);
-
-        result = result.substring(0, result.length - 5) + '억' + result.substring(result.length - 5, result.length);
-        console.log('억 추가: ', result);
-
-        return result;
       }
     }
   }

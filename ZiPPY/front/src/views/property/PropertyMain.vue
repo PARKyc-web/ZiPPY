@@ -90,6 +90,7 @@
         streetAddress: [],
         map: 0,
         productPosition: [],
+        price : ''
       }
     },
     methods: {
@@ -151,7 +152,6 @@
           console.log(message);
         }
 
-
         // 현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다
         searchAddrFromCoords(map.getCenter(), displayCenterInfo);
 
@@ -183,7 +183,7 @@
                 initThis.sigungu = result[i].address_name;
 
                 // ex) 대구광역시 중구 남산1동 -> 대구광역시 중구 남산동
-                for (let i = 1; i < 11; i++) {
+                for (let i = 1; i < 10; i++) {
                   initThis.sigungu = initThis.sigungu.replace(i+'동', '동');
                 }
                 console.log('현재 지도의 중심 위치: ', initThis.sigungu);
