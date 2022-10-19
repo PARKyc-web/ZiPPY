@@ -68,6 +68,10 @@
 </script>
 
 <style scoped>
+
+  header {
+    z-index: 10000;
+  }
   nav .navbar-nav a.router-link-active {
     color: #42b983 !important;
   }
