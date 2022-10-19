@@ -45,5 +45,5 @@ export default new Vuex.Store({
   },
   actions: {},
   modules: {},
-  plugins:[createPersistedState()],
+  plugins:[createPersistedState({storage:window.sessionStorage})],
 });

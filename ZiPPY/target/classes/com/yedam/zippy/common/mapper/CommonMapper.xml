@@ -10,26 +10,28 @@
 		</selectKey>
 		INSERT INTO bookmark
 		(
-		bookmark_no,
-		email,
-		service_type,
-		service_id
+			bookmark_no,
+			email,
+			service_type,
+			service_id
 		)
 		VALUES
 		(
-		#{bookmarkNo}
-		,#{email}
-		,#{serviceType}
-		,#{serviceId}
+			#{bookmarkNo}
+			,#{email}
+			,#{serviceType}
+			,#{serviceId}
 		)
 	</insert>
 	
+	<!-- 찜 삭제 -->
 	<delete id="delWish" parameterType="int">
 		DELETE 
 		FROM bookmark
 		WHERE bookmark_no = #{bNo}
 	</delete>
 	
+	<!-- 해당 상품 찜 유무 -->
 	<select id="getWishOne" resultType="BookmarkVO" parameterType="hashmap">
 		SELECT * 
 		FROM bookmark
@@ -37,6 +39,7 @@
 		AND email = #{email}
 	</select>
 	
+
 	<insert id="addReport" parameterType="ReportVO">
 		<selectKey keyProperty="reportNo" order="BEFORE"
 			resultType="int">
@@ -54,4 +57,70 @@
 		0
 		)
 	</insert>
+
+	<!-- 찜 목록 -->
+	<select id="getWishAll" resultType="BookmarkVO" parameterType="String">
+		SELECT p.product_no,
+			   p.product_name,
+			   p.product_price,
+			   p.product_location,
+			   p.is_sell,
+			   p.product_date,
+			   b.bookmark_no, 
+			   b.email,
+			   b.service_type,
+			   b.service_id
+		FROM used_product p, bookmark b
+		WHERE p.product_no = b.service_id
+		AND b.email = #{email}
+	</select>
+	
+	<!-- 후기 작성 -->
+	<insert id="addReview" parameterType="ReviewBoardVO">
+		<selectKey keyProperty="reviewNo" order="BEFORE" resultType="int">
+			SELECT NVL(MAX(review_no),0) +1 AS reviewNo
+			FROM review_board
+		</selectKey>
+		INSERT INTO review_board
+		(
+			REVIEW_NO,
+			EMAIL,
+			REVIEW_TITLE,
+			REVIEW_CONTENT,
+			REVIEW_DATE,
+			SERVICE_TYPE,
+			SERVICE_ID,
+			VIEW_CNT,
+			TOTAL_RATING,
+			RATE_1,
+			RATE_2,
+			RATE_3,
+			RATE_4,
+			DELETE_STATE
+		)
+		VALUES
+		(
+			#{reviewNo}
+			,#{email}
+			,#{reviewTitle}
+			,#{reviewContent}
+			,systimestamp
+			,#{serviceType}
+			,#{serviceId}
+			,#{viewCnt}
+			,#{totalRating}
+			,#{rate1}
+			,#{rate2}
+			,#{rate3}
+			,#{rate4}
+			,#{deleteState}
+		)
+	</insert>
+	
+	<select id="showReview" resultType="reviewBoardVO">
+		SELECT *
+		FROM review_board
+		WHERE email =#{email}
+	</select>
+
 </mapper>

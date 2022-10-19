@@ -65,6 +65,18 @@ public class MemberServiceImpl implements MemberService{
     }
     
     @Override
+    public Object getMember(String email, int memberType) {      
+      if(memberType == 0) {
+        return mapper.getGeneralUser(email);
+        
+      }else if(memberType == 1) {
+        return mapper.getBusinessUser(email);
+        
+      }   
+      return null;
+    }
+    
+    @Override
     public void insertLoginInfo(LoginVO vo) {
         vo.setPassword(encodingPassword(vo.getPassword()));   
         mapper.insertLoginInfo(vo);        

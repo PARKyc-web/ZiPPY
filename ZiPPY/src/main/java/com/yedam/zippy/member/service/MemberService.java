@@ -10,6 +10,8 @@ public interface MemberService {
   
   public List<LoginVO> getAllMember();  
   
+  public Object getMember(String email, int memberType);
+  
   public void insertLoginInfo(LoginVO vo);
   
   public void signGeneralMember(LoginVO loginVO, GeneralUserVO generalVO);

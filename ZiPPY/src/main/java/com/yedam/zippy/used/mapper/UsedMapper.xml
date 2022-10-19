@@ -5,7 +5,8 @@
 	<select id="usedList" resultType="UsedProductVO"
 		parameterType="hashmap">
 		SELECT p.*, 
-		       g.NICK_NAME
+		       g.NICK_NAME,
+		       g.PROFILE_IMAGE
 		  FROM used_product p, general_user g
 		 WHERE g.email = p.email
 		<if test="keyword != null and keyword != ''">
