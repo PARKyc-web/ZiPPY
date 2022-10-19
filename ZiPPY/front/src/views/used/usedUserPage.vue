@@ -12,7 +12,7 @@
                 <div 판매자정보 부분>
                     <div id="used-seller-name">
                         <div id="used-name-report">
-                            <div>닉네임 부분</div>
+                            <div>{{$store.getters.getName}}</div>
 
                         </div>
                     </div>
@@ -51,7 +51,9 @@
                                     <div @click="goDetail(list.productNo)" class="used-main-card"
                                         v-if="data.length != 0" v-for="list in data">
                                         <div>
-                                            <div><img src="/used/FIzrqY3agAI_Nyy.jpg" width="194px" height="194px">
+                                            <div><img
+                                                    src="http://file3.instiz.net/data/file3/2022/06/08/7/e/1/7e113a4442c27945a2a379401c5021c8.jpg"
+                                                    width="194px" height="194px">
                                             </div>
                                             <div class="used-main-card-cont">
                                                 <div class="used-main-card-title">{{list.productName}}</div>
@@ -167,8 +169,10 @@
                                                 <h4>짧은 글 후기</h4>
                                             </div>
                                             <div id="used-user-review">
-                                                <textarea name="" id="" cols="140" rows="10"
-                                                    placeholder="후기를 남겨주세요"></textarea>
+                                                <textarea name="" id="" cols="140" rows="10" placeholder="후기를 남겨주세요"
+                                                    v-model="rv.reviewContent"></textarea>
+                                            </div>
+                                            <div><button class="submitBtn" type="button" @click="addRv()">등록</button>
                                             </div>
                                         </div>
                                     </div>
@@ -191,11 +195,26 @@
         },
         data: () => ({
             data: "",
-
+            rv: {
+                reviewNo: "",
+                email: "",
+                reviewTitle: "none",
+                reviewContent: "",
+                reviewDate: "",
+                serviceType: 1,
+                serviceId: "",
+                viewCnt: 0,
+                totalRating: 3,
+                rate1: 1,
+                rate2: 2,
+                rate3: 3,
+                rate4: 4,
+                deleteState: ""
+            }
         }),
         created() {
             axios({
-                url: "http://localhost:80890/zippy/used/main",
+                url: "http://localhost:8090/zippy/used/main",
                 methods: "GET",
                 params: {
                     location: "",
@@ -207,17 +226,44 @@
             }).then(res => {
                 console.log(res);
                 this.data = res.data;
-                console.log(this.data);
+                this.rv.email = this.$store.state.loginInfo.email;
             }).catch(error => {
                 console.log(error);
             })
+            // ,
+            // axios({
+            //     url: "common/showReview",
+            //     methods: "GET",
+            //     headers: {
+            //         "Content-Type": "application/json; charset=utf-8"
+            //     },
+            //     data: JSON.stringify(this.data)
+            // }).then(res => {
+            //     console.log(res);
+            //     this.data = res.data;
+            //     console.log(this.data);
+            // }).catch(error => {
+            //     console.log(error);
+            // })
         },
         methods: {
             goDetail(no) {
                 console.log(no);
-                // var cardNo = this.data.findIndex(i => i.productNo == productNo);
-                // console.log(cardNo);
                 this.$router.push('/used/detail?pNo=' + no);
+            },
+            addRv: function () {
+                axios({
+                    url: "common/addRv",
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json; charset=utf-8"
+                    },
+                    data: JSON.stringify(this.rv)
+                }).then(res => {
+                    console.log(res);
+                }).catch(error => {
+                    console.log(error);
+                })
             }
         }
     }
@@ -227,6 +273,21 @@
     #container {
         width: 1200px;
         margin: 0 auto;
+    }
+
+    .submitBtn {
+        border: none;
+        background-color: #b3e3c3;
+        color: white;
+        width: 150px;
+        height: 50px;
+        border-radius: 5px;
+        float: right;
+        margin: 10px 30px 10px 0;
+    }
+
+    .submitBtn:hover {
+        background-color: #6dc78b;
     }
 
     #used-user-review {

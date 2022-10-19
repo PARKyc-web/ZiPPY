@@ -1,153 +1,58 @@
 <template>
-  <div id="container">
+  <div>
     <nav-bar @click="search($event)"></nav-bar>
-    <div>
-      <div class="used-main-title">
-        <h3>찜 목록</h3>
+    <div id="container">
+      <div>
+        <div class="used-main-title">
+          <h3>찜 목록</h3>
+        </div>
       </div>
-    </div>
-    <div id="used-usedwishckdel">
-      <div id="used-wish-chkbox">
-        <p class="chk_box">
-          <input type="checkbox" id="chk_top" />
-          <label for="chk_top"></label>
-        </p>
+      <div id="used-usedwishckdel">
+        <div id="used-wish-chkbox">
+          <v-checkbox @click="selectAll()" id="ckAll" color="#b3e3c3"></v-checkbox>
+        </div>
+        <div id="used-wish-del-div">
+          <button @click="delWish()" class="used-wish-del-btn">선택삭제</button>
+        </div>
       </div>
-      <div id="used-wish-del-div">
-        <button class="used-wish-del-btn">선택삭제</button>
-      </div>
-    </div>
-    <hr />
-    <div id="used-div-cont">
-      <div class="used-wish-cont-div">
-        <div id="used-wish-product">
-          <div class="used-wish-img-1">
-            <img
-              src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcnRs2T%2FbtrG3rPqyGx%2FgvSvyKfokqo8yQomsVjuQK%2Fimg.jpg"
-              width="200px" height="200px" alt="" />
-            <div id="used-wish-info">
-              <div>
-                <button class="used-wish-heart">
-                  <i class="bi bi-heart-fill"></i>
-                </button>
-              </div>
-              <div id="wish-card-ckbox">
-                <div id="wish-title-price"><span>너무 하기 싫네요</span></div>
-                <div >
-                  <p class="chk_box">
-                    <input type="checkbox" id="chk_top" />
-                    <label for="chk_top"></label>
-                  </p>
+      <hr />
+      <div id="used-div-cont">
+        <div class="used-wish-cont-div" v-for="list in data">
+          <div id="used-wish-product">
+            <div class="used-wish-img-1">
+              <img
+                src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcnRs2T%2FbtrG3rPqyGx%2FgvSvyKfokqo8yQomsVjuQK%2Fimg.jpg"
+                width="200px" height="200px" />
+
+              <div id="used-wish-info">
+                <div>
+                  <button class="used-wish-heart">
+                    <i class="bi bi-heart-fill"></i>
+                  </button>
                 </div>
-              </div>
-              <div id="wish-title-price" class="used-wish-card-cont"><span>999,999원</span></div>
-              <hr />
-              <div>
-                <span>거래지역</span>
-                <span>대구</span>
+                <div id="wish-card-ckbox">
+                  <div id="wish-title-price"><span>{{list.productName}}</span></div>
+                  <div>
+                    <v-checkbox v-model="ckList" color="#b3e3c3" label="" value="" :value="list.bookmarkNo">
+                    </v-checkbox>
+                  </div>
+                </div>
+                <div id="used-wish-price-date">
+                  <div id="wish-title-price" class="used-wish-card-cont"><span>{{list.productPrice | comma}}원</span>
+                  </div>
+                  <div id="used-wish-date"><span>{{list.productDate}}</span></div>
+                </div>
+                <hr />
+                <div>
+                  <span>거래지역 : </span>
+                  <span>{{list.productLocation}}</span>
+                </div>
               </div>
             </div>
           </div>
-          <div></div>
+          <div id="wish-soldout-img" width="200px" height="200px" v-if="list.isSell == 1" />
         </div>
       </div>
-      <div class="used-wish-cont-div">
-        <div id="used-wish-product">
-          <div class="used-wish-img-1">
-            <img
-              src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcnRs2T%2FbtrG3rPqyGx%2FgvSvyKfokqo8yQomsVjuQK%2Fimg.jpg"
-              width="200px" height="200px" alt="" />
-            <div id="used-wish-info">
-              <div>
-                <button class="used-wish-heart">
-                  <i class="bi bi-heart-fill"></i>
-                </button>
-              </div>
-              <div id="wish-card-ckbox">
-                <div id="wish-title-price"><span>너무 하기 싫네요</span></div>
-                <div >
-                  <p class="chk_box">
-                    <input type="checkbox" id="chk_top" />
-                    <label for="chk_top"></label>
-                  </p>
-                </div>
-              </div>
-              <div id="wish-title-price" class="used-wish-card-cont"><span>999,999원</span></div>
-              <hr />
-              <div>
-                <span>거래지역</span>
-                <span>대구</span>
-              </div>
-            </div>
-          </div>
-          <div></div>
-        </div>
-      </div>
-      <div class="used-wish-cont-div">
-        <div id="used-wish-product">
-          <div class="used-wish-img-1">
-            <img
-              src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcnRs2T%2FbtrG3rPqyGx%2FgvSvyKfokqo8yQomsVjuQK%2Fimg.jpg"
-              width="200px" height="200px" alt="" />
-            <div id="used-wish-info">
-              <div>
-                <button class="used-wish-heart">
-                  <i class="bi bi-heart-fill"></i>
-                </button>
-              </div>
-              <div id="wish-card-ckbox">
-                <div id="wish-title-price"><span>너무 하기 싫네요</span></div>
-                <div >
-                  <p class="chk_box">
-                    <input type="checkbox" id="chk_top" />
-                    <label for="chk_top"></label>
-                  </p>
-                </div>
-              </div>
-              <div id="wish-title-price" class="used-wish-card-cont"><span>999,999원</span></div>
-              <hr />
-              <div>
-                <span>거래지역</span>
-                <span>대구</span>
-              </div>
-            </div>
-          </div>
-          <div></div>
-        </div>
-      </div>
-      <div class="used-wish-cont-div">
-        <div id="used-wish-product">
-          <div class="used-wish-img-1">
-            <img
-              src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcnRs2T%2FbtrG3rPqyGx%2FgvSvyKfokqo8yQomsVjuQK%2Fimg.jpg"
-              width="200px" height="200px" alt="" />
-            <div id="used-wish-info">
-              <div>
-                <button class="used-wish-heart">
-                  <i class="bi bi-heart-fill"></i>
-                </button>
-              </div>
-              <div id="wish-card-ckbox">
-                <div id="wish-title-price"><span>너무 하기 싫네요</span></div>
-                <div >
-                  <p class="chk_box">
-                    <input type="checkbox" id="chk_top" />
-                    <label for="chk_top"></label>
-                  </p>
-                </div>
-              </div>
-              <div id="wish-title-price" class="used-wish-card-cont"><span>999,999원</span></div>
-              <hr/>
-              <div>
-                <span>거래지역</span>
-                <span>대구</span>
-              </div>
-            </div>
-          </div>
-          <div></div>
-        </div>
-      </div>
-      
     </div>
   </div>
 </template>
@@ -156,7 +61,69 @@
   import axios from 'axios';
   import navBar from '../../components/used/navBar.vue';
 
-  export default {};
+  export default {
+    components: {
+      navBar
+    },
+    data: () => ({
+      data: [],
+      ckList: []
+    }),
+    created() {
+      axios({
+        url: "/common/wishAll",
+        method: "GET",
+        params: {
+          email: this.$store.state.loginInfo.email
+        }
+      }).then(res => {
+        console.log(res);
+        this.data = res.data;
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    filters: {
+      comma(val) {
+        return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      }
+    },
+    methods: {
+      selectAll: function () {
+        console.log(this.ckList)
+        let isCheck = document.querySelector('#ckAll').checked;
+        if (isCheck == false) {
+          for (let i of this.data) {
+            this.ckList.push(i.bookmarkNo);
+          }
+        } else if (isCheck == true) {
+          this.ckList.splice(0);
+        }
+      },
+      // 선택 삭제 & 전체 삭제 ?
+      delWish: function () {
+        axios({
+          url: "common/delWish",
+          method: "DELETE",
+          data: {
+            bNo: this.ckList
+          }
+        }).then(res => {
+          console.log(res);
+          let arr = [];
+          for (let i of this.data) {
+            if (this.ckList.indexOf(i.bookmarkNo) < 0) {
+              arr.push(i);
+            }
+          }
+          this.data = arr;
+          this.ckList=[];
+        }).catch(err => {
+          console.log(err)
+        })
+      }
+    }
+  };
 </script>
 
 <style scoped>
@@ -164,16 +131,45 @@
     width: 1200px;
     margin: 0 auto;
   }
-  #wish-card-ckbox{
+
+  #wish-soldout-img {
+    background-color: #7b7e80;
+    position: relative;
+  }
+
+  #used-wish-price-date {
     display: flex;
+    justify-content: space-between;
+  }
+
+  #used-wish-date {
+    height: fit-content;
+    margin-top: 20px;
+  }
+
+  #used-wish-date span {
+    color: #888888;
+    font-size: smaller;
+  }
+
+  #wish-card-ckbox {
+    display: flex;
+    justify-content: space-between;
   }
 
   #used-div-cont {
     margin: 20px 0 0 100px;
+    margin-bottom: 50px;
   }
 
   #wish-title-price {
-    width: 100%;
+    width: 70%;
+    height: fit-content;
+    margin-top: 20px;
+  }
+
+  #wish-title-price span {
+    font-size: large;
   }
 
   .used-wish-cont-div {
@@ -274,42 +270,6 @@
     width: 150px;
   }
 
-  input#chk_top {
-    display: none;
-  }
-
-  /*input 바로 다음의 label*/
-  input#chk_top+label {
-    cursor: pointer;
-  }
-
-  /*input 바로 다음의 label:before 에 체크하기 전 CSS 설정*/
-  input#chk_top+label:before {
-    content: "";
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    line-height: 17px;
-    border: 1px solid #cbcbcb;
-    vertical-align: middle;
-    /*체크 전과 체크 후 높이 차이 때문에 설정*/
-  }
-
-  /*checked된 input 바로 다음의 label:before 에 체크 후 CSS 설정*/
-  input#chk_top:checked+label:before {
-    content: "\f00c";
-    /*폰트어썸 유니코드*/
-    font-family: "Font Awesome 5 free";
-    /*폰트어썸 아이콘 사용*/
-    font-weight: 900;
-    /*폰트어썸 설정*/
-    color: #fff;
-    background-color: #b3e3c3;
-    border-color: #b3e3c3;
-    font-size: 13px;
-    text-align: center;
-  }
-
   .used-wish-del-btn {
     padding: 0px 10px px;
     height: 28px;
@@ -322,6 +282,7 @@
     font-size: 13px;
     background: rgb(255, 255, 255);
     color: rgb(136, 136, 136);
+    margin-top: 19px;
   }
 
   .used-wish-del-btn:hover {
@@ -363,6 +324,7 @@
 
   .used-wish-img-1 {
     display: flex;
+    position: relative;
   }
 
   .used-wish-cont {

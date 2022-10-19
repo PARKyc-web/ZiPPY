@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class ReviewBoardVO {
   private int reviewNo;
-  private String eamil;
+  private String email;
   private String reviewTitle;
   private String reviewContent;
   private Date reviewDate;
@@ -19,6 +19,6 @@ public class ReviewBoardVO {
   private int rate2;
   private int rate3;
   private int rate4;
-  private int deleteStatic;
+  private int deleteState;
   
 }

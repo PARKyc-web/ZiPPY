@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.yedam.zippy.common.service.BookmarkVO;
+import com.yedam.zippy.common.service.ReviewBoardVO;
 
 public interface CommonMapper {
   // 찜 추가
@@ -17,13 +18,13 @@ public interface CommonMapper {
   public BookmarkVO getWishOne(@Param("sId") int sId,@Param("email") String email);
   
   // 찜 전체 출력
-  public List<BookmarkVO> getWishAll();
+  public List<BookmarkVO> getWishAll(@Param("email")String email);
   
 
   // 후기 등록
-  public String addReview();
+  public int addReview(ReviewBoardVO rv);
 
   // 후기 불러오기
-  public String showReview();
+  public List<BookmarkVO> showReview(ReviewBoardVO rv);
 
 }

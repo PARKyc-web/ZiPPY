@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.common.service.CommonService;
+import com.yedam.zippy.common.service.ReviewBoardVO;
 
 @CrossOrigin(originPatterns = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
     RequestMethod.DELETE })
@@ -46,9 +48,12 @@ public class CommonController {
 
   // 찜 삭제
   @DeleteMapping("/delWish")
-  public int delWish(@RequestParam int bNo) {
-    System.out.println("bno" + bNo);
-    service.delWish(bNo);
+  public int delWish(@RequestBody Map<String, List<Integer>> bNo) {
+    System.out.println("Run");
+    System.out.println("bno"+bNo);
+    for(int i =0; i<bNo.get("bNo").size(); i++) {
+      service.delWish(bNo.get("bNo").get(i));
+    }    
     return 1;
   }
 
@@ -60,25 +65,27 @@ public class CommonController {
 
   // 찜 전체출력
   @GetMapping("/wishAll")
-  public List<BookmarkVO> getWishAll() {
-    return service.getWishAll();
+  public List<BookmarkVO> getWishAll(@RequestParam String email){
+    return service.getWishAll(email);
   }
 
   // 후기작성
   @PostMapping("/addRv")
-  public String addReview() {
-    return "";
+  public int addReview(@RequestBody ReviewBoardVO rv) {
+//    service.addReview(rv);
+    System.out.println(rv);
+    return 1;
   }
 
   // 후기 출력
   @GetMapping("/showRv")
-  public String showReview() {
-    return "";
-  }
+  public List<ReviewBoardVO> showReview(@RequestBody ReviewBoardVO rv) {
+    return service.showReview(rv);
+  }  
+
  
   @GetMapping("img/{image}")
   public void getImage(HttpServletResponse response, @PathVariable String image) throws Exception {
-
     try {
       String path = "C:/dev/image/" + image; // 경로에 접근할 때 역슬래시('\') 사용
 
