@@ -39,7 +39,6 @@
 		AND email = #{email}
 	</select>
 	
-
 	<insert id="addReport" parameterType="ReportVO">
 		<selectKey keyProperty="reportNo" order="BEFORE"
 			resultType="int">
@@ -122,5 +121,4 @@
 		FROM review_board
 		WHERE email =#{email}
 	</select>
-
 </mapper>
