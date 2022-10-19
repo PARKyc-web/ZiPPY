@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,14 +31,14 @@ public class MemberController {
       return service.login(login);
     }
   
-    @PostMapping("gSignUp")
+    @PostMapping("/gSignUp")
     public String generalSignUp(LoginVO login, GeneralUserVO gVO) {
       service.signGeneralMember(login, gVO);
       
       return "Congratulations";
     }
 
-    @PostMapping("bSignUp")
+    @PostMapping("/bSignUp")
     public String businessSignUp(LoginVO login, BusinessVO bVO, List<MultipartFile> images) {  
       System.out.println(login);
       System.out.println(bVO);
@@ -46,6 +47,11 @@ public class MemberController {
       service.signBusinessMember(login, bVO, images);      
   
       return "Congratulations";
+    }
+    
+    @GetMapping("mypage")
+    public Object getUserInfo(String email, int memberType) {
+      return service.getMember(email, memberType);
     }
 
 }

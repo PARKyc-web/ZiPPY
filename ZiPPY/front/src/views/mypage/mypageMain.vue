@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="maypage">
         <div id="side">
             <sidebar-menu :menu="menu"></sidebar-menu>
         </div>
@@ -34,7 +34,7 @@ export default{
                         icon: 'fa-solid fa-comment'            
                     },
                     {
-                        href: '/mypage/login',
+                        href: '/mypage/order',
                         title: '구매목록',
                         icon: 'fa-solid fa-basket-shopping',                        
                     },

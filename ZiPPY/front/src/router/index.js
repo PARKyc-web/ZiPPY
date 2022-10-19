@@ -20,8 +20,8 @@ import selectSign from '@/views/login/selectSignType.vue';
 import login from '@/views/login/login.vue';
 import admin from '@/views/admin/admin.vue';
 import mypage from '@/views/mypage/mypageMain.vue';
-import chat from '@/views/chat/chat.vue';
-import chatDetail from '@/views/chat/chatDetail.vue';
+import chat from '@/views/chat/chatTap.vue';
+import chatDetail from '@/views/chat/chatTap.vue';
 import findUserInfo from '@/views/login/findInfo.vue';
 
 import moveContactFinalCheck from "../views/move/moveContactFinalCheck.vue";
@@ -48,7 +48,10 @@ import usedKeyword from "../views/used/usedKeyword.vue";
 import usedwishList from "../views/used/usedWishList.vue";
 import usedUserPage from "../views/used/usedUserPage.vue";
 
+
+import userInfo from '@/views/mypage/userInfo.vue';
 import page404 from '@/views/page404.vue';
+
 
 
 Vue.use(VueRouter);
@@ -102,7 +105,17 @@ const routes = [
       {
         path : "/",
         name : "mypage-main",
-        component : HomeView
+        component : userInfo
+      },
+      {
+        path : "chat",
+        name : "mypage-chat",
+        component : chat
+      },
+      {
+        path : "order",
+        name : "mypage-order",
+        component : order
       }
     ]
   },

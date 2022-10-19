@@ -25,8 +25,7 @@ public class MessageController {
   private ChatService chatService;
 
   @MessageMapping("/chat/message")
-  public void enter(ChatMessage message) {
-    List<ChatMessage> chatList = new ArrayList<>();    
+  public void enter(ChatMessage message) {    
 
     if (ChatMessage.MessageType.ENTER.equals(message.getType())) {
 //      처음 입장했을때 텍스트 파일을 읽어서, 내용을 표시해주자!

@@ -1,15 +1,17 @@
 package com.yedam.zippy.common.web;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,24 +43,24 @@ public class CommonController {
     System.out.println(bookmark);
     return service.addWish(bookmark);
   }
-  
+
   // 찜 삭제
   @DeleteMapping("/delWish")
   public int delWish(@RequestParam int bNo) {
-    System.out.println("bno"+bNo);
+    System.out.println("bno" + bNo);
     service.delWish(bNo);
     return 1;
   }
-  
+
   // 해당상품 찜 출력
   @GetMapping("/wishOne")
   public BookmarkVO getWishOne(@RequestParam int sId, @RequestParam String email) {
-   return service.getWishOne(sId, email);
+    return service.getWishOne(sId, email);
   }
-  
+
   // 찜 전체출력
   @GetMapping("/wishAll")
-  public List<BookmarkVO> getWishAll(){
+  public List<BookmarkVO> getWishAll() {
     return service.getWishAll();
   }
 
@@ -72,16 +74,30 @@ public class CommonController {
   @GetMapping("/showRv")
   public String showReview() {
     return "";
-  }  
-  
-  @GetMapping("image/{imagename}")
-  @ResponseBody
-  public ResponseEntity<byte[]> userSearch(@PathVariable("imagename") String imagename) throws IOException {
-      System.out.println("test");
-      InputStream imageStream = new FileInputStream("C:/dev/image/" + imagename);
-//    InputStream imageStream = new FileInputStream("/home/ubuntu/images/feed/" + imagename);
-      byte[] imageByteArray = IOUtils.toByteArray(imageStream);
-      imageStream.close();
-      return new ResponseEntity<byte[]>(imageByteArray, HttpStatus.OK);
   }
+ 
+  @GetMapping("img/{image}")
+  public void getImage(HttpServletResponse response, @PathVariable String image) throws Exception {
+
+    try {
+      String path = "C:/dev/image/" + image; // 경로에 접근할 때 역슬래시('\') 사용
+
+      File file = new File(path);
+      response.setHeader("Content-Disposition", "attachment;filename=" + file.getName()); // 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를
+                                                                                          // 알려주는 헤더
+
+      FileInputStream fileInputStream = new FileInputStream(path); // 파일 읽어오기
+      OutputStream out = response.getOutputStream();
+
+      int read = 0;
+      byte[] buffer = new byte[1024];
+      while ((read = fileInputStream.read(buffer)) != -1) { // 1024바이트씩 계속 읽으면서 outputStream에 저장, -1이 나오면 더이상 읽을 파일이 없음
+        out.write(buffer, 0, read);
+      }
+
+    } catch (Exception e) {
+      throw new Exception("download error");
+    }
+  }
+
 }

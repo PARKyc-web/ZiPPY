@@ -32,5 +32,7 @@ public interface MemberMapper {
                                    @Param("phoneNumber") String phoneNumber);
     
     public String findBusinessEmail(@Param("userName") String userName, 
-                                    @Param("phoneNumber") String phoneNumber);
+                                    @Param("phoneNumber") String phoneNumber);    
+    
+    
 }
