@@ -7,6 +7,7 @@
 
 
     <input type="hidden" name="movingOption" v-model="checkk">
+    <input type="hidden" name="commonOption" v-model="commonOption">
     <input type="hidden" name="email" v-model="emailSend">
     <input type="hidden" name="movingMemo" v-model="movingMemoSend">
     
@@ -673,7 +674,7 @@
     },
 
     data: () => ({
-
+      commonOption:"",
       checkk: "",
       emailSend : "zippy@naver.com",
       movingMemoSend: "MemoMemo",
@@ -773,9 +774,35 @@
         console.log(img2);
         console.log(img3);
 
-        untactForm.movingOption.value= "["+JSON.stringify(this.moveDetail[0])+","+ JSON.stringify(this.moveInfo) +"]";
+        
+
+        untactForm.movingOption.value= JSON.stringify(this.moveDetail[0])
+        untactForm.commonOption.value= JSON.stringify(this.moveInfo) ;
+        
+
+        // var moveDetailJson = JSON.stringify(this.moveDetail[0]);
+        // var moveInfoJson = JSON.stringify(this.moveInfo);
+
+
+
+        // let replac_str1 = moveDetailJson.replace(/\{|\[|\"|\]|\}/g,'');
+        // console.log('문자제거 : '+replac_str1);
+
+        // let replac_str2 = moveInfoJson.replace(/\{|\[|\"|\]|\}/g,'');
+        // console.log('문자제거 : '+replac_str2);
+
+        // untactForm.movingOption.value= replac_str1;
+        // untactForm.commonOption.value= replac_str2;
+
+        // var parseDetail = JSON.parse(untactForm.movingOption.value);
+        // var parseInfo = JSON.parse(untactForm.commonOption.value);
+
+        // console.log(parseDetail);
+        // console.log(parseInfo);
+
         var formData = new FormData(document.querySelector('#untactForm'));  
         console.log(this.checkk);
+        console.log(this.commonOption);
 
         var step;
 

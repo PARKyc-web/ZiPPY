@@ -26,6 +26,13 @@ Vue.config.productionTip = false;
 //Vue.use(IMP, 'imp22120243');
 //Vue.IMP().load();
 
+Vue.filter("stringToJson",(val)=>{
+  
+  console.log(val);
+
+  return 'd';
+})
+
 new Vue({
   router,
   store,

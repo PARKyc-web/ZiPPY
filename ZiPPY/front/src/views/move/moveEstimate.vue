@@ -29,7 +29,8 @@
       <v-expansion-panels>
         <v-expansion-panel v-if="list.length != 0" v-for="(item,i) in list">
           <v-expansion-panel-header>
-            <span>NO.{{item.estimateNo}}</span> &nbsp;&nbsp; 요청회원 : <span>{{item.email}}</span> &nbsp;&nbsp; 견적요청일 :
+            <!-- 요청회원 : <span>{{item.email}}</span> &nbsp;&nbsp;  -->
+            <span>NO.{{item.estimateNo}}</span> &nbsp;&nbsp; 견적요청일 :
             <span>{{item.requestDate}}</span>&nbsp;&nbsp; 견적 방법 : <span>{{item.estimateType}}</span>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
@@ -40,7 +41,10 @@
               <span>{{item.departDetail}}</span></div>
             <div>도착지 주소 : <span>{{item.arriveZipCode}}</span> <br><span>{{item.arriveAddress}}</span>
               <span>{{item.arriveDetail}}</span></div>
-            <div>이사정보 : <span>{{item.movingOption}}</span></div>
+            <div> 이사 정보 : <span v-html="par(item.commonOption)"></span></div>
+            <div v-if="item.estimateType == '비대면견적'">
+            <div >이삿짐 정보 :<span v-html="my(item.movingOption)"></span></div>
+            </div> 
 
             <div v-if="item.movingMemo != null">
               <div>이사 요청사항 : <span>{{item.movingMemo}}</span></div>
@@ -61,13 +65,13 @@
                 <v-dialog v-model="dialog" persistent max-width="600px">
 
                   <template v-slot:activator="{ on, attrs }">
-                    <v-btn @click="modalVal(i)" color="success" dark v-bind="attrs" v-on="on" width="80">
+                    <v-btn id="estBtn" @click="modalVal(i)" color="success" dark v-bind="attrs" v-on="on" width="80">
                       견적작성
                     </v-btn>
                   </template>
 
                   <!-- 모달 -->
-                  <form id="estimateForm" name="estimateForm">
+                  <form id="estimateForm" name="estimateForm" v-for="i in list">
                     <div>
                       <v-card :id="i" >
                         <v-card-title>
@@ -78,17 +82,17 @@
                             <v-row>
                               <v-col cols="12" sm="6" md="4">
                                 <v-text-field label="견적번호*" id="estimateNo" required readonly 
-                                  v-model="selectData.estimateNo"></v-text-field>
-                                  
-                              </v-col>
-                              <!-- <v-col cols="12" sm="6" md="4">
-                              <v-text-field label="요청응답 견적번호*" hint="견적서에 부여되는 번호입니다."></v-text-field>
-                            </v-col> -->
+                                  v-model="selectData.estimateNo"></v-text-field>                                 
+                              </v-col><br />
+                              <v-col cols="12" >                              
+                                <v-text-field label="업체명*" hint="고객에게 보여주는 업체의 이름입니다." v-model="selectData.compName"></v-text-field>   
+                            </v-col>
                           
 
                               <v-col cols="12">
-                                <v-text-field label="요청 회원*" required readonly v-model="selectData.email">
-                                </v-text-field>
+                                <v-text-field label="업체아이디*" hint="고객에게 보여주는 업체의 이메일입니다." v-model="selectData.email"></v-text-field>
+                                <!-- <v-text-field label="요청 회원*" required readonly v-model="selectData.email"> -->
+                                <!-- </v-text-field> -->
                               </v-col>
                               <v-col cols="12">
                                 <v-text-field label="1차 견적타입*" required readonly 
@@ -135,7 +139,7 @@
                           <v-btn color="blue darken-1" text @click="dialog = false">
                             저장
                           </v-btn>
-                          <v-btn color="success darken-1" text @click="sendEstimate()">
+                          <v-btn id="sendbtn" color="success darken-1" text @click="sendEstimate()">
                             견적보내기
                           </v-btn>
                         </v-card-actions>
@@ -143,8 +147,9 @@
                     </div>
                     <input type="hidden" name="estimateNo" id="estimateNo" v-model="selectData.estimateNo">
                     <input type="hidden" name="email" id="email" v-model="selectData.email">
+                    <input type="hidden" name="businessEmail" id="businessEmail" v-model="selectData.businessEmail">
+                   
                     <input type="hidden" name="firstEstimateType" id="firstEstimateType" v-model="selectData.estimateType">
-
                     <input type="hidden" name="firstEstimatePrice" v-model="selectData.firstEstimatePrice">
                     <!-- <input type="hidden" name="secondEstimatePrice" v-model="selectData.secondEstimatePrice">
                     <input type="hidden" name="secondEstimateType"  v-model="selectData.secondEstimateType"> -->
@@ -192,16 +197,18 @@
         secondEstimatePrice: "",
         compName: "82이사",
         reservStatus: 0,
+        businessEmail: "",
 
         list: [],
         vo: {
-          email: "zippy@naver.com",
+          email: "move123@move.com",
           requestDate: "",
           departAddress: "",
           arriveAddress: "",
           compAddress: "",
           estimateNo: "",
-          estimateType: ""
+          estimateType: "",
+          businessEmail: ""
         },
         
 
@@ -264,8 +271,9 @@
         url: "http://localhost:8090/zippy/move/moveEstimate",
         methods: "GET",
         params: {
-          email: "zippy@naver.com",
+          email: "move123@move.com",
           movingOption: "",
+          commonOption: "",
           checked: "",
           dropbox: "",
           dropbox2: ""
@@ -353,7 +361,7 @@
           url: "http://localhost:8090/zippy/move/moveEstimate",
           methods: "GET",
           params: {
-           
+            businessEmail: this.email,
             estimateNo : this.list[i].estimateNo,
             email: this.vo.email,
             estimateType: this.list[i].estimateType
@@ -361,14 +369,127 @@
         }).then(res => {
           this.selectData.estimateNo = this.list[i].estimateNo //{...this.list[i]}
           this.selectData.email = this.vo.email
+          // this.selectData.businessEmail = this.email
           this.selectData.estimateType = this.list[i].estimateType
           this.selectData.reservStatus = "0"
-          this.selectData.compName = "456이사"
+          this.selectData.compName = "82이사"
           console.log(res);
           this.list = res.data;
         }).catch(err => {
           console.log(err);
         })
+      },
+
+      par : function(string){
+          // var data = '{"bedCount":2,"bed":["","싱글","슈퍼싱글"],"sofaCount":1,"sofa":[""],"closetCount":1,"closet":[""],"closetsCount":1,"closets":[""],"tvCount":1,"tv":[""],"pcCount":1,"pc":[""],"fridgeCount":1,"fridge":[""],"trolleyCount":1,"trolley":[""],"etcCount":1,"etcName":[""],"etcSize":[""],"box":"16-20개","filesPhoto":""}';
+          var temp = JSON.parse(string);
+          console.log( "parse : "+temp);
+          console.log(temp.bedCount);
+         
+
+          var detailVal = ''; 
+          var detail = '';
+
+          detail += `<div>주거형태 : ${temp.houseType}</div>`
+          detail += `<div>방구조 : ${temp.roomNum}</div>`
+          detail += `<div>집 평수 : ${temp.spaceOfHome}</div>`
+          detail += `<div>층수 : ${temp.floor}</div>`
+          detail += `<div>화장실 개수 : ${temp.toilet}</div>`
+          detail += `<div>베란다 개수 : ${temp.veranda}</div>`
+          detail += `<div>별도 계단 : ${temp.extraStairs}</div>`
+          detail += `<div>엘레베이터 : ${temp.elevator}</div>`
+          detail += `<div>주차가능 여부 : ${temp.parkable}</div>`
+
+          // detailVal = `<div>회원의 이사 기본 정보</div>` + detail;
+
+          return detail;
+
+        },
+      my : function(string){
+      
+
+        var temp= JSON.parse(string);
+        console.log('파싱 : ',temp);
+        console.log(temp.bedCount);
+        var bedTemp ='침대 개수 : '+ temp.bedCount + ', 침대 사이즈 : ' + temp.bed[0];
+        console.log(temp.closetCount);
+
+        /*
+          var fur = ['bed', 'sofa', 'closet', 'closets']
+
+          for(let i of fur){
+            if (temp.bed.length > 0  ){
+              detail+= `<div>침대 : ${temp[i +'Count']}(${temp[i].join(",")})</div>`
+            } 
+          }  
+        */
+
+          //가구
+        var detailVal = ''; 
+        var detail = '';
+        //침대
+        if (temp.bed.length > 0 && temp.bed[1]){
+          detail+= `<div>침대 : ${temp.bedCount}(${temp.bed.join(",")})</div>`
+        } 
+        //소파
+        if (temp.sofa.length > 0 &&  temp.sofa[1]){
+          detail+= `<div>소파 : ${temp.sofaCount}(${temp.sofa.join(",")})</div>`
+        } 
+        //옷장
+        if (temp.closet.length > 0 &&  temp.closet[1]){
+          detail+= `<div>옷장 : ${temp.closetCount}(${temp.closet.join(",")})</div>`
+        } 
+        //옷장-연결장
+        if (temp.closets.length > 0 &&  temp.closets[1]){
+          detail+= `<div>옷장-연결장 : ${temp.closetsCount}(${temp.closets.join(",")})</div>`
+        } 
+
+        if( detail) {
+          detailVal = `<div>가구</div>`+ detail
+        }
+
+          //가전
+        detail = ''
+        //tv
+        if (temp.tv.length > 0 &&  temp.tv[1]){
+          detail+= `<div>tv : ${temp.tvCount}(${temp.tv.join(",")})</div>`
+        } 
+        //데스크탑
+        if (temp.pc.length > 0 &&  temp.pc[1]){
+          detail+= `<div>데스크탑 : ${temp.pcCount}(${temp.pc.join(",")})</div>`
+        } 
+        //냉장고
+        if (temp.fridge.length > 0 &&  temp.fridge[1]){
+          detail+= `<div>냉장고 : ${temp.fridgeCount}(${temp.fridge.join(",")})</div>`
+        } 
+        //유모차
+        if (temp.trolley.length > 0 &&  temp.trolley[1]){
+          detail+= `<div>유모차 : ${temp.trolleyCount}(${temp.trolley.join(",")})</div>`
+        } 
+
+        // if (temp.etcName.length > 0 &&  temp.etcSize[0]){
+        //   detail+= `<div>유모차 : ${temp.etcName}(${temp.etcSize.join(",")})</div>`
+        // }
+
+        if( detail) {
+          detailVal += `<div>가전</div>`+ detail
+          
+        }
+        
+          //기타
+        detail = '' 
+        if(temp.etcName.length > 0){ 
+          for(let i=1; i< temp.etcName.length; i++){
+          detail+= `<div> ${temp.etcName[i]} : ${temp.etcSize[i]}(사이즈 cm)</div>` 
+          }
+          console.log(detail);
+      
+        if( detail) {
+          detailVal += `<div>기타</div>`+ detail
+        }  
+        
+        }
+        return detailVal;
       },
 
       sendEstimate: function () {
@@ -403,6 +524,9 @@
           data: formData
         }).then(res => {
           console.log(res);
+          // alert("견적서 보내기 완료!");
+          // const btnn = document.getElementById('sendbtn');
+          // btnn.disabled = true;
         }).catch(err => {
           console.log(err)
         })

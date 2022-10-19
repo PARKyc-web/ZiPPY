@@ -25,8 +25,11 @@
             <div >이사희망시간 : <span>{{item.movingTime}}</span></div>
             <div >출발지 주소 : <span>{{item.departZipCode}}</span> <br><span>{{item.departAddress}}</span> <span>{{item.departDetail}}</span></div>
             <div >도착지 주소 : <span>{{item.arriveZipCode}}</span> <br><span>{{item.arriveAddress}}</span> <span>{{item.arriveDetail}}</span></div>
-            <div >이사정보 : <span>{{item.movingOption}}</span></div>
-            
+            <div> 이사 정보 : <span v-html="par(item.commonOption)"></span></div>
+            <div v-if="item.estimateType == '비대면견적'">
+            <div >이삿짐 정보 :<span v-html="my(item.movingOption)"></span></div>
+            </div>  
+     
             <div v-if="item.movingMemo != null">
             <div >이사 요청사항 : <span>{{item.movingMemo}}</span></div>
             </div>
@@ -51,7 +54,7 @@ export default{
 
   data : function () {
     return{
-
+      
       list : [],
       vo : {
         email : "zippy@naver.com",
@@ -72,7 +75,7 @@ export default{
       select : ''
     }
   },
-  created(){
+  mounted(){
     axios({
           url: "http://localhost:8090/zippy/move/moveEstimate",
           methods: "GET",
@@ -111,6 +114,138 @@ export default{
           console.log(err);
         })
       },
+
+        par : function(string){
+          // var data = '{"bedCount":2,"bed":["","싱글","슈퍼싱글"],"sofaCount":1,"sofa":[""],"closetCount":1,"closet":[""],"closetsCount":1,"closets":[""],"tvCount":1,"tv":[""],"pcCount":1,"pc":[""],"fridgeCount":1,"fridge":[""],"trolleyCount":1,"trolley":[""],"etcCount":1,"etcName":[""],"etcSize":[""],"box":"16-20개","filesPhoto":""}';
+          var temp = JSON.parse(string);
+          console.log( "parse : "+temp);
+          console.log(temp.bedCount);
+         
+
+          var detailVal = ''; 
+          var detail = '';
+
+          detail += `<div>주거형태 : ${temp.houseType}</div>`
+          detail += `<div>방구조 : ${temp.roomNum}</div>`
+          detail += `<div>집 평수 : ${temp.spaceOfHome}</div>`
+          detail += `<div>층수 : ${temp.floor}</div>`
+          detail += `<div>화장실 개수 : ${temp.toilet}</div>`
+          detail += `<div>베란다 개수 : ${temp.veranda}</div>`
+          detail += `<div>별도 계단 : ${temp.extraStairs}</div>`
+          detail += `<div>엘레베이터 : ${temp.elevator}</div>`
+          detail += `<div>주차가능 여부 : ${temp.parkable}</div>`
+
+          // detailVal = `<div>회원의 이사 기본 정보</div>` + detail;
+
+          return detail;
+
+        },
+      my : function(string){
+      
+
+        var temp= JSON.parse(string);
+        console.log('파싱 : ',temp);
+        console.log(temp.bedCount);
+        var bedTemp ='침대 개수 : '+ temp.bedCount + ', 침대 사이즈 : ' + temp.bed[0];
+        console.log(temp.closetCount);
+
+        /*
+          var fur = ['bed', 'sofa', 'closet', 'closets']
+
+          for(let i of fur){
+            if (temp.bed.length > 0  ){
+              detail+= `<div>침대 : ${temp[i +'Count']}(${temp[i].join(",")})</div>`
+            } 
+          }  
+        */
+
+          //가구
+        var detailVal = ''; 
+        var detail = '';
+        //침대
+        if (temp.bed.length > 0 && temp.bed[1]){
+          detail+= `<div>침대 : ${temp.bedCount}(${temp.bed.join(",")})</div>`
+        } 
+        //소파
+        if (temp.sofa.length > 0 &&  temp.sofa[1]){
+          detail+= `<div>소파 : ${temp.sofaCount}(${temp.sofa.join(",")})</div>`
+        } 
+        //옷장
+        if (temp.closet.length > 0 &&  temp.closet[1]){
+          detail+= `<div>옷장 : ${temp.closetCount}(${temp.closet.join(",")})</div>`
+        } 
+        //옷장-연결장
+        if (temp.closets.length > 0 &&  temp.closets[1]){
+          detail+= `<div>옷장-연결장 : ${temp.closetsCount}(${temp.closets.join(",")})</div>`
+        } 
+
+        if( detail) {
+          detailVal = `<div>가구</div>`+ detail
+        }
+
+          //가전
+        detail = ''
+        //tv
+        if (temp.tv.length > 0 &&  temp.tv[1]){
+          detail+= `<div>tv : ${temp.tvCount}(${temp.tv.join(",")})</div>`
+        } 
+        //데스크탑
+        if (temp.pc.length > 0 &&  temp.pc[1]){
+          detail+= `<div>데스크탑 : ${temp.pcCount}(${temp.pc.join(",")})</div>`
+        } 
+        //냉장고
+        if (temp.fridge.length > 0 &&  temp.fridge[1]){
+          detail+= `<div>냉장고 : ${temp.fridgeCount}(${temp.fridge.join(",")})</div>`
+        } 
+        //유모차
+        if (temp.trolley.length > 0 &&  temp.trolley[1]){
+          detail+= `<div>유모차 : ${temp.trolleyCount}(${temp.trolley.join(",")})</div>`
+        } 
+
+        // if (temp.etcName.length > 0 &&  temp.etcSize[0]){
+        //   detail+= `<div>유모차 : ${temp.etcName}(${temp.etcSize.join(",")})</div>`
+        // }
+
+        if( detail) {
+          detailVal += `<div>가전</div>`+ detail
+          
+        }
+        
+          //기타
+        detail = '' 
+        if(temp.etcName.length > 0){ 
+          for(let i=1; i< temp.etcName.length; i++){
+          detail+= `<div> ${temp.etcName[i]} : ${temp.etcSize[i]}(사이즈 cm)</div>` 
+          }
+          console.log(detail);
+        // for(let i in temp.etcName.length){
+        //   detail+= `<div> ${temp.etcName[i]} (${temp.etcSize[i].join(",")})</div>` 
+        //   console.log(detail);
+        // }
+        if( detail) {
+          detailVal += `<div>기타</div>`+ detail
+        }  
+        
+        }
+        return detailVal;
+        //document.getElementById('detailDiv').innerHTML= detailVal;
+
+        // let testString = "";
+        
+        // for(let test of string.split(",")){
+        //   console.log(test)
+        //   console.log(test.split(":"));
+        //   if(test.split(":")[0] == 'bedCount' ){
+        //     testString += "침대 개수:" + ((test.split(":")[1]));
+        //   }else if(test.split(":")[0] == 'sofaCount'){
+        //     console.log(test.split(":")[0]);
+        //     testString += "소파:" + test.split(":")[1];
+        //   }
+        // }
+        // return testString;
+
+      },
+
   }
 }
 </script>

@@ -191,7 +191,7 @@
             <button class="custom-btn btn-4" type="button" @click="addEtc()">+</button><br><br>
             <div v-for="i in moveDetail[0].etcCount">
               <label >사용자 기타</label>
-              <button class="custom-btn btn-4" type="button" :id="i-1" @click="removeEtc(i)">-</button>
+              <button class="custom-btn btn-4" type="button" :id="i" @click="removeEtc(i)">-</button>
             <input v-model="moveDetail[0].etcName[i]" class="type-2" type="text" placeholder="기타이삿짐 이름" /><br />
             <input v-model="moveDetail[0].etcSize[i]" class="type-2" type="text" placeholder="이삿짐 사이즈(cm * cm)" /><br />
           </div>
@@ -279,25 +279,22 @@
       moveDetail: [{
 
         bedCount:1,
-        sofaCount:1,
-        closetCount:1,
-        closetsCount:1,
-        tvCount:1,
-        pcCount:1,
-        fridgeCount:1,  
-        trolleyCount:1,
-        etcCount:1,
-
         bed: [""],
+        sofaCount:1,
         sofa: [""],
+        closetCount:1,
         closet: [""],
+        closetsCount:1,
         closets: [""],
-
+        tvCount:1,
         tv: [""],
+        pcCount:1,
         pc: [""],
-        fridge: [""],
+        fridgeCount:1,
+        fridge: [""],  
+        trolleyCount:1,
         trolley: [""],
-
+        etcCount:1,
         etcName: [""],
         etcSize: [""],
 
