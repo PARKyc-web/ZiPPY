@@ -113,33 +113,18 @@ public class ShopServiceImpl implements ShopService {
     mapper.getHeart(email);
   }
 
-//  @Override
-//  public void insertProduct(ProductVO productVO, ProductOptionVO productOptionVO, MultipartFile image, List<MultipartFile> images) {
-//    //사진을 productVO에 입력
-//    productVO.setProMainImg(proMainImg(image));
-//    mapper.insertProduct(productVO, productOptionVO, image, images);
-//    // 메인이미지 등록
-//    // 상세이미지 등록
-//    ProductImgVO[] vo = proImgs(images);
-//    for (int i = 0; i < vo.length; i++) {
-//      vo[i].setProNo(productVO.getProNo());
-//    }
-//    for (int i = 0; i < vo.length; i++) {
-//      mapper.insertImg(vo[i]);
-//    }
-//  }
-  
   @Override
-  public void insertProduct(ProductVO productVO, List<ProductOptionVO> options, MultipartFile image, List<MultipartFile> images) {
+  public void insertProduct(ProductVO productVO, List<ProductOptionVO> options, MultipartFile image,
+      List<MultipartFile> images) {
     // 메인이미지 등록
     productVO.setProMainImg(proMainImg(image));
     mapper.insertProduct(productVO, options, image, images);
     // 옵션 등록
-    if(options.size() > 0) {
-    for(ProductOptionVO x : options) {
-      x.setProNo(productVO.getProNo());
-    }
-    mapper.insertOpt(options);
+    if (options.size() > 0) {
+      for (ProductOptionVO x : options) {
+        x.setProNo(productVO.getProNo());
+      }
+      mapper.insertOpt(options);
     }
     // 상세이미지 등록
     ProductImgVO[] vo = proImgs(images);
@@ -150,9 +135,9 @@ public class ShopServiceImpl implements ShopService {
       mapper.insertImg(vo[i]);
     }
   }
-  //옵션 등록
-  
-  //메인이미지
+  // 옵션 등록
+
+  // 메인이미지
   @Override
   public String proMainImg(MultipartFile image) {
     String img;
@@ -181,7 +166,8 @@ public class ShopServiceImpl implements ShopService {
 
     return img;
   }
-  //상세이미지
+
+  // 상세이미지
   @Override
   public ProductImgVO[] proImgs(List<MultipartFile> images) {
     ProductImgVO[] list = new ProductImgVO[images.size()];
@@ -220,9 +206,13 @@ public class ShopServiceImpl implements ShopService {
 
   }
 
+//  @Override
+//  public List<ProductVO> getMyProList(ProductVO productVO) {
+//    return mapper.getMyProList(productVO);
+//  }
   @Override
-  public List<ProductVO> getMyProList(ProductVO productVO) {
-    return mapper.getMyProList(productVO);
+  public List<ProductVO> getMyProList(ProductVO productVO, String keyword) {
+    return mapper.getMyProList(productVO, keyword);
   }
 
   @Override
@@ -230,4 +220,37 @@ public class ShopServiceImpl implements ShopService {
     mapper.updateStatus(productVO);
   }
 
+  @Override
+  public void updateProduct(ProductVO productVO, List<ProductOptionVO> options, MultipartFile image,
+      List<MultipartFile> images) {
+    // 메인이미지 등록
+    productVO.setProMainImg(proMainImg(image));
+    // 전체 수정
+    mapper.updateProduct(productVO, options, image, images);
+    // 옵션 삭제
+    mapper.deleteOpt(productVO.getProNo());
+    // 이미지 삭제
+    mapper.deleteImg(productVO.getProNo());
+    // 옵션 등록
+    if (options.size() > 0) {
+      for (ProductOptionVO x : options) {
+        x.setProNo(productVO.getProNo());
+      }
+      mapper.insertOpt(options);
+    }
+    // 상세이미지 등록
+    ProductImgVO[] vo = proImgs(images);
+    for (int i = 0; i < vo.length; i++) {
+      vo[i].setProNo(productVO.getProNo());
+    }
+    for (int i = 0; i < vo.length; i++) {
+      mapper.insertImg(vo[i]);
+    }
+
+  }
+
+  @Override
+  public List<OrderVO> getMyOrdList(ProductVO productVO, String keyword) {
+    return mapper.getMyOrdList(productVO, keyword);
+  }
 }

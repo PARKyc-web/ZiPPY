@@ -10,25 +10,25 @@
             <tr>
               <td style="font-weight:bold">상품명<span>*</span></td>
               <td>
-                <b-form-input name="proName" placeholder="상품명을 입력해주세요"></b-form-input>
+                <b-form-input v-model="pro.proName" name="proName" placeholder="상품명을 입력해주세요"></b-form-input>
               </td>
             </tr>
             <tr>
               <td style="font-weight:bold">상품가격<span>*</span></td>
               <td>
-                <b-form-input name="proPrice" placeholder="상품가격을 입력해주세요"></b-form-input>
+                <b-form-input v-model="pro.proPrice" name="proPrice" placeholder="상품가격을 입력해주세요"></b-form-input>
               </td>
             </tr>
             <tr>
               <td style="font-weight:bold">배송비<span>*</span></td>
               <td>
-                <b-form-input name="deliveryCost" placeholder="배송비를 입력해주세요"></b-form-input>
+                <b-form-input v-model="pro.deliveryCost" name="deliveryCost" placeholder="배송비를 입력해주세요"></b-form-input>
               </td>
             </tr>
             <tr>
               <td style="font-weight:bold">카테고리<span>*</span></td>
               <td>
-                <v-select name="category" :items="cates" item-text="cates" item-value="cates" label="카테고리" return-object
+                <v-select name="category"  v-model="pro.category" :items="cates" item-text="cates" item-value="cates" label="카테고리" return-object
                   dense outlined width="350" height="30"></v-select>
               </td>
             </tr>
@@ -41,7 +41,7 @@
             <tr>
               <td style="font-weight:bold">대표이미지<span>*</span></td>
               <td style="padding-top:0; padding-bottom:0">
-                <v-file-input name="image" accept="image/*" label="대표이미지" style="width:350px">
+                <v-file-input name="image" accept="image/*" label="대표이미지" v-model="pro.proMainImg" style="width:350px">
                 </v-file-input>
               </td>
             </tr>
@@ -80,12 +80,12 @@
         </table>
         <div v-for="(item, index) in option" :key="item.optName" style="width:485px">
           <!-- 옵션명 -->
-          <div class="pl-3" style="width:100px; display:inline-block">옵션이름</div>
+          <div class="pl-3 mt-5" style="width:100px; display:inline-block">옵션이름</div>
           <div style="padding:10px; width:354px; display:inline-block">
             <input data-v-656fe1d6 type="text" class="form-control" v-model="option[index].optName">
           </div>
           <!-- 추가 가격-->
-          <div class="pl-3" style="width:100px;  display:inline-block">추가가격</div>
+          <div class="pl-3 mb-5" style="width:100px;  display:inline-block">추가가격</div>
           <div style="padding:10px; width:354px;  display:inline-block">
             <input data-v-656fe1d6 type="text" class="form-control" v-model="option[index].optPrice">
           </div>
@@ -110,12 +110,15 @@
 
 <script>
   import axios from 'axios';
+  import swal from 'sweetalert2';
 
   export default {
     data() {
       return {
         //담을 상품
         product: {},
+        //null체크용
+        pro: [],
         //상세이미지
         images: [],
         //카테고리 종류
@@ -137,6 +140,18 @@
         this.option.splice(this.option.length - 1, 1);
       },
       insertPro() {
+        //null 검사
+        if(!this.pro.proName || !this.pro.proPrice || !this.pro.deliveryCost || !this.pro.category || !this.pro.proMainImg){
+          swal.fire({
+            position: 'top-end',
+            icon: 'warning',
+            title: '상품등록시 필수 정보를 입력해주세요.',
+            showConfirmButton: true
+          })
+          return;
+        }
+
+        //formData 전송
         var formData = new FormData(document.querySelector('#shopInsert'));
         formData.append('option', ""+JSON.stringify(this.option));
 
@@ -147,6 +162,12 @@
           data: formData
         }).then(res => {
           console.log(res);
+          swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: '상품등록이 완료되었습니다.',
+            showConfirmButton: true
+          })
         }).catch(error => {
           console.log(error);
         })
@@ -164,15 +185,6 @@
   td {
     padding: 10px;
   }
-
-  #option input {
-    width: 265px !important;
-  }
-
-  #option {
-    font-size: smaller
-  }
-
   .v-btn {
     width: 20px;
     height: 20px;

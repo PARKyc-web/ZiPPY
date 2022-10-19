@@ -11,6 +11,7 @@ public class PurchaseVO {
   private int purQty;
   private String email;
   private String purPrice;
+  private String businessEmail;
   
   //상품정보
   ProductVO productVO;

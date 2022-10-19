@@ -148,23 +148,24 @@
 			jdbcType=VARCHAR},
 			#{arr.cartQty} ,
 			#{arr.email},
-			#{arr.cartPrice}
+			#{arr.cartPrice},
+			#{arr.productVO.email}
 			FROM
 			dual
 		</foreach>
 	</insert>
 	<!-- 디테일에서 purchase로 등록 -->
 	<insert id="insertPurOne">
-		INSERT INTO shop_purchase
+		INSERT INTO shop_purchase(pur_no, pay_code, pur_pno, pur_opt_no, pur_qty, email, pur_price, business_email)
 		VALUES(
-		(SELECT NVL(
-		MAX(pur_no) , 0) + 1 FROM shop_purchase),
+		(SELECT NVL(MAX(pur_no) , 0) + 1 FROM shop_purchase),
 		#{payCode},
 		#{product.proNo},
 		#{product.selectOptNo, jdbcType=VARCHAR},
 		#{product.qty},
-		#{email},
-		#{product.purPrice}
+		#{email}, <!-- 사용자 -->
+		#{product.purPrice},
+		#{product.email} <!-- 판매업체 -->
 		)
 	</insert>
 	<!-- 내 정보 조회 -->
@@ -194,7 +195,9 @@
 	</select>
 	<!-- 주문정보 등록 -->
 	<insert id="insertOrder" parameterType="OrderVO">
-		INSERT INTO shop_order
+		INSERT INTO shop_order(order_no, email, pay_code, pay_method, 
+		amount, buyer_name, buyer_tel, buyer_addr, buyer_zipcode, order_memo, 
+		order_status, order_date)
 		VALUES(
 		(SELECT NVL( MAX(order_no) , 0) + 1 FROM shop_order),
 		#{email},
@@ -207,7 +210,6 @@
 		#{buyerZipcode},
 		#{orderMemo},
 		0,
-		systimestamp,
 		systimestamp)
 	</insert>
 
@@ -265,11 +267,22 @@
 		</foreach>
 	</insert>
 	<!-- 판매상품 조회 -->
-	<select id="getMyProList" parameterType="ProductVO" resultType="ProductVO">
+	<select id="getMyProList" resultType="ProductVO">
 		SELECT *
-		FROM shop_product
-		WHERE email = #{email}
-		order by pro_no DESC
+		FROM
+			(
+			SELECT *
+			FROM shop_product
+			WHERE email = #{product.email}
+			<if test="keyword != null">
+			INTERSECT
+			SELECT *
+			FROM shop_product
+			WHERE pro_no LIKE '%'||#{keyword}||'%'
+			OR pro_name LIKE '%'||#{keyword}||'%'
+			</if>
+		)
+		ORDER BY pro_no DESC
 	</select>
 	<!-- 판매상품 상태변경 -->
 	<update id="updateStatus" parameterType="ProductVO">
@@ -277,5 +290,42 @@
 		SET pro_status = #{proStatus}
 		WHERE pro_no = #{proNo}
 	</update>
-
+	<!-- 상품정보 수정 -->
+	<update id="updateProduct" parameterType="ProductVO">
+		UPDATE shop_product
+		SET (pro_name, pro_price, category, pro_main_img, pro_info, delivery_cost)
+		=(SELECT #{product.proName}, #{product.proPrice}, #{product.category}, #{product.proMainImg}, #{product.proInfo}, #{product.deliveryCost} FROM dual)
+		WHERE pro_no = #{product.proNo}
+	</update>
+	<!-- 이미지 삭제(수정용) -->
+	<delete id="deleteImg">
+		DELETE FROM shop_product_img
+		WHERE pro_no = #{proNo}
+	</delete>
+	<!-- 옵션 삭제(수정용) -->
+	<delete id="deleteOpt">
+		DELETE FROM shop_product_option
+		WHERE pro_no = #{proNo}
+	</delete>
+	<!-- 판매내역 조회 -->
+	<select id="getMyOrdList" resultType="OrderVO">
+		SELECT *
+		FROM
+		(
+			SELECT *
+			FROM shop_order
+			WHERE pay_code IN
+			(SELECT pay_code
+			FROM shop_purchase
+			WHERE business_email = #{product.email})
+			<if test="keyword != null">
+			INTERSECT
+			SELECT *
+			FROM shop_order
+			WHERE pay_code LIKE '%'||#{keyword}||'%'
+			OR email LIKE '%'||#{keyword}||'%'
+			</if>
+		)
+		ORDER BY order_no DESC
+	</select>
 </mapper>

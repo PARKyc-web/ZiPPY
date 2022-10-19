@@ -2,6 +2,8 @@ package com.yedam.zippy.shop.service;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -17,6 +19,8 @@ public class OrderVO {
   String buyerZipcode;
   String orderMemo;
   String orderStatus;
+  @DateTimeFormat(pattern="yy-MM-dd")
   Date OrderDate;
+  @DateTimeFormat(pattern="yy-MM-dd")
   Date deliveryDate;
 }
