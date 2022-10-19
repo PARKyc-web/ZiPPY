@@ -28,7 +28,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.common.service.CommonService;
+import com.yedam.zippy.common.service.ReportVO;
 import com.yedam.zippy.common.service.ReviewBoardVO;
+
 
 @CrossOrigin(originPatterns = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
     RequestMethod.DELETE })
@@ -105,6 +107,11 @@ public class CommonController {
     } catch (Exception e) {
       throw new Exception("download error");
     }
+  }
+  
+  @PostMapping("/addReport")
+  public int addReport(ReportVO vo) {
+    return service.addReport(vo);
   }
 
 }

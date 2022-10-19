@@ -21,7 +21,11 @@ public interface CommonService {
   // 후기 등록
   public int addReview( ReviewBoardVO rv);
 
+  // 신고하기
+  public int addReport(ReportVO vo);
+ 
   // 후기 불러오기
   public List<ReviewBoardVO> showReview(ReviewBoardVO rv);
+
 
 }

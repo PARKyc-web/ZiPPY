@@ -1,60 +1,71 @@
 <template>
-  <div id="container">
-    <section>
-      <div id="map" class="map">
-        <search-bar style="top: 10px; left: 10px;" :sigungu="sigungu" @get-property-list="searchEvent"></search-bar>
-        <div class="hAddr">
-          <span class="title">지도중심기준 행정동 주소정보</span>
-          <span id="centerAddr"><input type="text" v-model="sigungu"></span>
+  <div>
+    <property-main-toolbar :sigungu="sigungu" @get-property-list="searchEvent" />
+    <div id="container">
+      <section>
+        <div id="map" class="map">
+          <!-- <search-bar style="top: 15px; left: 15px;" :sigungu="sigungu" @get-property-list="searchEvent"/> -->
+          <div class="hAddr">
+            <span class="title">지도중심기준 행정동 주소정보</span>
+            <span id="centerAddr"><input type="text" v-model="sigungu"></span>
+          </div>
         </div>
-      </div>
-    </section>
-    <aside>
-      <div v-if="houseProducts.length != 0" v-for="item in houseProducts" @click="goHouseDetail(item.productId)">
-        <v-card>
-          <table>
-            <tr>
-              <td style="width: 35%;">여기에 이미지</td>
-              <td style="width: 65%;">
-                <v-row align="center" class="mx-0">
-                  <div>매물번호 {{item.productId}}</div>
-                </v-row>
-                <v-card-title style="font-weight: bold;">{{item.houseName}}<br>{{item.saleType}} {{item.price}}
-                </v-card-title>
-                <table style="font-size: medium; margin-left: 20px;">
-                  <tr>
-                    {{item.sigungu}}
-                  </tr>
-                  <tr>
-                    {{item.areaExclusive}}m² · {{item.floor}}층
-                  </tr>
-                  <tr>
-                    {{item.detailContents}}
-                  </tr>
-                </table>
-                <update-property :productId="item.productId"></update-property>
-              </td>
-            </tr>
-          </table>
-        </v-card>
-      </div>
-    </aside>
+      </section>
+      <aside>
+        <div v-if="houseProducts.length != 0">
+          <div v-for="item in houseProducts" @click="goHouseDetail(item.productId)">
+            <div id="propertyCard">
+              <table style="width: 100%;">
+                <tr>
+                  <td style="width: 35%;">여기에 이미지</td>
+                  <td style="width: 65%;">
+                    <v-row align="center" class="mx-0">
+                      <div>매물번호 {{item.productId}}</div>
+                    </v-row>
+                    <v-card-title style="font-weight: bold;">{{item.houseName}}<br>{{item.saleType}} {{item.price}}
+                    </v-card-title>
+                    <table style="font-size: medium; margin-left: 20px;">
+                      <tr>
+                        {{item.sigungu}}
+                      </tr>
+                      <tr>
+                        {{item.areaExclusive}}m² · {{item.floor}}층
+                      </tr>
+                      <tr>
+                        {{item.detailContents}}
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div v-else id="emptyList">
+          <v-icon id="emptyIcon" color="#B3E3C3">mdi-alert-circle-outline</v-icon>
+          <h6 style="text-align:center">검색된 매물이 없습니다.<br>위치 및 맞춤필터를 조정해보세요.</h6>
+        </div>
+      </aside>
+    </div>
   </div>
 </template>
 
 <script>
   import SearchBar from "../../components/property/SearchBar.vue";
-  import chickenJson from "../../assets/chicken.json";
+  import chickenJson from "../../assets/property/chicken.json";
   import axios from "axios";
+  import PropertyMainToolbar from '../../components/property/PropertyMainToolbar.vue';
+  import {oneHundredMillion} from '../../assets/property/propertyPrice';
 
   export default {
     components: {
       SearchBar,
+      PropertyMainToolbar,
     },
     created() {
       axios({
           url: "http://localhost:8090/zippy/property/main",
-          methods: "GET"
+          method: "GET"
         }).then(response => {
           // 성공했을 때
           console.log('getStreetAddress success!');
@@ -78,7 +89,7 @@
         sigungu: '',
         streetAddress: [],
         map: 0,
-        productPosition: []
+        productPosition: [],
       }
     },
     methods: {
@@ -98,11 +109,11 @@
       },
       initMap() {
         var container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
-        const MIN_LEVEL = 4;
+        const MIN_LEVEL = 2;
         var options = {
           //지도를 생성할 때 필요한 기본 옵션
           center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-          level: 7 //지도의 레벨(확대, 축소 정도)
+          level: 5 //지도의 레벨(확대, 축소 정도)
         };
 
         var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
@@ -171,9 +182,9 @@
                 infoDiv.innerHTML = result[i].address_name;
                 initThis.sigungu = result[i].address_name;
 
-                // ex) 대구광역시 중구 남산1동, 남산1동 -> 대구광역시 중구 남산동
+                // ex) 대구광역시 중구 남산1동 -> 대구광역시 중구 남산동
                 for (let i = 1; i < 11; i++) {
-                  initThis.sigungu = initThis.sigungu.replace(i, '');
+                  initThis.sigungu = initThis.sigungu.replace(i+'동', '동');
                 }
                 console.log('현재 지도의 중심 위치: ', initThis.sigungu);
                 break;
@@ -193,7 +204,6 @@
             // 정상적으로 검색이 완료됐으면 
             if (status === kakao.maps.services.Status.OK) {
               var marker = new kakao.maps.Marker({
-                map: map, // 마커를 표시할 지도
                 position: new kakao.maps.LatLng(result[0].y, result[0].x), // 마커를 표시할 위치
               });
               markers.push(marker);
@@ -209,15 +219,14 @@
         let cnt = 0;
         let setClusterer = setInterval(function () {
           makeClusterer();
-          
+
           cnt++;
-          if(cnt==10) clearInterval(setClusterer);
+          if (cnt == 15) clearInterval(setClusterer);
         }, 500);
-        
+
         // setTimeout(function () {
         //   makeClusterer();
         // }, 1000);
-
 
         // 마커 클러스터러에 클릭이벤트를 등록합니다
         // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우
@@ -236,29 +245,19 @@
           console.log("click: ", initThis.sigungu);
           initThis.getPropertyList(initThis.sigungu);
         });
-
-        function clickForList() {
-          console.log("click: ", initThis.sigungu);
-          initThis.getPropertyList(initThis.sigungu);
-        }
-        // setInterval(function () {
-        //   clickForList();
-        // }, 1000);
-
       },
       getPropertyList(sigungu) {
         axios({
             url: "http://localhost:8090/zippy/property/getPropertyList",
             methods: "GET",
             params: {
-              sigungu: sigungu
+              sigungu: '%' + sigungu
             }
           }).then(response => {
             // 성공했을 때
             console.log('getPropertyList success!');
             console.log(response);
             this.houseProducts = response.data;
-            // this.sigungu = sigungu;
           })
           .catch(error => {
             // 에러가 났을 때
@@ -309,7 +308,8 @@
 <style scoped>
   #container {
     width: 100vw;
-    height: calc(100vh - 70.8px);
+    /* height: calc(100vh - 70.8px); */
+    height: calc(100vh - 139.8px);
     display: flex;
   }
 
@@ -327,11 +327,34 @@
     width: 25vw;
     height: 100%;
     overflow-y: auto;
+
+    position: relative;
+  }
+
+  #emptyList {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  #emptyIcon {
+    left: 32%;
+    font-size: 80px;
+    margin-bottom: 10px;
+  }
+
+  #propertyCard {
+    border-bottom: 1px solid;
+    border-color: #E8F5E9;
+  }
+
+  #propertyCard :hover {
+    background-color: #E8F5E9;
   }
 
   ::-webkit-scrollbar {
-    width: 8px;
-    /* 스크롤바의 너비 */
+    width: 8px; /* 스크롤바의 너비 */
   }
 
   ::-webkit-scrollbar-thumb {

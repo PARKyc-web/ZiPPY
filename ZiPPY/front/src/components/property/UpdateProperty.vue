@@ -89,11 +89,11 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false">
-            닫기
-          </v-btn>
           <v-btn color="blue darken-1" text @click="updateProperty">
             저장
+          </v-btn>
+          <v-btn color="blue darken-1" text @click="dialog = false">
+            닫기
           </v-btn>
         </v-card-actions>
       </v-card>

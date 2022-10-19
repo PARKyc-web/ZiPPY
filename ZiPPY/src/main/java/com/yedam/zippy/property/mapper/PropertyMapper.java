@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.yedam.zippy.property.service.WishVO;
 import com.yedam.zippy.property.service.agentVO;
 import com.yedam.zippy.property.service.propertyVO;
 
@@ -37,5 +38,8 @@ public interface PropertyMapper {
 	public int updateHouseDetail(propertyVO vo);
 	
 	public int updateAgentProfile(agentVO vo);
+	
+	public WishVO wishState(WishVO vo);
+	
 	
 }
