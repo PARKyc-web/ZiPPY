@@ -10,7 +10,7 @@
 	<select id="getPropertyList" parameterType="String" resultType="PropertyVO">
 		select *
 		from house_product
-		where sigungu = #{sigungu}
+		where sigungu like #{sigungu}
 	</select>
 
 	<select id="getAgentEmail" parameterType="Integer"
