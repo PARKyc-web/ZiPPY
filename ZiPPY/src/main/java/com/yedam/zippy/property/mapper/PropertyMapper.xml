@@ -136,4 +136,13 @@
 		broker_id = #{brokerId}
 		where email = #{email}
 	</update>
+	
+	<select id="wishState" parameterType="WishVO"
+		resultType="WishVO">
+		select *
+		from bookmark
+		where service_type = 0
+			and email = #{email}
+			and service_id = #{serviceId}
+	</select>
 </mapper>

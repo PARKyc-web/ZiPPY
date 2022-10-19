@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yedam.zippy.property.service.PropertyService;
+import com.yedam.zippy.property.service.WishVO;
 import com.yedam.zippy.property.service.agentVO;
 import com.yedam.zippy.property.service.propertyVO;
 
@@ -82,6 +83,12 @@ public String agentDetail(@RequestParam int productId) {
   @PutMapping("/updateAgentProfile")
   public int updateAgentProfile(agentVO vo) {
     return service.updateAgentProfile(vo);
+  }
+  
+  // 해당 매물의 관심 매물 여부를 반환
+  @GetMapping("/wishState")
+  public WishVO wishState(WishVO vo) {
+    return service.wishState(vo);
   }
 
 //  @GetMapping("/houseDetail")

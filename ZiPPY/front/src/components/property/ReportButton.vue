@@ -84,9 +84,6 @@
           })
         }
         this.dialog = false;
-      },
-      insertReport() {
-
       }
     }
   }

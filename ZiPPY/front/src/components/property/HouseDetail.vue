@@ -169,7 +169,7 @@
     created() {
       axios({
           url: "http://localhost:8090/zippy/property/houseDetail",
-          methods: "GET",
+          method: "GET",
           params: {
             productId: this.$route.query.productId // this.productId
           }

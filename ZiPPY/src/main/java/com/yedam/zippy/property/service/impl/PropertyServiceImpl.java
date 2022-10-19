@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.yedam.zippy.property.mapper.PropertyMapper;
 import com.yedam.zippy.property.service.PropertyService;
+import com.yedam.zippy.property.service.WishVO;
 import com.yedam.zippy.property.service.agentVO;
 import com.yedam.zippy.property.service.propertyVO;
 
@@ -78,6 +79,11 @@ public class PropertyServiceImpl implements PropertyService {
   @Override
   public int updateAgentProfile(agentVO vo) {
     return mapper.updateAgentProfile(vo);
+  }
+  
+  @Override
+  public WishVO wishState(WishVO vo) {
+    return mapper.wishState(vo);
   }
   
 

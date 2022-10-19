@@ -26,4 +26,6 @@ public interface PropertyService {
   public int updateHouseDetail(propertyVO vo);
   
   public int updateAgentProfile(agentVO vo);
+  
+  public WishVO wishState(WishVO vo);
 }
