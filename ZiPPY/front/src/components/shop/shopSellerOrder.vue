@@ -3,7 +3,7 @@
     <v-toolbar flat color="white">
       <v-toolbar-title>판매내역</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-text name="all" class="pa-3">전체</v-text>/<v-text class="pa-3" name="pay">결제</v-text>
+      <p name="all" class="pa-3">전체</p>/<p class="pa-3" name="pay">결제</p>
     </v-toolbar>
 
     <v-card>
@@ -14,11 +14,11 @@
       </v-card-title>
       <v-data-table :headers="headers" :items="orders">
         <template v-slot:item.update="{ item }">
-          <v-btn v-if="item.proStatus==0" depressed color=#B3E3C3 class="mr-2"
+          <v-btn v-if="item.orderStatus==0" depressed color=#B3E3C3 class="mr-2"
             @click="updateStatus(item.orderNo, item.orderStatus)">
             배송
           </v-btn>
-          <v-btn v-if="item.proStatus==1" depressed color=#D6D6D6 class="mr-2"
+          <v-btn v-if="item.orderStatus==1" disabled depressed color=#D6D6D6 class="mr-2"
             @click="updateStatus(item.orderNo, item.orderStatus)">
             배송완료
           </v-btn>
@@ -54,15 +54,15 @@
           },
           {
             text: '주문상태',
-            value: 'orderStatus'
+            value: 'update'
           },
           {
             text: '결제완료일',
             value: 'orderDate'
           },
           {
-            text: '배송완료일',
-            value: 'delDate'
+            text: '배송시작일',
+            value: 'deliveryDate'
           }
         ],
         orders: []
@@ -74,9 +74,8 @@
         let outside = this;
         if (st == 0) {
           swal.fire({
-            position: 'top-end',
             icon: 'success',
-            title: '해당 상품을 판매중지하시겠습니까?',
+            title: '해당 상품을 배송하시겠습니까?',
             showConfirmButton: true,
             showCancelButton: true
           }).then((result) => {
@@ -84,42 +83,25 @@
               //st 0->1로 변경
               st = 1;
               //db에 update
-              outside.updateProStatus(no, st);
+              outside.updateOrdStatus(no, st);
               //update된 내용 변경
               outside.changeStatus(no, st);
-            } else if (result.isDenied) {
-              return;
-            }
-          });
-        } else {
-          swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: '해당 상품을 다시 판매하시겠습니까?',
-            showConfirmButton: true,
-            showCancelButton: true
-          }).then((result) => {
-            if (result.isConfirmed) {
-              //st 1->0으로 변경
-              st = 0;
-              //db에 update
-              outside.updateProStatus(no, st);
-              //update된 내용 변경
-              outside.changeStatus(no, st);
+              //배송날짜 변경
+              //outside.changeDeliveryDate(no)
             } else if (result.isDenied) {
               return;
             }
           });
         }
       },
-      updateProStatus(no, st) {
+      updateOrdStatus(no, st) {
         //상태 update
         axios({
-          url: "/shop/updateStatus",
+          url: "/shop/updateOrdStatus",
           method: "POST",
           data: {
-            proNo: no,
-            proStatus: st
+            orderNo: no,
+            orderStatus: st
           },
           method: "POST",
         }).then(res => {
@@ -128,14 +110,12 @@
           console.log(error);
         })
       },
-      //proStatus의 상태 변경
+      //orderStatus의 상태 변경
       changeStatus(no, st) {
-        for (var i in this.products) {
-          if (this.products[i].proNo == no)
-            if (st == 0) {
-              this.products[i].proStatus = 0;
-            } else {
-              this.products[i].proStatus = 1;
+        for (var i in this.orders) {
+          if (this.orders[i].orderNo == no)
+            if (st == 1) {
+              this.orders[i].orderStatus = 1;
             }
         }
       },

@@ -89,4 +89,6 @@ public interface ShopMapper {
   public int deleteImg(int ProNo);
   //판매내역 조회(전체조회)
   public List<OrderVO> getMyOrdList(@Param("product")ProductVO productVO, @Param("keyword")String keyword);
+  //주문상태 수정
+  public void updateOrdStatus(OrderVO ordreVO);
 }

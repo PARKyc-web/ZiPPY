@@ -253,4 +253,9 @@ public class ShopServiceImpl implements ShopService {
   public List<OrderVO> getMyOrdList(ProductVO productVO, String keyword) {
     return mapper.getMyOrdList(productVO, keyword);
   }
+
+  @Override
+  public void updateOrdStatus(OrderVO ordreVO) {
+    mapper.updateOrdStatus(ordreVO);
+  }
 }

@@ -169,4 +169,10 @@ public class ShopController {
       @RequestParam(required = false) String keyword) {
     return service.getMyOrdList(productVO, keyword);
   }
+  
+  //등록 상품상태 수정
+   @PostMapping("/updateOrdStatus")
+   public void updateOrdStatus(@RequestBody OrderVO orderVO) {
+     service.updateOrdStatus(orderVO);
+   }
 }

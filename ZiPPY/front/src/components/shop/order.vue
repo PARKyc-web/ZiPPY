@@ -144,6 +144,7 @@
         email: 'zippy@naver.com',
         myInfo: {},
         orderInfo: {},
+        //기존배송지, 신규배송지
         selected: 0,
         selectedMemo: '',
         options: [{
@@ -275,7 +276,7 @@
       countAmount() {
         var am = 0;
         for (var i in this.products) {
-          am += Number(this.products[i].purPrice)
+          am += Number(this.products[i].purPrice * this.products[i].purQty)
           am += Number(this.products[i].productVO.deliveryCost)
         }
         return am;

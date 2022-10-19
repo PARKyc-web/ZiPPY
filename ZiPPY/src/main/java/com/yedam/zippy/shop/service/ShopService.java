@@ -81,4 +81,6 @@ public interface ShopService {
   public void updateProduct(ProductVO productVO, List<ProductOptionVO> options, MultipartFile image, List<MultipartFile> images);
   //판매내역 조회(전체조회)
   public List<OrderVO> getMyOrdList(ProductVO productVO, String keyword);
+  //주문상태 수정
+  public void updateOrdStatus(OrderVO ordreVO);
 };

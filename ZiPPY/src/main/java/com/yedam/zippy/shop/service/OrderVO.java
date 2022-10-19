@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Data
@@ -19,8 +21,10 @@ public class OrderVO {
   String buyerZipcode;
   String orderMemo;
   String orderStatus;
+  @JsonFormat(pattern = "yy-MM-dd")
   @DateTimeFormat(pattern="yy-MM-dd")
   Date OrderDate;
+  @JsonFormat(pattern = "yy-MM-dd")
   @DateTimeFormat(pattern="yy-MM-dd")
   Date deliveryDate;
 }

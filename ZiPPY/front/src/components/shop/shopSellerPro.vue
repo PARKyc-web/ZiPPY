@@ -80,7 +80,6 @@
         let outside = this;
         if (st == 0) {
           swal.fire({
-            position: 'top-end',
             icon: 'success',
             title: '해당 상품을 판매중지하시겠습니까?',
             showConfirmButton: true,
@@ -99,7 +98,6 @@
           });
         } else {
           swal.fire({
-            position: 'top-end',
             icon: 'success',
             title: '해당 상품을 다시 판매하시겠습니까?',
             showConfirmButton: true,
