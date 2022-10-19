@@ -21,7 +21,16 @@
                             <h4>평점</h4>
                         </div>
                         <div>
-                            <img src="	https://m.bunjang.co.kr/pc-static/resource/44c1240e63c64f221877.png" width="30px"
+                            <v-rating
+                            empty-icon="https://m.bunjang.co.kr/pc-static/resource/44c1240e63c64f221877.png"
+                            full-icon="$mdiStar"
+                            half-icon="$mdiStarHalfFull"
+                            hover
+                            length="5"
+                            size="64"
+                            value="3"
+                            ></v-rating>
+                            <img src="https://m.bunjang.co.kr/pc-static/resource/44c1240e63c64f221877.png" width="30px"
                                 height="29px" alt="별점 1">
                             <img src="	https://m.bunjang.co.kr/pc-static/resource/44c1240e63c64f221877.png" width="30px"
                                 height="29px" alt="별점 1">

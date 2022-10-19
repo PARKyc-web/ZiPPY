@@ -80,6 +80,7 @@
 <script>
   import axios from 'axios';
   import navBar from '../../components/used/navBar.vue';
+  // import swal from 'sweetalert2';
 
   export default {
     components: {
@@ -113,7 +114,7 @@
       ],
       select: '',
       data: {
-        email: "zippy@naver.com",
+        email: "",
         productName: '',
         productCategory: '',
         productPrice: '',
@@ -128,10 +129,47 @@
     }),
     methods: {
       insert: function () {
+        this.data.email = this.$store.state.loginInfo.email;
         var formData = new FormData(document.querySelector('#usedInsert'));
         this.data.mainImg = document.querySelector('#profile-upload')[0];
         this.dropVal();
         console.log(formData.productInfo)
+        // if(formData.productName == "" || formData.productName == null) {
+        //   swal.fire({
+        //       icon: 'warning',
+        //       title: '제목을 입력해주세요',
+        //       showConfirmButton: false,
+        //       timer: 1500
+        //     });
+        //     return;
+        // }
+        // if(formData.productCategory == "" || formData.productCategory == null) {
+        //   swal.fire({
+        //       icon: 'warning',
+        //       title: '카테고리를 설정해주세요',
+        //       showConfirmButton: false,
+        //       timer: 1500
+        //     });
+        //     return;
+        // }
+        // if(formData.productprice == "" || formData.productPrice == null) {
+        //   swal.fire({
+        //       icon: 'warning',
+        //       title: '가격을 입력해주세요',
+        //       showConfirmButton: false,
+        //       timer: 1500
+        //     });
+        //     return;
+        // }
+        // if(formData.productInfo == "" || formData.productInfo == null) {
+        //   swal.fire({
+        //       icon: 'warning',
+        //       title: '설명란을 입력해주세요',
+        //       showConfirmButton: false,
+        //       timer: 1500
+        //     });
+        //     return;
+        // }
         axios({
           url: "http://localhost:8090/zippy/used/insert",
           method: "POST",
@@ -146,6 +184,7 @@
       dropVal: function () {
         this.data.productCategory = this.select;
         console.log(this.data.productCategory);
+        this.data.email = this.$store.state.loginInfo.email;
       }
     }
   };

@@ -17,13 +17,13 @@
       </div>
       <hr />
       <div id="used-div-cont">
-        <div class="used-wish-cont-div" v-for="list in data">
+        <div class="used-wish-cont-div" @click="goDetail(list.productNo)" v-for="list in data">
           <div id="used-wish-product">
             <div class="used-wish-img-1">
               <img
                 src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcnRs2T%2FbtrG3rPqyGx%2FgvSvyKfokqo8yQomsVjuQK%2Fimg.jpg"
                 width="200px" height="200px" />
-
+              <div id="wish-soldout-img" width="200px" height="200px" v-if="list.isSell == 1">판매완료</div>
               <div id="used-wish-info">
                 <div>
                   <button class="used-wish-heart">
@@ -48,9 +48,9 @@
                   <span>{{list.productLocation}}</span>
                 </div>
               </div>
+
             </div>
           </div>
-          <div id="wish-soldout-img" width="200px" height="200px" v-if="list.isSell == 1" />
         </div>
       </div>
     </div>
@@ -89,6 +89,10 @@
       }
     },
     methods: {
+      goDetail(no) {
+        console.log(no);
+        this.$router.push('/used/detail?pNo=' + no);
+      },
       selectAll: function () {
         console.log(this.ckList)
         let isCheck = document.querySelector('#ckAll').checked;
@@ -117,7 +121,7 @@
             }
           }
           this.data = arr;
-          this.ckList=[];
+          this.ckList = [];
         }).catch(err => {
           console.log(err)
         })
@@ -133,8 +137,16 @@
   }
 
   #wish-soldout-img {
-    background-color: #7b7e80;
-    position: relative;
+    font-size: 1rem;
+    color: white;
+    text-align: center;
+    line-height: 200px;
+    width: 200px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 
   #used-wish-price-date {

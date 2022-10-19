@@ -238,7 +238,6 @@
             this.addWish();
             this.heart = 1; //찜on으로 변경
             swal.fire({
-              position: 'top-end',
               icon: 'success',
               title: '찜 목록에 추가되었습니다.',
               showConfirmButton: false,
@@ -248,7 +247,6 @@
             this.delWish();
             this.heart = 0; //찜x로 변경
             swal.fire({
-              position: 'top-end',
               icon: 'success',
               title: '찜목록에서 삭제되었습니다.',
               showConfirmButton: false,
@@ -257,7 +255,6 @@
           }
         } else {
           swal.fire({
-            position: 'top-end',
             icon: 'warning',
             title: '로그인 정보가 필요합니다.',
             showConfirmButton: false,

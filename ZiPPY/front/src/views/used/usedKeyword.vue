@@ -84,7 +84,6 @@
         if ((this.data.keyword == "" || this.data.keyword == null) || (this.data.keywordLocation == "" || this.data
             .keywordLocation == null)) {
           swal.fire({
-            position: 'top-end',
             icon: 'warning',
             title: '빈 값은 입력할 수 없습니다.',
             showConfirmButton: false,
@@ -95,7 +94,6 @@
         }
         if (this.showKey.length == 10) {
           swal.fire({
-            position: 'top-end',
             icon: 'warning',
             title: '입력 가능한 키워드(지역)수는 10개입니다.',
             showConfirmButton: false,

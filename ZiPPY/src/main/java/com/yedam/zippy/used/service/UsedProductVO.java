@@ -20,8 +20,8 @@ public class UsedProductVO {
   private String productLocation;
   private int isSell;
   private String views;
-  @JsonFormat(pattern = "yyyy-MM-dd")
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @JsonFormat(pattern = "yy-MM-dd")
+  @DateTimeFormat(pattern = "yy-MM-dd")
   private Date productDate;
   private int imageNo;
   private String image;
