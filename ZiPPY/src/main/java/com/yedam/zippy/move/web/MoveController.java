@@ -62,6 +62,8 @@ public class MoveController {
     
     System.out.println(moveReq);    
     
+    service.moveContactCheck(moveReq);
+   
     return "";
   }
   

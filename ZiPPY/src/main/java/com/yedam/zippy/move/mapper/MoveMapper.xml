@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.zippy.move.mapper.MoveMapper">
 
-	<insert id="moveUntactCheck" parameterType="MoveRequestVO">
+	<insert id="insertContactEstimate" parameterType="MoveRequestVO">
 		<selectKey keyProperty="estimateNo" order="BEFORE" resultType="int">
 			SELECT NVL(MAX(estimate_no),0) +1 AS estimateNo 
 			FROM UNTACT_ESTIMATE_MOVING
@@ -77,7 +77,7 @@
 		)
 	</insert>
 	
-	<insert id="insertContactEstimate" parameterType="MoveRequestVO">
+	<insert id="moveContactCheck" parameterType="MoveRequestVO">
 		<selectKey keyProperty="estimateNo" order="BEFORE" resultType="int">
 			SELECT NVL(MAX(estimate_no),0) +1 AS estimateNo 
 			FROM UNTACT_ESTIMATE_MOVING
@@ -169,6 +169,11 @@
 		SELECT *
 		FROM untact_estimate_moving
 		WHERE request_date LIKE '%'||'2'||'%'
+		
+		<!-- SELECT m.*, r.email AS "business_email"
+		FROM untact_estimate_moving m, moving_response r
+		WHERE m.estimate_no = r.estimate_no -->
+		
 		<if test="dropbox2 == '내 지역만 조회'">
 		AND SUBSTR(depart_address, 1, 2) LIKE 
 				'%'|| (SELECT SUBSTR(comp_address, 1,2) 
@@ -188,7 +193,7 @@
 		</if>
 	
 		<if test="dropbox == '현재날짜요청'">
-		AND request_date =  TO_CHAR(SYSTIMESTAMP, 'YYYY.MM.DD')
+		AND request_date =  TO_CHAR(SYSTIMESTAMP, 'YYYY. MM. DD.')
 		</if>
 		
 		<if test="dropbox == '최신요청일자순'">
@@ -228,7 +233,7 @@
 		UNTACT_ESTIMATE_MOVING
 		WHERE email=#{email}
 		<if test="dropbox == '날짜순'">
-		ORDER BY TO_CHAR(request_date, 'YYYY. MM. DD') DESC
+		ORDER BY request_date DESC
 		</if>
 		<if test="dropbox == '견적방법순'">
 		ORDER BY estimate_type DESC, request_date DESC

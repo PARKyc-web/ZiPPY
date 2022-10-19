@@ -5,7 +5,7 @@
     <form id="contactForm">
     <h2>이사 견적을 위해 입력한 정보를 확인해주세요.</h2>
 
-    <input type="hidden" name="movingOption" v-model="checkk">
+    <input type="hidden" name="commonOption" v-model="commonOption">
     <input type="hidden" name="email" v-model="emailSend">
     <input type="hidden" name="movingMemo" v-model="movingMemoSend">
     
@@ -580,7 +580,7 @@
     },
 
     data: () => ({
-      checkk: "",
+      commonOption: "",
       emailSend : "zippy@naver.com",
       movingMemoSend: "MemoMemo",
       requestDateSend: "2022-10-14",
@@ -635,12 +635,23 @@
     methods: {
 
       finalSend : function(){
+
+
         
-        contactForm.movingOption.value= "["+ JSON.stringify(this.moveInfo) +"]";
+        var moveInfoJson = JSON.stringify(this.moveInfo);
+
+
+        let replac_str2 = moveInfoJson.replace(/\{|\[|\"|\]|\}/g,'');
+        console.log('문자제거 : '+replac_str2);
+
+       
+        contactForm.commonOption.value= replac_str2;
+        
+        // contactForm.movingOption.value= "["+ JSON.stringify(this.moveInfo) +"]";
         //form으로 데이터보내기
         var formData = new FormData(document.querySelector('#contactForm')); 
         
-        console.log(this.checkk);
+        console.log(this.commonOption);
 
         this.$axios({
           url: "http://localhost:8090/zippy/move/moveContactCheck",
@@ -682,13 +693,11 @@
         
         //값이 잘 넘어가는지 확인
 
-        this.checkk= "["+JSON.stringify(this.moveDetail[0])+","+ JSON.stringify(this.moveInfo) +"]";
-
-        console.log(JSON.stringify(this.moveDetail[0]));
+       
         
         console.log(JSON.stringify(this.moveInfo))
         console.log(moveInfo);
-        console.log(this.checkk);
+        console.log(this.commonOption);
         // console.log(JSON.stringify(this.moveInfo));
         // console.log(this.contactCheckk);
 
