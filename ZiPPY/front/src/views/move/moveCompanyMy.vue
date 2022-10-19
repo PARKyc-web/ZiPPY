@@ -13,13 +13,8 @@
     </div>
 
     <!--  -->
-    <div id="used-main-dropbox2">
-      <v-select :disabled="select2==false" @change="dropVal()" v-model="select" :items="items" item-text="name"
-        item-value="value" label="보기정렬" color="#212529" persistent-hint single-line dense width="50"></v-select>
-    </div>
-
     <div id="used-main-dropbox1">
-      <v-select @change="dropVal2()" v-model="select2" :items="drops" item-text="name" item-value="value2" label="지역정렬"
+      <v-select @change="dropVal2()" v-model="select2" :items="drops" item-text="name" item-value="value2" label="정렬"
         color="#212529" persistent-hint single-line dense width="50"></v-select>
     </div>
 
@@ -71,7 +66,7 @@
                   </template>
 
                   <!-- 모달 -->
-                  <form id="estimateForm" name="estimateForm" >
+                  <form id="estimateForm" name="estimateForm"  >
                     <!-- v-for="i in list" -->
                     <div>
                       <v-card  :id="i">
@@ -82,28 +77,36 @@
                           <v-container>
                             <v-row>
                               <v-col cols="12" sm="6" md="4">
-                                <v-text-field label="견적번호*" id="estimateNo" required readonly 
-                                  v-model="selectData.estimateNo"></v-text-field>                                 
+                                <div>견적요청번호 : <span>NO.{{item.estimateNo}}</span></div>
+                                <!-- <v-text-field label="견적번호*" id="estimateNo" required readonly 
+                                  >{{item.estimateNo}}
+                                </v-text-field>                                  -->
                               </v-col><br />
+                              <v-col cols="12" sm="6" md="4">
+                               <div id="mus">견적서 번호 : NO.{{item.movingResponseNo}}</div>
+
+                              </v-col>
+                              업체명<div id="mus">{{item.compName}}</div>
                               <v-col cols="12" >                              
-                                <v-text-field label="업체명*" hint="고객에게 보여주는 업체의 이름입니다." v-model="selectData.compName"></v-text-field>   
+                                   
                             </v-col>
                           
 
                               <v-col cols="12">
-                                <v-text-field label="업체아이디*" hint="고객에게 보여주는 업체의 이메일입니다." v-model="selectData.email"></v-text-field>
+                                <v-text-field label="업체아이디*" hint="고객에게 보여주는 업체의 이메일입니다.">{{item.email}}</v-text-field>
                                 <!-- <v-text-field label="요청 회원*" required readonly v-model="selectData.email"> -->
                                 <!-- </v-text-field> -->
                               </v-col>
                               <v-col cols="12">
-                                <v-text-field label="1차 견적타입*" required readonly 
+                                <!-- <v-text-field label="1차 견적타입*" required readonly 
                                  hint="고객이 기본적으로 요청한 견적 타입입니다." 
-                                 v-model="selectData.estimateType"></v-text-field>
+                                 >{{item.firstEstimateType}}</v-text-field> -->
+                                 1차 견적 타입<div id="mus">{{item.firstEstimateType}}</div>
                               </v-col>
                               <v-col cols="12">
-                                <v-text-field  label="1차 견적가격*" type="number" 
+                                <v-text-field  label="1차 견적가격*" type="number" readonly
                                 hint="고객에게 처음 제시하는 견적가격입니다. 견적제시는 2차까지만 가능합니다. 신중하게 결정해주세요.(추후 수정불가)"
-                                required v-model="selectData.firstEstimatePrice">
+                                required >{{item.firstEstimatePrice}}
                                 </v-text-field>
                               </v-col>
 
@@ -191,13 +194,10 @@
         item: "",
         email: "",
         estimateNo: "",
-        responseMemo: "",
-        estimateType: "",
-        firstEstimatePrice: "",
+        
         secondEstimateType: "",
         secondEstimatePrice: "",
-        compName: "82이사",
-        reservStatus: 0,
+        
         businessEmail: "",
 
         list: [],
@@ -209,53 +209,31 @@
           compAddress: "",
           estimateNo: "",
           estimateType: "",
-          businessEmail: ""
+          businessEmail: "",
+          responseMemo: "",
+     
+        firstEstimateType:"",
+        firstEstimatePrice: "",
+        compName: "82이사",
+        reservStatus: 0,
+        movingResponseNo: ""
         },
         
 
         drops: [{
-            name: '전국으로 조회',
-            value: '전국으로 조회'
+            name: '날짜순',
+            value: '날짜순'
           },
           {
-            name: '내 지역만 조회',
-            value: '내 지역만 조회'
+            name: '견적방법순',
+            value: '견적방법순'
+          },
+          {
+            name: '견적상태순',
+            value: '견적상태순'
           },
         ],
 
-        items: [{
-            name: '전체조회',
-            value: '전체조회'
-          },
-          {
-            name: '대면견적',
-            value: '대면견적'
-          },
-          {
-            name: '비대면견적',
-            value: '비대면견적'
-          },
-          {
-            name: '최신요청일자순',
-            value: '최신요청일자순'
-          },
-          {
-            name: '오래된요청일자순',
-            value: '오래된요청일자순'
-          },
-          {
-            name: '현재날짜요청',
-            value: '현재날짜요청'
-          },
-          {
-            name: '출발지순',
-            value: '출발지순'
-          },
-          {
-            name: '도착지순',
-            value: '도착지순'
-          },
-        ],
 
         data: [],
         selectData:{},
@@ -269,7 +247,7 @@
     },
     created() {
       axios({
-        url: "http://localhost:8090/zippy/move/moveEstimate",
+        url: "http://localhost:8090/zippy/move/moveCompanyEstimate",
         methods: "GET",
         params: {
           email: "move123@move.com",
@@ -277,8 +255,13 @@
           commonOption: "",
           checked: "",
           dropbox: "",
-          dropbox2: ""
-
+          dropbox2: "",
+          firstEstimatePrice: "",
+          firstEstimateType: "",
+          reservStatus: "",
+          compName: "",
+          responseMemo: "",
+          movingResponseNo:""
         }
       }).then(res => {
         console.log(res);
@@ -366,12 +349,18 @@
           url: "http://localhost:8090/zippy/move/moveEstimate",
           methods: "GET",
           params: {
-            businessEmail: this.email,
-            estimateNo : this.list[i].estimateNo,
+            movingResponseNo : this.vo.movingResponseNo,
+            estimateNo : this.vo.estimateNo,
             email: this.vo.email,
-            estimateType: this.list[i].estimateType,
-            firstEstimatePrice: this.list[i].firstEstimatePrice,
-            responseMemo : this.list[i].responseMemo
+            firstEstimatePrice: this.vo.firstEstimatePrice,
+            firstEstimateType: this.vo.firstEstimateType,
+            reservStatus: this.vo.reservStatus,
+            compName: this.vo.compName,
+            responseMemo: this.vo.responseMemo,
+
+            // estimateType: this.list[i].estimateType,
+            // firstEstimatePrice: this.list[i].firstEstimatePrice,
+            // responseMemo : this.list[i].responseMemo
           }
         }).then(res => {
           this.selectData.estimateNo = this.list[i].estimateNo //{...this.list[i]}

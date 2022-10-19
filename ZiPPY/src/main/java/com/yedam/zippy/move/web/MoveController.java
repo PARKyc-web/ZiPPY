@@ -85,7 +85,7 @@ public class MoveController {
   
   //업체 견적서 내역
   @GetMapping("/moveCompanyEstimate")
-  public List<MoveCompanyEstimateVO> companyEstimate(MoveCompanyEstimateVO vo){
+  public List<MoveResponseVO> companyEstimate(MoveCompanyEstimateVO vo){
     
     System.out.println(vo);
     return service.companyEstimate(vo);

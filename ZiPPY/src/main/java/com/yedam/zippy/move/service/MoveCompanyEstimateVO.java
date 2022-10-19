@@ -1,10 +1,16 @@
 package com.yedam.zippy.move.service;
 
+import lombok.Data;
+
+@Data
 public class MoveCompanyEstimateVO {
 
   //MoveEstimateVO
   int estimateNo;
   String email;
+  String dropbox2;
+  String dropbox;
+  
   String movingOption;
   String movingMemo;
   
@@ -26,18 +32,16 @@ public class MoveCompanyEstimateVO {
   String visitDate;
   String visitTime;
   String commonOption;
-  
-  String dropbox;
 
   
   //MoveResponseVO
-  int movingResponseNo;
+  Integer movingResponseNo;
 
-  int firstEstimatePrice;
+  Integer firstEstimatePrice;
   String firstEstimateType;
-  int secondEstimatePrice;
+  Integer secondEstimatePrice;
   String secondEstimateType;
-  int reservStatus;
+  Integer reservStatus;
   String compName;
   String responseMemo;
   

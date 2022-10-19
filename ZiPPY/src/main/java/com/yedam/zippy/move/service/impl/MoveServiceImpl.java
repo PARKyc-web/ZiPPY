@@ -158,7 +158,7 @@ public class MoveServiceImpl implements MoveService{
   
   //견전서 조회 - 업체
   @Override
-  public List<MoveCompanyEstimateVO> companyEstimate(MoveCompanyEstimateVO vo) {
+  public List<MoveResponseVO> companyEstimate(MoveCompanyEstimateVO vo) {
     return mapper.companyEstimate(vo);
   }
 }
