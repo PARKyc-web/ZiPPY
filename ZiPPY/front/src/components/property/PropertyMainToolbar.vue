@@ -9,7 +9,7 @@
         <template v-slot:activator="{ on, attrs }">
           <!-- 필터 추가 버튼 -->
           <v-btn icon color="primary" dark v-bind="attrs" v-on="on">
-            <v-icon>mdi-playlist-plus</v-icon>
+            <v-icon color="#B3E3C3">mdi-playlist-plus</v-icon>
           </v-btn>
         </template>
         <v-card>
@@ -46,6 +46,7 @@
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
+            <v-spacer></v-spacer>
             <v-btn color="blue darken-1" text @click="save">
               저장
             </v-btn>
@@ -61,7 +62,7 @@
     </div>
     <div style="width: 22vw">
     <v-text-field hide-details prepend-icon="mdi-magnify" single-line placeholder=" 지역명 검색" @keyup.enter="sendData"
-      v-model="sigungu"></v-text-field>
+      v-model="sigungu" color="#B3E3C3"></v-text-field>
     </div>
 
 

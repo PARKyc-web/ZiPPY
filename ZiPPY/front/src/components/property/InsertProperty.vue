@@ -71,11 +71,11 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog2 = false">
-            닫기
-          </v-btn>
           <v-btn color="blue darken-1" text @click="insert">
             등록
+          </v-btn>
+          <v-btn color="blue darken-1" text @click="dialog2 = false">
+            닫기
           </v-btn>
         </v-card-actions>
       </v-card>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <property-main-toolbar :sigungu="sigungu" @get-property-list="searchEvent"/>
+    <property-main-toolbar :sigungu="sigungu" @get-property-list="searchEvent" />
     <div id="container">
       <section>
         <div id="map" class="map">
@@ -12,33 +12,38 @@
         </div>
       </section>
       <aside>
-        <div v-if="houseProducts.length != 0" v-for="item in houseProducts" @click="goHouseDetail(item.productId)">
-          <v-card>
-            <table>
-              <tr>
-                <td style="width: 35%;">여기에 이미지</td>
-                <td style="width: 65%;">
-                  <v-row align="center" class="mx-0">
-                    <div>매물번호 {{item.productId}}</div>
-                  </v-row>
-                  <v-card-title style="font-weight: bold;">{{item.houseName}}<br>{{item.saleType}} {{item.price}}
-                  </v-card-title>
-                  <table style="font-size: medium; margin-left: 20px;">
-                    <tr>
-                      {{item.sigungu}}
-                    </tr>
-                    <tr>
-                      {{item.areaExclusive}}m² · {{item.floor}}층
-                    </tr>
-                    <tr>
-                      {{item.detailContents}}
-                    </tr>
-                  </table>
-                  <update-property :productId="item.productId"></update-property>
-                </td>
-              </tr>
-            </table>
-          </v-card>
+        <div v-if="houseProducts.length != 0">
+          <div v-for="item in houseProducts" @click="goHouseDetail(item.productId)">
+            <div id="propertyCard">
+              <table style="width: 100%;">
+                <tr>
+                  <td style="width: 35%;">여기에 이미지</td>
+                  <td style="width: 65%;">
+                    <v-row align="center" class="mx-0">
+                      <div>매물번호 {{item.productId}}</div>
+                    </v-row>
+                    <v-card-title style="font-weight: bold;">{{item.houseName}}<br>{{item.saleType}} {{item.price}}
+                    </v-card-title>
+                    <table style="font-size: medium; margin-left: 20px;">
+                      <tr>
+                        {{item.sigungu}}
+                      </tr>
+                      <tr>
+                        {{item.areaExclusive}}m² · {{item.floor}}층
+                      </tr>
+                      <tr>
+                        {{item.detailContents}}
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div v-else id="emptyList">
+          <v-icon id="emptyIcon" color="#B3E3C3">mdi-alert-circle-outline</v-icon>
+          <h6 style="text-align:center">검색된 매물이 없습니다.<br>위치 및 맞춤필터를 조정해보세요.</h6>
         </div>
       </aside>
     </div>
@@ -198,7 +203,6 @@
             // 정상적으로 검색이 완료됐으면 
             if (status === kakao.maps.services.Status.OK) {
               var marker = new kakao.maps.Marker({
-                map: map, // 마커를 표시할 지도
                 position: new kakao.maps.LatLng(result[0].y, result[0].x), // 마커를 표시할 위치
               });
               markers.push(marker);
@@ -216,13 +220,12 @@
           makeClusterer();
 
           cnt++;
-          if (cnt == 10) clearInterval(setClusterer);
+          if (cnt == 15) clearInterval(setClusterer);
         }, 500);
 
         // setTimeout(function () {
         //   makeClusterer();
         // }, 1000);
-
 
         // 마커 클러스터러에 클릭이벤트를 등록합니다
         // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우
@@ -241,15 +244,6 @@
           console.log("click: ", initThis.sigungu);
           initThis.getPropertyList(initThis.sigungu);
         });
-
-        function clickForList() {
-          console.log("click: ", initThis.sigungu);
-          initThis.getPropertyList(initThis.sigungu);
-        }
-        // setInterval(function () {
-        //   clickForList();
-        // }, 1000);
-
       },
       getPropertyList(sigungu) {
         axios({
@@ -333,11 +327,29 @@
     width: 25vw;
     height: 100%;
     overflow-y: auto;
+
+    position: relative;
+  }
+
+  #emptyList {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  #emptyIcon {
+    left: 32%;
+    font-size: 80px;
+    margin-bottom: 10px;
+  }
+
+  #propertyCard :hover {
+    background-color: #E8F5E9;
   }
 
   ::-webkit-scrollbar {
-    width: 8px;
-    /* 스크롤바의 너비 */
+    width: 8px; /* 스크롤바의 너비 */
   }
 
   ::-webkit-scrollbar-thumb {
