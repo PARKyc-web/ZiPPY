@@ -251,7 +251,7 @@
             url: "http://localhost:8090/zippy/property/getPropertyList",
             methods: "GET",
             params: {
-              sigungu: '%' + sigungu
+              sigungu: sigungu + '%'
             }
           }).then(response => {
             // 성공했을 때
