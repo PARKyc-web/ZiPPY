@@ -22,6 +22,7 @@
     data() {
       return {
         heart: 0,
+        bNo: -1
       }
     },
     created() {
@@ -38,7 +39,9 @@
             console.log('wishState success!');
             if (response.data) {
               this.heart = 1;
-            } 
+              this.bNo = response.data.bookmarkNo;
+              console.log(this.bNo);
+            }
           })
           .catch(error => {
             // 에러가 났을 때
@@ -51,20 +54,42 @@
       changeHeart() {
         if (this.$store.state.loginInfo) {
           if (this.heart == 0) { //찜x
-            this.heart = 1; //찜on
-            Swal.fire({
-              icon: 'success',
-              title: '관심매물에 등록되었습니다.',
-              showConfirmButton: false,
-              timer: 1500
+            axios({
+              url: "http://localhost:8090/zippy/common/addWish",
+              method: "POST",
+              params: {
+                  email : this.$store.state.loginInfo.email,
+                  serviceType : 0,
+                  serviceId : this.productId 
+              }
+            }).then(res => {
+              this.heart = 1; //찜on
+              Swal.fire({
+                icon: 'success',
+                title: '관심매물에 등록되었습니다.',
+                showConfirmButton: false,
+                timer: 1500
+              })
+            }).catch(err => {
+              console.log(err)
             })
           } else { //찜on
-            this.heart = 0; //찜x
-            Swal.fire({
-              icon: 'error',
-              title: '관심매물에서 삭제되었습니다.',
-              showConfirmButton: false,
-              timer: 1500
+            axios({
+              url: "http://localhost:8090/zippy/common/delWish",
+              method: "DELETE",
+              data: {
+                bNo: bNo
+              }
+            }).then(res => {
+              this.heart = 0; //찜x
+              Swal.fire({
+                icon: 'error',
+                title: '관심매물에서 삭제되었습니다.',
+                showConfirmButton: false,
+                timer: 1500
+              })
+            }).catch(err => {
+              console.log(err)
             })
           }
         } else {

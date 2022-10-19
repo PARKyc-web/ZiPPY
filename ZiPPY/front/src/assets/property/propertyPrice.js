@@ -1,4 +1,4 @@
-export{getPrice, oneHundredMillon}
+export{getPrice, oneHundredMillion}
 
 function getPrice(price) {
   let result = '';
@@ -23,7 +23,7 @@ function getPrice(price) {
   return result;
 }
 
-function oneHundredMillon(price) {
+function oneHundredMillion(price) {
   let result = getPrice(price);
 
   result = result.substring(0, result.length - 5) + '억' + result.substring(result.length - 5, result.length);
