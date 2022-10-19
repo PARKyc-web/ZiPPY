@@ -29,7 +29,7 @@
       <!-- 장바구니 -->
       <v-badge :value="hover" color="#B3E3C3" :content="count" left transition="slide-x-transition">
         <v-hover v-model="hover">
-          <v-icon color="rgba(0, 0, 0, 0.54)" @click="goCart">
+          <v-icon color="rgba(0, 0, 0, 0.54)" @click="goCart" v-if="this.$store.state.loginInfo">
             mdi-cart
           </v-icon>
         </v-hover>

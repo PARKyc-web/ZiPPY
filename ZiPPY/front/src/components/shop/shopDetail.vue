@@ -101,6 +101,7 @@
 <script>
   import axios from 'axios';
   import shopTab from './shopTab.vue';
+  import swal from 'sweetalert2';
 
   export default {
     components: {
@@ -126,9 +127,12 @@
       //찜(기본:0)
       heart: 0,
       optCheck: '',
-
-      //dummy 
-      email: 'zippy@naver.com'
+      data: {
+        email: "",
+        serviceId: "",
+        bookmarkNo: "",
+        serviceType: 2
+      }
     }),
     methods: {
       //수량 감소
@@ -154,12 +158,33 @@
       },
       //찜등록-해제
       changeHeart() {
-        if (this.heart == 0) { //찜x
-          this.heart = 1; //찜on
-          alert('상품을 찜했습니다.');
-        } else { //찜on
-          this.heart = 0; //찜x
-          alert('상품의 찜을 해제하였습니다.')
+        if (this.$store.state.loginInfo != null) {
+          if (this.heart == 0) { //찜x
+            this.addWish();
+            this.heart = 1; //찜on
+            swal.fire({
+              icon: 'success',
+              title: '찜 목록에 추가되었습니다.',
+              showConfirmButton: false,
+              timer: 1500
+            });
+          } else { //찜on
+            this.delWish();
+            this.heart = 0; //찜x
+            swal.fire({
+              icon: 'success',
+              title: '찜목록에서 삭제되었습니다.',
+              showConfirmButton: false,
+              timer: 1500
+            });
+          }
+        } else {
+          swal.fire({
+            icon: 'warning',
+            title: '로그인 정보가 필요합니다.',
+            showConfirmButton: false,
+            timer: 1500
+          });
         }
       },
       //옵션 체크(옵션이 있다고 가정)
@@ -181,133 +206,168 @@
       },
       //장바구니 등록
       goCart() {
-        //옵션 존재여부 체크
-        this.checkOption();
+        if (this.$store.state.loginInfo != null) {
+          //옵션 존재여부 체크
+          this.checkOption();
 
-        if (this.optCheck) {
-          let check = '';
-          //장바구니에 존재한 상품 check
-          axios({
-            url: "/shop/myCartList",
-            method: "POST",
-            params: {
-              email: this.email
-            }
-          }).then(res => {
-            console.log(res);
-            this.cartPros = res.data;
-            //옵션이 있는 경우
-            if (this.opts.length > 0) {
-              console.log(this.cartPros)
-              for (var i in this.cartPros) {
-                //상품번호, 옵션 둘다 체크
-                if (this.product.proNo == this.cartPros[i].cartPno &&
-                  this.selectOption.optNo == this.cartPros[i].cartOptNo) {
-                  //상품등록 불가
-                  check = false;
-                  alert('이미 장바구니에 있는 상품입니다.');
-                  //선택 옵션 비워주기
+          if (this.optCheck) {
+            let check = '';
+            //장바구니에 존재한 상품 check
+            axios({
+              url: "/shop/myCartList",
+              method: "POST",
+              params: {
+                email: this.$store.state.loginInfo.email
+              }
+            }).then(res => {
+              console.log(res);
+              this.cartPros = res.data;
+              
+              //옵션이 있는 경우
+              if (this.opts.length > 0) {
+                for (var i in this.cartPros) {
+                  //상품번호, 옵션 둘다 체크
+                  if (this.product.proNo == this.cartPros[i].cartPno &&
+                    this.selectOption.optNo == this.cartPros[i].cartOptNo) {
+                      swal.fire({
+                        icon: 'warning',
+                        title: '이미 장바구니에 있는 상품입니다.',
+                        showConfirmButton: false,
+                        timer: 1500
+                      });
+                      //선택 옵션 비워주기
+                      this.selectedOpt = {};
+                      this.selectOption = {};
+                      //상품등록 불가
+                      check = false;
+                      return;
+                  } else {
+                    //상품등록 가능
+                    check = true;
+                    if(this.selectOption.optNo == 0) {
+                      check = false;
+                      return;
+                    }
+                  }
+                }
+              } else {
+                //옵션이 없는 경우
+                for (var i in this.cartPros) {
+                  //상품번호만 체크
+                  if (this.product.proNo == this.cartPros[i].cartPno) {
+                    swal.fire({
+                      icon: 'warning',
+                      title: '이미 장바구니에 있는 상품입니다.',
+                      showConfirmButton: false,
+                      timer: 1500
+                    });
+                    //상품등록 불가
+                    check = false;
+                    return
+                  } else {
+                    check = true;
+                  }
+                }
+              }
+              //장바구니가 비어져있을 경우
+              if(this.cartPros.length == 0) {
+                check = true;
+              }
+              console.log(check)
+              //상품등록
+              if (check) {
+                axios({
+                  url: "/shop/insertCart",
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+                  },
+                  data: {
+                    email: this.$store.state.loginInfo.email,
+                    cartPno: this.product.proNo,
+                    cartOptNo: this.selectOption.optNo,
+                    cartQty: this.qty,
+                  }
+                }).then(res => {
+                  console.log(res);
+                  //this.selectPro = res.data;
+                  swal.fire({
+                    icon: 'success',
+                    title: '장바구니에 상품이 담겼습니다.',
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+                  //선택했던 상품 삭제
                   this.selectedOpt = {};
                   this.selectOption = {};
-                } else {
-                  //상품등록 가능
-                  check = true;
-                }
+                }).catch(error => {
+                  console.log(error);
+                })
               }
-            } else {
-              //옵션이 없는 경우
-              for (var i in this.cartPros) {
-                //상품번호만 체크
-                if (this.product.proNo == this.cartPros[i].cartPno) {
-                  //상품등록 불가
-                  check = false;
-                  alert('이미 장바구니에 있는 상품입니다.');
-                } else {
-                  //상품등록 가능
-                  check = true;
-                }
-              }
-            }
-
-            //장바구니에 아무것도 없을 경우
-            if (this.cartPros.length == 0) {
-              check = true;
-            }
-
-            //상품등록
-            if (check) {
-              axios({
-                url: "/shop/insertCart",
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
-                },
-                data: {
-                  email: this.email,
-                  cartPno: this.product.proNo,
-                  cartOptNo: this.selectOption.optNo,
-                  cartQty: this.qty,
-                }
-              }).then(res => {
-                console.log(res);
-                this.selectPro = res.data;
-                alert('장바구니에 상품이 담겼습니다.');
-                //선택했던 상품 삭제
-                this.selectedOpt = {};
-                this.selectOption = {};
-              }).catch(error => {
-                console.log(error);
-              })
-            }
-          }).catch(error => {
-            console.log(error);
-          })
+            }).catch(error => {
+              console.log(error);
+            })
+          }
+        } else {
+          swal.fire({
+            icon: 'warning',
+            title: '로그인 정보가 필요합니다.',
+            showConfirmButton: false,
+            timer: 1500
+          });
         }
       },
       goOrder() {
-        //옵션 존재여부 체크
-        this.checkOption();
-        if (this.optCheck) {
-          //payCode 생성
-          this.makePayCode();
-          //purchase 테이블에 등록(1개)
-          axios({
-            url: "/shop/insertPurOne",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            method: "POST",
-            data: {
-              proNo : this.product.proNo,
-              selectOptNo : this.selectOption.optNo,
-              qty : this.qty,
-              purPrice : this.countPurPrice,
-              email : this.product.email //업체 이메일
-            },
-            params: {
-              payCode: this.payCode,
-              email : this.email //구매자 이메일
-            }
-          }).then(res => {
-            console.log(res);
-
-            //주문페이지 이동
-            this.$router.push({
-              name: 'order',
-              query: {
-                payCode: this.payCode
+        if (this.$store.state.loginInfo != null) {
+          this.checkOption();
+          if (this.optCheck) {
+            //payCode 생성
+            this.makePayCode();
+            //purchase 테이블에 등록(1개)
+            axios({
+              url: "/shop/insertPurOne",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              method: "POST",
+              data: {
+                proNo: this.product.proNo,
+                selectOptNo: this.selectOption.optNo,
+                qty: this.qty,
+                purPrice: this.countPurPrice,
+                email: this.product.email //업체 이메일
+              },
+              params: {
+                payCode: this.payCode,
+                email: this.$store.state.loginInfo.email //구매자 이메일
               }
+            }).then(res => {
+              console.log(res);
+              //주문페이지 이동
+              this.$router.push({
+                name: 'order',
+                query: {
+                  payCode: this.payCode
+                }
+              })
+
+            }).catch(error => {
+              console.log(error);
             })
 
-          }).catch(error => {
-            console.log(error);
-          })
-
+          }
+        }  else {
+          swal.fire({
+            icon: 'warning',
+            title: '로그인 정보가 필요합니다.',
+            showConfirmButton: false,
+            timer: 1500
+          });
         }
       },
       //payCode 생성
       makePayCode() {
-        var arr = new Uint32Array(1);
+        var arr = new Uint32Array(10);
         this.randNum = window.crypto.getRandomValues(arr);
         this.payCode = this.randNum[0] + new Date().getTime();
       },
@@ -317,6 +377,39 @@
           ...this.selectedOpt
         }
         this.qty = 1;
+      },
+      //찜 추가
+      addWish: function () {
+        axios({
+          url: "http://localhost:8090/zippy/common/addWish",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          data: JSON.stringify(this.data)
+        }).then(res => {
+          console.log(res);
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      //찜 삭제
+      delWish: function () {
+        let bNo = [];
+        console.log(this.wish.bookmarkNo)
+        bNo.push(this.wish.bookmarkNo);
+        console.log(bNo);
+        axios({
+          url: "http://localhost:8090/zippy/common/delWish",
+          method: "DELETE",
+          data: {
+            bNo: bNo
+          }
+        }).then(res => {
+          console.log(res);
+        }).catch(err => {
+          console.log(err)
+        })
       }
     },
     created() {
@@ -331,6 +424,8 @@
           console.log(res);
           this.product = res.data;
           console.log(this.product);
+          this.data.serviceId = this.product.proNo;
+          this.data.email = this.$store.state.loginInfo.email;
         }).catch(error => {
           console.log(error);
         }),
@@ -362,18 +457,26 @@
         }).catch(error => {
           console.log(error);
         })
-      // //찜 여부 조회
-      // axios({
-      //   url: "/shop/getHeart",
-      //   method: "POST",
-      //   params: {
-      //     email: this.email,
-      //   }
-      // }).then(res => {
-      //   console.log(res);
-      // }).catch(error => {
-      //   console.log(error);
-      // })
+      //찜여부조회
+      if (this.$store.state.loginInfo != null) {
+        axios({
+          url: "http://localhost:8090/zippy/common/wishOne",
+          methods: "GET",
+          params: {
+            email: this.$store.state.loginInfo.email,
+            sId: this.$route.query.pno
+          }
+        }).then(res => {
+          this.wish = res.data;
+          if (res.data != "") {
+            this.heart = 1;
+          } else if (res.data == "") {
+            this.heart = 0;
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      }
     },
     computed: {
       countAmount() {
@@ -394,8 +497,8 @@
         return amount;
       }
     },
-    filters : {
-      comma(val){
+    filters: {
+      comma(val) {
         return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
       }
     }

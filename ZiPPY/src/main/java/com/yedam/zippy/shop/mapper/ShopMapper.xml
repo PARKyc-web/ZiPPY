@@ -182,7 +182,7 @@
 		(SELECT o.opt_name
 		FROM
 		shop_product_option o
-		WHERE o.opt_no IN (SELECT p.pur_no FROM
+		WHERE o.opt_no IN (SELECT p.pur_opt_no FROM
 		shop_purchase p
 		WHERE p.pay_code = #{payCode}) ) opt_name
 		FROM

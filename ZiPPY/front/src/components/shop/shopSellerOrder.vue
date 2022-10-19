@@ -2,24 +2,26 @@
   <div class="mx-auto pt-10" id="cart-con">
     <v-toolbar flat color="white">
       <v-toolbar-title>판매내역</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <p name="all" class="pa-3">전체</p>/<p class="pa-3" name="pay">결제</p>
     </v-toolbar>
 
     <v-card>
       <v-card-title>
-        <v-text-field @keyup="enterkey()" id="search" append-icon="mdi-magnify" label="주문번호/주문자" single-line
+        <v-text-field @keyup="enterkey()" id="searchOrder" append-icon="mdi-magnify" label="주문번호/주문자" single-line
           hide-details>
         </v-text-field>
       </v-card-title>
       <v-data-table :headers="headers" :items="orders">
+        <template v-slot:item.payCode="{ item }">
+          <div @click="goOrderDetail(item.payCode)" id="paycode">
+            {{item.payCode}}
+          </div>
+        </template>
         <template v-slot:item.update="{ item }">
           <v-btn v-if="item.orderStatus==0" depressed color=#B3E3C3 class="mr-2"
             @click="updateStatus(item.orderNo, item.orderStatus)">
             배송
           </v-btn>
-          <v-btn v-if="item.orderStatus==1" disabled depressed color=#D6D6D6 class="mr-2"
-            @click="updateStatus(item.orderNo, item.orderStatus)">
+          <v-btn v-if="item.orderStatus==1" disabled depressed color=#D6D6D6 class="mr-2">
             배송완료
           </v-btn>
         </template>
@@ -80,14 +82,13 @@
             showCancelButton: true
           }).then((result) => {
             if (result.isConfirmed) {
-              //st 0->1로 변경
               st = 1;
               //db에 update
               outside.updateOrdStatus(no, st);
-              //update된 내용 변경
+              //update된 상태 변경
               outside.changeStatus(no, st);
-              //배송날짜 변경
-              //outside.changeDeliveryDate(no)
+              //update된 날짜 변경
+              outside.changeDeldate(no);
             } else if (result.isDenied) {
               return;
             }
@@ -119,10 +120,22 @@
             }
         }
       },
+      changeDeldate(no){
+        var today = new Date();
+        var year = String(today.getFullYear());
+        var yy = year.substr(2,4);
+        var month = ('0' + (today.getMonth() + 1)).slice(-2);
+        var day = ('0' + today.getDate()).slice(-2);
+        var dateString = yy + '-' + month  + '-' + day;
+        for (var i in this.orders) {
+          if (this.orders[i].orderNo == no)
+              this.orders[i].deliveryDate = dateString;
+        }
+      },
       //주문번호/고객 이메일 검색(조건조회)
       enterkey() {
+        var searchValue = document.querySelector("#searchOrder").value;
         if (window.event.keyCode == 13) {
-          var searchValue = document.querySelector("#search").value;
           //키워드 상품 조회
           axios({
             url: "/shop/myOrdList",
@@ -130,8 +143,8 @@
             data: {
               email: 'shop@mail.com'
             },
-            params : {
-              keyword : searchValue
+            params: {
+              keyword: searchValue
             },
             method: "POST",
           }).then(res => {
@@ -142,6 +155,14 @@
             console.log(error);
           })
         }
+      },
+      goOrderDetail(payCode){
+        this.$router.push({
+          name: 'order',
+          query: {
+            payCode: payCode
+          }
+        })
       }
     },
     created() {
@@ -185,8 +206,8 @@
   .v-btn {
     font-weight: bold;
   }
-
-  .v-image :hover {
+  .text-start :hover{
+    text-decoration: underline;
     cursor: pointer;
   }
 </style>

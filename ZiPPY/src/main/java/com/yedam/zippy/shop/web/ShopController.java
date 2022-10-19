@@ -108,7 +108,6 @@ public class ShopController {
   // 주문할 상품 등록(from 디테일)
   @PostMapping("/insertPurOne")
   public void insertPurOne(@RequestBody ProductVO product, String payCode, String email) {
-    System.out.println(product.getEmail());
     service.insertPurOne(product, payCode, email);
   }
 

@@ -154,8 +154,8 @@
       },
       //상품명/상품번호 검색(조건조회)
       enterkey() {
+        var searchValue = document.querySelector("#search").value;
         if (window.event.keyCode == 13) {
-          var searchValue = document.querySelector("#search").value;
           //키워드 상품 조회
           axios({
             url: "/shop/myProList",

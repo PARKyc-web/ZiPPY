@@ -24,7 +24,7 @@
       <!-- 상품리스트 -->
       <div id="product-list">
         <!-- 상품 없을 때-->
-        <div id="noProduct" class="mx-auto pt-10" v-if="products.length == 0">
+        <div id="noProduct" class="mb-10 pt-10" v-if="products.length == 0">
           <v-icon style="font-size:100px; color:#B3E3C3" class="mb-5">mdi-alert-circle-outline</v-icon>
           <h2 style="font-weight:bold">고객님께서 찾으시는 상품이 없습니다.</h2>
           <p>다시 검색해주세요.</p>
@@ -95,6 +95,7 @@
       },
     },
     created() {
+      //키워드로 검색
       if (this.$route.query.keyw ) {
         axios({
           url: "/shop/keyword",
@@ -109,6 +110,7 @@
         }).catch(error => {
           console.log(error);
         })
+        //카테고리로 검색
       }else if(this.$route.query.cate) {
         axios({
         url: "/shop/category",
@@ -124,6 +126,13 @@
         console.log(error);
       })
       }
+      //검색결과 없음 지연시간
+      var noProduct = document.getElementById("#oProduct")
+      setTimeout(function () {
+      this.modifyDialogVisible = false;
+      noProduct.api.reloadData();
+      },300);
+
     }, filters : {
       comma(val){
         return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -180,6 +189,7 @@
   #noProduct {
     height: 400px;
     text-align: center;
+    margin-left: 22%;
   }
 
   #product-list {
