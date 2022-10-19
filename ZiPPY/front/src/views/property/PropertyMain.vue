@@ -1,44 +1,47 @@
 <template>
-  <div id="container">
-    <section>
-      <div id="map" class="map">
-        <search-bar style="top: 10px; left: 10px;" :sigungu="sigungu" @get-property-list="searchEvent"></search-bar>
-        <div class="hAddr">
-          <span class="title">지도중심기준 행정동 주소정보</span>
-          <span id="centerAddr"><input type="text" v-model="sigungu"></span>
+  <div>
+    <property-main-toolbar :sigungu="sigungu" @get-property-list="searchEvent"/>
+    <div id="container">
+      <section>
+        <div id="map" class="map">
+          <!-- <search-bar style="top: 15px; left: 15px;" :sigungu="sigungu" @get-property-list="searchEvent"/> -->
+          <div class="hAddr">
+            <span class="title">지도중심기준 행정동 주소정보</span>
+            <span id="centerAddr"><input type="text" v-model="sigungu"></span>
+          </div>
         </div>
-      </div>
-    </section>
-    <aside>
-      <div v-if="houseProducts.length != 0" v-for="item in houseProducts" @click="goHouseDetail(item.productId)">
-        <v-card>
-          <table>
-            <tr>
-              <td style="width: 35%;">여기에 이미지</td>
-              <td style="width: 65%;">
-                <v-row align="center" class="mx-0">
-                  <div>매물번호 {{item.productId}}</div>
-                </v-row>
-                <v-card-title style="font-weight: bold;">{{item.houseName}}<br>{{item.saleType}} {{item.price}}
-                </v-card-title>
-                <table style="font-size: medium; margin-left: 20px;">
-                  <tr>
-                    {{item.sigungu}}
-                  </tr>
-                  <tr>
-                    {{item.areaExclusive}}m² · {{item.floor}}층
-                  </tr>
-                  <tr>
-                    {{item.detailContents}}
-                  </tr>
-                </table>
-                <update-property :productId="item.productId"></update-property>
-              </td>
-            </tr>
-          </table>
-        </v-card>
-      </div>
-    </aside>
+      </section>
+      <aside>
+        <div v-if="houseProducts.length != 0" v-for="item in houseProducts" @click="goHouseDetail(item.productId)">
+          <v-card>
+            <table>
+              <tr>
+                <td style="width: 35%;">여기에 이미지</td>
+                <td style="width: 65%;">
+                  <v-row align="center" class="mx-0">
+                    <div>매물번호 {{item.productId}}</div>
+                  </v-row>
+                  <v-card-title style="font-weight: bold;">{{item.houseName}}<br>{{item.saleType}} {{item.price}}
+                  </v-card-title>
+                  <table style="font-size: medium; margin-left: 20px;">
+                    <tr>
+                      {{item.sigungu}}
+                    </tr>
+                    <tr>
+                      {{item.areaExclusive}}m² · {{item.floor}}층
+                    </tr>
+                    <tr>
+                      {{item.detailContents}}
+                    </tr>
+                  </table>
+                  <update-property :productId="item.productId"></update-property>
+                </td>
+              </tr>
+            </table>
+          </v-card>
+        </div>
+      </aside>
+    </div>
   </div>
 </template>
 
@@ -46,15 +49,17 @@
   import SearchBar from "../../components/property/SearchBar.vue";
   import chickenJson from "../../assets/chicken.json";
   import axios from "axios";
+  import PropertyMainToolbar from '../../components/property/PropertyMainToolbar.vue';
 
   export default {
     components: {
       SearchBar,
+      PropertyMainToolbar,
     },
     created() {
       axios({
           url: "http://localhost:8090/zippy/property/main",
-          methods: "GET"
+          method: "GET"
         }).then(response => {
           // 성공했을 때
           console.log('getStreetAddress success!');
@@ -98,11 +103,11 @@
       },
       initMap() {
         var container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
-        const MIN_LEVEL = 4;
+        const MIN_LEVEL = 2;
         var options = {
           //지도를 생성할 때 필요한 기본 옵션
           center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-          level: 7 //지도의 레벨(확대, 축소 정도)
+          level: 5 //지도의 레벨(확대, 축소 정도)
         };
 
         var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
@@ -209,11 +214,11 @@
         let cnt = 0;
         let setClusterer = setInterval(function () {
           makeClusterer();
-          
+
           cnt++;
-          if(cnt==10) clearInterval(setClusterer);
+          if (cnt == 10) clearInterval(setClusterer);
         }, 500);
-        
+
         // setTimeout(function () {
         //   makeClusterer();
         // }, 1000);
@@ -309,7 +314,8 @@
 <style scoped>
   #container {
     width: 100vw;
-    height: calc(100vh - 70.8px);
+    /* height: calc(100vh - 70.8px); */
+    height: calc(100vh - 139.8px);
     display: flex;
   }
 
