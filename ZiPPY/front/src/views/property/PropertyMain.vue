@@ -52,9 +52,10 @@
 
 <script>
   import SearchBar from "../../components/property/SearchBar.vue";
-  import chickenJson from "../../assets/chicken.json";
+  import chickenJson from "../../assets/property/chicken.json";
   import axios from "axios";
   import PropertyMainToolbar from '../../components/property/PropertyMainToolbar.vue';
+  import {oneHundredMillion} from '../../assets/property/propertyPrice';
 
   export default {
     components: {
@@ -88,7 +89,7 @@
         sigungu: '',
         streetAddress: [],
         map: 0,
-        productPosition: []
+        productPosition: [],
       }
     },
     methods: {
@@ -181,9 +182,9 @@
                 infoDiv.innerHTML = result[i].address_name;
                 initThis.sigungu = result[i].address_name;
 
-                // ex) 대구광역시 중구 남산1동, 남산1동 -> 대구광역시 중구 남산동
+                // ex) 대구광역시 중구 남산1동 -> 대구광역시 중구 남산동
                 for (let i = 1; i < 11; i++) {
-                  initThis.sigungu = initThis.sigungu.replace(i, '');
+                  initThis.sigungu = initThis.sigungu.replace(i+'동', '동');
                 }
                 console.log('현재 지도의 중심 위치: ', initThis.sigungu);
                 break;
@@ -257,7 +258,6 @@
             console.log('getPropertyList success!');
             console.log(response);
             this.houseProducts = response.data;
-            // this.sigungu = sigungu;
           })
           .catch(error => {
             // 에러가 났을 때
@@ -342,6 +342,11 @@
     left: 32%;
     font-size: 80px;
     margin-bottom: 10px;
+  }
+
+  #propertyCard {
+    border-bottom: 1px solid;
+    border-color: #E8F5E9;
   }
 
   #propertyCard :hover {
