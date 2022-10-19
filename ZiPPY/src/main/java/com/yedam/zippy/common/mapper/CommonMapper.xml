@@ -45,6 +45,8 @@
 			   p.product_name,
 			   p.product_price,
 			   p.product_location,
+			   p.is_sell,
+			   p.product_date,
 			   b.bookmark_no, 
 			   b.email,
 			   b.service_type,
@@ -58,32 +60,32 @@
 	<insert id="addReview" parameterType="ReviewBoardVO">
 		<selectKey keyProperty="reviewNo" order="BEFORE" resultType="int">
 			SELECT NVL(MAX(review_no),0) +1 AS reviewNo
-			FROM reviewBoardVO
+			FROM review_board
 		</selectKey>
 		INSERT INTO review_board
 		(
-			REVIEW_NO
-			EMAIL
-			REVIEW_TITLE
-			REVIEW_CONTENT
-			REVIEW_DATE
-			SERVICE_TYPE
-			SERVICE_ID
-			VIEW_CNT
-			TOTAL_RATING
-			RATE_1
-			RATE_2
-			RATE_3
-			RATE_4
+			REVIEW_NO,
+			EMAIL,
+			REVIEW_TITLE,
+			REVIEW_CONTENT,
+			REVIEW_DATE,
+			SERVICE_TYPE,
+			SERVICE_ID,
+			VIEW_CNT,
+			TOTAL_RATING,
+			RATE_1,
+			RATE_2,
+			RATE_3,
+			RATE_4,
 			DELETE_STATE
 		)
 		VALUES
 		(
-			#{reviewNO}
+			#{reviewNo}
 			,#{email}
 			,#{reviewTitle}
 			,#{reviewContent}
-			,#{reviewDate}
+			,systimestamp
 			,#{serviceType}
 			,#{serviceId}
 			,#{viewCnt}
@@ -92,7 +94,7 @@
 			,#{rate2}
 			,#{rate3}
 			,#{rate4}
-			,#{deleteStatic}
+			,#{deleteState}
 		)
 	</insert>
 	

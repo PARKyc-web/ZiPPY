@@ -169,10 +169,10 @@
                                                 <h4>짧은 글 후기</h4>
                                             </div>
                                             <div id="used-user-review">
-                                                <textarea name="" id="" cols="140" rows="10"
-                                                    placeholder="후기를 남겨주세요"></textarea>
+                                                <textarea name="" id="" cols="140" rows="10" placeholder="후기를 남겨주세요"
+                                                    v-model="rv.reviewContent"></textarea>
                                             </div>
-                                            <div><button class="submitBtn" type="button" @click="addKey()">등록</button>
+                                            <div><button class="submitBtn" type="button" @click="addRv()">등록</button>
                                             </div>
                                         </div>
                                     </div>
@@ -195,40 +195,56 @@
         },
         data: () => ({
             data: "",
-
+            rv: {
+                reviewNo: "",
+                email: "",
+                reviewTitle: "none",
+                reviewContent: "",
+                reviewDate: "",
+                serviceType: 1,
+                serviceId: "",
+                viewCnt: 0,
+                totalRating: 3,
+                rate1: 1,
+                rate2: 2,
+                rate3: 3,
+                rate4: 4,
+                deleteState: ""
+            }
         }),
         created() {
             axios({
-                    url: "http://localhost:8090/zippy/used/main",
-                    methods: "GET",
-                    params: {
-                        location: "",
-                        keyword: "",
-                        category: "",
-                        checked: "",
-                        dropbox: ""
-                    }
-                }).then(res => {
-                    console.log(res);
-                    this.data = res.data;
-                    console.log(this.data);
-                }).catch(error => {
-                    console.log(error);
-                }),
-                axios({
-                    url: "common/showReview",
-                    methods: "GET",
-                    headers: {
-                        "Content-Type": "application/json; charset=utf-8"
-                    },
-                    data: JSON.stringify(this.data)
-                }).then(res => {
-                    console.log(res);
-                    this.data = res.data;
-                    console.log(this.data);
-                }).catch(error => {
-                    console.log(error);
-                })
+                url: "http://localhost:8090/zippy/used/main",
+                methods: "GET",
+                params: {
+                    location: "",
+                    keyword: "",
+                    category: "",
+                    checked: "",
+                    dropbox: ""
+                }
+            }).then(res => {
+                console.log(res);
+                this.data = res.data;
+                this.rv.email = this.$store.state.loginInfo.email;
+            }).catch(error => {
+                console.log(error);
+            })
+            // ,
+            // axios({
+            //     url: "common/showReview",
+            //     methods: "GET",
+            //     headers: {
+            //         "Content-Type": "application/json; charset=utf-8"
+            //     },
+            //     data: JSON.stringify(this.data)
+            // }).then(res => {
+            //     console.log(res);
+            //     this.data = res.data;
+            //     console.log(this.data);
+            // }).catch(error => {
+            //     console.log(error);
+            // })
         },
         methods: {
             goDetail(no) {
@@ -237,12 +253,12 @@
             },
             addRv: function () {
                 axios({
-                    url: "common/addReview",
-                    methods: "POST",
+                    url: "common/addRv",
+                    method: "POST",
                     headers: {
                         "Content-Type": "application/json; charset=utf-8"
                     },
-                    data: JSON.stringify(this.data)
+                    data: JSON.stringify(this.rv)
                 }).then(res => {
                     console.log(res);
                 }).catch(error => {
@@ -269,7 +285,8 @@
         float: right;
         margin: 10px 30px 10px 0;
     }
-    .submitBtn:hover{
+
+    .submitBtn:hover {
         background-color: #6dc78b;
     }
 

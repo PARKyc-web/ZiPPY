@@ -26,4 +26,5 @@ public class UsedProductVO {
   private int imageNo;
   private String image;
   private String nickName;
+  private String profileImage;
 }

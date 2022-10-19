@@ -29,7 +29,7 @@
                 <div>
                   키워드 : {{list.keyword}}, 키워드 지역 : {{list.keywordLocation}}
                   <div class="used-keyword-close">
-                    <i @click="DelKey(list.keywordNo)" class="fa-solid fa-circle-xmark"></i>
+                    <i @click="delKey(list.keywordNo)" class="fa-solid fa-circle-xmark"></i>
                   </div>
                 </div>
               </div>
@@ -125,9 +125,7 @@
           console.log(err)
         })
       },
-      DelKey: function (kNo) {
-        // var tagsNo = this.keywordValue.findIndex(i => i.productNo == productNo);
-        // console.log(tagsNo);
+      delKey: function (kNo) {
         axios({
           url: "http://localhost:8090/zippy/used/delKeyword",
           method: "DELETE",
@@ -136,11 +134,8 @@
           }
         }).then(res => {
           console.log(res.data);
-          //this.showKey.splice(kNo, 1);
           for (let i in this.showKey) {
             if (this.showKey[i].keywordNo == kNo) {
-              // console.log(i.keywordNo)
-              // console.log(this.showKey.splice(i.keyworNo, 1))
               this.showKey.splice(i, 1);
               return
             }

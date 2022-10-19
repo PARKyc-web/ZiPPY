@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +44,12 @@ public class CommonController {
   
   // 찜 삭제
   @DeleteMapping("/delWish")
-  public int delWish(@RequestParam int bNo) {
+  public int delWish(@RequestBody Map<String, List<Integer>> bNo) {
+    System.out.println("Run");
     System.out.println("bno"+bNo);
-    service.delWish(bNo);
+    for(int i =0; i<bNo.get("bNo").size(); i++) {
+      service.delWish(bNo.get("bNo").get(i));
+    }    
     return 1;
   }
   
@@ -64,7 +68,8 @@ public class CommonController {
   // 후기작성
   @PostMapping("/addRv")
   public int addReview(@RequestBody ReviewBoardVO rv) {
-    service.addReview(rv);
+//    service.addReview(rv);
+    System.out.println(rv);
     return 1;
   }
 
