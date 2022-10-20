@@ -6,7 +6,7 @@ import lombok.Data;
 public class MoveCompanyEstimateVO {
 
   //MoveEstimateVO
-  int estimateNo;
+  Integer estimateNo;
   String email;
   String dropbox2;
   String dropbox;
