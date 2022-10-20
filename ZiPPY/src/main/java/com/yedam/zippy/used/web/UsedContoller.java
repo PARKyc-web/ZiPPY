@@ -94,6 +94,9 @@ String order="product_date DESC";
   // 생성
   @PostMapping("/insert")
   public String insert(UsedProductVO product, List<MultipartFile> images) {
+    
+//    product.setMainImg(images[0]);
+    
     // 확인: 삭제 가능
     product.setProductLocation("대구");
     service.insertUsedProduct(product, images);
