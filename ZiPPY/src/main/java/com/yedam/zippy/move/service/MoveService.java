@@ -35,4 +35,7 @@ public interface MoveService {
   
   //견적서 조회 - 업체
   public List<MoveResponseVO> companyEstimate(MoveCompanyEstimateVO vo);
+  
+  //받은 견적 조회 - 사용자
+  public List<MoveMyListVO> getMyEstimateList(MoveMyListVO vo);
 }

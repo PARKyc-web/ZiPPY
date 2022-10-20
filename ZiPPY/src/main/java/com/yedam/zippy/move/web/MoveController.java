@@ -1,7 +1,6 @@
 package com.yedam.zippy.move.web;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -9,12 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.zippy.move.service.MoveCompanyEstimateVO;
 import com.yedam.zippy.move.service.MoveEstimateVO;
+import com.yedam.zippy.move.service.MoveMyListVO;
 import com.yedam.zippy.move.service.MoveRequestVO;
 import com.yedam.zippy.move.service.MoveResponseVO;
 import com.yedam.zippy.move.service.MoveService;
@@ -119,5 +118,12 @@ public class MoveController {
     return service.getEstimateResult(vo);
   }
 
+  //사용자가 받은 견적 리스트 확인
+  @GetMapping("/moveMyList")
+  public List<MoveMyListVO> getMyEstimateList(MoveMyListVO vo){
+    System.out.println("MoveMyListVO : "+vo);
+    return service.getMyEstimateList(vo);
+  }
+  
   
 }

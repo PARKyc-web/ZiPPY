@@ -35,11 +35,12 @@ import moveTypeSelect from "../views/move/moveTypeSelect";
 import moveImage from "../views/move/moveImage";
 import moveTotal from "../views/move/moveTotal";
 import moveEstimate from "../views/move/moveEstimate";
-import moveCompanyList from "../views/move/moveCompanyList";
+import moveMyList from "../views/move/moveMyList";
 import moveResult from "../views/move/moveResult";
 import moveMain from "../views/move/moveMain";
 import moveCompanyEstimate from "../views/move/moveCompanyEstimate";
 import moveCompanyMy from "../views/move/moveCompanyMy";
+import moveMyReserve from "../views/move/moveMyReserve";
 
 import usedUpdate from "../views/used/usedUpdate.vue";
 import usedDetail from "../views/used/usedDetail.vue";
@@ -257,9 +258,9 @@ const routes = [
     props: true,
   },
   {
-    path: "/moveCompanyList",
-    name: "moveCompanyList",
-    component: moveCompanyList,
+    path: "/moveMyList",
+    name: "moveMyList",
+    component: moveMyList,
     props: true,
   },
   {
@@ -284,6 +285,12 @@ const routes = [
     path: "/moveCompanyMy",
     name: "moveCompanyMy",
     component: moveCompanyMy,
+    props: true,
+  },
+  {
+    path: "/moveMyReserve",
+    name: "moveMyReserve",
+    component: moveMyReserve,
     props: true,
   },
 
