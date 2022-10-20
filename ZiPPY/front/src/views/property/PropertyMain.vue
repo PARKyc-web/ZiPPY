@@ -1,6 +1,6 @@
 <template>
   <div>
-    <property-main-toolbar :sigungu="sigungu" @get-property-list="searchEvent" />
+    <property-main-toolbar :sigungu="sigungu" @search-property-list="searchPropertyList" />
     <div id="container">
       <section>
         <div id="map" class="map">
@@ -179,6 +179,8 @@
                 // ex) 대구광역시 중구 남산1동 -> 대구광역시 중구 남산동
                 for (let i = 1; i < 10; i++) {
                   initThis.sigungu = initThis.sigungu.replace(i + '동', '동');
+                  initThis.sigungu = initThis.sigungu.replace(i + '.동', '동');
+                  initThis.sigungu = initThis.sigungu.replace(i + '가', '');
                 }
                 // currentPositionAptList(initThis.sigungu);
                 break;
@@ -308,7 +310,39 @@
             console.log('currentPositionAptList fail!');
             console.log(error);
           });
-      },
+        },
+        searchPropertyList(data) {
+          console.log('hi', data.houseType,data.saleType, data.year, data.minSize, data.sigungu + '%');
+          
+        axios({
+            url: "http://localhost:8090/zippy/property/searchPropertyList",
+            methods: "GET",
+            params: {
+              houseType: data.houseType,
+              saleType: data.saleType + '%',
+              constructionYear: data.year,
+              minPrice: 0,//data.minPrice,
+              maxPrice: 99999,//data.maxPrice,
+              minSize: data.minSize,
+              maxSize: data.maxSize,
+              sigungu: data.sigungu + '%'
+            }
+          }).then(response => {
+            // 성공했을 때
+            console.log('searchPropertyList success!');
+            console.log(response);
+            this.houseProducts = response.data;
+          })
+          .catch(error => {
+            // 에러가 났을 때
+            console.log('searchPropertyList fail!');
+            console.log(error);
+          });
+          
+          
+
+
+      }
     }
   };
 </script>

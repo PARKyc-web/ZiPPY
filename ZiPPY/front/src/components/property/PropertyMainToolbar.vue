@@ -1,7 +1,7 @@
 <template>
   <v-toolbar elevation="4" style="margin-bottom:5px">
     <div style="width: 75vw">
-      <v-btn-toggle v-model="houseType" tile color="green lighten-1" group>
+      <v-btn-toggle v-model="data.houseType" tile color="green lighten-1" group>
         <v-btn value="아파트">아파트</v-btn>
         <v-btn value="빌라">빌라</v-btn>
         <v-btn value="오피스텔">오피스텔</v-btn>
@@ -22,7 +22,7 @@
               <v-container fluid>
                 <v-row>
                   <v-col cols="12" sm="6">
-                    <v-select :items="['전체', '매매', '전세', '월세']" label="거래유형" required v-model="saleType"></v-select>
+                    <v-select :items="['전체', '매매', '전세', '월세']" label="거래유형" required v-model="data.saleType"></v-select>
                   </v-col>
                   <v-col cols="12" sm="6">
                     <v-select :items="['전체', '1년 이내', '5년 이내', '10년 이내', '15년 이내']" label="준공년도" required
@@ -31,8 +31,10 @@
                   </v-col>
                   <v-col cols="12" class="py-2">
                     <p>면적</p>
-                    <v-btn-toggle v-model="houseSize" tile color="green lighten-1" group class="d-flex flex-row">
-                      <v-btn class="flex-grow-1" value="0">전체</v-btn>
+                    <div style="width:100%">
+
+                      <v-btn-toggle v-model="houseSize" tile color="green lighten-1" group class="d-flex flex-row">
+                        <v-btn class="flex-grow-1" value="0">전체</v-btn>
                       <v-btn class="flex-grow-1" value="1">10평 이하</v-btn>
                       <v-btn class="flex-grow-1" value="2">10평대</v-btn>
                       <v-btn class="flex-grow-1" value="3">20평대</v-btn>
@@ -43,16 +45,18 @@
                       <v-btn class="flex-grow-1" value="6">50평대</v-btn>
                       <v-btn class="flex-grow-1" value="7">60평 이상</v-btn>
                     </v-btn-toggle>
+                  </div>
                   </v-col>
+                  <p>가격</p>
                   <v-col cols="12" class="px-4">
-                    <v-range-slider v-model="priceRange" :max="data.priceMax" :min="data.priceMin" hide-details
+                    <v-range-slider min="0" max="999999" hide-details
                       class="align-center" step="100" thumb-label :thumb-size="50">
                       <template v-slot:prepend>
-                        <v-text-field :value="priceRange[0]" class="mt-0 pt-0" hide-details single-line type="number"
+                        <v-text-field v-model="priceRange[0]" class="mt-0 pt-0" hide-details single-line type="number"
                           style="width: 60px" @change="$set(priceRange, 0, $event)"></v-text-field>
                       </template>
                       <template v-slot:append>
-                        <v-text-field :value="priceRange[1]" class="mt-0 pt-0" hide-details single-line type="number"
+                        <v-text-field v-model="priceRange[1]" class="mt-0 pt-0" hide-details single-line type="number"
                           style="width: 60px" @change="$set(priceRange, 1, $event)"></v-text-field>
                       </template>
                     </v-range-slider>
@@ -99,18 +103,21 @@
     data() {
       return {
         dialog: false,
-        tags: '',
+        constructionYear: '전체',
         sizeLevel: [0, 6],
         priceRange: [0, 999999],
         houseSize: 0,
+        tags: '',
         data: {
           houseType: '아파트',
           saleType: '전체',
-          constructionYear: '전체',
           minSize: 0,
-          maxSize: 0,
-          priceMin: 0,
-          priceMax: 999999,
+          maxSize: 999999,
+          minPrice: 0,
+          maxPrice: 999999,
+          tagsToString: '',
+          year: 1000,
+          sigungu: ''
         }
       }
     },
@@ -118,7 +125,7 @@
       save() {
         this.dialog = false;
 
-        let year = new Date().getFullYear();
+        this.data.year = new Date().getFullYear();
         switch (this.constructionYear) {
           case '1년 이내':
             year -= 1;
@@ -136,51 +143,54 @@
             year -= 1000;
             break;
         }
-
-        switch (houseSize) {
+        switch (parseInt(this.houseSize)) {
           case 0: // 전체 
-            data.minSize = 0;
-            data.maxSize = 10000;
+            this.data.minSize = 0;
+            this.data.maxSize = 10000;
             break;
           case 1: // 10평 이하
-            data.minSize = 0;
-            data.maxSize = 33;
+            this.data.minSize = 0;
+            this.data.maxSize = 33;
             break;
           case 2: // 10평대
-            data.minSize = 33;
-            data.maxSize = 66;
+            this.data.minSize = 33;
+            this.data.maxSize = 66;
             break;
           case 3: // 20평대
-            data.minSize = 66;
-            data.maxSize = 99;
+            this.data.minSize = 66;
+            this.data.maxSize = 99;
             break;
           case 4: // 30평대
-            data.minSize = 99;
-            data.maxSize = 132;
+            this.data.minSize = 99;
+            this.data.maxSize = 132;
             break;
           case 5: // 40평대
-            data.minSize = 132;
-            data.maxSize = 165;
+            this.data.minSize = 132;
+            this.data.maxSize = 165;
             break;
           case 6: // 50평대
-            data.minSize = 165;
-            data.maxSize = 198;
+            this.data.minSize = 165;
+            this.data.maxSize = 198;
             break;
           case 7: // 60평 이상
-            data.minSize = 198;
-            data.maxSize = 10000;
+            this.data.minSize = 198;
+            this.data.maxSize = 10000;
             break;
         }
 
         let tagsToString = '';
         for (let i = 0; i < this.tags.length; i++) {
-          tagsToString += this.tags[i] + '/';
+          this.data.tagsToString += this.tags[i] + '/';
         }
-        console.log(tagsToString);
-
       },
       sendData() {
-        this.$emit("get-property-list", this.sigungu);
+        this.data.sigungu = this.sigungu;
+        if(this.data.saleType == '전체') {
+          this.data.saleType = '';
+        }
+        this.$emit("search-property-list", this.data);
+        console.log(this.data);
+        console.log(this.sigungu);
       },
     }
   }

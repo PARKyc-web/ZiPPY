@@ -176,8 +176,7 @@
 		d.product_id
 		where p.house_type = #{houseType}
 		and
-		p.sale_type =
-		#{saleType}
+		p.sale_type like #{saleType}
 		and
 		<![CDATA[
 		d.construction_year > #{constructionYear}
@@ -186,6 +185,6 @@
 		p.area_exclusive > #{minSize} and p.area_exclusive < #{maxSize}		
 		]]>
 		and
-		p.sigungu = #{sigungu};
+		p.sigungu like #{sigungu}
 	</select>
 </mapper>
