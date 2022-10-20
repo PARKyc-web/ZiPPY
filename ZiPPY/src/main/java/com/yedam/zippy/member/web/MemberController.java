@@ -1,12 +1,13 @@
 package com.yedam.zippy.member.web;
 
-import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,9 +50,25 @@ public class MemberController {
       return "Congratulations";
     }
     
-    @GetMapping("mypage")
+    @GetMapping("/mypage")
     public Object getUserInfo(String email, int memberType) {
       return service.getMember(email, memberType);
+    }
+    
+    /**
+     * 비밀번호를 변경하는 메소드
+     * @param login
+     * @return 
+     */
+    @PutMapping("/password")
+    public boolean changePassword(@RequestBody Map<String, String> data) {
+      System.out.println(data);
+
+      LoginVO login = new LoginVO();
+      login.setEmail(data.get("email"));
+      login.setPassword(data.get("password"));
+      
+      return service.changePassword(login, data.get("newPassword"));
     }
 
 }

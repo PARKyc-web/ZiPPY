@@ -37,9 +37,18 @@ import com.yedam.zippy.common.service.ReviewBoardVO;
 @RestController
 @RequestMapping("/common")
 public class CommonController {
-
+  
   @Autowired
   CommonService service;
+  
+  private final String imagePath = "";
+  
+//  private final String propertyPath = "";
+//  private final String memberPath = "";
+//  private final String usedPath = "";
+//  private final String movePath = "";  
+//  private final String shopPath = "";  
+    
 
   // 찜 추가
   @PostMapping("/addWish")
@@ -84,13 +93,16 @@ public class CommonController {
   public List<ReviewBoardVO> showReview(@RequestBody ReviewBoardVO rv) {
     return service.showReview(rv);
   }  
-
  
-  @GetMapping("img/{image}")
-  public void getImage(HttpServletResponse response, @PathVariable String image) throws Exception {
+  @GetMapping("img/{type}/{image}")
+  public void getImage(HttpServletResponse response, @PathVariable String type, @PathVariable String image) throws Exception {
+//    , @PathVariable int type
     try {
-      String path = "C:/dev/image/" + image; // 경로에 접근할 때 역슬래시('\') 사용
-
+      String path = "C:/dev/image/" + type + "/" + image; // 경로에 접근할 때 역슬래시('\') 사용    
+      
+      System.out.println(type);
+      System.out.println(image);
+      
       File file = new File(path);
       response.setHeader("Content-Disposition", "attachment;filename=" + file.getName()); // 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를
                                                                                           // 알려주는 헤더

@@ -145,17 +145,20 @@ public class MemberServiceImpl implements MemberService{
       return imagePath;      
     }
         
+    
     @Override
     public Object findUserByEmail(String email) {  
         return mapper.getLoginInfo(email);
     }
     
+    
     @Override
-    public void changePassword(LoginVO login) {
+    public void takeNewPassword(LoginVO login) {
         System.out.println("===== 새로운 비밀번호는 이거다!! >> " + login.getPassword());
         login.setPassword(encodingPassword(login.getPassword()));
         mapper.changePassword(login);
     }       
+    
     
     private String encodingPassword(String password) {        
       StringBuffer sb = new StringBuffer();
@@ -176,6 +179,7 @@ public class MemberServiceImpl implements MemberService{
       return sb.toString();       
     }
     
+    
     @Override
     public String findUserEmail(String userName, String phoneNumber) {      
       String userEmail ="";      
@@ -186,5 +190,21 @@ public class MemberServiceImpl implements MemberService{
       }
       
       return userEmail;
+    }
+    
+    
+    @Override
+    public boolean changePassword(LoginVO info, String password) {
+      
+      LoginVO lVO = mapper.getLoginInfo(info.getEmail());      
+      // 기존 패스워드가 같다면
+      
+      if(lVO.getPassword().equals(encodingPassword(info.getPassword()))) {        
+        info.setPassword(encodingPassword(password));
+        mapper.changePassword(info);
+        return true;
+      }            
+      
+      return false;
     }
 }

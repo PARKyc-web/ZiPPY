@@ -118,7 +118,7 @@
 
       getTime: function () {
         var now = new Date();
-        var str = "" + now.getFullYear() + "/" + now.getMonth() + "/" + now.getDate() + "-" +
+        var str = "" + now.getFullYear() + "/" + (now.getMonth()+1) + "/" + now.getDate() + "-" +
           now.getHours() + ":" + now.getMinutes()
 
         return str;
