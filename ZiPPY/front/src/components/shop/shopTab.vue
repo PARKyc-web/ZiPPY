@@ -18,9 +18,8 @@
         <!-- 상품정보 -->
         <v-tab-item>
           <v-card>
-            <v-card flat style="width:8100px">
+            <v-card flat style="width:810px; min-height:400px">
               <v-card-text>
-                {{this.pno}}
                 {{product.proInfo}}
               </v-card-text>
             </v-card>
@@ -131,12 +130,13 @@
                             <v-container>
                               <v-row>
                                 <v-col cols="11">
-                                  <v-select :items="['상품문의', '배송문의', '기타문의']" label="문의 유형을 선택해주세요" required>
+                                  <v-select :items="qCate" v-model="selectQcate" label="문의 유형을 선택해주세요" required>
                                   </v-select>
                                 </v-col>
                                 <v-col cols="12">
                                   문의내용
-                                  <v-textarea solo name="input-7-4" label="문의내용을 입력해주세요"></v-textarea>
+                                  <v-textarea solo v-model="qContent" name="input-7-4" label="문의내용을 입력해주세요">
+                                  </v-textarea>
                                 </v-col>
                               </v-row>
                             </v-container>
@@ -154,10 +154,10 @@
                           </v-card-text>
                           <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn color="#212529" text @click="dialog = false">
+                            <v-btn color="#212529" text @click="closeQna">
                               닫기
                             </v-btn>
-                            <v-btn color="#212529" text @click="dialog = false">
+                            <v-btn color="#212529" text @click="insertQna">
                               등록
                             </v-btn>
                           </v-card-actions>
@@ -170,24 +170,26 @@
                 <div>
                   <!-- 아코디언 -->
                   <v-expansion-panels>
-                    <v-expansion-panel v-for="(item,i) in 5" :key="i">
-                      <v-expansion-panel-header>
+                    <v-expansion-panel v-for="(item,index) in qnas" :key="index" expand>
+                      <v-expansion-panel-header expand-icon="">
                         <div id="qna-title">
-                          <p style="padding-right:5px">완료</p>|
-                          <p style="padding-left:5px">상품문의입니다.</p>
+                          <p style="padding-right:5px" v-if="item.answerStatus==0">답변대기</p>
+                          <p style="padding-right:5px" v-if="item.answerStatus==1">답변완료</p>
+                          <p>| {{item.questionCate}}입니다.</p>
                           <div id="user-info" class="ml-auto">
-                            <p>yed***@gmail.com</p>|
-                            <p>2022.10.04</p>
+                            <p>{{item.email}}</p>|
+                            <p>{{item.questionDate}}</p>
                           </div>
                         </div>
                       </v-expansion-panel-header>
                       <v-expansion-panel-content>
                         <div class="qna" id=qna-q>
-                          <p>상품이 이상해요</p>
+                          <p>{{item.question}}</p>
                         </div>
                         <div class="qna" id="qna-a">
                           <p>
-                            <v-icon class="mr-4 mb-2">mdi-subdirectory-arrow-right</v-icon>그럴리가
+                            <v-icon v-if="item.answer" class="mr-4 mb-2">mdi-subdirectory-arrow-right</v-icon>
+                            {{item.answer}}
                           </p>
                         </div>
                       </v-expansion-panel-content>
@@ -219,6 +221,7 @@
 
 <script>
   import axios from 'axios';
+  import swal from 'sweetalert2';
 
   export default {
     props: ['pno'],
@@ -228,31 +231,93 @@
       page: 1,
       tabs: null,
       dialog: false,
-      product: {}
+      product: {},
+      proNo: '',
+
+      //조회한 qna
+      qnas: [],
+
+      //qna 등록
+      //qna 카테고리
+      qCate: ['상품문의', '배송문의', '기타문의'],
+      //선택 카테고리
+      selectQcate: '',
+      //질문 내용
+      qContent: ''
     }),
-    // created() {
-    //   //단건조회
-    //   axios({
-    //     url: "/shop/detail",
-    //     method: "GET",
-    //     params: {
-    //       no: this.$route.query.no
+    created() {
+      //단건조회
+      axios({
+        url: "/shop/getQnaList",
+        method: "GET",
+        params: {
+          pno: this.pno
+        }
+      }).then(res => {
+        console.log(res);
+        this.qnas = res.data;
+        console.log(this.qnas);
+      }).catch(error => {
+        console.log(error);
+      })
+    },
+    methods: {
+      insertQna() {
+        if (this.$store.state.loginInfo != null) {
+          axios({
+            url: "/shop/insertQna",
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            data: {
+              email: this.$store.state.loginInfo.email,
+              proNo: this.pno,
+              question: this.qContent,
+              questionCate: this.selectQcate
+            }
+          }).then(res => {
+            swal.fire({
+              icon: 'success',
+              title: '문의를 작성하였습니다.',
+              showConfirmButton: false,
+              timer: 1500
+            });
+            this.dialog = false;
+            this.resetQna();
+          }).catch(error => {
+            console.log(error);
+          })
+        }
+      },
+      closeQna(){
+        this.dialog = false;
+        this.resetQna();
+      },
+      resetQna(){
+        this.qContent = '',
+        this.selectQcate = ''
+      }
+    },
+    // computed: {
+    //   aStatus() {
+    //     var status = '';
+    //     if(this.qnas.questionStatus == 0) {
+    //       status = '답변대기'
+    //       return status
+    //     }else {
+    //       status = '답변완료'
+    //       return status
     //     }
-    //   }).then(res => {
-    //     console.log(res);
-    //     this.product = res.data;
-    //     console.log(this.product);
-    //   }).catch(error => {
-    //     console.log(error);
-    //   })
+    //   }
     // }
   }
 </script>
 
 <style scoped>
-/* 리뷰 */
-#star-box {
-    width: 8100px;
+  /* 리뷰 */
+  #star-box {
+    width: 810px;
     text-align: center;
     display: flex;
   }
@@ -343,5 +408,9 @@
 
   #qna-title p {
     margin: 0;
+  }
+
+  .v-expansion-panel-header__icon {
+    display: none;
   }
 </style>

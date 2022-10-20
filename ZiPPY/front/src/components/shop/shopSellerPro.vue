@@ -80,7 +80,6 @@
         let outside = this;
         if (st == 0) {
           swal.fire({
-            position: 'top-end',
             icon: 'success',
             title: '해당 상품을 판매중지하시겠습니까?',
             showConfirmButton: true,
@@ -99,7 +98,6 @@
           });
         } else {
           swal.fire({
-            position: 'top-end',
             icon: 'success',
             title: '해당 상품을 다시 판매하시겠습니까?',
             showConfirmButton: true,
@@ -156,14 +154,14 @@
       },
       //상품명/상품번호 검색(조건조회)
       enterkey() {
+        var searchValue = document.querySelector("#search").value;
         if (window.event.keyCode == 13) {
-          var searchValue = document.querySelector("#search").value;
           //키워드 상품 조회
           axios({
             url: "/shop/myProList",
             method: "POST",
             data: {
-              email: 'shop@mail.com'
+              email: this.$store.state.loginInfo.email
             },
             params : {
               keyword : searchValue
@@ -185,7 +183,7 @@
         url: "/shop/myProList",
         method: "POST",
         data: {
-          email: 'shop@mail.com'
+          email: this.$store.state.loginInfo.email
         },
         method: "POST",
       }).then(res => {

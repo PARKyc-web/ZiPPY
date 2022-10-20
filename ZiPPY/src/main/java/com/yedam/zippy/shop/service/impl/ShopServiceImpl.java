@@ -17,6 +17,7 @@ import com.yedam.zippy.shop.service.ProductImgVO;
 import com.yedam.zippy.shop.service.ProductOptionVO;
 import com.yedam.zippy.shop.service.ProductVO;
 import com.yedam.zippy.shop.service.PurchaseVO;
+import com.yedam.zippy.shop.service.QnaVO;
 import com.yedam.zippy.shop.service.ShopService;
 import com.yedam.zippy.used.service.UsedImagesVO;
 
@@ -106,11 +107,6 @@ public class ShopServiceImpl implements ShopService {
   @Override
   public void insertOrder(OrderVO orderVO) {
     mapper.insertOrder(orderVO);
-  }
-
-  @Override
-  public void getHeart(String email) {
-    mapper.getHeart(email);
   }
 
   @Override
@@ -252,5 +248,30 @@ public class ShopServiceImpl implements ShopService {
   @Override
   public List<OrderVO> getMyOrdList(ProductVO productVO, String keyword) {
     return mapper.getMyOrdList(productVO, keyword);
+  }
+
+  @Override
+  public void updateOrdStatus(OrderVO ordreVO) {
+    mapper.updateOrdStatus(ordreVO);
+  }
+
+  @Override
+  public void insertQna(QnaVO qnaVO) {
+    mapper.insertQna(qnaVO);
+  }
+
+  @Override
+  public List<QnaVO> getQnaList(int proNo) {
+    return mapper.getQnaList(proNo);
+  }
+
+  @Override
+  public OrderVO getMyOrder(OrderVO orderVO) {
+    return mapper.getMyOrder(orderVO);
+  }
+
+  @Override
+  public List<OrderVO> getMyOrderList(OrderVO orderVO) {
+    return mapper.getMyOrderList(orderVO);
   }
 }

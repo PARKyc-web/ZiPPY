@@ -1,7 +1,6 @@
 <template>
   <div>
-    <shop-seller-pro></shop-seller-pro>
-    <shop-seller-order></shop-seller-order>
+    <shop-order-list></shop-order-list>
   </div>
 </template>
 
@@ -16,6 +15,8 @@
   import shopSellerPro from "@/components/shop/shopSellerPro.vue";
   import shopSellerOrder from "@/components/shop/shopSellerOrder.vue";
   import ShopSellerPro from '../components/shop/shopSellerPro.vue';
+  import orderSheet from '@/components/shop/orderSheet.vue';
+  import shopOrderList from '@/components/shop/shopOrderList.vue';
 
   export default {
     name: "shop",
@@ -29,7 +30,9 @@
       shopInsertPro,
       shopSellerPro,
       shopSellerOrder,
-      ShopSellerPro
+      ShopSellerPro,
+      orderSheet,
+      shopOrderList
     },
   };
 </script>

@@ -9,22 +9,18 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 @Data
-public class OrderVO {
-  int OrderNo;
-  String email;
-  String payCode;
-  String payMethod;
-  String amount;
-  String buyerName;
-  String buyerTel;
-  String buyerAddr;
-  String buyerZipcode;
-  String orderMemo;
-  String orderStatus;
+public class QnaVO {
+  private int qnaNo;
+  private String email;
+  private int proNo;
+  private String question;
+  private String answer;
+  private int answerStatus;
   @JsonFormat(pattern = "yy-MM-dd")
   @DateTimeFormat(pattern="yy-MM-dd")
-  Date OrderDate;
+  private Date questionDate;
   @JsonFormat(pattern = "yy-MM-dd")
   @DateTimeFormat(pattern="yy-MM-dd")
-  Date deliveryDate;
+  private Date answerDate;
+  private String questionCate;
 }

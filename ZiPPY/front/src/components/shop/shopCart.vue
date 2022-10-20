@@ -7,8 +7,10 @@
     <v-data-table v-model="selected" :headers="headers" :items="products" :single-select="singleSelect"
       item-key="cartNo" show-select style="text-align:center" class="elevation-1">
       <!-- 상품명 -->
-      <template v-slot:item.productVO.proName="{ item }" @click="goDetail(item.cartPno)">
-        {{ item.productVO.proName }}
+      <template v-slot:item.productVO.proName="{ item }">
+        <div @click="goDetail(item.cartPno)">
+          {{ item.productVO.proName }}
+        </div>
       </template>
       <!-- 이미지 -->
       <template v-slot:item.productVO.proMainImg="{ item }">
@@ -51,7 +53,7 @@
         </v-btn>
       </div>
       <div class="ml-auto pa-5">
-        <h5>총 주문금액 <span style="font-weight:bold">{{ countAmount | comma }}</span>원</h5>
+        <h6>총 주문금액 <span style="font-weight:bold">{{ countAmount | comma }}</span>원</h6>
       </div>
     </div>
     <!-- 삭제 총금액 끝 -->
@@ -189,7 +191,7 @@
       },
       //payCode 생성
       makePayCode() {
-        var arr = new Uint32Array(1);
+        var arr = new Uint32Array(10);
         this.randNum = window.crypto.getRandomValues(arr);
         this.payCode = this.randNum[0]+new Date().getTime();
       },
@@ -292,4 +294,9 @@
   .v-image :hover {
     cursor: pointer;
   }
+
+  .text-상품명 :hover{
+    cursor: pointer;
+  }
+
 </style>

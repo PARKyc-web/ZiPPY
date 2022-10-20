@@ -13,6 +13,7 @@ import com.yedam.zippy.shop.service.ProductImgVO;
 import com.yedam.zippy.shop.service.ProductOptionVO;
 import com.yedam.zippy.shop.service.ProductVO;
 import com.yedam.zippy.shop.service.PurchaseVO;
+import com.yedam.zippy.shop.service.QnaVO;
 
 public interface ShopMapper {
   // 상품 CRUD
@@ -33,9 +34,6 @@ public interface ShopMapper {
 
   // 디테일 옵션 조회
   public List<ProductOptionVO> getDetailOpt(int proNo);
-
-  // 찜 여부 조회
-  public void getHeart(String email);
 
   // 장바구니 CRUD
   // 등록(from 장바구니)
@@ -69,6 +67,10 @@ public interface ShopMapper {
 
   // 주문등록
   public void insertOrder(OrderVO orderVO);
+  // 주문서 단건조회
+  public List<OrderVO> getMyOrderList(OrderVO orderVO);
+  //주문서 조회
+  public OrderVO getMyOrder(OrderVO orderVO);
 
   // 판매자 CRUD
   // 상품등록
@@ -89,4 +91,10 @@ public interface ShopMapper {
   public int deleteImg(int ProNo);
   //판매내역 조회(전체조회)
   public List<OrderVO> getMyOrdList(@Param("product")ProductVO productVO, @Param("keyword")String keyword);
+  //주문상태 수정
+  public void updateOrdStatus(OrderVO ordreVO);
+  //qna 등록
+  public void insertQna(QnaVO qnaVO);
+  //qna 조회
+  public List<QnaVO> getQnaList(int proNo);
 }

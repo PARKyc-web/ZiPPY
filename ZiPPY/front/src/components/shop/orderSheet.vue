@@ -7,54 +7,39 @@
     <table width="100%">
       <tbody>
         <tr>
-          <td style="font-weight:bold">배송지 선택</td>
+          <td style="font-weight:bold">주문번호</td>
           <td>
-            <b-form-group v-slot="{ ariaDescribedby }">
-              <b-form-radio-group v-model="selected" :options="options" :aria-describedby="ariaDescribedby"
-                name="plain-inline" plain></b-form-radio-group>
-            </b-form-group>
+            paycode
+          </td>
+        </tr>
+        <tr>
+          <td style="font-weight:bold">결제완료일</td>
+          <td>
+            22-04-05
+          </td>
+        </tr>
+        <tr>
+          <td style="font-weight:bold">배송시작일</td>
+          <td>
+            22-04-05
           </td>
         </tr>
         <tr>
           <td style="font-weight:bold">수령인</td>
-          <td v-if="selected==0">{{myInfo.userName}}</td>
-          <td v-if="selected==1">
-            <b-form-input v-model="text" placeholder="이름"></b-form-input>
-          </td>
+          <td>{{myInfo.userName}}</td>
         </tr>
         <tr>
           <td style="font-weight:bold">전화번호</td>
-          <td v-if="selected==0">{{myInfo.phoneNumber}}</td>
-          <td v-if="selected==1">
-            <div id="phoneNum">
-              <b-form-input v-model="text"></b-form-input>
-              <b-form-input v-model="text"></b-form-input>
-              <b-form-input v-model="text"></b-form-input>
-            </div>
-          </td>
+          <td>{{myInfo.phoneNumber}}</td>
         </tr>
         <tr>
           <td style="font-weight:bold">배송지주소</td>
-          <td v-if="selected==0">({{myInfo.zipCode}}){{myInfo.userAddress}}</td>
-          <td v-if="selected==1">
-            <div id="address" style="display:flex">
-              <b-form-input v-model="text" class="mb-2"></b-form-input>
-              <v-btn class="ml-10" height="30" depressed color=#B3E3C3>
-                주소찾기
-              </v-btn>
-            </div>
-            <b-form-input class="mb-2" v-model="text"></b-form-input>
-            <div id="address">
-              <b-form-input v-model="text" placeholder="상세주소를 입력해주세요"></b-form-input>
-            </div>
-          </td>
+          <td>({{myInfo.zipCode}}){{myInfo.userAddress}}</td>
         </tr>
         <tr>
           <td style="font-weight:bold">배송지메모</td>
           <td>
-            <!-- 옵션 -->
-            <v-select v-model="selectedMemo" :items="orderMemos" item-text="text" item-value="value"
-                label="배송지메모" return-object dense outlined style="width:350px"></v-select>
+            배송지메모
           </td>
         </tr>
         <tr>
@@ -69,6 +54,7 @@
                 <tr style="font-weight:bold">
                   <td class="pl-9">상품명</td>
                   <td></td>
+                  <td>주문상태</td>
                   <td>옵션</td>
                   <td>스토어</td>
                   <td>가격</td>
@@ -82,6 +68,9 @@
                       :src="require(`../../assets/shop/productImg/${product.productVO.proMainImg}.jpg`)"
                       style="cursor:default"></v-img>
                   </td>
+                  <td>주문상태<v-btn class="mr-2" width="160" outlined color="#64c481" @click="">
+                      후기작성
+                    </v-btn></td>
                   <td>{{product.optName}}</td>
                   <td>{{product.productVO.compName}}</td>
                   <td>{{product.purPrice | comma}}</td>
@@ -97,40 +86,14 @@
             총 주문금액 <span style="font-weight:bold; font-size:20px">{{countAmount}}</span>원
           </td>
         </tr>
-        <tr>
-          <td style="font-weight:bold">결제정보</td>
-        </tr>
-        <tr>
-          <td style="font-weight:bold">결제수단</td>
+        <tr style="border-bottom:thin solid rgb(0, 0, 0, 0.12)">
+          <td style="font-weight:bold;">결제수단</td>
           <td>
-            <v-btn class="mr-5" depressed color=#B3E3C3>
-              신용카드
-            </v-btn>
-            <v-btn class="mr-5" depressed color=#B3E3C3>
-              실시간계좌이체
-            </v-btn>
-            <v-btn class="mr-5" depressed color=#B3E3C3>
-              가상계좌
-            </v-btn>
-            <v-btn class="mr-5" depressed color=#B3E3C3>
-              휴대폰 결제
-            </v-btn>
+           신용카드
           </td>
-        </tr>
-        <tr style="border-bottom : thin solid rgb(0, 0, 0, 0.12);">
-          <td style="font-weight:bold">주문자동의</td>
-          <td>회원 본인은 구매 조건, 주문 내용 확인 및 결제에 동의합니다.
-            <br>개인정보 수집 및 이용 동의 자세히
-            <br>개인정보 제 3자 제공 동의 자세히
-            <br>전자결제대행 이용 동의 자세히</td>
         </tr>
       </tbody>
     </table>
-    <div class="mx-auto pt-5" style="width:200px; margin-top:30px; margin-bottom:100px">
-      <v-btn depressed color=#B3E3C3 style="width:150px; font-size:larger" @click="payItem">
-        결제하기
-      </v-btn>
-    </div>
   </div>
 </template>
 
@@ -178,68 +141,6 @@
         }
         ],
         products: [],
-      }
-    },
-    methods: {
-      payItem() {
-        var IMP = window.IMP;
-        let outside = this;
-        var countPros = '';
-        if (this.products.length > 1) {
-          countPros += ' 외 ' + (this.products.length - 1) + '건'
-        }
-
-        IMP.init("imp22120243")
-        IMP.request_pay({ // param
-          pg: "html5_inicis",
-          pay_method: "card",
-          merchant_uid: outside.products[0].payCode,
-
-          name: outside.products[0].productVO.proName + countPros,
-          amount: //outside.countAmount,
-            '1000',
-          buyer_email: outside.myInfo.email,
-          buyer_name: outside.myInfo.userName,
-          buyer_tel: outside.myInfo.phoneNumber,
-          buyer_addr: outside.myInfo.userAddress,
-          buyer_postcode: outside.myInfo.zipCode
-        }, rsp => { // callback
-          if (rsp.success) {
-          
-            alert('결제가 완료되었습니다.')
-            //서버에 결제 정보 저장 
-            axios({
-              url: "/shop/insertOrder",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              method: "POST",
-              data: {
-                email: outside.myInfo.email,
-                payCode: outside.products[0].payCode,
-                payMethod: "card",
-                amount: outside.countAmount,
-                buyerName: outside.myInfo.userName,
-                buyerTel: outside.myInfo.phoneNumber,
-                buyerAddr: outside.myInfo.userAddress,
-                buyerZipcode: outside.myInfo.zipCode,
-                orderMemo: outside.selectedMemo.value
-              }
-            }).then(res => {
-              console.log(res);
-              this.$router.push({
-                name: 'orderComplete',
-                query: {
-                  payCode: outside.products[0].payCode
-                }
-              })
-            }).catch(error => {
-              console.log(error);
-            })
-          } else {
-            console.log(rsp.error_msg)
-          }
-        });
       }
     },
     created() {

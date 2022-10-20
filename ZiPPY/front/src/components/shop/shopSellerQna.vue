@@ -52,7 +52,7 @@
     methods: {
     },
     created() {
-      //전체 장바구니 조회
+      //전체 qna 조회 // 수정해야함
       axios({
         url: "/shop/myCartList",
         method: "POST",

@@ -32,9 +32,6 @@ public interface ShopService {
   // 디테일 옵션 조회
   public List<ProductOptionVO> getDetailOpt(int proNo);
 
-  // 찜 여부 조회
-  public void getHeart(String email);
-
   // 장바구니 CRUD
   // 등록
   public void insertCart(CartVO cartVO);
@@ -63,7 +60,10 @@ public interface ShopService {
 
   // 주문등록
   public void insertOrder(OrderVO orderVO);
-
+  // 주문서 단건조회
+  public List<OrderVO> getMyOrderList(OrderVO orderVO);
+  // 주문서 단건조회
+  public OrderVO getMyOrder(OrderVO orderVO);
   // 판매자 CRUD
   //상품등록
   public void insertProduct(ProductVO productVO, List<ProductOptionVO> options, MultipartFile image, List<MultipartFile> images);
@@ -71,8 +71,8 @@ public interface ShopService {
   public String proMainImg(MultipartFile image);
   // 상세이미지 등록
   public ProductImgVO[] proImgs(List<MultipartFile> images);
-//  //등록 상품 조회(전체조회)
-//  public List<ProductVO> getMyProList(ProductVO productVO);
+  //  //등록 상품 조회(전체조회)
+  //  public List<ProductVO> getMyProList(ProductVO productVO);
   //등록 상품 조회(전체조회)
   public List<ProductVO> getMyProList(ProductVO productVO, String keyword);
   //등록 상품상태 수정
@@ -81,4 +81,10 @@ public interface ShopService {
   public void updateProduct(ProductVO productVO, List<ProductOptionVO> options, MultipartFile image, List<MultipartFile> images);
   //판매내역 조회(전체조회)
   public List<OrderVO> getMyOrdList(ProductVO productVO, String keyword);
+  //주문상태 수정
+  public void updateOrdStatus(OrderVO ordreVO);
+  //qna 등록
+  public void insertQna(QnaVO qnaVO);
+  //qna 조회
+  public List<QnaVO> getQnaList(int proNo);
 };
