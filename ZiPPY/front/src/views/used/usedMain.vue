@@ -1,22 +1,21 @@
 <template>
   <div>
-    <nav-bar @click="search($event)"></nav-bar>
+    <nav-bar @click="categoryVal=$event.target.innerText"></nav-bar>
     <div id="container">
       <div>
         <div class="used-main-title">
           <h3>판매중인 중고제품</h3>
-          
         </div>
         <div id="used-add-drop-search">
           <button id="used-addr">
             <i class="fa-solid fa-location-dot fa-2x"></i>
           </button>
+          <div><h2>{{this.categoryVal}}</h2></div>
           <div>
             <div class="search">
               <input type="text" placeholder="검색어 입력" id="used-main-search-input" v-model="word"
-                @keyup="enterkey($event);">
-              <img @click="search($event)"
-                src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+                @keyup.enter="total();">
+              <img @click="total()" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
             </div>
           </div>
         </div>
@@ -25,25 +24,27 @@
       <hr>
       <div id="used-soldot-drop">
         <div class="form-check">
-          <input @click="checkbox ()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+          <input @click="total()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
           <label class="form-check-label" for="flexCheckDefault">
             판매완료된 상품보기
           </label>
         </div>
         <!-- <nav class="navbar navbar-expand-lg navbar-light"> -->
         <div id="used-main-dropbox">
-          <v-select @change="dropVal()" v-model="select" :items="items" item-text="name" item-value="value" label="정렬"
+          <v-select @change="total()" v-model="select" :items="items" item-text="name" item-value="value" label="정렬"
             color="#212529" persistent-hint single-line dense width="50"></v-select>
         </div>
       </div>
       <div id="noProduct" class="mx-auto" v-if="data.length == 0" style="text-align:center">
         <v-icon style="font-size:100px; color:#B3E3C3" class="mb-5">mdi-alert-circle-outline</v-icon>
         <h2 style="font-weight:bold">고객님께서 찾으시는 상품이 없습니다.</h2>
-        <p>다시 검색해주세요.</p>
+        <!-- <p>다시 검색해주세요.</p> -->
       </div>
       <div @click="goDetail(list.productNo)" class="used-main-card" v-if="data.length != 0" v-for="list in data">
         <div>
-          <div><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkW5iRqvi6VdPWVWYswwWoUYhmW-AA2W8P0tExfMLx3wWPiwVFHegzq29vq8KoN1jKVxQ&usqp=CAU"  width="194px" height="194px"></div>
+          <div><img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkW5iRqvi6VdPWVWYswwWoUYhmW-AA2W8P0tExfMLx3wWPiwVFHegzq29vq8KoN1jKVxQ&usqp=CAU"
+              width="194px" height="194px"></div>
           <div class="used-main-card-cont">
             <div class="used-main-card-title">{{list.productName}}</div>
             <div class="used-main-price-date">
@@ -55,7 +56,7 @@
         </div>
       </div>
       <div class="text-center">
-        <v-pagination v-model="page" :length="4" circle color="#B3E3C3"></v-pagination>
+        <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3"></v-pagination>
       </div>
     </div>
   </div>
@@ -93,75 +94,110 @@
       categoryVal: '',
       searchValue: '',
       page: 1,
-      isChecked : ''
+      isChecked: '',
+      location: '',
+      pageCount: 1,
+      dropValue: ''
     }),
-    filters : {
-      comma(val){
+    filters: {
+      comma(val) {
         return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
       }
     },
-
+    watch: {
+      categoryVal() {
+        this.findList({
+          keyword: this.searchValue,
+          location: this.location,
+          category: this.categoryVal,
+          checked: this.isChecked,
+          dropbox: this.select,
+          pageNum: this.page
+        });
+      },
+      page() {
+        this.findList({
+          keyword: this.searchValue,
+          location: this.location,
+          category: this.categoryVal,
+          checked: this.isChecked,
+          dropbox: this.select,
+          pageNum: this.page
+        });
+      }
+    },
     created() {
       this.findList({
-          location: "",
-          keyword: "",
-          category: "",
-          checked: "",
-          dropbox: ""
-        })
+        location: "",
+        keyword: "",
+        category: "",
+        checked: "",
+        dropbox: "",
+        pageNum: this.page
+      })
     },
-
     methods: {
-      search: function (e) {
-        this.searchValue = document.querySelector("#used-main-search-input").value;
-        this.categoryVal = e.target.innerText;
+      total: function () {
+        this.isChecked = document.querySelector(".form-check-input").checked;
         this.findList({
-          location: "",
-          keyword: this.searchValue,
-          category:  this.categoryVal,
-          checked: "",
-          dropbox: ""
+          location: this.location, // 0
+          keyword: this.word, // 0
+          category: this.categoryVal, // 0
+          checked: this.isChecked, // 0
+          dropbox: this.select,
+          pageNum: this.page // 0
         })
-        
       },
-      enterkey: function (e) {
-        if (window.event.keyCode == 13) {
-          this.search(e);
-        }
-      },
-      checkbox: function () {
-        const ckbox = document.querySelector(".form-check-input");
-        const is_cked = ckbox.checked;
-        this.isChecked = document.querySelector(".form-check-input").innerText = is_cked
-        console.log(this.isChecked);
-        this.findList({
-            keyword: this.searchValue,
-            location: "",
-            category: this.categoryVal,
-            checked: this.isChecked,
-            dropbox: ""
-          })
-      },
-      dropVal: function () {
-        var dropValue = this.select;
-        console.log(dropValue);
-        this.findList(
-          {
-            keyword: this.searchValue,
-            location: "",
-            category: this.categoryVal,
-            checked: this.isChecked,
-            dropbox: dropValue
-          }
-        )
-      },
+      // ,
+      // search: function (e) {
+      //   this.searchValue = document.querySelector("#used-main-search-input").value;
+      //   this.categoryVal = e.target.innerText;
+      //   this.findList({
+      //     location: "",
+      //     keyword: this.searchValue,
+      //     category: this.categoryVal,
+      //     checked: "",
+      //     dropbox: ""
+      //   })
+
+      // },
+      // enterkey: function (e) {
+      //   if (window.event.keyCode == 13) {
+      //     this.search(e);
+      //     this.total(e);
+      //   }
+      // },
+      // checkbox: function () {
+      //   const ckbox = document.querySelector(".form-check-input");
+      //   const is_cked = ckbox.checked;
+      //   this.isChecked = document.querySelector(".form-check-input").innerText = is_cked
+      //   console.log(this.isChecked);
+      //   this.findList({
+      //     keyword: this.searchValue,
+      //     location: "",
+      //     category: this.categoryVal,
+      //     checked: this.isChecked,
+      //     dropbox: ""
+      //   })
+      // },
+      // dropVal: function () {
+      //   var dropValue = this.select;
+      //   console.log(dropValue);
+      //   this.findList({
+      //     keyword: this.searchValue,
+      //     location: this.location,
+      //     category: this.categoryVal,
+      //     checked: this.isChecked,
+      //     dropbox: this.select
+      //   })
+      // },
       goDetail(no) {
         console.log(no);
         // var cardNo = this.data.findIndex(i => i.productNo == productNo);
         // console.log(cardNo);
         this.$router.push('/used/detail?pNo=' + no);
       },
-      getImgUrl(list){
+      getImgUrl(list) {
         return require(list.image);
       },
 
@@ -172,7 +208,8 @@
           params: searchData
         }).then(res => {
           console.log(res);
-          this.data = res.data;
+          this.data = res.data.list;
+          this.pageCount = res.data.pages;
           console.log(this.isChecked)
         }).catch(err => {
           console.log(err)

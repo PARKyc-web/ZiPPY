@@ -2,13 +2,19 @@ package com.yedam.zippy.used.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.github.pagehelper.Page;
 
 @Service
 public interface UsedService {
   // 전체조회
-  public List<UsedProductVO> usedList(String location, String keyword, String category, String checked, String dropbox);
+  public Page<UsedProductVO> usedList(String location, String keyword, String category, String checked, String dropbox);
+  
+  //유저페이지 전체조회
+  public Page<UsedProductVO> userMain(@Param("email")String email);
   
   // 단건조회
   public UsedProductVO usedOne(int pNo);

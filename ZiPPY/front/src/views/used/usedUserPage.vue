@@ -1,6 +1,6 @@
 <template>
     <div>
-        <nav-bar @click="search($event)"></nav-bar>
+        <nav-bar @click="categoryVal=$event.target.innerText"></nav-bar>
         <div id="container">
             <div id="used-seller-main">
                 <div id="used-img">
@@ -21,7 +21,7 @@
                             <h4>평점</h4>
                         </div>
                         <div>
-                            <img src="	https://m.bunjang.co.kr/pc-static/resource/44c1240e63c64f221877.png" width="30px"
+                            <img src="https://m.bunjang.co.kr/pc-static/resource/44c1240e63c64f221877.png" width="30px"
                                 height="29px" alt="별점 1">
                             <img src="	https://m.bunjang.co.kr/pc-static/resource/44c1240e63c64f221877.png" width="30px"
                                 height="29px" alt="별점 1">
@@ -64,6 +64,10 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3">
+                                        </v-pagination>
                                     </div>
                                 </b-card-text>
                             </b-tab>
@@ -195,6 +199,8 @@
         },
         data: () => ({
             data: "",
+            page : 1,
+            pageCount: 1,
             rv: {
                 reviewNo: "",
                 email: "",
@@ -212,20 +218,27 @@
                 deleteState: ""
             }
         }),
+        watch : {
+            page(){
+                this.rewrite();
+            }
+        },
         created() {
             axios({
-                url: "http://localhost:8090/zippy/used/main",
+                url: "/used/main",
                 methods: "GET",
                 params: {
                     location: "",
                     keyword: "",
                     category: "",
                     checked: "",
-                    dropbox: ""
+                    dropbox: "",
+                    pageNum: this.page
                 }
             }).then(res => {
                 console.log(res);
-                this.data = res.data;
+                this.data = res.data.list;
+                this.pageCount = res.data.pages;
                 this.rv.email = this.$store.state.loginInfo.email;
             }).catch(error => {
                 console.log(error);
@@ -247,6 +260,27 @@
             // })
         },
         methods: {
+            rewrite(){
+                axios({
+                url: "/used/main",
+                methods: "GET",
+                params: {
+                    location: "",
+                    keyword: "",
+                    category: "",
+                    checked: "",
+                    dropbox: "",
+                    pageNum: this.page
+                }
+            }).then(res => {
+                console.log(res);
+                this.data = res.data.list;
+                this.pageCount = res.data.pages;
+                this.rv.email = this.$store.state.loginInfo.email;
+            }).catch(error => {
+                console.log(error);
+            })
+            },
             goDetail(no) {
                 console.log(no);
                 this.$router.push('/used/detail?pNo=' + no);
@@ -432,7 +466,7 @@
 
     .used-main-card {
         border: 1px solid #eeeeee;
-        width: 194px;
+        width: 193px;
         height: auto;
         display: inline-block;
         margin: 20px;

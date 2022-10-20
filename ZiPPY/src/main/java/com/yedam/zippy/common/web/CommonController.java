@@ -61,14 +61,14 @@ public class CommonController {
 
   // 해당상품 찜 출력
   @GetMapping("/wishOne")
-  public BookmarkVO getWishOne(@RequestParam int sId, @RequestParam String email) {
-    return service.getWishOne(sId, email);
+  public BookmarkVO getWishOne(@RequestParam int sId, @RequestParam String email, @RequestParam int serviceType) {
+    return service.getWishOne(sId, email, serviceType);
   }
 
   // 찜 전체출력
   @GetMapping("/wishAll")
-  public List<BookmarkVO> getWishAll(@RequestParam String email){
-    return service.getWishAll(email);
+  public List<BookmarkVO> getWishAll(@RequestParam String email, @RequestParam int serviceType){
+    return service.getWishAll(email, serviceType);
   }
 
   // 후기작성

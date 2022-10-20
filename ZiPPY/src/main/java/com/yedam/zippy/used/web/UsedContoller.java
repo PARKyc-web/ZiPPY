@@ -14,14 +14,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yedam.zippy.used.service.UsedImagesVO;
 import com.yedam.zippy.used.service.UsedKeywordVO;
 import com.yedam.zippy.used.service.UsedProductVO;
 import com.yedam.zippy.used.service.UsedService;
+
 /**
  * 
  * @author 엄정웅
- * 중고거래 컨트롤러
+ *         중고거래 컨트롤러
  */
 @CrossOrigin(originPatterns = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
     RequestMethod.DELETE })
@@ -34,11 +37,12 @@ public class UsedContoller {
 
   // 전체조회
   @GetMapping("/main")
-  public List<UsedProductVO> search(@RequestParam String location, 
+  public PageInfo<UsedProductVO> search(@RequestParam String location, 
                                     @RequestParam String keyword,
                                     @RequestParam String category, 
                                     @RequestParam String checked,
-                                    @RequestParam(value = "dropbox", required = false) String dropbox) {
+                                    @RequestParam(value = "dropbox", required = false) String dropbox,
+                                    @RequestParam int pageNum) {
 
     System.out.println(location + ", " + keyword);
     if (category.equals("전체")) {
@@ -51,20 +55,35 @@ public class UsedContoller {
     } else if (checked.equals("false")) {
       checked = "0";
     }
-
+String order="product_date DESC";
     if (dropbox.equals("최저가순")) {
       dropbox = "0";
+      order = "product_price ASC";
     } else if (dropbox.equals("최고가순")) {
       dropbox = "1";
+      order = "product_price DESC";
     } else if (dropbox.equals("최신등록일자순")) {
       dropbox = "2";
+      order = "product_date DESC";
     } else if (dropbox.equals("오래된등록일자순")) {
       dropbox = "3";
+      order = "product_date";
     }
-    return service.usedList(location, keyword, category, checked, dropbox);
+    
+    
+    PageHelper.startPage(pageNum, 15, order);
+    return PageInfo.of( service.usedList(location, keyword, category, checked, dropbox));
+  }
+  
+  @GetMapping("/userMain")
+  public PageInfo<UsedProductVO> userMain(@RequestParam String email, @RequestParam int pageNum){
+    
+    String order ="";
+    PageHelper.startPage(pageNum, 0, order);
+    return PageInfo.of(null);
   }
 
-//  // 단건조회
+  // 단건조회
   @GetMapping("/detail")
   public UsedProductVO read(@RequestParam int pNo) {
     System.out.println(pNo);
@@ -120,9 +139,9 @@ public class UsedContoller {
     System.out.println(service.showKeyword(email));
     return service.showKeyword(email);
   }
-  
+
   @GetMapping("getImg")
-  public List<UsedImagesVO> getImg(@RequestParam int pNo){
+  public List<UsedImagesVO> getImg(@RequestParam int pNo) {
     System.out.println(pNo);
     System.out.println(service.getImg(pNo));
     return service.getImg(pNo);

@@ -124,6 +124,7 @@
         {{product.productInfo}}
       </div>
     </div>
+    <button @click="btnn()">ddd</button>
   </div>
 </template>
 
@@ -217,7 +218,8 @@
           methods: "GET",
           params: {
             email: this.$store.state.loginInfo.email,
-            sId: this.$route.query.pNo
+            sId: this.$route.query.pNo,
+            serviceType : this.data.serviceType
           }
         }).then(res => {
           this.wish = res.data;
@@ -232,13 +234,32 @@
       }
     },
     methods: {
+      rewrite(){
+        axios({
+          url: "http://localhost:8090/zippy/common/wishOne",
+          methods: "GET",
+          params: {
+            email: this.$store.state.loginInfo.email,
+            sId: this.$route.query.pNo,
+            serviceType : this.data.serviceType
+          }
+        }).then(res => {
+          this.wish = res.data;
+          if (res.data != "") {
+            this.heart = 1;
+          } else if (res.data == "") {
+            this.heart = 0;
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
       changeHeart() {
         if (this.$store.state.loginInfo != null) {
           if (this.heart == 0) { //찜x일때
             this.addWish();
             this.heart = 1; //찜on으로 변경
             swal.fire({
-              position: 'top-end',
               icon: 'success',
               title: '찜 목록에 추가되었습니다.',
               showConfirmButton: false,
@@ -248,7 +269,6 @@
             this.delWish();
             this.heart = 0; //찜x로 변경
             swal.fire({
-              position: 'top-end',
               icon: 'success',
               title: '찜목록에서 삭제되었습니다.',
               showConfirmButton: false,
@@ -257,7 +277,6 @@
           }
         } else {
           swal.fire({
-            position: 'top-end',
             icon: 'warning',
             title: '로그인 정보가 필요합니다.',
             showConfirmButton: false,
@@ -297,16 +316,14 @@
           },
           data: JSON.stringify(this.data)
         }).then(res => {
-          console.log(res);
+          this.rewrite();        
         }).catch(err => {
           console.log(err)
-        })
+        })        
       },
       delWish: function () {
         let bNo = [];
-        console.log(this.wish.bookmarkNo)
         bNo.push(this.wish.bookmarkNo);
-        console.log(bNo);
         axios({
           url: "http://localhost:8090/zippy/common/delWish",
           method: "DELETE",

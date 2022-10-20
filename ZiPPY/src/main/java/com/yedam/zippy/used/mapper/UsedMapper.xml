@@ -21,20 +21,17 @@
 		<if test="checked == 0">
 		   AND p.is_sell=0
 		</if>
-		<choose>
-		<!-- 최저가순 -->
-			<when test="dropbox == 0">
-			  ORDER BY p.product_price ASC
-			</when>
-		<!-- 최고가순 -->
-			<when test="dropbox == 1">
-			ORDER BY p.product_price DESC
-			</when>
-			<otherwise>
-			ORDER BY product_no DESC
-			</otherwise>
-		</choose>
 	</select>
+	
+	<select id="userMain" resultType="UsedProductVO"
+		parameterType="String">
+			SELECT p.*, 
+		       g.NICK_NAME,
+		       g.PROFILE_IMAGE
+		  FROM used_product p, general_user g
+		 WHERE g.email = p.email
+		 AND g.email = #{email}
+		</select>
 
 	<select id="usedOne" resultType="UsedProductVO"
 		parameterType="Integer">

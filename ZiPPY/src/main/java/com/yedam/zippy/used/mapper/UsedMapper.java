@@ -4,13 +4,17 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.github.pagehelper.Page;
 import com.yedam.zippy.used.service.UsedImagesVO;
 import com.yedam.zippy.used.service.UsedKeywordVO;
 import com.yedam.zippy.used.service.UsedProductVO;
 
 public interface UsedMapper {
 	// 전체조회
-	public List<UsedProductVO> usedList(@Param("location")String location, @Param("keyword")String keyword, @Param("category")String category, @Param("checked")String checked, @Param("dropbox")String dropbox);
+	public Page<UsedProductVO> usedList(@Param("location")String location, @Param("keyword")String keyword, @Param("category")String category, @Param("checked")String checked, @Param("dropbox")String dropbox);
+	
+	// 유저페이지 전체조회
+	public Page<UsedProductVO> userMain(@Param("email")String email);
 
 	// 단건조회
 	public UsedProductVO usedOne(@Param("pNo")int pNo);

@@ -19,7 +19,7 @@ public class BookmarkVO {
   private int serviceType;
   private String serviceId;
   private int isSell;
-  @JsonFormat(pattern = "yyyy-MM-dd")
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @JsonFormat(pattern = "yy-MM-dd")
+  @DateTimeFormat(pattern = "yy-MM-dd")
   private Date productDate;
 }
