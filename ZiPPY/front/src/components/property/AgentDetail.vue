@@ -104,7 +104,8 @@
   import InsertProperty from './InsertProperty.vue';
   import UpdateProperty from './UpdateProperty.vue';
   import UpdateAgentProfile from './UpdateAgentProfile.vue';
-
+  import {oneHundredMillion} from '../../assets/property/propertyPrice';
+  
   export default {
     components: {
       BasicMarkerMap,

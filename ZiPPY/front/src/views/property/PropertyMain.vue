@@ -4,11 +4,10 @@
     <div id="container">
       <section>
         <div id="map" class="map">
-          <!-- <search-bar style="top: 15px; left: 15px;" :sigungu="sigungu" @get-property-list="searchEvent"/> -->
-          <div class="hAddr">
+          <!-- <div class="hAddr">
             <span class="title">지도중심기준 행정동 주소정보</span>
             <span id="centerAddr"><input type="text" v-model="sigungu"></span>
-          </div>
+          </div> -->
         </div>
       </section>
       <aside>
@@ -55,12 +54,25 @@
   import chickenJson from "../../assets/property/chicken.json";
   import axios from "axios";
   import PropertyMainToolbar from '../../components/property/PropertyMainToolbar.vue';
-  import {oneHundredMillion} from '../../assets/property/propertyPrice';
+  import {
+    oneHundredMillion
+  } from '../../assets/property/propertyPrice';
 
   export default {
     components: {
       SearchBar,
       PropertyMainToolbar,
+    },
+    data() {
+      return {
+        data: chickenJson,
+        houseProducts: [],
+        sigungu: '',
+        streetAddress: [],
+        map: 0,
+        productPosition: [],
+        price: ''
+      }
     },
     created() {
       axios({
@@ -81,16 +93,6 @@
           console.log('getStreetAddress fail!');
           console.log(error);
         });
-    },
-    data() {
-      return {
-        data: chickenJson,
-        houseProducts: [],
-        sigungu: '',
-        streetAddress: [],
-        map: 0,
-        productPosition: [],
-      }
     },
     methods: {
       goHouseDetail(productId) {
@@ -144,13 +146,13 @@
 
             var locPosition = new kakao.maps.LatLng(lat, lon) // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
             map.setCenter(locPosition);
+
           });
 
         } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
           message = 'HTML5의 GeoLocation를 사용 할 수 없습니다.'
           console.log(message);
         }
-
 
         // 현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다
         searchAddrFromCoords(map.getCenter(), displayCenterInfo);
@@ -165,28 +167,20 @@
           geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
         }
 
-        function searchDetailAddrFromCoords(coords, callback) {
-          // 좌표로 법정동 상세 주소 정보를 요청합니다
-          geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
-        }
-
         var initThis = this;
         // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
         function displayCenterInfo(result, status) {
           if (status === kakao.maps.services.Status.OK) {
-            var infoDiv = document.getElementById('centerAddr');
-
             for (var i = 0; i < result.length; i++) {
               // 행정동의 region_type 값은 'H' 이므로
               if (result[i].region_type === 'H') {
-                infoDiv.innerHTML = result[i].address_name;
                 initThis.sigungu = result[i].address_name;
 
                 // ex) 대구광역시 중구 남산1동 -> 대구광역시 중구 남산동
-                for (let i = 1; i < 11; i++) {
-                  initThis.sigungu = initThis.sigungu.replace(i+'동', '동');
+                for (let i = 1; i < 10; i++) {
+                  initThis.sigungu = initThis.sigungu.replace(i + '동', '동');
                 }
-                console.log('현재 지도의 중심 위치: ', initThis.sigungu);
+                // currentPositionAptList(initThis.sigungu);
                 break;
               }
             }
@@ -224,10 +218,6 @@
           if (cnt == 15) clearInterval(setClusterer);
         }, 500);
 
-        // setTimeout(function () {
-        //   makeClusterer();
-        // }, 1000);
-
         // 마커 클러스터러에 클릭이벤트를 등록합니다
         // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우
         // 이벤트 헨들러로 cluster 객체가 넘어오지 않을 수도 있습니다
@@ -251,7 +241,7 @@
             url: "http://localhost:8090/zippy/property/getPropertyList",
             methods: "GET",
             params: {
-              sigungu: '%' + sigungu
+              sigungu: sigungu + '%'
             }
           }).then(response => {
             // 성공했을 때
@@ -299,8 +289,26 @@
             map.setCenter(new kakao.maps.LatLng(result[0].y, result[0].x));
           }
         });
-      }
-
+      },
+      currentPositionAptList(sigungu) {
+        axios({
+            url: "http://localhost:8090/zippy/property/currentPositionAptList",
+            methods: "GET",
+            params: {
+              sigungu: sigungu + '%'
+            }
+          }).then(response => {
+            // 성공했을 때
+            console.log('currentPositionAptList success!');
+            console.log(response);
+            this.houseProducts = response.data;
+          })
+          .catch(error => {
+            // 에러가 났을 때
+            console.log('currentPositionAptList fail!');
+            console.log(error);
+          });
+      },
     }
   };
 </script>
@@ -354,7 +362,8 @@
   }
 
   ::-webkit-scrollbar {
-    width: 8px; /* 스크롤바의 너비 */
+    width: 8px;
+    /* 스크롤바의 너비 */
   }
 
   ::-webkit-scrollbar-thumb {

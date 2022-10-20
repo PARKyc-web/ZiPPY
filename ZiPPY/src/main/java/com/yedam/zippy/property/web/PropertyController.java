@@ -90,6 +90,17 @@ public String agentDetail(@RequestParam int productId) {
   public WishVO wishState(WishVO vo) {
     return service.wishState(vo);
   }
+  
+  // 사용자가 현재 위치한 지역(시군구)의 모든 아파트 매물을 select 함.
+  @GetMapping("/currentPositionAptList")
+  public List<propertyVO> currentPositionAptList(@RequestParam("sigungu")String sigungu) {
+    return service.currentPositionAptList(sigungu);
+  }
+  
+  @GetMapping("/searchPropertyList")
+  public List<propertyVO> searchPropertyList(propertyVO vo) {
+    return service.searchPropertyList(vo);
+  }
 
 //  @GetMapping("/houseDetail")
 //  public String houseDetail() {

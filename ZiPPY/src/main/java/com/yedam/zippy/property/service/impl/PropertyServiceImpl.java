@@ -86,5 +86,13 @@ public class PropertyServiceImpl implements PropertyService {
     return mapper.wishState(vo);
   }
   
-
+  @Override
+  public List<propertyVO> currentPositionAptList(String sigungu) {
+    return mapper.currentPositionAptList(sigungu);
+  }
+  
+  @Override
+  public List<propertyVO> searchPropertyList(propertyVO vo) {
+    return mapper.searchPropertyList(vo);
+  }
 }

@@ -1,10 +1,11 @@
 <template>
   <v-toolbar elevation="4" style="margin-bottom:5px">
     <div style="width: 75vw">
-      <h6 style="display: inline-block; margin-left: 30px; margin-top:10px; margin-right: 10px">아파트</h6>
-      <h6 style="display: inline-block; margin-top:10px; margin-right: 10px">빌라</h6>
-      <h6 style="display: inline-block; margin-top:10px; margin-right: 10px">오피스텔</h6>
-  
+      <v-btn-toggle v-model="houseType" tile color="green lighten-1" group>
+        <v-btn value="아파트">아파트</v-btn>
+        <v-btn value="빌라">빌라</v-btn>
+        <v-btn value="오피스텔">오피스텔</v-btn>
+      </v-btn-toggle>
       <v-dialog v-model="dialog" scrollable max-width="600px">
         <template v-slot:activator="{ on, attrs }">
           <!-- 필터 추가 버튼 -->
@@ -28,13 +29,35 @@
                       v-model="constructionYear">
                     </v-select>
                   </v-col>
-                  <v-col class="12">
-                    <v-range-slider :tick-labels="houseSize" v-model="sizeLevel" min="0" max="6" ticks="always"
-                      tick-size="4" ref="sizeLevel">
-                      <template v-slot:thumb-label="props">
+                  <v-col cols="12" class="py-2">
+                    <p>면적</p>
+                    <v-btn-toggle v-model="houseSize" tile color="green lighten-1" group class="d-flex flex-row">
+                      <v-btn class="flex-grow-1" value="0">전체</v-btn>
+                      <v-btn class="flex-grow-1" value="1">10평 이하</v-btn>
+                      <v-btn class="flex-grow-1" value="2">10평대</v-btn>
+                      <v-btn class="flex-grow-1" value="3">20평대</v-btn>
+                    </v-btn-toggle>
+                    <v-btn-toggle v-model="houseSize" tile color="green lighten-1" group class="d-flex flex-row">
+                      <v-btn class="flex-grow-1" value="4">30평대</v-btn>
+                      <v-btn class="flex-grow-1" value="5">40평대</v-btn>
+                      <v-btn class="flex-grow-1" value="6">50평대</v-btn>
+                      <v-btn class="flex-grow-1" value="7">60평 이상</v-btn>
+                    </v-btn-toggle>
+                  </v-col>
+                  <v-col cols="12" class="px-4">
+                    <v-range-slider v-model="priceRange" :max="priceMax" :min="priceMin" hide-details
+                      class="align-center" step="100" thumb-label :thumb-size="50">
+                      <template v-slot:prepend>
+                        <v-text-field :value="priceRange[0]" class="mt-0 pt-0" hide-details single-line type="number"
+                          style="width: 60px" @change="$set(priceRange, 0, $event)"></v-text-field>
+                      </template>
+                      <template v-slot:append>
+                        <v-text-field :value="priceRange[1]" class="mt-0 pt-0" hide-details single-line type="number"
+                          style="width: 60px" @change="$set(priceRange, 1, $event)"></v-text-field>
                       </template>
                     </v-range-slider>
                   </v-col>
+
                   <v-col cols="12">
                     <v-autocomplete :items="['조용한', '역세권', '학세권', '태그1', '태그2', '태그3', '태그4', '태그5', '태그6']" label="태그"
                       multiple v-model="tags"></v-autocomplete>
@@ -61,8 +84,8 @@
 
     </div>
     <div style="width: 22vw">
-    <v-text-field hide-details prepend-icon="mdi-magnify" single-line placeholder=" 지역명 검색" @keyup.enter="sendData"
-      v-model="sigungu" color="#B3E3C3"></v-text-field>
+      <v-text-field hide-details prepend-icon="mdi-magnify" single-line placeholder=" 지역명 검색" @keyup.enter="sendData"
+        v-model="sigungu" color="#B3E3C3"></v-text-field>
     </div>
 
 
@@ -78,18 +101,16 @@
         dialogm1: '',
         dialog: false,
         tags: '',
-        houseSize: [
-          '~10평',
-          '10평대',
-          '20평대',
-          '30평대',
-          '40평대',
-          '50평대',
-          '60평~',
-        ],
+        houseType: '아파트',
         saleType: '전체',
         constructionYear: '전체',
-        sizeLevel: [0, 6]
+        sizeLevel: [0, 6],
+        priceMin: 0,
+        priceMax: 200000,
+        priceRange: [0, 200000],
+        houseSize: 0,
+        minSize: 0,
+        maxSize: 0,
       }
     },
     methods: {
@@ -115,58 +136,40 @@
             break;
         }
 
-        let minSize = this.$refs.sizeLevel.value[0];
-        let maxSize = this.$refs.sizeLevel.value[1];
-
-        switch (minSize) {
-          case 0:
+        switch (houseSize) {
+          case 0: // 전체
             minSize = 0;
+            maxSize = 10000;
             break;
-          case 1:
-            minSize = 33;
-            break;
-          case 2:
-            minSize = 66;
-            break;
-          case 3:
-            minSize = 99;
-            break;
-          case 4:
-            minSize = 132;
-            break;
-          case 5:
-            minSize = 165;
-            break;
-          case 6:
-            minSize = 10000;
-            break;
-        }
-
-        switch (maxSize) {
-          case 0:
+          case 1: // 10평 이하
             minSize = 0;
-            break;
-          case 1:
             maxSize = 33;
             break;
-          case 2:
+          case 2: // 10평대
+            minSize = 33;
             maxSize = 66;
             break;
-          case 3:
+          case 3: // 20평대
+            minSize = 66;
             maxSize = 99;
             break;
-          case 4:
+          case 4: // 30평대
+            minSize = 99;
             maxSize = 132;
             break;
-          case 5:
+          case 5: // 40평대
+            minSize = 132;
             maxSize = 165;
             break;
-          case 6:
+          case 6: // 50평대
+            minSize = 165;
+            maxSize = 198;
+            break;
+          case 7: // 60평 이상
+            minSize = 198;
             maxSize = 10000;
             break;
         }
-
-        console.log(minSize, maxSize);
 
         let tagsToString = '';
         for (let i = 0; i < this.tags.length; i++) {
