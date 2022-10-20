@@ -74,12 +74,27 @@
 		FROM shop_product_option
 		WHERE pro_no = #{proNo}
 	</select>
-	<!-- 찜 여부 조회 -->
-	<select id="getHeart">
-		SELECT service_id
-		FROM bookmark
-		WHERE email = #{email}
-		AND service_id = #{service_id}
+	<!-- qna 등록 -->
+	<insert id="insertQna" parameterType="QnaVO">
+		<selectKey resultType="int" keyProperty="qnaNo" order="BEFORE"> 
+				SELECT NVL( MAX(qna_no) , 0) + 1 FROM shop_qna
+		</selectKey>
+		INSERT INTO 
+		shop_qna(qna_no, email, pro_no, question, answer_status, question_date, question_cate)
+		VALUES(
+		#{qnaNo},
+		#{email},
+		#{proNo},
+		#{question},
+		0,
+		systimestamp,
+		#{questionCate})
+	</insert>
+	<!-- qna 리스트 조회 -->
+	<select	id="getQnaList" resultType="QnaVO">
+		SELECT *
+		FROM shop_qna
+		WHERE pro_no = #{proNo}
 	</select>
 
 	<!-- 장바구니 -->
@@ -212,7 +227,20 @@
 		0,
 		systimestamp)
 	</insert>
-
+	<!-- 주문정보 리스트 조회 -->
+	<select id="getMyOrderList" resultType="orderVO">
+		SELECT *
+		FROM shop_order
+		WHERE email = #{email}
+	</select>
+	<!-- 주문정보 상세조회 -->
+	<select id="getMyOrder" parameterType="orderVO" resultType="orderVO">
+		SELECT * 
+		FROM shop_order
+		WHERE pay_code = #{payCode}
+	</select>
+	
+	
 	<!-- 판매자 -->
 	<!-- 상품등록 -->
 	<insert id="insertProduct">

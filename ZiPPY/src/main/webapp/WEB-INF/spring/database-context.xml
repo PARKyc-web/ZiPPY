@@ -23,6 +23,21 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 	  <property name="dataSource" ref="dataSource"/>
 	  <property name="configLocation" value="classpath:mybatis-config.xml" />
+	  <property name="plugins">
+	        <array>
+	           <bean class="com.github.pagehelper.PageInterceptor">
+	              <property name="properties">
+	                 <!-- config params as the following -->
+	                 <value>
+	                    helperDialect=oracle
+	                    params=count=countSql
+	                    keepSubSelectOrderBy=true
+	                    KeepOrderBy=true
+	                 </value>
+	              </property>
+	           </bean>
+	        </array>
+	     </property>
 	</bean>
 	 
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">

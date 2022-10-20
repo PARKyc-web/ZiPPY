@@ -33,6 +33,9 @@
                       <label>현재 비밀번호</label>
                       <input type="password" class="form-control" id="password"><br>
                       <label>새로운 비밀번호</label>
+                      <div v-if="!passValid">
+                        <p>비밀번호는 8 ~ 20자까지 입니다</p>
+                      </div>
                       <input type="password" class="form-control" id="newPassword">
                       <button type="button" @click="changePassword()" class="form-control">비밀번호 변경</button>
                     </div>
@@ -157,7 +160,15 @@
   export default {
     data() {
       return {
-        info: null
+        info: null        
+      }
+    },
+
+    computed:{
+      passValid(){
+        var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-+]).{8,20}$/;
+        var password = document.querySelector("#password").value = "";
+        return reg.test(password.value);
       }
     },
 
@@ -178,26 +189,28 @@
         var password = document.querySelector("#password");
         var newPassword = document.querySelector("#newPassword");
 
-        var temp = await this.$axios({
-          url: "/member/password",
-          method: "PUT",
-          data: {
-            email: this.$store.state.loginInfo.email,
-            password: password.value,
-            newPassword: newPassword.value
-          }
-        })
-
-        console.log(temp);
-        if (temp.data) {
-          swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: '비밀번호가 변경되었습니다',
-            showConfirmButton: false,
-            timer: 2500
+        if(passValid){
+            var temp = await this.$axios({
+            url: "/member/password",
+            method: "PUT",
+            data: {
+              email: this.$store.state.loginInfo.email,
+              password: password.value,
+              newPassword: newPassword.value
+            }
           })
-        }
+
+          console.log(temp);
+          if (temp.data) {
+            swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: '비밀번호가 변경되었습니다',
+              showConfirmButton: false,
+              timer: 2500
+            })
+          }
+        }        
       }
     }
 
