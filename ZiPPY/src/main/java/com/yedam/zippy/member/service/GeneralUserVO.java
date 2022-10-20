@@ -1,7 +1,5 @@
 package com.yedam.zippy.member.service;
 
-import java.util.Date;
-
 import lombok.Data;
 
 @Data
@@ -9,7 +7,7 @@ public class GeneralUserVO {
     private String email;
     private String userName;
     private String nickName;
-    private String phoneNumber;
+    private String phoneNumber;    
     private String userBirth;
     private String userGender;
     private String userAddress;

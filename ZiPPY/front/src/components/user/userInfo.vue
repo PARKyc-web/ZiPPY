@@ -31,13 +31,16 @@
 
                       <br>
                       <label>현재 비밀번호</label>
-                      <input type="password" class="form-control" id="password"><br>
+                      <input type="password" class="form-control" id="password" ><br>
                       <label>새로운 비밀번호</label>
-                      <div v-if="!passValid">
-                        <p>비밀번호는 8 ~ 20자까지 입니다</p>
-                      </div>
-                      <input type="password" class="form-control" id="newPassword">
+                      <input type="password" class="form-control" id="newPassword" @change="validation()">
                       <button type="button" @click="changePassword()" class="form-control">비밀번호 변경</button>
+                      <div v-if="!passValid" style="color:red">
+                        <ul>
+                          <li><small>비밀번호는 8 ~ 20자까지 입니다</small></li>
+                          <li><small>영어 대/소문자, 숫자, 특수문자 1개씩 사용되어야 합니다.</small></li>                          
+                        </ul>                        
+                      </div>
                     </div>
 
                   </div>
@@ -54,7 +57,7 @@
                               회원이름
                             </label>
                             <div class="has-label">
-                              <input type="text" placeholder="회원이름" class="form-control" valid="true">
+                              <input type="text" placeholder="회원이름" class="form-control" valid="true" v-model="info.userName">
                             </div>
                           </div>
                         </fieldset>
@@ -67,8 +70,7 @@
                               닉네임
                             </label>
                             <div class="has-label">
-                              <input type="email" placeholder="닉네임" class="form-control" valid="true">
-
+                              <input type="email" placeholder="닉네임" class="form-control" valid="true" v-model="info.nickName">
                             </div>
                             <!---->
                           </div>
@@ -83,7 +85,7 @@
                               생년월일
                             </label>
                             <div class="has-label">
-                              <input type="date" placeholder="생년월일" class="form-control" valid="true">
+                              <input type="date" placeholder="생년월일" class="form-control" valid="true" v-model="date">
                             </div>
                             <!---->
                           </div>
@@ -96,7 +98,7 @@
                               성별
                             </label>
                             <div class="has-label">
-                              <select class="form-control">
+                              <select class="form-control" v-model="info.userGender">
                                 <option value="M">남자</option>
                                 <option value="F">여자</option>
                               </select>
@@ -118,7 +120,8 @@
                               주소
                             </label>
                             <div class="has-label">
-                              <input type="text" placeholder="배송지 주소" class="form-control" valid="true">
+                              <input @click="findAddress()" type="text" placeholder="배송지 주소" 
+                                    class="form-control" valid="true" v-model="inputAddress" readonly>
                             </div>
 
                           </div>
@@ -133,7 +136,7 @@
                               상세주소
                             </label>
                             <div class="has-label">
-                              <input type="text" placeholder="상세주소" class="form-control" valid="true">
+                              <input type="text" placeholder="상세주소" class="form-control" valid="true" v-model="info.addressDetail">
                             </div>
                           </div>
                         </fieldset>
@@ -154,21 +157,16 @@
   </div>
 </template>
 
-<script>
-  import swal from 'sweetalert2';
+<script>  
+import swal from 'sweetalert2';
 
   export default {
     data() {
       return {
-        info: null        
-      }
-    },
-
-    computed:{
-      passValid(){
-        var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-+]).{8,20}$/;
-        var password = document.querySelector("#password").value = "";
-        return reg.test(password.value);
+        info: null,
+        passValid : true,
+        inputAddress : "",
+        date : ""
       }
     },
 
@@ -182,14 +180,16 @@
       });
       this.info = temp.data;
       console.log(this.info);
+      this.inputAddress = "(" + this.info.zipCode + ") " + this.info.userAddress;
+      this.date = this.info.userBirth.substring(0, 10);
     },
 
     methods: {
       changePassword: async function () {
         var password = document.querySelector("#password");
         var newPassword = document.querySelector("#newPassword");
-
-        if(passValid){
+        
+        if(this.passValid && password.value != ""){
             var temp = await this.$axios({
             url: "/member/password",
             method: "PUT",
@@ -207,13 +207,48 @@
               icon: 'success',
               title: '비밀번호가 변경되었습니다',
               showConfirmButton: false,
-              timer: 2500
+              timer: 2000
+            })
+          }else{
+            swal.fire({
+              position: 'top-end',
+              icon: 'error',
+              title: '비밀번호 변경에 실패하였습니다',
+              showConfirmButton: false,
+              timer: 2000
             })
           }
-        }        
-      }
+        }else{
+          swal.fire({
+              position: 'top-end',
+              icon: 'error',
+              title: '비밀번호 규칙을 확인해주세요',
+              showConfirmButton: false,
+              timer: 2000
+            })
+        }  
+      },
+
+      validation : function(){
+        var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-+]).{8,20}$/;
+        var password = document.querySelector("#newPassword").value;
+        this.passValid = reg.test(password);
+      },
+
+      findAddress: function () {      
+      console.log(this.info.userBirth.substring(0, 10));
+      var outside = this;
+      new daum.Postcode({
+        oncomplete: function (data) {
+          console.log(data);          
+          outside.info.userAddress = data.address;
+          outside.info.zipCode = data.zonecode;
+          outside.inputAddress = "(" + data.zonecode + ") " + data.address;
+        },
+      }).open();     
     }
 
+    }
   }
 </script>
 
