@@ -98,12 +98,11 @@
                   </div>
                   <div id="used-profile-chat">
                     <div>
-                      <button id="used-detail-pofile">
+                      <button @click="goUserPage(product.email)" id="used-detail-pofile">
                         <i class="fa-solid fa-user"> {{product.nickName}}</i>
                       </button>
                     </div>
                     <div>
-
                       <button class="used-detail-wish" width="30px">
                         <i class="fa-solid fa-comments"> 채팅하기</i>
                       </button>
@@ -111,6 +110,7 @@
                   </div>
                 </div>
               </div>
+              <input type="hidden" v-model="product.email">
             </div>
           </div>
         </div>
@@ -124,7 +124,6 @@
         {{product.productInfo}}
       </div>
     </div>
-    <button @click="btnn()">ddd</button>
   </div>
 </template>
 
@@ -234,6 +233,10 @@
       }
     },
     methods: {
+      goUserPage(email){
+        console.log(this.product.email);
+        this.$router.push('/used/user?email='+email);
+      },
       rewrite(){
         axios({
           url: "http://localhost:8090/zippy/common/wishOne",

@@ -12,8 +12,7 @@
                 <div 판매자정보 부분>
                     <div id="used-seller-name">
                         <div id="used-name-report">
-                            <div>{{$store.getters.getName}}</div>
-
+                            <div>{{this.nickName}}</div>
                         </div>
                     </div>
                     <div class="used-point-report">
@@ -156,21 +155,50 @@
                             <b-tab title="후기 작성">
                                 <b-card-text>
                                     <div>
-                                        <div id="used-user-star">평점 3/5
-                                            <img src="	https://m.bunjang.co.kr/pc-static/resource/44c1240e63c64f221877.png"
-                                                width="20px" height="19px" alt="별점 1">
-                                            <img src="	https://m.bunjang.co.kr/pc-static/resource/44c1240e63c64f221877.png"
-                                                width="20px" height="19px" alt="별점 1">
-                                            <img src="	https://m.bunjang.co.kr/pc-static/resource/44c1240e63c64f221877.png"
-                                                width="20px" height="19px" alt="별점 1">
-                                            <img src="	https://m.bunjang.co.kr/pc-static/resource/982587b0e24b8bccea13.png"
-                                                width="20px" height="19px" alt="별점 0">
-                                            <img src="	https://m.bunjang.co.kr/pc-static/resource/982587b0e24b8bccea13.png"
-                                                width="20px" height="19px" alt="별점 0">
+                                        <div id="used-user-star">
+                                            <div id="used-total-start">
+                                                <div id="used-start-num"> 평점 {{rv.totalRating}}/5 </div>
+                                                <div>
+                                                    <b-form-rating variant="warning" v-model="rv.totalRating" no-border
+                                                        size="lg">
+                                                    </b-form-rating>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div>
+                                                <div class="used-rates-star">
+                                                    <div>친절했어요 {{rv.rate1}}/5</div>
+                                                    <div class="used-all-stars">
+                                                        <b-form-rating variant="warning" v-model="rv.rate1" no-border>
+                                                        </b-form-rating>
+                                                    </div>
+                                                </div>
+                                                <div class="used-rates-star">
+                                                    <div>시간약속 잘 지켜요 {{rv.rate2}}/5</div>
+                                                    <div class="used-all-stars">
+                                                        <b-form-rating variant="warning" v-model="rv.rate2" no-border>
+                                                        </b-form-rating>
+                                                    </div>
+                                                </div>
+                                                <div class="used-rates-star">
+                                                    <div>응답이 빨라요 {{rv.rate3}}/5</div>
+                                                    <div class="used-all-stars">
+                                                        <b-form-rating variant="warning" v-model="rv.rate3" no-border>
+                                                        </b-form-rating>
+                                                    </div>
+                                                </div>
+                                                <div class="used-rates-star">
+                                                    <div>싼 가격에 좋은 제품을 판매해요 {{rv.rate4}}/5</div>
+                                                    <div class="used-all-stars">
+                                                        <b-form-rating variant="warning" v-model="rv.rate4" no-border>
+                                                        </b-form-rating>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div>
                                             <div>
-                                                <h4>짧은 글 후기</h4>
+                                                <h5>짧은 글 후기</h5>
                                             </div>
                                             <div id="used-user-review">
                                                 <textarea name="" id="" cols="140" rows="10" placeholder="후기를 남겨주세요"
@@ -199,7 +227,7 @@
         },
         data: () => ({
             data: "",
-            page : 1,
+            page: 1,
             pageCount: 1,
             rv: {
                 reviewNo: "",
@@ -208,37 +236,35 @@
                 reviewContent: "",
                 reviewDate: "",
                 serviceType: 1,
-                serviceId: "",
+                serviceId: 27,
                 viewCnt: 0,
-                totalRating: 3,
-                rate1: 1,
-                rate2: 2,
-                rate3: 3,
-                rate4: 4,
+                totalRating: 0,
+                rate1: 0,
+                rate2: 0,
+                rate3: 0,
+                rate4: 0,
                 deleteState: ""
-            }
+            },
+            nickName : ""
         }),
-        watch : {
-            page(){
+        watch: {
+            page() {
                 this.rewrite();
             }
         },
         created() {
             axios({
-                url: "/used/main",
+                url: "/used/userMain",
                 methods: "GET",
                 params: {
-                    location: "",
-                    keyword: "",
-                    category: "",
-                    checked: "",
-                    dropbox: "",
+                    email: this.$route.query.email,
                     pageNum: this.page
                 }
             }).then(res => {
                 console.log(res);
                 this.data = res.data.list;
                 this.pageCount = res.data.pages;
+                this.nickName = this.data[0].nickName;
                 this.rv.email = this.$store.state.loginInfo.email;
             }).catch(error => {
                 console.log(error);
@@ -260,26 +286,22 @@
             // })
         },
         methods: {
-            rewrite(){
+            rewrite() {
                 axios({
-                url: "/used/main",
-                methods: "GET",
-                params: {
-                    location: "",
-                    keyword: "",
-                    category: "",
-                    checked: "",
-                    dropbox: "",
-                    pageNum: this.page
-                }
-            }).then(res => {
-                console.log(res);
-                this.data = res.data.list;
-                this.pageCount = res.data.pages;
-                this.rv.email = this.$store.state.loginInfo.email;
-            }).catch(error => {
-                console.log(error);
-            })
+                    url: "/used/userMain",
+                    methods: "GET",
+                    params: {
+                        email: this.$store.state.loginInfo.email,
+                        pageNum: this.page
+                    }
+                }).then(res => {
+                    console.log(res);
+                    this.data = res.data.list;
+                    this.pageCount = res.data.pages;
+                    this.rv.email = this.$store.state.loginInfo.email;
+                }).catch(error => {
+                    console.log(error);
+                })
             },
             goDetail(no) {
                 console.log(no);
@@ -307,6 +329,29 @@
     #container {
         width: 1200px;
         margin: 0 auto;
+    }
+
+    .used-all-stars {
+        width: 100px;
+    }
+
+    #used-start-num {
+        margin-top: 13px;
+    }
+
+    .used-rates-star {
+        width: 400px;
+        display: flex;
+        margin-top: 10px;
+    }
+
+    #used-total-start {
+        width: 300px;
+        display: flex;
+    }
+
+    #used-total-start span {
+        margin-left: 15px;
     }
 
     .submitBtn {

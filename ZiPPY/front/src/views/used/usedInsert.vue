@@ -131,7 +131,6 @@
       insert: function () {
         this.data.email = this.$store.state.loginInfo.email;
         var formData = new FormData(document.querySelector('#usedInsert'));
-        this.data.mainImg = document.querySelector('#profile-upload')[0];
         this.dropVal();
         console.log(formData.productInfo)
         // if(formData.productName == "" || formData.productName == null) {

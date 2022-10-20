@@ -83,7 +83,7 @@ public class CommonController {
   // 후기작성
   @PostMapping("/addRv")
   public int addReview(@RequestBody ReviewBoardVO rv) {
-//    service.addReview(rv);
+    service.addReview(rv);
     System.out.println(rv);
     return 1;
   }

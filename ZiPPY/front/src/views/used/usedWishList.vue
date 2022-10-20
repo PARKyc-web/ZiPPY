@@ -9,7 +9,7 @@
       </div>
       <div id="used-usedwishckdel">
         <div id="used-wish-chkbox">
-          <v-checkbox @click="selectAll()" id="ckAll" color="#b3e3c3"></v-checkbox>
+          <v-checkbox v-model="uncheck" @click="selectAll()" id="ckAll" color="#b3e3c3"></v-checkbox>
         </div>
         <div id="used-wish-del-div">
           <button @click="delWish()" class="used-wish-del-btn">선택삭제</button>
@@ -33,7 +33,8 @@
                 <div id="wish-card-ckbox">
                   <div id="wish-title-price"><span>{{list.productName}}</span></div>
                   <div>
-                    <v-checkbox v-model="ckList" color="#b3e3c3" :value="list.bookmarkNo" @click.stop="test()"></v-checkbox>
+                    <v-checkbox id="ck" v-model="ckList" color="#b3e3c3" :value="list.bookmarkNo" @click.stop="test()">
+                    </v-checkbox>
                   </div>
                 </div>
                 <div id="used-wish-price-date">
@@ -66,7 +67,8 @@
     },
     data: () => ({
       data: [],
-      ckList: []
+      ckList: [],
+      uncheck : ""
     }),
     created() {
       axios({
@@ -74,7 +76,7 @@
         method: "GET",
         params: {
           email: this.$store.state.loginInfo.email,
-          serviceType : 1
+          serviceType: 1
         }
       }).then(res => {
         console.log(res);
@@ -89,7 +91,13 @@
       }
     },
     methods: {
-      test : function(){},
+      test: function () {
+        var ck = document.querySelector("#ckone").checked;
+        console.log(ck)
+        if (ck == true) {
+          this.uncheck == false;
+        }
+      },
       goDetail(no) {
         console.log(no);
         this.$router.push('/used/detail?pNo=' + no);
@@ -97,6 +105,7 @@
       selectAll: function () {
         console.log(this.ckList)
         let isCheck = document.querySelector('#ckAll').checked;
+        console.log(isCheck)
         if (isCheck == false) {
           for (let i of this.data) {
             this.ckList.push(i.bookmarkNo);
