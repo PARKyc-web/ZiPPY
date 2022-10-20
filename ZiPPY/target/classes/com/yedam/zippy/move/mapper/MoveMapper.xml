@@ -163,6 +163,13 @@
 			)
 	</insert>
 	
+	<!-- 업체가 2차 견적으로 견적서 업데이트 -->
+	<update id="moveEstimateUpdate" parameterType="MoveResponseVO">
+		UPDATE moving_response
+		SET second_estimate_type = #{secondEstimateType},
+		    second_estimate_price = #{secondEstimatePrice}
+		WHERE estimate_no = #{estimateNo}
+	</update>
 	
 	<!-- 업체가 들어온 견적 전체조회 -->
 	<select id="getEstimateList" parameterType="MoveEstimateVO" resultType="MoveRequestVO">
@@ -212,17 +219,20 @@
 	</select>
 	
 	<!-- 전체조회 - 업체가 자신이 보낸 견적서 조회 -->
+	
 	<select id="companyEstimate" parameterType="MoveCompanyEstimateVO" resultType="MoveCompanyEstimateVO">
-		SELECT * FROM  untact_estimate_moving m, moving_response r
-		WHERE m.email = r.email
-		AND r.comp_name = '456이사'
-		<if test="dropbox == '날짜순'">
-		ORDER BY request_date DESC
+		
+		SELECT * FROM untact_estimate_moving m, moving_response r
+		WHERE m.estimate_no = r.estimate_no
+		AND r.email = 'move123@move.com'
+		
+		<if test="dropbox2 == '날짜순'">
+		ORDER BY m.request_date DESC
 		</if>
-		<if test="dropbox == '견적방법순'">
+		<if test="dropbox2 == '견적방법순'">
 		ORDER BY m.estimate_type DESC
 		</if>
-		<if test="dropbox == '견적상태순'">
+		<if test="dropbox2 == '견적상태순'">
 		ORDER BY r.reserv_status DESC
 		</if>
 	</select>

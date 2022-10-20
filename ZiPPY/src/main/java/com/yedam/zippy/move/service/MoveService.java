@@ -1,6 +1,7 @@
 package com.yedam.zippy.move.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,9 @@ public interface MoveService {
   //견적서 인서트 - 업체
   public int makeEstimate(MoveResponseVO vo);
   
+  //견적서 수정 - 업체 (2차견적)
+  public int moveEstimateUpdate(MoveResponseVO vo);
+  
   //견적서 조회 - 업체
-  public List<MoveCompanyEstimateVO> companyEstimate(MoveCompanyEstimateVO vo);
+  public List<MoveResponseVO> companyEstimate(MoveCompanyEstimateVO vo);
 }

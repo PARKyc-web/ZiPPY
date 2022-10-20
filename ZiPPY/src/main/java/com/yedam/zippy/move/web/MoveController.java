@@ -75,21 +75,36 @@ public class MoveController {
     return service.getEstimateList(vo);
   }
   
-  //견적서 인서트- 업체
+  //견적서 인서트- 업체(1차까지)
   @PostMapping("/moveEstimate")
   public String makeEstimate(MoveResponseVO vo) {    
     service.makeEstimate(vo);
     return "";
   }
   
+  //견적서 수정 - 업체(2차)
+  @PostMapping("/moveEstimateUpdate")
+  public String moveEstimateUpdate(MoveResponseVO vo) {
+    service.moveEstimateUpdate(vo);
+    return "";
+  }
   
   //업체 견적서 내역
   @GetMapping("/moveCompanyEstimate")
-  public List<MoveCompanyEstimateVO> companyEstimate(MoveCompanyEstimateVO vo){
+  public List<MoveResponseVO> companyEstimate(MoveCompanyEstimateVO vo){
     
     System.out.println(vo);
     return service.companyEstimate(vo);
   }
+  
+//  @GetMapping("/moveCompanyEstimate")
+//  public List<MoveResponseVO> companyEstimate(Map<String, String> map){
+//    
+//    System.out.println(map);
+//    
+//    return service.companyEstimate(map);
+//  }
+//  
   
   
   //단건조회 - 업체

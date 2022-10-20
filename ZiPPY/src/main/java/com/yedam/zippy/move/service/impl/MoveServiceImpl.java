@@ -3,6 +3,7 @@ package com.yedam.zippy.move.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -156,9 +157,15 @@ public class MoveServiceImpl implements MoveService{
     return mapper.makeEstimate(vo);
   }
   
+  //견적서 수정 - 업체 (2차견적)
+  @Override
+  public int moveEstimateUpdate(MoveResponseVO vo) {
+    return mapper.moveEstimateUpdate(vo);
+  }
+  
   //견전서 조회 - 업체
   @Override
-  public List<MoveCompanyEstimateVO> companyEstimate(MoveCompanyEstimateVO vo) {
+  public List<MoveResponseVO> companyEstimate(MoveCompanyEstimateVO vo) {
     return mapper.companyEstimate(vo);
   }
 }
