@@ -110,13 +110,14 @@
 
                               <form id="secondForm">
                               <v-col cols="12">
-                                <v-autocomplete id="secondType" v-model="selectData.secondEstimateType"
+                                <v-autocomplete id="secondType" :value="selectData.secondEstimateType"
                                   :items="['대면견적', '비대면견적']"
                                   label="2차 견적타입*"></v-autocomplete>
                               </v-col>
 
+
                               <v-col cols="12">
-                                <v-text-field id="secondPrice" v-model="selectData.secondEstimatePrice" label="2차 견적가격*" type="number" required>
+                                <v-text-field id="secondPrice" :value="selectData.secondEstimatePrice" label="2차 견적가격*" type="number" required>
                                 </v-text-field>
                               </v-col>
 
@@ -325,8 +326,6 @@
         })
       },
       modalVal: function (i) {
-        this.selectData.firstEstimatePrice = '';    
-        this.selectData.responseMemo='';
         
         axios({
           url: "http://localhost:8090/zippy/move/moveCompanyEstimate",
@@ -473,10 +472,19 @@
 
       sendSecondEstimate: function () {
         //2차견적으로 업뎃
+
+
+        console.log(document.querySelector("#secondPrice").value);
+        console.log(document.querySelector("#secondType").value);
+
         this.selectData.reservStatus = "2";
+
 
         var formData = new FormData(document.querySelector('#secondForm'));
 
+        formData.forEach((value,key)=>{
+          console.log('aa', value);
+        })
         console.log("견적번호: " + this.selectData.estimateNo);
         console.log("회원: " + this.selectData.email);
         console.log("1차견적가격: " + this.selectData.firstEstimatePrice);
@@ -492,18 +500,17 @@
           method: "POST",
          
           params:{
-            secondEstimateType : "",
-            secondEstimatePrice : ""
+            estimateNo : this.selectData.estimateNo,
+            secondEstimateType :document.querySelector("#secondPrice").value,
+            secondEstimatePrice : document.querySelector("#secondType").value
           },
           data: formData
         }).then(res => {
           console.log(res);
           alert("견적서 보내기 완료!");
-          const st = document.getElementById('secondType');
-          st.readonly = true;
+          const st = document.getElementById('estBtn');
+          st.disabled = true;
 
-          const sp = document.getElementById('secondPrice');
-          sp.readonly = true;
         }).catch(err => {
           console.log(err)
         })

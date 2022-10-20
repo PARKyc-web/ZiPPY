@@ -86,6 +86,7 @@ public class MoveController {
   @PostMapping("/moveEstimateUpdate")
   public String moveEstimateUpdate(MoveResponseVO vo) {
     service.moveEstimateUpdate(vo);
+    System.out.println(vo.getEstimateNo());
     return "";
   }
   
