@@ -98,19 +98,14 @@
                 <v-row align="center" class="mx-0">
                   <div>매물번호 {{this.houseDetail[0].productId}}</div>
                 </v-row>
-                <v-card-title style="font-weight: bold;">{{this.houseDetail[0].houseName}} /
-                  {{this.houseDetail[0].saleType}}
-                  {{this.price}}</v-card-title>
-
+                <v-card-title style="font-weight: bold;">{{this.houseDetail[0].saleType}} {{this.price}}</v-card-title>
+                <div style="margin-left: 20px;">{{this.houseDetail[0].houseType}} · {{this.houseDetail[0].houseName}}</div>
                 <table style="font-size: medium;">
                   <tr>
-                    <td>{{this.houseDetail[0].sigungu}}</td>
+                    <td>{{this.houseDetail[0].sigungu}} {{this.houseDetail[0].streetAddress}}</td>
                   </tr>
                   <tr>
-                    <td>{{this.houseDetail[0].streetAddress}}</td>
-                  </tr>
-                  <tr>
-                    <td>{{this.houseDetail[0].houseType}} · {{this.houseDetail[0].areaExclusive}}m² ·
+                    <td>{{this.houseDetail[0].areaExclusive}}m² ·
                       {{this.houseDetail[0].floor}}층</td>
                   </tr>
                 </table>

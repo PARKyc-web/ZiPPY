@@ -24,10 +24,15 @@ function getPrice(price) {
 }
 
 function oneHundredMillion(price) {
-  let result = getPrice(price);
+  let result = "";
 
-  result = result.substring(0, result.length - 5) + '억' + result.substring(result.length - 5, result.length);
-  console.log('억 추가: ', result);
+  if(price.length > 4) {
+    result += price.substr(0, price.length-4) + '억';
+    price = price.substr(price.length-4, price.length);
+    if(price == '0000') return result;
+  }
+  price = price.substr(price.length-4, price.length-3) + ',' + price.substr(price.length-3, price.length);
+  result += price;
   
   return result;
 }

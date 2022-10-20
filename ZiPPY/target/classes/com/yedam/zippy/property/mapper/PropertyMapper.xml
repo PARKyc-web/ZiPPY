@@ -3,11 +3,13 @@
 <mapper
 	namespace="com.yedam.zippy.property.mapper.PropertyMapper">
 	<select id="getAllPropertyList" resultType="PropertyVO">
-		select street_address from
+		select street_address
+		from
 		house_detail
 	</select>
-	
-	<select id="getPropertyList" parameterType="String" resultType="PropertyVO">
+
+	<select id="getPropertyList" parameterType="String"
+		resultType="PropertyVO">
 		select *
 		from house_product
 		where sigungu like #{sigungu}
@@ -15,27 +17,27 @@
 
 	<select id="getAgentEmail" parameterType="Integer"
 		resultType="String">
-		select email 
-		  from house_product 
-		 where product_id =	#{productId}
+		select email
+		from house_product
+		where product_id =
+		#{productId}
 	</select>
 
 	<select id="gethouseDetail" parameterType="Integer"
 		resultType="propertyVO">
 		<!-- select * from house_product p join house_detail d on p.product_id 
 			= d.product_id where p.product_id = #{productId} -->
-		select p.*, 
-		       d.*, 
-		       b.comp_name
-		
-		from house_product p 
-		 join house_detail d
-		   on p.product_id = d.product_id 
-		
-		 join business b
-		   on p.email = b.email
-		
-		where p.product_id = #{productId}
+		select p.*,
+		d.*,
+		b.comp_name
+		from house_product p
+		join house_detail d
+		on
+		p.product_id = d.product_id
+		join business b
+		on p.email = b.email
+		where
+		p.product_id = #{productId}
 	</select>
 
 	<select id="getAgentProperties" parameterType="String"
@@ -60,56 +62,61 @@
 		</selectKey>
 		insert into
 		house_product(
-					product_id, 
-					email, main_img,
-					house_name, sale_type, price,
-					sigungu, house_type, floor,
-					area_exclusive, room_cnt, detail_contents
-		) values(#{productId}, 
-		        #{email}, 
-		        #{mainImg},
-				#{houseName}, 
-				#{saleType}, 
-				#{price},
-				#{sigungu}, 
-				#{houseType}, 
-				#{floor},
-				#{areaExclusive}, 
-				#{roomCnt}, 
-				#{detailContents}
+		product_id,
+		email, main_img,
+		house_name,
+		sale_type, price,
+		sigungu, house_type, floor,
+		area_exclusive, room_cnt,
+		detail_contents
+		) values(#{productId},
+		#{email},
+		#{mainImg},
+		#{houseName},
+		#{saleType},
+		#{price},
+		#{sigungu},
+		#{houseType},
+		#{floor},
+		#{areaExclusive},
+		#{roomCnt},
+		#{detailContents}
 		)
 	</insert>
-	
+
 	<insert id="insertHouseDetail" parameterType="propertyVO">
 		insert into
 		house_detail(
 		detail_id, product_id,
 		bath_cnt, parking, house_face,
 		construction_year, tags, street_address
-		) values( 
-		(SELECT NVL(MAX(product_id),0) +1 FROM house_detail),
-		(SELECT NVL(MAX(product_id),0) +1 FROM house_detail),
-		#{bathCnt}, #{parking}, #{houseFace},
+		) values(
+		(SELECT
+		NVL(MAX(product_id),0) +1 FROM house_detail),
+		(SELECT
+		NVL(MAX(product_id),0) +1 FROM house_detail),
+		#{bathCnt}, #{parking},
+		#{houseFace},
 		#{constructionYear}, #{tags}, #{streetAddress}
 		)
 	</insert>
 
 	<update id="updateHouseProduct" parameterType="propertyVO">
-		update house_product
-		   set 
-				product_state = #{productState}, 
-				main_img = #{mainImg},
-				house_name = #{houseName},
-				sale_type = #{saleType},
-				price = #{price},
-				sigungu = #{sigungu},
-				house_type = #{houseType},
-				floor = #{floor},
-				area_exclusive = #{areaExclusive},
-				room_cnt = #{roomCnt},
-				detail_contents = #{detailContents}
-				
-		where  product_id = #{productId}
+		update
+		house_product
+		set
+		product_state = #{productState},
+		main_img = #{mainImg},
+		house_name = #{houseName},
+		sale_type = #{saleType},
+		price = #{price},
+		sigungu = #{sigungu},
+		house_type = #{houseType},
+		floor = #{floor},
+		area_exclusive = #{areaExclusive},
+		room_cnt = #{roomCnt},
+		detail_contents = #{detailContents}
+		where product_id = #{productId}
 	</update>
 
 	<update id="updateHouseDetail" parameterType="propertyVO">
@@ -118,31 +125,67 @@
 		house_face = #{houseFace},
 		parking = #{parking},
 		bath_cnt = #{bathCnt},
-		construction_year =	#{constructionYear},
+		construction_year =
+		#{constructionYear},
 		tags = #{tags}
 		where product_id = #{productId}
 	</update>
-	
+
 	<update id="updateAgentProfile" parameterType="agentVO">
 		update business
 		set comp_name = #{compName},
 		comp_intro = #{compIntro},
-		comp_address = #{compAddress},
+		comp_address =
+		#{compAddress},
 		profile_pic = #{profilePic},
 		phone = #{phone},
 		business_img = #{businessImg},
 		broker_img = #{brokerImg},
-		business_id = #{businessId},
+		business_id =
+		#{businessId},
 		broker_id = #{brokerId}
 		where email = #{email}
 	</update>
-	
+
 	<select id="wishState" parameterType="WishVO"
 		resultType="WishVO">
 		select *
 		from bookmark
 		where service_type = 0
-			and email = #{email}
-			and service_id = #{serviceId}
+		and email =
+		#{email}
+		and service_id = #{serviceId}
+	</select>
+
+	<select id="currentPositionAptList" parameterType="String"
+		resultType="PropertyVO">
+		select *
+		from house_product
+		where
+		sigungu like #{sigungu}
+		and
+		sale_type = '아파트'
+	</select>
+
+	<select id="searchPropertyList" parameterType="propertyVO"
+		resultType="propertyVO">
+		select *
+		from house_product p join house_detail d
+		on
+		p.product_id =
+		d.product_id
+		where p.house_type = #{houseType}
+		and
+		p.sale_type =
+		#{saleType}
+		and
+		<![CDATA[
+		d.construction_year > #{constructionYear}
+		and p.price > #{minPrice} and p.price < #{maxPrice}
+		and
+		p.area_exclusive > #{minSize} and p.area_exclusive < #{maxSize}		
+		]]>
+		and
+		p.sigungu = #{sigungu};
 	</select>
 </mapper>

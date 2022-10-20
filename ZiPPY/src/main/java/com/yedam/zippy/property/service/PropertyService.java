@@ -28,4 +28,8 @@ public interface PropertyService {
   public int updateAgentProfile(agentVO vo);
   
   public WishVO wishState(WishVO vo);
+  
+  public List<propertyVO> currentPositionAptList(String sigungu);
+  
+  public List<propertyVO> searchPropertyList(propertyVO vo);
 }

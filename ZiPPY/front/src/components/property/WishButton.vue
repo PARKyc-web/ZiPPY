@@ -22,7 +22,12 @@
     data() {
       return {
         heart: 0,
-        bNo: -1
+        data: {
+          email: "",
+          serviceId: "",
+          bookmarkNo: "",
+          serviceType: 0
+        },
       }
     },
     created() {
@@ -37,10 +42,11 @@
           }).then(response => {
             // 성공했을 때
             console.log('wishState success!');
+            this.data.email = this.$store.state.loginInfo.email;
+            this.data.serviceId = this.productId;
+            
             if (response.data) {
               this.heart = 1;
-              this.bNo = response.data.bookmarkNo;
-              console.log(this.bNo);
             }
           })
           .catch(error => {
@@ -53,45 +59,10 @@
     methods: {
       changeHeart() {
         if (this.$store.state.loginInfo) {
-          if (this.heart == 0) { //찜x
-            axios({
-              url: "http://localhost:8090/zippy/common/addWish",
-              method: "POST",
-              params: {
-                  email : this.$store.state.loginInfo.email,
-                  serviceType : 0,
-                  serviceId : this.productId 
-              }
-            }).then(res => {
-              this.heart = 1; //찜on
-              Swal.fire({
-                icon: 'success',
-                title: '관심매물에 등록되었습니다.',
-                showConfirmButton: false,
-                timer: 1500
-              })
-            }).catch(err => {
-              console.log(err)
-            })
-          } else { //찜on
-            axios({
-              url: "http://localhost:8090/zippy/common/delWish",
-              method: "DELETE",
-              data: {
-                bNo: bNo
-              }
-            }).then(res => {
-              this.heart = 0; //찜x
-              Swal.fire({
-                icon: 'error',
-                title: '관심매물에서 삭제되었습니다.',
-                showConfirmButton: false,
-                timer: 1500
-              })
-            }).catch(err => {
-              console.log(err)
-            })
-          }
+          //찜x
+          if (this.heart == 0) this.addWish();
+          //찜on
+          else this.delWish();
         } else {
           Swal.fire({
             icon: 'warning',
@@ -100,8 +71,50 @@
             timer: 1500
           })
         }
-
       },
+      addWish() {
+        axios({
+          url: "http://localhost:8090/zippy/common/addWish",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          data: JSON.stringify(this.data)
+        }).then(res => {
+          this.heart = 1; //찜on
+          Swal.fire({
+            icon: 'success',
+            title: '관심매물에 등록되었습니다.',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      delWish() {
+        let bNo = [];
+        console.log(this.data.bookmarkNo)
+        bNo.push(this.data.bookmarkNo);
+        console.log(bNo);
+        axios({
+          url: "http://localhost:8090/zippy/common/delWish",
+          method: "DELETE",
+          data: {
+            bNo: bNo
+          }
+        }).then(res => {
+          this.heart = 0; //찜x
+          Swal.fire({
+            icon: 'error',
+            title: '관심매물에서 삭제되었습니다.',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }).catch(err => {
+          console.log(err)
+        })
+      }
     }
   }
 </script>
