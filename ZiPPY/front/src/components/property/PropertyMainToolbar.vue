@@ -137,32 +137,36 @@
         }
 
         switch (houseSize) {
-          case 0:
+          case 0: // 전체
             minSize = 0;
             maxSize = 10000;
             break;
-          case 1:
+          case 1: // 10평 이하
             minSize = 0;
             maxSize = 33;
             break;
-          case 2:
+          case 2: // 10평대
             minSize = 33;
             maxSize = 66;
             break;
-          case 3:
+          case 3: // 20평대
             minSize = 66;
             maxSize = 99;
             break;
-          case 4:
+          case 4: // 30평대
             minSize = 99;
             maxSize = 132;
             break;
-          case 5:
+          case 5: // 40평대
             minSize = 132;
             maxSize = 165;
             break;
-          case 6:
+          case 6: // 50평대
             minSize = 165;
+            maxSize = 198;
+            break;
+          case 7: // 60평 이상
+            minSize = 198;
             maxSize = 10000;
             break;
         }
