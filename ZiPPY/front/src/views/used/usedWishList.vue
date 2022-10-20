@@ -33,8 +33,7 @@
                 <div id="wish-card-ckbox">
                   <div id="wish-title-price"><span>{{list.productName}}</span></div>
                   <div>
-                    <v-checkbox v-model="ckList" color="#b3e3c3" label="" value="" :value="list.bookmarkNo">
-                    </v-checkbox>
+                    <v-checkbox v-model="ckList" color="#b3e3c3" :value="list.bookmarkNo" @click.stop="test()"></v-checkbox>
                   </div>
                 </div>
                 <div id="used-wish-price-date">
@@ -74,7 +73,8 @@
         url: "/common/wishAll",
         method: "GET",
         params: {
-          email: this.$store.state.loginInfo.email
+          email: this.$store.state.loginInfo.email,
+          serviceType : 1
         }
       }).then(res => {
         console.log(res);
@@ -89,6 +89,7 @@
       }
     },
     methods: {
+      test : function(){},
       goDetail(no) {
         console.log(no);
         this.$router.push('/used/detail?pNo=' + no);

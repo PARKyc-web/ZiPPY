@@ -17,10 +17,10 @@ public interface CommonMapper {
   public int delWish(@Param("bNo") int bNo);
 
   // 해당 상품 찜 출력
-  public BookmarkVO getWishOne(@Param("sId") int sId, @Param("email") String email);
+  public BookmarkVO getWishOne(@Param("sId") int sId, @Param("email") String email, @Param("serviceType")int serviceType);
 
   // 찜 전체 출력
-  public List<BookmarkVO> getWishAll(@Param("email")String email);
+  public List<BookmarkVO> getWishAll(@Param("email")String email, @Param("serviceType")int serviceType);
   
 
 

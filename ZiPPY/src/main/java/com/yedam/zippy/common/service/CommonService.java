@@ -10,10 +10,10 @@ public interface CommonService {
   public int addWish(BookmarkVO bookmark);
 
   //해당 상품 찜 출력
-  public BookmarkVO getWishOne(int sId, String email);
+  public BookmarkVO getWishOne(int sId, String email, int serviceType);
 
   // 찜 전체 출력
-  public List<BookmarkVO> getWishAll(String email);
+  public List<BookmarkVO> getWishAll(String email, int serviceType);
 
   // 찜 삭제
   public int delWish(int bNo);

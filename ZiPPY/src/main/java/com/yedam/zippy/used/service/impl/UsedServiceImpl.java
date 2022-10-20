@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.pagehelper.Page;
 import com.yedam.zippy.used.mapper.UsedMapper;
 import com.yedam.zippy.used.service.UsedImagesVO;
 import com.yedam.zippy.used.service.UsedKeywordVO;
@@ -25,9 +26,14 @@ public class UsedServiceImpl implements UsedService {
   UsedMapper mapper;
 
   @Override
-  public List<UsedProductVO> usedList(String location, String keyword, String category, String checked,
+  public Page<UsedProductVO> usedList(String location, String keyword, String category, String checked,
       String dropbox) {
     return mapper.usedList(location, keyword, category, checked, dropbox);
+  }
+  
+  @Override
+  public Page<UsedProductVO> userMain(String email) {
+    return mapper.userMain(email);
   }
 
   @Override

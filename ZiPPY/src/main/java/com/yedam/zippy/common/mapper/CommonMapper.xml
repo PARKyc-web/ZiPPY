@@ -37,6 +37,7 @@
 		FROM bookmark
 		WHERE service_id = #{sId}
 		AND email = #{email}
+		AND service_type = #{serviceType}
 	</select>
 	
 	<insert id="addReport" parameterType="ReportVO">
@@ -58,7 +59,7 @@
 	</insert>
 
 	<!-- 찜 목록 -->
-	<select id="getWishAll" resultType="BookmarkVO" parameterType="String">
+	<select id="getWishAll" resultType="BookmarkVO" parameterType="hashmap">
 		SELECT p.product_no,
 			   p.product_name,
 			   p.product_price,
@@ -72,6 +73,7 @@
 		FROM used_product p, bookmark b
 		WHERE p.product_no = b.service_id
 		AND b.email = #{email}
+		AND b.service_type = #{serviceType}
 	</select>
 	
 	<!-- 후기 작성 -->

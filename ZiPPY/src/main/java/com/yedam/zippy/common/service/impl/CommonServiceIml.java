@@ -29,13 +29,13 @@ public class CommonServiceIml implements CommonService {
   }
 
   @Override
-  public BookmarkVO getWishOne(int sId, String email) {
-    return mapper.getWishOne(sId, email);
+  public BookmarkVO getWishOne(int sId, String email, int serviceType) {
+    return mapper.getWishOne(sId, email, serviceType);
   }
 
   @Override
-  public List<BookmarkVO> getWishAll(String email) {
-    return mapper.getWishAll(email);
+  public List<BookmarkVO> getWishAll(String email, int serviceType) {
+    return mapper.getWishAll(email,serviceType);
   }
 
   @Override

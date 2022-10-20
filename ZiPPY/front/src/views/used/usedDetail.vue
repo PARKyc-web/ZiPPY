@@ -124,6 +124,7 @@
         {{product.productInfo}}
       </div>
     </div>
+    <button @click="btnn()">ddd</button>
   </div>
 </template>
 
@@ -217,7 +218,8 @@
           methods: "GET",
           params: {
             email: this.$store.state.loginInfo.email,
-            sId: this.$route.query.pNo
+            sId: this.$route.query.pNo,
+            serviceType : this.data.serviceType
           }
         }).then(res => {
           this.wish = res.data;
@@ -232,6 +234,26 @@
       }
     },
     methods: {
+      rewrite(){
+        axios({
+          url: "http://localhost:8090/zippy/common/wishOne",
+          methods: "GET",
+          params: {
+            email: this.$store.state.loginInfo.email,
+            sId: this.$route.query.pNo,
+            serviceType : this.data.serviceType
+          }
+        }).then(res => {
+          this.wish = res.data;
+          if (res.data != "") {
+            this.heart = 1;
+          } else if (res.data == "") {
+            this.heart = 0;
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
       changeHeart() {
         if (this.$store.state.loginInfo != null) {
           if (this.heart == 0) { //찜x일때
@@ -294,16 +316,14 @@
           },
           data: JSON.stringify(this.data)
         }).then(res => {
-          console.log(res);
+          this.rewrite();        
         }).catch(err => {
           console.log(err)
-        })
+        })        
       },
       delWish: function () {
         let bNo = [];
-        console.log(this.wish.bookmarkNo)
         bNo.push(this.wish.bookmarkNo);
-        console.log(bNo);
         axios({
           url: "http://localhost:8090/zippy/common/delWish",
           method: "DELETE",
