@@ -45,7 +45,7 @@
                     </v-btn-toggle>
                   </v-col>
                   <v-col cols="12" class="px-4">
-                    <v-range-slider v-model="priceRange" :max="priceMax" :min="priceMin" hide-details
+                    <v-range-slider v-model="priceRange" :max="data.priceMax" :min="data.priceMin" hide-details
                       class="align-center" step="100" thumb-label :thumb-size="50">
                       <template v-slot:prepend>
                         <v-text-field :value="priceRange[0]" class="mt-0 pt-0" hide-details single-line type="number"
@@ -98,19 +98,20 @@
     props: ['sigungu'],
     data() {
       return {
-        dialogm1: '',
         dialog: false,
         tags: '',
-        houseType: '아파트',
-        saleType: '전체',
-        constructionYear: '전체',
         sizeLevel: [0, 6],
-        priceMin: 0,
-        priceMax: 200000,
-        priceRange: [0, 200000],
+        priceRange: [0, 999999],
         houseSize: 0,
-        minSize: 0,
-        maxSize: 0,
+        data: {
+          houseType: '아파트',
+          saleType: '전체',
+          constructionYear: '전체',
+          minSize: 0,
+          maxSize: 0,
+          priceMin: 0,
+          priceMax: 999999,
+        }
       }
     },
     methods: {
@@ -137,37 +138,37 @@
         }
 
         switch (houseSize) {
-          case 0: // 전체
-            minSize = 0;
-            maxSize = 10000;
+          case 0: // 전체 
+            data.minSize = 0;
+            data.maxSize = 10000;
             break;
           case 1: // 10평 이하
-            minSize = 0;
-            maxSize = 33;
+            data.minSize = 0;
+            data.maxSize = 33;
             break;
           case 2: // 10평대
-            minSize = 33;
-            maxSize = 66;
+            data.minSize = 33;
+            data.maxSize = 66;
             break;
           case 3: // 20평대
-            minSize = 66;
-            maxSize = 99;
+            data.minSize = 66;
+            data.maxSize = 99;
             break;
           case 4: // 30평대
-            minSize = 99;
-            maxSize = 132;
+            data.minSize = 99;
+            data.maxSize = 132;
             break;
           case 5: // 40평대
-            minSize = 132;
-            maxSize = 165;
+            data.minSize = 132;
+            data.maxSize = 165;
             break;
           case 6: // 50평대
-            minSize = 165;
-            maxSize = 198;
+            data.minSize = 165;
+            data.maxSize = 198;
             break;
           case 7: // 60평 이상
-            minSize = 198;
-            maxSize = 10000;
+            data.minSize = 198;
+            data.maxSize = 10000;
             break;
         }
 
