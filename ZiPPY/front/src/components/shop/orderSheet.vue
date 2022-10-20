@@ -9,7 +9,7 @@
         <tr>
           <td style="font-weight:bold">주문번호</td>
           <td>
-            paycode
+            {{this.products[0].payCode}}
           </td>
         </tr>
         <tr>
@@ -68,7 +68,10 @@
                       :src="require(`../../assets/shop/productImg/${product.productVO.proMainImg}.jpg`)"
                       style="cursor:default"></v-img>
                   </td>
-                  <td>주문상태<v-btn class="mr-2" width="160" outlined color="#64c481" @click="">
+                  <td>
+                    <p>결제완료</p>
+                    <p>배송완료</p>
+                    <v-btn depressed color=#B3E3C3 class="ml-3">
                       후기작성
                     </v-btn></td>
                   <td>{{product.optName}}</td>

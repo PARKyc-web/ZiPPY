@@ -3,6 +3,7 @@ package com.yedam.zippy.shop.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -202,10 +203,6 @@ public class ShopServiceImpl implements ShopService {
 
   }
 
-//  @Override
-//  public List<ProductVO> getMyProList(ProductVO productVO) {
-//    return mapper.getMyProList(productVO);
-//  }
   @Override
   public List<ProductVO> getMyProList(ProductVO productVO, String keyword) {
     return mapper.getMyProList(productVO, keyword);
@@ -266,12 +263,7 @@ public class ShopServiceImpl implements ShopService {
   }
 
   @Override
-  public OrderVO getMyOrder(OrderVO orderVO) {
-    return mapper.getMyOrder(orderVO);
-  }
-
-  @Override
-  public List<OrderVO> getMyOrderList(OrderVO orderVO) {
-    return mapper.getMyOrderList(orderVO);
+  public List<OrderVO> getMyOrderList(String email) {
+    return mapper.getMyOrderList(email);
   }
 }

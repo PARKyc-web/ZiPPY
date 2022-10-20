@@ -158,7 +158,7 @@
       },
       goOrderDetail(payCode){
         this.$router.push({
-          name: 'order',
+          name: 'shopOrderSheet',
           query: {
             payCode: payCode
           }

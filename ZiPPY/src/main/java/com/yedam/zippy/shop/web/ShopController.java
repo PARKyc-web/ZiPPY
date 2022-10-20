@@ -76,7 +76,7 @@ public class ShopController {
   }
   
   //조회(qna)
-  @ResponseBody
+  //@ResponseBody
   @GetMapping("/getQnaList")
   public List<QnaVO> getQnaList(@RequestParam("pno") int proNo){
     return service.getQnaList(proNo);
@@ -140,15 +140,10 @@ public class ShopController {
   
   //주문서 리스트 조회
   @PostMapping("/myOrderList")
-  public List<OrderVO> getMyOrderList(OrderVO orderVO){
-   return service.getMyOrderList(orderVO);
+  public List<OrderVO> getMyOrderList(String email){
+   return service.getMyOrderList(email);
   }
-  
-  //주문서 단건조회
-  @PostMapping("/myOrder")
-  public OrderVO getMyOrder(OrderVO orderVO){
-   return service.getMyOrder(orderVO);
-  }
+ 
   
   // 상품등록
   @PostMapping("/insertPro")
@@ -160,7 +155,7 @@ public class ShopController {
   }
 
   // 상품조회
-  @ResponseBody
+  //@ResponseBody
   @PostMapping("/myProList")
   public List<ProductVO> getMyProList(@RequestBody ProductVO productVO,
       @RequestParam(required = false) String keyword) {

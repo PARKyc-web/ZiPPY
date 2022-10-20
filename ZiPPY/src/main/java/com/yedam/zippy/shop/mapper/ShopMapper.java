@@ -1,6 +1,7 @@
 package com.yedam.zippy.shop.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -67,10 +68,9 @@ public interface ShopMapper {
 
   // 주문등록
   public void insertOrder(OrderVO orderVO);
-  // 주문서 단건조회
-  public List<OrderVO> getMyOrderList(OrderVO orderVO);
-  //주문서 조회
-  public OrderVO getMyOrder(OrderVO orderVO);
+  // 주문서 조회
+  public List<OrderVO> getMyOrderList(String email);
+  
 
   // 판매자 CRUD
   // 상품등록
