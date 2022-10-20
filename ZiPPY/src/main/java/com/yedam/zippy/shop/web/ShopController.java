@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import com.yedam.zippy.shop.service.OrderVO;
 import com.yedam.zippy.shop.service.ProductOptionVO;
 import com.yedam.zippy.shop.service.ProductVO;
 import com.yedam.zippy.shop.service.PurchaseVO;
+import com.yedam.zippy.shop.service.QnaVO;
 import com.yedam.zippy.shop.service.ShopService;
 
 @CrossOrigin
@@ -67,10 +69,17 @@ public class ShopController {
     return service.getDetailOpt(proNo);
   }
 
-  // 조회(북마크)
-  @RequestMapping("/heart")
-  public void getHeart(String email) {
-    service.getHeart(email);
+  //등록(qna)
+  @PostMapping("/insertQna")
+  public void insertQna(@RequestBody QnaVO qnaVO) {
+    service.insertQna(qnaVO);
+  }
+  
+  //조회(qna)
+  @ResponseBody
+  @GetMapping("/getQnaList")
+  public List<QnaVO> getQnaList(@RequestParam("pno") int proNo){
+    return service.getQnaList(proNo);
   }
 
   // 장바구니
@@ -128,7 +137,19 @@ public class ShopController {
   public void insertOrder(@RequestBody OrderVO orderVO) {
     service.insertOrder(orderVO);
   }
-
+  
+  //주문서 리스트 조회
+  @PostMapping("/myOrderList")
+  public List<OrderVO> getMyOrderList(OrderVO orderVO){
+   return service.getMyOrderList(orderVO);
+  }
+  
+  //주문서 단건조회
+  @PostMapping("/myOrder")
+  public OrderVO getMyOrder(OrderVO orderVO){
+   return service.getMyOrder(orderVO);
+  }
+  
   // 상품등록
   @PostMapping("/insertPro")
   public void insertProduct(ProductVO productVO, String option, MultipartFile image, List<MultipartFile> images) {
@@ -168,10 +189,10 @@ public class ShopController {
       @RequestParam(required = false) String keyword) {
     return service.getMyOrdList(productVO, keyword);
   }
-  
-  //등록 상품상태 수정
-   @PostMapping("/updateOrdStatus")
-   public void updateOrdStatus(@RequestBody OrderVO orderVO) {
-     service.updateOrdStatus(orderVO);
-   }
+
+  // 등록 상품상태 수정
+  @PostMapping("/updateOrdStatus")
+  public void updateOrdStatus(@RequestBody OrderVO orderVO) {
+    service.updateOrdStatus(orderVO);
+  }
 }

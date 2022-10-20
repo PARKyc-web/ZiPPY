@@ -93,7 +93,7 @@
     <!-- 탭 -->
     <!-- 상품 상세정보 -->
     <div class="mx-auto pb-5" style="width:810px">
-      <shop-tab :pno="product.proNo"></shop-tab>
+      <shop-tab :pno="$route.query.pno"></shop-tab>
     </div>
   </div>
 </template>

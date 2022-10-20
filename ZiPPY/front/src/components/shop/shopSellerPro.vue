@@ -161,7 +161,7 @@
             url: "/shop/myProList",
             method: "POST",
             data: {
-              email: 'shop@mail.com'
+              email: this.$store.state.loginInfo.email
             },
             params : {
               keyword : searchValue
@@ -183,7 +183,7 @@
         url: "/shop/myProList",
         method: "POST",
         data: {
-          email: 'shop@mail.com'
+          email: this.$store.state.loginInfo.email
         },
         method: "POST",
       }).then(res => {
