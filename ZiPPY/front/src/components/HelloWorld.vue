@@ -1,7 +1,7 @@
 <template>
   <div>
     <img :src="file">    
-    <a href="http://localhost:8090/zippy/common/img/image1.jpg">아니 이것 안서줬네</a>
+    <a href="http://localhost:8090/zippy/common/img/member/image1.jpg">아니 이것 안서줬네</a>
   </div>
 </template>
 
@@ -10,16 +10,14 @@
     name: "HelloWorld",
     data: function () {
       return {
-        file : "http://localhost:8090/zippy/common/img/image1.jpg",
+        file : "http://localhost:8090/zippy/common/img/member/image1.jpg",
         return: {},
       };
     },
 
     methods : {
       getImage : function(){
-        console.log("dfd");
-        window.location.href = "http://localhost:8090/zippy/common/img/image2.jpg";
-        // location.href = "http://localhost:8090/zippy/common/img/image2.jpg";
+        console.log("dfd");        
       }
     }
   };

@@ -138,8 +138,10 @@ public class ValidationController {
         
         LoginVO login = new LoginVO();
         login.setEmail(email);
+        
         login.setPassword(key);
-        mService.changePassword(login);
+        mService.takeNewPassword(login);
+        
         
         System.out.println(key);
 //      msg.setTo(data.get("email"));
