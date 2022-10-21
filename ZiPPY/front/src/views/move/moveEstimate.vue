@@ -101,14 +101,14 @@
                                  v-model="selectData.estimateType"></v-text-field>
                               </v-col>
                               <v-col cols="12">
-                                <v-text-field id="firstPrice"  label="1차 견적가격*" type="number" 
+                                <v-text-field  label="1차 견적가격*" type="number"   v-model="selectData.firstEstimatePrice"
                                 hint="고객에게 처음 제시하는 견적가격입니다. 견적제시는 2차까지만 가능합니다. 신중하게 결정해주세요.(추후 수정불가)"
                                 required :value="selectData.firstEstimatePrice">
                                 </v-text-field>
                               </v-col>
 
                               <v-col>
-                                <v-autocomplete id="memo" :value="selectData.responseMemo"
+                                <v-autocomplete :value="selectData.responseMemo" v-model="selectData.responseMemo"
                                   :items="['전문적이에요', '꼼꼼해요', '손이 빨라요', '저렴해요', '깔끔해요', '친절해요', '견적네고 가능해요', '고급장비 사용해요', '안전해요']"
                                   label="어필하기" multiple hint="고객에게 어필할 업체의 특징을 선택해주세요."></v-autocomplete>
                               </v-col>
@@ -135,12 +135,12 @@
                     <input type="hidden" name="businessEmail" id="businessEmail" v-model="selectData.businessEmail">
                    
                     <input type="hidden" name="firstEstimateType" id="firstEstimateType" v-model="selectData.estimateType">
-                    <input type="hidden" name="firstEstimatePrice" v-model="selectData.firstEstimatePrice">
+                    <input type="hidden" name="firstEstimatePrice" id="firstPrice"  v-model="selectData.firstEstimatePrice">
                     <!-- <input type="hidden" name="secondEstimatePrice" v-model="selectData.secondEstimatePrice">
                     <input type="hidden" name="secondEstimateType"  v-model="selectData.secondEstimateType"> -->
-                    <input type="hidden" name="reservStatus" value="0" v-model="selectData.reservStatus">
+                    <input type="hidden" name="reservStatus" value="1" v-model="selectData.reservStatus">
                     <input type="hidden" name="compName" v-model="selectData.compName">
-                    <input type="hidden" name="responseMemo" v-model="selectData.responseMemo">
+                    <input type="hidden" name="responseMemo" id="memo" v-model="selectData.responseMemo">
                   </form>
 
                 </v-dialog>
@@ -520,7 +520,7 @@ export default {
           // params:{
 
           // },
-          data: formData
+          data: this.selectData
         }).then(res => {
           console.log(res);
           // alert("견적서 보내기 완료!");
