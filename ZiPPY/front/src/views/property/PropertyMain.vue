@@ -275,8 +275,6 @@
           });
       },
       searchEvent(sigungu) {
-        this.getPropertyList(sigungu);
-
         let map = this.map;
 
         // 주소-좌표 변환 객체를 생성합니다
@@ -339,9 +337,7 @@
             console.log(error);
           });
           
-          
-
-
+          this.searchEvent(data.sigungu);
       }
     }
   };
