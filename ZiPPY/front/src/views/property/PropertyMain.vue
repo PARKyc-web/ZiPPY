@@ -361,7 +361,6 @@
       },
       showclusterer() {
 
-        // this.clusterer.clear();
         var outside = this;
 
         var geocoder = new kakao.maps.services.Geocoder();
@@ -374,8 +373,8 @@
         console.log('값', this.markers.length);
         this.markers = [];
         console.log('초기화', this.markers.lengh);
-        // var markers = [];
-        var markers = this.markers;
+
+        var markers = [];
 
         for (let i = 0; i < this.houseProducts.length; i++) {
           // 주소로 좌표를 검색합니다
@@ -390,9 +389,11 @@
           });
         }
 
+        this.markers = markers;
+
         function makeClusterer() {
           // 클러스터러에 마커들을 추가합니다
-          clusterer.addMarkers(markers);
+          clusterer.addMarkers(outside.markers);
         }
 
         let setClusterer = setInterval(function () {
