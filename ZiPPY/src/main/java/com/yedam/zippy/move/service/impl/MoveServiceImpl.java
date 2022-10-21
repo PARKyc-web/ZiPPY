@@ -152,10 +152,16 @@ public class MoveServiceImpl implements MoveService{
     return mapper.getEstimateResult(vo);
   }
   
-  //견적서 인서트 - 업체
+  //견적서 인서트 - 업체(1차)
   @Override
   public int makeEstimate(MoveResponseVO vo) {
     return mapper.makeEstimate(vo);
+  }
+  
+  //견적상태 업데이트 (1차 견적서 발송후, 상태 1로 변경)
+  @Override
+  public int moveStatusUpdate(MoveResponseVO vo) {
+    return mapper.moveStatusUpdate(vo);
   }
   
   //견적서 수정 - 업체 (2차견적)
