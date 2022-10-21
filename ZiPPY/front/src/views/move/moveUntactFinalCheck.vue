@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <moveNav></moveNav>
+    <move-nav-bar @click="categoryVal=$event.target.innerText"></move-nav-bar>
     <form id="untactForm" name="untactForm">
 
     <h2>이사 견적을 위해 입력한 정보를 확인해주세요.</h2>
@@ -665,13 +665,14 @@
 </template>
 
 <script>
-  import moveNav from '../../components/move/moveNav.vue';
-  export default {
+ import MoveNavBar from '../../components/move/MoveNavBar.vue';
+
+export default {
+  components: {
+    MoveNavBar
+  },
 
     props: ['moveImage', 'moveDetail', 'moveEstimateType', 'moveType', 'moveInfo', 'moveDate', 'moveAddress'],
-    components: {
-      moveNav,
-    },
 
     data: () => ({
       commonOption:"",

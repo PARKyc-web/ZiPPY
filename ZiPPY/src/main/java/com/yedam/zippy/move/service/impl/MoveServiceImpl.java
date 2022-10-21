@@ -14,6 +14,7 @@ import com.yedam.zippy.move.mapper.MoveMapper;
 import com.yedam.zippy.move.service.MoveCompanyEstimateVO;
 import com.yedam.zippy.move.service.MoveEstimateVO;
 import com.yedam.zippy.move.service.MoveImageVO;
+import com.yedam.zippy.move.service.MoveMyListVO;
 import com.yedam.zippy.move.service.MoveRequestVO;
 import com.yedam.zippy.move.service.MoveResponseVO;
 import com.yedam.zippy.move.service.MoveService;
@@ -167,5 +168,11 @@ public class MoveServiceImpl implements MoveService{
   @Override
   public List<MoveResponseVO> companyEstimate(MoveCompanyEstimateVO vo) {
     return mapper.companyEstimate(vo);
+  }
+  
+  //받은 견적 조회 - 사용자
+  @Override
+  public List<MoveMyListVO> getMyEstimateList(MoveMyListVO vo) {
+    return mapper.getMyEstimateList(vo);
   }
 }

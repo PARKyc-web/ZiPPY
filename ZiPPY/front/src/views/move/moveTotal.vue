@@ -1,6 +1,6 @@
 <template>
   <div class="whole-wrap">
-    <moveNav></moveNav>
+    <move-nav-bar @click="categoryVal=$event.target.innerText"></move-nav-bar>
     <form>
 
   <!-- moveSelect (이사유형 선택) -->
@@ -382,13 +382,14 @@
 </template>
 
 <script>
-import moveNav from "../../components/move/moveNav.vue";
 
-  export default {
+import MoveNavBar from '../../components/move/MoveNavBar.vue';
 
-    components:{
-      moveNav
-    },
+export default {
+  components: {
+    MoveNavBar
+  },
+  
 
     data: () => ({
 

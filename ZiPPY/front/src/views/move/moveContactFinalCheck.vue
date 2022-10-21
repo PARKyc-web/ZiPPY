@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <moveNav></moveNav>
+    <move-nav-bar @click="categoryVal=$event.target.innerText"></move-nav-bar>
 
     <form id="contactForm">
     <h2>이사 견적을 위해 입력한 정보를 확인해주세요.</h2>
@@ -24,8 +24,8 @@
     <input type="hidden" name="arriveExtra" v-model="moveAddress.extraAddress2">
 
     <input type="hidden" name="moveType" v-model="moveType">
-    <input type="hidden" name="visitDate" v-model="moveVisit.date">
-    <input type="hidden" name="visitTime" v-model="moveVisit.time">
+    <input type="hidden" name="visitDate" v-model="moveVisit.visitDate">
+    <input type="hidden" name="visitTime" v-model="moveVisit.visitTime">
     <input type="hidden" name="requestDate" v-model="requestDateSend">
 
     <!-- 이사유형 -->
@@ -571,19 +571,20 @@
 </template>
 
 <script>
-  import moveNav from '../../components/move/moveNav.vue';
-  export default {
+import MoveNavBar from '../../components/move/MoveNavBar.vue';
 
+export default {
+  components: {
+    MoveNavBar
+  },
+  
     props : ['moveVisit', 'moveEstimateType', 'moveType', 'moveInfo', 'moveDate', 'moveAddress'],   
-    components: {
-      moveNav,
-    },
 
     data: () => ({
       commonOption: "",
       emailSend : "zippy@naver.com",
       movingMemoSend: "MemoMemo",
-      requestDateSend: "2022-10-14",
+      requestDateSend: new Date().toLocaleDateString(),
 
       date: null,
       time: null,
@@ -641,17 +642,15 @@
         var moveInfoJson = JSON.stringify(this.moveInfo);
 
 
-        let replac_str2 = moveInfoJson.replace(/\{|\[|\"|\]|\}/g,'');
-        console.log('문자제거 : '+replac_str2);
-
        
-        contactForm.commonOption.value= replac_str2;
+        contactForm.commonOption.value= moveInfoJson;
         
         // contactForm.movingOption.value= "["+ JSON.stringify(this.moveInfo) +"]";
         //form으로 데이터보내기
         var formData = new FormData(document.querySelector('#contactForm')); 
         
         console.log(this.commonOption);
+       
 
         this.$axios({
           url: "http://localhost:8090/zippy/move/moveContactCheck",
@@ -679,8 +678,10 @@
             moveInfo: this.moveInfo,
             moveType: this.moveType,
             moveDate: this.moveDate, 
-            moveAddress: this.moveAddress
-          
+            moveAddress: this.moveAddress,
+            moveVisit : this.moveVisit,
+            requestDate : this.requestDateSend
+            
           }
           })
         } else {

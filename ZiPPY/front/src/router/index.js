@@ -36,11 +36,12 @@ import moveTypeSelect from "../views/move/moveTypeSelect";
 import moveImage from "../views/move/moveImage";
 import moveTotal from "../views/move/moveTotal";
 import moveEstimate from "../views/move/moveEstimate";
-import moveCompanyList from "../views/move/moveCompanyList";
+import moveMyList from "../views/move/moveMyList";
 import moveResult from "../views/move/moveResult";
 import moveMain from "../views/move/moveMain";
 import moveCompanyEstimate from "../views/move/moveCompanyEstimate";
 import moveCompanyMy from "../views/move/moveCompanyMy";
+import moveMyReserve from "../views/move/moveMyReserve";
 
 import usedUpdate from "../views/used/usedUpdate.vue";
 import usedDetail from "../views/used/usedDetail.vue";
@@ -221,75 +222,81 @@ const routes = [
 
   //move
   {
-    path: "/moveMain",
+    path: "/move/moveMain",
     name: "moveMain",
     component: moveMain,
   },
   {
-    path: "/moveTotal",
+    path: "/move/moveTotal",
     name: "moveTotal",
     component: moveTotal,
   },
   {
-    path: "/moveContact",
+    path: "/move/moveContact",
     name: "moveContact",
     component: moveVisitDate,
     props: true,
 
   },
   {
-    path: "/moveUntact",
+    path: "/move/moveUntact",
     name: "moveUntact",
     component: moveInfoDetail,
     props: true,
   },
 
   {
-    path: "/moveContactCheck",
+    path: "/move/moveContactCheck",
     name: "moveContactCheck",
     component: moveContactFinalCheck,
     props: true, //변수를 받겠다. 
   },
   {
-    path: "/moveUntactImg",
+    path: "/move/moveUntactImg",
     name: "moveUntactImg",
     component: moveImage,
     props: true,
   },
   {
-    path: "/moveUntactCheck",
+    path: "/move/moveUntactCheck",
     name: "moveUntactCheck",
     component: moveUntactFinalCheck,
     props: true,
   },
   {
-    path: "/moveCompanyList",
-    name: "moveCompanyList",
-    component: moveCompanyList,
+    path: "/move/moveMyList",
+    name: "moveMyList",
+    component: moveMyList,
     props: true,
   },
   {
-    path: "/moveEstimate",
+    path: "/move/moveEstimate",
     name: "moveEstimate",
     component: moveEstimate,
     props: true,
   },
   {
-    path: "/moveResult",
+    path: "/move/moveResult",
     name: "moveResult",
     component: moveResult,
     props: true,
   },
   {
-    path: "/moveCompanyEstimate",
+    path: "/move/moveCompanyEstimate",
     name: "moveCompanyEstimate",
     component: moveCompanyEstimate,
     props: true,
   },
   {
-    path: "/moveCompanyMy",
+    path: "/move/moveCompanyMy",
     name: "moveCompanyMy",
     component: moveCompanyMy,
+    props: true,
+  },
+  {
+    path: "/move/moveMyReserve",
+    name: "moveMyReserve",
+    component: moveMyReserve,
     props: true,
   },
 
