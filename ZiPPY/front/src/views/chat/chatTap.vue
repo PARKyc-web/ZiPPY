@@ -3,7 +3,7 @@
         <div>
             <b-card no-body>
                 <b-tabs card vertical> <!-- pills -->
-                    <b-tab :title="item.user2Name" v-for="item in chatRooms">                        
+                    <b-tab :title="item.user2Name" v-for="item in chatRooms">                    
                         <chatDetail :roomId="item.chatRoomNo" :item="item"></chatDetail>
                     </b-tab>   
                 </b-tabs>
@@ -17,7 +17,7 @@ import chatDetail from '@/components/chat/chatDetail.vue'
 
     export default {
         data(){
-            return {
+            return {                
                 chatRooms : [],
             }
 
@@ -31,7 +31,7 @@ import chatDetail from '@/components/chat/chatDetail.vue'
             chatDetail
         },
 
-        methods: {
+        methods: {            
             findAllRoom: function () {
                 this.$axios({
                     url: "/chat/room",
@@ -54,6 +54,38 @@ import chatDetail from '@/components/chat/chatDetail.vue'
                         roomId: roomId
                     }
                 })                
+            },
+
+            connect: function (no) {
+                console.log(no);
+                var outside = this;
+                // sock = new SockJS("http://localhost:8090/zippy/ws/chat");
+                // ws = Stomp.over(sock);
+                console.log("구독 전에 실행!")
+                this.$ws.connect({}, function (frame) {
+                // debugger                    
+                outside.$ws.subscribe("/topic/chat/room/" + no, function (message) {
+                    console.log("구독 성공!")
+                    var recv = JSON.parse(message.body);
+                    // console.log(recv);
+                    outside.recvMessage(recv);
+                });
+                outside.$ws.send("/app/chat/message", JSON.stringify({
+                    type: 'ENTER',
+                    roomId: outside.roomId,
+                    sender: outside.sender,
+                    time: outside.getTime()
+                }));
+                }, function (error) {
+                if (reconnect++ <= 5) {
+                    setTimeout(function () {
+                    console.log("connection reconnect");
+                    // outside.$sock = new SockJS("http://localhost:8090/zippy/ws/chat");
+                    // outside.$ws = Stomp.over(sock);
+                    outside.connect();
+                    }, 10 * 1000);
+                }
+                });
             }
         }
     }

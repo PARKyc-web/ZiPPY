@@ -2,8 +2,9 @@
     <div id="maypage">
         <div id="side">
             <sidebar-menu :menu="menu"></sidebar-menu>
-        </div>
-        <router-view />        
+        </div>        
+            <router-view />        
+        
     </div>
 </template>
 
@@ -77,7 +78,7 @@ export default{
                         href: '/mypage/order',
                         title: '구매목록',
                         icon: 'fa-solid fa-list',                        
-                    },
+                    },                    
 
 
                     // 이사관련 정보
