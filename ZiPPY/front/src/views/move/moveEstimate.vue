@@ -101,30 +101,14 @@
                                  v-model="selectData.estimateType"></v-text-field>
                               </v-col>
                               <v-col cols="12">
-                                <v-text-field  label="1차 견적가격*" type="number" 
+                                <v-text-field id="firstPrice"  label="1차 견적가격*" type="number" 
                                 hint="고객에게 처음 제시하는 견적가격입니다. 견적제시는 2차까지만 가능합니다. 신중하게 결정해주세요.(추후 수정불가)"
-                                required v-model="selectData.firstEstimatePrice">
+                                required :value="selectData.firstEstimatePrice">
                                 </v-text-field>
                               </v-col>
-
-                              <!-- <v-col cols="12">
-                                <v-autocomplete v-model="selectData.secondEstimateType"
-                                  :items="['대면견적', '비대면견적']"
-                                  label="2차 견적타입*"></v-autocomplete>
-                              </v-col>
-
-                              <v-col cols="12">
-                                <v-text-field v-model="selectData.secondEstimatePrice" label="2차 견적가격*" type="number" required>
-                                </v-text-field>
-                              </v-col> -->
-
-                              <!-- <v-col cols="12">
-                                <v-text-field v-model="reservStatus" label="진행상태*" required>
-                                </v-text-field>
-                              </v-col> -->
 
                               <v-col>
-                                <v-autocomplete v-model="selectData.responseMemo"
+                                <v-autocomplete id="memo" :value="selectData.responseMemo"
                                   :items="['전문적이에요', '꼼꼼해요', '손이 빨라요', '저렴해요', '깔끔해요', '친절해요', '견적네고 가능해요', '고급장비 사용해요', '안전해요']"
                                   label="어필하기" multiple hint="고객에게 어필할 업체의 특징을 선택해주세요."></v-autocomplete>
                               </v-col>
@@ -376,8 +360,8 @@ export default {
             estimateNo : this.list[i].estimateNo,
             email: this.vo.email,
             estimateType: this.list[i].estimateType,
-            firstEstimatePrice: this.list[i].firstEstimatePrice,
-            responseMemo : this.list[i].responseMemo
+            // firstEstimatePrice: this.list[i].firstEstimatePrice,
+            // responseMemo : this.list[i].responseMemo
           }
         }).then(res => {
           this.selectData.estimateNo = this.list[i].estimateNo //{...this.list[i]}
@@ -507,7 +491,8 @@ export default {
 
       sendEstimate: function () {
 
-        this.selectData.reservStatus = "1";
+        console.log('1차 가격 : ',document.querySelector("#firstPrice").value);
+        console.log('어필 : ',document.querySelector("#memo").value);
 
         var formData = new FormData(document.querySelector('#estimateForm'));
 
@@ -517,14 +502,15 @@ export default {
 
         console.log("견적번호: " + this.selectData.estimateNo);
         console.log("회원: " + this.selectData.email);
-        console.log("1차견적가격: " + this.selectData.firstEstimatePrice);
+        console.log("1차견적가격: " ,document.querySelector("#firstPrice").value);
         console.log("1차견적타입: " + this.selectData.estimateType);
         console.log("2차견적가격: " + this.selectData.secondEstimatePrice);
         console.log("2차견적타입: " + this.selectData.secondEstimateType);
         console.log("견적상태: " + this.selectData.reservStatus);
         console.log("업체명: " + this.selectData.compName);
-        console.log("견적어필: " + this.selectData.responseMemo);
+        console.log("견적어필: ",document.querySelector("#memo").value);
 
+        //견적보내기
         this.$axios({
           url: "http://localhost:8090/zippy/move/moveEstimate",
           method: "POST",
@@ -542,7 +528,27 @@ export default {
           // btnn.disabled = true;
         }).catch(err => {
           console.log(err)
+        }),
+
+        //견적상태변경
+        this.$axios({
+          url: "http://localhost:8090/zippy/move/moveStatusUpdate",
+          method: "POST",
+         
+          params:{
+            estimateNo : this.selectData.estimateNo,
+            email : this.selectData.email,
+          },
+          // data: formData
+        }).then(res => {
+          console.log(res);
+          alert("견적서 보내기 완료!");
+          
+
+        }).catch(err => {
+          console.log(err)
         })
+
       }
     }
   }

@@ -130,6 +130,7 @@
 		)
 	</insert>
 	
+	<!-- 견적서 작성 -->
 	<insert id="makeEstimate" parameterType="MoveResponseVO" useGeneratedKeys="true">
 		<selectKey keyProperty="movingResponseNo"  order="BEFORE" resultType="int">
 			SELECT NVL(MAX(MOVING_RESPONSE_NO),0) +1 AS movingResponseNo 
@@ -162,6 +163,14 @@
 			#{responseMemo}
 			)
 	</insert>
+	
+	<!-- 업체가 1차견적 발송 후 견적상태 1로 변경 -->
+	<update id="moveStatusUpdate" parameterType="MoveResponseVO">
+		UPDATE moving_response 
+        SET reserv_status = 1
+        WHERE estimate_no = #{estimateNo}  
+        AND email = #{email}
+	</update>
 	
 	<!-- 업체가 2차 견적으로 견적서 업데이트 -->
 	<update id="moveEstimateUpdate" parameterType="MoveResponseVO">

@@ -5,14 +5,14 @@ import lombok.Data;
 @Data
 public class MoveResponseVO {
 
-  int movingResponseNo;
-  int estimateNo;
+  Integer movingResponseNo;
+  Integer estimateNo;
   String email;
-  int firstEstimatePrice;
+  Integer firstEstimatePrice;
   String firstEstimateType;
-  int secondEstimatePrice;
+  Integer secondEstimatePrice;
   String secondEstimateType;
-  int reservStatus;
+  Integer reservStatus;
   String compName;
   String responseMemo;
   
