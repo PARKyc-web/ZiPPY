@@ -227,7 +227,7 @@ const routes = [
 
   //move
   {
-    path: "/move/moveMain",
+    path: "/move",
     name: "moveMain",
     component: moveMain,
   },
