@@ -1,6 +1,7 @@
 <template>
   <div>
     <shop-order-list></shop-order-list>
+    <shop-seller-order></shop-seller-order>
   </div>
 </template>
 

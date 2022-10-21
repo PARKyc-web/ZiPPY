@@ -1,6 +1,7 @@
 <template>
 
 <div class="wrap">
+  <move-nav-bar @click="categoryVal=$event.target.innerText"></move-nav-bar>
     <div class="frame">
       <button @click="goMove()" class="custom-btn btn-3"><span>이사 견적받기</span></button>
       <button class="custom-btn btn-8"><span>청소 견적받기</span></button>
@@ -13,7 +14,13 @@
 </template>
 
 <script>
-  export default{ 
+import MoveNavBar from '../../components/move/MoveNavBar.vue';
+
+export default {
+  components: {
+    MoveNavBar
+  },
+  
     methods : {
       goMove : function(){
         this.$router.push({

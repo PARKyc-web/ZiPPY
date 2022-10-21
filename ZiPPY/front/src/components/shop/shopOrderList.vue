@@ -5,7 +5,7 @@
     </v-toolbar>
 
     <v-card>
-      <v-data-table :headers="headers" :items="orders">
+      <v-data-table :headers="headers" :items="ords">
         <template v-slot:item.payCode="{ item }">
           <div @click="goOrderDetail(item.payCode)" id="paycode">
             {{item.payCode}}
@@ -35,43 +35,55 @@
         singleSelect: false,
         selected: [],
         headers: [{
-            text: '상품명',
+            text: '주문번호',
             align: '',
             sortable: false,
-            value: '',
+            value: 'payCode',
           },
           {
-            text: '결제완료일',
-            value: ''
+            text: '상품명',
+            value: 'proName'
           },
           {
             text: '',
-            value: ''
+            value: 'proMainImg'
           },
           {
-            text: '옵션',
-            value: ''
+            text: '결제완료일',
+            value: 'OrderDate'
           },
           {
-            text: '스토어',
-            value: ''
-          },
-          {
-            text: '주문금액',
-            value: ''
+            text: '총주문금액',
+            value: 'amount'
           }
         ],
-        orders: []
+        ords: [],
+        products: []
       }
     },
     methods: {
       goOrderDetail(payCode) {
         this.$router.push({
-          name: 'order',
+          name: 'shopOrderSheet',
           query: {
             payCode: payCode
           }
         })
+      },
+      getOrdProInfo(payCode) {
+        axios({
+        url: "/shop/myPurPro",
+        method: "POST",
+        params: {
+          payCode: payCode
+        }
+      }).then(res => {
+        console.log(res);
+        this.products = res.data;
+        console.log(this.products);
+      }).catch(error => {
+        console.log(error);
+      })
       }
     },
     created() {
@@ -79,17 +91,17 @@
       axios({
         url: "/shop/myOrderList",
         method: "POST",
-        data: {
+        params: {
           email: this.$store.state.loginInfo.email
-        },
-        method: "POST",
+        }
       }).then(res => {
         console.log(res);
-        this.orders = res.data;
-        console.log(this.orders);
+        this.ords = res.data;
+        console.log(this.ords);
       }).catch(error => {
         console.log(error);
       })
+
     }
   };
 </script>

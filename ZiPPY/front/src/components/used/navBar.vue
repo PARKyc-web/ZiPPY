@@ -19,7 +19,7 @@
     }),
     methods: {
       pushCategory: function (e) {
-        this.$emit('click', e);
+        this.$emit('click', e);        
       }
     }
   }

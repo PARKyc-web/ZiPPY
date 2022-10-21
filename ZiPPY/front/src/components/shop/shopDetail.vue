@@ -381,7 +381,7 @@
       //찜 추가
       addWish: function () {
         axios({
-          url: "http://localhost:8090/zippy/common/addWish",
+          url: "/common/addWish",
           method: "POST",
           headers: {
             "Content-Type": "application/json; charset=utf-8"
@@ -400,7 +400,7 @@
         bNo.push(this.wish.bookmarkNo);
         console.log(bNo);
         axios({
-          url: "http://localhost:8090/zippy/common/delWish",
+          url: "/common/delWish",
           method: "DELETE",
           data: {
             bNo: bNo
@@ -460,11 +460,12 @@
       //찜여부조회
       if (this.$store.state.loginInfo != null) {
         axios({
-          url: "http://localhost:8090/zippy/common/wishOne",
+          url: "/common/wishOne",
           methods: "GET",
           params: {
             email: this.$store.state.loginInfo.email,
-            sId: this.$route.query.pno
+            sId: this.$route.query.pno,
+            serviceType: this.data.serviceType
           }
         }).then(res => {
           this.wish = res.data;

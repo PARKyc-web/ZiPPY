@@ -81,16 +81,17 @@
         payCode: '',
         headers: [{
             text: '',
-            align: '상품명',
+            align: '',
             sortable: false,
-            value: 'productVO.proName',
+            value: 'productVO.proMainImg',
           },
           {
-            text: '',
-            value: 'productVO.proMainImg'
+            text: '상품명',
+            value: 'productVO.proName'
           },
           {
             text: '옵션',
+            sortable: false,
             value: 'optName'
           },
           {

@@ -28,4 +28,10 @@ public class propertyVO {
 	private String streetAddress;
 	
 	private String compName;
+	
+	//
+	private int minSize;
+	private int maxSize;
+	private int minPrice;
+	private int maxPrice;
 }

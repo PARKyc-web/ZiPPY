@@ -1,5 +1,8 @@
 <template>
-  <div class="result-wrap">
+  <div>
+    <move-nav-bar @click="categoryVal=$event.target.innerText"></move-nav-bar>
+  
+    <div class="result-wrap">
     <form>
       <div class="move-main-title">
         <h3>보낸 견적요청 조회</h3>
@@ -37,24 +40,59 @@
             <div >견적 방문희망일 : <span>{{item.visitDate}}</span></div>
             <div >견적 방문희망시간 : <span>{{item.visitTime}}</span></div>
             </div>
-            <div v-if="item.estimateType == '비대면견적'">
-            <div >이미지 : <span>{{item.moveImage}}</span></div>
-            </div>
+            <div v-if="item.estimateType == '비대면견적'" id="imgPanel">
+            <!-- <div >이미지 : <span>{{item.moveImage}}</span> -->
+             
+             <!-- 펼치기 -->
+
+              <v-card-actions>
+
+      <v-spacer></v-spacer>
+           <v-label >방사진보기</v-label> <v-btn
+        icon
+        @click="show = !show"
+      >
+        <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+      </v-btn>
+    </v-card-actions>
+
+    <v-expand-transition>
+      <div v-show="show">
+        <v-divider></v-divider>
+
+        <v-card-text>
+          I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
+        </v-card-text>
+      </div>
+    </v-expand-transition>
+          </div>
+
+
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
     </div>
     </form>
   </div>
+</div>
 </template>
 
 <script>
 import axios from 'axios';
-export default{
+import MoveNavBar from '../../components/move/MoveNavBar.vue';
+
+export default {
+  components: {
+    MoveNavBar
+  },
 
   data : function () {
     return{
       
+      //펼치기
+      show: false,
+
+      //
       list : [],
       vo : {
         email : "zippy@naver.com",
@@ -251,6 +289,9 @@ export default{
 </script>
 
 <style scoped>
+.imgPanel{
+  
+}
 .move-main-title {
     margin: 50px;
   }

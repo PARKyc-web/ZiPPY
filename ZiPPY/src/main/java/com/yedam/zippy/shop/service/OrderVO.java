@@ -23,8 +23,8 @@ public class OrderVO {
   String orderStatus;
   @JsonFormat(pattern = "yy-MM-dd")
   @DateTimeFormat(pattern="yy-MM-dd")
-  Date OrderDate;
-  @JsonFormat(pattern = "yy-MM-dd")
-  @DateTimeFormat(pattern="yy-MM-dd")
-  Date deliveryDate;
+  Date orderDate;
+//  @JsonFormat(pattern = "yy-MM-dd")
+//  @DateTimeFormat(pattern="yy-MM-dd")
+//  Date deliveryDate;
 }

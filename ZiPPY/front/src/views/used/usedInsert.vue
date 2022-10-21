@@ -20,9 +20,35 @@
               <div class="used-insert-img" id="used-insert-img-div">
                 <span>이미지</span> 0/6
               </div>
-              <div>
-                <label htmlFor="profile-upload" />
-                <input type="file" name="images" id="profile-upload" multiple accept="image/*" />
+              <div v-if="!files.length" class="room-file-upload-example-container">
+                <div class="room-file-upload-example">
+                  <div class="room-file-image-example-wrapper"></div>
+                  <div class="room-file-notice-item room-file-upload-button">
+                    <div class="image-box">
+                      <label for="file">일반 사진 등록</label>
+                      <input type="file" name="images" id="file" ref="files" @change="imageUpload" multiple
+                        accept="image/*" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div v-else class="file-preview-content-container">
+                <div class="file-preview-container">
+                  <div class="file-preview-wrapper-upload">
+                    <div class="image-box">
+                      <label for="file">추가 사진 등록</label>
+                      <input type="file" name="images" id="file" ref="files" @change="imageAddUpload" multiple
+                        accept="image/*" />
+                    </div>
+                    <!-- <div class="file-close-button" @click="fileDeleteButton" :name="file.number">x</div> -->
+                  </div>
+                  <div v-for="(file, index) in files" :key="index" class="file-preview-wrapper">
+                    <div class="file-close-button" @click="fileDeleteButton" :name="file.number">
+                      x
+                    </div>
+                    <img :src="file.preview" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -124,16 +150,96 @@
         views: 0,
         productDate: '',
         image: '',
-        mainImg : ''
-      }
+        mainImg: ''
+      },
+
+      files: [], //업로드용 파일
+      filesPreview: [],
+      uploadImageIndex: 0, // 이미지 업로드를 위한 변수
+      arr : []
     }),
     methods: {
+
+
+      imageUpload() {
+        console.log(this.$refs.files.files);
+        // this.files = [...this.files, this.$refs.files.files];
+        //하나의 배열로 넣기
+        let num = -1;
+        for (let i = 0; i < this.$refs.files.files.length; i++) {
+          this.files = [
+            ...this.files,
+            //이미지 업로드
+            {
+              //실제 파일
+              file: this.$refs.files.files[i],
+              //이미지 프리뷰
+              preview: URL.createObjectURL(this.$refs.files.files[i]),
+              //삭제및 관리를 위한 number
+              number: i
+            }
+          ];
+          num = i;
+          //이미지 업로드용 프리뷰
+          // this.filesPreview = [
+          //   ...this.filesPreview,
+          //   { file: URL.createObjectURL(this.$refs.files.files[i]), number: i }
+          // ];
+        }
+        this.uploadImageIndex = num + 1; //이미지 index의 마지막 값 + 1 저장
+        console.log(this.files);
+        // console.log(this.filesPreview);
+      },
+
+      imageAddUpload() {
+        console.log(this.$refs.files.files);
+
+        // this.files = [...this.files, this.$refs.files.files];
+        //하나의 배열로 넣기c
+        let num = -1;
+        for (let i = 0; i < this.$refs.files.files.length; i++) {
+          console.log(this.uploadImageIndex);
+          this.files = [
+            ...this.files,
+            //이미지 업로드
+            {
+              //실제 파일
+              file: this.$refs.files.files[i],
+              //이미지 프리뷰
+              preview: URL.createObjectURL(this.$refs.files.files[i]),
+              //삭제및 관리를 위한 number
+              number: i + this.uploadImageIndex
+            }
+          ];
+          num = i;
+        }
+        this.uploadImageIndex = this.uploadImageIndex + num + 1;
+
+        console.log(this.files);
+        // console.log(this.filesPreview);
+      },
+      fileDeleteButton(e) {
+        const name = e.target.getAttribute('name');
+        this.files = this.files.filter(data => data.number !== Number(name));
+        // console.log(this.files);
+      },
       insert: function () {
         this.data.email = this.$store.state.loginInfo.email;
         var formData = new FormData(document.querySelector('#usedInsert'));
-        this.data.mainImg = document.querySelector('#profile-upload')[0];
+        
+        
+        for(var i=0; i<this.files.length; i++){
+          console.log("runrunrun")
+          console.log(this.files[i])
+          formData.append("images", this.files[i]);
+        }
+
+        for(let key of formData.keys()){
+          console.log(`${key} : ${formData.get(key)}`);          
+        }
+        setTimeout(function(){
+        }, 1000);
         this.dropVal();
-        console.log(formData.productInfo)
         // if(formData.productName == "" || formData.productName == null) {
         //   swal.fire({
         //       icon: 'warning',
@@ -186,14 +292,114 @@
         console.log(this.data.productCategory);
         this.data.email = this.$store.state.loginInfo.email;
       }
+
+
     }
   };
 </script>
 
-<style>
+<style scoped>
+  .room-file-upload-example {
+    height: 100%;
+  }
+
+  .room-file-upload-example-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* height: 100%;
+  width: 100%; */
+  }
+
+  .room-file-image-example-wrapper {
+    text-align: center;
+  }
+
+  .room-file-notice-item {
+    margin-top: 5px;
+    text-align: center;
+  }
+
+
+  .image-box {
+    margin-top: 30px;
+    padding-bottom: 20px;
+    text-align: center;
+  }
+
+  .image-box input[type='file'] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+  }
+
+  .image-box label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #b3e3c3;
+    color: #fff;
+    vertical-align: middle;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 16px;
+  }
+
+  .file-preview-wrapper {
+    padding: 10px;
+    position: relative;
+  }
+
+  .file-preview-wrapper>img {
+    position: relative;
+    width: 190px;
+    height: 190px;
+    z-index: 10;
+  }
+
+  .file-close-button {
+    position: absolute;
+    /* align-items: center; */
+    line-height: 18px;
+    z-index: 99;
+    font-size: 18px;
+    right: 5px;
+    top: 10px;
+    color: #fff;
+    font-weight: bold;
+    background-color: #666666;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .file-preview-container {
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .file-preview-wrapper-upload {
+    margin: 10px;
+    padding-top: 20px;
+    background-color: #ffffff;
+    width: 190px;
+    height: 190px;
+  }
+
   #container {
     width: 1200px;
     margin: 0 auto;
+  }
+
+  #used-upload {
+    background-color: pink;
+    width: 100px;
+    height: 100px;
   }
 
   .used-main-title {
@@ -330,6 +536,10 @@
     color: white;
     width: 100px;
     height: 50px;
+  }
+
+  .used-insert-submit button:hover {
+    background-color: #95d7ab;
   }
 
   .used-wish-detailInfo {

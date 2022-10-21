@@ -111,8 +111,20 @@ public class UsedServiceImpl implements UsedService {
      * 
      * 5. VO를 테이블에 넣는다.
      */
+   
+    // 메인 이미지 설정
+    product.setMainImg(storeImages(images)[0].getImage());
+    
+    // 이미지 전부 삭제
+    mapper.deleteImg(product);
+    
+    // 글 정보 등록
     mapper.insertUsed(product);
+    
+    
     UsedImagesVO[] vo = storeImages(images);
+    
+    
 
     for (int i = 0; i < vo.length; i++) {
       vo[i].setProductNo(product.getProductNo());

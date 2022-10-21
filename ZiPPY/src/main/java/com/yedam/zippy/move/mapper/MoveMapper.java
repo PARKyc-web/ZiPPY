@@ -1,11 +1,11 @@
 package com.yedam.zippy.move.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import com.yedam.zippy.move.service.MoveCompanyEstimateVO;
 import com.yedam.zippy.move.service.MoveEstimateVO;
 import com.yedam.zippy.move.service.MoveImageVO;
+import com.yedam.zippy.move.service.MoveMyListVO;
 import com.yedam.zippy.move.service.MoveRequestVO;
 import com.yedam.zippy.move.service.MoveResponseVO;
 
@@ -40,6 +40,9 @@ public interface MoveMapper {
   
   //견적서 조회 - 업체
   public List<MoveResponseVO> companyEstimate(MoveCompanyEstimateVO vo);
+  
+  //받은 견적 조회 - 사용자
+  public List<MoveMyListVO> getMyEstimateList(MoveMyListVO vo);
 }
 
  
