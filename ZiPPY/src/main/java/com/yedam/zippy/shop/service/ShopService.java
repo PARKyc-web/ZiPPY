@@ -62,6 +62,8 @@ public interface ShopService {
   public List<PurchaseVO> getMyPurList(String payCode, Integer purNo);
   // 주문등록
   public void insertOrder(OrderVO orderVO);
+  // 주문 단건 조회
+  public OrderVO getOneOrder(String payCode);
   
   
   //***

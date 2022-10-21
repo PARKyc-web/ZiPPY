@@ -56,15 +56,16 @@ export default{
                         hiddenOnCollapse: true
                     },
                     {
-                        href: '/mypage/order',
+                        href: '/mypage/myCart',
                         title: '장바구니',
                         icon: 'fa-solid fa-basket-shopping',                        
                     },
                     {
-                        href: '/mypage/order',
+                        href: '/mypage/myOrder',
                         title: '구매목록',
-                        icon: 'fa-solid fa-list',                        
-                    },
+                        icon: 'fa-solid fa-shop',                        
+                    },                    
+                    
 
                     
                     //  중고거래 관련 정보

@@ -120,6 +120,11 @@ public class ShopController {
   public List<OrderVO> getMyOrderList(String email){
    return service.getMyOrderList(email);
   }
+  //주문 단건조회
+  @PostMapping("/oneOrder")
+  public OrderVO getOneOrder(String payCode) {
+    return service.getOneOrder(payCode);
+  }
 
   
   // QNA CRUD
