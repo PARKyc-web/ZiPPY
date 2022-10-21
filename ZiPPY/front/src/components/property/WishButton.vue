@@ -33,13 +33,14 @@
     created() {
       if (this.$store.state.loginInfo) {
         axios({
-            url: "http://localhost:8090/zippy/property/wishState",
-            method: "GET",
-            params: {
-              email: this.$store.state.loginInfo.email,
-              serviceId: this.productId
-            }
-          }).then(response => {
+          url: "http://localhost:8090/zippy/common/wishOne",
+          method: "GET",
+          params: {
+            email: this.$store.state.loginInfo.email,
+            sId: this.productId,
+            serviceType: this.data.serviceType
+          }
+        }).then(response => {
             // 성공했을 때
             console.log('wishState success!');
             this.data.email = this.$store.state.loginInfo.email;
