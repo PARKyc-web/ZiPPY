@@ -3,13 +3,12 @@
         <div>
             <b-card no-body>
                 <b-tabs card vertical> <!-- pills -->
-                    <b-tab :title="item.user2" v-for="item in chatRooms">
-                        <chatDetail :roomId="item.chatRoomNo"></chatDetail>
+                    <b-tab :title="item.user2Name" v-for="item in chatRooms">                        
+                        <chatDetail :roomId="item.chatRoomNo" :item="item"></chatDetail>
                     </b-tab>   
                 </b-tabs>
             </b-card>
-        </div>
-        {{chatRooms}}
+        </div>        
     </div>
 </template>
 
@@ -36,12 +35,12 @@ import chatDetail from '@/components/chat/chatDetail.vue'
             findAllRoom: function () {
                 this.$axios({
                     url: "/chat/room",
-                    params: {
-                        // email: this.$store.state.loginInfo.email
-                        email : "test1@email.com"
+                    params: {                        
+                        email : this.$store.state.loginInfo.email
                     }
                 }).then(res => {                    
                     this.chatRooms = res.data;
+                    console.log(res.data);
                 }).catch(error => {
                     console.log(error);
                 })

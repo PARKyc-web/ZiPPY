@@ -4,10 +4,13 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yedam.zippy.chat.service.ChatMessage;
+import com.yedam.zippy.chat.service.ChatRoomName;
 import com.yedam.zippy.chat.service.ChatRoomVO;
 import com.yedam.zippy.chat.service.ChatService;
 
@@ -24,7 +27,8 @@ public class ChatController {
       
     // 모든 채팅방 목록 반환
     @GetMapping("/room")
-    public List<ChatRoomVO> getRooms(String email){
+    public List<ChatRoomName> getRooms(String email){
+      System.out.println(service.findAllRoom(email));
       return service.findAllRoom(email);
     }
     
@@ -34,7 +38,11 @@ public class ChatController {
     }
     
     // 채팅방 생성
-//    @PostMapping("/room")
+    @PostMapping("/room")
+    public void createChatRoom(@RequestBody ChatRoomVO vo) {
+      System.out.println(vo);
+      service.createChatRoom(vo);      
+    }
  
     
  

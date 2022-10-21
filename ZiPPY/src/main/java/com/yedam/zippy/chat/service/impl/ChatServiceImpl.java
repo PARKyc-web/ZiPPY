@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.yedam.zippy.chat.mapper.ChatMapper;
 import com.yedam.zippy.chat.service.ChatMessage;
+import com.yedam.zippy.chat.service.ChatRoomName;
 import com.yedam.zippy.chat.service.ChatRoomVO;
 import com.yedam.zippy.chat.service.ChatService;
 
@@ -26,8 +27,19 @@ public class ChatServiceImpl implements ChatService{
   private ChatMapper mapper;
   
   @Override
-  public List<ChatRoomVO> findAllRoom(String email) {
-    return mapper.findAllRoom(email);
+  public List<ChatRoomName> findAllRoom(String email) {
+    
+    List<ChatRoomName> result = new ArrayList<ChatRoomName>();
+    List<ChatRoomVO> roomList = mapper.findAllRoom(email);
+    
+    for(ChatRoomVO vo : roomList) {
+      List<ChatRoomName> inner = mapper.findAllRoomName(vo, email);      
+      for(ChatRoomName room : inner) {
+        result.add(room);
+      }      
+    }      
+    
+    return result;
   }
   
   @Override
@@ -99,6 +111,11 @@ public class ChatServiceImpl implements ChatService{
     vo.setTime(data[2] + "(" + data[3] + ")");
     
     return vo;    
+  }
+  
+  @Override
+  public void createChatRoom(ChatRoomVO vo) {
+    mapper.createChatRoom(vo);
   }
 
 }

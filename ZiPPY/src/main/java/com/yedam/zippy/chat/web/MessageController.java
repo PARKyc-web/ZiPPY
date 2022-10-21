@@ -28,15 +28,8 @@ public class MessageController {
   public void enter(ChatMessage message) {    
 
     if (ChatMessage.MessageType.ENTER.equals(message.getType())) {
-//      처음 입장했을때 텍스트 파일을 읽어서, 내용을 표시해주자!
-//      단순히 내용을 파싱해서 데이터로 뿌려주면 되나?
       message.setMessage(message.getSender() + "님이 입장하였습니다.");
       sendingOperations.convertAndSend("/topic/chat/room/" + message.getRoomId(), message);
-//
-//      chatList = chatService.loadChatContent(message);
-//      for (ChatMessage chatLog : chatList) {
-//        sendingOperations.convertAndSend("/topic/chat/room/" + chatLog.getRoomId(), chatLog);
-//      }
     }
 
 //     입장이 아닐때 사용되는 것

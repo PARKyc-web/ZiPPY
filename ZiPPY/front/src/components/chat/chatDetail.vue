@@ -1,32 +1,62 @@
 <template>
   <div>
-  <h1>여기에 프로필사진이랑 상대방의 이름{{$route.query.sender}}</h1>
-  <div class="chatBody" style="overflow:auto;">
-    <ul class="list-group">
-      <li class="list-group-item" v-for="msg in messages">
-        <div v-if="msg.sender == sender" style="text-align: right;">
-          <h5>{{msg.sender}}</h5><small>({{msg.time}})</small>
-          <p>{{msg.message}}</p>
-        </div>
+    <h1 v-if="item.user1 == $store.state.loginInfo.email">
+      <img>{{item.user2Name}}</h1>
 
-        <div v-if="msg.sender != sender" style="text-align: left;">
-          <h5>{{msg.sender}}</h5><small>({{msg.time}})</small>
-          <p>{{msg.message}}</p>
-        </div>
-      </li>
-    </ul>
-    <div id="bottom"></div>
-  </div><br>
-  <div class="input-group">
-    <div class="input-group-prepend">
-      <label class="input-group-text">내용</label>
-    </div>
-    <input type="text" class="form-control" v-model="message" v-on:keypress.enter="sendMessage">
-    <div class="input-group-append">
-      <button type="button" @click="sendMessage"><i class="fa-regular fa-paper-plane fa-2x"></i></button>
+    <h1 v-if="item.user2 == $store.state.loginInfo.email">
+      <img>{{item.user1Name}}</h1>
+
+    <div class="chatBody" style="overflow:auto;">
+      <ul class="list-group">
+        <li class="list-group-item" v-for="msg in messages">
+
+          <div v-if="msg.sender == sender" style="text-align: right; ">
+            <div class="ccard">
+              <v-card class="mx-auto" max-width="400" outlined shaped style="background-color: #b3e3c3;">
+                <v-list-item three-line>
+                  <v-list-item-content>
+                    <div class="text-overline mb-4">
+                      {{msg.sender}}<small>-{{msg.time}}</small>
+                    </div>
+                    <v-list-item-title class="text-h5 mb-1">
+                      {{msg.message}}
+                    </v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-card>
+            </div>
+          </div>
+          <div class="ccard">
+            <div v-if="msg.sender != sender" style="text-align: left;">
+              <v-card class="mx-auto" max-width="400" outlined shaped>
+                <v-list-item three-line>
+                  <v-list-item-content>
+                    <div class="text-overline mb-4">
+                      {{msg.sender}}<small>-{{msg.time}}</small>
+                    </div>
+                    <v-list-item-title class="text-h6 mb-1">
+                      {{msg.message}}
+                    </v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-card>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <div id="bottom"></div>
+    </div><br>
+
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <label class="input-group-text">내용</label>
+      </div>
+      <input type="text" class="form-control" v-model="message" v-on:keypress.enter="sendMessage">
+      <div class="input-group-append">
+        <button type="button" @click="sendMessage"><i class="fa-regular fa-paper-plane fa-2x"></i></button>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -42,25 +72,25 @@
 
   // vue.js
   export default {
-    props : ['roomId'],
+    props: ['roomId', 'item'],
     data() {
-      return {        
+      return {
         room: {},
         sender: '',
         message: '',
         messages: []
       }
     },
-    mounted() {      
+    created() {
       this.sender = this.$store.getters.getName;
       this.loadContent();
       // this.findRoom();
-      this.connect();      
+      this.connect();
     },
     methods: {
-      goToBottom : function(){
+      goToBottom: function () {
         var body = document.querySelector(".chatBody");
-        body.scrollTop = body.scrollHeight;        
+        body.scrollTop = body.scrollHeight;
       },
 
       loadContent: async function () {
@@ -74,14 +104,14 @@
         //   for(itm in temp.data){
         //     this.messages.unshift(item);
         //   }
-        this.messages = temp.data;       
+        this.messages = temp.data;
         this.goToBottom();
       },
 
       findRoom: function () {
-        var temp = this.$axios.get('/chat/room/' + this.roomId).then(response => {          
+        var temp = this.$axios.get('/chat/room/' + this.roomId).then(response => {
           this.room = response.data;
-        }).finally(res => {          
+        }).finally(res => {
           this.connect();
         })
       },
@@ -118,7 +148,7 @@
 
       getTime: function () {
         var now = new Date();
-        var str = "" + now.getFullYear() + "/" + (now.getMonth()+1) + "/" + now.getDate() + "-" +
+        var str = "" + now.getFullYear() + "/" + (now.getMonth() + 1) + "/" + now.getDate() + "-" +
           now.getHours() + ":" + now.getMinutes()
 
         return str;
@@ -201,5 +231,13 @@
   .fa-paper-plane {
     margin-left: 10px;
     color: #B3E3C3;
+  }
+
+  .ccard {
+    display: inline-block;
+  }
+
+  .list-group-item{
+    border:none;
   }
 </style>
