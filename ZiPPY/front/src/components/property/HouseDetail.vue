@@ -95,13 +95,31 @@
                 </v-row>
                 <v-card-title style="font-weight: bold;">{{this.houseDetail[0].saleType}} {{this.price}}</v-card-title>
                 <p style="margin-left: 20px;">{{this.houseDetail[0].houseType}} · {{this.houseDetail[0].houseName}}</p>
-                <h6 style="margin-left: 20px;">{{this.houseDetail[0].sigungu}} {{this.houseDetail[0].streetAddress}}</h6>
+                <h6 style="margin-left: 20px;">{{this.houseDetail[0].sigungu}} {{this.houseDetail[0].streetAddress}}
+                </h6>
                 <br>
-                <h5 style="margin-left: 20px;">{{this.houseDetail[0].areaExclusive}}m² · {{this.houseDetail[0].floor}}층</h5>
+                <h5 style="margin-left: 20px;">{{this.houseDetail[0].areaExclusive}}m² · {{this.houseDetail[0].floor}}층
+                </h5>
                 <hr>
                 <v-card-title style="font-weight: bold;" @click="goAgentDetail">{{this.houseDetail[0].compName}}
                 </v-card-title>
-                <v-btn block color="#B3E3C3" elevation="2"><span style="color: white;">문의하기</span></v-btn>
+
+                <!-- 채팅 버튼 -->
+                <v-row justify="center">
+                  <v-dialog v-model="dialog" persistent max-width="600px">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn color="#B3E3C3" dark v-bind="attrs" @click="openChat">
+                        문의하기
+                      </v-btn>
+                    </template>
+                    <v-card>
+                        <v-btn style="width: 100%" color="#B3E3C3" text @click="dialog = false">
+                          채팅창 닫기
+                        </v-btn>
+                      <chat-tap style="width: 100%; height: 100%; padding: 0"></chat-tap>
+                    </v-card>
+                  </v-dialog>
+                </v-row>
               </v-card-text>
             </v-card>
           </v-app>
@@ -119,14 +137,19 @@
   import CategotyMap from "./CategotyMap.vue";
   import ReportButton from './ReportButton.vue';
   import WishButton from './WishButton.vue';
-  import {oneHundredMillion} from '../../assets/property/propertyPrice';
+  import {
+    oneHundredMillion
+  } from '../../assets/property/propertyPrice';
+  import ChatTap from '../../views/chat/chatTap.vue';
+  import Swal from 'sweetalert2';
 
   export default {
     components: {
       BasicMarkerMap,
       CategotyMap,
       ReportButton,
-      WishButton
+      WishButton,
+      ChatTap
     },
     data() {
       return {
@@ -147,6 +170,7 @@
         houseDetail: [],
         compName: '',
         price: '',
+        dialog: false,
       }
     },
     created() {
@@ -170,28 +194,6 @@
           console.log(error);
         })
     },
-    mounted() {
-      /* Javascript 샘플 코드 */
-      var xhr = new XMLHttpRequest();
-      var url =
-        'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev'; /*URL*/
-      var queryParams = '?' + encodeURIComponent('serviceKey') + '=' +
-        'fXQYcvdVSA+RwkypajVwQIt+pKA9zxOYqk6TqzDPacsANCI+suXZErHKSpIcvmqXarHrMNo5Kp80SvDkolPg/g=='; /*Service Key*/
-      // 'fXQYcvdVSA%2BRwkypajVwQIt%2BpKA9zxOYqk6TqzDPacsANCI%2BsuXZErHKSpIcvmqXarHrMNo5Kp80SvDkolPg%2Fg%3D%3D';
-      queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /**/
-      queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /**/
-      queryParams += '&' + encodeURIComponent('LAWD_CD') + '=' + encodeURIComponent('11110'); /**/
-      queryParams += '&' + encodeURIComponent('DEAL_YMD') + '=' + encodeURIComponent('201512'); /**/
-      xhr.open('GET', url + queryParams);
-      xhr.onreadystatechange = function () {
-        if (this.readyState == 4) {
-          // alert('Status: ' + this.status + 'nHeaders: ' + JSON.stringify(this.getAllResponseHeaders()) + 'nBody: ' +
-          //   this.responseText);
-        }
-      };
-      xhr.send('');
-
-    },
     methods: {
       goAgentDetail() {
         this.$router.push({
@@ -200,6 +202,18 @@
             email: this.houseDetail[0].email
           }
         })
+      },
+      openChat() {
+        if (this.$store.state.loginInfo) {
+          this.dialog = true;
+        } else {
+          Swal.fire({
+            icon: 'warning',
+            title: '로그인이 필요한 기능입니다.',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }
       }
     }
   }
@@ -220,7 +234,7 @@
     margin-top: 25px;
     margin-bottom: 25px;
 
-    position:relative;
+    position: relative;
     z-index: 1;
   }
 
@@ -228,7 +242,7 @@
     width: 100vw;
     height: 450px;
     background-color: #B3E3C3;
-    position:absolute;
+    position: absolute;
     top: 0;
     z-index: 0;
   }
