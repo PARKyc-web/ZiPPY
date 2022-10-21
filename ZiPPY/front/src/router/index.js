@@ -119,6 +119,11 @@ const routes = [
         path : "order",
         name : "mypage-order",
         component : order
+      },
+      {
+        path : "used/insert",
+        name : "mypage-insert-product",
+        component : usedInsert
       }
     ]
   },

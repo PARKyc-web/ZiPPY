@@ -18,9 +18,6 @@
             </div>
           </div>
           <div>
-            <h2>{{this.categoryVal}}</h2>
-          </div>
-          <div>
             <div class="search">
               <input type="text" placeholder="검색어 입력" id="used-main-search-input" v-model="word"
                 @keyup.enter="total();">
@@ -37,6 +34,9 @@
           <label class="form-check-label" for="flexCheckDefault">
             판매완료된 상품보기
           </label>
+        </div>
+        <div id="used-show-cate">
+          <h2>{{this.categoryVal}}</h2>
         </div>
         <!-- <nav class="navbar navbar-expand-lg navbar-light"> -->
         <div id="used-main-dropbox">
@@ -75,7 +75,7 @@
   import axios from 'axios';
   import navBar from '../../components/used/navBar.vue';
 
-  export default {    
+  export default {
     components: {
       navBar
     },
@@ -107,7 +107,7 @@
       location: '',
       pageCount: 1,
       dropValue: '',
-      
+
       // 주소 출력에 필요한 데이터들입니다.
       map: null,
       markers: [],
@@ -141,7 +141,7 @@
         });
       }
     },
-    created() {            
+    created() {
       this.findList({
         location: "",
         keyword: "",
@@ -187,49 +187,6 @@
           pageNum: this.page // 0
         })
       },
-      // ,
-      // search: function (e) {
-      //   this.searchValue = document.querySelector("#used-main-search-input").value;
-      //   this.categoryVal = e.target.innerText;
-      //   this.findList({
-      //     location: "",
-      //     keyword: this.searchValue,
-      //     category: this.categoryVal,
-      //     checked: "",
-      //     dropbox: ""
-      //   })
-
-      // },
-      // enterkey: function (e) {
-      //   if (window.event.keyCode == 13) {
-      //     this.search(e);
-      //     this.total(e);
-      //   }
-      // },
-      // checkbox: function () {
-      //   const ckbox = document.querySelector(".form-check-input");
-      //   const is_cked = ckbox.checked;
-      //   this.isChecked = document.querySelector(".form-check-input").innerText = is_cked
-      //   console.log(this.isChecked);
-      //   this.findList({
-      //     keyword: this.searchValue,
-      //     location: "",
-      //     category: this.categoryVal,
-      //     checked: this.isChecked,
-      //     dropbox: ""
-      //   })
-      // },
-      // dropVal: function () {
-      //   var dropValue = this.select;
-      //   console.log(dropValue);
-      //   this.findList({
-      //     keyword: this.searchValue,
-      //     location: this.location,
-      //     category: this.categoryVal,
-      //     checked: this.isChecked,
-      //     dropbox: this.select
-      //   })
-      // },
       goDetail(no) {
         console.log(no);
         this.$router.push('/used/detail?pNo=' + no);
@@ -322,6 +279,9 @@
   #container {
     width: 1200px;
     margin: 0 auto;
+  }
+  #used-show-cate{
+    margin-top: 30px;
   }
 
   #used-main-dropbox {
@@ -623,11 +583,11 @@
 
   .map_wrap {
     position: relative;
-    width: 100%;
-    height: 350px;
+    width: 70%;
+    height: fit-content;
   }
 
-/* 주소 폰트는 여기서 조절하시면 됩니다. */
+  /* 주소 폰트는 여기서 조절하시면 됩니다. */
   .hAddr {
     position: absolute;
     left: 10px;
