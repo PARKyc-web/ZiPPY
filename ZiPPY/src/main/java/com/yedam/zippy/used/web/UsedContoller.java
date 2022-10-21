@@ -79,8 +79,8 @@ String order="product_date DESC";
   public PageInfo<UsedProductVO> userMain(@RequestParam String email, @RequestParam int pageNum){
     
     String order ="";
-    PageHelper.startPage(pageNum, 0, order);
-    return PageInfo.of(null);
+    PageHelper.startPage(pageNum, 10, order);
+    return PageInfo.of(service.userMain(email));
   }
 
   // 단건조회
@@ -94,7 +94,10 @@ String order="product_date DESC";
   // 생성
   @PostMapping("/insert")
   public String insert(UsedProductVO product, List<MultipartFile> images) {
+    
     // 확인: 삭제 가능
+    System.out.println("product : "+product);
+    System.out.println("images : "+images);
     product.setProductLocation("대구");
     service.insertUsedProduct(product, images);
     return "";
@@ -104,7 +107,8 @@ String order="product_date DESC";
   @PostMapping("/update")
   public int update(UsedProductVO product, List<MultipartFile> images) {
     product.setProductLocation("대구");
-    service.updateUsedProduct(product, images);
+    service.insertUsedProduct(product, images);
+//    service.updateUsedProduct(product, images);
     return 1;
   }
 

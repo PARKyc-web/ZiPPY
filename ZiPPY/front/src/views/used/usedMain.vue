@@ -66,7 +66,7 @@
   import axios from 'axios';
   import navBar from '../../components/used/navBar.vue';
 
-  export default {
+  export default {    
     components: {
       navBar
     },
@@ -126,7 +126,7 @@
         });
       }
     },
-    created() {
+    created() {            
       this.findList({
         location: "",
         keyword: "",
@@ -193,8 +193,6 @@
       // },
       goDetail(no) {
         console.log(no);
-        // var cardNo = this.data.findIndex(i => i.productNo == productNo);
-        // console.log(cardNo);
         this.$router.push('/used/detail?pNo=' + no);
       },
       getImgUrl(list) {
@@ -210,7 +208,6 @@
           console.log(res);
           this.data = res.data.list;
           this.pageCount = res.data.pages;
-          console.log(this.isChecked)
         }).catch(err => {
           console.log(err)
         })
