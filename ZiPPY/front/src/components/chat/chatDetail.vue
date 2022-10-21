@@ -60,14 +60,6 @@
 </template>
 
 <script>
-  import Stomp from 'webstomp-client'
-  import SockJS from 'sockjs-client'
-
-  // websocket & stomp initialize
-  // var sock = new SockJS("http://localhost:8090/zippy/ws/chat");
-  // var ws = Stomp.over(sock);
-  // var sock;
-  // var ws;
   var reconnect = 0;
 
   // vue.js
@@ -92,7 +84,6 @@
       console.log("updated RUN!");
       this.connect();
     },
-
     methods: {
       goToBottom: function () {
         var body = document.querySelector(".chatBody");
@@ -154,16 +145,9 @@
         return str;
       },
 
-      connect: function () {
-        if(this.isConnect == false){
-          this.isConnect = true
-          var outside = this;
-        // sock = new SockJS("http://localhost:8090/zippy/ws/chat");
-        // ws = Stomp.over(sock);
-        console.log("구독 전에 실행!")
-        this.$ws.connect({}, function (frame) {
-          // debugger               
-          outside.$ws.subscribe("/topic/chat/room/" + outside.roomId, function (message) {
+      connect: function () {        
+        var outside = this;
+        this.$ws.subscribe("/topic/chat/room/" + outside.roomId, function (message) {
             console.log("구독 성공!")
             var recv = JSON.parse(message.body);
             // console.log(recv);
@@ -175,19 +159,32 @@
             sender: outside.sender,
             time: outside.getTime()
           }));
-        }, function (error) {
-          if (reconnect++ <= 5) {
-            setTimeout(function () {
-              console.log("connection reconnect");
-              // outside.$sock = new SockJS("http://localhost:8090/zippy/ws/chat");
-              // outside.$ws = Stomp.over(sock);
-              outside.connect();
-            }, 10 * 1000);
-          }
-        });
+        // this.$ws.connect({}, function (frame) {
+        //   // debugger               
+        //   outside.$ws.subscribe("/topic/chat/room/" + outside.roomId, function (message) {
+        //     console.log("구독 성공!")
+        //     var recv = JSON.parse(message.body);
+        //     // console.log(recv);
+        //     outside.recvMessage(recv);
+        //   });
+        //   outside.$ws.send("/app/chat/message", JSON.stringify({
+        //     type: 'ENTER',
+        //     roomId: outside.roomId,
+        //     sender: outside.sender,
+        //     time: outside.getTime()
+        //   }));
+        // }, function (error) {
+        //   if (reconnect++ <= 5) {
+        //     setTimeout(function () {
+        //       console.log("connection reconnect");
+        //       // outside.$sock = new SockJS("http://localhost:8090/zippy/ws/chat");
+        //       // outside.$ws = Stomp.over(sock);
+        //       outside.connect();
+        //     }, 10 * 1000);
+        //   }
+        // });
         }
-      }
-    }
+      }    
   }
 </script>
 
