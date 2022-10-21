@@ -1,6 +1,7 @@
 <template>
   <div class="map_wrap">
     <div id="map" class="map" style="width:100%;height:350px;position:relative;overflow:hidden;"></div>
+    <br><br>
     <ul id="category">
       <li id="SW8" data-order="1">
        <v-btn id="SW8" class="mx-2" fab dark color="blue darken-2">
@@ -8,7 +9,7 @@
             mdi-subway-variant
           </v-icon>
         </v-btn>
-        <p>지하철</p>
+        <p class="category_name">지하철</p>
       </li>
       <li id="CS2" data-order="2">
           <v-btn class="mx-2" fab dark color="yellow darken-2">
@@ -16,7 +17,7 @@
             mdi-store
           </v-icon>
         </v-btn>
-        편의점
+        <p class="category_name">편의점</p>
       </li>
       <li id="CE7" data-order="3">
          <v-btn class="mx-2" fab dark color="orange darken-2">
@@ -24,7 +25,7 @@
             mdi-coffee
           </v-icon>
         </v-btn>
-        카페
+        <p class="category_name">카페</p>
       </li>
       <li id="BK9" data-order="4">
         <v-btn class="mx-2" fab dark color="lime darken-4">
@@ -32,7 +33,7 @@
             mdi-credit-card
           </v-icon>
         </v-btn>
-        은행
+        <p class="category_name">은행</p>
       </li>
       <li id="PO3" data-order="5">
         <v-btn class="mx-2" fab dark color="brown darken-1">
@@ -40,7 +41,7 @@
             mdi-bank
           </v-icon>
         </v-btn>
-        관공서
+        <p class="category_name">관공서</p>
       </li>
       <li id="PS3" data-order="1">
        <v-btn class="mx-2" fab dark color="deep-orange darken-1">
@@ -48,7 +49,7 @@
             mdi-palette
           </v-icon>
         </v-btn>
-        어린이집<br>유치원
+        <p class="category_name">어린이집<br>유치원</p>
       </li>
       <li id="SC4" data-order="1">
         <v-btn class="mx-2" fab dark color="deep-purple darken-1">
@@ -56,7 +57,7 @@
             mdi-school
           </v-icon>
         </v-btn>
-        학교
+        <p class="category_name">학교</p>
       </li>
     </ul>
   </div>
@@ -315,17 +316,17 @@
   }
 
   .map_wrap {
-    /* position: relative; */
+    position: relative;
     width: 100%;
     height: 350px;
   }
 
   #category {
-    /* position: absolute;
-    top: 10px;
-    left: 10px; */
+    position: absolute;
+    top: 107%;
+    left: 40%;
+    transform: translate(-40%);
     border-radius: 5px;
-    background: #fff;
     overflow: hidden;
     z-index: 2;
   }
@@ -349,6 +350,11 @@
     margin: 0 auto 3px;
     width: 27px;
     height: 28px;
+  }
+
+  .category_name {
+    margin-left: 10px;
+    margin-top: 10px;
   }
 
   #category li .category_bg {

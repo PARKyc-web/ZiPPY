@@ -70,15 +70,10 @@
         </article>
         <article>
           <h4 class="title">위치 및 주변 시설</h4>
-          <div class="contents" style="height: 600px">
+          <div class="contents" style="height: 550px">
             <p>{{this.houseDetail[0].sigungu}} {{this.houseDetail[0].streetAddress}}</p>
             <categoty-map :address="houseDetail[0].streetAddress" :name="houseDetail[0].houseName"></categoty-map>
           </div>
-          <hr>
-        </article>
-        <article>
-          <h4 class="title">시세/실거래가</h4>
-          아파트의 경우
           <hr>
         </article>
         <article>
@@ -99,23 +94,15 @@
                   <div>매물번호 {{this.houseDetail[0].productId}}</div>
                 </v-row>
                 <v-card-title style="font-weight: bold;">{{this.houseDetail[0].saleType}} {{this.price}}</v-card-title>
-                <div style="margin-left: 20px;">{{this.houseDetail[0].houseType}} · {{this.houseDetail[0].houseName}}</div>
-                <table style="font-size: medium;">
-                  <tr>
-                    <td>{{this.houseDetail[0].sigungu}} {{this.houseDetail[0].streetAddress}}</td>
-                  </tr>
-                  <tr>
-                    <td>{{this.houseDetail[0].areaExclusive}}m² ·
-                      {{this.houseDetail[0].floor}}층</td>
-                  </tr>
-                </table>
+                <p style="margin-left: 20px;">{{this.houseDetail[0].houseType}} · {{this.houseDetail[0].houseName}}</p>
+                <h6 style="margin-left: 20px;">{{this.houseDetail[0].sigungu}} {{this.houseDetail[0].streetAddress}}</h6>
+                <br>
+                <h5 style="margin-left: 20px;">{{this.houseDetail[0].areaExclusive}}m² · {{this.houseDetail[0].floor}}층</h5>
                 <hr>
                 <v-card-title style="font-weight: bold;" @click="goAgentDetail">{{this.houseDetail[0].compName}}
                 </v-card-title>
                 <v-btn block color="#B3E3C3" elevation="2"><span style="color: white;">문의하기</span></v-btn>
-
               </v-card-text>
-
             </v-card>
           </v-app>
         </div>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <property-main-toolbar :sigungu="sigungu" @get-property-list="searchEvent" />
+    <property-main-toolbar :sigungu="sigungu" @search-property-list="searchPropertyList" />
     <div id="container">
       <section>
         <div id="map" class="map">
@@ -71,7 +71,8 @@
         streetAddress: [],
         map: 0,
         productPosition: [],
-        price: ''
+        price: '',
+        clusterer: 0,
       }
     },
     created() {
@@ -118,8 +119,8 @@
           level: 5 //지도의 레벨(확대, 축소 정도)
         };
 
-        var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-        this.map = map;
+        this.map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+        var map = this.map;
 
         map.setMaxLevel(8); // 지도 최소 축소 레벨
         map.setMinLevel(MIN_LEVEL);
@@ -127,13 +128,14 @@
         // 주소-좌표 변환 객체를 생성합니다
         var geocoder = new kakao.maps.services.Geocoder();
 
-
         // 마커 클러스터러를 생성합니다 
-        var clusterer = new kakao.maps.MarkerClusterer({
+        this.clusterer = new kakao.maps.MarkerClusterer({
           map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
           averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
           minLevel: MIN_LEVEL // 클러스터 할 최소 지도 레벨 
         });
+
+        var clusterer = this.clusterer;
 
         /* 현재 위치로 지도의 중심 위치 변경 */
         // HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
@@ -160,6 +162,7 @@
         // 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
         kakao.maps.event.addListener(map, 'idle', function () {
           searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+
         });
 
         function searchAddrFromCoords(coords, callback) {
@@ -178,7 +181,9 @@
 
                 // ex) 대구광역시 중구 남산1동 -> 대구광역시 중구 남산동
                 for (let i = 1; i < 10; i++) {
+                  initThis.sigungu = initThis.sigungu.replace(i.toString() + '.' + (i + 1).toString() + '동', '동');
                   initThis.sigungu = initThis.sigungu.replace(i + '동', '동');
+                  initThis.sigungu = initThis.sigungu.replace(i + '가', '');
                 }
                 // currentPositionAptList(initThis.sigungu);
                 break;
@@ -193,6 +198,8 @@
         var markers = [];
 
         for (let i = 0; i < this.streetAddress.length; i++) {
+          console.log(this.streetAddress.length);
+          console.log(this.streetAddress[0].streetAddress);
           // 주소로 좌표를 검색합니다
           geocoder.addressSearch(this.streetAddress[i].streetAddress, function (result, status) {
             // 정상적으로 검색이 완료됐으면 
@@ -210,13 +217,13 @@
           clusterer.addMarkers(markers);
         }
 
-        let cnt = 0;
         let setClusterer = setInterval(function () {
           makeClusterer();
+          if (markers.length == initThis.streetAddress.length) {
+            clearInterval(setClusterer)
+          };
+        }, 100);
 
-          cnt++;
-          if (cnt == 15) clearInterval(setClusterer);
-        }, 500);
 
         // 마커 클러스터러에 클릭이벤트를 등록합니다
         // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우
@@ -273,8 +280,6 @@
           });
       },
       searchEvent(sigungu) {
-        this.getPropertyList(sigungu);
-
         let map = this.map;
 
         // 주소-좌표 변환 객체를 생성합니다
@@ -309,6 +314,86 @@
             console.log(error);
           });
       },
+      searchPropertyList(data) {
+        console.log('hi', data.houseType, data.saleType, data.year, data.minSize, data.sigungu + '%');
+
+        axios({
+            url: "http://localhost:8090/zippy/property/searchPropertyList",
+            methods: "GET",
+            params: {
+              houseType: data.houseType,
+              saleType: data.saleType + '%',
+              constructionYear: data.year,
+              minPrice: 0, //data.minPrice,
+              maxPrice: 99999, //data.maxPrice,
+              minSize: data.minSize,
+              maxSize: data.maxSize,
+              sigungu: data.sigungu + '%'
+            }
+          }).then(response => {
+            // 성공했을 때
+            console.log('searchPropertyList success!');
+            console.log(response);
+            this.houseProducts = response.data;
+
+            //////// 마크 클러스터러 모두 지우고, 새로운 마크 클러스터러 추가
+            this.clusterer.clear();
+            this.showclusterer();
+          })
+          .catch(error => {
+            // 에러가 났을 때
+            console.log('searchPropertyList fail!');
+            console.log(error);
+          });
+
+        this.searchEvent(data.sigungu);
+      },
+      showclusterer() {
+
+        this.markers = [];
+        this.clusterer.clear();
+        var outside = this;
+
+        this.clusterer = new kakao.maps.MarkerClusterer({
+          map: this.map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
+          averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
+          minLevel: 2 // 클러스터 할 최소 지도 레벨 
+        });
+
+        var clusterer = this.clusterer;
+
+        // 클러스터를 만들기 위해 필요한 최소 마커 개수를 설정한다.
+        clusterer.setMinClusterSize(1);
+
+        var markers = [];
+
+        for (let i = 0; i < this.houseProducts.length; i++) {
+          // 주소로 좌표를 검색합니다
+          geocoder.addressSearch(this.houseProducts[i].streetAddress, function (result, status) {
+            // 정상적으로 검색이 완료됐으면 
+            if (status === kakao.maps.services.Status.OK) {
+              var marker = new kakao.maps.Marker({
+                position: new kakao.maps.LatLng(result[0].y, result[0].x), // 마커를 표시할 위치
+              });
+              markers.push(marker);
+            }
+          });
+        }
+
+        function makeClusterer() {
+          // 클러스터러에 마커들을 추가합니다
+          clusterer.addMarkers(markers);
+        }
+
+        let setClusterer = setInterval(function () {
+          makeClusterer();
+          if (markers.length == outside.streetAddress.length) {
+            clearInterval(setClusterer)
+          };
+        }, 100);
+
+      },
+
     }
   };
 </script>
