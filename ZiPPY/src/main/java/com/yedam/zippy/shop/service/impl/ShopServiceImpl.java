@@ -3,6 +3,7 @@ package com.yedam.zippy.shop.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,48 +29,51 @@ public class ShopServiceImpl implements ShopService {
 
   @Autowired
   ShopMapper mapper;
-
+  //상품 전체조회
   @Override
   public List<ProductVO> getProductList() {
     return mapper.getProductList();
   }
-
+  //상품 카테고리 조회
   @Override
   public List<ProductVO> getCategoryList(String category) {
     return mapper.getCategoryList(category);
   }
-
+  //상품 키워드 조회
   @Override
   public List<ProductVO> getKeywordList(String keyword) {
     return mapper.getKeywordList(keyword);
   }
-
+  //상품 단건조회
   @Override
   public ProductVO getProduct(int proNo) {
     ProductVO vo = mapper.getProduct(proNo);
     return vo;
   }
-
+  //디테일 이미지 조회
   @Override
   public String[] getDetailImg(int proNo) {
     return mapper.getDetailImg(proNo);
   }
-
+  //디테일 옵션 조회
   @Override
   public List<ProductOptionVO> getDetailOpt(int proNo) {
     return mapper.getDetailOpt(proNo);
   }
 
+  
+  //장바구니 CRUD
+  //장바구니 등록
   @Override
   public void insertCart(CartVO cartVO) {
     mapper.insertCart(cartVO);
   }
-
+  //장바구니 개수 조회
   @Override
   public int getMyCart(String email) {
     return mapper.getMyCart(email);
   }
-
+  //장바구니 목록(상품정보, 가격)
   @Override
   public List<CartVO> getMyCartList(String email) {
     List<CartVO> list = mapper.getMyCartList(email);
@@ -79,36 +83,38 @@ public class ShopServiceImpl implements ShopService {
     }
     return list;
   }
-
+  //장바구니 삭제
   @Override
   public void deleteCart(List<CartVO> selected) {
     mapper.deleteCart(selected);
   }
-
+  //구매 게시판 등록
   @Override
   public void insertPur(List<CartVO> selected, String payCode) {
     mapper.insertPur(selected, payCode);
   }
-
+  //로그인 정보 출력
   @Override
   public GeneralUserVO getMyInfo(String email) {
     return mapper.getMyInfo(email);
   }
-
+  //구매 물품 조회
   @Override
-  public List<PurchaseVO> getMyPurList(String payCode) {
-    List<PurchaseVO> list = mapper.getMyPurList(payCode);
+  public List<PurchaseVO> getMyPurList(String payCode, Integer purNo) {
+    List<PurchaseVO> list = mapper.getMyPurList(payCode, purNo);
     for (PurchaseVO x : list) {
       x.setProductVO(mapper.getProduct(x.getPurPno()));
     }
     return list;
   }
-
+  //주문 등록
   @Override
   public void insertOrder(OrderVO orderVO) {
     mapper.insertOrder(orderVO);
   }
 
+  
+  //판매자 CRUD
   @Override
   public void insertProduct(ProductVO productVO, List<ProductOptionVO> options, MultipartFile image,
       List<MultipartFile> images) {
@@ -131,8 +137,6 @@ public class ShopServiceImpl implements ShopService {
       mapper.insertImg(vo[i]);
     }
   }
-  // 옵션 등록
-
   // 메인이미지
   @Override
   public String proMainImg(MultipartFile image) {
@@ -195,17 +199,13 @@ public class ShopServiceImpl implements ShopService {
 
     return list;
   }
-
+  
   @Override
   public void insertPurOne(ProductVO product, String payCode, String email) {
     mapper.insertPurOne(product, payCode, email);
 
   }
 
-//  @Override
-//  public List<ProductVO> getMyProList(ProductVO productVO) {
-//    return mapper.getMyProList(productVO);
-//  }
   @Override
   public List<ProductVO> getMyProList(ProductVO productVO, String keyword) {
     return mapper.getMyProList(productVO, keyword);
@@ -246,13 +246,13 @@ public class ShopServiceImpl implements ShopService {
   }
 
   @Override
-  public List<OrderVO> getMyOrdList(ProductVO productVO, String keyword) {
-    return mapper.getMyOrdList(productVO, keyword);
+  public List<PurchaseVO> getSellerPurList(ProductVO productVO, String keyword) {
+    return mapper.getSellerPurList(productVO, keyword);
   }
 
   @Override
-  public void updateOrdStatus(OrderVO ordreVO) {
-    mapper.updateOrdStatus(ordreVO);
+  public void updateOrdStatus(PurchaseVO purchaseVO) {
+    mapper.updateOrdStatus(purchaseVO);
   }
 
   @Override
@@ -266,12 +266,12 @@ public class ShopServiceImpl implements ShopService {
   }
 
   @Override
-  public OrderVO getMyOrder(OrderVO orderVO) {
-    return mapper.getMyOrder(orderVO);
+  public List<OrderVO> getMyOrderList(String email) {
+    return mapper.getMyOrderList(email);
   }
 
   @Override
-  public List<OrderVO> getMyOrderList(OrderVO orderVO) {
-    return mapper.getMyOrderList(orderVO);
+  public ProductVO getOrdProInfo(String payCode) {
+    return mapper.getOrdProInfo(payCode);
   }
 }

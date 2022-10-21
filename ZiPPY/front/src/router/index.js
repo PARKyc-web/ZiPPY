@@ -13,6 +13,7 @@ import shopCart from "../views/shop/shopCartView.vue";
 import order from "../views/shop/orderView.vue";
 import orderComplete from "../views/shop/orderCompleteView.vue";
 import shopUpdatePro from "../views/shop/shopUpdateProView.vue";
+import orderSheet from "../views/shop/orderSheetView.vue";
 
 import GeneralSign from '../views/login/generalSignUp.vue';
 import BusinessSign from '../views/login/businessSignUp.vue';
@@ -208,9 +209,14 @@ const routes = [
     component: orderComplete,
   },
   {
-    path: "/shop/shopUpdateProVue",
+    path: "/shop/shopUpdatePro",
     name: "shopUpdatePro",
     component: shopUpdatePro
+  },
+  {
+    path: "/shop/orderSheet",
+    name: "shopOrderSheet",
+    component: orderSheet
   },
 
   //move

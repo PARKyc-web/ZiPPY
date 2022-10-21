@@ -126,12 +126,12 @@
         console.log(error);
       })
       }
-      //검색결과 없음 지연시간
-      var noProduct = document.getElementById("#oProduct")
-      setTimeout(function () {
-      this.modifyDialogVisible = false;
-      noProduct.api.reloadData();
-      },300);
+      // //검색결과 없음 지연시간
+      // var noProduct = document.getElementById("#oProduct")
+      // setTimeout(function () {
+      // this.modifyDialogVisible = false;
+      // noProduct.api.reloadData();
+      // },300);
 
     }, filters : {
       comma(val){

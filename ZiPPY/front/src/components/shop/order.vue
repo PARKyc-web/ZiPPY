@@ -64,10 +64,10 @@
         <tr style="border:0">
           <td colspan="2" style="padding:0; background-color: #EEEEEE;">
             <!-- 상품정보 테이블 -->
-            <table id="productInfo" style="padding:30px; width:100%">
+            <table id="productInfo" style="padding:30px; width:100%; text-align:center">
               <tbody>
                 <tr style="font-weight:bold">
-                  <td class="pl-9">상품명</td>
+                  <td>상품명</td>
                   <td></td>
                   <td>옵션</td>
                   <td>스토어</td>
@@ -106,6 +106,7 @@
             <v-btn class="mr-5" depressed color=#B3E3C3>
               신용카드
             </v-btn>
+            <!--
             <v-btn class="mr-5" depressed color=#B3E3C3>
               실시간계좌이체
             </v-btn>
@@ -115,6 +116,7 @@
             <v-btn class="mr-5" depressed color=#B3E3C3>
               휴대폰 결제
             </v-btn>
+            -->
           </td>
         </tr>
         <tr style="border-bottom : thin solid rgb(0, 0, 0, 0.12);">

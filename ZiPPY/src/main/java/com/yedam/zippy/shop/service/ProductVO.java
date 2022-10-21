@@ -31,4 +31,7 @@ public class ProductVO {
 	private int qty;
 	private int selectOptNo;
 	private int purPrice;
+	
+	//주문리스트 용
+	private int count;
 }
