@@ -1,7 +1,6 @@
 <template>
   <form id="usedInsert">
     <div>
-      <nav-bar @click="search($event)"></nav-bar>
       <div id="container">
         <div>
           <div class="used-main-title">
@@ -34,19 +33,18 @@
               </div>
               <div v-else class="file-preview-content-container">
                 <div class="file-preview-container">
+                  <div v-for="(file, index) in files" :key="index" class="file-preview-wrapper">
+                    <div class="file-close-button" @click="fileDeleteButton" :name="file.number">
+                      x
+                    </div>
+                    <img :src="file.preview" />
+                  </div>
                   <div class="file-preview-wrapper-upload">
                     <div class="image-box">
                       <label for="file">추가 사진 등록</label>
                       <input type="file" name="images" id="file" ref="files" @change="imageAddUpload" multiple
                         accept="image/*" />
                     </div>
-                    <!-- <div class="file-close-button" @click="fileDeleteButton" :name="file.number">x</div> -->
-                  </div>
-                  <div v-for="(file, index) in files" :key="index" class="file-preview-wrapper">
-                    <div class="file-close-button" @click="fileDeleteButton" :name="file.number">
-                      x
-                    </div>
-                    <img :src="file.preview" />
                   </div>
                 </div>
               </div>
@@ -105,13 +103,9 @@
 
 <script>
   import axios from 'axios';
-  import navBar from '../../components/used/navBar.vue';
   // import swal from 'sweetalert2';
-
   export default {
-    components: {
-      navBar
-    },
+
     data: () => ({
       items: [{
           name: '침실',
@@ -155,8 +149,7 @@
 
       files: [], //업로드용 파일
       filesPreview: [],
-      uploadImageIndex: 0, // 이미지 업로드를 위한 변수
-      arr : []
+      uploadImageIndex: 0 // 이미지 업로드를 위한 변수
     }),
     methods: {
 
@@ -226,56 +219,20 @@
       insert: function () {
         this.data.email = this.$store.state.loginInfo.email;
         var formData = new FormData(document.querySelector('#usedInsert'));
-        
-        
-        for(var i=0; i<this.files.length; i++){
-          console.log("runrunrun")
-          console.log(this.files[i])
-          formData.append("images", this.files[i]);
-        }
 
-        for(let key of formData.keys()){
-          console.log(`${key} : ${formData.get(key)}`);          
-        }
-        setTimeout(function(){
-        }, 1000);
+
+        // for(var i=0; i<this.files.length; i++){
+        //   console.log("runrunrun")
+        //   console.log(this.files[i])
+        //   formData.append("images", this.files[i]);
+        // }
+
+        // for(let key of formData.keys()){
+        //   console.log(`${key} : ${formData.get(key)}`);          
+        // }
+        // setTimeout(function(){
+        // }, 1000);
         this.dropVal();
-        // if(formData.productName == "" || formData.productName == null) {
-        //   swal.fire({
-        //       icon: 'warning',
-        //       title: '제목을 입력해주세요',
-        //       showConfirmButton: false,
-        //       timer: 1500
-        //     });
-        //     return;
-        // }
-        // if(formData.productCategory == "" || formData.productCategory == null) {
-        //   swal.fire({
-        //       icon: 'warning',
-        //       title: '카테고리를 설정해주세요',
-        //       showConfirmButton: false,
-        //       timer: 1500
-        //     });
-        //     return;
-        // }
-        // if(formData.productprice == "" || formData.productPrice == null) {
-        //   swal.fire({
-        //       icon: 'warning',
-        //       title: '가격을 입력해주세요',
-        //       showConfirmButton: false,
-        //       timer: 1500
-        //     });
-        //     return;
-        // }
-        // if(formData.productInfo == "" || formData.productInfo == null) {
-        //   swal.fire({
-        //       icon: 'warning',
-        //       title: '설명란을 입력해주세요',
-        //       showConfirmButton: false,
-        //       timer: 1500
-        //     });
-        //     return;
-        // }
         axios({
           url: "http://localhost:8090/zippy/used/insert",
           method: "POST",
