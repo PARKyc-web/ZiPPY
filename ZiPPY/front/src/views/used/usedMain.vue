@@ -104,7 +104,6 @@
       location: "",
       pageCount: 1,
       dropValue: '',
-      locationForSearch: ''
     }),
     filters: {
       comma(val) {
@@ -149,7 +148,6 @@
     },
     methods: {
       total: function () {
-        console.log(this.location);
         this.isChecked = document.querySelector(".form-check-input").checked;
         this.findList({
           location: this.location, // 0
