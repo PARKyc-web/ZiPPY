@@ -193,6 +193,15 @@
 		FROM Used_keyword
 		WHERE email = #{email}
 	</select>
+	
+	<!-- 키워드 조회 -->
+	<select id="findKeyword" resultType="UsedKeywordVO" parameterType="UsedProductVO">
+		SELECT * 
+		FROM used_keyword
+		WHERE keyword  LIKE '%'||#{productName}||'%'
+		AND keyword_location LIKE '%'||#{productLocation}||'%'
+	</select>
+	
 
 	<!-- 상품 이미지 조회 -->
 	<select id="getImg" resultType="UsedImagesVO"

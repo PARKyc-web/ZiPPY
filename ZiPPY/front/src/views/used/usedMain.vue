@@ -104,7 +104,7 @@
       searchValue: '',
       page: 1,
       isChecked: '',
-      location: '',
+      location: "",
       pageCount: 1,
       dropValue: '',
 
@@ -143,7 +143,7 @@
     },
     created() {
       this.findList({
-        location: "",
+        location: this.location,
         keyword: "",
         category: "",
         checked: "",
@@ -177,6 +177,7 @@
     },
     methods: {
       total: function () {
+        console.log(this.location);
         this.isChecked = document.querySelector(".form-check-input").checked;
         this.findList({
           location: this.location, // 0
@@ -209,6 +210,7 @@
         })
       },
       initMap() {
+
         const container = document.getElementById("map");
         const options = {
           center: new kakao.maps.LatLng(33.450701, 126.570667),
@@ -221,6 +223,7 @@
       },
 
       displayMarker(markerPositions) {
+        var out = this;
         if (this.markers.length > 0) {
           this.markers.forEach((marker) => marker.setMap(null));
         }
@@ -255,7 +258,8 @@
             // 좌표로 행정동 주소 정보를 요청합니다
             geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
           }
-
+          
+          let outside = this;
           // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
           function displayCenterInfo(result, status) {
             if (status === kakao.maps.services.Status.OK) {
@@ -265,6 +269,9 @@
                 // 행정동의 region_type 값은 'H' 이므로
                 if (result[i].region_type === 'H') {
                   infoDiv.innerHTML = result[i].address_name;
+                  outside.location = infoDiv.innerHTML;
+                  console.log("asdfasfd"+outside.location)
+                  out.location = outside.location;
                   break;
                 }
               }
@@ -280,7 +287,8 @@
     width: 1200px;
     margin: 0 auto;
   }
-  #used-show-cate{
+
+  #used-show-cate {
     margin-top: 30px;
   }
 
