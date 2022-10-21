@@ -7,7 +7,6 @@ import lombok.Data;
  * @author pyc
  *
  */
-
 @Data
 public class ChatRoomVO {     
     private int chatRoomNo;

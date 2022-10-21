@@ -2,7 +2,14 @@
   <header>
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
       <div class="container-fluid">
-        <router-link to="/home" class="navbar-brand">
+
+        <!-- 회원으로 로그인할 시 메인버튼을 누르면 홈화면으로 갈 수 있도록 한다.-->
+        <router-link to="/home" class="navbar-brand" v-if="$store.state.memberType == 0 || $store.state.memberType == null">
+          <img alt="ZiPPY_logo" src="@/assets/zippy_logo.png" style="height:36px;" />
+        </router-link>
+
+        <!-- 판매자로 로그인할 시 메인버튼을 누르면 판매자 페이지로 돌아갈 수 있도록 한다.-->
+        <router-link to="/mypage" class="navbar-brand" v-if="$store.state.memberType != 0 && $store.state.memberType != null">
           <img alt="ZiPPY_logo" src="@/assets/zippy_logo.png" style="height:36px;" />
         </router-link>
 
@@ -20,7 +27,7 @@
             <router-link to="/used" class="nav-link">중고거래</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/moveMain" class="nav-link">이사도우미</router-link>
+            <router-link to="/move" class="nav-link">이사도우미</router-link>
           </li>
         </ul>
       </div>

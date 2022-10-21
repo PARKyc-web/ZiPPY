@@ -105,7 +105,7 @@
                     <div>
 
                       <button class="used-detail-wish" width="30px">
-                        <i class="fa-solid fa-comments"> 채팅하기</i>
+                        <i class="fa-solid fa-comments" @click="createChat()"> 채팅하기</i>
                       </button>
                     </div>
                   </div>
@@ -138,8 +138,7 @@
       navBar
     },
     data: () => ({
-      imgs: [
-        {
+      imgs: [{
           src: "http://file3.instiz.net/data/file3/2022/06/08/2/6/f/26fe0e3efee7315868ff30668e109e1d.jpg"
         },
         {
@@ -219,7 +218,7 @@
           params: {
             email: this.$store.state.loginInfo.email,
             sId: this.$route.query.pNo,
-            serviceType : this.data.serviceType
+            serviceType: this.data.serviceType
           }
         }).then(res => {
           this.wish = res.data;
@@ -234,14 +233,14 @@
       }
     },
     methods: {
-      rewrite(){
+      rewrite() {
         axios({
           url: "http://localhost:8090/zippy/common/wishOne",
           methods: "GET",
           params: {
             email: this.$store.state.loginInfo.email,
             sId: this.$route.query.pNo,
-            serviceType : this.data.serviceType
+            serviceType: this.data.serviceType
           }
         }).then(res => {
           this.wish = res.data;
@@ -316,10 +315,10 @@
           },
           data: JSON.stringify(this.data)
         }).then(res => {
-          this.rewrite();        
+          this.rewrite();
         }).catch(err => {
           console.log(err)
-        })        
+        })
       },
       delWish: function () {
         let bNo = [];
@@ -335,6 +334,30 @@
         }).catch(err => {
           console.log(err)
         })
+      },
+
+      createChat: async function () {
+        alert("채팅방 생성 실행!");
+        if (this.$store.state.loginInfo == null) {
+          swal.fire({
+            icon: 'warning',
+            title: '로그인 정보가 필요합니다.',
+            showConfirmButton: false,
+            timer: 1500
+          });
+        } else {
+          var temp = await this.$axios({
+            url: "/chat/room",
+            method: "POST",
+            data: {
+              user1: this.$store.state.loginInfo.email,
+              user2: this.product.email,
+              chatType: 1
+            }
+          });
+
+          console.log(temp);
+        }
       }
     }
   }
