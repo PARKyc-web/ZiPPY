@@ -66,7 +66,7 @@
   import axios from 'axios';
   import navBar from '../../components/used/navBar.vue';
 
-  export default {
+  export default {    
     components: {
       navBar
     },
@@ -126,7 +126,7 @@
         });
       }
     },
-    created() {
+    created() {            
       this.findList({
         location: "",
         keyword: "",
