@@ -4,22 +4,22 @@
       <v-toolbar-title>주문서</v-toolbar-title>
       <v-spacer></v-spacer>
     </v-toolbar>
-    <table width="100%">
+    <table width="100%" style="margin-bottom:80px">
       <tbody>
         <tr>
           <td style="font-weight:bold">주문번호</td>
           <td>
-            {{this.products[0].payCode}}
+            {{pc}}
           </td>
         </tr>
         <tr>
-          <td style="font-weight:bold">결제완료일</td>
+          <td style="font-weight:bold">주문일</td>
           <td>
             22-04-05
           </td>
         </tr>
         <tr>
-          <td style="font-weight:bold">배송시작일</td>
+          <td style="font-weight:bold">발송일</td>
           <td>
             22-04-05
           </td>
@@ -49,10 +49,10 @@
         <tr style="border:0">
           <td colspan="2" style="padding:0; background-color: #EEEEEE;">
             <!-- 상품정보 테이블 -->
-            <table id="productInfo" style="padding:30px; width:100%">
+            <table id="productInfo" style="padding:30px; width:100%; text-align:center">
               <tbody>
                 <tr style="font-weight:bold">
-                  <td class="pl-9">상품명</td>
+                  <td>상품명</td>
                   <td></td>
                   <td>주문상태</td>
                   <td>옵션</td>
@@ -69,11 +69,12 @@
                       style="cursor:default"></v-img>
                   </td>
                   <td>
-                    <p>결제완료</p>
-                    <p>배송완료</p>
-                    <v-btn depressed color=#B3E3C3 class="ml-3">
+                    <p v-if="product.orderStatus == 0">결제완료</p>
+                    <p v-if="product.orderStatus == 1">배송시작</p>
+                    <v-btn depressed color=#B3E3C3 v-if="product.orderStatus == 1">
                       후기작성
-                    </v-btn></td>
+                    </v-btn>
+                  </td>
                   <td>{{product.optName}}</td>
                   <td>{{product.productVO.compName}}</td>
                   <td>{{product.purPrice | comma}}</td>
@@ -92,89 +93,54 @@
         <tr style="border-bottom:thin solid rgb(0, 0, 0, 0.12)">
           <td style="font-weight:bold;">결제수단</td>
           <td>
-           신용카드
+            신용카드
           </td>
         </tr>
       </tbody>
     </table>
+    <div class="mx-auto pt-5" style="width:150px; margin-top:10px; margin-bottom:100px">
+      <v-btn depressed color=#B3E3C3 style="width:150px; font-size:larger" @click="goBack">
+        주문내역
+      </v-btn>
+    </div>
   </div>
 </template>
 
 
 <script>
-  import axios from 'axios';
+  import router from '@/router';
+import axios from 'axios';
 
   export default {
     data() {
       return {
+        pc: '',
         email: 'zippy@naver.com',
-        myInfo: {},
-        orderInfo: {},
-        //기존배송지, 신규배송지
-        selected: 0,
-        selectedMemo: '',
-        options: [{
-            text: '기본배송지',
-            value: 0
-          },
-          {
-            text: '신규배송지',
-            value: 1
-          }
-        ],
-        orderMemos: [{
-          text:'배송 시 요청사항을 선택해주세요.',
-          value:null
-        },
-        {
-          text:'부재 시 경비실에 맡겨주세요.',
-          value:'부재 시 경비실에 맡겨주세요.'
-        },
-        {
-          text:'부재 시 택배함에 넣어주세요.',
-          value:'부재 시 택배함에 넣어주세요.'
-        },
-        {
-          text:'부재 시 집 앞에 놔두세요.',
-          value:'부재 시 집 앞에 놔두세요.'
-        },
-        {
-          text:'파손의 위험이 있는 상품입니다.',
-          value:'파손의 위험이 있는 상품입니다.'
-        }
-        ],
         products: [],
       }
     },
     created() {
-      //내 정보조회
-      axios({
-        url: "/shop/myInfo",
-        method: "POST",
-        params: {
-          email: this.email
-        }
-      }).then(res => {
-        console.log(res);
-        this.myInfo = res.data;
-        console.log(this.myInfo);
-      }).catch(error => {
-        console.log(error);
-      })
       //주문상품 정보조회
       axios({
         url: "/shop/myPurPro",
         method: "POST",
         params: {
+          purNo: this.$route.query.purNo,
           payCode: this.$route.query.payCode
         }
       }).then(res => {
         console.log(res);
         this.products = res.data;
+        this.pc = this.products[0].payCode
         console.log(this.products);
       }).catch(error => {
         console.log(error);
       })
+    },
+    methods: {
+      goBack() {
+        this.$router.go(-1);
+      }
     },
     computed: {
       countAmount() {
@@ -186,8 +152,8 @@
         return am;
       },
     },
-    filters : {
-      comma(val){
+    filters: {
+      comma(val) {
         return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
       }
     },
@@ -212,38 +178,7 @@
     font-size: 13px;
   }
 
-  #input-30 {
-    font-size: 12px !important;
-  }
-
-  input {
-    width: 150px !important;
-    height: 30px !important;
-  }
-
-  input::placeholder {
-    font-size: 12px;
-  }
-
-  /* 핸드폰번호 */
-  #phoneNum {
-    display: flex;
-  }
-
-  #phoneNum :first-child {
-    width: 60px !important;
-    height: 30px !important;
-  }
-
-  #phoneNum input {
-    width: 70px !important;
-    height: 30px !important;
-    margin-right: 10px;
-  }
-
-  /* 주소록 */
-  #address input {
-    width: 350px !important;
-    height: 30px !important;
+  .v-btn {
+    font-weight:bold;
   }
 </style>

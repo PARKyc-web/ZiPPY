@@ -5,7 +5,7 @@
     </v-toolbar>
 
     <v-card>
-      <v-data-table :headers="headers" :items="orders">
+      <v-data-table :headers="headers" :items="ords">
         <template v-slot:item.payCode="{ item }">
           <div @click="goOrderDetail(item.payCode)" id="paycode">
             {{item.payCode}}
@@ -57,7 +57,7 @@
             value: 'amount'
           }
         ],
-        orders: [],
+        ords: [],
         products: []
       }
     },
@@ -96,8 +96,8 @@
         }
       }).then(res => {
         console.log(res);
-        this.orders = res.data;
-        console.log(this.orders);
+        this.ords = res.data;
+        console.log(this.ords);
       }).catch(error => {
         console.log(error);
       })
