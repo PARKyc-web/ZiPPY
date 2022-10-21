@@ -88,6 +88,9 @@ public class ShopServiceImpl implements ShopService {
   public void deleteCart(List<CartVO> selected) {
     mapper.deleteCart(selected);
   }
+  
+  
+  //주문 CRUD
   //구매 게시판 등록
   @Override
   public void insertPur(List<CartVO> selected, String payCode) {
@@ -112,6 +115,12 @@ public class ShopServiceImpl implements ShopService {
   public void insertOrder(OrderVO orderVO) {
     mapper.insertOrder(orderVO);
   }
+  //주문 단건 조회
+  @Override
+  public OrderVO getOneOrder(String payCode) {
+    return mapper.getOneOrder(payCode);
+  }
+  
 
   
   //판매자 CRUD

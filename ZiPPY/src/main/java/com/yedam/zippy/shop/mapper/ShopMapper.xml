@@ -250,6 +250,11 @@
 		FROM shop_purchase
 		WHERE pay_code = #{payCode})
 	</select>
+	<select id="getOneOrder" resultType="OrderVO">
+		SELECT *
+		FROM shop_order
+		WHERE pay_code = #{payCode}
+	</select>
 	
 	<!-- 판매자 -->
 	<!-- 상품등록 -->

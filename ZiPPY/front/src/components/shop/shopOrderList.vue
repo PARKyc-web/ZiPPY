@@ -7,7 +7,7 @@
     <v-card>
       <v-data-table :headers="headers" :items="ords">
         <template v-slot:item.payCode="{ item }">
-          <span @click="goOrderDetail(item.payCode)" id="paycode">
+          <span @click="goOrderDetail(item.payCode)">
             {{item.payCode}}
           </span>
         </template>
@@ -102,7 +102,7 @@
   };
 </script>
 
-<style>
+<style scoped>
   #cart-con {
     width: 70%;
   }

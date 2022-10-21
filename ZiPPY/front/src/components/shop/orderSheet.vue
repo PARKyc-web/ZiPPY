@@ -9,38 +9,28 @@
         <tr>
           <td style="font-weight:bold">주문번호</td>
           <td>
-            {{pc}}
+            {{this.$route.query.payCode}}
           </td>
         </tr>
         <tr>
           <td style="font-weight:bold">주문일</td>
-          <td>
-            22-04-05
-          </td>
-        </tr>
-        <tr>
-          <td style="font-weight:bold">발송일</td>
-          <td>
-            22-04-05
-          </td>
+          <td>{{orderInfo.orderDate}}</td>
         </tr>
         <tr>
           <td style="font-weight:bold">수령인</td>
-          <td>{{myInfo.userName}}</td>
+          <td>{{orderInfo.buyerName}}</td>
         </tr>
         <tr>
           <td style="font-weight:bold">전화번호</td>
-          <td>{{myInfo.phoneNumber}}</td>
+          <td>{{orderInfo.buyerTel}}</td>
         </tr>
         <tr>
           <td style="font-weight:bold">배송지주소</td>
-          <td>({{myInfo.zipCode}}){{myInfo.userAddress}}</td>
+          <td>({{orderInfo.buyerZipcode}}){{orderInfo.buyerAddr}}</td>
         </tr>
         <tr>
           <td style="font-weight:bold">배송지메모</td>
-          <td>
-            배송지메모
-          </td>
+          <td>{{orderInfo.orderMemo}}</td>
         </tr>
         <tr>
           <td colspan="2" style="font-weight:bold">상품정보</td>
@@ -109,19 +99,19 @@
 
 <script>
   import router from '@/router';
-import axios from 'axios';
+  import axios from 'axios';
 
   export default {
     data() {
       return {
         pc: '',
         products: [],
-        myInfo: {},
+        orderInfo: {},
         email: ''
       }
     },
     created() {
-      //주문상품 정보조회
+      //주문상품 조회
       axios({
         url: "/shop/myPurPro",
         method: "POST",
@@ -132,27 +122,54 @@ import axios from 'axios';
       }).then(res => {
         console.log(res);
         this.products = res.data;
-        this.pc = this.products[0].payCode
-        this.email = this.products[0].email
         console.log(this.products);
       }).catch(error => {
         console.log(error);
       })
-      //내 정보조회
+      //주문자 정보 조회
       axios({
-        url: "/shop/myInfo",
+        url: "/shop/oneOrder",
         method: "POST",
         params: {
-          email: this.email
+          payCode: this.$route.query.payCode
         }
       }).then(res => {
         console.log(res);
-        this.myInfo = res.data;
-        console.log(this.myInfo);
+        this.orderInfo = res.data;
+        console.log(this.orderInfo);
       }).catch(error => {
         console.log(error);
       })
+
     },
+    // async created() {
+    //   //주문상품 정보조회
+    //   let res = await axios({
+    //     url: "/shop/myPurPro",
+    //     method: "POST",
+    //     params: {
+    //       purNo: this.$route.query.purNo,
+    //       payCode: this.$route.query.payCode
+    //     }})
+    //     console.log(res);
+    //     this.products = res.data;
+    //     this.pc = this.products[0].payCode
+    //     this.email = this.products[0].email
+    //     console.log(this.products);
+    //   //내 정보조회
+    //   axios({
+    //     url: "/shop/myInfo",
+    //     method: "POST",
+    //     params: {
+    //       email: this.email
+    //     }
+    //   }).then(res => {
+    //     console.log(res);
+    //     this.myInfo = res.data;
+    //     console.log(this.myInfo);
+    //   }).catch(error => {
+    //     console.log(error);
+    //   })
     methods: {
       goBack() {
         this.$router.go(-1);
@@ -195,6 +212,6 @@ import axios from 'axios';
   }
 
   .v-btn {
-    font-weight:bold;
+    font-weight: bold;
   }
 </style>

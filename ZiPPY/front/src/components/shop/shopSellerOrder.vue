@@ -12,9 +12,9 @@
       </v-card-title>
       <v-data-table :headers="headers" :items="purs">
         <template v-slot:item.payCode="{ item }">
-          <div @click="goOrderDetail(item.purNo, item.payCode)" id="paycode">
+          <span @click="goOrderDetail(item.purNo, item.payCode)">
             {{item.payCode}}
-          </div>
+          </span>
         </template>
         <template v-slot:item.update="{ item }">
           <v-btn v-if="item.orderStatus==0" depressed color=#B3E3C3 class="mr-2"
@@ -211,7 +211,7 @@
   .v-btn {
     font-weight: bold;
   }
-  .text-start :hover{
+  span:hover{
     text-decoration: underline;
     cursor: pointer;
   }
