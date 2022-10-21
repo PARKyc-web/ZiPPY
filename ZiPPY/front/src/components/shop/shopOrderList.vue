@@ -7,18 +7,13 @@
     <v-card>
       <v-data-table :headers="headers" :items="ords">
         <template v-slot:item.payCode="{ item }">
-          <div @click="goOrderDetail(item.payCode)" id="paycode">
+          <span @click="goOrderDetail(item.payCode)" id="paycode">
             {{item.payCode}}
-          </div>
+          </span>
         </template>
-        <template v-slot:item.update="{ item }">
-          <v-btn v-if="item.orderStatus==0" depressed color=#B3E3C3 class="mr-2"
-            @click="updateStatus(item.orderNo, item.orderStatus)">
-            배송
-          </v-btn>
-          <v-btn v-if="item.orderStatus==1" disabled depressed color=#D6D6D6 class="mr-2">
-            배송완료
-          </v-btn>
+        <template v-slot:item.productVO[0].proName="{ item }">
+            {{item.productVO[0].proName}}
+            <div v-if="item.productVO.length>1">외 {{item.productVO.length-1}}건</div>
         </template>
       </v-data-table>
     </v-card>
@@ -41,16 +36,16 @@
             value: 'payCode',
           },
           {
-            text: '상품명',
-            value: 'proName'
+            text: '',
+            value: 'productVO[0].proMainImg'
           },
           {
-            text: '',
-            value: 'proMainImg'
+            text: '상품명',
+            value: 'productVO[0].proName'
           },
           {
             text: '결제완료일',
-            value: 'OrderDate'
+            value: 'orderDate'
           },
           {
             text: '총주문금액',
@@ -69,22 +64,23 @@
             payCode: payCode
           }
         })
-      },
-      getOrdProInfo(payCode) {
-        axios({
-        url: "/shop/myPurPro",
-        method: "POST",
-        params: {
-          payCode: payCode
-        }
-      }).then(res => {
-        console.log(res);
-        this.products = res.data;
-        console.log(this.products);
-      }).catch(error => {
-        console.log(error);
-      })
       }
+      // },
+      // getOrdProInfo(payCode) {
+      //   axios({
+      //   url: "/shop/myPurPro",
+      //   method: "POST",
+      //   params: {
+      //     payCode: payCode
+      //   }
+      // }).then(res => {
+      //   console.log(res);
+      //   this.products = res.data;
+      //   console.log(this.products);
+      // }).catch(error => {
+      //   console.log(error);
+      // })
+      // }
     },
     created() {
       //구매내역 조회
@@ -119,17 +115,13 @@
     text-decoration: none;
     color: rgba(0, 0, 0, 0.87) !important;
   }
-
-  .v-application a:hover {
-    text-decoration: underline;
-  }
-
   .v-btn {
     font-weight: bold;
   }
 
-  .text-start :hover {
+  span:hover{
     text-decoration: underline;
     cursor: pointer;
   }
+  
 </style>

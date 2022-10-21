@@ -29,8 +29,8 @@ public interface ShopService {
   public List<ProductOptionVO> getDetailOpt(int proNo);
   // 주문서 전체조회
   public List<OrderVO> getMyOrderList(String email);
-  //구매내역 정보 조회 
-  public ProductVO getOrdProInfo(String payCode);
+//  //구매내역 정보 조회 
+//  public ProductVO getOrdProInfo(String payCode);
 
   
   // 장바구니 CRUD

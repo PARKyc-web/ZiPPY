@@ -87,7 +87,9 @@ public class ShopController {
   public void deleteCart(@RequestBody List<CartVO> selected) {
     service.deleteCart(selected);
   }
-  // 주문
+  
+  
+  // 주문 CRUD
   // 주문할 상품 등록(from 장바구니)
   @PostMapping("/insertPur")
   public void insertPur(@RequestBody List<CartVO> selected, String payCode) {
@@ -118,7 +120,7 @@ public class ShopController {
   public List<OrderVO> getMyOrderList(String email){
    return service.getMyOrderList(email);
   }
- 
+
   
   // QNA CRUD
   //등록(qna)

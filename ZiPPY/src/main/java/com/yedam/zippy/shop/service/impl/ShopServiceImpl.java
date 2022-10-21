@@ -267,11 +267,21 @@ public class ShopServiceImpl implements ShopService {
 
   @Override
   public List<OrderVO> getMyOrderList(String email) {
-    return mapper.getMyOrderList(email);
+    List<OrderVO> list = mapper.getMyOrderList(email);
+    for(OrderVO x : list) {
+      x.setProductVO(mapper.getOrdProInfo(x.getPayCode()));
+    }
+    return list;
   }
 
-  @Override
-  public ProductVO getOrdProInfo(String payCode) {
-    return mapper.getOrdProInfo(payCode);
-  }
+  
+//  List<PurchaseVO> list = mapper.getMyPurList(payCode, purNo);
+//  for (PurchaseVO x : list) {
+//    x.setProductVO(mapper.getProduct(x.getPurPno()));
+//  }
+//  return list;
+//  @Override
+//  public ProductVO getOrdProInfo(String payCode) {
+//    return mapper.getOrdProInfo(payCode);
+//  }
 }
