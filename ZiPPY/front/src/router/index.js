@@ -14,7 +14,9 @@ import order from "../views/shop/orderView.vue";
 import orderComplete from "../views/shop/orderCompleteView.vue";
 import shopUpdatePro from "../views/shop/shopUpdateProView.vue";
 import orderSheet from "../views/shop/orderSheetView.vue";
-import shopOrderList from "@/views/shop/shopOrderListView.vue";
+//mypage componenets
+import shopCartCom from "@/components/shop/shopCart.vue"
+import shopOrderList from "@/components/shop/shopOrderList.vue";
 
 import GeneralSign from '../views/login/generalSignUp.vue';
 import BusinessSign from '../views/login/businessSignUp.vue';
@@ -128,8 +130,8 @@ const routes = [
       },
       {
         path : "myCart",
-        name : "shopCart",
-        component : shopCart
+        name : "shopCartCom",
+        component : shopCartCom
       },
       {
         path : "used/insert",
