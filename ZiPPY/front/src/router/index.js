@@ -130,6 +130,12 @@ const routes = [
         path : "myCart",
         name : "shopCart",
         component : shopCart
+      },
+      {
+        path : "used/insert",
+        name : "mypage-insert-product",
+        component : usedInsert
+
       }
     ]
   },
@@ -186,7 +192,7 @@ const routes = [
   {
     path: "/shop",
     name: "shop",
-    component: shopView,
+    component: shopMain,
   },
   {
     path: "/shop/main",
@@ -233,7 +239,7 @@ const routes = [
 
   //move
   {
-    path: "/move/moveMain",
+    path: "/move",
     name: "moveMain",
     component: moveMain,
   },

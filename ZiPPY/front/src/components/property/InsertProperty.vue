@@ -36,7 +36,7 @@
                 <v-text-field label="도로명 주소" hint="중앙대로 403" required v-model="streetAddress"></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="4">
-                <v-select :items="['아파트', '원룸', '투룸']" label="집종류" required v-model="houseType"></v-select>
+                <v-select :items="['아파트', '빌라', '오피스텔']" label="집종류" required v-model="houseType"></v-select>
               </v-col>
               <v-col cols="12" sm="6" md="4">
                 <v-text-field label="층수" required v-model="floor"></v-text-field>
@@ -93,6 +93,7 @@
     data() {
       return {
         dialog2: false,
+        mainImg: '',
         houseName: '',
         saleType : '',
         price : '',

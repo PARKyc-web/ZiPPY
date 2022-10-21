@@ -164,14 +164,17 @@
 			#{arr.cartQty} ,
 			#{arr.email},
 			#{arr.cartPrice},
-			#{arr.productVO.email}
+			#{arr.productVO.email},
+			0,
+			systimestamp,
+			null
 			FROM
 			dual
 		</foreach>
 	</insert>
 	<!-- 디테일에서 purchase로 등록 -->
 	<insert id="insertPurOne">
-		INSERT INTO shop_purchase(pur_no, pay_code, pur_pno, pur_opt_no, pur_qty, email, pur_price, business_email)
+		INSERT INTO shop_purchase(pur_no, pay_code, pur_pno, pur_opt_no, pur_qty, email, pur_price, business_email, order_status, order_date)
 		VALUES(
 		(SELECT NVL(MAX(pur_no) , 0) + 1 FROM shop_purchase),
 		#{payCode},
@@ -180,7 +183,9 @@
 		#{product.qty},
 		#{email}, <!-- 사용자 -->
 		#{product.purPrice},
-		#{product.email} <!-- 판매업체 -->
+		#{product.email}, <!-- 판매업체 -->
+		0,
+		systimestamp
 		)
 	</insert>
 	<!-- 내 정보 조회 -->
@@ -197,15 +202,18 @@
 		(SELECT o.opt_name
 		FROM
 		shop_product_option o
-		WHERE o.opt_no IN (SELECT p.pur_opt_no FROM
-		shop_purchase p
-		WHERE p.pay_code = #{payCode}) ) opt_name
+		WHERE o.opt_no IN (SELECT pur_opt_no FROM
+		shop_purchase
+		WHERE pur_no = #{purNo}) ) opt_name
 		FROM
 		shop_purchase p
 		LEFT OUTER JOIN shop_product_option o
 		ON p.pur_pno =
 		o.pro_no
 		WHERE p.pay_code = #{payCode}
+		<if test="purNo != null">
+			 AND p.pur_no = #{purNo}
+		</if>
 		ORDER BY p.pur_no
 	</select>
 	<!-- 주문정보 등록 -->
@@ -227,19 +235,21 @@
 		0,
 		systimestamp)
 	</insert>
-	<!-- 주문정보 리스트 조회 -->
-	<select id="getMyOrderList" resultType="orderVO">
+	<!-- 주문 리스트 조회 -->
+	<select id="getMyOrderList" resultType="OrderVO">
 		SELECT *
 		FROM shop_order
 		WHERE email = #{email}
 	</select>
-	<!-- 주문정보 상세조회 -->
-	<select id="getMyOrder" parameterType="orderVO" resultType="orderVO">
-		SELECT * 
-		FROM shop_order
-		WHERE pay_code = #{payCode}
+	<!-- 주문정보 조회 -->
+	<select id="getOrdProInfo" resultType="ProductVO">
+		SELECT pro_name, pro_main_img
+		FROM shop_product
+		WHERE pro_no IN
+		(SELECT pur_pno
+		FROM shop_purchase
+		WHERE pay_code = #{payCode})
 	</select>
-	
 	
 	<!-- 판매자 -->
 	<!-- 상품등록 -->
@@ -336,32 +346,33 @@
 		WHERE pro_no = #{proNo}
 	</delete>
 	<!-- 판매내역 조회 -->
-	<select id="getMyOrdList" resultType="OrderVO">
-		SELECT *
+	<select id="getSellerPurList" resultType="PurchaseVO">
+		SELECT p.*, g.user_name, s.pro_name
 		FROM
 		(
 			SELECT *
-			FROM shop_order
-			WHERE pay_code IN
-			(SELECT pay_code
 			FROM shop_purchase
-			WHERE business_email = #{product.email})
+			WHERE business_email = #{product.email}
 			<if test="keyword != null">
 			INTERSECT
 			SELECT *
-			FROM shop_order
+			FROM shop_purchase
 			WHERE pay_code LIKE '%'||#{keyword}||'%'
 			OR email LIKE '%'||#{keyword}||'%'
 			</if>
-		)
-		ORDER BY order_no DESC
+		) p 
+		  JOIN general_user g
+      ON p.email = g.email
+      JOIN shop_product s
+      ON p.pur_pno = s.pro_no
+			ORDER BY pur_no DESC
 	</select>
 	<!-- 주문상태 변경 -->
-	<update id="updateOrdStatus" parameterType="OrderVO">
-		UPDATE shop_order
+	<update id="updateOrdStatus">
+		UPDATE shop_purchase
 		SET (order_status, delivery_date)
         =(SELECT #{orderStatus}, systimestamp FROM dual)
-		WHERE order_no =#{orderNo}
+		WHERE pur_no =#{purNo}
 	</update>
 
 </mapper>

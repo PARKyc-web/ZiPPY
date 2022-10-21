@@ -129,7 +129,6 @@
           for (let i = 0; i < temp.length; i++) {
             this.tags.push(temp[i]);
           }
-          console.log(this.tags);
         })
         .catch(error => {
           // 에러가 났을 때
