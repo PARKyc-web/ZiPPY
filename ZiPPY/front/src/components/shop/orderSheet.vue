@@ -115,8 +115,9 @@ import axios from 'axios';
     data() {
       return {
         pc: '',
-        email: 'zippy@naver.com',
         products: [],
+        myInfo: {},
+        email: ''
       }
     },
     created() {
@@ -132,7 +133,22 @@ import axios from 'axios';
         console.log(res);
         this.products = res.data;
         this.pc = this.products[0].payCode
+        this.email = this.products[0].email
         console.log(this.products);
+      }).catch(error => {
+        console.log(error);
+      })
+      //내 정보조회
+      axios({
+        url: "/shop/myInfo",
+        method: "POST",
+        params: {
+          email: this.email
+        }
+      }).then(res => {
+        console.log(res);
+        this.myInfo = res.data;
+        console.log(this.myInfo);
       }).catch(error => {
         console.log(error);
       })

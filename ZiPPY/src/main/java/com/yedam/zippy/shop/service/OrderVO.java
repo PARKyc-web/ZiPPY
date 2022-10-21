@@ -1,6 +1,7 @@
 package com.yedam.zippy.shop.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,4 +28,5 @@ public class OrderVO {
 //  @JsonFormat(pattern = "yy-MM-dd")
 //  @DateTimeFormat(pattern="yy-MM-dd")
 //  Date deliveryDate;
+  List<ProductVO> productVO;
 }

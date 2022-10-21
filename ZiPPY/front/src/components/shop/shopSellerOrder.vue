@@ -190,7 +190,7 @@
   };
 </script>
 
-<style>
+<style scoped>
   #cart-con {
     width: 70%;
   }
