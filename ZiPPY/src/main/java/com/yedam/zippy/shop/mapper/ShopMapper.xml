@@ -243,13 +243,12 @@
 	</select>
 	<!-- 주문정보 조회 -->
 	<select id="getOrdProInfo" resultType="ProductVO">
-		SELECT pro_name, pro_main_img, count(pro_name) count
+		SELECT pro_name, pro_main_img
 		FROM shop_product
 		WHERE pro_no IN
 		(SELECT pur_pno
 		FROM shop_purchase
-		WHERE pay_code = #payCode)
-		GROUP BY pro_name, pro_main_img
+		WHERE pay_code = #{payCode})
 	</select>
 	
 	<!-- 판매자 -->

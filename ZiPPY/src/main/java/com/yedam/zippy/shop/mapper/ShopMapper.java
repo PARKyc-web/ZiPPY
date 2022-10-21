@@ -60,7 +60,7 @@ public interface ShopMapper {
   // 주문서 조회
   public List<OrderVO> getMyOrderList(String email);
   //구매내역 정보 조회 
-  public ProductVO getOrdProInfo(String payCode);
+  public List<ProductVO> getOrdProInfo(String payCode);
 
   
   // QNA CRUD 

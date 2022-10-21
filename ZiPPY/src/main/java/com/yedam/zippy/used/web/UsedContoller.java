@@ -113,7 +113,7 @@ String order="product_date DESC";
   }
 
   // 삭제
-  @DeleteMapping("/delete")
+  @DeleteMapping("/del")
   public String delete(@RequestParam int pNo) {
     int r = service.deleteUsed(pNo);
     System.out.println(r);

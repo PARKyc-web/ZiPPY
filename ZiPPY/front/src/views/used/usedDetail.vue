@@ -15,7 +15,8 @@
           <div></div>
         </div>
         <div v-if="this.$store.state.loginInfo != null && this.$store.state.loginInfo.email == this.product.email">
-          <button @click="goUpdate(product.productNo)">수정하기</button>
+          <button class="used-up-del-btn" @click="goUpdate(product.productNo)">수정하기</button>
+          <button class="used-up-del-btn" @click="delProduct()">삭제</button>
         </div>
       </div>
       <div id="used-detail-main">
@@ -185,7 +186,7 @@
     created() {
       axios({
           url: "http://localhost:8090/zippy/used/detail",
-          methods: "GET",
+          method: "GET",
           params: {
             pNo: this.$route.query.pNo
           }
@@ -213,7 +214,7 @@
       if (this.$store.state.loginInfo != null) {
         axios({
           url: "http://localhost:8090/zippy/common/wishOne",
-          methods: "GET",
+          method: "GET",
           params: {
             email: this.$store.state.loginInfo.email,
             sId: this.$route.query.pNo,
@@ -232,15 +233,35 @@
       }
     },
     methods: {
+      delProduct() {
+        swal.fire({
+          icon: 'success',
+          title: '삭제되었습니다 !',
+          showConfirmButton: false,
+          timer: 1500
+        });
+        axios({
+          url: "/used/del",
+          method: "DELETE",
+          params: {
+            pNo: this.$route.query.pNo
+          }
+        }).then(res => {
+          console.log(res);
+          window.location.assign('/used');
 
-      goUserPage(email){
-        console.log(this.product.email);
-        this.$router.push('/used/user?email='+email);
+        }).catch(err => {
+          console.log(err)
+        })
       },
-      rewrite(){
+      goUserPage(email) {
+        console.log(this.product.email);
+        this.$router.push('/used/user?email=' + email);
+      },
+      rewrite() {
         axios({
           url: "http://localhost:8090/zippy/common/wishOne",
-          methods: "GET",
+          method: "GET",
           params: {
             email: this.$store.state.loginInfo.email,
             sId: this.$route.query.pNo,
@@ -295,7 +316,7 @@
         var categoryVal = e.target.innerText;
         axios({
           url: "http://localhost:8090/zippy/used/main",
-          methods: "GET",
+          method: "GET",
           params: {
             keyword: "",
             location: "",
@@ -371,6 +392,10 @@
   #container {
     width: 1200px;
     margin: 0 auto;
+  }
+
+  .used-up-del-btn {
+    margin-left: 5px;
   }
 
   #used-wish-heart {
