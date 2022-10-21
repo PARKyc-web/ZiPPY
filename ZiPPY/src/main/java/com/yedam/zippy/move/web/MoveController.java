@@ -84,8 +84,9 @@ public class MoveController {
   //견적서 수정 - 업체(2차)
   @PostMapping("/moveEstimateUpdate")
   public String moveEstimateUpdate(MoveResponseVO vo) {
+//    System.out.println(vo.getEstimateNo());
+    System.out.println(vo);
     service.moveEstimateUpdate(vo);
-    System.out.println(vo.getEstimateNo());
     return "";
   }
   

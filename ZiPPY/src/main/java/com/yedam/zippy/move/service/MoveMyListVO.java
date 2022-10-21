@@ -18,7 +18,7 @@ public class MoveMyListVO {
   String responseMemo;
   
   //rating
-  Integer totalRating;
+  double totalRating;
   Integer serviceType;
   Integer serviceId;
   
@@ -31,7 +31,7 @@ public class MoveMyListVO {
   String drop;
   String drop2;
   String checked;
-  
-  
+  String userEmail;
+  String requestDate;
   
 }

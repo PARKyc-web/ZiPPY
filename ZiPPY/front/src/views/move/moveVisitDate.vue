@@ -1,4 +1,6 @@
 <template>
+  <div>
+    <move-nav-bar @click="categoryVal=$event.target.innerText"></move-nav-bar>
   <div class="wrapper">
     <h3>견적 방문 희망 날짜를 선택해주세요.</h3>
     <v-row justify="space-between" locale="ko-KR">
@@ -36,12 +38,17 @@
   <v-flex xs12>
     <router-view></router-view>
   </v-flex>
-    
+</div>
   </div>
 </template>
 <script>
+import MoveNavBar from '../../components/move/MoveNavBar.vue';
+
 export default {
-  // props : ['moveContact', ''],
+  components: {
+    MoveNavBar
+  },
+
   props : ['moveInfo','moveEstimateType','moveType', 'moveDate', 'moveAddress'],
   data: () => ({
     //날짜

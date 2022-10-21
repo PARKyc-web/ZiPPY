@@ -1,6 +1,6 @@
 <template>
   <div class="result-wrap">
-
+    <move-nav-bar @click="categoryVal=$event.target.innerText"></move-nav-bar>
     <div class="move-main-title">
       <h3>견적요청 조회</h3>
     </div>
@@ -110,7 +110,7 @@
 
                               <form id="secondForm">
                               <v-col cols="12">
-                                <v-autocomplete id="secondType" :value="selectData.secondEstimateType"
+                                <v-autocomplete id="secondType"  :value="selectData.secondEstimateType"
                                   :items="['대면견적', '비대면견적']"
                                   label="2차 견적타입*"></v-autocomplete>
                               </v-col>
@@ -121,8 +121,8 @@
                                 </v-text-field>
                               </v-col>
 
-                              <input type="hidden" name="secondEstimatePrice" v-model="selectData.secondEstimatePrice">
-                              <input type="hidden" name="secondEstimateType"  v-model="selectData.secondEstimateType">
+                              <input type="hidden"  name="secondEstimatePrice" v-model="selectData.secondEstimatePrice">
+                              <input type="hidden"  name="secondEstimateType"  v-model="selectData.secondEstimateType">
 
                             </form>
                               <!-- <v-col cols="12">
@@ -185,8 +185,13 @@
 
 <script>
   import axios from 'axios';
-  export default {
+  import MoveNavBar from '../../components/move/MoveNavBar.vue';
 
+export default {
+  components: {
+    MoveNavBar
+  },
+ 
     data: function () {
       return {
         md:"",
@@ -361,10 +366,7 @@
       par : function(string){
           // var data = '{"bedCount":2,"bed":["","싱글","슈퍼싱글"],"sofaCount":1,"sofa":[""],"closetCount":1,"closet":[""],"closetsCount":1,"closets":[""],"tvCount":1,"tv":[""],"pcCount":1,"pc":[""],"fridgeCount":1,"fridge":[""],"trolleyCount":1,"trolley":[""],"etcCount":1,"etcName":[""],"etcSize":[""],"box":"16-20개","filesPhoto":""}';
           var temp = JSON.parse(string);
-          console.log( "parse : "+temp);
-          console.log(temp.bedCount);
-         
-
+        
           var detailVal = ''; 
           var detail = '';
 
@@ -387,10 +389,8 @@
       
 
         var temp= JSON.parse(string);
-        console.log('파싱 : ',temp);
-        console.log(temp.bedCount);
+   
         var bedTemp ='침대 개수 : '+ temp.bedCount + ', 침대 사이즈 : ' + temp.bed[0];
-        console.log(temp.closetCount);
 
         /*
           var fur = ['bed', 'sofa', 'closet', 'closets']
@@ -474,8 +474,8 @@
         //2차견적으로 업뎃
 
 
-        console.log(document.querySelector("#secondPrice").value);
-        console.log(document.querySelector("#secondType").value);
+        console.log('2차 가격 : ',document.querySelector("#secondPrice").value);
+        console.log('2차 타입 : ',document.querySelector("#secondType").value);
 
         this.selectData.reservStatus = "2";
 
@@ -489,8 +489,8 @@
         console.log("회원: " + this.selectData.email);
         console.log("1차견적가격: " + this.selectData.firstEstimatePrice);
         console.log("1차견적타입: " + this.selectData.estimateType);
-        console.log("2차견적가격: " + this.selectData.secondEstimatePrice);
-        console.log("2차견적타입: " + this.selectData.secondEstimateType);
+        console.log("2차견적가격: " ,document.querySelector("#secondPrice").value);
+        console.log("2차견적타입: " ,document.querySelector("#secondType").value);
         console.log("견적상태: " + this.selectData.reservStatus);
         console.log("업체명: " + this.selectData.compName);
         console.log("견적어필: " + this.selectData.responseMemo);
@@ -501,10 +501,10 @@
          
           params:{
             estimateNo : this.selectData.estimateNo,
-            secondEstimateType :document.querySelector("#secondPrice").value,
-            secondEstimatePrice : document.querySelector("#secondType").value
+            secondEstimateType :document.querySelector("#secondType").value,
+            secondEstimatePrice : document.querySelector("#secondPrice").value
           },
-          data: formData
+          // data: formData
         }).then(res => {
           console.log(res);
           alert("견적서 보내기 완료!");

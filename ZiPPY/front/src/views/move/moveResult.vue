@@ -1,5 +1,8 @@
 <template>
-  <div class="result-wrap">
+  <div>
+    <move-nav-bar @click="categoryVal=$event.target.innerText"></move-nav-bar>
+  
+    <div class="result-wrap">
     <form>
       <div class="move-main-title">
         <h3>보낸 견적요청 조회</h3>
@@ -71,11 +74,17 @@
     </div>
     </form>
   </div>
+</div>
 </template>
 
 <script>
 import axios from 'axios';
-export default{
+import MoveNavBar from '../../components/move/MoveNavBar.vue';
+
+export default {
+  components: {
+    MoveNavBar
+  },
 
   data : function () {
     return{

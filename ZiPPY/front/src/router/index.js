@@ -216,79 +216,79 @@ const routes = [
 
   //move
   {
-    path: "/moveMain",
+    path: "/move/moveMain",
     name: "moveMain",
     component: moveMain,
   },
   {
-    path: "/moveTotal",
+    path: "/move/moveTotal",
     name: "moveTotal",
     component: moveTotal,
   },
   {
-    path: "/moveContact",
+    path: "/move/moveContact",
     name: "moveContact",
     component: moveVisitDate,
     props: true,
 
   },
   {
-    path: "/moveUntact",
+    path: "/move/moveUntact",
     name: "moveUntact",
     component: moveInfoDetail,
     props: true,
   },
 
   {
-    path: "/moveContactCheck",
+    path: "/move/moveContactCheck",
     name: "moveContactCheck",
     component: moveContactFinalCheck,
     props: true, //변수를 받겠다. 
   },
   {
-    path: "/moveUntactImg",
+    path: "/move/moveUntactImg",
     name: "moveUntactImg",
     component: moveImage,
     props: true,
   },
   {
-    path: "/moveUntactCheck",
+    path: "/move/moveUntactCheck",
     name: "moveUntactCheck",
     component: moveUntactFinalCheck,
     props: true,
   },
   {
-    path: "/moveMyList",
+    path: "/move/moveMyList",
     name: "moveMyList",
     component: moveMyList,
     props: true,
   },
   {
-    path: "/moveEstimate",
+    path: "/move/moveEstimate",
     name: "moveEstimate",
     component: moveEstimate,
     props: true,
   },
   {
-    path: "/moveResult",
+    path: "/move/moveResult",
     name: "moveResult",
     component: moveResult,
     props: true,
   },
   {
-    path: "/moveCompanyEstimate",
+    path: "/move/moveCompanyEstimate",
     name: "moveCompanyEstimate",
     component: moveCompanyEstimate,
     props: true,
   },
   {
-    path: "/moveCompanyMy",
+    path: "/move/moveCompanyMy",
     name: "moveCompanyMy",
     component: moveCompanyMy,
     props: true,
   },
   {
-    path: "/moveMyReserve",
+    path: "/move/moveMyReserve",
     name: "moveMyReserve",
     component: moveMyReserve,
     props: true,

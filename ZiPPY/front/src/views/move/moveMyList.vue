@@ -1,6 +1,7 @@
 <template>
+  <div>
+    <move-nav-bar @click="categoryVal=$event.target.innerText"></move-nav-bar>
   <div class="company-wrap">
-
     <div class="move-main-title">
       <h3>견적요청 조회</h3>
     </div>
@@ -24,7 +25,7 @@
     <div class="divv" v-for="item in list">
       <v-card :loading="loading" class="mx-auto my-12" max-width="374" elevation="10" >
         <template slot="progress">
-          <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
+          <v-progress-linear color="#B3E3C3" height="10" indeterminate></v-progress-linear>
         </template>
 
         <!-- <v-img
@@ -62,10 +63,10 @@
 
         <v-card-text>
           <v-row text-align="center" class="mx-0">
-            <v-rating :value="4.5" color="amber" dense half-increments readonly size="20"></v-rating>
+            <v-rating :value="item.totalRating" color="amber" dense half-increments readonly size="20"></v-rating>
 
             <div class="grey--text ms-4">
-              평점{{item.totalRating}} (413)
+              {{item.totalRating}} (413)
             </div>
           </v-row>
           <v-divider class="mx-4"></v-divider>
@@ -82,6 +83,9 @@
         <v-divider class="mx-4"></v-divider>
         <v-card-text>
           <div>견적요청 번호 : <span>NO.{{item.estimateNo}}</span></div>
+        </v-card-text>
+        <v-card-text>
+          <div>견적요청 일자 : <span>{{item.requestDate}}</span></div>
         </v-card-text>
         <v-card-title>예상견적 : <span>{{item.firstEstimatePrice}}</span>원</v-card-title>
 
@@ -102,11 +106,11 @@
     </v-card-text> -->
 
         <v-card-actions>
-          <v-btn color="deep-purple lighten-2" text @click="reserve">
+          <v-btn color="#B3E3C3 lighten-2" text @click="reserve">
             예약요청
           </v-btn>
 
-          <v-btn color="deep-purple lighten-2" text @click="chat">
+          <v-btn color="#B3E3C3 lighten-2" text @click="chat">
             채팅하기
           </v-btn>
         </v-card-actions>
@@ -202,14 +206,21 @@
     </v-card-actions>
   </v-card>
 </div> -->
-
+</div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
 
-  export default {
+import MoveNavBar from '../../components/move/MoveNavBar.vue';
+
+export default {
+  components: {
+    MoveNavBar
+  },
+
+  
     
     data : function(){
       return{
@@ -228,7 +239,7 @@ import axios from 'axios';
       //받은정보
         item: "",
         select2:"",
-
+        userEmail: "",
         email: "",
         estimateNo: "",
         movingResponseNo: "",
@@ -389,5 +400,9 @@ import axios from 'axios';
   .form-check-input:checked {
     background-color: #B3E3C3;
     border: 1px solid #B3E3C3;
+  }
+
+  .v-btn{
+    color: #96daac;
   }
 </style>
