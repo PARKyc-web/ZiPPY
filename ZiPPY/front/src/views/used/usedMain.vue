@@ -142,14 +142,7 @@
       }
     },
     created() {
-      this.findList({
-        location: this.location,
-        keyword: "",
-        category: "",
-        checked: "",
-        dropbox: "",
-        pageNum: this.page
-      })
+
 
       if (!("geolocation" in navigator)) {
         return;
@@ -174,6 +167,17 @@
       }, err => {
         alert(err.message);
       })
+      const out = this
+      window.setTimeout(function(){
+        out.findList({
+        location: out.location,
+        keyword: "",
+        category: "",
+        checked: "",
+        dropbox: "",
+        pageNum: out.page
+      })
+      }, 600);
     },
     methods: {
       total: function () {
