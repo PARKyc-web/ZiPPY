@@ -12,10 +12,10 @@ import com.github.pagehelper.Page;
 public interface UsedService {
   // 전체조회
   public Page<UsedProductVO> usedList(String location, String keyword, String category, String checked, String dropbox);
-  
-  //유저페이지 전체조회
-  public Page<UsedProductVO> userMain(@Param("email")String email);
-  
+
+  // 유저페이지 전체조회
+  public Page<UsedProductVO> userMain(@Param("email") String email);
+
   // 단건조회
   public UsedProductVO usedOne(int pNo);
 
@@ -33,7 +33,7 @@ public interface UsedService {
 
   // 이미지 등록
   public int insertImg(UsedImagesVO images);
-  
+
   // 이미지 삭제
   public int deleteImg(UsedProductVO product);
 
@@ -48,6 +48,9 @@ public interface UsedService {
 
   // 키워드 출력
   public List<UsedKeywordVO> showKeyword(String email);
+
+  //키워드 조회
+  public List<UsedKeywordVO> findKeyword(UsedProductVO product );
 
   // 이미지 포함 등록
   public void insertUsedProduct(UsedProductVO product, List<MultipartFile> images);

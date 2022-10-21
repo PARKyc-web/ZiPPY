@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.Page;
+import com.yedam.zippy.shop.service.ProductVO;
 import com.yedam.zippy.used.mapper.UsedMapper;
 import com.yedam.zippy.used.service.UsedImagesVO;
 import com.yedam.zippy.used.service.UsedKeywordVO;
@@ -89,6 +90,11 @@ public class UsedServiceImpl implements UsedService {
   @Override
   public List<UsedKeywordVO> showKeyword(String email) {
     return mapper.showKeyword(email);
+  }
+  
+  @Override
+  public List<UsedKeywordVO> findKeyword(UsedProductVO product) {
+    return mapper.findKeyword(product);
   }
   
   @Override

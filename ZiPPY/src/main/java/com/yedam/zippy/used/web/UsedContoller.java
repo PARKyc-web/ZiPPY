@@ -44,7 +44,7 @@ public class UsedContoller {
                                     @RequestParam(value = "dropbox", required = false) String dropbox,
                                     @RequestParam int pageNum) {
 
-    System.out.println(location + ", " + keyword);
+    System.out.println("asdfasdfasdf"+location);
     if (category.equals("전체")) {
       category = "";
     }
@@ -100,7 +100,9 @@ String order="product_date DESC";
     System.out.println("images : "+images);
     product.setProductLocation("대구");
     service.insertUsedProduct(product, images);
-    return "";
+    System.out.println(service.findKeyword(product));
+    service.findKeyword(product);
+    return "SUCCESS";
   }
 
   // 수정
@@ -143,6 +145,7 @@ String order="product_date DESC";
     System.out.println(service.showKeyword(email));
     return service.showKeyword(email);
   }
+  
 
   @GetMapping("getImg")
   public List<UsedImagesVO> getImg(@RequestParam int pNo) {
