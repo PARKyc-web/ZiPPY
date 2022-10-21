@@ -73,6 +73,7 @@
         productPosition: [],
         price: '',
         clusterer: 0,
+        markers: []
       }
     },
     created() {
@@ -198,8 +199,6 @@
         var markers = [];
 
         for (let i = 0; i < this.streetAddress.length; i++) {
-          console.log(this.streetAddress.length);
-          console.log(this.streetAddress[0].streetAddress);
           // 주소로 좌표를 검색합니다
           geocoder.addressSearch(this.streetAddress[i].streetAddress, function (result, status) {
             // 정상적으로 검색이 완료됐으면 
@@ -211,19 +210,31 @@
             }
           });
         }
+        this.markers = markers;
+        //////////////////////////////////////
+        // function makeClusterer() {
+        //   // 클러스터러에 마커들을 추가합니다
+        //   clusterer.addMarkers(markers);
+        // }
 
+        // let setClusterer = setInterval(function () {
+        //   makeClusterer();
+        //   if (markers.length == initThis.streetAddress.length) {
+        //     clearInterval(setClusterer)
+        //   };
+        // }, 100);
+        //////////////////////////////
         function makeClusterer() {
           // 클러스터러에 마커들을 추가합니다
-          clusterer.addMarkers(markers);
+          clusterer.addMarkers(initThis.markers);
         }
 
         let setClusterer = setInterval(function () {
           makeClusterer();
-          if (markers.length == initThis.streetAddress.length) {
+          if (initThis.markers.length == initThis.streetAddress.length) {
             clearInterval(setClusterer)
           };
         }, 100);
-
 
         // 마커 클러스터러에 클릭이벤트를 등록합니다
         // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우
@@ -350,22 +361,21 @@
       },
       showclusterer() {
 
-        this.markers = [];
-        this.clusterer.clear();
+        // this.clusterer.clear();
         var outside = this;
 
-        this.clusterer = new kakao.maps.MarkerClusterer({
-          map: this.map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
-          averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
-          minLevel: 2 // 클러스터 할 최소 지도 레벨 
-        });
+        var geocoder = new kakao.maps.services.Geocoder();
 
         var clusterer = this.clusterer;
 
         // 클러스터를 만들기 위해 필요한 최소 마커 개수를 설정한다.
         clusterer.setMinClusterSize(1);
 
-        var markers = [];
+        console.log('값', this.markers.length);
+        this.markers = [];
+        console.log('초기화', this.markers.lengh);
+        // var markers = [];
+        var markers = this.markers;
 
         for (let i = 0; i < this.houseProducts.length; i++) {
           // 주소로 좌표를 검색합니다
