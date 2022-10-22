@@ -3,13 +3,13 @@
     <move-nav-bar @click="categoryVal=$event.target.innerText"></move-nav-bar>
   <div class="company-wrap">
     <div class="move-main-title">
-      <h3>견적요청 조회</h3>
+      <h3>업체 조회</h3>
     </div>
 
     <div class="form-check">
       <input @click="checkbox ()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
       <label class="form-check-label" for="flexCheckDefault">
-        견적완료된 요청보기
+        내 지역만 보기
       </label>
     </div>
     <hr />
@@ -34,12 +34,9 @@
     ></v-img> -->
         
     <!-- 카드 -->
-        <v-card-text>
-          
-          
         
               <!--heart-->
-                <div>
+                <!--<div>
                    <button>
                     <div>
                       <v-btn v-if="heart==0" class="mx-2" color='#D6D6D6' fab depressed dark small
@@ -56,10 +53,7 @@
                       </v-btn>
                     </div>
                   </button>
-                </div>
-
-                <div>견적서 번호 : <span>NO.{{item.movingResponseNo}}</span></div>
-        </v-card-text>       
+                </div> -->
 
         <v-card-title>업체명 : <span>{{item.compName}}</span></v-card-title>
 
@@ -83,13 +77,7 @@
         </v-card-text>
 
         <v-divider class="mx-4"></v-divider>
-        <v-card-text>
-          <div>견적요청 번호 : <span>NO.{{item.estimateNo}}</span></div>
-        </v-card-text>
-        <v-card-text>
-          <div>견적요청 일자 : <span>{{item.requestDate}}</span></div>
-        </v-card-text>
-        <v-card-title>예상견적 : <span>{{item.firstEstimatePrice}}</span>원</v-card-title>
+        
 
         <!-- <v-card-text>
       <v-chip-group
@@ -109,11 +97,11 @@
 
         <v-card-actions>
           <v-btn color="#B3E3C3 lighten-2" text @click="reserve">
-            예약요청
+            채팅하기
           </v-btn>
 
           <v-btn color="#B3E3C3 lighten-2" text @click="chat">
-            채팅하기
+            후기보기
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -214,7 +202,7 @@
 
 <script>
 import axios from 'axios';
-import swal from 'sweetalert2';
+
 import MoveNavBar from '../../components/move/MoveNavBar.vue';
 
 export default {
@@ -235,7 +223,6 @@ export default {
       selection: 1,
       heart : 0,
       wish: "",
-      bNo:"",
 
       list: [],
 
@@ -247,10 +234,13 @@ export default {
         estimateNo: "",
         movingResponseNo: "",
         compName : "",
-        totalRating: "",
+        compAddress: "",
+        compName: "",
+        totalRating: 0,
         firstEstimatePrice: "",
         reservStatus : "",
-        serviceType : 3,
+        serviceType: "",
+        dropbox:"",
         
         drops: [{
             name: '전체',
@@ -261,13 +251,10 @@ export default {
             value: '평점순'
           },
           {
-            name: '높은가격순',
-            value: '높은가격순'
+            name: '지역순',
+            value: '지역순'
           },
-          {
-            name: '낮은가격순',
-            value: '낮은가격순'
-          },
+         
          
         ],
       }
@@ -275,17 +262,18 @@ export default {
 
     created(){
       axios({
-        url: "http://localhost:8090/zippy/move/moveMyList",
+        url: "http://localhost:8090/zippy/move/moveCompanyList",
         methods: "GET",
         params: {
-          email: "move123@move.com",
+          email: "",
           
           checked: "",
           dropbox: "",
           dropbox2: "",
 
           serviceType: "",
-          serviceId: ""
+          serviceId: "",
+          memberType:""
 
         }
       }).then(res => {
@@ -294,26 +282,6 @@ export default {
       }).catch(error => {
         console.log(error);
       })
-
-     
-    
-
-      if (this.$store.state.loginInfo != null) {
-        axios({
-        url: "/common/wishAll",
-        method: "GET",
-        params: {
-          // email: this.$store.state.loginInfo.email,
-          email: 'zippy@naver.com',
-          serviceType: 3
-        }
-      }).then(res => {
-        console.log(res);
-        this.data = res.data;
-      }).catch(err => {
-        console.log(err)
-      })
-      }
     },
     methods: {
       reserve() {
@@ -326,89 +294,6 @@ export default {
 
         setTimeout(() => (this.loading = false), 2000)
       },
-
-      rewrite() {
-        axios({
-          url: "http://localhost:8090/zippy/common/wishOne",
-          method: "GET",
-          params: {
-            email: this.$store.state.loginInfo.email,
-            sId: this.$route.query.pNo,
-            serviceType: this.data.serviceType
-          }
-        }).then(res => {
-          this.wish = res.data;
-          if (res.data != "") {
-            this.heart = 1;
-          } else if (res.data == "") {
-            this.heart = 0;
-          }
-        }).catch(err => {
-          console.log(err)
-        })
-      },
-      changeHeart() {
-        if (this.$store.state.loginInfo != null) {
-          if (this.heart == 0) { //찜x일때
-            this.addWish();
-            this.heart = 1; //찜on으로 변경
-            swal.fire({
-              icon: 'success',
-              title: '찜 목록에 추가되었습니다.',
-              showConfirmButton: false,
-              timer: 1500
-            });
-          } else { //찜on 일 떄
-            this.delWish();
-            this.heart = 0; //찜x로 변경
-            swal.fire({
-              icon: 'success',
-              title: '찜목록에서 삭제되었습니다.',
-              showConfirmButton: false,
-              timer: 1500
-            });
-          }
-        } else {
-          swal.fire({
-            icon: 'warning',
-            title: '로그인 정보가 필요합니다.',
-            showConfirmButton: false,
-            timer: 1500
-          });
-        }
-      },
-
-      addWish: function () {
-        axios({
-          url: "http://localhost:8090/zippy/common/addWish",
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json; charset=utf-8"
-          },
-          data: JSON.stringify(this.data)
-        }).then(res => {
-          this.rewrite();
-        }).catch(err => {
-          console.log(err)
-        })
-      },
-      delWish: function () {
-        let bNo = [];
-        bNo.push(this.wish.bookmarkNo);
-        axios({
-          url: "http://localhost:8090/zippy/common/delWish",
-          method: "DELETE",
-          data: {
-            bNo: bNo
-          }
-        }).then(res => {
-          console.log(res);
-        }).catch(err => {
-          console.log(err)
-        })
-      },
-
-      
 
       checkbox: function () {
         const ckbox = document.querySelector(".form-check-input");
@@ -437,18 +322,16 @@ export default {
 
         var dropValue2 = this.select2;
         console.log(dropValue2);
-        console.log(this.vo.email);
+        
         axios({
-          url: "http://localhost:8090/zippy/move/moveEstimate",
+          url: "http://localhost:8090/zippy/move/moveCompanyList",
           methods: "GET",
           params: {
             dropbox: this.select,
             dropbox2: dropValue2, //지역
-            email: this.vo.email,
-            requestDate: this.vo.requestDate,
-            departAddress: this.vo.departAddress,
-            arriveAddress: this.vo.arriveAddress,
-            compAddress: this.vo.compAddress
+           
+            totalRating: this.totalRating,
+            compAddress: this.compAddress
           }
         }).then(res => {
           console.log(res);
@@ -512,47 +395,4 @@ export default {
   .v-btn{
     color: #96daac;
   }
-
-  /* wish */
-  #used-wish-heart {
-    display: flex;
-    justify-content: space-between;
-  }
-
- #used-wish-eye {
-    justify-content: space-between;
-    display: flex;
-    padding-left: 10px;
-  }
-
- #used-view-wish {
-    display: flex;
-  }
-
-.used-detail-wish {
-    border: none;
-    color: white;
-    background-color: #b3e3c3;
-    font-size: x-large;
-    border-radius: 10px;
-    margin-left: 10px;
-    width: 150px;
-  }
-
-  #used-detail-info-div {
-    margin-bottom: 30px;
-  }
-
-  .used-wish-view-img {
-    margin-right: 5px;
-    margin-top: 5px;
-  }
-
-  .used-wish-view-count {
-    font-size: medium;
-    color: rgb(204, 204, 204);
-    margin-right: 5px;
-  }
-
-
 </style>
