@@ -34,13 +34,15 @@
               <div id="star-box">
                 <div id="star-left">
                   <div class="mt-1">
-                    <v-icon>mdi-star</v-icon>
-                    <v-icon>mdi-star</v-icon>
-                    <v-icon>mdi-star</v-icon>
-                    <v-icon>mdi-star</v-icon>
-                    <v-icon>mdi-star</v-icon>
+                    <v-rating
+                      v-model="totalRating"
+                      background-color="#64c481 lighten-3"
+                      color="#64c481"
+                      large
+                      readonly
+                    ></v-rating>
                   </div>
-                  <h2 class="ml-5" style="font-weight:bold">4.5</h2>
+                  <h2 class="ml-3 mt-3" style="font-weight:bold">4.5</h2>
                 </div>
                 <div id="star-right">
                   <div class="progress">
@@ -233,6 +235,8 @@
       dialog: false,
       product: {},
       proNo: '',
+      //별점
+      totalRating: 5,
 
       //조회한 qna
       qnas: [],
@@ -327,7 +331,7 @@
     margin: 0 auto;
     display: flex;
     color: #212529;
-    padding: 80px 0 80px 30px;
+    padding: 80px 0 80px 10px;
   }
 
   #star-right {

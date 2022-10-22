@@ -76,6 +76,10 @@
 
 <style scoped>
 
+.v-application a{
+    color : black !important;
+  }
+
   header {
     z-index: 3;
   }
