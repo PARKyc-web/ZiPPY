@@ -46,6 +46,7 @@ import moveMain from "../views/move/moveMain";
 import moveCompanyEstimate from "../views/move/moveCompanyEstimate";
 import moveCompanyMy from "../views/move/moveCompanyMy";
 import moveMyReserve from "../views/move/moveMyReserve";
+import moveCompanyList from "../views/move/moveCompanyList";
 
 import usedUpdate from "../views/used/usedUpdate.vue";
 import usedDetail from "../views/used/usedDetail.vue";
@@ -318,7 +319,12 @@ const routes = [
     component: moveMyReserve,
     props: true,
   },
-
+  {
+    path: "/move/moveCompanyList",
+    name: "moveCompanyList",
+    component: moveCompanyList,
+    props: true,
+  },
 
   //used
   {

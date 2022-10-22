@@ -2,6 +2,7 @@ package com.yedam.zippy.move.mapper;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.yedam.zippy.move.service.MoveCompanyEstimateVO;
@@ -34,6 +35,9 @@ public interface MoveMapper {
   //전체조회 - 유저가 자기 견적 히스토리 조회
   public List<MoveEstimateVO> getEstimateResult(MoveEstimateVO vo);
   
+  //비대면 사진조회
+  public List<MoveImageVO> selectAllPhoto(MoveImageVO vo);
+  
   //견적서 인서트 - 업체(1차견적까지)
   public int makeEstimate(MoveResponseVO vo);
   
@@ -43,11 +47,18 @@ public interface MoveMapper {
   //견적서 수정 - 업체
   public int moveEstimateUpdate(MoveResponseVO vo);
   
+  //견적상태 업데이트 (2차 견적서 발송후, 상태 2로 변경)
+  public int moveStatusSecondUpdate(MoveResponseVO vo);
+  
   //견적서 조회 - 업체
   public List<MoveResponseVO> companyEstimate(MoveCompanyEstimateVO vo);
   
   //받은 견적 조회 - 사용자
   public List<MoveMyListVO> getMyEstimateList(MoveMyListVO vo);
+  
+  //업체조회 페이지
+  public List<MoveMyListVO> getCompanyList(MoveMyListVO vo);
+  
 }
 
  

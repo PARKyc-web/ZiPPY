@@ -26,10 +26,11 @@ public class MoveMyListVO {
   String compIntro;
   String phone;
   String compAddress;
+  Integer memberType;
   
   //etc
-  String drop;
-  String drop2;
+  String dropbox;
+  String dropbox2;
   String checked;
   String userEmail;
   String requestDate;

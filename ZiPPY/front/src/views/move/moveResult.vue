@@ -47,24 +47,33 @@
 
               <v-card-actions>
 
-      <v-spacer></v-spacer>
-           <v-label >방사진보기</v-label> <v-btn
-        icon
-        @click="show = !show"
-      >
-        <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-      </v-btn>
-    </v-card-actions>
+            <v-spacer></v-spacer>
+                <v-label >방사진보기</v-label> <v-btn
+              icon
+              @click="show = !show"
+            >
+              <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+            </v-btn>
+          </v-card-actions>
 
-    <v-expand-transition>
-      <div v-show="show">
-        <v-divider></v-divider>
+          <v-expand-transition>
+            <div v-show="show">
+              <v-divider></v-divider>
 
-        <v-card-text>
-          I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-        </v-card-text>
-      </div>
-    </v-expand-transition>
+              <div>
+                방 입구에서 찍은 사진
+              </div>
+              <div>
+                방 중앙에서 찍은 사진
+              </div>
+              <div>
+                내부 구조 사진(짐, 장롱, 창고 등)
+              </div>
+              <!-- <v-card-text>
+                I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
+              </v-card-text> -->
+            </div>
+          </v-expand-transition>
           </div>
 
 
@@ -130,7 +139,23 @@ export default {
           console.log(error);
         })
   },
+
+  created(){
+    axios({
+          url: "http://localhost:8090/zippy/move/movePhoto",
+          methods: "GET",
+          params: {
+            
+          }
+        }).then(res => {
+          console.log(res);
+          this.list = res.data;
+        }).catch(error => {
+          console.log(error);
+        })
+  },
   methods : {
+  
     dropVal: function () {
         var dropValue = this.select;
         console.log(dropValue);
