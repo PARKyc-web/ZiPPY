@@ -275,7 +275,7 @@
   };
 </script>
 
-<style>
+<style scoped>
   .room-file-upload-example {
     height: 100%;
   }

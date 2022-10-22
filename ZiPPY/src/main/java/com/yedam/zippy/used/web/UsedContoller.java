@@ -43,12 +43,9 @@ public class UsedContoller {
                                     @RequestParam String checked,
                                     @RequestParam(value = "dropbox", required = false) String dropbox,
                                     @RequestParam int pageNum) {
-
-    System.out.println("asdfasdfasdf"+location);
     if (category.equals("전체")) {
       category = "";
     }
-    System.out.println(dropbox);
 
     if (checked.equals("true")) {
       checked = "1";
@@ -86,7 +83,6 @@ String order="product_date DESC";
   // 단건조회
   @GetMapping("/detail")
   public UsedProductVO read(@RequestParam int pNo) {
-    System.out.println(pNo);
     service.viewCnt(pNo);
     return service.usedOne(pNo);
   }
@@ -95,12 +91,8 @@ String order="product_date DESC";
   @PostMapping("/insert")
   public String insert(UsedProductVO product, List<MultipartFile> images) {
     
-    // 확인: 삭제 가능
-    System.out.println("product : "+product);
-    System.out.println("images : "+images);
-    product.setProductLocation("대구");
+    product.setProductLocation("대구광역시 중구 성내1동");
     service.insertUsedProduct(product, images);
-    System.out.println(service.findKeyword(product));
     service.findKeyword(product);
     return "SUCCESS";
   }
@@ -108,7 +100,7 @@ String order="product_date DESC";
   // 수정
   @PostMapping("/update")
   public int update(UsedProductVO product, List<MultipartFile> images) {
-    product.setProductLocation("대구");
+    product.setProductLocation("대구광역시 중구 성내1동");
     service.insertUsedProduct(product, images);
 //    service.updateUsedProduct(product, images);
     return 1;
@@ -125,7 +117,6 @@ String order="product_date DESC";
   // 키워드 추가
   @PostMapping("/addKeyword")
   public int addKeyword(@RequestBody UsedKeywordVO keyword) {
-    System.out.println(keyword);
     int r = service.addKeyword(keyword);
     System.out.println(r);
     return keyword.getKeywordNo();
@@ -141,16 +132,12 @@ String order="product_date DESC";
   // 키워드 전체출력
   @GetMapping("/keyword")
   public List<UsedKeywordVO> showKeyword(@RequestParam String email) {
-    System.out.println(email);
-    System.out.println(service.showKeyword(email));
     return service.showKeyword(email);
   }
   
 
   @GetMapping("getImg")
   public List<UsedImagesVO> getImg(@RequestParam int pNo) {
-    System.out.println(pNo);
-    System.out.println(service.getImg(pNo));
     return service.getImg(pNo);
   }
 }

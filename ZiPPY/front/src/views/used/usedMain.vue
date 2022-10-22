@@ -53,7 +53,7 @@
         <div>
           <div><img
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkW5iRqvi6VdPWVWYswwWoUYhmW-AA2W8P0tExfMLx3wWPiwVFHegzq29vq8KoN1jKVxQ&usqp=CAU"
-              width="194px" height="194px"></div>
+              width="192px" height="194px"></div>
           <div class="used-main-card-cont">
             <div class="used-main-card-title">{{list.productName}}</div>
             <div class="used-main-price-date">
@@ -72,7 +72,8 @@
 </template>
 
 <script>
-  import axios from 'axios';
+  import router from '@/router';
+import axios from 'axios';
   import navBar from '../../components/used/navBar.vue';
 
   export default {
@@ -102,11 +103,11 @@
       select: '',
       categoryVal: '',
       searchValue: '',
-      page: 1,
       isChecked: '',
       location: "",
-      pageCount: 1,
       dropValue: '',
+      page: 1,
+      pageCount: 1,
 
       // 주소 출력에 필요한 데이터들입니다.
       map: null,

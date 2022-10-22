@@ -15,11 +15,19 @@
 <script>
   export default {
     data: () => ({
-      data: []
+      data: [],
+      cate: [
+        '침실',
+        '수납',
+        '주방',
+        '욕실',
+        '서재',
+        '다용도실',
+      ]
     }),
     methods: {
       pushCategory: function (e) {
-        this.$emit('click', e);        
+        this.$emit('click', e);
       }
     }
   }
@@ -28,5 +36,9 @@
 <style scoped>
   .nav {
     width: 100%;
+  }
+
+  .nav a {
+    color: black;
   }
 </style>
