@@ -152,6 +152,12 @@ public class MoveServiceImpl implements MoveService{
     return mapper.getEstimateResult(vo);
   }
   
+  //비대면 사진조회
+  @Override
+  public List<MoveImageVO> selectAllPhoto(MoveImageVO vo) {
+    return mapper.selectAllPhoto(vo);
+  }
+  
   //견적서 인서트 - 업체(1차)
   @Override
   public int makeEstimate(MoveResponseVO vo) {
@@ -169,6 +175,11 @@ public class MoveServiceImpl implements MoveService{
   public int moveEstimateUpdate(MoveResponseVO vo) {
     return mapper.moveEstimateUpdate(vo);
   }
+  //견적상태 업데이트 (2차 견적서 발송후, 상태 2로 변경)
+  @Override
+  public int moveStatusSecondUpdate(MoveResponseVO vo) {
+    return mapper.moveStatusSecondUpdate(vo);
+  }
   
   //견전서 조회 - 업체
   @Override
@@ -181,4 +192,11 @@ public class MoveServiceImpl implements MoveService{
   public List<MoveMyListVO> getMyEstimateList(MoveMyListVO vo) {
     return mapper.getMyEstimateList(vo);
   }
+  
+  //업체조회 페이지
+  @Override
+  public List<MoveMyListVO> getCompanyList(MoveMyListVO vo) {
+    return mapper.getCompanyList(vo);
+  }
+  
 }

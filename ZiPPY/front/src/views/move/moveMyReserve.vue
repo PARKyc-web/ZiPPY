@@ -112,6 +112,10 @@
           </v-btn>
 
           <v-btn color="deep-purple lighten-2" text @click="chat">
+            예약취소
+          </v-btn>
+
+          <v-btn color="deep-purple lighten-2" text @click="chat">
             후기작성
           </v-btn>
         </v-card-actions>

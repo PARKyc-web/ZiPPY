@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.zippy.move.service.MoveCompanyEstimateVO;
 import com.yedam.zippy.move.service.MoveEstimateVO;
+import com.yedam.zippy.move.service.MoveImageVO;
 import com.yedam.zippy.move.service.MoveMyListVO;
 import com.yedam.zippy.move.service.MoveRequestVO;
 import com.yedam.zippy.move.service.MoveResponseVO;
@@ -75,9 +75,15 @@ public class MoveController {
     return service.getEstimateList(vo);
   }
   
+  //비대면 사진조회
+  @GetMapping("/movePhoto")
+  public List<MoveImageVO> selectAllPhoto(MoveImageVO vo){       
+    return service.selectAllPhoto(vo);
+  }
+  
   //견적서 인서트- 업체(1차까지)
   @PostMapping("/moveEstimate")
-  public String makeEstimate(@RequestBody MoveResponseVO vo) {   
+  public String makeEstimate(MoveResponseVO vo) {   
     System.out.println("========================="+vo);
     service.makeEstimate(vo);
     return "";
@@ -101,6 +107,15 @@ public class MoveController {
     return "";
   }
   
+  //견적상태 업데이트 (2차 견적서 발송후, 상태 2로 변경)
+  @PostMapping("/moveStatusSecondUpdate")
+  public String moveStatusSecondUpdate(MoveResponseVO vo) {
+    System.out.println(vo);
+    
+    service.moveStatusSecondUpdate(vo);
+    return "";
+  }
+  
   //업체 견적서 내역
   @GetMapping("/moveCompanyEstimate")
   public List<MoveResponseVO> companyEstimate(MoveCompanyEstimateVO vo){
@@ -117,10 +132,7 @@ public class MoveController {
 //    return service.companyEstimate(map);
 //  }
 //  
-  
-  
-  //단건조회 - 업체
-  
+
   
   //사용자가 보낸 자신의 견적 히스토리 확인
   @GetMapping("/moveResult")
@@ -137,5 +149,12 @@ public class MoveController {
     return service.getMyEstimateList(vo);
   }
   
+  //업체조회 페이지
+  @GetMapping("/moveCompanyList")
+  public List<MoveMyListVO> getCompanyList(MoveMyListVO vo){
+    
+    System.out.println(vo);
+    return service.getCompanyList(vo);
+  }
   
 }

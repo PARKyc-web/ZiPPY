@@ -28,6 +28,9 @@ public interface MoveService {
   //전체조회 - 유저
   public List<MoveEstimateVO> getEstimateResult(MoveEstimateVO vo);
   
+  //비대면 사진조회
+  public List<MoveImageVO> selectAllPhoto(MoveImageVO vo);
+  
   //견적서 인서트 - 업체(1차)
   public int makeEstimate(MoveResponseVO vo);
   
@@ -37,9 +40,16 @@ public interface MoveService {
   //견적서 수정 - 업체 (2차견적)
   public int moveEstimateUpdate(MoveResponseVO vo);
   
+  //견적상태 업데이트 (2차 견적서 발송후, 상태 2로 변경)
+  public int moveStatusSecondUpdate(MoveResponseVO vo);
+  
   //견적서 조회 - 업체
   public List<MoveResponseVO> companyEstimate(MoveCompanyEstimateVO vo);
   
   //받은 견적 조회 - 사용자
   public List<MoveMyListVO> getMyEstimateList(MoveMyListVO vo);
+  
+  //업체조회 페이지
+  public List<MoveMyListVO> getCompanyList(MoveMyListVO vo);
+  
 }

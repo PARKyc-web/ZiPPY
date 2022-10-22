@@ -53,9 +53,41 @@
               <div>견적 방문희망일 : <span>{{item.visitDate}}</span></div>
               <div>견적 방문희망시간 : <span>{{item.visitTime}}</span></div>
             </div>
-            <div v-if="item.estimateType == '비대면견적'">
-              <div>이미지 : <span>{{item.moveImage}}</span></div>
+            <div v-if="item.estimateType == '비대면견적'" id="imgPanel">
+            <!-- <div >이미지 : <span>{{item.moveImage}}</span> -->
+             
+             <!-- 펼치기 -->
+
+              <v-card-actions>
+
+            <v-spacer></v-spacer>
+                <v-label >방사진보기</v-label> <v-btn
+              icon
+              @click="show = !show"
+            >
+              <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+            </v-btn>
+          </v-card-actions>
+
+          <v-expand-transition>
+            <div v-show="show">
+              <v-divider></v-divider>
+
+              <div>
+                방 입구에서 찍은 사진
+              </div>
+              <div>
+                방 중앙에서 찍은 사진
+              </div>
+              <div>
+                내부 구조 사진(짐, 장롱, 창고 등)
+              </div>
+              <!-- <v-card-text>
+                I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
+              </v-card-text> -->
             </div>
+          </v-expand-transition>
+          </div>
 
             <v-card-actions >
               <v-spacer></v-spacer>
@@ -85,6 +117,7 @@
                                 <v-text-field label="견적번호*" id="estimateNo" required readonly 
                                   v-model="selectData.estimateNo"></v-text-field>                                 
                               </v-col><br />
+                              
                               <v-col cols="12" >                              
                                 <v-text-field label="업체명*" hint="고객에게 보여주는 업체의 이름입니다." v-model="selectData.compName"></v-text-field>   
                             </v-col>
@@ -101,17 +134,18 @@
                                  v-model="selectData.estimateType"></v-text-field>
                               </v-col>
                               <v-col cols="12">
-                                <v-text-field  label="1차 견적가격*" type="number"   v-model="selectData.firstEstimatePrice"
+                                <v-text-field  label="1차 견적가격*" type="number"  id="firstPrice" 
                                 hint="고객에게 처음 제시하는 견적가격입니다. 견적제시는 2차까지만 가능합니다. 신중하게 결정해주세요.(추후 수정불가)"
                                 required :value="selectData.firstEstimatePrice">
                                 </v-text-field>
                               </v-col>
 
                               <v-col>
-                                <v-autocomplete :value="selectData.responseMemo" v-model="selectData.responseMemo"
+                                <v-autocomplete :value="selectData.responseMemo"  id="memo"
                                   :items="['전문적이에요', '꼼꼼해요', '손이 빨라요', '저렴해요', '깔끔해요', '친절해요', '견적네고 가능해요', '고급장비 사용해요', '안전해요']"
                                   label="어필하기" multiple hint="고객에게 어필할 업체의 특징을 선택해주세요."></v-autocomplete>
                               </v-col>
+                              
                             </v-row>
                           </v-container>
                           <small>*필수입력 사항을 입력해주세요.</small>
@@ -134,13 +168,14 @@
                     <input type="hidden" name="email" id="email" v-model="selectData.email">
                     <input type="hidden" name="businessEmail" id="businessEmail" v-model="selectData.businessEmail">
                    
-                    <input type="hidden" name="firstEstimateType" id="firstEstimateType" v-model="selectData.estimateType">
-                    <input type="hidden" name="firstEstimatePrice" id="firstPrice"  v-model="selectData.firstEstimatePrice">
+                    <input type="hidden" name="firstEstimateType" id="firstEstimateType" v-model="selectData.estimateType"> -->
                     <!-- <input type="hidden" name="secondEstimatePrice" v-model="selectData.secondEstimatePrice">
-                    <input type="hidden" name="secondEstimateType"  v-model="selectData.secondEstimateType"> -->
-                    <input type="hidden" name="reservStatus" value="1" v-model="selectData.reservStatus">
-                    <input type="hidden" name="compName" v-model="selectData.compName">
-                    <input type="hidden" name="responseMemo" id="memo" v-model="selectData.responseMemo">
+                      <input type="hidden" name="secondEstimateType"  v-model="selectData.secondEstimateType"> -->
+                      <input type="hidden" name="compName" v-model="selectData.compName">
+
+                      <input type="hidden" name="reservStatus" value="1" v-model="selectData.reservStatus">
+                      <!-- <input type="hidden" name="firstEstimatePrice" id="firstPrice"  v-model="selectData.firstEstimatePrice">-->
+                      <!-- <input type="hidden" name="responseMemo" id="memo" v-model="selectData.responseMemo">  -->
                   </form>
 
                 </v-dialog>
@@ -177,12 +212,15 @@ export default {
   
     data: function () {
       return {
+        //펼치기
+      show: false,
       
         item: "",
         email: "",
         estimateNo: "",
         responseMemo: "",
         estimateType: "",
+        firstEstimateType:"",
         firstEstimatePrice: "",
         secondEstimateType: "",
         secondEstimatePrice: "",
@@ -267,8 +305,8 @@ export default {
           commonOption: "",
           checked: "",
           dropbox: "",
-          dropbox2: ""
-
+          dropbox2: "",
+          firstEstimateType : this.selectData.estimateType
         }
       }).then(res => {
         console.log(res);
@@ -493,6 +531,8 @@ export default {
 
         console.log('1차 가격 : ',document.querySelector("#firstPrice").value);
         console.log('어필 : ',document.querySelector("#memo").value);
+        
+      
 
         var formData = new FormData(document.querySelector('#estimateForm'));
 
@@ -517,20 +557,20 @@ export default {
           // headers: {
           //   "Content-Type": "application/json; charset=utf-8"
           // },
-          // params:{
-
-          // },
-          data: this.selectData
+          params:{
+            email : 'move123@move.com',
+            estimateNo : this.selectData.estimateNo,
+            responseMemo :document.querySelector("#memo").value,
+            firstEstimatePrice : document.querySelector("#firstPrice").value,
+            firstEstimateType : this.selectData.estimateType,
+            reservStatus : this.selectData.reservStatus,
+            compName : this.selectData.compName
+          },
+          // data: this.selectData
         }).then(res => {
           console.log(res);
-          // alert("견적서 보내기 완료!");
-          // const btnn = document.getElementById('sendbtn');
-          // btnn.disabled = true;
-        }).catch(err => {
-          console.log(err)
-        }),
-
-        //견적상태변경
+          
+          //견적상태변경
         this.$axios({
           url: "http://localhost:8090/zippy/move/moveStatusUpdate",
           method: "POST",
@@ -538,6 +578,7 @@ export default {
           params:{
             estimateNo : this.selectData.estimateNo,
             email : this.selectData.email,
+            reservStatus : 1
           },
           // data: formData
         }).then(res => {
@@ -548,6 +589,13 @@ export default {
         }).catch(err => {
           console.log(err)
         })
+
+
+        }).catch(err => {
+          console.log(err)
+        })
+
+        
 
       }
     }
