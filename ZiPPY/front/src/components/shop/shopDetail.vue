@@ -389,6 +389,7 @@
           data: JSON.stringify(this.data)
         }).then(res => {
           console.log(res);
+          this.rewrite();
         }).catch(err => {
           console.log(err)
         })
@@ -407,6 +408,26 @@
           }
         }).then(res => {
           console.log(res);
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      rewrite() {
+        axios({
+          url: "http://localhost:8090/zippy/common/wishOne",
+          method: "GET",
+          params: {
+            email: this.$store.state.loginInfo.email,
+            sId: this.product.proNo,
+            serviceType: this.data.serviceType
+          }
+        }).then(res => {
+          this.wish = res.data;
+          if (res.data != "") {
+            this.heart = 1;
+          } else if (res.data == "") {
+            this.heart = 0;
+          }
         }).catch(err => {
           console.log(err)
         })
@@ -461,7 +482,7 @@
       if (this.$store.state.loginInfo != null) {
         axios({
           url: "/common/wishOne",
-          methods: "GET",
+          method: "GET",
           params: {
             email: this.$store.state.loginInfo.email,
             sId: this.$route.query.pno,

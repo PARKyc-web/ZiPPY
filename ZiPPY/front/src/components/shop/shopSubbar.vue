@@ -63,13 +63,12 @@ import axios from 'axios';
     methods: {
       //카테고리 이동
       goList(cate) {
-        this.$router.push(({
+        this.$router.push({
           name: 'shopList',
           query: {
             cate: cate
           }
-        })).catch(() => {});;
-        this.$router.go(0);
+        })
       },
       //키워드 검색
       enterkey: function () {
@@ -80,21 +79,23 @@ import axios from 'axios';
             query: {
               keyw: searchValue
             }
-          }));
-          this.$router.go(0);
+          })).catch(() => {});
         }
       },
       //장바구니 이동
-      goCart: function () {
-        this.$router.push(({
+      goCart() {
+        this.$router.push({
           name: 'shopCart',
           query: {
-            email: 'zippy@naver.com'
+            email: this.$store.state.loginInfo.email
           }
-        })).catch(() => {});;
-        this.$router.go(0);
+        })
       },
+      getProductList() {
+
+      }
     },
+    //카트 개수 조회
     created() {
       axios({
           url: "/shop/myCart",
