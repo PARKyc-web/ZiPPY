@@ -383,6 +383,19 @@
 
           console.log(temp);
         }
+      },
+      report(){
+        axios({
+          url: "http://localhost:8090/zippy/common/addReport",
+          method: "POST",
+          data: {
+            bNo: bNo
+          }
+        }).then(res => {
+          console.log(res);
+        }).catch(err => {
+          console.log(err)
+        })
       }
     }
   }
