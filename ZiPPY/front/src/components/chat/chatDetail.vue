@@ -63,8 +63,8 @@
   var reconnect = 0;
 
   // vue.js
-  export default {
-    props: ['roomId', 'item'],
+  export default {    
+    props: ['roomId', 'item', 'value'],
     data() {
       return {
         room: {},
@@ -97,10 +97,6 @@
             roomId: this.roomId
           }
         });
-
-        //   for(itm in temp.data){
-        //     this.messages.unshift(item);
-        //   }
         this.messages = temp.data;
         this.goToBottom();
       },
@@ -158,31 +154,7 @@
             roomId: outside.roomId,
             sender: outside.sender,
             time: outside.getTime()
-          }));
-        // this.$ws.connect({}, function (frame) {
-        //   // debugger               
-        //   outside.$ws.subscribe("/topic/chat/room/" + outside.roomId, function (message) {
-        //     console.log("구독 성공!")
-        //     var recv = JSON.parse(message.body);
-        //     // console.log(recv);
-        //     outside.recvMessage(recv);
-        //   });
-        //   outside.$ws.send("/app/chat/message", JSON.stringify({
-        //     type: 'ENTER',
-        //     roomId: outside.roomId,
-        //     sender: outside.sender,
-        //     time: outside.getTime()
-        //   }));
-        // }, function (error) {
-        //   if (reconnect++ <= 5) {
-        //     setTimeout(function () {
-        //       console.log("connection reconnect");
-        //       // outside.$sock = new SockJS("http://localhost:8090/zippy/ws/chat");
-        //       // outside.$ws = Stomp.over(sock);
-        //       outside.connect();
-        //     }, 10 * 1000);
-        //   }
-        // });
+          }));       
         }
       }    
   }

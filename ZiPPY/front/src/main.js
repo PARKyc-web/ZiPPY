@@ -12,12 +12,10 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import 'sweetalert2/dist/sweetalert2.min.css'
 
-
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
 
 // Axios Setting
-
 var sock = new SockJS("http://localhost:8090/zippy/ws/chat");
 var ws = Stomp.over(sock);
 

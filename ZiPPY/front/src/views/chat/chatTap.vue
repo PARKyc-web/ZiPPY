@@ -5,7 +5,7 @@
                 <b-tabs card vertical>
                     <!-- pills -->
                     <b-tab :title="item.user2Name" v-for="item in chatRooms" @click="connect(item.chatRoomNo)">
-                        <chatDetail :roomId="item.chatRoomNo" :item="item"></chatDetail>
+                        <chatDetail :roomId="item.chatRoomNo" :item="item" :value="msg"></chatDetail>
                     </b-tab>
                 </b-tabs>
             </b-card>
@@ -19,6 +19,7 @@
     export default {
         data() {
             return {
+                msg : "",
                 chatRooms: [],
             }
 

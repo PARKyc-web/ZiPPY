@@ -11,9 +11,6 @@
 import { SidebarMenu } from 'vue-sidebar-menu';
 import '@/css/sidebar.css';
 
-
-// Data Level 1에 있는 애들은 사이드바의 첫번째 클릭하는 애들
-// 
 export default{
   data() {
             return {
