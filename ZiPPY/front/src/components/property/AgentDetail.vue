@@ -90,8 +90,8 @@
         </v-card>
       </div>
 
-      <div class="text-center">
-        <v-pagination v-model="page" :length="4" circle></v-pagination>
+      <div class="text-center" style="margin: 25px;">
+        <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3" total-visible="5"></v-pagination>
       </div>
 
     </div>
@@ -118,26 +118,12 @@
         properties: [],
         profile: [],
         page: 1,
+        pageCount: 1,
       }
     },
     created() {
-      axios({
-          url: "http://localhost:8090/zippy/property/getAgentProperties",
-          methods: "GET",
-          params: {
-            email: this.$route.query.email
-          }
-        }).then(response => {
-          // 성공했을 때
-          console.log('getAgentProperties success!');
-          console.log(response);
-          this.properties = response.data;
-        })
-        .catch(error => {
-          // 에러가 났을 때
-          console.log('getAgentProperties fail!');
-          console.log(error);
-        }),
+        this.getPropertyList();
+
         axios({
           url: "http://localhost:8090/zippy/property/getAgentProfile",
           methods: "GET",
@@ -157,6 +143,35 @@
 
         })
     },
+    watch: {
+      page() {
+        this.getPropertyList();
+      }
+    },
+    methods: {
+      getPropertyList() {
+        axios({
+          url: "http://localhost:8090/zippy/property/getAgentProperties",
+          methods: "GET",
+          params: {
+            email: this.$route.query.email,
+            //
+            pageNum: this.page
+          }
+        }).then(response => {
+          // 성공했을 때
+          console.log('getAgentProperties success!');
+          console.log(response);
+          this.properties = response.data.list;
+          this.pageCount = response.data.pages;
+        })
+        .catch(error => {
+          // 에러가 났을 때
+          console.log('getAgentProperties fail!');
+          console.log(error);
+        })
+      }
+    }
   };
 </script>
 

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yedam.zippy.property.service.PropertyService;
 import com.yedam.zippy.property.service.WishVO;
 import com.yedam.zippy.property.service.agentVO;
@@ -46,8 +48,11 @@ public String agentDetail(@RequestParam int productId) {
   }
   
   @GetMapping("/getAgentProperties")
-  public List<propertyVO> getAgentProperties(@RequestParam("email")String email) {
-    return service.getAgentProperties(email);
+  public PageInfo<propertyVO> getAgentProperties(@RequestParam("email")String email, @RequestParam("pageNum") int pageNum) {
+    String orderBy = "product_id";
+    // pageNum: 현재 페이지, pageSize: 4(페이지당 글 수), orderBy: 정렬 조건 
+    PageHelper.startPage(pageNum, 4, orderBy);
+    return PageInfo.of(service.getAgentProperties(email));
   }
   
   @GetMapping("/getAgentProfile")

@@ -2,6 +2,8 @@ package com.yedam.zippy.property.service;
 
 import java.util.List;
 
+import com.github.pagehelper.Page;
+
 public interface PropertyService {
   public List<propertyVO> getAllPropertyList();
   
@@ -11,8 +13,8 @@ public interface PropertyService {
 
   public List<propertyVO> gethouseDetail(int productId);
 
-  public List<propertyVO> getAgentProperties(String email);
-
+  public Page<propertyVO> getAgentProperties(String email);
+  
   public List<agentVO> getAgentProfile(String email);
 
   public String getCompName(String email);
