@@ -65,6 +65,7 @@
 
 <script>
   import axios from 'axios';
+  import Swal from 'sweetalert2';
 
   export default {
     data: () => ({
@@ -82,18 +83,22 @@
               compName: this.$refs.compName.value,
               compIntro:this.$refs.compIntro.value,
               compAddress:this.$refs.compAddress.value,
-              profilePic:this.$refs.profilePic.value,
+              profilePic:this.$refs.profilePic.value.name,
               phone:this.$refs.phone.value,
-              businessImg: this.$refs.businessImg.value,
-              brokerImg: this.$refs.brokerImg.value,
+              businessImg: this.$refs.businessImg.value.name,
+              brokerImg: this.$refs.brokerImg.value.name,
               businessId: this.$refs.businessId.value,
               brokerId: this.$refs.brokerId.value,
               email: this.profile.email
             }
           }).then(response => {
             // 성공했을 때
-            console.log('updateAgentProfile success!');
-            alert('수정이 완료되었습니다.');
+              Swal.fire({
+                icon: 'success',
+                title: '수정되었습니다.',
+                showConfirmButton: false,
+                timer: 1500
+              })
           })
           .catch(error => {
             // 에러가 났을 때

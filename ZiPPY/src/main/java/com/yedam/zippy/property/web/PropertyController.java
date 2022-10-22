@@ -51,7 +51,7 @@ public String agentDetail(@RequestParam int productId) {
   public PageInfo<propertyVO> getAgentProperties(@RequestParam("email")String email, @RequestParam("pageNum") int pageNum) {
     String orderBy = "product_id";
     // pageNum: 현재 페이지, pageSize: 4(페이지당 글 수), orderBy: 정렬 조건 
-    PageHelper.startPage(pageNum, 4, orderBy);
+    PageHelper.startPage(pageNum, 6, orderBy);
     return PageInfo.of(service.getAgentProperties(email));
   }
   
