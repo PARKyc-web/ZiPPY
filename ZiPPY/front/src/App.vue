@@ -2,7 +2,7 @@
   <v-app> 
     <mainHeader></mainHeader>
     <v-main>            
-      <router-view />
+      <router-view :key="$route.fullPath" />
     </v-main>
   </v-app>
 </template>
@@ -20,7 +20,3 @@ export default {
   }),
 };
 </script>
-
-<style>
-
-</style>

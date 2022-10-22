@@ -75,6 +75,13 @@
 </script>
 
 <style scoped>
+  .v-application a{
+    color : black !important;
+  }
+
+.v-application a{
+    color : black !important;
+  }
 
   header {
     z-index: 3;
@@ -86,8 +93,7 @@
   nav .navbar-nav a.nav-link {
     font-size: larger;
     font-weight: bold;
-    text-decoration: none;
-    /* color: #2c3e50 !important; */
+    text-decoration: none;    
   }
 
   ul {

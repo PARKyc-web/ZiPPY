@@ -87,11 +87,10 @@
         this.$router.push('/shop/detail?pno=' + no)
       },
       goList(cate) {
-        this.$router.push(({
+        this.$router.push({
           name: 'shopList',
           query: {cate: cate}
-        })).catch(()=>{});;
-        this.$router.go(0);
+        })
       },
     },
     created() {

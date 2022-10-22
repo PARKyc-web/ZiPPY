@@ -12,6 +12,7 @@
 		<if test="keyword != null and keyword != ''">
 		   AND p.product_name LIKE '%'||#{keyword}||'%'
 		</if>
+		   AND p.product_location = #{location}
 		<if test="category != ''">
 		   AND	p.product_category LIKE '%'||#{category}||'%'
 		</if>

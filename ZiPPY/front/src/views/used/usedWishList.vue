@@ -48,7 +48,6 @@
                   <span>{{list.productLocation}}</span>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -68,7 +67,7 @@
     data: () => ({
       data: [],
       ckList: [],
-      uncheck : ""
+      uncheck: ""
     }),
     created() {
       axios({
@@ -92,10 +91,11 @@
     },
     methods: {
       test: function () {
-        var ck = document.querySelector("#ckone").checked;
-        console.log(ck)
+        var ck = document.querySelector("#ck").checked;
+        console.log(ck);
+        // console.log(this.data.length)
         if (ck == true) {
-          this.uncheck == false;
+          this.uncheck = false;
         }
       },
       goDetail(no) {
@@ -105,7 +105,7 @@
       selectAll: function () {
         console.log(this.ckList)
         let isCheck = document.querySelector('#ckAll').checked;
-        console.log(isCheck)
+        // console.log(isCheck)
         if (isCheck == false) {
           for (let i of this.data) {
             this.ckList.push(i.bookmarkNo);
@@ -144,6 +144,10 @@
   #container {
     width: 1200px;
     margin: 0 auto;
+  }
+
+  #used-go-right {
+    float: right;
   }
 
   #wish-soldout-img {
@@ -312,8 +316,8 @@
   }
 
   #used-wish-del-div {
-    display: flex;
     margin-left: 10px;
+    float: right;
   }
 
   #used-usedwishckdel {
