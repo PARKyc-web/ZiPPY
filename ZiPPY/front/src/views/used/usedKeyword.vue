@@ -1,6 +1,5 @@
 <template>
   <div>
-    <nav-bar @click="search($event)"></nav-bar>
     <div id="container">
       <div>
         <div class="used-main-title">

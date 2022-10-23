@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.github.pagehelper.Page;
 import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.common.service.ReportVO;
 import com.yedam.zippy.common.service.ReviewBoardVO;
@@ -20,7 +21,7 @@ public interface CommonMapper {
   public BookmarkVO getWishOne(@Param("sId") int sId, @Param("email") String email, @Param("serviceType")int serviceType);
 
   // 찜 전체 출력
-  public List<BookmarkVO> getWishAll(@Param("email")String email, @Param("serviceType")int serviceType);
+  public Page<BookmarkVO> getWishAll(@Param("email")String email, @Param("serviceType")int serviceType);
   
 
 
@@ -35,4 +36,7 @@ public interface CommonMapper {
   
   // 신고하기
   public int addReport(ReportVO vo);
+  
+  // 신고내역보기
+  public List<ReportVO> showReportList();
 }

@@ -31,7 +31,7 @@ public class UsedServiceImpl implements UsedService {
       String dropbox) {
     return mapper.usedList(location, keyword, category, checked, dropbox);
   }
-  
+
   @Override
   public Page<UsedProductVO> userMain(String email) {
     return mapper.userMain(email);
@@ -66,7 +66,7 @@ public class UsedServiceImpl implements UsedService {
   public int insertImg(UsedImagesVO images) {
     return mapper.insertImg(images);
   }
-  
+
   @Override
   public int deleteImg(UsedProductVO product) {
     return mapper.deleteImg(product);
@@ -91,15 +91,20 @@ public class UsedServiceImpl implements UsedService {
   public List<UsedKeywordVO> showKeyword(String email) {
     return mapper.showKeyword(email);
   }
-  
+
   @Override
   public List<UsedKeywordVO> findKeyword(UsedProductVO product) {
     return mapper.findKeyword(product);
   }
-  
+
   @Override
   public List<UsedImagesVO> getImg(int pNo) {
     return mapper.getImg(pNo);
+  }
+
+  @Override
+  public int dealRecord() {
+    return mapper.dealRecord();
   }
 
   @Override
@@ -117,20 +122,17 @@ public class UsedServiceImpl implements UsedService {
      * 
      * 5. VO를 테이블에 넣는다.
      */
-   
+
     // 메인 이미지 설정
     product.setMainImg(storeImages(images)[0].getImage());
-    
+
     // 이미지 전부 삭제
     mapper.deleteImg(product);
-    
+
     // 글 정보 등록
     mapper.insertUsed(product);
-    
-    
+
     UsedImagesVO[] vo = storeImages(images);
-    
-    
 
     for (int i = 0; i < vo.length; i++) {
       vo[i].setProductNo(product.getProductNo());
@@ -180,7 +182,7 @@ public class UsedServiceImpl implements UsedService {
     mapper.deleteImg(product);
     mapper.updateUsed(product);
     UsedImagesVO[] vo = updateImages(images);
-    
+
     for (int i = 0; i < vo.length; i++) {
       vo[i].setProductNo(product.getProductNo());
     }
@@ -188,7 +190,7 @@ public class UsedServiceImpl implements UsedService {
       mapper.updateImg(vo[i]);
     }
   }
-  
+
   private UsedImagesVO[] updateImages(List<MultipartFile> images) {
 
     UsedImagesVO[] list = new UsedImagesVO[images.size()];
@@ -197,7 +199,7 @@ public class UsedServiceImpl implements UsedService {
     if (!folder.exists()) {
       folder.mkdir();
     }
-    
+
     for (int i = 0; i < images.size(); i++) {
       long now = System.currentTimeMillis();
       Random rand = new Random();

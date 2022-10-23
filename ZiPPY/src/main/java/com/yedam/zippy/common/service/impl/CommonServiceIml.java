@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.Page;
 import com.yedam.zippy.common.mapper.CommonMapper;
 import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.common.service.CommonService;
 import com.yedam.zippy.common.service.ReportVO;
-
 import com.yedam.zippy.common.service.ReviewBoardVO;
 
 @Service
@@ -34,7 +34,7 @@ public class CommonServiceIml implements CommonService {
   }
 
   @Override
-  public List<BookmarkVO> getWishAll(String email, int serviceType) {
+  public Page<BookmarkVO> getWishAll(String email, int serviceType) {
     return mapper.getWishAll(email,serviceType);
   }
 
@@ -56,6 +56,11 @@ public class CommonServiceIml implements CommonService {
   @Override
   public BookmarkVO getRvOne(int serviceType, int serviceId, String email) {
     return mapper.getRvOne(serviceType, serviceId, email);
+  }
+  
+  @Override
+  public List<ReportVO> showReportList() {
+    return mapper.showReportList();
   }
 
 }

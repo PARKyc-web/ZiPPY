@@ -54,5 +54,8 @@ public interface UsedMapper {
 	
 	// 이미지 출력
 	public List<UsedImagesVO> getImg(@Param("pNo")int pNo);
+	
+	// 거래내역
+	public int dealRecord();
 	  
 }

@@ -21,7 +21,6 @@
           </div>
         </div>
       </div>
-
       <hr>
       <div id="used-soldot-drop">
         <div class="form-check">
@@ -68,7 +67,7 @@
 
 <script>
   import router from '@/router';
-import axios from 'axios';
+  import axios from 'axios';
   import navBar from '../../components/used/navBar.vue';
   import CurrentPositionLabel from '../../components/used/CurrentPositionLabel.vue';
 
@@ -141,20 +140,10 @@ import axios from 'axios';
       }
     },
     created() {
-      const out = this
-      window.setTimeout(function () {
-        out.findList({
-          location: out.location,
-          keyword: "",
-          category: "",
-          checked: "",
-          dropbox: "",
-          pageNum: out.page
-        })
-      }, 600);
-
+      this.test();
     },
     methods: {
+
       total: function () {
         this.isChecked = document.querySelector(".form-check-input").checked;
         this.findList({
@@ -173,9 +162,9 @@ import axios from 'axios';
       getImgUrl(list) {
         return require(list.image);
       },
-
       findList(searchData) {
         console.log(searchData.location);
+        console.log(searchData)
         axios({
           url: "http://localhost:8090/zippy/used/main",
           methods: "GET",
@@ -189,7 +178,17 @@ import axios from 'axios';
         })
       },
       test(sigu) {
-        console.log('test 함수에서 sigu('+ sigu + ')를 출력하고 있습니다.');
+        const out = this;
+        out.location = sigu;
+        console.log('test 함수에서 sigu(' + sigu + ')를 출력하고 있습니다.');
+        out.findList({
+          location: out.location,
+          keyword: "",
+          category: "",
+          checked: "",
+          dropbox: "",
+          pageNum: out.page
+        })
       }
     }
   }

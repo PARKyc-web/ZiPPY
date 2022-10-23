@@ -60,4 +60,7 @@ public interface UsedService {
 
   // 이미지 출력
   public List<UsedImagesVO> getImg(int pNo);
+  
+  //거래내역
+  public int dealRecord();
 }

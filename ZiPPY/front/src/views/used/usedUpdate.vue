@@ -10,8 +10,9 @@
         </div>
         <div class="used-insert-addr">
           <button id="used-addr">
-            <i class="bi bi-geo-alt"></i>
+            <i class="fa-solid fa-location-dot fa-2x"></i>
           </button>
+          <current-position-label @sigu="test"></current-position-label>
         </div>
         <hr />
         <div>
@@ -112,16 +113,18 @@
     <input type="hidden" name="productCategory" v-model="product.productCategory">
     <input type="hidden" name="views" v-model="product.views">
     <input type="hidden" name="productDate" v-model="product.productDate">
+    <input type="hidden" name="isSell" v-model="product.isSell">
   </form>
 </template>
 
 <script>
   import axios from 'axios';
   import navBar from '../../components/used/navBar.vue';
-
+  import CurrentPositionLabel from '../../components/used/CurrentPositionLabel.vue';
   export default {
     components: {
-      navBar
+      navBar,
+      CurrentPositionLabel
     },
     data: () => ({
       items: [{
@@ -252,8 +255,9 @@
         // console.log(this.files);
       },
       updateSubmit: function () {
-        var formData = new FormData(document.querySelector('#usedUpdate'));
+        this.test();
         this.dropVal();
+        var formData = new FormData(document.querySelector('#usedUpdate'));
         axios({
           url: "http://localhost:8090/zippy/used/update",
           method: "POST",
@@ -270,6 +274,10 @@
         this.product.isSell = this.select2;
         console.log(this.product.isSell)
         console.log(this.product.productCategory);
+      },
+      test(sigu) {
+        this.product.productLocation = sigu;
+        console.log("test 함수에서 sigu(" + sigu + ")를 출력하고 있습니다.");
       }
     }
   };

@@ -27,4 +27,5 @@ public class UsedProductVO {
   private String image;
   private String nickName;
   private String profileImage;
+  private String dealRecord;
 }

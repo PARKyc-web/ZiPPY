@@ -2,18 +2,13 @@ package com.yedam.zippy.common.web;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.common.service.CommonService;
 import com.yedam.zippy.common.service.ReportVO;
@@ -76,8 +73,12 @@ public class CommonController {
 
   // 찜 전체출력
   @GetMapping("/wishAll")
-  public List<BookmarkVO> getWishAll(@RequestParam String email, @RequestParam int serviceType){
-    return service.getWishAll(email, serviceType);
+  public PageInfo<BookmarkVO> getWishAll(@RequestParam String email, @RequestParam int serviceType, @RequestParam int pageNum){
+    
+    String order = "";
+    
+    PageHelper.startPage(pageNum, 10, order);
+    return PageInfo.of(service.getWishAll(email, serviceType));
   }
 
   // 후기작성
@@ -131,6 +132,11 @@ public class CommonController {
   @PostMapping("/addReport")
   public int addReport(ReportVO vo) {
     return service.addReport(vo);
+  }
+  
+  @GetMapping("/showReportAll")
+  public List<ReportVO> showReportAll(){
+    return service.showReportList();
   }
 
 }

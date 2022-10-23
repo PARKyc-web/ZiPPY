@@ -11,6 +11,7 @@
           <button id="used-addr">
             <i class="fa-solid fa-location-dot fa-2x"></i>
           </button>
+          <CurrentPositionLabel @sigu="test"></CurrentPositionLabel>
         </div>
         <hr />
         <div>
@@ -104,56 +105,47 @@
 <script>
   import axios from 'axios';
   // import swal from 'sweetalert2';
+  import CurrentPositionLabel from '../../components/used/CurrentPositionLabel.vue';
   export default {
-
     data: () => ({
       items: [{
-          name: '침실',
-          value: '침실'
-        },
-        {
-          name: '옷장/수납',
-          value: '옷장/수납'
-        },
-        {
-          name: '주방',
-          value: '주방'
-        },
-        {
-          name: '욕실',
-          value: '욕실'
-        },
-        {
-          name: '서재',
-          value: '서재'
-        },
-        {
-          name: '다용도실',
-          value: '다용도실'
-        },
-      ],
-      select: '',
+        name: "침실",
+        value: "침실"
+      }, {
+        name: "옷장/수납",
+        value: "옷장/수납"
+      }, {
+        name: "주방",
+        value: "주방"
+      }, {
+        name: "욕실",
+        value: "욕실"
+      }, {
+        name: "서재",
+        value: "서재"
+      }, {
+        name: "다용도실",
+        value: "다용도실"
+      }, ],
+      select: "",
       data: {
         email: "",
-        productName: '',
-        productCategory: '',
-        productPrice: '',
-        productInfo: '',
-        productLocation: '',
+        productName: "",
+        productCategory: "",
+        productPrice: "",
+        productInfo: "",
+        productLocation: "",
         isSell: 0,
         views: 0,
-        productDate: '',
-        image: '',
-        mainImg: ''
+        productDate: "",
+        image: "",
+        mainImg: ""
       },
-
-      files: [], //업로드용 파일
+      files: [],
       filesPreview: [],
       uploadImageIndex: 0 // 이미지 업로드를 위한 변수
     }),
     methods: {
-
-
       imageUpload() {
         console.log(this.$refs.files.files);
         // this.files = [...this.files, this.$refs.files.files];
@@ -183,10 +175,8 @@
         console.log(this.files);
         // console.log(this.filesPreview);
       },
-
       imageAddUpload() {
         console.log(this.$refs.files.files);
-
         // this.files = [...this.files, this.$refs.files.files];
         //하나의 배열로 넣기c
         let num = -1;
@@ -207,26 +197,23 @@
           num = i;
         }
         this.uploadImageIndex = this.uploadImageIndex + num + 1;
-
         console.log(this.files);
         // console.log(this.filesPreview);
       },
       fileDeleteButton(e) {
-        const name = e.target.getAttribute('name');
+        const name = e.target.getAttribute("name");
         this.files = this.files.filter(data => data.number !== Number(name));
         // console.log(this.files);
       },
       insert: function () {
+        this.test();
         this.data.email = this.$store.state.loginInfo.email;
-        var formData = new FormData(document.querySelector('#usedInsert'));
-
-
+        var formData = new FormData(document.querySelector("#usedInsert"));
         // for(var i=0; i<this.files.length; i++){
         //   console.log("runrunrun")
         //   console.log(this.files[i])
         //   formData.append("images", this.files[i]);
         // }
-
         // for(let key of formData.keys()){
         //   console.log(`${key} : ${formData.get(key)}`);          
         // }
@@ -239,18 +226,23 @@
           data: formData
         }).then(res => {
           console.log(res);
-          // window.location.assign('/used/detail?pNo=');
+          window.location.assign('/used');
         }).catch(err => {
-          console.log(err)
-        })
+          console.log(err);
+        });
       },
       dropVal: function () {
         this.data.productCategory = this.select;
         console.log(this.data.productCategory);
         this.data.email = this.$store.state.loginInfo.email;
+      },
+      test(sigu) {
+        this.data.productLocation = sigu;
+        console.log("test 함수에서 sigu(" + sigu + ")를 출력하고 있습니다.");
       }
-
-
+    },
+    components: {
+      CurrentPositionLabel
     }
   };
 </script>

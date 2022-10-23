@@ -64,6 +64,7 @@
 			   p.product_name,
 			   p.product_price,
 			   p.product_location,
+			   p.main_img,
 			   p.is_sell,
 			   p.product_date,
 			   b.bookmark_no, 
@@ -131,5 +132,11 @@
 		WHERE service_id = #{serviceId}
 		AND email = #{email}
 		AND service_type = #{serviceType}
+	</select>
+	
+	<select id="showReportList" resultType="ReportVO">
+		SELECT *
+		FROM service_report
+		WHERE service_type = #{serviceType}
 	</select>
 </mapper>

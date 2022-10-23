@@ -46,12 +46,12 @@ public class UsedContoller {
     if (category.equals("전체")) {
       category = "";
     }
-
     if (checked.equals("true")) {
       checked = "1";
     } else if (checked.equals("false")) {
       checked = "0";
     }
+    System.out.println("checked@@@@@@@@@@@@@@@@@@"+checked);
 String order="product_date DESC";
     if (dropbox.equals("최저가순")) {
       dropbox = "0";
@@ -89,8 +89,7 @@ String order="product_date DESC";
   // 생성
   @PostMapping("/insert")
   public String insert(UsedProductVO product, List<MultipartFile> images) {
-    
-    product.setProductLocation("대구광역시 중구 성내1동");
+    System.out.println("asdfasdf@@@@@@@@@@@@@@"+product.getProductLocation());
     service.insertUsedProduct(product, images);
     service.findKeyword(product);
     return "SUCCESS";
@@ -99,9 +98,9 @@ String order="product_date DESC";
   // 수정
   @PostMapping("/update")
   public int update(UsedProductVO product, List<MultipartFile> images) {
-    product.setProductLocation("대구광역시 중구 성내1동");
-    service.insertUsedProduct(product, images);
-//    service.updateUsedProduct(product, images);
+    System.out.println(product.getIsSell());
+//    service.insertUsedProduct(product, images);
+    service.updateUsedProduct(product, images);
     return 1;
   }
 
