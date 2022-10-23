@@ -1,10 +1,14 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
+
+// this is PROPERTY zone 
 import PropertyView from "../views/property/PropertyView.vue";
 import HouseDetail from "../components/property/HouseDetail.vue";
 import AgentDetail from "../components/property/AgentDetail.vue";
-
+// my page
+import MyWishProperties from "../components/property/MyWishProperties.vue";
+/////////////////////////
 import shopView from "../views/shopView.vue";
 import shopMain from "../views/shop/shopMainView.vue";
 import shopList from "../views/shop/shopListView.vue";
@@ -119,6 +123,11 @@ const routes = [
         path : "chat",
         name : "mypage-chat",
         component : chat
+      },
+      {
+        path : "MyWishProperties",
+        name : "MyWishProperties",
+        component : MyWishProperties
       },
       {
         path : "order",

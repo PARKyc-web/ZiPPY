@@ -34,4 +34,6 @@ public interface PropertyService {
   public List<propertyVO> currentPositionAptList(String sigungu);
   
   public List<propertyVO> searchPropertyList(propertyVO vo);
+  
+  public Page<WishVO> getAllWishProperties(String email);
 }

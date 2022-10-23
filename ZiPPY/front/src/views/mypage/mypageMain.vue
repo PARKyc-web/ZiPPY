@@ -47,7 +47,7 @@
                         hiddenOnCollapse: true
                     },
                     {
-                        href: '/mypage',
+                        href: '/mypage/MyWishProperties',
                         title: '관심매물',
                         icon: 'fa-solid fa-house-circle-check'
                     },

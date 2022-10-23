@@ -106,6 +106,14 @@ public String agentDetail(@RequestParam int productId) {
   public List<propertyVO> searchPropertyList(propertyVO vo) {
     return service.searchPropertyList(vo);
   }
+  
+  // 로그인 된 회원의 관심 매물 목록 불러오기
+  @GetMapping("/getAllWishProperties")
+  public PageInfo<WishVO> getAllWishProperties(@RequestParam("email")String email, @RequestParam("pageNum") int pageNum) {
+    String orderBy = "bookmark_no";
+    PageHelper.startPage(pageNum, 6, orderBy);
+    return PageInfo.of(service.getAllWishProperties(email));
+  }
 
 //  @GetMapping("/houseDetail")
 //  public String houseDetail() {

@@ -95,4 +95,9 @@ public class PropertyServiceImpl implements PropertyService {
   public List<propertyVO> searchPropertyList(propertyVO vo) {
     return mapper.searchPropertyList(vo);
   }
+  
+  @Override
+  public Page<WishVO> getAllWishProperties(String email) {
+    return mapper.getAllWishProperties(email);
+  }
 }
