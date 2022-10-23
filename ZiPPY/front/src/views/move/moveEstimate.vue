@@ -29,11 +29,21 @@
       <v-expansion-panels>
         <v-expansion-panel v-if="list.length != 0" v-for="(item,i) in list">
           <v-expansion-panel-header>
-            <!-- 요청회원 : <span>{{item.email}}</span> &nbsp;&nbsp;  -->
+          
             <span>NO.{{item.estimateNo}}</span> &nbsp;&nbsp; 견적요청일 :
             <span>{{item.requestDate}}</span>&nbsp;&nbsp; 견적 방법 : <span>{{item.estimateType}}</span>
+            <v-col cols="12" sm="6" md="4">
+              <div id="mus" v-if="item.reservStatus == 0">견적 상태 : <span>견적전</span></div>
+              <div id="mus" v-if="item.reservStatus == 1">견적 상태 : <span>1차견적</span></div>
+              <div id="mus" v-if="item.reservStatus == 2">견적 상태 : <span>2차견적</span></div>
+              <div id="mus" v-if="item.reservStatus == 3">견적 상태 : <span>예약요청</span></div>
+              <div id="mus" v-if="item.reservStatus == 4">견적 상태 : <span>예약완료</span></div>
+              <div id="mus" v-if="item.reservStatus == 5">견적 상태 : <span>이사완료</span></div>
+              <div id="mus" v-if="item.reservStatus == 9">견적 상태 : <span>취소</span></div>
+            </v-col>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
+            <div>요청회원 : <span>{{item.email}}</span></div>
             <div>이사 종류 : <span>{{item.moveType}}</span></div>
             <div>이사희망일 : <span>{{item.movingDate}}</span></div>
             <div>이사희망시간 : <span>{{item.movingTime}}</span></div>
@@ -74,13 +84,13 @@
               <v-divider></v-divider>
 
               <div>
-                방 입구에서 찍은 사진
+                <img />방 입구에서 찍은 사진
               </div>
               <div>
-                방 중앙에서 찍은 사진
+                <img />방 중앙에서 찍은 사진
               </div>
               <div>
-                내부 구조 사진(짐, 장롱, 창고 등)
+                <img />내부 구조 사진(짐, 장롱, 창고 등)
               </div>
               <!-- <v-card-text>
                 I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
@@ -230,7 +240,7 @@ export default {
 
         list: [],
         vo: {
-          email: "move123@move.com",
+          email: "",
           requestDate: "",
           departAddress: "",
           arriveAddress: "",
@@ -300,16 +310,19 @@ export default {
         url: "http://localhost:8090/zippy/move/moveEstimate",
         methods: "GET",
         params: {
-          email: "move123@move.com",
+          email: "",
           movingOption: "",
           commonOption: "",
           checked: "",
           dropbox: "",
           dropbox2: "",
-          firstEstimateType : this.selectData.estimateType
+          firstEstimateType : this.selectData.estimateType,
+          reservStatus : this.selectData.reservStatus
         }
       }).then(res => {
         console.log(res);
+        this.reservStatus = this.selectData.reservStatus;
+
         this.list = res.data;
       }).catch(error => {
         console.log(error);
@@ -396,18 +409,18 @@ export default {
           params: {
             businessEmail: this.email,
             estimateNo : this.list[i].estimateNo,
-            email: this.vo.email,
+            email: this.$store.state.loginInfo.email,
             estimateType: this.list[i].estimateType,
             // firstEstimatePrice: this.list[i].firstEstimatePrice,
             // responseMemo : this.list[i].responseMemo
           }
         }).then(res => {
-          this.selectData.estimateNo = this.list[i].estimateNo //{...this.list[i]}
-          this.selectData.email = this.vo.email
+          this.selectData.estimateNo = this.list[i].estimateNo; //{...this.list[i]}
+          this.selectData.email = this.$store.state.loginInfo.email;
           // this.selectData.businessEmail = this.email
-          this.selectData.estimateType = this.list[i].estimateType
-          this.selectData.reservStatus = "0"
-          this.selectData.compName = "82이사"
+          this.selectData.estimateType = this.list[i].estimateType;
+          this.selectData.reservStatus = this.selectData.reservStatus;
+          this.selectData.compName = this.$store.state.loginInfo.compName;
           console.log(res);
           this.list = res.data;
         }).catch(err => {
@@ -532,6 +545,7 @@ export default {
         console.log('1차 가격 : ',document.querySelector("#firstPrice").value);
         console.log('어필 : ',document.querySelector("#memo").value);
         
+        
       
 
         var formData = new FormData(document.querySelector('#estimateForm'));
@@ -558,13 +572,13 @@ export default {
           //   "Content-Type": "application/json; charset=utf-8"
           // },
           params:{
-            email : 'move123@move.com',
+            email : this.$store.state.loginInfo.email,
             estimateNo : this.selectData.estimateNo,
             responseMemo :document.querySelector("#memo").value,
             firstEstimatePrice : document.querySelector("#firstPrice").value,
             firstEstimateType : this.selectData.estimateType,
-            reservStatus : this.selectData.reservStatus,
-            compName : this.selectData.compName
+            reservStatus : 0,
+            compName : this.$store.state.loginInfo.compName
           },
           // data: this.selectData
         }).then(res => {

@@ -47,6 +47,9 @@ import moveCompanyEstimate from "../views/move/moveCompanyEstimate";
 import moveCompanyMy from "../views/move/moveCompanyMy";
 import moveMyReserve from "../views/move/moveMyReserve";
 import moveCompanyList from "../views/move/moveCompanyList";
+import moveWishList from "../views/move/moveWishList";
+import moveReview from "../views/move/moveReview";
+import moveReviewWrite from "../views/move/moveReviewWrite";
 
 import usedUpdate from "../views/used/usedUpdate.vue";
 import usedDetail from "../views/used/usedDetail.vue";
@@ -325,6 +328,25 @@ const routes = [
     component: moveCompanyList,
     props: true,
   },
+  {
+    path: "/move/moveWishList",
+    name: "moveWishList",
+    component: moveWishList,
+    props: true,
+  },
+  {
+    path: "/move/moveReview",
+    name: "moveReview",
+    component: moveReview,
+    props: true,
+  },
+  {
+    path: "/move/moveReviewWrite",
+    name: "moveReviewWrite",
+    component: moveReviewWrite,
+    props: true,
+  },
+
 
   //used
   {

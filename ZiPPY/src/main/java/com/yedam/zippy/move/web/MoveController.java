@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.move.service.MoveCompanyEstimateVO;
 import com.yedam.zippy.move.service.MoveEstimateVO;
 import com.yedam.zippy.move.service.MoveImageVO;
@@ -116,6 +118,42 @@ public class MoveController {
     return "";
   }
   
+  //견적상태 업데이트 (사용자가 예약요청 후, 상태 3으로 변경)
+  @PostMapping("/moveStatusThirdUpdate")
+  public String moveStatusThirdUpdate(MoveResponseVO vo) {
+    System.out.println(vo);
+    
+    service.moveStatusThirdUpdate(vo);
+    return "";
+  }
+  
+  //견적상태 업데이트 (업체가 예약확정 후, 상태 4으로 변경)
+  @PostMapping("/moveStatusFourthUpdate")
+  public String moveStatusFourthUpdate(MoveResponseVO vo) {
+    System.out.println(vo);
+    
+    service.moveStatusFourthUpdate(vo);
+    return "";
+  }
+  
+  //견적상태 업데이트 (이사완료 후, 상태 5으로 변경)
+  @PostMapping("/moveStatusFifthUpdate")
+  public String moveStatusFifthUpdate(MoveResponseVO vo) {
+    System.out.println(vo);
+    
+    service.moveStatusFifthUpdate(vo);
+    return "";
+  }
+  
+  //견적상태 업데이트 (예약취소하면, 상태 9으로 변경)
+  @PostMapping("/moveStatusCancleUpdate")
+  public String moveStatusCancleUpdate(MoveResponseVO vo) {
+    System.out.println(vo);
+    
+    service.moveStatusCancleUpdate(vo);
+    return "";
+  }
+  
   //업체 견적서 내역
   @GetMapping("/moveCompanyEstimate")
   public List<MoveResponseVO> companyEstimate(MoveCompanyEstimateVO vo){
@@ -156,5 +194,11 @@ public class MoveController {
     System.out.println(vo);
     return service.getCompanyList(vo);
   }
+  
+  //해당상품 찜 출력
+ @GetMapping("/wishOneList")
+ public List<BookmarkVO> getWishOneList(@RequestParam int sId, @RequestParam String email, @RequestParam int serviceType) {
+   return service.getWishOneList(sId, email, serviceType);
+ }
   
 }

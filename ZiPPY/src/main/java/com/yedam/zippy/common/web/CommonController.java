@@ -54,6 +54,7 @@ public class CommonController {
   @PostMapping("/addWish")
   public int addWish(@RequestBody BookmarkVO bookmark) {
     System.out.println(bookmark);
+    System.out.println(service.addWish(bookmark));
     return service.addWish(bookmark);
   }
 
@@ -77,6 +78,8 @@ public class CommonController {
   // 찜 전체출력
   @GetMapping("/wishAll")
   public List<BookmarkVO> getWishAll(@RequestParam String email, @RequestParam int serviceType){
+    
+    System.out.println(email);
     return service.getWishAll(email, serviceType);
   }
 
