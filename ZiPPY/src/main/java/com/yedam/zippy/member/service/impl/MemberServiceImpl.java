@@ -69,7 +69,7 @@ public class MemberServiceImpl implements MemberService{
       if(memberType == 0) {
         return mapper.getGeneralUser(email);
         
-      }else if(memberType == 1) {
+      }else if(memberType != 0) {
         return mapper.getBusinessUser(email);
         
       }   
@@ -206,5 +206,15 @@ public class MemberServiceImpl implements MemberService{
       }            
       
       return false;
+    }
+    
+    @Override
+    public void updateUserInfo(GeneralUserVO info) {      
+         mapper.updateUserInfo(info);
+    }
+    
+    @Override
+    public void updateBusinessInfo(BusinessVO info) {
+        mapper.updateBusinessInfo(info);
     }
 }

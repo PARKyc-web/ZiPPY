@@ -101,7 +101,7 @@ export default{
           if(this.$store.state.memberType == 0){
             this.$router.push("/mypage");
           }else {
-            this.$router.push("/home");
+            this.$router.push("/seller");
           }          
         }
 

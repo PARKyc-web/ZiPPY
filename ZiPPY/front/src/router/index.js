@@ -28,6 +28,9 @@ import mypage from '@/views/mypage/mypageMain.vue';
 import chat from '@/views/chat/chatTap.vue';
 import chatDetail from '@/views/chat/chatTap.vue';
 import findUserInfo from '@/views/login/findInfo.vue';
+import seller from '@/views/seller/Seller.vue';
+import generalUser from '@/views/admin/searchUser.vue';
+
 
 import moveContactFinalCheck from "../views/move/moveContactFinalCheck.vue";
 import moveUntactFinalCheck from "../views/move/moveUntactFinalCheck.vue";
@@ -56,7 +59,7 @@ import usedKeyword from "../views/used/usedKeyword.vue";
 import usedwishList from "../views/used/usedWishList.vue";
 import usedUserPage from "../views/used/usedUserPage.vue";
 
-
+import companyInfo from '@/views/seller/companyInfo.vue';
 import userInfo from '@/views/mypage/userInfo.vue';
 import page404 from '@/views/page404.vue';
 
@@ -149,14 +152,27 @@ const routes = [
     component: admin,
     children : [
       {
-        path :"home",
-        name: "admin-home",
-        component: HomeView, 
+        path :"general",
+        name: "admin-generalUser",
+        component: generalUser, 
       },
       {
         path:"login",
         name:"admin-login",
         component:login
+      }
+    ]
+  },
+
+  {
+    path : "/seller",
+    name : "seller",
+    component : seller,
+    children : [
+      {
+        path : "/",
+        name : "seller-info",
+        component : companyInfo
       }
     ]
   },

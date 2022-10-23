@@ -30,4 +30,8 @@ public interface MemberService {
   //사용자의 휴대폰과 이름이 일치하는 내용을 찾아서 리턴해준다
   
   public boolean changePassword(LoginVO info, String password);
+  
+  public void updateUserInfo(GeneralUserVO info);
+  
+  public void updateBusinessInfo(BusinessVO info);
 }

@@ -48,6 +48,7 @@ public class CommonController {
 //  private final String usedPath = "";
 //  private final String movePath = "";  
 //  private final String shopPath = "";  
+//  private final String chatPath = "";
     
 
   // 찜 추가
@@ -97,8 +98,7 @@ public class CommonController {
   @GetMapping("/RvOne")
   public BookmarkVO getRvOne(@RequestParam int serviceType, @RequestParam int serviceId, @RequestParam String email) {
     return service.getRvOne(serviceType, serviceId, email);
-  }
-  
+  }  
   
  
   @GetMapping("img/{type}/{image}")

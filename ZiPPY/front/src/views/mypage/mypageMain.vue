@@ -121,6 +121,7 @@
         float: left;
     }
     #main{
-        margin-left: 150px;
+        /* margin-left: 150px; */
+        margin-left: 5%;
     }
 </style>
