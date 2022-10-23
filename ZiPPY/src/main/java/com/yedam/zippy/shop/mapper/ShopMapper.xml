@@ -95,6 +95,7 @@
 		SELECT *
 		FROM shop_qna
 		WHERE pro_no = #{proNo}
+		ORDER BY qna_no DESC
 	</select>
 
 	<!-- 장바구니 -->
@@ -255,6 +256,25 @@
 		FROM shop_order
 		WHERE pay_code = #{payCode}
 	</select>
+	<!-- 후기 업데이트 -->
+	<update id="updateRvStatus">
+		UPDATE shop_purchase
+		SET order_status = 2
+		WHERE pur_no = #{purNo}
+	</update>
+	
+	<!-- 마이페이지 -->
+	<select id="getMyWishList" resultType="HashMap">
+		SELECT *
+		FROM bookmark b
+		JOIN
+		shop_product s ON b.service_id = s.pro_no
+		WHERE
+		b.service_type = 2
+		AND
+		b.email = #{email}
+	</select>
+	
 	
 	<!-- 판매자 -->
 	<!-- 상품등록 -->

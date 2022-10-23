@@ -139,6 +139,7 @@
 
 <script>
   import axios from 'axios';
+  import swal from 'sweetalert2';
 
   export default {
     data() {
@@ -208,7 +209,12 @@
         }, rsp => { // callback
           if (rsp.success) {
           
-            alert('결제가 완료되었습니다.')
+            swal.fire({
+            icon: 'success',
+            title: '결제가 완료되었습니다.',
+            showConfirmButton: false,
+            timer: 1500
+          });
             //서버에 결제 정보 저장 
             axios({
               url: "/shop/insertOrder",

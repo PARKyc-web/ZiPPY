@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.pagehelper.Page;
+import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.member.service.GeneralUserVO;
 import com.yedam.zippy.shop.mapper.ShopMapper;
 import com.yedam.zippy.shop.service.CartVO;
@@ -36,12 +38,12 @@ public class ShopServiceImpl implements ShopService {
   }
   //상품 카테고리 조회
   @Override
-  public List<ProductVO> getCategoryList(String category) {
+  public Page<ProductVO> getCategoryList(String category) {
     return mapper.getCategoryList(category);
   }
   //상품 키워드 조회
   @Override
-  public List<ProductVO> getKeywordList(String keyword) {
+  public Page<ProductVO> getKeywordList(String keyword) {
     return mapper.getKeywordList(keyword);
   }
   //상품 단건조회
@@ -120,8 +122,16 @@ public class ShopServiceImpl implements ShopService {
   public OrderVO getOneOrder(String payCode) {
     return mapper.getOneOrder(payCode);
   }
+  // 상품상태 업데이트
+  @Override
+  public int updateRvStatus(PurchaseVO purchaseVO) {
+    return mapper.updateRvStatus(purchaseVO);
+  }
   
-
+//마이페이지 CRUD
+ public Page<Map<ProductVO, BookmarkVO>> getMyWishList(String email) {
+   return mapper.getMyWishList(email);
+ }
   
   //판매자 CRUD
   @Override
@@ -270,7 +280,7 @@ public class ShopServiceImpl implements ShopService {
   }
 
   @Override
-  public List<QnaVO> getQnaList(int proNo) {
+  public Page<QnaVO> getQnaList(int proNo) {
     return mapper.getQnaList(proNo);
   }
 

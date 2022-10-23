@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.Page;
 import com.yedam.zippy.common.mapper.CommonMapper;
 import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.common.service.CommonService;
@@ -53,9 +54,14 @@ public class CommonServiceIml implements CommonService {
     return mapper.addReport(vo);
   }
 
+//  @Override
+//  public List<ReviewBoardVO> showProReview(int serviceType, int serviceId) {
+//    return mapper.showProReview(serviceType, serviceId);
+//  }
+  
   @Override
-  public BookmarkVO getRvOne(int serviceType, int serviceId, String email) {
-    return mapper.getRvOne(serviceType, serviceId, email);
+  public Page<ReviewBoardVO> showProReview(int serviceType, int serviceId) {
+    return mapper.showProReview(serviceType, serviceId);
   }
 
 }

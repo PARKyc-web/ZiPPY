@@ -30,8 +30,7 @@
           <p>다시 검색해주세요.</p>
         </div>
         <!-- 상품정보 -->
-        <div id="product-info" v-for="product in products" :key="product.proNo"
-          @click="goDetail(product.proNo)">
+        <div id="product-info" v-for="product in products" :key="product.proNo" @click="goDetail(product.proNo)">
           <div id="product-img">
             <img :src="require(`../../assets/shop/productImg/${product.proMainImg}.jpg`)">
           </div>
@@ -49,7 +48,7 @@
       <!-- 페이지네이션 -->
       <div style="margin-top:20px">
         <div class="text-center">
-          <v-pagination v-model="page" :length="4" circle color="#B3E3C3"></v-pagination>
+          <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3"></v-pagination>
         </div>
       </div>
       <!-- 페이지네이션 끝 -->
@@ -79,7 +78,9 @@
         '소품'
       ],
       select: [],
-      products: []
+      products: [],
+      page: 1,
+      pageCount: 1
     }),
     methods: {
       //디테일 페이지로 이동
@@ -89,41 +90,81 @@
       goList(cate) {
         this.$router.push({
           name: 'shopList',
-          query: {cate: cate}
+          query: {
+            cate: cate
+          }
         })
       },
-    },
-    created() {
-      //키워드로 검색
-      if (this.$route.query.keyw ) {
+      //키워드로 조회
+      getKeywList() {
         axios({
           url: "/shop/keyword",
           method: "GET",
           params: {
-            keyw: this.$route.query.keyw
+            keyw: this.$route.query.keyw,
+            pageNum: this.page
           }
         }).then(res => {
           console.log(res);
-          this.products = res.data;
+          this.products = res.data.list;
+          this.PageCount = res.data.pages;
           console.log(this.products);
         }).catch(error => {
           console.log(error);
         })
-        //카테고리로 검색
-      }else if(this.$route.query.cate) {
+      },
+      //카테고리로 조회
+      getCateList() {
         axios({
-        url: "/shop/category",
-        method: "GET",
-        params: {
-          cate: this.$route.query.cate
-        }
-      }).then(res => {
-        console.log(res);
-        this.products = res.data;
-        console.log(this.products);
-      }).catch(error => {
-        console.log(error);
-      })
+          url: "/shop/category",
+          method: "GET",
+          params: {
+            cate: this.$route.query.cate,
+            pageNum: this.page
+          }
+        }).then(res => {
+          console.log(res);
+          this.products = res.data.list;
+          this.PageCount = res.data.pages;
+          console.log(this.products);
+        }).catch(error => {
+          console.log(error);
+        })
+      }
+    },
+    created() {
+      //키워드로 검색
+      if (this.$route.query.keyw) {
+        this.getKeywList();
+        // axios({
+        //   url: "/shop/keyword",
+        //   method: "GET",
+        //   params: {
+        //     keyw: this.$route.query.keyw
+        //   }
+        // }).then(res => {
+        //   console.log(res);
+        //   this.products = res.data;
+        //   console.log(this.products);
+        // }).catch(error => {
+        //   console.log(error);
+        // })
+        //카테고리로 검색
+      } else if (this.$route.query.cate) {
+        this.getCateList();
+        //   axios({
+        //   url: "/shop/category",
+        //   method: "GET",
+        //   params: {
+        //     cate: this.$route.query.cate
+        //   }
+        // }).then(res => {
+        //   console.log(res);
+        //   this.products = res.data;
+        //   console.log(this.products);
+        // }).catch(error => {
+        //   console.log(error);
+        // })
       }
       // //검색결과 없음 지연시간
       // var noProduct = document.getElementById("#oProduct")
@@ -132,9 +173,19 @@
       // noProduct.api.reloadData();
       // },300);
 
-    }, filters : {
-      comma(val){
+    },
+    filters: {
+      comma(val) {
         return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      }
+    },
+    watch: {
+      page() {
+        if (this.$route.query.keyw) {
+          this.getKeywList();
+        } else if (this.$route.query.cate) {
+          this.getCateList();
+        }
       }
     }
   };
@@ -148,7 +199,7 @@
 
   /* 카테고리 */
   #category {
-    width: 400px;
+    width: 300px;
     height: 600px;
     padding: 60px;
   }
@@ -188,7 +239,7 @@
   #noProduct {
     height: 400px;
     text-align: center;
-    margin-left: 22%;
+    margin-left: 26%;
   }
 
   #product-list {
@@ -196,6 +247,7 @@
     margin-right: auto;
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 200px;
   }
 
   #product-list i {

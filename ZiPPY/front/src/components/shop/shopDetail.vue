@@ -140,13 +140,23 @@
         if (this.qty > 1) {
           this.qty--;
         } else {
-          alert('최소수량은 1개입니다.')
+          swal.fire({
+            icon: 'warning',
+            title: '최소 수량은 1개입니다.',
+            showConfirmButton: false,
+            timer: 1500
+          });
         }
       },
       //수량 증가
       plusQty() {
         if (this.qty > 9) {
-          alert('최대수량은 10개입니다.')
+          swal.fire({
+            icon: 'warning',
+            title: '최대 수량은 10개입니다.',
+            showConfirmButton: false,
+            timer: 1500
+          });
           return;
         }
         this.qty++;
@@ -194,7 +204,12 @@
           if (!this.selectOption.hasOwnProperty("optNo")) {
             //체크용
             this.optCheck = false;
-            alert('상품의 옵션을 선택해주세요.')
+            swal.fire({
+            icon: 'warning',
+            title: '상품의 옵션을 선택해주세요.',
+            showConfirmButton: false,
+            timer: 1500
+          });
           } else {
             //선택한 옵션이 존재할 경우 등록 진행
             this.optCheck = true;
@@ -222,29 +237,29 @@
             }).then(res => {
               console.log(res);
               this.cartPros = res.data;
-              
+
               //옵션이 있는 경우
               if (this.opts.length > 0) {
                 for (var i in this.cartPros) {
                   //상품번호, 옵션 둘다 체크
                   if (this.product.proNo == this.cartPros[i].cartPno &&
                     this.selectOption.optNo == this.cartPros[i].cartOptNo) {
-                      swal.fire({
-                        icon: 'warning',
-                        title: '이미 장바구니에 있는 상품입니다.',
-                        showConfirmButton: false,
-                        timer: 1500
-                      });
-                      //선택 옵션 비워주기
-                      this.selectedOpt = {};
-                      this.selectOption = {};
-                      //상품등록 불가
-                      check = false;
-                      return;
+                    swal.fire({
+                      icon: 'warning',
+                      title: '이미 장바구니에 있는 상품입니다.',
+                      showConfirmButton: false,
+                      timer: 1500
+                    });
+                    //선택 옵션 비워주기
+                    this.selectedOpt = {};
+                    this.selectOption = {};
+                    //상품등록 불가
+                    check = false;
+                    return;
                   } else {
                     //상품등록 가능
                     check = true;
-                    if(this.selectOption.optNo == 0) {
+                    if (this.selectOption.optNo == 0) {
                       check = false;
                       return;
                     }
@@ -270,7 +285,7 @@
                 }
               }
               //장바구니가 비어져있을 경우
-              if(this.cartPros.length == 0) {
+              if (this.cartPros.length == 0) {
                 check = true;
               }
               console.log(check)
@@ -300,6 +315,8 @@
                   //선택했던 상품 삭제
                   this.selectedOpt = {};
                   this.selectOption = {};
+                  //장바구니 개수 추가
+                  this.$store.state.loginInfo.cartCount = Number(this.$store.state.loginInfo.cartCount) + 1
                 }).catch(error => {
                   console.log(error);
                 })
@@ -356,7 +373,7 @@
             })
 
           }
-        }  else {
+        } else {
           swal.fire({
             icon: 'warning',
             title: '로그인 정보가 필요합니다.',

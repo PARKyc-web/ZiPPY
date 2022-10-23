@@ -2,6 +2,10 @@ package com.yedam.zippy.common.service;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Data
@@ -10,11 +14,13 @@ public class ReviewBoardVO {
   private String email;
   private String reviewTitle;
   private String reviewContent;
+  @JsonFormat(pattern = "yy-MM-dd")
+  @DateTimeFormat(pattern="yy-MM-dd")
   private Date reviewDate;
   private int serviceType;
   private String serviceId;
   private int viewCnt;
-  private int totalRating;
+  private double totalRating;
   private int rate1;
   private int rate2;
   private int rate3;
