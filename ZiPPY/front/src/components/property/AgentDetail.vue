@@ -152,7 +152,6 @@
             methods: "GET",
             params: {
               email: this.$route.query.email,
-              //
               pageNum: this.page
             }
           }).then(response => {
