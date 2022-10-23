@@ -62,7 +62,7 @@
         </tr>
       </table>
       <div class="row" style="margin-left:35px ;">
-        <v-card v-if="properties.length != 0" v-for="item in properties" style="width: 45%; margin: 1%; padding: 20px;">
+        <v-card v-if="properties.length != 0" v-for="item in properties" style="width: 45%; margin: 1%; padding: 20px;" @click="goHouseDetail(item.productId)">
           <v-card-text>
             <table>
               <tr>
@@ -166,7 +166,15 @@
             console.log('getAgentProperties fail!');
             console.log(error);
           })
-      }
+      },
+      goHouseDetail(productId) {
+        this.$router.push({
+          name: 'HouseDetail',
+          query: {
+            productId: productId
+          }
+        })
+      },
     }
   };
 </script>
