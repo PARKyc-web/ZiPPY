@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.Page;
 import com.yedam.zippy.common.service.BookmarkVO;
+import com.yedam.zippy.common.service.ReviewBoardVO;
 import com.yedam.zippy.member.service.GeneralUserVO;
 import com.yedam.zippy.shop.mapper.ShopMapper;
 import com.yedam.zippy.shop.service.CartVO;
@@ -128,10 +129,21 @@ public class ShopServiceImpl implements ShopService {
     return mapper.updateRvStatus(purchaseVO);
   }
   
-//마이페이지 CRUD
- public Page<Map<ProductVO, BookmarkVO>> getMyWishList(String email) {
+  //마이페이지 CRUD
+  //My wish
+  public Page<Map<ProductVO, BookmarkVO>> getMyWishList(String email) {
    return mapper.getMyWishList(email);
- }
+  }
+  
+  //My QNA
+  public List<Map<QnaVO, ProductVO>> getMyQna(String email){
+    return mapper.getMyQna(email);
+  }
+  
+  //My review
+  public List<Map<ReviewBoardVO, ProductVO>> getMyRv(String email) {
+    return mapper.getMyRv(email);
+  }
   
   //판매자 CRUD
   @Override
@@ -292,15 +304,14 @@ public class ShopServiceImpl implements ShopService {
     }
     return list;
   }
+  @Override
+  public List<QnaVO> getSellerQnaList(String email) {
+    return mapper.getSellerQnaList(email);
+  }
+  @Override
+  public int updateQnaAnswer(QnaVO qnaVO) {
+    return mapper.updateQnaAnswer(qnaVO);
+  }
 
-  
-//  List<PurchaseVO> list = mapper.getMyPurList(payCode, purNo);
-//  for (PurchaseVO x : list) {
-//    x.setProductVO(mapper.getProduct(x.getPurPno()));
-//  }
-//  return list;
-//  @Override
-//  public ProductVO getOrdProInfo(String payCode) {
-//    return mapper.getOrdProInfo(payCode);
-//  }
+ 
 }

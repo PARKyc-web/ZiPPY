@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.Page;
 import com.yedam.zippy.common.service.BookmarkVO;
+import com.yedam.zippy.common.service.ReviewBoardVO;
 import com.yedam.zippy.member.service.GeneralUserVO;
 import com.yedam.zippy.used.service.UsedImagesVO;
 
@@ -70,7 +71,12 @@ public interface ShopService {
   public int updateRvStatus(PurchaseVO purchaseVO);
   
   // 마이페이지 CRUD
+  // My wish
   public Page<Map<ProductVO, BookmarkVO>>getMyWishList(String email);
+  // MY QNA
+  public List<Map<QnaVO, ProductVO>> getMyQna(String email);
+  // My review
+  public List<Map<ReviewBoardVO, ProductVO>> getMyRv(String email);
   
   //***
   // 판매자 CRUD
@@ -91,5 +97,8 @@ public interface ShopService {
   public List<PurchaseVO> getSellerPurList(ProductVO productVO, String keyword);
   // 주문상태 수정(배송)
   public void updateOrdStatus(PurchaseVO purchaseVO);
-
+  // QNA 전체조회
+  public List<QnaVO> getSellerQnaList(String email);
+  // QNA 수정
+  public int updateQnaAnswer(QnaVO qnaVO);
 };
