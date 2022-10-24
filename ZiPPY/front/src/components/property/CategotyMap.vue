@@ -321,8 +321,9 @@
 
   #category {
     position: absolute;
+    width: 100%;
     top: 107%;
-    left: 40%;
+    left: 50%;
     transform: translate(-40%);
     border-radius: 5px;
     overflow: hidden;

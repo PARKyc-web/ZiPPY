@@ -338,8 +338,8 @@
               houseType: data.houseType,
               saleType: data.saleType + '%',
               constructionYear: data.year,
-              minPrice: 0, //data.minPrice,
-              maxPrice: 99999, //data.maxPrice,
+              minPrice: data.range[0],
+              maxPrice: data.range[1],
               minSize: data.minSize,
               maxSize: data.maxSize,
               sigungu: data.sigungu + '%'
