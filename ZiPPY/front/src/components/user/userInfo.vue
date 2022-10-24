@@ -15,7 +15,7 @@
             </div>
 
             <div class="card-body">
-              <form class="">
+              <form id="user_info">
                 <h6 class="heading-small text-muted mb-4">프로필</h6>
                 <div class="pl-lg-4">
                   <div class="row">
@@ -27,7 +27,7 @@
 
                     <div class="div-inline-block">
                       <label>이메일(아이디)</label>
-                      <input class="form-control" :value="info.email" readonly>
+                      <input class="form-control" :value="info.email" name="email" readonly>
 
                       <br>
                       <label>현재 비밀번호</label>
@@ -57,7 +57,7 @@
                               회원이름
                             </label>
                             <div class="has-label">
-                              <input type="text" placeholder="회원이름" class="form-control" valid="true" v-model="info.userName">
+                              <input type="text" name="userName" placeholder="회원이름" class="form-control" valid="true" v-model="info.userName">
                             </div>
                           </div>
                         </fieldset>
@@ -70,7 +70,7 @@
                               닉네임
                             </label>
                             <div class="has-label">
-                              <input type="email" placeholder="닉네임" class="form-control" valid="true" v-model="info.nickName">
+                              <input type="email" name="nickName" placeholder="닉네임" class="form-control" valid="true" v-model="info.nickName">
                             </div>
                             <!---->
                           </div>
@@ -85,7 +85,7 @@
                               생년월일
                             </label>
                             <div class="has-label">
-                              <input type="date" placeholder="생년월일" class="form-control" valid="true" v-model="date">
+                              <input type="date" name="userBirth" placeholder="생년월일" class="form-control" valid="true" v-model="date">
                             </div>
                             <!---->
                           </div>
@@ -98,7 +98,7 @@
                               성별
                             </label>
                             <div class="has-label">
-                              <select class="form-control" v-model="info.userGender">
+                              <select class="form-control" name="userGender" v-model="info.userGender">
                                 <option value="M">남자</option>
                                 <option value="F">여자</option>
                               </select>
@@ -136,7 +136,7 @@
                               상세주소
                             </label>
                             <div class="has-label">
-                              <input type="text" placeholder="상세주소" class="form-control" valid="true" v-model="info.addressDetail">
+                              <input type="text" name="addressDetail" placeholder="상세주소" class="form-control" valid="true" v-model="info.addressDetail">
                             </div>
                           </div>
                         </fieldset>
@@ -145,7 +145,7 @@
                 </div>
                 <hr class="my-4">
                 <div id="submit-btn">
-                  <button type="button" class="form-control">정보수정</button>
+                  <button type="button" class="form-control" @click="updateInfo()">정보수정</button>
                 </div>
               </form>
             </div>
@@ -246,6 +246,41 @@ import swal from 'sweetalert2';
           outside.inputAddress = "(" + data.zonecode + ") " + data.address;
         },
       }).open();     
+    },
+
+    updateInfo : function(){      
+      var formData = new FormData(document.querySelector('#user_info'));
+      console.log("여기?1");
+      formData.append("zipCode", this.info.zipCode);
+      formData.append("userAddress", this.info.userAddress);
+      console.log("여기?2");
+
+      this.$axios({
+        url : "/member/userInfo",
+        method:"POST",
+        data : formData        
+      }).then(res =>{
+        this.$store.commit('login', res.data);
+        console.log(res);
+        console.log(res.data);
+        swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: '회원정보가 수정되었습니다',
+              showConfirmButton: false,
+              timer: 2000
+            })
+          
+      }).catch((error) => {
+        swal.fire({
+              position: 'top-end',
+              icon: 'error',
+              title: '수정에 실패했습니다',
+              showConfirmButton: false,
+              timer: 2000
+            })
+      });
+
     }
 
     }

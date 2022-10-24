@@ -34,48 +34,30 @@
               <div id="star-box">
                 <div id="star-left">
                   <div class="mt-1">
-                    <v-rating
-                      v-model="totalRating"
-                      background-color="#64c481 lighten-3"
-                      color="#64c481"
-                      large
-                      readonly
-                    ></v-rating>
+                    <v-rating v-model="proTotalRating" half-increments background-color="#64c481 lighten-3"
+                      color="#64c481" large readonly></v-rating>
                   </div>
-                  <h2 class="ml-3 mt-3" style="font-weight:bold">4.5</h2>
+                  <h2 class="ml-3 mt-3" style="font-weight:bold" v-if="reviews.length != 0">{{proTotalRating}}</h2>
                 </div>
                 <div id="star-right">
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                      aria-valuemax="100">
-                    </div>
-                  </div>
+                  <v-progress-linear color="#64c481" height="20" :value=rate1 style="width:200px"></v-progress-linear>
                   <h6>배송</h6>
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0"
-                      aria-valuemax="100"></div>
-                  </div>
+                  <v-progress-linear color="#64c481" height="20" :value=rate2 style="width:200px"></v-progress-linear>
                   <h6>가격</h6>
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                      aria-valuemax="100"></div>
-                  </div>
+                  <v-progress-linear color="#64c481" height="20" :value=rate3 style="width:200px"></v-progress-linear>
                   <h6>디자인</h6>
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0"
-                      aria-valuemax="100"></div>
-                  </div>
+                  <v-progress-linear color="#64c481" height="20" :value=rate4 style="width:200px"></v-progress-linear>
                   <h6>내구성</h6>
                 </div>
               </div>
               <!-- 별점 박스 끝 -->
             </div>
             <!-- 후기박스 -->
-            <div id="review-box" class="px-3">
+            <div v-for="(item,index) in reviews" :key="index" id="review-box" class="px-3">
               <hr>
               <!-- 사용자 정보 -->
               <div id="user-info">
-                <p>yed***@gmail.com</p>|<p>2022-10-04</p>|
+                <p>{{item.email}}</p>|<p>{{item.reviewDate}}</p>|
                 <div id="report-review">
                   <p>신고<v-icon>mdi-alarm-light</v-icon>
                   </p>
@@ -86,22 +68,18 @@
               <div style="display:flex">
                 <p>
                   <v-icon style="font-size:15px; color:#B3E3C3" class="pb-1">mdi-star</v-icon>
-                  5.0
+                  {{item.totalRating}}
                 </p>
               </div>
               <!-- 별점 끝 -->
-              <p>옵션:white(L size)</p>
-              <p>코딩이 잘 되는지 모르겠음 사기당함 코딩이 잘 되는지 모르겠음 사기당함 코딩이 잘 되는지 모르겠음 사기당함 코딩이 잘 되는지 모르겠음 사기당함 코딩이 잘 되는지 모르겠음 사기당함
-                코딩이 잘
-                되는지
-                모르겠음 사기당함 </p>
-              <hr>
+              <p>{{item.reviewContent}}</p>
             </div>
+            <hr>
             <!-- 후기박스 끝 -->
             <!-- 페이지네이션 -->
             <div class="pb-5">
               <div class="text-center">
-                <v-pagination v-model="page" :length="4" circle color="#B3E3C3"></v-pagination>
+                <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3"></v-pagination>
               </div>
             </div>
             <!-- 페이지네이션 끝 -->
@@ -201,7 +179,7 @@
                   <!-- 페이지네이션 -->
                   <div class="pb-5">
                     <div class="text-center">
-                      <v-pagination v-model="page" :length="4" circle color="#B3E3C3"></v-pagination>
+                      <v-pagination v-model="qPage" :length="qPageCount" circle color="#B3E3C3"></v-pagination>
                     </div>
                   </div>
                   <!-- 페이지네이션 끝 -->
@@ -235,37 +213,90 @@
       dialog: false,
       product: {},
       proNo: '',
-      //별점
-      totalRating: 5,
-
+      /* 리뷰 */
+      proTotalRating: '',
+      rate1: '',
+      rate2: '',
+      rate3: '',
+      rate4: '',
+      //조회한 reivew
+      reviews: [],
+      page: 1,
+      pageCount: 1,
+      /* QNA */
       //조회한 qna
       qnas: [],
-
-      //qna 등록
       //qna 카테고리
       qCate: ['상품문의', '배송문의', '기타문의'],
       //선택 카테고리
       selectQcate: '',
       //질문 내용
-      qContent: ''
+      qContent: '',
+      qPage: 1,
+      qPageCount: 1
     }),
     created() {
-      //단건조회
+      //리뷰 불러오기
+      this.getReviewList();
+
+      //별점 계산
+      // var tSum = 0;
+      // var r1Sum = 0;
+      // var r2Sum = 0;
+      // var r3Sum = 0;
+      // var r4Sum = 0;
+      // for (var i in this.reviews) {
+      //   tSum += Number(this.reviews[i].totalRating)
+      //   r1Sum += Number(this.reviews[i].rate1)
+      //   r2Sum += Number(this.reviews[i].rate2)
+      //   r3Sum += Number(this.reviews[i].rate3)
+      //   r4Sum += Number(this.reviews[i].rate4)
+      // }
+      // this.proTotalRating = Math.round(tSum / this.reviews.length * 10) / 10
+      // this.rate1 = Math.round(r1Sum / this.reviews.length) * 10
+      // this.rate2 = Math.round(r2Sum / this.reviews.length) * 10
+      // this.rate3 = Math.round(r3Sum / this.reviews.length) * 10
+      // this.rate4 = Math.round(r4Sum / this.reviews.length) * 10
+      
+      //QNA 불러오기
+      this.getQnaList();
+    },
+    methods: {
+      //전체조회(리뷰)
+      getReviewList() {
+        axios({
+          url: "/common/showProReview",
+          method: "GET",
+          params: {
+            serviceType: 2,
+            serviceId: this.pno,
+            pageNum: this.page
+          }
+        }).then(res => {
+          this.reviews = res.data.list;
+          this.pageCount = res.data.pages;
+        }).catch(error => {
+          console.log(error);
+        })
+      
+      },
+      //전체조회(Qna)
+      getQnaList() {
       axios({
         url: "/shop/getQnaList",
         method: "GET",
         params: {
-          pno: this.pno
+          proNo: this.pno,
+          pageNum: this.qPage
         }
       }).then(res => {
         console.log(res);
-        this.qnas = res.data;
-        console.log(this.qnas);
+        this.qnas = res.data.list;
+        this.qPageCount = res.data.pages;
       }).catch(error => {
         console.log(error);
       })
-    },
-    methods: {
+      },
       insertQna() {
         if (this.$store.state.loginInfo != null) {
           axios({
@@ -294,27 +325,23 @@
           })
         }
       },
-      closeQna(){
+      closeQna() {
         this.dialog = false;
         this.resetQna();
       },
-      resetQna(){
+      resetQna() {
         this.qContent = '',
-        this.selectQcate = ''
+          this.selectQcate = ''
       }
     },
-    // computed: {
-    //   aStatus() {
-    //     var status = '';
-    //     if(this.qnas.questionStatus == 0) {
-    //       status = '답변대기'
-    //       return status
-    //     }else {
-    //       status = '답변완료'
-    //       return status
-    //     }
-    //   }
-    // }
+    watch: {
+      page() {
+        this.getReviewList();
+      },
+      qPage() {
+        this.getQnaList();
+      }
+    }
   }
 </script>
 

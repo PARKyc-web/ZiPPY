@@ -20,13 +20,13 @@
             <v-row>
               <v-col cols="12">
                 <v-select :items="['판매중', '거래 완료']" label="거래 상태" required
-                  :value="houseDetail[0].productState==1 ? '판매중' : '거래 완료'" ref="productState"></v-select>
+                  v-model="state" ref="productState"></v-select>
               </v-col>
               <v-col cols="12" sm="6">
                 <v-file-input label='대표 이미지' v-model="houseDetail[0].mainImg" ref="mainImg"></v-file-input>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-file-input label='상세 이미지'></v-file-input>
+                <v-file-input label='상세 이미지' multiple small-chips truncate-length="15"></v-file-input>
               </v-col>
               <v-col cols="12">
                 <v-text-field label="건물명" required v-model="houseDetail[0].houseName" ref="houseName"></v-text-field>
@@ -69,7 +69,7 @@
               </v-col>
               <v-col cols="12" sm="6" md="4">
                 <v-select :items="['가능', '불가능']" label="주차 여부" required
-                  :value="houseDetail[0].parking==1 ? '가능' : '불가능'" ref="parking"></v-select>
+                  v-model="parking" ref="parking"></v-select>
               </v-col>
               <v-col cols="12" sm="6" md="4">
                 <v-text-field label="방 수" :value="houseDetail[0].roomCnt" ref="roomCnt"></v-text-field>
@@ -103,12 +103,16 @@
 
 <script>
   import axios from 'axios';
+  import Swal from 'sweetalert2';
 
   export default {
     data: () => ({
       dialog: false,
       houseDetail: [],
       tags: [],
+      parking: '',
+      ////
+      state: ''
     }),
     props: {
       productId: Number
@@ -123,8 +127,9 @@
         }).then(response => {
           // 성공했을 때
           console.log('houseDetail success!');
-          console.log(response.data);
           this.houseDetail = response.data;
+          this.state = this.houseDetail[0].productState==1 ? '판매중' : '거래 완료';
+          this.parking = this.houseDetail[0].parking==1 ? '가능' : '불가능';
           let temp = this.houseDetail[0].tags.split('/');
           for (let i = 0; i < temp.length; i++) {
             this.tags.push(temp[i]);
@@ -139,13 +144,14 @@
     methods: {
       updateProperty() {
         let result = 0;
-
+        console.log(this.$refs.mainImg.value.name);
+        
         axios({
             url: "http://localhost:8090/zippy/property/updateHouseProduct",
             methods: "PUT",
             params: {
-              productState: this.$refs.productState.value == '판매중' ? 1 : 0,
-              mainImg: this.$refs.mainImg.value,
+              productState: this.state == '판매중' ? 1 : 0,
+              mainImg: this.$refs.mainImg.value.name,
               houseName: this.$refs.houseName.value,
               saleType: this.$refs.saleType.value,
               price: this.$refs.price.value,
@@ -161,7 +167,14 @@
             // 성공했을 때
             console.log('updateHouseProduct success!');
             result++;
-            if (result == 2) alert('수정이 완료되었습니다.');
+            if (result == 2) {
+              Swal.fire({
+                icon: 'success',
+                title: '수정되었습니다.',
+                showConfirmButton: false,
+                timer: 1500
+              })
+            }
           })
           .catch(error => {
             // 에러가 났을 때
@@ -181,7 +194,7 @@
             params: {
               streetAddress: this.$refs.streetAddress.value,
               houseFace: this.$refs.houseFace.value,
-              parking: this.$refs.parking.value == '가능' ? 1 : 0,
+              parking: this.parking == '가능' ? 1 : 0,//this.$refs.parking.value == '가능' ? 1 : 0,
               bathCnt: this.$refs.bathCnt.value,
               constructionYear: this.$refs.constructionYear.value,
               tags: tags,
@@ -191,7 +204,14 @@
             // 성공했을 때
             console.log('updateHouseDetail success!');
             result++;
-            if (result == 2) alert('수정이 완료되었습니다.');
+            if (result == 2) {
+              Swal.fire({
+                icon: 'success',
+                title: '수정되었습니다.',
+                showConfirmButton: false,
+                timer: 1500
+              })
+            }
           })
           .catch(error => {
             // 에러가 났을 때

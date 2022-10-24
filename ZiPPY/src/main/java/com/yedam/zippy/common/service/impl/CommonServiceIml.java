@@ -53,9 +53,14 @@ public class CommonServiceIml implements CommonService {
     return mapper.addReport(vo);
   }
 
+//  @Override
+//  public List<ReviewBoardVO> showProReview(int serviceType, int serviceId) {
+//    return mapper.showProReview(serviceType, serviceId);
+//  }
+  
   @Override
-  public BookmarkVO getRvOne(int serviceType, int serviceId, String email) {
-    return mapper.getRvOne(serviceType, serviceId, email);
+  public Page<ReviewBoardVO> showProReview(int serviceType, int serviceId) {
+    return mapper.showProReview(serviceType, serviceId);
   }
   
   @Override

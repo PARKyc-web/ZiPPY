@@ -1,37 +1,46 @@
 <template>
     <div class="container" v-cloak>
-        <div>
+        <div v-if="chatRooms.length != 0">
             <b-card no-body>
                 <b-tabs card vertical>
                     <!-- pills -->
-                    <b-tab :title="item.user2Name" v-for="item in chatRooms" @click="connect(item.chatRoomNo)">
-                        <chatDetail :roomId="item.chatRoomNo" :item="item" :value="msg"></chatDetail>
+                    <b-tab :title="(item.user1 == $store.state.loginInfo.email) ? item.user2Name : item.user1Name" 
+                            v-for="(item, i) in chatRooms" @click="connect(i)">                            
+                        <chatDetail :roomId="item.chatRoomNo" :item="item" :value="msg" @input="msg = recvMessage()"></chatDetail>
                     </b-tab>
                 </b-tabs>
             </b-card>
-        </div>
+        </div> 
     </div>
 </template>
 
 <script>
-    import chatDetail from '@/components/chat/chatDetail.vue'
+import Stomp from 'webstomp-client'
+import SockJS from 'sockjs-client'
+import chatDetail from '@/components/chat/chatDetail.vue'
 
     export default {
         data() {
-            return {
+            return {                
                 msg : "",
-                chatRooms: [],
+                chatRooms: [],       
+                sub_id : []         
             }
-
         },
 
         created() {
+            var out = this;
             this.findAllRoom();
-            this.$ws.connect({}, function (frame) {
+            this.$sock = new SockJS("http://localhost:8090/zippy/ws/chat");
+            this.$ws = Stomp.over(this.$sock);
+            this.$ws.connect({}, function (frame) {                
+                out.$ws.subscribe("FAKE1234", function(message) {                    
+                    console.log("FAKE SUB");
+                })
                 console.log("connnnnnect");
             }, function (error) {
                 console.log(error);
-            });
+            });            
         },
 
         components: {
@@ -52,28 +61,32 @@
                     console.log(error);
                 })
             },
-            enterRoom: function (roomId) {
-                var sender = this.$store.getters.getName;
-                this.$router.push({
-                    name: "chatDetail",
-                    query: {
-                        sender: sender,
-                        roomId: roomId
-                    }
-                })
+            recvMessage: function (recv) {
+                return this.msg = {
+                "type": recv.type,        
+                "roomId" : recv.roomId,        
+                "sender": recv.type == 'ENTER' ? '[알림]' : recv.sender,
+                "message": recv.message,
+                "time": recv.time
+                }                
             },
+            connect: function (i) {
+                var outside = this;            
+                var no = this.chatRooms[i].chatRoomNo;
+                this.$ws.unsubscribe(this.sub_id[i]);
 
-            connect: function (no) {
-                var outside = this;
-                outside.$ws.subscribe("/topic/chat/room/" + no, function (message) {
-                    // console.log("구독 성공!");
-                    // var recv = JSON.parse(message.body);
-                    // console.log(recv);
-                    // outside.recvMessage(recv);
+                this.$ws.subscribe("/topic/chat/room/" + no, function(message) {      
+                    console.log("asdfasdfsadfsadf :: ", message.headers.subscription);
+                    outside.sub_id[i] = message.headers.subscription;
+                    console.log(outside.sub_id[i]);
+                    var recv = JSON.parse(message.body);
+                    console.log(recv);
+                    outside.recvMessage(recv);
                 });
-                outside.$ws.send("/app/chat/message", JSON.stringify({
+                
+                this.$ws.send("/app/chat/message", JSON.stringify({
                     type: 'ENTER',
-                    roomId: outside.roomId,
+                    roomId: no,
                     sender: outside.sender,
                     time: outside.getTime()
                 }));

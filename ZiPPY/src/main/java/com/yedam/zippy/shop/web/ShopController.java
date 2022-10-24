@@ -2,6 +2,7 @@ package com.yedam.zippy.shop.web;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,8 +15,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.member.service.GeneralUserVO;
 import com.yedam.zippy.shop.service.CartVO;
 import com.yedam.zippy.shop.service.OrderVO;
@@ -41,13 +46,17 @@ public class ShopController {
   }
   // 전체조회(카테고리)
   @RequestMapping("/category")
-  public List<ProductVO> categoryList(@RequestParam("cate") String category) {
-    return service.getCategoryList(category);
+  public PageInfo<ProductVO> categoryList(int pageNum, @RequestParam("cate") String category) {
+    String order = "";
+    PageHelper.startPage(pageNum, 20, order);
+    return PageInfo.of(service.getCategoryList(category));
   }
   // 전체조회(키워드)
   @RequestMapping("/keyword")
-  public List<ProductVO> keywordList(@RequestParam("keyw") String keyword) {
-    return service.getKeywordList(keyword);
+  public PageInfo<ProductVO> keywordList(int pageNum, @RequestParam("keyw") String keyword) {
+    String order = "";
+    PageHelper.startPage(pageNum, 20, order);
+    return PageInfo.of(service.getKeywordList(keyword));
   }
   // 단건조회(디테일)
   @RequestMapping("/detail")
@@ -125,7 +134,11 @@ public class ShopController {
   public OrderVO getOneOrder(String payCode) {
     return service.getOneOrder(payCode);
   }
-
+  // 상품상태 업데이트
+  @PostMapping("/updateRvStatus")
+  public int updateRvStatus(@RequestBody PurchaseVO purchaseVO) {
+   return service.updateRvStatus(purchaseVO);
+  }
   
   // QNA CRUD
   //등록(qna)
@@ -136,11 +149,21 @@ public class ShopController {
   //조회(qna)
   //@ResponseBody
   @GetMapping("/getQnaList")
-  public List<QnaVO> getQnaList(@RequestParam("pno") int proNo){
-    return service.getQnaList(proNo);
+  public PageInfo<QnaVO> getQnaList(int pageNum, int proNo){
+    String order = "";
+    PageHelper.startPage(pageNum, 5, order);
+    return PageInfo.of(service.getQnaList(proNo));
   }
   
   
+  //마이페이지
+  @GetMapping("/getMyWishList")
+  public PageInfo<Map<ProductVO, BookmarkVO>> getMyWishList(int pageNum, String email) {
+    String order = "";
+    PageHelper.startPage(pageNum, 10, order);
+    return PageInfo.of(service.getMyWishList(email));
+  }
+    
   // ***
   // 판매자 CRUD
   // 상품등록

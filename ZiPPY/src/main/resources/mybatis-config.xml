@@ -16,6 +16,7 @@
 		<package name="com.yedam.zippy.common.service"/>
 		<package name="com.yedam.zippy.move.service"/>
 		<package name="com.yedam.zippy.chat.service"/>
+		<package name="com.yedam.zippy.admin.service"/>
 	</typeAliases>
 
 	<typeHandlers>

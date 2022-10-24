@@ -31,12 +31,17 @@ public interface CommonMapper {
   // 후기 불러오기
   public List<BookmarkVO> showReview(ReviewBoardVO rv);
 
-  // 후기 확인
-  public BookmarkVO getRvOne(@Param("serviceType") int serviceType, @Param("serviceId") int serviceId, @Param("email") String email);
-  
   // 신고하기
   public int addReport(ReportVO vo);
   
+
   // 신고내역보기
   public List<ReportVO> showReportList();
+
+  //상품 후기 불러오기
+  //public List<ReviewBoardVO> showProReview(@Param("serviceType") int serviceType, @Param("serviceId") int serviceId);
+  
+  //상품 후기 불러오기
+  public Page<ReviewBoardVO> showProReview(@Param("serviceType") int serviceType, @Param("serviceId") int serviceId);
+
 }

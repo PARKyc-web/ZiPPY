@@ -6,7 +6,7 @@
     <h2>이사 견적을 위해 입력한 정보를 확인해주세요.</h2>
 
     <input type="hidden" name="commonOption" v-model="commonOption">
-    <input type="hidden" name="email" v-model="emailSend">
+    <input type="hidden" name="email" v-model="email">
     <input type="hidden" name="movingMemo" v-model="movingMemoSend">
     
     <input type="hidden" name="departAddress" v-model="moveAddress.address">
@@ -582,7 +582,7 @@ export default {
 
     data: () => ({
       commonOption: "",
-      emailSend : "zippy@naver.com",
+      email : "",
       movingMemoSend: "MemoMemo",
       requestDateSend: new Date().toLocaleDateString(),
 
@@ -644,13 +644,14 @@ export default {
 
        
         contactForm.commonOption.value= moveInfoJson;
+        contactForm.email.value = this.$store.state.loginInfo.email;
         
         // contactForm.movingOption.value= "["+ JSON.stringify(this.moveInfo) +"]";
         //form으로 데이터보내기
         var formData = new FormData(document.querySelector('#contactForm')); 
         
         console.log(this.commonOption);
-       
+        console.log('email : ',this.email);
 
         this.$axios({
           url: "http://localhost:8090/zippy/move/moveContactCheck",
@@ -680,7 +681,8 @@ export default {
             moveDate: this.moveDate, 
             moveAddress: this.moveAddress,
             moveVisit : this.moveVisit,
-            requestDate : this.requestDateSend
+            requestDate : this.requestDateSend,
+            email: this.$store.state.loginInfo.email
             
           }
           })

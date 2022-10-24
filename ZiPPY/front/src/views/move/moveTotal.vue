@@ -382,7 +382,7 @@
 </template>
 
 <script>
-
+import swal from 'sweetalert2';
 import MoveNavBar from '../../components/move/MoveNavBar.vue';
 
 export default {
@@ -392,7 +392,7 @@ export default {
   
 
     data: () => ({
-
+      email: "",
     //moveDate
     arrayEvents: null,
     date1: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
@@ -495,6 +495,8 @@ export default {
       moveSelectNext(){
         console.log(this.moveType);
 
+        if (this.$store.state.loginInfo != null) {
+
         if(this.moveType == ""){
           alert("이사유형을 선택해주세요."); 
         }
@@ -507,7 +509,17 @@ export default {
         moveDateNext.style.display = "inline-block";
         window.scrollTo(0,0);
         };
-      },
+      }
+     else {
+          swal.fire({
+            icon: 'warning',
+            title: '로그인 정보가 필요합니다.',
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
+      }
+      ,
 
       //moveDate
       onContext(ctx) {

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.zippy.admin.mapper.AdminMapper">
+	
+	
+	<select id="getAllGeneralUser" resultType="GeneralUserVO">
+		SELECT *
+		FROM general_user
+	</select>
+	
+	<select id="getAllBusinessUser" resultType="BusinessVO">
+		SELECT *
+		FROM business
+	</select>
+	
+</mapper>

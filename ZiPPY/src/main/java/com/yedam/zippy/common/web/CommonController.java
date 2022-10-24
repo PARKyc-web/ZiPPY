@@ -45,12 +45,14 @@ public class CommonController {
 //  private final String usedPath = "";
 //  private final String movePath = "";  
 //  private final String shopPath = "";  
+//  private final String chatPath = "";
     
 
   // 찜 추가
   @PostMapping("/addWish")
   public int addWish(@RequestBody BookmarkVO bookmark) {
     System.out.println(bookmark);
+    System.out.println(service.addWish(bookmark));
     return service.addWish(bookmark);
   }
 
@@ -94,13 +96,12 @@ public class CommonController {
   public List<ReviewBoardVO> showReview(@RequestBody ReviewBoardVO rv) {
     return service.showReview(rv);
   } 
-  
+
   @GetMapping("/RvOne")
   public BookmarkVO getRvOne(@RequestParam int serviceType, @RequestParam int serviceId, @RequestParam String email) {
     return service.getRvOne(serviceType, serviceId, email);
-  }
-  
-  
+  }  
+
  
   @GetMapping("img/{type}/{image}")
   public void getImage(HttpServletResponse response, @PathVariable String type, @PathVariable String image) throws Exception {
@@ -134,9 +135,23 @@ public class CommonController {
     return service.addReport(vo);
   }
   
+
   @GetMapping("/showReportAll")
   public List<ReportVO> showReportAll(){
     return service.showReportList();
   }
+
+//  @GetMapping("/showProReview")
+//  public List<ReviewBoardVO> showProReview(int serviceType, int serviceId){
+//    return service.showProReview(serviceType, serviceId);
+//  }
+  
+  @GetMapping("/showProReview")
+  public PageInfo<ReviewBoardVO> showProReview(int pageNum, int serviceType, int serviceId){
+    String order = "";
+    PageHelper.startPage(pageNum, 5, order);
+    return PageInfo.of(service.showProReview(serviceType, serviceId));
+  }
+
 
 }

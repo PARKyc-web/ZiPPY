@@ -23,15 +23,21 @@ public interface CommonService {
   // 후기 등록
   public int addReview( ReviewBoardVO rv);
   
-  // 후기 확인
-  public BookmarkVO getRvOne(int serviceType, int serviceId, String email);
-
   // 신고하기
   public int addReport(ReportVO vo);
  
   // 후기 불러오기
   public List<ReviewBoardVO> showReview(ReviewBoardVO rv);
 
+
   //신고내역보기
   public List<ReportVO> showReportList();
+
+  
+  // 상품 후기 불러오기
+  // public List<ReviewBoardVO> showProReview(int serviceType, int serviceId);
+  //상품 후기 불러오기
+ public Page<ReviewBoardVO> showProReview(int serviceType, int serviceId);
+
+
 }

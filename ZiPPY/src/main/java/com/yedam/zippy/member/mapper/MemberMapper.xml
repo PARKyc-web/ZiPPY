@@ -79,4 +79,27 @@
 		AND phone = #{phoneNumber}
 	</select>
 	
+	<update id="updateUserInfo">
+		UPDATE general_user
+		SET user_name = #{userName}, 
+			nick_name = #{nickName},
+			user_birth=TO_DATE(#{userBirth},'yyyy-MM-dd'),
+			user_gender= #{userGender},
+			user_address= #{userAddress},
+			zip_code = #{zipCode},
+			address_detail = #{addressDetail}			
+		WHERE email = #{email}
+	</update>
+	
+	<update id="updateBusinessInfo">
+		UPDATE business
+		SET comp_intro = #{compIntro},
+			ceo_name = #{ceoName},
+			comp_address = #{compAddress},
+			phone = #{phone},
+			zip_code = #{zipCode},
+			address_detail = #{addressDetail}
+		WHERE email = #{email}
+	</update>
+	
 </mapper>
