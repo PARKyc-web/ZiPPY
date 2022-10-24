@@ -21,14 +21,15 @@
                     <v-row align="center" class="mx-0">
                       <div>매물번호 {{item.productId}}</div>
                     </v-row>
-                    <v-card-title style="font-weight: bold;">{{item.houseName}}<br>{{item.saleType}} {{item.price}}
+                    <v-card-title style="font-weight: bold;">{{item.saleType}} {{item.price}}
                     </v-card-title>
                     <table style="font-size: medium; margin-left: 20px;">
                       <tr>
-                        {{item.sigungu}}
+                        {{item.houseType}} · {{item.houseName}}
                       </tr>
+                      <tr>{{item.sigungu}}</tr>
                       <tr>
-                        {{item.areaExclusive}}m² · {{item.floor}}층
+                        <v-icon>mdi-border-outside</v-icon>{{item.areaExclusive}}m² · <v-icon>mdi-stairs</v-icon>{{item.floor}}층
                       </tr>
                       <tr>
                         {{item.detailContents}}

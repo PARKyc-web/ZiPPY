@@ -24,7 +24,7 @@
               </button>
             </div>
             <div id="wish-card-ckbox">
-              <div>
+              <div style="float: right">
                 <v-checkbox id="ck" v-model="ckList" color="#b3e3c3" :value="item.bookmarkNo" @click.stop="test()">
                 </v-checkbox>
               </div>
@@ -123,7 +123,6 @@
       selectAll: function () {
         console.log(this.ckList)
         let isCheck = document.querySelector('#ckAll').checked;
-        // console.log(isCheck)
         if (isCheck == false) {
           for (let i of this.properties) {
             this.ckList.push(i.bookmarkNo);
@@ -143,12 +142,12 @@
         }).then(res => {
           console.log(res);
           let arr = [];
-          for (let i of this.data) {
+          for (let i of this.properties) {
             if (this.ckList.indexOf(i.bookmarkNo) < 0) {
               arr.push(i);
             }
           }
-          this.data = arr;
+          this.properties = arr;
           this.ckList = [];
         }).catch(err => {
           console.log(err)
