@@ -67,11 +67,9 @@
                         width="21" height="13" alt="상품 상태 아이콘" />
                       <div class="used-wish-view-count">{{product.views}}</div>
                     </div>
-                    <button id="used-detail-report">
-                      <img
-                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAbBJREFUeNrsls9LAkEcxb+au+JSGIEQyGbBdg881CmConsE9Qd07S/p0qG69RcUdOzSoUt0UujS3c0kEQULU7R17c2wyhazNbvaesgHH9xZh3kzb35tpNfrUV/5fJ7+Stls9ks5FqCNKTDv/L6AjyAdiUrWi4AdcAXewDMwwTu4AQdAHbXxCrh3TJm55vpPAVvgHDyC7VEZM6M7sCbRlgGuwaGM8U9zvAkunbn0M/8nzvNpkBHr4MKnqVvHYDWI8RGY84wpFiNFUX5L8sxZlNJRL4E9UeVkMknpdJoSiQQvt9ttKpfLVK1WhVsXbIBb2RHvi96nUikyDGNgyhSPxymTyZCu614D2/UT9bqooqZpnrm6OyNYoNLGy6KKxWKRR/td3W6XCoWCV/sLfoyFJ5Bt29zAfbb3O9TpdLzaZzFND3NkcjUaDapUKoNyvV6nWq0ms7eHM2YqlUrUarXIsiwyTTPwbeX7dmJRs8hVVeXmoRkzNZtNzjCK0pg0MQ5NosX1BKwRetjCb6lcLje2ES+GHDk72G1m/MCu2hCNZ8HrZDv9j33MVtlMiJ58X38KMADfFnDPWur9bAAAAABJRU5ErkJggg=="
-                        width="15" height="15" alt="신고 아이콘" />신고하기
-                    </button>
+                    <div id="used-detail-report">
+                      <used-report :productNo="this.product.productNo"></used-report>
+                    </div>
                   </div>
                   <div class="used-issell-location">
                     <ul>
@@ -121,7 +119,7 @@
         <h3 id="used-detail-info">상품정보</h3>
         <hr />
       </div>
-      <div>
+      <div id="used-product-info">
         {{product.productInfo}}
       </div>
     </div>
@@ -132,10 +130,12 @@
   import axios from 'axios';
   import navBar from '../../components/used/navBar.vue';
   import swal from 'sweetalert2';
+  import usedReport from '../../components/used/usedReport.vue';
 
   export default {
     components: {
-      navBar
+      navBar,
+      usedReport
     },
     data: () => ({
       imgs: [{
@@ -384,13 +384,16 @@
           console.log(temp);
         }
       },
-      report(){
+      report() {
+        this.report.email = this.$store.state.loginInfo.email;
+        this.report.serviceId = this.$route.query.pNo;
         axios({
           url: "http://localhost:8090/zippy/common/addReport",
           method: "POST",
-          data: {
-            bNo: bNo
-          }
+          headers: {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          data: JSON.stringify(this.report)
         }).then(res => {
           console.log(res);
         }).catch(err => {
@@ -405,6 +408,10 @@
   #container {
     width: 1200px;
     margin: 0 auto;
+  }
+
+  #used-product-info {
+    margin-bottom: 50px;
   }
 
   .used-up-del-btn {

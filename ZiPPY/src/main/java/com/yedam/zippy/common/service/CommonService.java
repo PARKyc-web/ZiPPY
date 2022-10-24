@@ -15,7 +15,7 @@ public interface CommonService {
   public BookmarkVO getWishOne(int sId, String email, int serviceType);
 
   // 찜 전체 출력
-  public List<BookmarkVO> getWishAll(String email, int serviceType);
+  public Page<BookmarkVO> getWishAll(String email, int serviceType);
 
   // 찜 삭제
   public int delWish(int bNo);
@@ -28,10 +28,16 @@ public interface CommonService {
  
   // 후기 불러오기
   public List<ReviewBoardVO> showReview(ReviewBoardVO rv);
+
+
+  //신고내역보기
+  public List<ReportVO> showReportList();
+
   
   // 상품 후기 불러오기
   // public List<ReviewBoardVO> showProReview(int serviceType, int serviceId);
   //상품 후기 불러오기
  public Page<ReviewBoardVO> showProReview(int serviceType, int serviceId);
+
 
 }

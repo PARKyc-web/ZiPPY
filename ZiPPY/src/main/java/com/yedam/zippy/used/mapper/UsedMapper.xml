@@ -9,11 +9,11 @@
 		       g.PROFILE_IMAGE
 		  FROM used_product p, general_user g
 		 WHERE g.email = p.email
-		<if test="keyword != null and keyword != ''">
+		<if test='keyword != null and keyword != ""'>
 		   AND p.product_name LIKE '%'||#{keyword}||'%'
 		</if>
 		   AND p.product_location = #{location}
-		<if test="category != ''">
+		<if test='category != ""'>
 		   AND	p.product_category LIKE '%'||#{category}||'%'
 		</if>
 		<if test="checked == 1">
@@ -123,7 +123,7 @@
 	</delete>
 
 	<!-- 사진 수정 -->
-	<update id="updateImg" parameterType="usedImagesVO">
+	<insert id="updateImg" parameterType="usedImagesVO">
 		<selectKey keyProperty="imageNo" order="BEFORE"
 			resultType="int">
 			SELECT NVL(MAX(image_no),0) +1 AS imageNo
@@ -141,7 +141,7 @@
 		,#{productNo}
 		,#{image}
 		)
-	</update>
+	</insert>
 
 	<!-- 삭제 -->
 	<delete id="deleteUsed" parameterType="int">
@@ -211,5 +211,12 @@
 		FROM used_images
 		WHERE product_no = #{pNo}
 	</select>
+	
+	<update id="dealRecord" parameterType="UsedProductVO">
+		UPDATE used_product
+		SET 
+		deal_record = #{dealRecord}
+		WHERE product_no = #{productNo}
+	</update>
 
 </mapper>

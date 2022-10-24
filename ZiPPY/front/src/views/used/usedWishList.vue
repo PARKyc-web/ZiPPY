@@ -1,6 +1,5 @@
 <template>
   <div>
-    <nav-bar @click="search($event)"></nav-bar>
     <div id="container">
       <div>
         <div class="used-main-title">
@@ -51,6 +50,9 @@
             </div>
           </div>
         </div>
+        <div class="text-center">
+          <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3"></v-pagination>
+        </div>
       </div>
     </div>
   </div>
@@ -67,19 +69,28 @@
     data: () => ({
       data: [],
       ckList: [],
-      uncheck: ""
+      uncheck: "",
+      page: 1,
+      pageCount: 1
     }),
+    watch: {
+      page(){
+        this.pagenation();
+      }
+    },
     created() {
       axios({
         url: "/common/wishAll",
         method: "GET",
         params: {
           email: this.$store.state.loginInfo.email,
-          serviceType: 1
+          serviceType: 1,
+          pageNum: this.page
         }
       }).then(res => {
         console.log(res);
-        this.data = res.data;
+        this.data = res.data.list;
+        this.pageCount = res.data.pages;
       }).catch(err => {
         console.log(err)
       })
@@ -90,12 +101,29 @@
       }
     },
     methods: {
+      pagenation() {
+        axios({
+          url: "/common/wishAll",
+          method: "GET",
+          params: {
+            email: this.$store.state.loginInfo.email,
+            serviceType: 1,
+            pageNum: this.page
+          }
+        }).then(res => {
+          console.log(res);
+          this.data = res.data.list;
+          this.pageCount = res.data.pages;
+        }).catch(err => {
+          console.log(err)
+        })
+      },
       test: function () {
         var ck = document.querySelector("#ck").checked;
         console.log(ck);
         // console.log(this.data.length)
         if (ck == true) {
-          this.uncheck = false;
+          this.uncheck = false; 
         }
       },
       goDetail(no) {

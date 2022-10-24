@@ -156,6 +156,16 @@ const routes = [
         name : "mypage-insert-product",
         component : usedInsert
       },
+      {
+        path : "used/keyword",
+        name : "mypage-keyword",
+        component : usedKeyword
+      },
+      {
+        path : "used/wish",
+        name : "mypage-wishList",
+        component : usedwishList
+      },
     ]
   },
 

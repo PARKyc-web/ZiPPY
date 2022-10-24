@@ -88,6 +88,16 @@
                         title: '상품등록',
                         icon: 'fa-solid fa-square-plus',
                     },
+                    {
+                        href: '/mypage/used/keyword',
+                        title: '키워드',
+                        icon: 'fa-solid fa-bookmark',
+                    },
+                    {
+                        href: '/mypage/used/wish',
+                        title: '찜 목록',
+                        icon: 'fa-solid fa-heart',
+                    },
 
 
                     // 이사관련 정보

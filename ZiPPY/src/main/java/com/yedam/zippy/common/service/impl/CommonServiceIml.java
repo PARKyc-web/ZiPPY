@@ -10,7 +10,6 @@ import com.yedam.zippy.common.mapper.CommonMapper;
 import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.common.service.CommonService;
 import com.yedam.zippy.common.service.ReportVO;
-
 import com.yedam.zippy.common.service.ReviewBoardVO;
 
 @Service
@@ -35,7 +34,7 @@ public class CommonServiceIml implements CommonService {
   }
 
   @Override
-  public List<BookmarkVO> getWishAll(String email, int serviceType) {
+  public Page<BookmarkVO> getWishAll(String email, int serviceType) {
     return mapper.getWishAll(email,serviceType);
   }
 
@@ -62,6 +61,11 @@ public class CommonServiceIml implements CommonService {
   @Override
   public Page<ReviewBoardVO> showProReview(int serviceType, int serviceId) {
     return mapper.showProReview(serviceType, serviceId);
+  }
+  
+  @Override
+  public List<ReportVO> showReportList() {
+    return mapper.showReportList();
   }
 
 }
