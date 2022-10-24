@@ -2,7 +2,10 @@ package com.yedam.zippy.common.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.Page;
 
@@ -38,6 +41,8 @@ public interface CommonService {
   // public List<ReviewBoardVO> showProReview(int serviceType, int serviceId);
   //상품 후기 불러오기
  public Page<ReviewBoardVO> showProReview(int serviceType, int serviceId);
-
-
+ 
+ 
+ public String saveImage(MultipartFile image, String type);
+ public void getImage(HttpServletResponse response, String imageName, String type) throws Exception;
 }

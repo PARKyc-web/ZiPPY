@@ -245,7 +245,8 @@
 }
 
 .v-sidebar-menu .vsm--link {
-  color: #fff
+  color: black;
+  /* color: #fff */
 }
 
 /* 파란색 바 */

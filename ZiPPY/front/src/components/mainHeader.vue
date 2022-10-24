@@ -9,7 +9,7 @@
         </router-link>
 
         <!-- 판매자로 로그인할 시 메인버튼을 누르면 판매자 페이지로 돌아갈 수 있도록 한다.-->
-        <router-link to="/mypage" class="navbar-brand" v-if="$store.state.memberType != 0 && $store.state.memberType != null">
+        <router-link to="/seller" class="navbar-brand" v-if="$store.state.memberType != 0 && $store.state.memberType != null">
           <img alt="ZiPPY_logo" src="@/assets/zippy_logo.png" style="height:36px;" />
         </router-link>
 
@@ -44,15 +44,15 @@
         <router-link to="/chat" class="nav-link"><img id="Icon" src="@/assets/chat.png"></router-link>
       </button>
 
-      <div v-if="this.$store.state.loginInfo != null">
+      <div v-if="$store.state.memberType == 0 && this.$store.state.loginInfo != null">
         <router-link to="/mypage" class="nav-link">          
           <img id="Icon" src="@/assets/user.png">
         </router-link>
       </div>
 
-      <div v-if="this.$store.state.loginInfo != null">
-        <router-link to="/mypage" class="nav-link">
-          <img id="Icon" src="@/assets/box.jpg">           
+      <div v-if="$store.state.memberType != 0 && this.$store.state.loginInfo != null">
+        <router-link to="/seller" class="nav-link">          
+          <img id="Icon" src="@/assets/user.png">
         </router-link>
       </div>
 

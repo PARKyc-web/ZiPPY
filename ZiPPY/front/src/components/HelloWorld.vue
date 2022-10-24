@@ -1,8 +1,8 @@
 <template>
   <div>
     <h1>ZiPPY에 오신걸 환영합니다!</h1>
-    <!-- <img :src="file">    
-    <a href="http://localhost:8090/zippy/common/img/member/image1.jpg">아니 이것 안서줬네</a> -->
+    <img :src="file">    
+    <!-- <a href="http://localhost:8090/zippy/common/img/member/image1.jpg">아니 이것 안서줬네</a> -->
   </div>
 </template>
 
@@ -11,7 +11,7 @@
     name: "HelloWorld",
     data: function () {
       return {
-        file : "http://localhost:8090/zippy/common/img/member/image1.jpg",
+        file : "http://localhost:8090/zippy/common/img/member/test.jpg",
         return: {},
       };
     },
