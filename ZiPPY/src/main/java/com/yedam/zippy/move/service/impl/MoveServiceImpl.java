@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.move.mapper.MoveMapper;
 import com.yedam.zippy.move.service.MoveCompanyEstimateVO;
 import com.yedam.zippy.move.service.MoveEstimateVO;
@@ -181,6 +182,36 @@ public class MoveServiceImpl implements MoveService{
     return mapper.moveStatusSecondUpdate(vo);
   }
   
+  //3 : 예약요청
+  @Override
+  public int moveStatusThirdUpdate(MoveResponseVO vo) {
+    // TODO Auto-generated method stub
+    return mapper.moveStatusThirdUpdate(vo);
+  }
+  
+  //4 : 예약완료
+  @Override
+  public int moveStatusFourthUpdate(MoveResponseVO vo) {
+    // TODO Auto-generated method stub
+    return mapper.moveStatusFourthUpdate(vo);
+  }
+  
+  //5 : 이사완료
+  @Override
+  public int moveStatusFifthUpdate(MoveResponseVO vo) {
+    // TODO Auto-generated method stub
+    return mapper.moveStatusFifthUpdate(vo);
+  }
+  
+  //9 : 취소
+  @Override
+  public int moveStatusCancleUpdate(MoveResponseVO vo) {
+    // TODO Auto-generated method stub
+    return mapper.moveStatusCancleUpdate(vo);
+  }
+  
+  
+  
   //견전서 조회 - 업체
   @Override
   public List<MoveResponseVO> companyEstimate(MoveCompanyEstimateVO vo) {
@@ -199,4 +230,9 @@ public class MoveServiceImpl implements MoveService{
     return mapper.getCompanyList(vo);
   }
   
+  //해당찜조회
+  @Override
+  public List<BookmarkVO> getWishOneList(int sId, String email, int serviceType) {
+    return mapper.getWishOneList(sId, email, serviceType);
+  }
 }
