@@ -1,66 +1,64 @@
 <template>
   <div>
     <move-nav-bar @click="categoryVal=$event.target.innerText"></move-nav-bar>
-  <div class="company-wrap">
-    <div class="move-main-title">
-      <h3>견적요청 조회</h3>
-    </div>
+    <div class="company-wrap">
+      <div class="move-main-title">
+        <h3>견적요청 조회</h3>
+      </div>
 
-    <div class="form-check">
-      <input @click="checkbox ()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-      <label class="form-check-label" for="flexCheckDefault">
-        찜한 견적보기
-      </label>
-    </div>
-    <hr />
-    <!--  -->
- 
+      <div class="form-check">
+        <input @click="checkbox ()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+        <label class="form-check-label" for="flexCheckDefault">
+          찜한 견적보기
+        </label>
+      </div>
+      <hr />
+      <!--  -->
 
 
-    <div id="used-main-dropbox1">
-      <v-select @change="dropVal2()" v-model="select2" :items="drops" item-text="name" item-value="value2" label="정렬"
-        color="#212529" persistent-hint single-line dense width="50"></v-select>
-    </div>
 
-    <div class="divv" v-for="(item, i) in list" :key="i">
-      <v-card :loading="loading" class="mx-auto my-12" max-width="374" elevation="10" >
-        <template slot="progress">
-          <v-progress-linear color="#B3E3C3" height="10" indeterminate></v-progress-linear>
-        </template>
+      <div id="used-main-dropbox1">
+        <v-select @change="dropVal2()" v-model="select2" :items="drops" item-text="name" item-value="value2" label="정렬"
+          color="#212529" persistent-hint single-line dense width="50"></v-select>
+      </div>
 
-        <!-- <v-img
+      <div class="divv" v-for="(item, i) in list" :key="i">
+        <v-card :loading="loading" class="mx-auto my-12" max-width="374" elevation="10">
+          <template slot="progress">
+            <v-progress-linear color="#B3E3C3" height="10" indeterminate></v-progress-linear>
+          </template>
+
+          <!-- <v-img
       height="250"
       src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
     ></v-img> -->
-        
-    <!-- 카드 -->
-        <v-card-text>
-          
-          
-        
-              <!--heart-->
-                <div>
-                   <button>
-                    <div>
-                      <v-btn v-if="heart==0" class="mx-2" color='#D6D6D6' fab depressed dark small
-                        @click="changeHeart()">
-                        <v-icon dark>
-                          mdi-heart
-                        </v-icon>
-                      </v-btn>
-                      <v-btn v-if="heart==1" class="mx-2" color='#FF4063' fab depressed dark small
-                        @click="changeHeart()">
-                        <v-icon dark>
-                          mdi-heart
-                        </v-icon>
-                      </v-btn>
-                    </div>
-                  </button>
-                </div>
 
-                <div>견적서 번호 : <span>NO.{{item.movingResponseNo}}</span></div>
-                
+          <!-- 카드 -->
+          <v-card-text>
+
+
+
+            <!--heart-->
+            <div>
+              <button :id="i">
                 <div>
+                  <v-btn v-if="heart==0" class="mx-2" color='#D6D6D6' fab depressed dark small @click="changeHeart(i)">
+                    <v-icon dark>
+                      mdi-heart
+                    </v-icon>
+                  </v-btn>
+                  <v-btn v-if="heart==1" class="mx-2" color='#FF4063' fab depressed dark small @click="changeHeart(i)">
+                    <v-icon dark>
+                      mdi-heart
+                    </v-icon>
+                  </v-btn>
+                </div>
+              </button>
+            </div>
+
+            <div>견적서 번호 : <span>NO.{{item.movingResponseNo}}</span></div>
+
+            <div>
               <div id="mus" v-if="item.reservStatus == 0">견적 상태 : <span>견적전</span></div>
               <div id="mus" v-if="item.reservStatus == 1">견적 상태 : <span>1차견적</span></div>
               <div id="mus" v-if="item.reservStatus == 2">견적 상태 : <span>2차견적</span></div>
@@ -68,51 +66,51 @@
               <div id="mus" v-if="item.reservStatus == 4">견적 상태 : <span>예약완료</span></div>
               <div id="mus" v-if="item.reservStatus == 5">견적 상태 : <span>이사완료</span></div>
               <div id="mus" v-if="item.reservStatus == 9">견적 상태 : <span>취소</span></div>
-                </div>
-
-        </v-card-text>       
-
-        <v-card-title>업체명 : <span>{{item.compName}}</span></v-card-title>
-
-        <v-card-text>
-          <v-row text-align="center" class="mx-0">
-            <v-rating :value="item.totalRating" color="amber" dense half-increments readonly size="20"></v-rating>
-
-            <div class="grey--text ms-4">
-              {{item.totalRating}} (413)
             </div>
-          </v-row>
+
+          </v-card-text>
+
+          <v-card-title>업체명 : <span>{{item.compName}}</span></v-card-title>
+
+          <v-card-text>
+            <v-row text-align="center" class="mx-0">
+              <v-rating :value="item.totalRating" color="amber" dense half-increments readonly size="20"></v-rating>
+
+              <div class="grey--text ms-4">
+                {{item.totalRating}} (413)
+              </div>
+            </v-row>
+            <v-divider class="mx-4"></v-divider>
+            <div>
+              연락처 : <span>{{item.phone}}</span>
+            </div>
+            <div>
+              주소 : <span>{{item.compAddress}}</span>
+            </div>
+
+            <div class="my-4 text-subtitle-1">{{item.compIntro}}</div>
+          </v-card-text>
+
           <v-divider class="mx-4"></v-divider>
-          <div>
-            연락처 : <span>{{item.phone}}</span>
+          <v-card-text>
+            <div>견적요청 번호 : <span>NO.
+                {{item.estimateNo}}</span></div>
+          </v-card-text>
+          <v-card-text>
+            <div>견적요청 일자 : <span>{{item.requestDate}}</span></div>
+          </v-card-text>
+          <v-card-text>
+            <div>1차 견적 타입 : <span>{{item.firstEstimateType}}</span></div>
+          </v-card-text>
+          <v-card-title>1차 예상견적 : <span>{{item.firstEstimatePrice}}</span>원</v-card-title>
+          <div v-if="item.secondEstimatePrice != null">
+            <v-card-text>
+              <div>2차 견적 타입 : <span>{{item.secondEstimateType}}</span></div>
+            </v-card-text>
+            <v-card-title>2차 예상견적 : <span>{{item.secondEstimatePrice}}</span>원</v-card-title>
           </div>
-          <div>
-            주소 : <span>{{item.compAddress}}</span>
-          </div>
 
-          <div class="my-4 text-subtitle-1">{{item.compIntro}}</div>
-        </v-card-text>
-
-        <v-divider class="mx-4"></v-divider>
-        <v-card-text>
-          <div>견적요청 번호 : <span>NO.
-          {{item.estimateNo}}</span></div>
-        </v-card-text>
-        <v-card-text>
-          <div>견적요청 일자 : <span>{{item.requestDate}}</span></div>
-        </v-card-text>
-        <v-card-text>
-          <div>1차 견적 타입 : <span>{{item.firstEstimateType}}</span></div>
-        </v-card-text>
-        <v-card-title>1차 예상견적 : <span>{{item.firstEstimatePrice}}</span>원</v-card-title>
-        <div v-if="item.secondEstimatePrice != null">
-        <v-card-text>
-          <div>2차 견적 타입 : <span>{{item.secondEstimateType}}</span></div>
-        </v-card-text>
-        <v-card-title>2차 예상견적 : <span>{{item.secondEstimatePrice}}</span>원</v-card-title>
-        </div>
-
-        <!-- <v-card-text>
+          <!-- <v-card-text>
       <v-chip-group
         v-model="selection"
         active-class="deep-purple accent-4 white--text"
@@ -128,82 +126,82 @@
       </v-chip-group>
     </v-card-text> -->
 
-        <v-card-actions>
-          <v-btn color="#B3E3C3 lighten-2" text @click="reserve(item)">
-            예약요청
-          </v-btn>
+          <v-card-actions>
+            <v-btn color="#B3E3C3 lighten-2" text @click="reserve(item)">
+              예약요청
+            </v-btn>
 
-          <v-btn color="#B3E3C3 lighten-2" text @click="chat">
-            채팅하기
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+            <v-btn color="#B3E3C3 lighten-2" text @click="chat">
+              채팅하기
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </div>
+
+
     </div>
 
-
-</div>
-
-<div class="text-center">
-        <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3"></v-pagination>
-      </div>
+    <div class="text-center">
+      <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3"></v-pagination>
+    </div>
 
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import swal from 'sweetalert2';
-import MoveNavBar from '../../components/move/MoveNavBar.vue';
+  import axios from 'axios';
+  import swal from 'sweetalert2';
+  import MoveNavBar from '../../components/move/MoveNavBar.vue';
 
-export default {
-  components: {
-    MoveNavBar
-  },
+  export default {
+    components: {
+      MoveNavBar
+    },
 
-  
-    
-    data : function(){
-      return{
 
-  icons: {
-    iconfont: 'mdi', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
-  },
 
-      loading: false,
-      selection: 1,
-      heart : 0,
-      wish: "",
-      bNo:"",
-      page: 1,
-      pageCount: 1,
+    data: function () {
+      return {
 
-      list: [],
+        icons: {
+          iconfont: 'mdi', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
+        },
 
-      //받은정보
+        loading: false,
+        selection: 1,
+        heart: 0,
+        wish: "",
+        bNo: "",
+        page: 1,
+        pageCount: 1,
+
+        list: [],
+
+        //받은정보
         item: "",
-        select2:"",
+        select2: "",
         userEmail: "",
         email: "",
         estimateNo: "",
         movingResponseNo: "",
-        compName : "",
+        compName: "",
         totalRating: "",
         firstEstimatePrice: "",
-        firstEstimateType:"",
+        firstEstimateType: "",
         secondEstimatePrice: "",
-        secondEstimateType:"",
-        reservStatus : "",
-        serviceType : 3,
+        secondEstimateType: "",
+        reservStatus: "",
+        serviceType: 3,
         serviceId: "",
         bookmarkNo: "",
         selectData: {},
-        data:{
-          email: "",
+        data: {
+          email: this.$store.state.loginInfo.email,
           serviceId: "",
           bookmarkNo: "",
           serviceType: 3
         },
-        
+
         drops: [{
             name: '전체',
             value: '전체'
@@ -220,7 +218,7 @@ export default {
             name: '낮은가격순',
             value: '낮은가격순'
           },
-         
+
         ],
       }
     },
@@ -246,28 +244,28 @@ export default {
         });
       }
     },
-    created(){
+    created() {
       axios({
         url: "http://localhost:8090/zippy/move/moveMyList",
         methods: "GET",
         params: {
           email: "",
-          
+
           checked: "",
           dropbox: "",
           dropbox2: "",
 
           serviceType: "",
           serviceId: "",
-          userEmail : this.$store.state.loginInfo.email,
-          reservStatus : ""
+          userEmail: this.$store.state.loginInfo.email,
+          reservStatus: ""
 
         }
       }).then(res => {
         console.log(res);
         this.list = res.data;
         console.log(this.list);
-        
+
         // this.data.email = this.$store.state.loginInfo.email;
         // this.data.serviceId= this.list[i].email;
         // console.log(this.data.serviceId);
@@ -275,20 +273,18 @@ export default {
         console.log(error);
       })
 
-     
-    
+
+
 
       if (this.$store.state.loginInfo != null) {
 
-
-
         axios({
-          url: "http://localhost:8090/zippy/common/wishAll",
+          url: "http://localhost:8090/zippy/move/wishOneList",
           method: "GET",
           params: {
             email: this.$store.state.loginInfo.email,
-            
-            serviceType: this.serviceType
+            sId: this.list.estimateNo,
+            serviceType: this.data.serviceType
           }
         }).then(res => {
           this.wish = res.data;
@@ -300,13 +296,16 @@ export default {
         }).catch(err => {
           console.log(err)
         })
+      
+
+        
       }
     },
     methods: {
       reserve(item) {
         this.loading = true
 
-        
+
 
         setTimeout(() => (this.loading = false), 2000)
 
@@ -314,26 +313,26 @@ export default {
         this.reservStatus = item.reservStatus;
         console.log(this.reservStatus);
 
-            //견적상태변경
-            this.$axios({
-            url: "http://localhost:8090/zippy/move/moveStatusThirdUpdate",
-            method: "POST",
-          
-            params:{
-              estimateNo : item.estimateNo,
-              email : this.$store.state.loginInfo.email,
-              // reservStatus : this.reservStatus
-              
-            },
-            // data: formData
-          }).then(res => {
-            console.log(res);
-            alert("견적서 보내기 완료!");
-            console.log(this.reservStatus);
+        //견적상태변경
+        this.$axios({
+          url: "http://localhost:8090/zippy/move/moveStatusThirdUpdate",
+          method: "POST",
 
-          }).catch(err => {
-            console.log(err)
-          })
+          params: {
+            estimateNo: item.estimateNo,
+            email: this.$store.state.loginInfo.email,
+            reservStatus : 3
+
+          },
+          // data: formData
+        }).then(res => {
+          console.log(res);
+          alert("견적서 보내기 완료!");
+          console.log(this.reservStatus);
+
+        }).catch(err => {
+          console.log(err)
+        })
       },
       chat() {
         this.loading = true
@@ -341,8 +340,8 @@ export default {
         setTimeout(() => (this.loading = false), 2000)
       },
 
-     
-      changeHeart() {
+
+      changeHeart(i) {
         if (this.$store.state.loginInfo != null) {
           if (this.heart == 0) { //찜x일때
             this.addWish();
@@ -378,7 +377,7 @@ export default {
           method: "GET",
           params: {
             email: this.$store.state.loginInfo.email,
-            sId: this.email,
+            sId: this.list.estimateNo,
             serviceType: this.data.serviceType
           }
         }).then(res => {
@@ -392,15 +391,20 @@ export default {
           console.log(err)
         })
       },
-      addWish: function () {
-
+      addWish: function (i) {
         
+
         // for(let i of this.list){
         //   this.data.serviceId= this.list[i].email;
 
         // }
-        // console.log(this.data.serviceId)
-
+        this.data.serviceId = this.list.estimateNo;
+        console.log("데이터:"+this.data)
+        console.log("서비스아이디:"+this.data.serviceId)
+        console.log("리스트:"+this.list)
+        console.log("리스트 서비스아이디:"+this.list.estimateNo)
+        // this.data.email = this.$store.state.loginInfo.email;  
+        
         axios({
           url: "http://localhost:8090/zippy/common/addWish",
           method: "POST",
@@ -409,6 +413,8 @@ export default {
           },
           data: JSON.stringify(this.data)
         }).then(res => {
+
+
           this.rewrite();
         }).catch(err => {
           console.log(err)
@@ -430,7 +436,7 @@ export default {
         })
       },
 
-      
+
 
       checkbox: function () {
         const ckbox = document.querySelector(".form-check-input");
@@ -454,7 +460,7 @@ export default {
           console.log(err)
         })
       },
-      
+
       dropVal2: function () {
 
         var dropValue2 = this.select2;
@@ -485,7 +491,7 @@ export default {
 
 <style scoped>
   .company-wrap {
-    
+
     margin: 50px;
   }
 
@@ -531,7 +537,7 @@ export default {
     border: 1px solid #B3E3C3;
   }
 
-  .v-btn{
+  .v-btn {
     color: #96daac;
   }
 
@@ -541,17 +547,17 @@ export default {
     justify-content: space-between;
   }
 
- #used-wish-eye {
+  #used-wish-eye {
     justify-content: space-between;
     display: flex;
     padding-left: 10px;
   }
 
- #used-view-wish {
+  #used-view-wish {
     display: flex;
   }
 
-.used-detail-wish {
+  .used-detail-wish {
     border: none;
     color: white;
     background-color: #b3e3c3;
@@ -575,6 +581,4 @@ export default {
     color: rgb(204, 204, 204);
     margin-right: 5px;
   }
-
-
 </style>
