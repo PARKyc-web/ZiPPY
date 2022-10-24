@@ -11,4 +11,6 @@ public class MoveEstimateVO {
   private String departaddress;
   private String arriveAddress;
   private String compAddress;
+  private String email;
+  private String reservStatus;
 }

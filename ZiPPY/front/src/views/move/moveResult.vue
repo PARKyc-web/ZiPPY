@@ -100,11 +100,11 @@ export default {
       
       //펼치기
       show: false,
-
+      email:"",
       //
       list : [],
       vo : {
-        email : "zippy@naver.com",
+        email : "",
         requestDate : "",
         estimateType : ""
       },
@@ -124,16 +124,16 @@ export default {
   },
   mounted(){
     axios({
-          url: "http://localhost:8090/zippy/move/moveEstimate",
+          url: "http://localhost:8090/zippy/move/moveResult",
           methods: "GET",
           params: {
-            email : "zippy@naver.com",
             movingOption : "",
-            dropbox: ""
-
+            dropbox: "",
+            email: this.$store.state.loginInfo.email
           }
         }).then(res => {
           console.log(res);
+          this.vo.email = this.$store.state.loginInfo.email,
           this.list = res.data;
         }).catch(error => {
           console.log(error);
@@ -159,19 +159,20 @@ export default {
     dropVal: function () {
         var dropValue = this.select;
         console.log(dropValue);
-        console.log(this.vo.email);
+        console.log(this.email);
         axios({
           url: "http://localhost:8090/zippy/move/moveResult",
           methods: "GET",
           params: {  
             dropbox : dropValue,
-            email : this.vo.email,
+            email : this.$store.state.loginInfo.email,
             requestDate : this.vo.requestDate,
             estimateType : this.vo.estimateType,
             
           }
         }).then(res => {
           console.log(res);
+          this.vo.email = this.$store.state.loginInfo.email,
           this.list = res.data;
         }).catch(err => {
           console.log(err);

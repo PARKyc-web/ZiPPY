@@ -1,10 +1,14 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
+
+// this is PROPERTY zone 
 import PropertyView from "../views/property/PropertyView.vue";
 import HouseDetail from "../components/property/HouseDetail.vue";
 import AgentDetail from "../components/property/AgentDetail.vue";
-
+// my page
+import MyWishProperties from "../components/property/MyWishProperties.vue";
+/////////////////////////
 import shopView from "../views/shopView.vue";
 import shopMain from "../views/shop/shopMainView.vue";
 import shopList from "../views/shop/shopListView.vue";
@@ -14,6 +18,7 @@ import order from "../views/shop/orderView.vue";
 import orderComplete from "../views/shop/orderCompleteView.vue";
 import shopUpdatePro from "../views/shop/shopUpdateProView.vue";
 import orderSheet from "../views/shop/orderSheetView.vue";
+import shopWish from "../views/shop/shopWishView.vue";
 
 //mypage componenets
 import shopCartCom from "@/components/shop/shopCart.vue"
@@ -50,6 +55,9 @@ import moveCompanyEstimate from "../views/move/moveCompanyEstimate";
 import moveCompanyMy from "../views/move/moveCompanyMy";
 import moveMyReserve from "../views/move/moveMyReserve";
 import moveCompanyList from "../views/move/moveCompanyList";
+import moveWishList from "../views/move/moveWishList";
+import moveReview from "../views/move/moveReview";
+import moveReviewWrite from "../views/move/moveReviewWrite";
 
 import usedUpdate from "../views/used/usedUpdate.vue";
 import usedDetail from "../views/used/usedDetail.vue";
@@ -124,15 +132,20 @@ const routes = [
         component : chat
       },
       {
+        path : "MyWishProperties",
+        name : "MyWishProperties",
+        component : MyWishProperties
+      },
+      {
         path : "order",
         name : "mypage-order",
         component : order
       },
-      // {
-      //   path : "myOrder",
-      //   name : "shopOrderList",
-      //   component : shopOrderList
-      // },
+      {
+        path : "myOrder",
+        name : "shopOrderList",
+        component : shopOrderList
+      },
       {
         path : "myCart",
         name : "shopCartCom",
@@ -255,7 +268,11 @@ const routes = [
     name: "shopOrderSheet",
     component: orderSheet
   },
-
+  {
+    path: "/shop/shopWish",
+    name: "shopWish",
+    component: shopWish
+  },
   //move
   {
     path: "/move",
@@ -341,6 +358,25 @@ const routes = [
     component: moveCompanyList,
     props: true,
   },
+  {
+    path: "/move/moveWishList",
+    name: "moveWishList",
+    component: moveWishList,
+    props: true,
+  },
+  {
+    path: "/move/moveReview",
+    name: "moveReview",
+    component: moveReview,
+    props: true,
+  },
+  {
+    path: "/move/moveReviewWrite",
+    name: "moveReviewWrite",
+    component: moveReviewWrite,
+    props: true,
+  },
+
 
   //used
   {

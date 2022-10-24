@@ -25,7 +25,7 @@
         data: {
           email: "",
           serviceId: "",
-          bookmarkNo: "",
+          bookmarkNo: -1,
           serviceType: 0
         },
       }

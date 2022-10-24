@@ -8,7 +8,7 @@
 
     <input type="hidden" name="movingOption" v-model="checkk">
     <input type="hidden" name="commonOption" v-model="commonOption">
-    <input type="hidden" name="email" v-model="emailSend">
+    <input type="hidden" name="email" v-model="email">
     <input type="hidden" name="movingMemo" v-model="movingMemoSend">
     
     <input type="hidden" name="departAddress" v-model="moveAddress.address">
@@ -677,7 +677,7 @@ export default {
     data: () => ({
       commonOption:"",
       checkk: "",
-      emailSend : "zippy@naver.com",
+      email : "",
       movingMemoSend: "MemoMemo",
       requestDateSend: new Date().toLocaleDateString(),
 
@@ -779,7 +779,7 @@ export default {
 
         untactForm.movingOption.value= JSON.stringify(this.moveDetail[0])
         untactForm.commonOption.value= JSON.stringify(this.moveInfo) ;
-        
+        untactForm.email.value = this.$store.state.loginInfo.email;
 
         // var moveDetailJson = JSON.stringify(this.moveDetail[0]);
         // var moveInfoJson = JSON.stringify(this.moveInfo);
@@ -804,7 +804,7 @@ export default {
         var formData = new FormData(document.querySelector('#untactForm'));  
         console.log(this.checkk);
         console.log(this.commonOption);
-
+        console.log('email : ',this.email);
         var step;
 
         //formdata로 이미지 보내기 
@@ -848,7 +848,8 @@ export default {
             moveType: this.moveType,
             moveDate: this.moveDate, 
             moveAddress: this.moveAddress,
-            requestDate : this.requestDateSend
+            requestDate : this.requestDateSend,
+            email : this.$store.state.loginInfo.email
           }
           })
         } else {

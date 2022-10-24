@@ -6,8 +6,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.move.mapper.MoveMapper;
 
 @Service
@@ -43,6 +45,18 @@ public interface MoveService {
   //견적상태 업데이트 (2차 견적서 발송후, 상태 2로 변경)
   public int moveStatusSecondUpdate(MoveResponseVO vo);
   
+  //견적상태 업데이트 (사용자가 예약요청 후, 상태 3으로 변경)
+  public int moveStatusThirdUpdate(MoveResponseVO vo);
+  
+  //견적상태 업데이트 (업체가 예약확정 후, 상태 4으로 변경)
+  public int moveStatusFourthUpdate(MoveResponseVO vo);
+  
+  //견적상태 업데이트 (이사완료 후, 상태 5으로 변경)
+  public int moveStatusFifthUpdate(MoveResponseVO vo);
+  
+  //견적상태 업데이트 (예약취소하면, 상태 9으로 변경)
+  public int moveStatusCancleUpdate(MoveResponseVO vo);
+  
   //견적서 조회 - 업체
   public List<MoveResponseVO> companyEstimate(MoveCompanyEstimateVO vo);
   
@@ -51,5 +65,9 @@ public interface MoveService {
   
   //업체조회 페이지
   public List<MoveMyListVO> getCompanyList(MoveMyListVO vo);
+  
+  //해당찜조회
+  public List<BookmarkVO> getWishOneList(@RequestParam int sId, @RequestParam String email, @RequestParam int serviceType); 
+   
   
 }

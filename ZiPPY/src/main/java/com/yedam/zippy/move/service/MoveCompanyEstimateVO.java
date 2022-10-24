@@ -36,7 +36,7 @@ public class MoveCompanyEstimateVO {
   
   //MoveResponseVO
   Integer movingResponseNo;
-
+  String businessEmail;
   Integer firstEstimatePrice;
   String firstEstimateType;
   Integer secondEstimatePrice;

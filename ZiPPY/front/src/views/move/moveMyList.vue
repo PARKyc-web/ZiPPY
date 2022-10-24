@@ -9,7 +9,7 @@
     <div class="form-check">
       <input @click="checkbox ()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
       <label class="form-check-label" for="flexCheckDefault">
-        견적완료된 요청보기
+        찜한 견적보기
       </label>
     </div>
     <hr />
@@ -22,7 +22,7 @@
         color="#212529" persistent-hint single-line dense width="50"></v-select>
     </div>
 
-    <div class="divv" v-for="item in list">
+    <div class="divv" v-for="(item, i) in list" :key="i">
       <v-card :loading="loading" class="mx-auto my-12" max-width="374" elevation="10" >
         <template slot="progress">
           <v-progress-linear color="#B3E3C3" height="10" indeterminate></v-progress-linear>
@@ -59,6 +59,17 @@
                 </div>
 
                 <div>견적서 번호 : <span>NO.{{item.movingResponseNo}}</span></div>
+                
+                <div>
+              <div id="mus" v-if="item.reservStatus == 0">견적 상태 : <span>견적전</span></div>
+              <div id="mus" v-if="item.reservStatus == 1">견적 상태 : <span>1차견적</span></div>
+              <div id="mus" v-if="item.reservStatus == 2">견적 상태 : <span>2차견적</span></div>
+              <div id="mus" v-if="item.reservStatus == 3">견적 상태 : <span>예약요청</span></div>
+              <div id="mus" v-if="item.reservStatus == 4">견적 상태 : <span>예약완료</span></div>
+              <div id="mus" v-if="item.reservStatus == 5">견적 상태 : <span>이사완료</span></div>
+              <div id="mus" v-if="item.reservStatus == 9">견적 상태 : <span>취소</span></div>
+                </div>
+
         </v-card-text>       
 
         <v-card-title>업체명 : <span>{{item.compName}}</span></v-card-title>
@@ -84,12 +95,22 @@
 
         <v-divider class="mx-4"></v-divider>
         <v-card-text>
-          <div>견적요청 번호 : <span>NO.{{item.estimateNo}}</span></div>
+          <div>견적요청 번호 : <span>NO.
+          {{item.estimateNo}}</span></div>
         </v-card-text>
         <v-card-text>
           <div>견적요청 일자 : <span>{{item.requestDate}}</span></div>
         </v-card-text>
-        <v-card-title>예상견적 : <span>{{item.firstEstimatePrice}}</span>원</v-card-title>
+        <v-card-text>
+          <div>1차 견적 타입 : <span>{{item.firstEstimateType}}</span></div>
+        </v-card-text>
+        <v-card-title>1차 예상견적 : <span>{{item.firstEstimatePrice}}</span>원</v-card-title>
+        <div v-if="item.secondEstimatePrice != null">
+        <v-card-text>
+          <div>2차 견적 타입 : <span>{{item.secondEstimateType}}</span></div>
+        </v-card-text>
+        <v-card-title>2차 예상견적 : <span>{{item.secondEstimatePrice}}</span>원</v-card-title>
+        </div>
 
         <!-- <v-card-text>
       <v-chip-group
@@ -108,7 +129,7 @@
     </v-card-text> -->
 
         <v-card-actions>
-          <v-btn color="#B3E3C3 lighten-2" text @click="reserve">
+          <v-btn color="#B3E3C3 lighten-2" text @click="reserve(item)">
             예약요청
           </v-btn>
 
@@ -120,95 +141,12 @@
     </div>
 
 
-    <!-- <div class="divv">
-    <v-card
-    :loading="loading"
-    class="mx-auto my-12"
-    max-width="374"
-    elevation="10"
-  >
-    <template slot="progress">
-      <v-progress-linear
-        color="deep-purple"
-        height="10"
-        indeterminate
-      ></v-progress-linear>
-    </template> -->
-
-    <!-- <v-img
-      height="250"
-      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-    ></v-img> -->
-
-    <!-- <v-card-title>업체명</v-card-title>
-
-    <v-card-text>
-      <v-row
-        text-align="center"
-        class="mx-0"
-      >
-        <v-rating
-          :value="4.5"
-          color="amber"
-          dense
-          half-increments
-          readonly
-          size="14"
-        ></v-rating>
-
-        <div class="grey--text ms-4">
-          4.5 (413)
-        </div>
-      </v-row>
-      <v-divider class="mx-4"></v-divider>
-      <div>
-        02-000-0000
-      </div>
-      <div>
-        서울특별시 송파구 오금동 xxx
-      </div> 
-
-      <div class="my-4 text-subtitle-1">전문포장이사 20년 경력의 베테랑들이 함께하는 꼼꼼한 이사업체입니다.</div>
-    </v-card-text>
-
-    <v-card-title>예상견적 : 65만원</v-card-title> -->
-
-    <!-- <v-card-text>
-      <v-chip-group
-        v-model="selection"
-        active-class="deep-purple accent-4 white--text"
-        column
-      >
-        <v-chip>5:30PM</v-chip>
-
-        <v-chip>7:30PM</v-chip>
-
-        <v-chip>8:00PM</v-chip>
-
-        <v-chip>9:00PM</v-chip>
-      </v-chip-group>
-    </v-card-text> -->
-
-    <!-- <v-card-actions>
-      <v-btn
-        color="deep-purple lighten-2"
-        text
-        @click="reserve"
-      >
-        예약요청
-      </v-btn>
-
-      <v-btn
-        color="deep-purple lighten-2"
-        text
-        @click="chat"
-      >
-        채팅하기
-      </v-btn>
-    </v-card-actions>
-  </v-card>
-</div> -->
 </div>
+
+<div class="text-center">
+        <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3"></v-pagination>
+      </div>
+
   </div>
 </template>
 
@@ -236,6 +174,8 @@ export default {
       heart : 0,
       wish: "",
       bNo:"",
+      page: 1,
+      pageCount: 1,
 
       list: [],
 
@@ -249,8 +189,20 @@ export default {
         compName : "",
         totalRating: "",
         firstEstimatePrice: "",
+        firstEstimateType:"",
+        secondEstimatePrice: "",
+        secondEstimateType:"",
         reservStatus : "",
         serviceType : 3,
+        serviceId: "",
+        bookmarkNo: "",
+        selectData: {},
+        data:{
+          email: "",
+          serviceId: "",
+          bookmarkNo: "",
+          serviceType: 3
+        },
         
         drops: [{
             name: '전체',
@@ -272,25 +224,53 @@ export default {
         ],
       }
     },
-
+    watch: {
+      categoryVal() {
+        this.findList({
+          keyword: this.searchValue,
+          location: this.location,
+          category: this.categoryVal,
+          checked: this.isChecked,
+          dropbox: this.select,
+          pageNum: this.page
+        });
+      },
+      page() {
+        this.findList({
+          keyword: this.searchValue,
+          location: this.location,
+          category: this.categoryVal,
+          checked: this.isChecked,
+          dropbox: this.select,
+          pageNum: this.page
+        });
+      }
+    },
     created(){
       axios({
         url: "http://localhost:8090/zippy/move/moveMyList",
         methods: "GET",
         params: {
-          email: "move123@move.com",
+          email: "",
           
           checked: "",
           dropbox: "",
           dropbox2: "",
 
           serviceType: "",
-          serviceId: ""
+          serviceId: "",
+          userEmail : this.$store.state.loginInfo.email,
+          reservStatus : ""
 
         }
       }).then(res => {
         console.log(res);
         this.list = res.data;
+        console.log(this.list);
+        
+        // this.data.email = this.$store.state.loginInfo.email;
+        // this.data.serviceId= this.list[i].email;
+        // console.log(this.data.serviceId);
       }).catch(error => {
         console.log(error);
       })
@@ -299,42 +279,16 @@ export default {
     
 
       if (this.$store.state.loginInfo != null) {
+
+
+
         axios({
-        url: "/common/wishAll",
-        method: "GET",
-        params: {
-          // email: this.$store.state.loginInfo.email,
-          email: 'zippy@naver.com',
-          serviceType: 3
-        }
-      }).then(res => {
-        console.log(res);
-        this.data = res.data;
-      }).catch(err => {
-        console.log(err)
-      })
-      }
-    },
-    methods: {
-      reserve() {
-        this.loading = true
-
-        setTimeout(() => (this.loading = false), 2000)
-      },
-      chat() {
-        this.loading = true
-
-        setTimeout(() => (this.loading = false), 2000)
-      },
-
-      rewrite() {
-        axios({
-          url: "http://localhost:8090/zippy/common/wishOne",
+          url: "http://localhost:8090/zippy/common/wishAll",
           method: "GET",
           params: {
             email: this.$store.state.loginInfo.email,
-            sId: this.$route.query.pNo,
-            serviceType: this.data.serviceType
+            
+            serviceType: this.serviceType
           }
         }).then(res => {
           this.wish = res.data;
@@ -346,7 +300,48 @@ export default {
         }).catch(err => {
           console.log(err)
         })
+      }
+    },
+    methods: {
+      reserve(item) {
+        this.loading = true
+
+        
+
+        setTimeout(() => (this.loading = false), 2000)
+
+        this.estimateNo = item.estimateNo;
+        this.reservStatus = item.reservStatus;
+        console.log(this.reservStatus);
+
+            //견적상태변경
+            this.$axios({
+            url: "http://localhost:8090/zippy/move/moveStatusThirdUpdate",
+            method: "POST",
+          
+            params:{
+              estimateNo : item.estimateNo,
+              email : this.$store.state.loginInfo.email,
+              // reservStatus : this.reservStatus
+              
+            },
+            // data: formData
+          }).then(res => {
+            console.log(res);
+            alert("견적서 보내기 완료!");
+            console.log(this.reservStatus);
+
+          }).catch(err => {
+            console.log(err)
+          })
       },
+      chat() {
+        this.loading = true
+
+        setTimeout(() => (this.loading = false), 2000)
+      },
+
+     
       changeHeart() {
         if (this.$store.state.loginInfo != null) {
           if (this.heart == 0) { //찜x일때
@@ -377,8 +372,35 @@ export default {
           });
         }
       },
-
+      rewrite() {
+        axios({
+          url: "http://localhost:8090/zippy/common/wishOneList",
+          method: "GET",
+          params: {
+            email: this.$store.state.loginInfo.email,
+            sId: this.email,
+            serviceType: this.data.serviceType
+          }
+        }).then(res => {
+          this.wish = res.data;
+          if (res.data != "") {
+            this.heart = 1;
+          } else if (res.data == "") {
+            this.heart = 0;
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
       addWish: function () {
+
+        
+        // for(let i of this.list){
+        //   this.data.serviceId= this.list[i].email;
+
+        // }
+        // console.log(this.data.serviceId)
+
         axios({
           url: "http://localhost:8090/zippy/common/addWish",
           method: "POST",
@@ -444,7 +466,7 @@ export default {
           params: {
             dropbox: this.select,
             dropbox2: dropValue2, //지역
-            email: this.vo.email,
+            email: this.$store.state.loginInfo.email,
             requestDate: this.vo.requestDate,
             departAddress: this.vo.departAddress,
             arriveAddress: this.vo.arriveAddress,

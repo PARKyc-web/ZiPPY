@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.Page;
 import com.yedam.zippy.property.mapper.PropertyMapper;
 import com.yedam.zippy.property.service.PropertyService;
 import com.yedam.zippy.property.service.WishVO;
@@ -39,8 +40,7 @@ public class PropertyServiceImpl implements PropertyService {
     return mapper.gethouseDetail(productId);
   }
 
-  @Override
-  public List<propertyVO> getAgentProperties(String email) {
+  public Page<propertyVO> getAgentProperties(String email) {
     return mapper.getAgentProperties(email);
   }
 
@@ -94,5 +94,10 @@ public class PropertyServiceImpl implements PropertyService {
   @Override
   public List<propertyVO> searchPropertyList(propertyVO vo) {
     return mapper.searchPropertyList(vo);
+  }
+  
+  @Override
+  public Page<WishVO> getAllWishProperties(String email) {
+    return mapper.getAllWishProperties(email);
   }
 }
