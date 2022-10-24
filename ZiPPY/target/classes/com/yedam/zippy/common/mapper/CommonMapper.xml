@@ -124,12 +124,14 @@
 		WHERE email =#{email}
 	</select>
 	
-	<!-- 해당 상품 후기 유무 -->
-	<select id="getRvAll" resultType="reviewBoardVO">
-		SELECT * 
+	<select id="showProReview" resultType="reviewBoardVO">
+		SELECT *
 		FROM review_board
-		WHERE service_id = #{serviceId}
-		AND email = #{email}
-		AND service_type = #{serviceType}
+		WHERE service_type = #{serviceType}
+		AND service_id = #{serviceId}
+		ORDER BY review_no DESC
 	</select>
+	
+	
+	
 </mapper>

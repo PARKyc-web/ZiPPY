@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.Page;
+
 @Service
 public interface CommonService {
   // 찜 추가
@@ -21,14 +23,15 @@ public interface CommonService {
   // 후기 등록
   public int addReview( ReviewBoardVO rv);
   
-  // 후기 확인
-  public BookmarkVO getRvOne(int serviceType, int serviceId, String email);
-
   // 신고하기
   public int addReport(ReportVO vo);
  
   // 후기 불러오기
   public List<ReviewBoardVO> showReview(ReviewBoardVO rv);
-
+  
+  // 상품 후기 불러오기
+  // public List<ReviewBoardVO> showProReview(int serviceType, int serviceId);
+  //상품 후기 불러오기
+ public Page<ReviewBoardVO> showProReview(int serviceType, int serviceId);
 
 }

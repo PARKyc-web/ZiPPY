@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.github.pagehelper.Page;
 import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.common.service.ReportVO;
 import com.yedam.zippy.common.service.ReviewBoardVO;
@@ -30,9 +31,13 @@ public interface CommonMapper {
   // 후기 불러오기
   public List<BookmarkVO> showReview(ReviewBoardVO rv);
 
-  // 후기 확인
-  public BookmarkVO getRvOne(@Param("serviceType") int serviceType, @Param("serviceId") int serviceId, @Param("email") String email);
-  
   // 신고하기
   public int addReport(ReportVO vo);
+  
+  //상품 후기 불러오기
+  //public List<ReviewBoardVO> showProReview(@Param("serviceType") int serviceType, @Param("serviceId") int serviceId);
+  
+  //상품 후기 불러오기
+  public Page<ReviewBoardVO> showProReview(@Param("serviceType") int serviceType, @Param("serviceId") int serviceId);
+
 }

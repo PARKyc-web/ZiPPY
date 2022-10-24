@@ -70,6 +70,7 @@
 
 <script>
   import axios from 'axios';
+  import swal from 'sweetalert2';
 
   export default {
     data() {
@@ -119,7 +120,12 @@
       goOrder() {
         //선택됐는지 체크
         if (this.selected.length == 0) {
-          alert('선택된 상품이 존재하지 않습니다.');
+          swal.fire({
+            icon: 'warning',
+            title: '선택된 상품이 존재하지 않습니다.',
+            showConfirmButton: false,
+            timer: 1500
+          });
           return;
         }
 
@@ -161,7 +167,12 @@
       deleteCart() {
         //선택됐는지 체크
         if (this.selected.length == 0) {
-          alert('선택된 상품이 존재하지 않습니다.');
+          swal.fire({
+            icon: 'warning',
+            title: '선택된 상품이 존재하지 않습니다.',
+            showConfirmButton: false,
+            timer: 1500
+          });
           return;
         }
         console.log(JSON.stringify(this.selected))
@@ -189,6 +200,9 @@
         }
         //삭제 alert
         this.checkOrder()
+
+        //장바구니 개수
+        this.$store.state.loginInfo.cartCount = Number(this.$store.state.loginInfo.cartCount) - this.selected.length;
       },
       //payCode 생성
       makePayCode() {
@@ -204,7 +218,12 @@
               this.products[i].cartQty--;
             } else {
               //button disabled?
-              alert('최소수량은 1개입니다.')
+              swal.fire({
+            icon: 'warning',
+            title: '최소 수량은 1개입니다.',
+            showConfirmButton: false,
+            timer: 1500
+          });
               break;
             }
           }
@@ -215,7 +234,12 @@
         for (var i in this.products) {
           if (this.products[i].cartNo == no) {
             if (this.products[i].cartQty > 9) {
-              alert('최대수량은 10개입니다.')
+              swal.fire({
+            icon: 'warning',
+            title: '최대 수량은 10개입니다.',
+            showConfirmButton: false,
+            timer: 1500
+          });
               break;
             }
             this.products[i].cartQty++;
@@ -229,7 +253,12 @@
       //삭제시에만 alert창 띄우기
       checkOrder() {
         if (!this.check) {
-          alert('상품을 삭제하였습니다.')
+          swal.fire({
+            icon: 'success',
+            title: '삭제완료',
+            showConfirmButton: false,
+            timer: 1500
+          });
         }
       }
     },

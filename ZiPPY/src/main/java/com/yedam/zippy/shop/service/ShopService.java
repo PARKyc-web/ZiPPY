@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.pagehelper.Page;
+import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.member.service.GeneralUserVO;
 import com.yedam.zippy.used.service.UsedImagesVO;
 
@@ -18,9 +20,9 @@ public interface ShopService {
   // 전체조회
   public List<ProductVO> getProductList();
   // 전체조회(카테고리)
-  public List<ProductVO> getCategoryList(String category);
+  public Page<ProductVO> getCategoryList(String category);
   // 전체조회(키워드)
-  public List<ProductVO> getKeywordList(String keyword);
+  public Page<ProductVO> getKeywordList(String keyword);
   // 단건조회(디테일)
   public ProductVO getProduct(int proNo);
   // 디테일 이미지 조회
@@ -48,8 +50,8 @@ public interface ShopService {
   // qna 등록
   public void insertQna(QnaVO qnaVO);
   // qna 조회
-  public List<QnaVO> getQnaList(int proNo);
-  
+  public Page<QnaVO> getQnaList(int proNo);
+
   
   // 주문 CRUD
   // 등록(from 장바구니)
@@ -64,7 +66,11 @@ public interface ShopService {
   public void insertOrder(OrderVO orderVO);
   // 주문 단건 조회
   public OrderVO getOneOrder(String payCode);
+  // 상품상태 업데이트
+  public int updateRvStatus(PurchaseVO purchaseVO);
   
+  // 마이페이지 CRUD
+  public Page<Map<ProductVO, BookmarkVO>>getMyWishList(String email);
   
   //***
   // 판매자 CRUD
@@ -80,7 +86,7 @@ public interface ShopService {
   public void updateStatus(ProductVO productVO);
   // 상품정보 수정
   public void updateProduct(ProductVO productVO, List<ProductOptionVO> options, MultipartFile image,
-      List<MultipartFile> images);
+  List<MultipartFile> images);
   // 판매내역 조회(전체조회)
   public List<PurchaseVO> getSellerPurList(ProductVO productVO, String keyword);
   // 주문상태 수정(배송)

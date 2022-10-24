@@ -20,14 +20,6 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    addCart(state, num){
-      state.cartCount += num;
-    },
-
-    removeCart(state, num){
-      state.cartCount -= num;
-    },
-
     login(state, info){
       state.loginInfo = info;
 

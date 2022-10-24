@@ -26,6 +26,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.common.service.CommonService;
 import com.yedam.zippy.common.service.ReportVO;
@@ -94,12 +97,6 @@ public class CommonController {
     return service.showReview(rv);
   } 
   
-  @GetMapping("/RvOne")
-  public BookmarkVO getRvOne(@RequestParam int serviceType, @RequestParam int serviceId, @RequestParam String email) {
-    return service.getRvOne(serviceType, serviceId, email);
-  }
-  
-  
  
   @GetMapping("img/{type}/{image}")
   public void getImage(HttpServletResponse response, @PathVariable String type, @PathVariable String image) throws Exception {
@@ -132,5 +129,18 @@ public class CommonController {
   public int addReport(ReportVO vo) {
     return service.addReport(vo);
   }
+  
+//  @GetMapping("/showProReview")
+//  public List<ReviewBoardVO> showProReview(int serviceType, int serviceId){
+//    return service.showProReview(serviceType, serviceId);
+//  }
+  
+  @GetMapping("/showProReview")
+  public PageInfo<ReviewBoardVO> showProReview(int pageNum, int serviceType, int serviceId){
+    String order = "";
+    PageHelper.startPage(pageNum, 5, order);
+    return PageInfo.of(service.showProReview(serviceType, serviceId));
+  }
+
 
 }

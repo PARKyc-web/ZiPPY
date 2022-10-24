@@ -18,6 +18,7 @@ import order from "../views/shop/orderView.vue";
 import orderComplete from "../views/shop/orderCompleteView.vue";
 import shopUpdatePro from "../views/shop/shopUpdateProView.vue";
 import orderSheet from "../views/shop/orderSheetView.vue";
+import shopWish from "../views/shop/shopWishView.vue";
 
 //mypage componenets
 import shopCartCom from "@/components/shop/shopCart.vue"
@@ -134,11 +135,11 @@ const routes = [
         name : "mypage-order",
         component : order
       },
-      // {
-      //   path : "myOrder",
-      //   name : "shopOrderList",
-      //   component : shopOrderList
-      // },
+      {
+        path : "myOrder",
+        name : "shopOrderList",
+        component : shopOrderList
+      },
       {
         path : "myCart",
         name : "shopCartCom",
@@ -248,7 +249,11 @@ const routes = [
     name: "shopOrderSheet",
     component: orderSheet
   },
-
+  {
+    path: "/shop/shopWish",
+    name: "shopWish",
+    component: shopWish
+  },
   //move
   {
     path: "/move",
