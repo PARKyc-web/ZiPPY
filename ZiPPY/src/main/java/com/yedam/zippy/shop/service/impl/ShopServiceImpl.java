@@ -38,13 +38,13 @@ public class ShopServiceImpl implements ShopService {
   }
   //상품 카테고리 조회
   @Override
-  public Page<ProductVO> getCategoryList(String category) {
-    return mapper.getCategoryList(category);
+  public Page<ProductVO> getCategoryList(String category, String dropbox) {
+    return mapper.getCategoryList(category, dropbox);
   }
   //상품 키워드 조회
   @Override
-  public Page<ProductVO> getKeywordList(String keyword) {
-    return mapper.getKeywordList(keyword);
+  public Page<ProductVO> getKeywordList(String keyword, String dropbox) {
+    return mapper.getKeywordList(keyword, dropbox);
   }
   //상품 단건조회
   @Override

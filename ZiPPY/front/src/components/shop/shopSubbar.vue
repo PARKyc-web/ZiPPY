@@ -27,13 +27,13 @@
       </v-form>
       <!-- 검색창 끝 -->
       <!-- 장바구니 -->
-      <v-badge :value="hover" color="#B3E3C3" :content="this.$store.state.loginInfo.cartCount" left transition="slide-x-transition">
-        <v-hover v-model="hover">
+      <!---<v-badge :value="hover" color="#B3E3C3" :content="this.$store.state.loginInfo.cartCount" left transition="slide-x-transition">
+        <v-hover v-model="hover">-->
           <v-icon color="rgba(0, 0, 0, 0.54)" @click="goCart" v-if="this.$store.state.loginInfo">
             mdi-cart
           </v-icon>
-        </v-hover>
-      </v-badge>
+        <!--</v-hover>
+      </v-badge>-->
       <!-- 장바구니-->
     </v-app-bar>
   </div>
@@ -94,21 +94,21 @@ import axios from 'axios';
       }
     },
     //카트 개수 조회
-    created() {
-      axios({
-          url: "/shop/myCart",
-          method: "GET",
-          params: {
-            email: this.$store.state.loginInfo.email
-          }
-        }).then(res => {
-          console.log(res);
-          this.$store.state.loginInfo.cartCount = res.data;
-          console.log(this.count);
-        }).catch(error => {
-          console.log(error);
-        })
-    }
+    // created() {
+    //   axios({
+    //       url: "/shop/myCart",
+    //       method: "GET",
+    //       params: {
+    //         email: this.$store.state.loginInfo.email
+    //       }
+    //     }).then(res => {
+    //       console.log(res);
+    //       this.$store.state.loginInfo.cartCount = res.data;
+    //       console.log(this.count);
+    //     }).catch(error => {
+    //       console.log(error);
+    //     })
+    // }
   }
 </script>
 

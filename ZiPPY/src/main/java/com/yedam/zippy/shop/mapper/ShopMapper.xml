@@ -18,7 +18,6 @@
 		ON s.email = b.email
 		WHERE s.category = #{category}
 		AND pro_status = 0
-		ORDER BY pro_no DESC
 	</select>
 
 
@@ -41,7 +40,6 @@
 		WHERE comp_name LIKE '%'||#{keyword}||'%'
 		AND member_type=2)
 		AND pro_status = 0
-		ORDER BY pro_no DESC
 	</select>
 
 

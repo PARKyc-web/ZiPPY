@@ -18,8 +18,8 @@
       <!-- 키워드 확인 끝 -->
       <!-- 옵션 -->
       <div style="width:100px" class="ml-auto py-10">
-        <v-select v-model="select" :items="items" item-text="state" item-value="abbr" label="판매순" color="#212529"
-          persistent-hint return-object single-line dense width="50"></v-select>
+        <v-select @change="getList()" v-model="select" :items="items"
+          label="최신순" color="#212529" persistent-hint return-object single-line dense width="50"></v-select>
       </div>
       <!-- 상품리스트 -->
       <div id="product-list">
@@ -63,7 +63,7 @@
 
   export default {
     data: () => ({
-      items: ['판매순', '최신순', '리뷰순', '별점순'],
+      items: ['최신순', '최저가순', '최고가순'],
       page: 1,
       categories: [
         '침대',
@@ -77,7 +77,7 @@
         '조명',
         '소품'
       ],
-      select: [],
+      select: '',
       products: [],
       page: 1,
       pageCount: 1
@@ -91,9 +91,16 @@
         this.$router.push({
           name: 'shopList',
           query: {
-            cate: cate
+            cate: cate,
+            pageNum: this.page,
+            dropbox: this.select
           }
         })
+        // this.getCateList({
+        //     cate: cate,
+        //     pageNum: this.page,
+        //     dropbox: this.select
+        // })
       },
       //키워드로 조회
       getKeywList() {
@@ -102,7 +109,8 @@
           method: "GET",
           params: {
             keyw: this.$route.query.keyw,
-            pageNum: this.page
+            pageNum: this.page,
+            dropbox: this.select
           }
         }).then(res => {
           console.log(res);
@@ -120,7 +128,8 @@
           method: "GET",
           params: {
             cate: this.$route.query.cate,
-            pageNum: this.page
+            pageNum: this.page,
+            dropbox: this.select
           }
         }).then(res => {
           console.log(res);
@@ -130,49 +139,18 @@
         }).catch(error => {
           console.log(error);
         })
+      },
+      //전체조회
+      getList() {
+        if (this.$route.query.keyw) {
+          this.getKeywList();
+        } else if (this.$route.query.cate) {
+          this.getCateList();
+        }
       }
     },
     created() {
-      //키워드로 검색
-      if (this.$route.query.keyw) {
-        this.getKeywList();
-        // axios({
-        //   url: "/shop/keyword",
-        //   method: "GET",
-        //   params: {
-        //     keyw: this.$route.query.keyw
-        //   }
-        // }).then(res => {
-        //   console.log(res);
-        //   this.products = res.data;
-        //   console.log(this.products);
-        // }).catch(error => {
-        //   console.log(error);
-        // })
-        //카테고리로 검색
-      } else if (this.$route.query.cate) {
-        this.getCateList();
-        //   axios({
-        //   url: "/shop/category",
-        //   method: "GET",
-        //   params: {
-        //     cate: this.$route.query.cate
-        //   }
-        // }).then(res => {
-        //   console.log(res);
-        //   this.products = res.data;
-        //   console.log(this.products);
-        // }).catch(error => {
-        //   console.log(error);
-        // })
-      }
-      // //검색결과 없음 지연시간
-      // var noProduct = document.getElementById("#oProduct")
-      // setTimeout(function () {
-      // this.modifyDialogVisible = false;
-      // noProduct.api.reloadData();
-      // },300);
-
+      this.getList();
     },
     filters: {
       comma(val) {
@@ -188,7 +166,7 @@
         }
       }
     }
-  };
+  }
 </script>
 
 <style scoped>

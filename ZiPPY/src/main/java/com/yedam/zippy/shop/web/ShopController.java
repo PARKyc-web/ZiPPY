@@ -46,17 +46,37 @@ public class ShopController {
   }
   // 전체조회(카테고리)
   @RequestMapping("/category")
-  public PageInfo<ProductVO> categoryList(int pageNum, @RequestParam("cate") String category) {
-    String order = "";
+  public PageInfo<ProductVO> categoryList(int pageNum, @RequestParam("cate") String category, @RequestParam(value = "dropbox", required = false) String dropbox) {
+    String order="pro_no ASC";
+    if (dropbox.equals("최신순")) {
+      dropbox = "0";
+      order = "pro_price ASC";
+    } else if (dropbox.equals("최저가순")) {
+      dropbox = "1";
+      order = "pro_price DESC";
+    }  else if (dropbox.equals("최고가순")) { 
+        dropbox = "2";
+        order = "pro_price DESC";
+    }
     PageHelper.startPage(pageNum, 20, order);
-    return PageInfo.of(service.getCategoryList(category));
+    return PageInfo.of(service.getCategoryList(category, dropbox));
   }
   // 전체조회(키워드)
   @RequestMapping("/keyword")
-  public PageInfo<ProductVO> keywordList(int pageNum, @RequestParam("keyw") String keyword) {
-    String order = "";
+  public PageInfo<ProductVO> keywordList(int pageNum, @RequestParam("keyw") String keyword,  @RequestParam(value = "dropbox", required = false) String dropbox) {
+    String order="pro_no ASC";
+    if (dropbox.equals("최신순")) {
+      dropbox = "0";
+      order = "pro_price ASC";
+    } else if (dropbox.equals("최저가순")) {
+      dropbox = "1";
+      order = "pro_price DESC";
+    }  else if (dropbox.equals("최고가순")) {
+        dropbox = "2";
+        order = "pro_price DESC";
+    }
     PageHelper.startPage(pageNum, 20, order);
-    return PageInfo.of(service.getKeywordList(keyword));
+    return PageInfo.of(service.getKeywordList(keyword, dropbox));
   }
   // 단건조회(디테일)
   @RequestMapping("/detail")

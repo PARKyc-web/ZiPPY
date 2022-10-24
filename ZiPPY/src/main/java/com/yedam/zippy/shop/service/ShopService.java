@@ -20,9 +20,9 @@ public interface ShopService {
   // 전체조회
   public List<ProductVO> getProductList();
   // 전체조회(카테고리)
-  public Page<ProductVO> getCategoryList(String category);
+  public Page<ProductVO> getCategoryList(String category, String dropbox);
   // 전체조회(키워드)
-  public Page<ProductVO> getKeywordList(String keyword);
+  public Page<ProductVO> getKeywordList(String keyword, String dropbox);
   // 단건조회(디테일)
   public ProductVO getProduct(int proNo);
   // 디테일 이미지 조회
