@@ -625,7 +625,7 @@ export default {
       if (this.business_valid == true && this.user_info.ceoName != "" && 
           this.user_info.compName != "" && this.user_info.compIntro != "") {    
          axios({
-          url: "http://localhost:8090/zippy/member/bSignUp",
+          url: "/member/bSignUp",
           method: "POST",    
           data: formData
         })

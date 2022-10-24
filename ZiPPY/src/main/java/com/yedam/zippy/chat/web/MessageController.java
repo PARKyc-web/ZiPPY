@@ -26,14 +26,11 @@ public class MessageController {
 
   @MessageMapping("/chat/message")
   public void enter(ChatMessage message) {    
-
-    if (ChatMessage.MessageType.ENTER.equals(message.getType())) {
-      message.setMessage(message.getSender() + "님이 입장하였습니다.");
-      sendingOperations.convertAndSend("/topic/chat/room/" + message.getRoomId(), message);
-    }
-
-//     입장이 아닐때 사용되는 것
-    if (ChatMessage.MessageType.TALK.equals(message.getType())) {
+    System.out.println(message);
+        
+//  입장이 아닐때 사용되는 것
+    if (ChatMessage.MessageType.TALK.equals(message.getType())) {      
+      System.out.println(message.getRoomId());
       sendingOperations.convertAndSend("/topic/chat/room/" + message.getRoomId(), message);
       chatService.saveChatContent(message);
     }

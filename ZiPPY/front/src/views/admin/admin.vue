@@ -1,9 +1,11 @@
 <template>
-    <div>
+    <div id="maypage">
         <div id="side">
             <sidebar-menu :menu="menu"></sidebar-menu>
         </div>
-        <router-view />        
+        <div id="main">
+            <router-view />
+        </div>
     </div>
 </template>
 
@@ -11,13 +13,13 @@
 import { SidebarMenu } from 'vue-sidebar-menu';
 import '@/css/sidebar.css';
 
-export default{
-  data() {
+    export default {
+        data() {
             return {
                 menu: [
                     {
                         header: true,
-                        title: 'Main Navigation',
+                        title: '정보조회',
                         hiddenOnCollapse: true
                     },
                     {
@@ -26,32 +28,31 @@ export default{
                         icon: 'fa fa-user'
                     },
                     {                           
-                        href: '/admin/home',
-                        title: 'Charts',
+                        href: '/admin/general',
+                        title: '일반회원 조회',
                         icon: 'fa fa-chart-area'            
                     },
                     {
-                        href: '/admin/login',
-                        title: 'HOME',
+                        href: '/admin/business',
+                        title: '기업회원 조회',
                         icon: 'fa fa-chart-area',                        
-                    },
-                    {
-                        header: true,
-                        title: 'Main Navigation',
-                        hiddenOnCollapse: true
-                    }
+                    },       
                 ]
             }
         },
-  components : {
-    SidebarMenu
-  }
-}
-
+        components: {
+            SidebarMenu
+        }
+    }
 </script>
 <style scoped>
-#side {
-    width: 13%;
-    float :left;
-}
+    #side {
+        width: 13%;
+        float: left;
+    }
+    #main{
+        max-width: 87%;
+        /* margin-left: 150px; */
+        /* margin-left: 5%; */
+    }
 </style>

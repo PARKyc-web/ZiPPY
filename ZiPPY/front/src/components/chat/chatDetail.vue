@@ -1,11 +1,15 @@
-<template>
+<template>  
   <div>
-    <h1 v-if="item.user1 == $store.state.loginInfo.email">
-      <img>{{item.user2Name}}</h1>
+    <div id="download">
+      <h1 v-if="item.user1 == $store.state.loginInfo.email">
+        <img>{{item.user2Name}}</h1>
 
-    <h1 v-if="item.user2 == $store.state.loginInfo.email">
-      <img>{{item.user1Name}}</h1>
-
+      <h1 v-if="item.user2 == $store.state.loginInfo.email">
+        <img>{{item.user1Name}}</h1>
+    
+      <button type="button" class="form-control"><a :href="txtFile">TXT 파일 다운로드</a></button>
+      <button type="button" class="form-control"><a :href="pdfFile">PDF 파일 다운로드</a></button>
+    </div>
     <div class="chatBody" style="overflow:auto;">
       <ul class="list-group">
         <li class="list-group-item" v-for="msg in messages">
@@ -55,8 +59,9 @@
       <div class="input-group-append">
         <button type="button" @click="sendMessage"><i class="fa-regular fa-paper-plane fa-2x"></i></button>
       </div>
-    </div>
-  </div>
+    </div>           
+  </div> 
+  
 </template>
 
 <script>
@@ -67,6 +72,8 @@
     props: ['roomId', 'item', 'value'],
     data() {
       return {
+        txtFile : "http://localhost:8090/zippy/chat/txtFile/" + this.roomId,
+        pdfFile : "http://localhost:8090/zippy/chat/pdfFile/" + this.roomId,
         room: {},
         sender: '',
         message: '',
@@ -74,17 +81,23 @@
         isConnect : false        
       }
     },
+    watch:{
+      value : function(){
+        if(this.roomId == this.value.roomId){
+          this.messages.push(this.value);
+          console.log(this.roomId + "WATCH!!! RUN!!");
+        } 
+        
+      }
+    },
     created() {
       this.sender = this.$store.getters.getName;
-      this.loadContent();
-      // this.findRoom();      
+      this.loadContent();        
+      console.log("value :: " + this.value);
     },
 
-    updated() {
-      console.log("updated RUN!");
-      this.connect();
-    },
-    methods: {
+
+    methods: {      
       goToBottom: function () {
         var body = document.querySelector(".chatBody");
         body.scrollTop = body.scrollHeight;
@@ -123,6 +136,7 @@
           this.goToBottom();
         }
       },
+
       recvMessage: function (recv) {
         this.messages.push({
           "type": recv.type,
@@ -133,29 +147,13 @@
         this.goToBottom();
       },
 
-      getTime: function () {
-        var now = new Date();
-        var str = "" + now.getFullYear() + "/" + (now.getMonth() + 1) + "/" + now.getDate() + "-" +
-          now.getHours() + ":" + now.getMinutes()
+        getTime: function () {
+          var now = new Date();
+          var str = "" + now.getFullYear() + "/" + (now.getMonth() + 1) + "/" + now.getDate() + "-" +
+            now.getHours() + ":" + now.getMinutes()
 
-        return str;
-      },
-
-      connect: function () {        
-        var outside = this;
-        this.$ws.subscribe("/topic/chat/room/" + outside.roomId, function (message) {
-            console.log("구독 성공!")
-            var recv = JSON.parse(message.body);
-            // console.log(recv);
-            outside.recvMessage(recv);
-          });
-          outside.$ws.send("/app/chat/message", JSON.stringify({
-            type: 'ENTER',
-            roomId: outside.roomId,
-            sender: outside.sender,
-            time: outside.getTime()
-          }));       
-        }
+          return str;
+        },
       }    
   }
 </script>
@@ -213,5 +211,17 @@
 
   .list-group-item{
     border:none;
+  }
+  #download{
+    width: 30%;
+    display: inline-block;
+  }
+
+  h1 {
+    display: inline-block;
+  }
+
+  a{
+    text-decoration: none;
   }
 </style>

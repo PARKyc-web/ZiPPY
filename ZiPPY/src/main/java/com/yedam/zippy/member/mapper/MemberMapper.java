@@ -35,4 +35,8 @@ public interface MemberMapper {
                                     @Param("phoneNumber") String phoneNumber);    
     
     
+    public void updateUserInfo(GeneralUserVO info);
+    
+    public void updateBusinessInfo(BusinessVO info);
+    
 }

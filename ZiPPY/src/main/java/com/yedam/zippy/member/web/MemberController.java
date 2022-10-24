@@ -70,5 +70,19 @@ public class MemberController {
       
       return service.changePassword(login, data.get("newPassword"));
     }
+    
+    @PostMapping("userInfo")
+    public GeneralUserVO updateUserInfo(GeneralUserVO vo) {
+      System.out.println(vo);      
+      service.updateUserInfo(vo);
+      return (GeneralUserVO) service.getMember(vo.getEmail(), 0);
+    }
+    
+    @PostMapping("businessInfo")
+    public BusinessVO updateBusinessInfo(BusinessVO vo) {
+      System.out.println(vo);
+      service.updateBusinessInfo(vo);
+      return (BusinessVO) service.getMember(vo.getEmail(), 1);
+    }
 
 }
