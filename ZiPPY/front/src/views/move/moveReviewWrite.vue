@@ -17,6 +17,9 @@
                     </div>
                     <div class="used-point-report">
                         <div>
+                            {{list.movingResponseNo}}
+                        </div>
+                        <div>
                             <h4>평점</h4>
                         </div>
                         <div>
@@ -208,6 +211,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
                                 </b-card-text>
                             </b-tab>
                         </b-tabs>
@@ -226,11 +230,15 @@
             navBar
         },
         data: () => ({
-            list:[],
+            //
+            list:"",
+            movingResponseNo:"",
+
             data: "",
             page: 1,
             pageCount: 1,
             estimateType : "",
+            serviceId: "",
             rv: {
                 reviewNo: "",
                 email: "",
@@ -238,7 +246,7 @@
                 reviewContent: "",
                 reviewDate: "",
                 serviceType: 1,
-                serviceId: 27,
+                serviceId: '',
                 viewCnt: 0,
                 totalRating: 0,
                 rate1: 0,
@@ -256,23 +264,50 @@
         },
         created() {
             axios({
-                url: "/used/userMain",
-                methods: "GET",
-                params: {
-                    // email: this.$route.query.email,
-                    email : this.$store.state.loginInfo.email,
-                    // pageNum: this.page
-                }
-            }).then(res => {
-                console.log(res);
-                this.data = res.data.list;
-                this.pageCount = res.data.pages;
-                this.nickName = this.data[0].nickName;
-                this.rv.email = this.$store.state.loginInfo.email;
-            }).catch(error => {
-                console.log(error);
-            })
-            ,
+        url: "/move/moveMyListOne",
+        methods: "GET",
+        params: {
+          email: "",
+
+          checked: "",
+          dropbox: "",
+          dropbox2: "",
+
+          serviceType: "",
+          serviceId: "",
+          userEmail: this.$store.state.loginInfo.email,
+          reservStatus: ""
+
+        }
+      }).then(res => {
+        console.log(res);
+        this.list = res.data;
+        console.log(this.list);
+
+        // this.data.email = this.$store.state.loginInfo.email;
+        // this.data.serviceId= this.list[i].email;
+        // console.log(this.data.serviceId);
+      }).catch(error => {
+        console.log(error);
+      })
+            // axios({
+            //     url: "/used/userMain",
+            //     methods: "GET",
+            //     params: {
+            //         // email: this.$route.query.email,
+            //         email : this.$store.state.loginInfo.email,
+            //         // pageNum: this.page
+            //     }
+            // }).then(res => {
+            //     console.log(res);
+            //     this.data = res.data.list;
+            //     this.pageCount = res.data.pages;
+            //     this.nickName = this.data[0].nickName;
+            //     this.rv.email = this.$store.state.loginInfo.email;
+            // }).catch(error => {
+            //     console.log(error);
+            // })
+            // ,
             axios({
                 url: "common/showProReview",
                 methods: "GET",
@@ -289,23 +324,24 @@
             })
         },
         methods: {
-            rewrite() {
-                axios({
-                    url: "http://localhost:8090/zippy/move/moveMyList",
-                    methods: "GET",
-                    params: {
-                        email: this.$store.state.loginInfo.email,
-                        // pageNum: this.page
-                    }
-                }).then(res => {
-                    console.log(res);
-                    this.data = res.data.list;
-                    this.pageCount = res.data.pages;
-                    this.rv.email = this.$store.state.loginInfo.email;
-                }).catch(error => {
-                    console.log(error);
-                })
-            },
+            // rewrite() {
+            //     axios({
+            //         url: "http://localhost:8090/zippy/move/moveMyListOne",
+            //         methods: "GET",
+            //         params: {
+            //             email: this.$store.state.loginInfo.email,
+            //             // pageNum: this.page
+            //         }
+            //     }).then(res => {
+            //         console.log(res);
+            //         this.list = res.data;
+            //         // this.data = res.data.list;
+            //         this.pageCount = res.data.pages;
+            //         this.rv.email = this.$store.state.loginInfo.email;
+            //     }).catch(error => {
+            //         console.log(error);
+            //     })
+            // },
             goDetail(no) {
                 console.log(no);
                 this.$router.push('/used/detail?pNo=' + no);

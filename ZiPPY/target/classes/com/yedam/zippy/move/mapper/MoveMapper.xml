@@ -331,6 +331,21 @@
         ORDER BY m.estimate_no DESC
 	</select>
 	
+	<!-- 받은견적조회 - 단건조회 -->
+	<select id="getMyEstimateListOne" resultType="MoveMyListVO">
+		SELECT m.email user_email, m.request_date, r.*, b.comp_intro, b.phone, b.comp_address, (SELECT AVG(total_rating)
+		FROM review_board
+		WHERE service_type = 3
+		AND service_id = r.email) total_rating
+		FROM untact_estimate_moving m JOIN moving_response r
+		ON (m.estimate_no = r.estimate_no)
+		JOIN business b
+		ON (r.comp_name = b.comp_name)
+		WHERE m.email = #{userEmail}
+		AND r.moving_response_no = #{movingResponseNo}
+        ORDER BY m.estimate_no DESC
+	</select>
+	
 	
 	<!-- 업체조회 -->
 	<select id="getCompanyList" parameterType="MoveMyListVO" resultType="MoveMyListVO">
@@ -356,6 +371,15 @@
 		WHERE service_id = #{sId}
 		AND email = #{email}
 		AND service_type = #{serviceType}
+	</select>
+	
+	<select id="showReview" resultType="MoveReviewVO">
+		SELECT *
+		FROM review_board
+		WHERE service_type = #{serviceType}
+		AND service_id = #{serviceId}
+		AND email = #{email}
+		ORDER BY review_no DESC
 	</select>
 	
 </mapper>

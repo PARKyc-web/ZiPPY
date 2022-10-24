@@ -3,9 +3,11 @@ package com.yedam.zippy.move.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -63,11 +65,16 @@ public interface MoveService {
   //받은 견적 조회 - 사용자
   public List<MoveMyListVO> getMyEstimateList(MoveMyListVO vo);
   
+  //사용자가 받은 견적 리스트 확인 - 단건
+  public MoveMyListVO getMyEstimateListOne(@Param("movingResponseNo")Integer movingResponseNo, @Param("userEmail")String userEmail);
+  
+  
   //업체조회 페이지
   public List<MoveMyListVO> getCompanyList(MoveMyListVO vo);
   
   //해당찜조회
   public List<BookmarkVO> getWishOneList(@RequestParam int sId, @RequestParam String email, @RequestParam int serviceType); 
    
-  
+  //후기 출력
+   public List<MoveReviewVO> showReview(@RequestBody MoveReviewVO vo);
 }
