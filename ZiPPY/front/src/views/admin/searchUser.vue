@@ -1,7 +1,5 @@
-<template>
-    <div>      
-      <div id="container">
-        <div>
+<template>          
+      <div id="container">        
           <div class="used-main-title">
             <h3>일반회원 조회</h3>
           </div>
@@ -15,15 +13,14 @@
               </div>
             </div>
           </div>
-        </div>
+        
   
-        <hr>       
-        </div>        
+        <hr>                     
         <b-table striped hover :items="items" :fields="fields"></b-table>
         <div class="text-center">
           <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3"></v-pagination>
-        </div>
-      </div>    
+        </div>      
+      </div>
   </template>
   
   <script>

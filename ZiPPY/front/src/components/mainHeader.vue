@@ -45,7 +45,15 @@
       </button>
 
       <div v-if="this.$store.state.loginInfo != null">
-        <router-link to="/mypage" class="nav-link"><img id="Icon" src="@/assets/user.png"></router-link>
+        <router-link to="/mypage" class="nav-link">          
+          <img id="Icon" src="@/assets/user.png">
+        </router-link>
+      </div>
+
+      <div v-if="this.$store.state.loginInfo != null">
+        <router-link to="/mypage" class="nav-link">
+          <img id="Icon" src="@/assets/box.jpg">           
+        </router-link>
       </div>
 
       <div v-if="this.$store.state.loginInfo != null">

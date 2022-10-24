@@ -97,10 +97,10 @@ public class CommonController {
     return service.showReview(rv);
   } 
 
-  @GetMapping("/RvOne")
-  public BookmarkVO getRvOne(@RequestParam int serviceType, @RequestParam int serviceId, @RequestParam String email) {
-    return service.getRvOne(serviceType, serviceId, email);
-  }  
+//  @GetMapping("/RvOne")
+//  public BookmarkVO getRvOne(@RequestParam int serviceType, @RequestParam int serviceId, @RequestParam String email) {
+//    return service.getRvOne(serviceType, serviceId, email);
+//  }  
 
  
   @GetMapping("img/{type}/{image}")

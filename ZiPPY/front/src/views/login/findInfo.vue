@@ -235,7 +235,7 @@ import swal from 'sweetalert2';
 <style scoped>
 #container {
   width: 35%;
-  margin-top: 7%;
+  margin: 7% auto;
 }
 
 .login_img{
