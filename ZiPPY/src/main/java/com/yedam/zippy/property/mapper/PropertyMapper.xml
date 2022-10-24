@@ -187,4 +187,18 @@
 		and
 		p.sigungu like #{sigungu}
 	</select>
+	
+	<!--  로그인 된 회원의 관심 매물 목록 불러오기 -->
+	<select id="getAllWishProperties" resultType="WishVO"
+		parameterType="String">
+		select *
+		from 
+			bookmark b
+			join
+			house_product h on b.service_id = h.product_id
+		where
+			b.service_type = 0
+			and
+			b.email = #{email}
+	</select>
 </mapper>

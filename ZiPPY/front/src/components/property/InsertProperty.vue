@@ -17,7 +17,7 @@
                 <v-file-input label='대표 이미지' v-model="mainImg"></v-file-input>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-file-input label='상세 이미지'></v-file-input>
+                <v-file-input label='상세 이미지' multiple small-chips truncate-length="15"></v-file-input>
               </v-col>
               <v-col cols="12">
                 <v-text-field label="건물명" v-model="houseName"></v-text-field>
@@ -71,7 +71,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="insert">
+          <v-btn color="blue darken-1" text @click="click">
             등록
           </v-btn>
           <v-btn color="blue darken-1" text @click="dialog2 = false">
@@ -85,6 +85,7 @@
 
 <script>
   import axios from 'axios';
+  import Swal from 'sweetalert2';
 
   export default {
     props: {
@@ -95,36 +96,40 @@
         dialog2: false,
         mainImg: '',
         houseName: '',
-        saleType : '',
-        price : '',
-        sigungu : '',
-        houseType : '',
-        floor : '',
-        areaExclusive : '',
-        roomCnt : '',
-        detailContents : '',
-        streetAddress : '',
-        houseFace : '',
-        parking : '',
-        bathCnt : '',
-        constructionYear : '',
-        tags :'',
+        saleType: '',
+        price: '',
+        sigungu: '',
+        houseType: '',
+        floor: '',
+        areaExclusive: '',
+        roomCnt: '',
+        detailContents: '',
+        streetAddress: '',
+        houseFace: '',
+        parking: '',
+        bathCnt: '',
+        constructionYear: '',
+        tags: '',
       }
     },
     methods: {
-      insert() {
-        let result = 0;
+      click() {
         let tags = '';
-
-        this.tags.forEach(element => {
+        Array.from(this.tags).forEach(element => {
           tags += element + '/';
         });
+
+        this.insert(tags);
+      },
+      insert(tags) {
+        let result = 0;
+
 
         axios({
             url: "http://localhost:8090/zippy/property/insertHouseProduct",
             methods: "POST",
             params: {
-              mainImg: this.mainImg,
+              mainImg: this.mainImg.name,
               houseName: this.houseName,
               saleType: this.saleType,
               price: this.price,
@@ -134,13 +139,21 @@
               areaExclusive: this.areaExclusive,
               roomCnt: this.roomCnt,
               detailContents: this.detailContents,
-              email: this.email
+              email: this.email,
+              tags: tags
             }
           }).then(response => {
             // 성공했을 때
             console.log('insertHouseProduct success!');
             result++;
-            if (result == 2) alert('등록이 완료되었습니다.');
+            if (result == 2) {
+              Swal.fire({
+                icon: 'success',
+                title: '등록되었습니다.',
+                showConfirmButton: false,
+                timer: 1500
+              })
+            }
           })
           .catch(error => {
             // 에러가 났을 때
@@ -163,13 +176,21 @@
             // 성공했을 때
             console.log('insertHouseDetail success!');
             result++;
-            if (result == 2) alert('등록이 완료되었습니다.');
+            if (result == 2) {
+              Swal.fire({
+                icon: 'success',
+                title: '등록되었습니다.',
+                showConfirmButton: false,
+                timer: 1500
+              })
+            }
           })
           .catch(error => {
             // 에러가 났을 때
             console.log('insertHouseDetail fail!');
             console.log(error);
           })
+
       }
     }
   }
