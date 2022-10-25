@@ -166,7 +166,12 @@ public class MoveServiceImpl implements MoveService{
   public int makeEstimate(MoveResponseVO vo) {
     return mapper.makeEstimate(vo);
   }
-  
+
+//견적상태 업데이트 (견적요청후, 상태 0으로 변경)
+@Override
+  public String moveStatusUpdateZero(MoveResponseVO vo) {
+    return mapper.moveStatusUpdateZero(vo);
+  }  
   //견적상태 업데이트 (1차 견적서 발송후, 상태 1로 변경)
   @Override
   public int moveStatusUpdate(MoveResponseVO vo) {

@@ -7,13 +7,15 @@
 
         <v-card>
             <div id="used-seller-main">
-                <div id="used-img">
+                <!-- <div id="used-img">
                     <div id="used-img-img">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkW5iRqvi6VdPWVWYswwWoUYhmW-AA2W8P0tExfMLx3wWPiwVFHegzq29vq8KoN1jKVxQ&usqp=CAU"
                             width="100px" height="100px" alt="">
                     </div>
-                </div>
-                <div 회사정보 부분>
+                </div> -->
+                
+                <!-- 업체정보 -->
+                <div class="loaf">
                     <div id="used-seller-name">
 
                         <div id="used-name-report">
@@ -39,9 +41,35 @@
                             <div>{{list.compIntro}}</div>
                         </div>
                     </div>
+
+                    <div class="right-loaf">
                     <div class="used-point-report">
 
-                        <div>
+
+                        <!-- 별점 박스 -->
+              <div id="star-box">
+                <div id="star-left">
+                  <div class="mt-1">
+                    <v-rating v-model="proTotalRating" half-increments background-color="#64c481 lighten-3"
+                      color="#64c481" large readonly></v-rating>
+                  </div>
+                  <h2 class="ml-3 mt-3" style="font-weight:bold" v-if="reviews.length != 0">{{proTotalRating}}</h2>
+                </div>
+                <div id="star-right">
+                  <v-progress-linear color="#64c481" height="20" :value=rate1 style="width:200px"></v-progress-linear>
+                  <h6>손이 빨라요</h6>
+                  <v-progress-linear color="#64c481" height="20" :value=rate2 style="width:200px"></v-progress-linear>
+                  <h6>전문적이에요</h6>
+                  <v-progress-linear color="#64c481" height="20" :value=rate3 style="width:200px"></v-progress-linear>
+                  <h6>친절해요</h6>
+                  <v-progress-linear color="#64c481" height="20" :value=rate4 style="width:200px"></v-progress-linear>
+                  <h6>마무리가 깔끔해요</h6>
+                </div>
+              </div>
+              <!-- 별점 박스 끝 -->
+            </div>
+
+                        <!-- <div>
                             <h4>평점</h4>
                         </div>
                         <div>
@@ -55,7 +83,7 @@
                                 height="29px" alt="별점 0">
                             <img src="	https://m.bunjang.co.kr/pc-static/resource/982587b0e24b8bccea13.png" width="30px"
                                 height="29px" alt="별점 0">
-                        </div>
+                        </div> -->
                     </div>
 
                 </div>
@@ -66,26 +94,18 @@
 
         <div class="review_area">
             <b-tabs content-class="mt-3">
-                <b-tab title="견적정보" active>
-                    <div><span>NO.{{list.movingResponseNo}}</span></div>
-                    <div><span>견적일자 : {{list.requestDate}}</span></div>
-                    <div><span>글쓴이 : {{nickName}}</span></div>
-                    <div v-if="list.secondEstimateType == null">
-                        <div><span>견적타입: {{list.firstEstimateType}}</span></div>
-                    </div>
-                    <div v-if="list.secondEstimateType != null">
-                        <div><span>견적타입 : {{list.secondEstimateType}}</span></div>
-                    </div>
-                </b-tab>
+                <!-- <b-tab title="견적정보" active>
+                    
+                </b-tab> -->
 
 
-                <b-tab @click="show()" title="이사후기">
+                <b-tab  title="이사후기">
 
-                    <v-card v-for="item in data">
-                        <v-data-table :headers="headers" :items="reviews">
+                    <v-card >
+                        <v-data-table :headers="headers" :items="data">
                             <!-- 별점 -->
-                            <template v-slot:item.REVIEW_CONTENT="{ item }">
-                                <div><span>NO.{{item.reviewNo}}</span></div>
+                            <template v-for="item in data" v-slot:item.REVIEW_CONTENT="{ item }">
+                                
                                 <div class="pa-5">
                                     
                                     <v-rating v-model="item.TOTAL_RATING" half-increments
@@ -95,100 +115,94 @@
 
                             </template>
                         </v-data-table>
-                        <div><span>NO.{{item.reviewNo}}</span></div>
-                        <div><span>{{item.email}}</span></div>
-                        <div><span>{{item.reviewContent}}</span></div>
-                        <div><span>{{item.reviewDate}}</span></div>
+                        
                     </v-card>
 
-                    <!-- <v-card v-for="item in data">
-                        <div>
-                            <div id="used-name-star">
-                                <div><span>NO.{{item.reviewNo}}</span></div>
-                                    <div>
-                                        <img src="	https://m.bunjang.co.kr/pc-static/resource/44c1240e63c64f221877.png"
-                                            width="15px" height="14px" alt="별점 1">
-                                        <img src="	https://m.bunjang.co.kr/pc-static/resource/60405218836726829fe3.png"
-                                            width="15px" height="14px" alt="별점 반">
-                                        <img src="	https://m.bunjang.co.kr/pc-static/resource/982587b0e24b8bccea13.png"
-                                            width="15px" height="14px" alt="별점 0">
-                                        <img src="	https://m.bunjang.co.kr/pc-static/resource/982587b0e24b8bccea13.png"
-                                            width="15px" height="14px" alt="별점 0">
-                                        <img src="	https://m.bunjang.co.kr/pc-static/resource/982587b0e24b8bccea13.png"
-                                            width="15px" height="14px" alt="별점 0">
-                                    </div>
-                                    <div><span>작성자 : {{item.email}}</span></div>
-                                    <div><span>작성일자 : {{item.reviewDate}}</span></div>
-                                    <div><span> {{item.reviewContent}}</span></div>
-                            </div>
-                            
-                        </div>
-                        <div class="text-center">
-                            <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3">
-                            </v-pagination>
-                        </div>
-                    </v-card> -->
+                
 
                 </b-tab>
 
-                <b-tab title="후기작성">
-                    <b-card-text>
-                        <div>
-                            <div id="used-user-star">
-                                <div id="used-total-start">
-                                    <div id="used-start-num"> 평점 {{rv.totalRating}}/5 </div>
-                                    <div>
-                                        <b-form-rating variant="warning" v-model="rv.totalRating" no-border size="lg">
-                                        </b-form-rating>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div>
-                                    <div class="used-rates-star">
-                                        <div>손이 빨라요 {{rv.rate1}}/5</div>
-                                        <div class="used-all-stars">
-                                            <b-form-rating variant="warning" v-model="rv.rate1" no-border>
-                                            </b-form-rating>
-                                        </div>
-                                    </div>
-                                    <div class="used-rates-star">
-                                        <div>친절해요 {{rv.rate2}}/5</div>
-                                        <div class="used-all-stars">
-                                            <b-form-rating variant="warning" v-model="rv.rate2" no-border>
-                                            </b-form-rating>
-                                        </div>
-                                    </div>
-                                    <div class="used-rates-star">
-                                        <div>깔끔해요 {{rv.rate3}}/5</div>
-                                        <div class="used-all-stars">
-                                            <b-form-rating variant="warning" v-model="rv.rate3" no-border>
-                                            </b-form-rating>
-                                        </div>
-                                    </div>
-                                    <div class="used-rates-star">
-                                        <div>전문적이에요 {{rv.rate4}}/5</div>
-                                        <div class="used-all-stars">
-                                            <b-form-rating variant="warning" v-model="rv.rate4" no-border>
-                                            </b-form-rating>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div>
-                                    <h5>짧은 글 후기</h5>
-                                </div>
-                                <div id="used-user-review">
-                                    <v-textarea name="" id="" cols="140" rows="10" placeholder="후기를 남겨주세요"
-                                        v-model="rv.reviewContent"></v-textarea>
-                                </div>
-                                <div><button class="submitBtn" type="button" @click="addRv()">등록</button>
-                                </div>
-                            </div>
-                        </div>
+                
+                <div v-if="list.userEmail == this.$store.state.loginInfo.email">            
+                    <b-tab title="후기작성">
+        <v-card>
 
-                    </b-card-text>
-                </b-tab>
+                        <v-card-title>
+        <span class="text-h6">견적정보</span>
+      </v-card-title>
+      <v-card-text>
+        <div><span>NO.{{list.movingResponseNo}}</span></div>
+                    <div><span>견적일자 : {{list.requestDate}}</span></div>
+                    <div><span>글쓴이 : {{nickName}}</span></div>
+                    <div v-if="list.secondEstimateType == null">
+                        <div><span>견적타입: {{list.firstEstimateType}}</span></div>
+                    </div>
+                    <div v-if="list.secondEstimateType != null">
+                        <div><span>견적타입 : {{list.secondEstimateType}}</span></div>
+                    </div>
+
+        </v-card-text>
+
+        <hr />
+        
+      <v-card-title>
+        <span class="text-h6">이사후기</span>
+      </v-card-title>
+      <v-card-text>
+        <v-container style="color:#212529">
+          <v-row>
+            <!-- 별점선택 -->
+            <v-col cols="11">
+              <table>
+                <tbody>
+                  <tr style="border: 0">
+                    <td>손이 빨라요</td>
+                    <td>
+                      <b-form-rating v-model="rate1" no-border color="#64c481" size="sm"></b-form-rating>
+                    </td>
+                  </tr>
+                  <tr style="border: 0">
+                    <td>전문적이에요</td>
+                    <td>
+                      <b-form-rating v-model="rate2" no-border color="#64c481" size="sm"></b-form-rating>
+                    </td>
+                  </tr>
+                  <tr style="border: 0">
+                    <td>친절해요</td>
+                    <td>
+                      <b-form-rating v-model="rate3" no-border color="#64c481" size="sm"></b-form-rating>
+                    </td>
+                  </tr>
+                  <tr style="border: 0">
+                    <td>마무리가 깔끔해요</td>
+                    <td>
+                      <b-form-rating v-model="rate4" no-border color="#64c481" size="sm"></b-form-rating>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </v-col>
+            <v-col cols="12">
+              리뷰
+              <v-textarea solo v-model="reviewContent" no-border name="input-7-4" label="리뷰를 입력해주세요">
+              </v-textarea>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+      
+        <input type="button" id="subBtn" value="등록" disabled="disabled" color="success lighten -2" text @click="insertReview()" />
+          
+     
+     
+      </v-card-actions>
+    </v-card>
+</b-tab>
+</div>
+
+                    
             </b-tabs>
         </div>
 
@@ -230,7 +244,18 @@
                     deleteState: ""
                 },
 
+
                 //은하
+
+                 //후기 
+                reviewContent: '',
+                serviceType: 3,
+                totalRating: '',
+                rate1: '',
+                rate2: '',
+                rate3: '',
+                rate4: '',
+                
                 singleSelect: false,
                 reviews: [],
                 headers: [{
@@ -242,24 +267,30 @@
                     {
                         text: '후기번호',
                         sortable: false,
-                        value: 'PRO_NO'
+                        value: 'reviewNo'
                     },
                     {
                         text: '작성자',
                         sortable: false,
-                        value: 'PRO_NAME'
+                        value: 'email'
                     },
                     {
                         text: '후기내용',
                         sortable: false,
-                        value: 'REVIEW_CONTENT'
+                        value: 'reviewContent'
                     },
                     {
                         text: '작성일',
-                        value: 'REVIEW_DATE'
+                        value: 'reviewDate'
                     }
-                ]
-            }
+                ],
+                /* 리뷰 */
+                proTotalRating: '',
+                rate1: '',
+                rate2: '',
+                rate3: '',
+                rate4: '',
+                        }
         },
         watch: {
             page() {
@@ -267,6 +298,31 @@
             }
         },
         created() {
+
+
+            // await this.getReviewList();
+
+        //별점 계산
+        var tSum = 0;
+        var r1Sum = 0;
+        var r2Sum = 0;
+        var r3Sum = 0;
+        var r4Sum = 0;
+        for (var i in this.reviews) {
+        tSum += Number(this.reviews[i].totalRating)
+        r1Sum += Number(this.reviews[i].rate1)
+        r2Sum += Number(this.reviews[i].rate2)
+        r3Sum += Number(this.reviews[i].rate3)
+        r4Sum += Number(this.reviews[i].rate4)
+        }
+        this.proTotalRating = Math.round(tSum / this.reviews.length * 10) / 10
+        this.rate1 = Math.round(r1Sum / this.reviews.length) * 10
+        this.rate2 = Math.round(r2Sum / this.reviews.length) * 10
+        this.rate3 = Math.round(r3Sum / this.reviews.length) * 10
+        this.rate4 = Math.round(r4Sum / this.reviews.length) * 10
+
+              
+
             axios({
                 url: "http://localhost:8090/zippy/move/moveMyListOne",
                 methods: "GET",
@@ -288,35 +344,9 @@
                 // this.data.email = this.$store.state.loginInfo.email;
                 // this.data.serviceId= this.list[i].email;
                 // console.log(this.data.serviceId);
-            }).catch(error => {
-                console.log(error);
-            })
 
 
-
-        },
-
-        methods: {
-            addRv: function () {
-                this.rv.email = this.$store.state.loginInfo.email;
-                console.log('리뷰작성 : ' + this.rv.email);
-                this.rv.serviceId = this.list.movingResponseNo;
-                axios({
-                    url: "common/addRv",
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json; charset=utf-8"
-                    },
-                    data: JSON.stringify(this.rv)
-                }).then(res => {
-                    console.log(res);
-                }).catch(error => {
-                    console.log(error);
-                })
-            },
-            show: function () {
-                console.log('emaillllll', this.list.email);
-
+                //후기 가져오기
                 axios({
                     url: "http://localhost:8090/zippy/move/moveReview",
                     methods: "GET",
@@ -326,12 +356,14 @@
                         // movingResponseNo : 14,
                         serviceId: this.list.email,
                         // serviceType : this.rv.serviceType,
-                        pageNum: this.page
+                        pageNum: this.page,
+                        
 
                     }
                 }).then(res => {
                     this.data = res.data;
                     this.pageCount = res.data.pages;
+                   this.nickName= this.$store.state.loginInfo.nickName;
                     console.log("res", res);
                     console.log(res.data);
                     console.log("list!!!!!!!", this.data);
@@ -343,13 +375,97 @@
                     console.log(error);
                 })
 
+            }).catch(error => {
+                console.log(error);
+            })
+
+        },
+
+        methods: {
+
+                //리뷰 등록
+      insertReview() {
+        if (!this.rate1 || !this.rate2 || !this.rate3 || !this.rate4 || !this.reviewContent) {
+          swal.fire({
+            icon: 'warning',
+            title: '별점과 리뷰를 입력해주세요.',
+            showConfirmButton: false,
+            timer: 1500
+          });
+        } else {
+            //totalRating 입력
+            this.totalRating =
+            (Number(this.rate1) +
+              Number(this.rate2) +
+              Number(this.rate3) +
+              Number(this.rate4)) / 4
+          axios({
+            url: "/common/addRv",
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            data: {
+              email: this.$store.state.loginInfo.email,
+              reviewTitle: 0,
+              reviewContent: this.reviewContent,
+              serviceType: 3,
+              serviceId: this.list.email,
+              viewCnt: 0,
+              totalRating: this.totalRating,
+              rate1: this.rate1,
+              rate2: this.rate2,
+              rate3: this.rate3,
+              rate4: this.rate4,
             }
+          }).then(res => {
+            console.log(res);
+            swal.fire({
+              icon: 'success',
+              title: '리뷰가 등록되었습니다.',
+              showConfirmButton: false,
+              timer: 1500
+            });
+            
+            const btn = document.getElementById('subBtn') ;
+            btn.disabled = true;
+           
+          }).catch(error => {
+            console.log(error);
+          })
+        }
+        //상태 변경
+        axios({
+          url: "/shop/updateRvStatus",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          data: {
+            purNo: this.purNo
+          }
+        }).then(res => {
+          console.log(res);
+        }).catch(error => {
+          console.log(error);
+        })
+      } ,
+
+            
 
         }
     }
 </script>
 
 <style scoped>
+
+/* .loaf{
+    float: left;
+}
+.right-loaf{
+    float: right;
+} */
+  
     /* 은하 */
     #cart-con {
         width: 70%;
@@ -504,7 +620,7 @@
     }
 
     #used-seller-main {
-        display: flex;
+        display: inline-block;
         width: 100%;
         margin-bottom: 20px;
     }

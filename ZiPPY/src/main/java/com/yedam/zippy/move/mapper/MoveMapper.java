@@ -3,6 +3,7 @@ package com.yedam.zippy.move.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.pagehelper.Page;
@@ -43,6 +44,9 @@ public interface MoveMapper {
   
   //견적서 인서트 - 업체(1차견적까지)
   public int makeEstimate(MoveResponseVO vo);
+  
+//견적상태 업데이트 (견적요청후, 상태 0으로 변경)
+  public String moveStatusUpdateZero(MoveResponseVO vo);
   
   //견적상태 업데이트 (1차 견적서 발송후, 상태 1로 변경)
   public int moveStatusUpdate(MoveResponseVO vo);

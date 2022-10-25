@@ -164,6 +164,14 @@
 			)
 	</insert>
 	
+	<!-- 사용자가 견적요청 후 견적상태 0로 변경 -->
+	<update id="moveStatusUpdate" parameterType="MoveResponseVO">
+		UPDATE untact_estimate_moving 
+        SET reserv_status = 0
+        WHERE estimate_no = #{estimateNo}  
+        AND email = #{email}
+	</update>
+	
 	<!-- 업체가 1차견적 발송 후 견적상태 1로 변경 -->
 	<update id="moveStatusUpdate" parameterType="MoveResponseVO">
 		UPDATE moving_response 
@@ -222,13 +230,13 @@
 	
 	<!-- 업체가 들어온 견적 전체조회 -->
 	<select id="getEstimateList" parameterType="MoveEstimateVO" resultType="MoveRequestVO">
-		<!-- SELECT *
+		SELECT *
 		FROM untact_estimate_moving
-		WHERE request_date LIKE '%'||'2'||'%' -->
+		WHERE request_date LIKE '%'||'2'||'%'
 		
-		SELECT m.*, r.reserv_status
+		<!-- SELECT m.*, r.reserv_status
 		FROM untact_estimate_moving m, moving_response r
-		WHERE m.estimate_no = r.estimate_no
+		WHERE m.estimate_no = r.estimate_no -->
 		<if test="dropbox2 == '내 지역만 조회'">
 		AND SUBSTR(depart_address, 1, 2) LIKE 
 				'%'|| (SELECT SUBSTR(comp_address, 1,2) 
