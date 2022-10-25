@@ -1,9 +1,9 @@
 <template>  
   <v-app> 
     <mainHeader></mainHeader>
-    <!--<v-main>-->
+    <div id="body">
       <router-view :key="$route.fullPath" />
-    <!--</v-main>-->
+    </div>
   </v-app>
 </template>
 
@@ -20,3 +20,11 @@ export default {
   }),
 };
 </script>
+
+<style scoped>
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+
+* {
+  font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+}
+</style>

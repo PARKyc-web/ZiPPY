@@ -5,29 +5,27 @@
            <v-card color="dark" elevation-24 style="padding: 20px; border: 1px; border-radius: 30px;">
              <v-card-text>
               <div class="login_img">
-                <img src="../../assets/zippy_logo.png" width="150px" />
+                <img src="../../assets/zippy_logo2.png" width="150px" />
               </div>
                 <br>
-                
-                <h4 class="display-2 font-weight-bold">Login</h4>
-                
+                <!--<h5 color="#B3E3C3 !important" class="font-weight-bold">로그인</h5>-->
                <hr>
                <br>
                <v-form>
                  <v-text-field 
                    clearable
                    v-model="email"
-                   label="Username"
+                   label="이메일"
                    prepend-icon="face"
                    type="email"                   
-                   color="#b3e3c3"                   
+                   color="#b3e3c3"          
                    @keyup.enter="enter()"             
                  >
                  </v-text-field>
-                 <v-text-field 
+                 <v-text-field
                    clearable
                    v-model="password"
-                   label="Password"
+                   label="비밀번호"
                    prepend-icon="lock"
                    type="password"                   
                    color="#b3e3c3"                   
@@ -38,14 +36,14 @@
               </v-form>
               <br>
               <div id="login_btn">
-               <v-btn @click="login()" color="#b3e3c3" large>Enter</v-btn>
+               <v-btn depressed @click="login()" width="386" color="#b3e3c3" large style="font-weight:bold">로그인</v-btn>
               </div>
              </v-card-text>
              <hr>             
              <ul>
-              <li><button @click="signIn()">회원가입</button></li>
-              <li><button @click="findInfo()">아이디 찾기</button></li>
-              <li><button @click="findInfo()">비밀번호 찾기</button></li>
+              <li><button @click="signIn()" style="font-size:small">회원가입</button></li>
+              <li><button @click="findInfo()" style="font-size:small">아이디 찾기</button></li>
+              <li><button @click="findInfo()" style="font-size:small">비밀번호 찾기</button></li>
              </ul>
 
            </v-card>                    
@@ -128,7 +126,7 @@ export default{
 
 <style scoped>
 #container {
-  width: 35%;
+  width: 27%;
   margin: 7% auto;
   /* margin-top: 7%; */  
 }
@@ -162,6 +160,10 @@ ul li {
 }
 
 ul li:hover {
-  color : #b3e3c3;
+  color : #64c481;
+}
+
+select{
+  font-size:small;
 }
 </style>

@@ -5,7 +5,7 @@
            <v-card color="dark" elevation-24 style="padding: 20px; border: 1px; border-radius: 30px;">
              <v-card-text>
               <div class="login_img">
-                <img src="@/assets/zippy_logo.png" width="150px" />
+                <img src="@/assets/zippy_logo2.png" width="150px" />
               </div>
                 <br>
                 <hr>
@@ -13,12 +13,12 @@
                 <b-form-radio-group                  
                   id="btn-radios-2"
                   v-model="selected"
-                  :options="options"          
-                  button-variant="outline-primary"
-                  size="lg"
+                  :options="options"       
+                  button-variant="outline-success"
+                  size="sm"
                   name="radio-btn-outline"              
                   buttons                  
-                ></b-form-radio-group>                                     
+                ></b-form-radio-group>                                  
                 </div>
                
                <br>
@@ -43,7 +43,7 @@
                  >
                  </v-text-field>
                  <div id="login_btn">
-                  <v-btn @click="sendValidationNum(1)" color="#b3e3c3" large>인증번호 받기</v-btn>
+                  <v-btn @click="sendValidationNum(1)" color="#b3e3c3" depressed large style="font-weight:bold">인증번호 받기</v-btn>
                   </div>
                   <br>
                  <v-text-field
@@ -74,11 +74,11 @@
               
               <hr>    
               <div id="login_btn" v-if="selected == 'radio1'">
-               <v-btn @click="checkValid()" color="#b3e3c3" large>아이디 찾기</v-btn>
+               <v-btn @click="checkValid()" color="#b3e3c3" depressed large style="font-weight:bold">아이디 찾기</v-btn>
               </div>
 
               <div id="login_btn" v-if="selected == 'radio2'">
-               <v-btn type="button" @click="sendValidationNum(0)" color="#b3e3c3" large>비밀번호 찾기</v-btn>
+               <v-btn type="button" @click="sendValidationNum(0)" color="#b3e3c3" depressed large style="font-weight:bold">비밀번호 찾기</v-btn>
               </div>
              </v-card-text>
              
@@ -233,8 +233,9 @@ import swal from 'sweetalert2';
 </script>
 
 <style scoped>
+
 #container {
-  width: 35%;
+  width: 27%;
   margin: 7% auto;
 }
 
@@ -273,5 +274,6 @@ ul li:hover {
 #typeBtn {
   text-align: center;
 }
+
 </style>
 

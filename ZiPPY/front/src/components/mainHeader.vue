@@ -5,12 +5,12 @@
 
         <!-- 회원으로 로그인할 시 메인버튼을 누르면 홈화면으로 갈 수 있도록 한다.-->
         <router-link to="/home" class="navbar-brand" v-if="$store.state.memberType == 0 || $store.state.memberType == null">
-          <img alt="ZiPPY_logo" src="@/assets/zippy_logo.png" style="height:30px;" />
+          <img alt="ZiPPY_logo" src="@/assets/zippy_logo2.png" style="height:50px;" />
         </router-link>
 
         <!-- 판매자로 로그인할 시 메인버튼을 누르면 판매자 페이지로 돌아갈 수 있도록 한다.-->
         <router-link to="/seller" class="navbar-brand" v-if="$store.state.memberType != 0 && $store.state.memberType != null">
-          <img alt="ZiPPY_logo" src="@/assets/zippy_logo.png" style="height:30px;" />
+          <img alt="ZiPPY_logo" src="@/assets/zippy_logo2.png" style="height:50px;" />
         </router-link>
 
         <ul class="navbar-nav me-auto" v-if="$store.state.memberType == 0 || $store.state.memberType == null">
@@ -33,7 +33,7 @@
       </div>
       
       <div v-if="this.$store.state.loginInfo == null">
-        <router-link to="/login" class="nav-link"><img id="Icon" src="@/assets/signin.png"></router-link>
+        <router-link to="/login" class="nav-link"><v-icon id="Icon">mdi-login-variant</v-icon></router-link>
       </div>
 
       <div id="userNameTag" v-if="this.$store.state.loginInfo != null">
@@ -88,6 +88,21 @@
 </script>
 
 <style scoped>
+@font-face {
+    font-family: 'GmarketSans';
+    font-weight: 500;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot?#iefix') format('embedded-opentype'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff') format('woff'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.ttf') format("truetype");
+    font-display: swap;
+} 
+* {
+  font-family: 'GmarketSans';
+}
+
   .v-application a{
     color : black !important;
   }
@@ -123,7 +138,9 @@
   /* #Icon:hover {
     filter: opacity(0.3) drop-shadow(0 0 0 #64c481);
   } */
-
+  #Icon {
+    color:#191919;
+  }
   #Icon:hover {
     color: #64c481;
   }
@@ -140,4 +157,8 @@
   /* .navbar-brand {
     padding-left: 0px;
   } */
+  .nav-item{
+    font-size:0.8em;
+    color:#191919;
+  }
 </style>
