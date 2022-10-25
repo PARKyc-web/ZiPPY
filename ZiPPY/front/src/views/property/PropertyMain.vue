@@ -57,9 +57,6 @@
   import chickenJson from "../../assets/property/chicken.json";
   import axios from "axios";
   import PropertyMainToolbar from '../../components/property/PropertyMainToolbar.vue';
-  import {
-    oneHundredMillion
-  } from '../../assets/property/propertyPrice';
 
   export default {
     components: {
@@ -90,6 +87,9 @@
           if (price == '0000') return result;
         }
         price = price.substr(price.length - 4, price.length - 3) + ',' + price.substr(price.length - 3, price.length);
+        if(price[0]=='0') {
+          price = price.substr(price.length - 3, price.length);
+        }
         result += price;
 
         return result;

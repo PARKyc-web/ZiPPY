@@ -23,7 +23,7 @@
             </tr>
             <tr>
               <th>관리비</th>
-              <td>매월 8만원</td>
+              <td>매월 10만원</td>
             </tr>
             <tr>
               <th>주차</th>
@@ -32,7 +32,7 @@
             </tr>
             <tr>
               <th>한달 예상 주거비용</th>
-              <td>43만원<br> <small>월세 + 관리비 별도 금액으로 부과되는 항목 제외</small>
+              <td>10만원<br><small>별도 금액으로 부과되는 항목 제외</small>
               </td>
             </tr>
           </table>
@@ -42,12 +42,20 @@
           <h4 class="title">상세정보</h4>
           <table>
             <tr>
+              <th>건물이름</th>
+              <td>{{this.houseDetail[0].houseName}}</td>
+            </tr>
+            <tr>
               <th>집종류</th>
               <td>{{this.houseDetail[0].houseType}}</td>
             </tr>
             <tr>
               <th>층수</th>
               <td>{{this.houseDetail[0].floor}}층</td>
+            </tr>
+            <tr>
+              <th>방 수/욕실 수</th>
+              <td>{{this.houseDetail[0].roomCnt}}개/{{this.houseDetail[0].bathCnt}}개</td>
             </tr>
             <tr>
               <th>전용면적</th>
@@ -109,8 +117,8 @@
                 <v-row justify="center">
                   <v-dialog v-model="dialog" persistent max-width="600px">
                     <template v-slot:activator="{ on, attrs }">
-                      <v-btn color="#B3E3C3" dark v-bind="attrs" @click="openChat" style="width: 90%; margin-bottom: 10px ">
-                        <b>채팅으로 문의하기</b>
+                      <v-btn color="#B3E3C3" dark v-bind="attrs" @click="openChat" style="width: 90%; margin-bottom: 10px;" height="50">
+                        <b>문의하기</b>
                       </v-btn>
                     </template>
                     <v-card>
@@ -176,7 +184,7 @@
     },
     created() {
       axios({
-          url: "http://localhost:8090/zippy/property/houseDetail",
+          url: "/property/houseDetail",
           method: "GET",
           params: {
             productId: this.$route.query.productId // this.productId
