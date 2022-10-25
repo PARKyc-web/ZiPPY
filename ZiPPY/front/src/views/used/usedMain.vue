@@ -5,6 +5,11 @@
       <div>
         <div class="used-main-title">
           <h3>판매중인 중고제품</h3>
+          <div>
+            <v-btn width="160" depressed color=#B3E3C3 @click="insert()">
+              상품등록
+            </v-btn>
+          </div>
         </div>
 
         <div id="used-add-drop-search">
@@ -35,7 +40,7 @@
         <!-- <nav class="navbar navbar-expand-lg navbar-light"> -->
         <div id="used-main-dropbox">
           <v-select @change="total()" v-model="select" :items="items" item-text="name" item-value="value" label="정렬"
-            color="#212529" persistent-hint single-line dense width="50"></v-select>
+            color="#212529" persistent-hint single-line dense width="50px"></v-select>
         </div>
       </div>
       <div id="noProduct" class="mx-auto" v-if="data.length == 0" style="text-align:center">
@@ -47,7 +52,7 @@
         <div>
           <div><img
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkW5iRqvi6VdPWVWYswwWoUYhmW-AA2W8P0tExfMLx3wWPiwVFHegzq29vq8KoN1jKVxQ&usqp=CAU"
-              width="192px" height="194px"></div>
+              width="191px" height="194px"></div>
           <div class="used-main-card-cont">
             <div class="used-main-card-title">{{list.productName}}</div>
             <div class="used-main-price-date">
@@ -104,6 +109,7 @@
       dropValue: '',
       page: 1,
       pageCount: 1,
+      cate: "",
 
       // 주소 출력에 필요한 데이터들입니다.
       map: null,
@@ -145,6 +151,7 @@
     methods: {
 
       total: function () {
+        console.log(this.cate)
         this.isChecked = document.querySelector(".form-check-input").checked;
         this.findList({
           location: this.location, // 0
@@ -156,15 +163,12 @@
         })
       },
       goDetail(no) {
-        console.log(no);
         this.$router.push('/used/detail?pNo=' + no);
       },
       getImgUrl(list) {
         return require(list.image);
       },
       findList(searchData) {
-        console.log(searchData.location);
-        console.log(searchData)
         axios({
           url: "http://localhost:8090/zippy/used/main",
           methods: "GET",
@@ -180,15 +184,18 @@
       test(sigu) {
         const out = this;
         out.location = sigu;
-        console.log('test 함수에서 sigu(' + sigu + ')를 출력하고 있습니다.');
+        let cate = sessionStorage.getItem("cate");
         out.findList({
           location: out.location,
           keyword: "",
-          category: "",
+          category: cate || "",
           checked: "",
           dropbox: "",
           pageNum: out.page
         })
+      },
+      insert() {
+        window.location.assign('/mypage/used/insert');
       }
     }
   }
@@ -205,6 +212,7 @@
 
   #used-main-dropbox {
     margin-top: 40px;
+    width: 160px;
   }
 
   .search {
@@ -238,6 +246,11 @@
     height: auto;
     display: inline-block;
     margin: 20px;
+    border-radius: 0.8em;
+  }
+
+  .used-main-card img {
+    border-radius: 0.8em;
   }
 
   v-container:hover {
@@ -260,6 +273,13 @@
 
   .used-main-title {
     margin: 50px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  #insertBtn {
+    background-color: #B3E3C3;
+    border-radius: 0.8rem;
   }
 
   .used-main-search-btn {
@@ -399,8 +419,6 @@
   .thumbnail-wrap {
     display: block;
   }
-
-
 
   .card-li {
     border: 1px solid black;
