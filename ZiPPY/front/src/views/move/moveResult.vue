@@ -122,9 +122,18 @@ export default {
     ],
 
       data : [],
-      select : ''
+      select : '',
+      page : 1,
+      pageCount: 1
     }
   },
+  watch: {
+      
+      page() {
+        
+          pageNum: this.page;
+      }
+    },
   mounted(){
     axios({
           url: "http://localhost:8090/zippy/move/moveResult",
@@ -132,12 +141,14 @@ export default {
           params: {
             movingOption : "",
             dropbox: "",
-            email: this.$store.state.loginInfo.email
+            email: this.$store.state.loginInfo.email,
+            pageNum: this.page,
           }
         }).then(res => {
           console.log(res);
           this.vo.email = this.$store.state.loginInfo.email,
-          this.list = res.data;
+          pageCount = res.data.pages;
+          this.list = res.data.list;
         }).catch(error => {
           console.log(error);
         })
@@ -318,8 +329,17 @@ export default {
 </script>
 
 <style scoped>
+.result-wrap {
+  width : 1200px;
+  margin-left: 200px;
+}
+
+form {
+  margin-left : 80px;
+}
 .imgPanel{
   
+
 }
 .move-main-title {
     margin: 50px;

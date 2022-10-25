@@ -373,12 +373,11 @@
 		AND service_type = #{serviceType}
 	</select>
 	
-	<select id="showReview" resultType="MoveReviewVO">
-		SELECT *
+	<select id="showReview" resultType="MoveReviewVO" parameterType="String">
+		SELECT * 
 		FROM review_board
-		WHERE service_type = #{serviceType}
+		WHERE service_type = 3
 		AND service_id = #{serviceId}
-		AND email = #{email}
 		ORDER BY review_no DESC
 	</select>
 	

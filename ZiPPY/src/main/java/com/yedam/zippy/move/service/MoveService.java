@@ -1,18 +1,14 @@
 package com.yedam.zippy.move.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.pagehelper.Page;
 import com.yedam.zippy.common.service.BookmarkVO;
-import com.yedam.zippy.move.mapper.MoveMapper;
 
 @Service
 public interface MoveService {
@@ -30,7 +26,7 @@ public interface MoveService {
   public List<MoveRequestVO> getEstimateList(MoveEstimateVO vo);
 
   //전체조회 - 유저
-  public List<MoveEstimateVO> getEstimateResult(MoveEstimateVO vo);
+  public Page<MoveEstimateVO> getEstimateResult(MoveEstimateVO vo);
   
   //비대면 사진조회
   public List<MoveImageVO> selectAllPhoto(MoveImageVO vo);
@@ -76,5 +72,5 @@ public interface MoveService {
   public List<BookmarkVO> getWishOneList(@RequestParam int sId, @RequestParam String email, @RequestParam int serviceType); 
    
   //후기 출력
-   public List<MoveReviewVO> showReview(@RequestBody MoveReviewVO vo);
+   public List<MoveReviewVO> showReview(@Param("serviceId")String serviceId);
 }

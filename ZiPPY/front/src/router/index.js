@@ -174,6 +174,21 @@ const routes = [
         name : "mypage-wishList",
         component : usedwishList
       },
+      {
+        path : "move/moveResult",
+        name : "mypage-wishList",
+        component : moveResult
+      },
+      {
+        path : "move/moveMyList",
+        name : "mypage-wishList",
+        component : moveMyList
+      },
+      {
+        path : "move/moveMyReserve",
+        name : "mypage-wishList",
+        component : moveMyReserve
+      },
     ]
   },
 
