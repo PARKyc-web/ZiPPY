@@ -22,7 +22,8 @@
               <v-container fluid>
                 <v-row>
                   <v-col cols="12" sm="6">
-                    <v-select :items="['전체', '매매', '전세', '월세']" label="거래유형" required v-model="data.saleType"></v-select>
+                    <v-select :items="['전체', '매매', '전세', '월세']" label="거래유형" required v-model="data.saleType">
+                    </v-select>
                   </v-col>
                   <v-col cols="12" sm="6">
                     <v-select :items="['전체', '1년 이내', '5년 이내', '10년 이내', '15년 이내']" label="준공년도" required
@@ -35,29 +36,29 @@
 
                       <v-btn-toggle v-model="houseSize" tile color="green lighten-1" group class="d-flex flex-row">
                         <v-btn class="flex-grow-1" value="0">전체</v-btn>
-                      <v-btn class="flex-grow-1" value="1">10평 이하</v-btn>
-                      <v-btn class="flex-grow-1" value="2">10평대</v-btn>
-                      <v-btn class="flex-grow-1" value="3">20평대</v-btn>
-                    </v-btn-toggle>
-                    <v-btn-toggle v-model="houseSize" tile color="green lighten-1" group class="d-flex flex-row">
-                      <v-btn class="flex-grow-1" value="4">30평대</v-btn>
-                      <v-btn class="flex-grow-1" value="5">40평대</v-btn>
-                      <v-btn class="flex-grow-1" value="6">50평대</v-btn>
-                      <v-btn class="flex-grow-1" value="7">60평 이상</v-btn>
-                    </v-btn-toggle>
-                  </div>
+                        <v-btn class="flex-grow-1" value="1">10평 이하</v-btn>
+                        <v-btn class="flex-grow-1" value="2">10평대</v-btn>
+                        <v-btn class="flex-grow-1" value="3">20평대</v-btn>
+                      </v-btn-toggle>
+                      <v-btn-toggle v-model="houseSize" tile color="green lighten-1" group class="d-flex flex-row">
+                        <v-btn class="flex-grow-1" value="4">30평대</v-btn>
+                        <v-btn class="flex-grow-1" value="5">40평대</v-btn>
+                        <v-btn class="flex-grow-1" value="6">50평대</v-btn>
+                        <v-btn class="flex-grow-1" value="7">60평 이상</v-btn>
+                      </v-btn-toggle>
+                    </div>
                   </v-col>
-                  <p>가격</p>
-                  <v-col cols="12" class="px-4">
-                    <v-range-slider min="0" max="999999" hide-details
-                      class="align-center" step="100" thumb-label :thumb-size="50">
+
+                  <v-col class="px-4">
+                    <p>금액(만원)</p>
+                    <v-range-slider v-model="data.range" :max="maxPrice" :min="minPrice" step="1000" hide-details class="align-center">
                       <template v-slot:prepend>
-                        <v-text-field v-model="priceRange[0]" class="mt-0 pt-0" hide-details single-line type="number"
-                          style="width: 60px" @change="$set(priceRange, 0, $event)"></v-text-field>
+                        <v-text-field v-model="data.range[0]" class="mt-0 pt-0" hide-details single-line type="number"
+                          style="width: 60px" @change="$set(range, 0, $event)"></v-text-field>
                       </template>
                       <template v-slot:append>
-                        <v-text-field v-model="priceRange[1]" class="mt-0 pt-0" hide-details single-line type="number"
-                          style="width: 60px" @change="$set(priceRange, 1, $event)"></v-text-field>
+                        <v-text-field v-model="data.range[1]" class="mt-0 pt-0" hide-details single-line type="number"
+                          style="width: 60px" @change="$set(range, 1, $event)"></v-text-field>
                       </template>
                     </v-range-slider>
                   </v-col>
@@ -101,20 +102,21 @@
         dialog: false,
         constructionYear: '전체',
         sizeLevel: [0, 6],
-        priceRange: [0, 999999],
         houseSize: 0,
         tags: '',
+        minPrice: 0,
+        maxPrice: 150000,
         data: {
           houseType: '아파트',
           saleType: '전체',
           minSize: 0,
           maxSize: 999999,
-          minPrice: 0,
-          maxPrice: 999999,
           tagsToString: '',
           year: 1000,
-          sigungu: ''
-        }
+          sigungu: '',
+          range: [0, 150000],
+        },
+
       }
     },
     methods: {
@@ -183,7 +185,7 @@
       },
       sendData() {
         this.data.sigungu = this.sigungu;
-        if(this.data.saleType == '전체') {
+        if (this.data.saleType == '전체') {
           this.data.saleType = '';
         }
         this.$emit("search-property-list", this.data);

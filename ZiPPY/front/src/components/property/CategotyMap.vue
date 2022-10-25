@@ -3,7 +3,7 @@
     <div id="map" class="map" style="width:100%;height:350px;position:relative;overflow:hidden;"></div>
     <br><br>
     <ul id="category">
-      <li id="SW8" data-order="1">
+      <li id="SW8" data-order="                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ">
        <v-btn id="SW8" class="mx-2" fab dark color="blue darken-2">
           <v-icon dark>
             mdi-subway-variant
@@ -11,7 +11,7 @@
         </v-btn>
         <p class="category_name">지하철</p>
       </li>
-      <li id="CS2" data-order="2">
+      <li id="CS2" data-order="5">
           <v-btn class="mx-2" fab dark color="yellow darken-2">
           <v-icon dark>
             mdi-store
@@ -19,7 +19,7 @@
         </v-btn>
         <p class="category_name">편의점</p>
       </li>
-      <li id="CE7" data-order="3">
+      <li id="CE7" data-order="4">
          <v-btn class="mx-2" fab dark color="orange darken-2">
           <v-icon dark>
             mdi-coffee
@@ -27,7 +27,7 @@
         </v-btn>
         <p class="category_name">카페</p>
       </li>
-      <li id="BK9" data-order="4">
+      <li id="BK9" data-order="0">
         <v-btn class="mx-2" fab dark color="lime darken-4">
           <v-icon dark>
             mdi-credit-card
@@ -35,7 +35,7 @@
         </v-btn>
         <p class="category_name">은행</p>
       </li>
-      <li id="PO3" data-order="5">
+      <li id="PO3" data-order="7">
         <v-btn class="mx-2" fab dark color="brown darken-1">
           <v-icon dark>
             mdi-bank
@@ -43,7 +43,7 @@
         </v-btn>
         <p class="category_name">관공서</p>
       </li>
-      <li id="PS3" data-order="1">
+      <li id="PS3" data-order="7">
        <v-btn class="mx-2" fab dark color="deep-orange darken-1">
           <v-icon dark>
             mdi-palette
@@ -51,7 +51,7 @@
         </v-btn>
         <p class="category_name">어린이집<br>유치원</p>
       </li>
-      <li id="SC4" data-order="1">
+      <li id="SC4" data-order="7">
         <v-btn class="mx-2" fab dark color="deep-purple darken-1">
           <v-icon dark>
             mdi-school
@@ -96,7 +96,7 @@
 
         // 지도를 생성합니다    
         var map = new kakao.maps.Map(mapContainer, mapOption);
-
+6
         // 주소-좌표 변환 객체를 생성합니다
         var geocoder = new kakao.maps.services.Geocoder();
 
@@ -188,8 +188,6 @@
           // 이 순서는 스프라이트 이미지에서의 위치를 계산하는데 사용됩니다
           var order = document.getElementById(currCategory).getAttribute('data-order');
 
-
-
           for (var i = 0; i < places.length; i++) {
 
             // 마커를 생성하고 지도에 표시합니다
@@ -207,12 +205,12 @@
 
         // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
         function addMarker(position, order) {
-          var imageSrc =
-            'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+          var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/2018/mw/m640/ico_marker.png',
+            //'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
             imageSize = new kakao.maps.Size(27, 28), // 마커 이미지의 크기
             imgOptions = {
-              spriteSize: new kakao.maps.Size(72, 208), // 스프라이트 이미지의 크기
-              spriteOrigin: new kakao.maps.Point(46, (order * 36)), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+              // spriteSize: new kakao.maps.Size(72, 208), // 스프라이트 이미지의 크기
+              // spriteOrigin: new kakao.maps.Point(46, (order * 36)), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
               offset: new kakao.maps.Point(11, 28) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
             },
             markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
@@ -237,18 +235,18 @@
 
         // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
         function displayPlaceInfo(place) {
-          var content = '<div class="placeinfo">' +
-            '   <a class="title" href="' + place.place_url + '" target="_blank" title="' + place.place_name + '">' +
+          var content = '<div class="placeinfo" style="background-color: white; text-align: center; padding: 15px; border-radius: 30px 10px;">' +
+            '   <a class="title" style="text-decoration: none; color: inherit; font-weight: bold; color: #E53935" href="' + place.place_url + '" target="_blank" title="' + place.place_name + '">' +
             place.place_name + '</a>';
 
           if (place.road_address_name) {
-            content += '    <span title="' + place.road_address_name + '">' + place.road_address_name + '</span>' +
-              '  <span class="jibun" title="' + place.address_name + '">(지번 : ' + place.address_name + ')</span>';
+            content += '    <br><span title="' + place.road_address_name + '">' + place.road_address_name + '</span>' +
+              '  <span class="jibun" title="' + place.address_name + '"><br>(지번 : ' + place.address_name + ')</span>';
           } else {
-            content += '    <span title="' + place.address_name + '">' + place.address_name + '</span>';
+            content += '    <br><span title="' + place.address_name + '">' + place.address_name + '</span>';
           }
 
-          content += '    <span class="tel">' + place.phone + '</span>' +
+          content += '    <br><span class="tel">' + place.phone + '</span>' +
             '</div>' +
             '<div class="after"></div>';
 
@@ -323,8 +321,9 @@
 
   #category {
     position: absolute;
+    width: 100%;
     top: 107%;
-    left: 40%;
+    left: 50%;
     transform: translate(-40%);
     border-radius: 5px;
     overflow: hidden;
