@@ -4,7 +4,7 @@
             <sidebar-menu :menu="menu"></sidebar-menu>
         </div>
         <div id="main">
-            <router-view />
+        <router-view />
         </div>
     </div>
 </template>
@@ -132,7 +132,15 @@
     }
     #main{
         /* margin-left: 150px; */
-        margin-left: 5%;
+        margin: 0 auto;        
+        /* height: 89vh; */
+    }
+    #side{
+        height: 100%;
+    }
+
+    #maypage{
+        height: 94vh;
     }
 
 </style>
