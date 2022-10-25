@@ -1,6 +1,6 @@
 <template>
     <div>
-        <move-nav-bar @click="categoryVal=$event.target.innerText"></move-nav-bar>
+        <nav-bar @click="categoryVal=$event.target.innerText"></nav-bar>
         <div id="container">
             <div id="used-seller-main">
                 <div id="used-img">
@@ -16,6 +16,9 @@
                         </div>
                     </div>
                     <div class="used-point-report">
+                        <div>
+                            {{list.movingResponseNo}}
+                        </div>
                         <div>
                             <h4>평점</h4>
                         </div>
@@ -47,18 +50,18 @@
                         <b-tabs card>
                             <b-tab title="상품" active>
                                 <b-card-text>
-                                    <div @click="goDetail(list.productNo)" class="used-main-card"
-                                        v-if="data.length != 0" v-for="list in data">
+                                    <div @click="goDetail(item.estimateNo)" class="used-main-card"
+                                        v-if="data.length != 0" v-for="item in list">
                                         <div>
                                             <div><img
                                                     src="http://file3.instiz.net/data/file3/2022/06/08/7/e/1/7e113a4442c27945a2a379401c5021c8.jpg"
                                                     width="194px" height="194px">
                                             </div>
                                             <div class="used-main-card-cont">
-                                                <div class="used-main-card-title">{{list.productName}}</div>
+                                                <div class="used-main-card-title">{{item.estimateType}}{{item.compName}}</div>
                                                 <div class="used-main-price-date">
-                                                    <div class="used-main-card-price">{{list.productPrice}}원</div>
-                                                    <div><span>{{list.productDate}}</span></div>
+                                                    <div class="used-main-card-price">{{item.firstEstimatePrice | item.secondEstimateType}}원</div>
+                                                    <div><span>{{item.requestDate}}</span></div>
                                                     <div type="hidden"></div>
                                                 </div>
                                             </div>
@@ -104,7 +107,7 @@
                                             <div></div>
                                             <a href="">
                                                 <button id="used-user-btn">
-                                                    제품명 section
+                                                    제품명 section 
                                                     <img src="	https://m.bunjang.co.kr/pc-static/resource/c5ce9d5a172b0744e630.png"
                                                         width="6px" height="10px" alt="">
                                                 </button>
@@ -160,35 +163,35 @@
                                                 <div id="used-start-num"> 평점 {{rv.totalRating}}/5 </div>
                                                 <div>
                                                     <b-form-rating variant="warning" v-model="rv.totalRating" no-border
-                                                        size="lg" >
+                                                        size="lg">
                                                     </b-form-rating>
                                                 </div>
                                             </div>
                                             <hr>
                                             <div>
                                                 <div class="used-rates-star">
-                                                    <div>신속정확해요 {{rv.rate1}}/5</div>
+                                                    <div>친절했어요 {{rv.rate1}}/5</div>
                                                     <div class="used-all-stars">
                                                         <b-form-rating variant="warning" v-model="rv.rate1" no-border>
                                                         </b-form-rating>
                                                     </div>
                                                 </div>
                                                 <div class="used-rates-star">
-                                                    <div>친절해요 {{rv.rate2}}/5</div>
+                                                    <div>시간약속 잘 지켜요 {{rv.rate2}}/5</div>
                                                     <div class="used-all-stars">
                                                         <b-form-rating variant="warning" v-model="rv.rate2" no-border>
                                                         </b-form-rating>
                                                     </div>
                                                 </div>
                                                 <div class="used-rates-star">
-                                                    <div>깔끔해요 {{rv.rate3}}/5</div>
+                                                    <div>응답이 빨라요 {{rv.rate3}}/5</div>
                                                     <div class="used-all-stars">
                                                         <b-form-rating variant="warning" v-model="rv.rate3" no-border>
                                                         </b-form-rating>
                                                     </div>
                                                 </div>
                                                 <div class="used-rates-star">
-                                                    <div>전문적이에요 {{rv.rate4}}/5</div>
+                                                    <div>싼 가격에 좋은 제품을 판매해요 {{rv.rate4}}/5</div>
                                                     <div class="used-all-stars">
                                                         <b-form-rating variant="warning" v-model="rv.rate4" no-border>
                                                         </b-form-rating>
@@ -208,6 +211,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
                                 </b-card-text>
                             </b-tab>
                         </b-tabs>
@@ -220,16 +224,21 @@
 
 <script>
     import axios from 'axios';
-    import MoveNavBar from '../../components/move/MoveNavBar.vue';
-
-export default {
-  components: {
-    MoveNavBar
-  },
+    import navBar from '../../components/used/navBar.vue';
+    export default {
+        components: {
+            navBar
+        },
         data: () => ({
+            //
+            list:"",
+            movingResponseNo:"",
+
             data: "",
             page: 1,
             pageCount: 1,
+            estimateType : "",
+            serviceId: "",
             rv: {
                 reviewNo: "",
                 email: "",
@@ -237,7 +246,7 @@ export default {
                 reviewContent: "",
                 reviewDate: "",
                 serviceType: 1,
-                serviceId: 27,
+                serviceId: '',
                 viewCnt: 0,
                 totalRating: 0,
                 rate1: 0,
@@ -255,60 +264,91 @@ export default {
         },
         created() {
             axios({
-                url: "/used/userMain",
-                methods: "GET",
-                params: {
-                    email: this.$route.query.email,
-                    pageNum: this.page
-                }
-            }).then(res => {
-                console.log(res);
-                this.data = res.data.list;
-                this.pageCount = res.data.pages;
-                this.nickName = this.data[0].nickName;
-                this.rv.email = this.$store.state.loginInfo.email;
-            }).catch(error => {
-                console.log(error);
-            })
-            // ,
+        url: "/move/moveMyListOne",
+        methods: "GET",
+        params: {
+          email: "",
+
+          checked: "",
+          dropbox: "",
+          dropbox2: "",
+
+          serviceType: "",
+          serviceId: "",
+          userEmail: this.$store.state.loginInfo.email,
+          reservStatus: ""
+
+        }
+      }).then(res => {
+        console.log(res);
+        this.list = res.data;
+        console.log(this.list);
+
+        // this.data.email = this.$store.state.loginInfo.email;
+        // this.data.serviceId= this.list[i].email;
+        // console.log(this.data.serviceId);
+      }).catch(error => {
+        console.log(error);
+      })
             // axios({
-            //     url: "common/showReview",
+            //     url: "/used/userMain",
             //     methods: "GET",
-            //     headers: {
-            //         "Content-Type": "application/json; charset=utf-8"
-            //     },
-            //     data: JSON.stringify(this.data)
+            //     params: {
+            //         // email: this.$route.query.email,
+            //         email : this.$store.state.loginInfo.email,
+            //         // pageNum: this.page
+            //     }
             // }).then(res => {
             //     console.log(res);
-            //     this.data = res.data;
-            //     console.log(this.data);
+            //     this.data = res.data.list;
+            //     this.pageCount = res.data.pages;
+            //     this.nickName = this.data[0].nickName;
+            //     this.rv.email = this.$store.state.loginInfo.email;
             // }).catch(error => {
             //     console.log(error);
             // })
+            // ,
+            axios({
+                url: "common/showProReview",
+                methods: "GET",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8"
+                },
+                data: JSON.stringify(this.data)
+            }).then(res => {
+                console.log(res);
+                this.data = res.data;
+                console.log(this.data);
+            }).catch(error => {
+                console.log(error);
+            })
         },
         methods: {
-            rewrite() {
-                axios({
-                    url: "/used/userMain",
-                    methods: "GET",
-                    params: {
-                        email: this.$store.state.loginInfo.email,
-                        pageNum: this.page
-                    }
-                }).then(res => {
-                    console.log(res);
-                    this.data = res.data.list;
-                    this.pageCount = res.data.pages;
-                    this.rv.email = this.$store.state.loginInfo.email;
-                }).catch(error => {
-                    console.log(error);
-                })
-            },
+            // rewrite() {
+            //     axios({
+            //         url: "http://localhost:8090/zippy/move/moveMyListOne",
+            //         methods: "GET",
+            //         params: {
+            //             email: this.$store.state.loginInfo.email,
+            //             // pageNum: this.page
+            //         }
+            //     }).then(res => {
+            //         console.log(res);
+            //         this.list = res.data;
+            //         // this.data = res.data.list;
+            //         this.pageCount = res.data.pages;
+            //         this.rv.email = this.$store.state.loginInfo.email;
+            //     }).catch(error => {
+            //         console.log(error);
+            //     })
+            // },
             goDetail(no) {
                 console.log(no);
                 this.$router.push('/used/detail?pNo=' + no);
             },
             addRv: function () {
+                this.rv.email = this.$store.state.loginInfo.email;
+                console.log('리뷰작성 : '+this.rv.email);
                 axios({
                     url: "common/addRv",
                     method: "POST",
