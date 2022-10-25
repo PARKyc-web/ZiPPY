@@ -5,7 +5,7 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       '/zippy': { 
-        target: 'http://localhost:90',
+        target: 'http://localhost:8090',
         changeOrigin: true,
       }
     }
