@@ -275,7 +275,13 @@
 	</select>
 	<!-- My Qna -->
 	<select id="getMyQna" resultType="HashMap">
-		SELECT q.*, s.*
+				SELECT answer_status,
+										answer,
+                    question_cate,
+                    question,
+                   TO_CHAR(question_date,'yy-mm-dd') question_date,
+                   pro_main_img,
+                   pro_name
 			FROM shop_qna q
 			JOIN shop_product s
 			ON q.pro_no = s.pro_no
@@ -284,10 +290,22 @@
 	</select>
 	<!-- My review -->
 	<select id="getMyRv" resultType="HashMap">
-		SELECT r.*, s.*
+		SELECT REVIEW_NO,
+					r.EMAIL,
+					REVIEW_CONTENT,
+					TO_CHAR(REVIEW_DATE,'yy-mm-dd') REVIEW_DATE,
+					TOTAL_RATING,
+					RATE_1,
+					RATE_2,
+					RATE_3,
+					RATE_4,
+					PRO_NO,
+					PRO_NAME,
+					PRO_MAIN_IMG
 			FROM review_board r
 				JOIN
-				shop_product s ON r.service_id = s.pro_no
+				shop_product s
+				ON r.service_id = TO_CHAR(s.pro_no)
 				WHERE
 				r.service_type = 2
 				AND

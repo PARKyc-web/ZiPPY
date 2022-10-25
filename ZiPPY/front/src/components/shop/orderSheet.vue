@@ -64,9 +64,9 @@
                     <!-- 후기 작성 모달 -->
                     <review-modal :serviceId="product.purPno" :orderStatus="product.orderStatus" :purNo="product.purNo">
                     </review-modal>
-                    <v-btn v-if="product.orderStatus == 2" disabled depressed color=#D6D6D6 width="100px">
+                    <!-- <v-btn v-if="product.orderStatus == 2" disabled depressed color=#D6D6D6 width="100px">
                       작성완료
-                    </v-btn>
+                    </v-btn> -->
                   </td>
                   <td>{{product.optName}}</td>
                   <td>{{product.productVO.compName}}</td>

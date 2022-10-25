@@ -1,7 +1,9 @@
 <template>
-  <div>    
+  <div>
+    <v-main>
     <shop-subbar></shop-subbar>
     <shopMain></shopMain>
+  </v-main>    
   </div>
 </template>
 

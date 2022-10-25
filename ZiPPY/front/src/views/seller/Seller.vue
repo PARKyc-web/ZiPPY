@@ -51,14 +51,24 @@ export default{
                         icon: 'fa fa-chart-area',    
                     },
                     {                           
-                        href: '/seller/home',
-                        title: '상품등록',
-                        icon: 'fa fa-chart-area'            
+                        href: '/seller/shopSellerPro',
+                        title: '상품목록',
+                        icon: 'fa fa-shop'            
                     },
                     {
-                        href: '/seller/login',
-                        title: '상품조회',
-                        icon: 'fa fa-chart-area',                        
+                        href: '/seller/shopInsertPro',
+                        title: '상품등록',
+                        icon: 'fa fa-couch',                        
+                    },
+                    {
+                        href: '/seller/shopSellerOrder',
+                        title: '판매내역',
+                        icon: 'fa fa-truck-fast',                        
+                    },
+                    {
+                        href: '/seller/shopSellerQna',
+                        title: 'CS내역',
+                        icon: 'fa-solid fa-a',                        
                     }
                 ],
 
