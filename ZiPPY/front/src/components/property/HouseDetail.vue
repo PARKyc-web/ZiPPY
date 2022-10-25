@@ -8,6 +8,11 @@
       </v-carousel>
       <section>
         <article>
+          <v-chip-group multiple active-class="green--text" v-model="selectedTags">
+                  <v-chip v-for="tag in tags" :key="tag" filter outlined disabled>
+                    {{ tag }}
+                  </v-chip>
+                </v-chip-group>
           <h4 class="title">가격정보</h4>
           <table>
             <tr>
@@ -176,6 +181,19 @@
         compName: '',
         price: '',
         dialog: false,
+        tags: [
+        '조용한',
+        '역세권',
+        '학세권',
+        '신축',
+        '즉시입주',
+        '풀옵션',
+        '올수리',
+        '탑층',
+        '공원뷰',
+        '수변뷰',
+      ],
+      selectedTags: [],
       }
     },
     created() {
@@ -187,15 +205,18 @@
           }
         }).then(response => {
           // 성공했을 때
-          console.log('houseDetail success!');
           console.log(response.data);
           this.houseDetail = response.data;
+
+          let temp = this.houseDetail[0].tags.split('/');
+          for (let i = 0; i < temp.length; i++) {
+            this.selectedTags.push(parseInt(temp[i]));
+          }
 
           this.price = oneHundredMillion(this.houseDetail[0].price);
         })
         .catch(error => {
           // 에러가 났을 때
-          console.log('houseDetail fail!');
           console.log(error);
         })
     },

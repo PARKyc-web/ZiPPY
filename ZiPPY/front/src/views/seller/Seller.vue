@@ -28,7 +28,7 @@ export default{
                         icon: 'fa fa-user'
                     },
                     {                           
-                        href: '/seller',
+                        href: '/seller/SellerInsertProperty',
                         title: '매물등록',
                         icon: 'fa fa-chart-area'            
                     },
