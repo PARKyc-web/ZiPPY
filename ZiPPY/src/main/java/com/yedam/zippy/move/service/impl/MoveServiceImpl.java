@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +19,7 @@ import com.yedam.zippy.move.service.MoveImageVO;
 import com.yedam.zippy.move.service.MoveMyListVO;
 import com.yedam.zippy.move.service.MoveRequestVO;
 import com.yedam.zippy.move.service.MoveResponseVO;
+import com.yedam.zippy.move.service.MoveReviewVO;
 import com.yedam.zippy.move.service.MoveService;
 
 @Service
@@ -224,6 +226,12 @@ public class MoveServiceImpl implements MoveService{
     return mapper.getMyEstimateList(vo);
   }
   
+  //받은견적 조회 - 단건
+  @Override
+  public MoveMyListVO getMyEstimateListOne(@Param("movingResponseNo")Integer movingResponseNo, @Param("userEmail")String userEmail) {
+    return mapper.getMyEstimateListOne(movingResponseNo,userEmail);
+  }
+  
   //업체조회 페이지
   @Override
   public List<MoveMyListVO> getCompanyList(MoveMyListVO vo) {
@@ -234,5 +242,11 @@ public class MoveServiceImpl implements MoveService{
   @Override
   public List<BookmarkVO> getWishOneList(int sId, String email, int serviceType) {
     return mapper.getWishOneList(sId, email, serviceType);
+  }
+  
+  //리뷰출력
+  @Override
+  public List<MoveReviewVO> showReview(MoveReviewVO vo) {
+    return mapper.showReview(vo);
   }
 }

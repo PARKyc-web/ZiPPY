@@ -1,5 +1,4 @@
 <template>
-  <div>
     <div id="container">
       <div>
         <div class="used-main-title">
@@ -15,7 +14,7 @@
               <div class="used-input">
                 <input id="keyinputid" class="form-control" type="search" placeholder="키워드" aria-label="Search"
                   v-model="data.keyword" />
-                <input id="keyinputid" class="form-control" type="search" placeholder="키워드지역(시군구나 읍면동)"
+                <input id="keyinputid" class="form-control" type="search" placeholder="키워드지역(시군구로 입력)"
                   aria-label="Search" v-model="data.keywordLocation" @keyup="enterkey()" />
                 <button class="submitBtn" type="button" @click="addKey()">등록</button>
                 <!-- <button class="submitBtn" type="button" @click="addKey()">등록</button> -->
@@ -38,7 +37,6 @@
       </div>
       <input type="hidden" v-model="data.email">
     </div>
-  </div>
 </template>
 
 <script>
@@ -168,6 +166,7 @@
 
   #keyinputid {
     margin-left: 3px;
+    width: 300px;
   }
 
 

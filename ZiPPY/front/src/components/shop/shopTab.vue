@@ -57,10 +57,10 @@
               <hr>
               <!-- 사용자 정보 -->
               <div id="user-info">
-                <p>{{item.email}}</p>|<p>{{item.reviewDate}}</p>|
+                <p>{{item.email}}</p>|<p>{{item.reviewDate}}</p>
                 <div id="report-review">
-                  <p>신고<v-icon>mdi-alarm-light</v-icon>
-                  </p>
+                  <!--<p>신고<v-icon>mdi-alarm-light</v-icon>
+                  </p>-->
                 </div>
               </div>
               <!-- 사용자 정보 끝-->
@@ -235,36 +235,36 @@
       qPage: 1,
       qPageCount: 1
     }),
-    created() {
+    async created() {
       //리뷰 불러오기
-      this.getReviewList();
+      await this.getReviewList();
 
       //별점 계산
-      // var tSum = 0;
-      // var r1Sum = 0;
-      // var r2Sum = 0;
-      // var r3Sum = 0;
-      // var r4Sum = 0;
-      // for (var i in this.reviews) {
-      //   tSum += Number(this.reviews[i].totalRating)
-      //   r1Sum += Number(this.reviews[i].rate1)
-      //   r2Sum += Number(this.reviews[i].rate2)
-      //   r3Sum += Number(this.reviews[i].rate3)
-      //   r4Sum += Number(this.reviews[i].rate4)
-      // }
-      // this.proTotalRating = Math.round(tSum / this.reviews.length * 10) / 10
-      // this.rate1 = Math.round(r1Sum / this.reviews.length) * 10
-      // this.rate2 = Math.round(r2Sum / this.reviews.length) * 10
-      // this.rate3 = Math.round(r3Sum / this.reviews.length) * 10
-      // this.rate4 = Math.round(r4Sum / this.reviews.length) * 10
+      var tSum = 0;
+      var r1Sum = 0;
+      var r2Sum = 0;
+      var r3Sum = 0;
+      var r4Sum = 0;
+      for (var i in this.reviews) {
+        tSum += Number(this.reviews[i].totalRating)
+        r1Sum += Number(this.reviews[i].rate1)
+        r2Sum += Number(this.reviews[i].rate2)
+        r3Sum += Number(this.reviews[i].rate3)
+        r4Sum += Number(this.reviews[i].rate4)
+      }
+      this.proTotalRating = Math.round(tSum / this.reviews.length * 10) / 10
+      this.rate1 = Math.round(r1Sum / this.reviews.length) * 10
+      this.rate2 = Math.round(r2Sum / this.reviews.length) * 10
+      this.rate3 = Math.round(r3Sum / this.reviews.length) * 10
+      this.rate4 = Math.round(r4Sum / this.reviews.length) * 10
       
       //QNA 불러오기
       this.getQnaList();
     },
     methods: {
       //전체조회(리뷰)
-      getReviewList() {
-        axios({
+      async getReviewList() {
+      var res = await  axios({
           url: "/common/showProReview",
           method: "GET",
           params: {
@@ -272,13 +272,10 @@
             serviceId: this.pno,
             pageNum: this.page
           }
-        }).then(res => {
-          this.reviews = res.data.list;
-          this.pageCount = res.data.pages;
-        }).catch(error => {
-          console.log(error);
         })
-      
+  
+        this.reviews = res.data.list;
+        this.pageCount = res.data.pages;
       },
       //전체조회(Qna)
       getQnaList() {

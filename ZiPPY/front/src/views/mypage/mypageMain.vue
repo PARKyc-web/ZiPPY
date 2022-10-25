@@ -69,7 +69,11 @@
                         title: '구매목록',
                         icon: 'fa-solid fa-shop',                        
                     },                    
-
+                    {
+                        href: '/mypage/myShopWish',
+                        title: '관심상품',
+                        icon: 'fa-solid fa-heart',                        
+                    },       
 
 
                     //  중고거래 관련 정보

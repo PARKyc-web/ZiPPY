@@ -98,18 +98,19 @@
                 <h6 style="margin-left: 20px;">{{this.houseDetail[0].sigungu}} {{this.houseDetail[0].streetAddress}}
                 </h6>
                 <br>
-                <h5 style="margin-left: 20px;">{{this.houseDetail[0].areaExclusive}}m² · {{this.houseDetail[0].floor}}층
+                <h5 style="margin-left: 20px;"><v-icon large>mdi-border-outside</v-icon>{{this.houseDetail[0].areaExclusive}}m² · <v-icon large>mdi-stairs</v-icon> {{this.houseDetail[0].floor}}층
                 </h5>
                 <hr>
-                <v-card-title style="font-weight: bold;" @click="goAgentDetail">{{this.houseDetail[0].compName}}
+                <v-card-title style="font-weight: bold;" @click="goAgentDetail">{{this.houseDetail[0].compName}} 
+                <v-icon color="#B3E3C3" style="margin-left: 3px">mdi-information-outline</v-icon>
                 </v-card-title>
 
                 <!-- 채팅 버튼 -->
                 <v-row justify="center">
                   <v-dialog v-model="dialog" persistent max-width="600px">
                     <template v-slot:activator="{ on, attrs }">
-                      <v-btn color="#B3E3C3" dark v-bind="attrs" @click="openChat">
-                        문의하기
+                      <v-btn color="#B3E3C3" dark v-bind="attrs" @click="openChat" style="width: 90%; margin-bottom: 10px ">
+                        <b>채팅으로 문의하기</b>
                       </v-btn>
                     </template>
                     <v-card>

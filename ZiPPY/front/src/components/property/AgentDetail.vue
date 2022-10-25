@@ -75,7 +75,7 @@
                   </v-card-title>
                   <p class="card_contents">{{item.houseType}} · {{item.houseName}}</p>
                   <p class="card_contents">{{item.sigungu}}</p>
-                  <p class="card_contents">{{item.areaExclusive}}m² · {{item.floor}}층</p>
+                  <p class="card_contents"><v-icon>mdi-border-outside</v-icon>{{item.areaExclusive}}m² · <v-icon>mdi-stairs</v-icon>{{item.floor}}층</p>
                   <p class="card_contents">{{item.detailContents}}</p>
                   <update-property :productId="item.productId"></update-property>
                 </td>
