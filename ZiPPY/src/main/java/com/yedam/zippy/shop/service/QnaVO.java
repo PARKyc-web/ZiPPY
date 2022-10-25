@@ -23,4 +23,6 @@ public class QnaVO {
   @DateTimeFormat(pattern="yy-MM-dd")
   private Date answerDate;
   private String questionCate;
+  
+  private String proName;
 }

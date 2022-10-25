@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.Page;
 import com.yedam.zippy.common.service.BookmarkVO;
+import com.yedam.zippy.common.service.ReviewBoardVO;
 import com.yedam.zippy.member.service.GeneralUserVO;
 import com.yedam.zippy.shop.service.CartVO;
 import com.yedam.zippy.shop.service.OrderVO;
@@ -23,9 +24,9 @@ public interface ShopMapper {
   // 전체조회
   public List<ProductVO> getProductList();
   // 전체조회(카테고리)
-  public Page<ProductVO> getCategoryList(String category);
+  public Page<ProductVO> getCategoryList(@Param("category") String category, @Param("dropbox") String dropbox);
   // 전체조회(키워드)
-  public Page<ProductVO> getKeywordList(String keyword);
+  public Page<ProductVO> getKeywordList(@Param("keyword") String keyword, @Param("dropbox") String dropbox);
   // 단건조회(디테일)
   public ProductVO getProduct(int proNo);
   // 디테일 이미지 조회
@@ -80,8 +81,12 @@ public interface ShopMapper {
   
   
   // 마이페이지
+  // My wish
   public Page<Map<ProductVO, BookmarkVO>> getMyWishList(@Param("email") String email);
-  
+  // My QNA
+  public List<Map<QnaVO, ProductVO>> getMyQna(String email);
+  // My Review
+  public List<Map<ReviewBoardVO, ProductVO>> getMyRv(String email);
   
   //***
   // 판매자 CRUD
@@ -105,4 +110,8 @@ public interface ShopMapper {
   public List<PurchaseVO> getSellerPurList(@Param("product")ProductVO productVO, @Param("keyword")String keyword);
   //주문상태 수정
   public void updateOrdStatus(PurchaseVO purchaseVO);
+  //QNA 전체조회
+  public List<QnaVO> getSellerQnaList(String email);
+  //QNA 수정
+  public int updateQnaAnswer(QnaVO qnaVO);
 }

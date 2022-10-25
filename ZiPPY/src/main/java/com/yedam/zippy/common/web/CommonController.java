@@ -52,7 +52,7 @@ public class CommonController {
   @PostMapping("/addWish")
   public int addWish(@RequestBody BookmarkVO bookmark) {
     System.out.println(bookmark);
-    System.out.println(service.addWish(bookmark));
+    //System.out.println(service.addWish(bookmark));
     return service.addWish(bookmark);
   }
 

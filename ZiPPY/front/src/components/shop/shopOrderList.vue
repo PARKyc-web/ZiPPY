@@ -65,22 +65,6 @@
           }
         })
       }
-      // },
-      // getOrdProInfo(payCode) {
-      //   axios({
-      //   url: "/shop/myPurPro",
-      //   method: "POST",
-      //   params: {
-      //     payCode: payCode
-      //   }
-      // }).then(res => {
-      //   console.log(res);
-      //   this.products = res.data;
-      //   console.log(this.products);
-      // }).catch(error => {
-      //   console.log(error);
-      // })
-      // }
     },
     created() {
       //구매내역 조회
@@ -97,7 +81,6 @@
       }).catch(error => {
         console.log(error);
       })
-
     }
   };
 </script>

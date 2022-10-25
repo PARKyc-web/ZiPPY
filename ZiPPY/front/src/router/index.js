@@ -18,11 +18,14 @@ import order from "../views/shop/orderView.vue";
 import orderComplete from "../views/shop/orderCompleteView.vue";
 import shopUpdatePro from "../views/shop/shopUpdateProView.vue";
 import orderSheet from "../views/shop/orderSheetView.vue";
-import shopWish from "../views/shop/shopWishView.vue";
+import shopSellerQnaList from "@/components/shop/shopSellerQnaList.vue";
 
 //mypage componenets
 import shopCartCom from "@/components/shop/shopCart.vue"
 import shopOrderList from "@/components/shop/shopOrderList.vue";
+import shopWish from "@/components/shop/shopWish.vue";
+import shopMyQna from "@/components/shop/shopMyQnaList.vue";
+import shopMyReview from "@/components/shop/shopMyRvList.vue";
 
 import GeneralSign from '../views/login/generalSignUp.vue';
 import BusinessSign from '../views/login/businessSignUp.vue';
@@ -150,6 +153,11 @@ const routes = [
         path : "myCart",
         name : "shopCartCom",
         component : shopCartCom
+      },
+      {
+        path : "myShopWish",
+        name : "myShopWish",
+        component : shopWish
       },
       {
         path : "used/insert",
@@ -282,6 +290,21 @@ const routes = [
     path: "/shop/shopWish",
     name: "shopWish",
     component: shopWish
+  },
+  {
+    path: "/shop/sellerQna",
+    name: "shopSellerQna",
+    component: shopSellerQnaList
+  },
+  {
+    path: "/shop/MyQna",
+    name: "shopMyQna",
+    component: shopMyQna
+  },
+  {
+    path: "/shop/MyRv",
+    name: "shopMyRv",
+    component: shopMyReview
   },
   //move
   {

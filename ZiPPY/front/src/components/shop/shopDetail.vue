@@ -18,13 +18,13 @@
           <!--heart-->
           <div class="ml-auto">
             <v-btn v-if="heart==0" class="mx-2" color='#D6D6D6' fab depressed dark small
-              @click="changeHeart(product.proNo)">
+              @click="changeHeart()">
               <v-icon dark>
                 mdi-heart
               </v-icon>
             </v-btn>
             <v-btn v-if="heart==1" class="mx-2" color='#FF4063' fab depressed dark small
-              @click="changeHeart(product.proNo)">
+              @click="changeHeart()">
               <v-icon dark>
                 mdi-heart
               </v-icon>
@@ -405,7 +405,7 @@
           },
           data: JSON.stringify(this.data)
         }).then(res => {
-          console.log(res);
+          console.log(this.data)
           this.rewrite();
         }).catch(err => {
           console.log(err)
