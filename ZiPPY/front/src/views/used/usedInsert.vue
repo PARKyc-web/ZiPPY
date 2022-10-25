@@ -1,95 +1,93 @@
 <template>
   <form id="usedInsert">
-    <div>
-      <div id="container">
-        <div>
-          <div class="used-main-title">
-            <h3>상품 등록</h3>
-          </div>
+    <div id="container">
+      <div>
+        <div class="used-main-title">
+          <h3>상품 등록</h3>
         </div>
-        <div class="used-insert-addr">
-          <button id="used-addr">
-            <i class="fa-solid fa-location-dot fa-2x"></i>
-          </button>
-          <CurrentPositionLabel @sigu="test"></CurrentPositionLabel>
-        </div>
-        <hr />
+      </div>
+      <div class="used-insert-addr">
+        <button id="used-addr">
+          <i class="fa-solid fa-location-dot fa-2x"></i>
+        </button>
+        <CurrentPositionLabel @sigu="test"></CurrentPositionLabel>
+      </div>
+      <hr />
+      <div>
         <div>
-          <div>
-            <div id="used-insert-main">
-              <div class="used-insert-img" id="used-insert-img-div">
-                <span>이미지</span> 0/6
-              </div>
-              <div v-if="!files.length" class="room-file-upload-example-container">
-                <div class="room-file-upload-example">
-                  <div class="room-file-image-example-wrapper"></div>
-                  <div class="room-file-notice-item room-file-upload-button">
-                    <div class="image-box">
-                      <label for="file">일반 사진 등록</label>
-                      <input type="file" name="images" id="file" ref="files" @change="imageUpload" multiple
-                        accept="image/*" />
-                    </div>
+          <div id="used-insert-main">
+            <div class="used-insert-img" id="used-insert-img-div">
+              <span>이미지</span> 0/6
+            </div>
+            <div v-if="!files.length" class="room-file-upload-example-container">
+              <div class="room-file-upload-example">
+                <div class="room-file-image-example-wrapper"></div>
+                <div class="room-file-notice-item room-file-upload-button">
+                  <div class="image-box">
+                    <label for="file">일반 사진 등록</label>
+                    <input type="file" name="images" id="file" ref="files" @change="imageUpload" multiple
+                      accept="image/*" />
                   </div>
                 </div>
               </div>
-              <div v-else class="file-preview-content-container">
-                <div class="file-preview-container">
-                  <div v-for="(file, index) in files" :key="index" class="file-preview-wrapper">
-                    <div class="file-close-button" @click="fileDeleteButton" :name="file.number">
-                      x
-                    </div>
-                    <img :src="file.preview" />
+            </div>
+            <div v-else class="file-preview-content-container">
+              <div class="file-preview-container">
+                <div v-for="(file, index) in files" :key="index" class="file-preview-wrapper">
+                  <div class="file-close-button" @click="fileDeleteButton" :name="file.number">
+                    x
                   </div>
-                  <div class="file-preview-wrapper-upload">
-                    <div class="image-box">
-                      <label for="file">추가 사진 등록</label>
-                      <input type="file" name="images" id="file" ref="files" @change="imageAddUpload" multiple
-                        accept="image/*" />
-                    </div>
+                  <img :src="file.preview" />
+                </div>
+                <div class="file-preview-wrapper-upload">
+                  <div class="image-box">
+                    <label for="file">추가 사진 등록</label>
+                    <input type="file" name="images" id="file" ref="files" @change="imageAddUpload" multiple
+                      accept="image/*" />
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <hr />
+      </div>
+      <hr />
+      <div class="used-insert-img">
+        <span>제목
+          <input id="used-product-name" name="productName" type="text" placeholder="상품 제목을 2글자 이상 입력해주세요"
+            v-model="data.productName" />
+        </span>
+      </div>
+      <hr />
+      <div id="used-insert-main">
         <div class="used-insert-img">
-          <span>제목
-            <input id="used-product-name" name="productName" type="text" placeholder="상품 제목을 2글자 이상 입력해주세요"
-              v-model="data.productName" />
-          </span>
+          <span>카테고리</span>
         </div>
-        <hr />
-        <div id="used-insert-main">
-          <div class="used-insert-img">
-            <span>카테고리</span>
-          </div>
-          <div class="dropdown">
-            <div id="used-main-dropbox">
-              <v-select @change="dropVal()" v-model="select" :items="items" item-text="name" item-value="value"
-                :label="data.productCategory" label="카테고리" color="#212529" persistent-hint single-line dense width="50">
-              </v-select>
-            </div>
+        <div class="dropdown">
+          <div id="used-main-dropbox">
+            <v-select @change="dropVal()" v-model="select" :items="items" item-text="name" item-value="value"
+              :label="data.productCategory" label="카테고리" color="#212529" persistent-hint single-line dense width="50">
+            </v-select>
           </div>
         </div>
-        <hr />
+      </div>
+      <hr />
+      <div class="used-insert-img">
+        <span>가격<input id="used-insert-price" name="productPrice" type="number" v-model="data.productPrice" />
+          원</span>
+      </div>
+      <hr />
+      <div class="used-wish-detailInfo">
         <div class="used-insert-img">
-          <span>가격<input id="used-insert-price" name="productPrice" type="number" v-model="data.productPrice" />
-            원</span>
+          <span>설명</span>
         </div>
-        <hr />
-        <div class="used-wish-detailInfo">
-          <div class="used-insert-img">
-            <span>설명</span>
-          </div>
-          <div>
-            <textarea id="used-insert-textarea" name="productInfo" cols="110" rows="10"
-              v-model="data.productInfo"></textarea>
-          </div>
+        <div>
+          <textarea id="used-insert-textarea" name="productInfo" cols="110" rows="10"
+            v-model="data.productInfo"></textarea>
         </div>
-        <div class="used-insert-submit">
-          <button type="button" @click="insert()">등록</button>
-        </div>
+      </div>
+      <div class="used-insert-submit">
+        <button type="button" @click="insert()">등록</button>
       </div>
     </div>
     <input type="hidden" name="email" v-model="data.email">
@@ -104,7 +102,6 @@
 
 <script>
   import axios from 'axios';
-  // import swal from 'sweetalert2';
   import CurrentPositionLabel from '../../components/used/CurrentPositionLabel.vue';
   export default {
     data: () => ({

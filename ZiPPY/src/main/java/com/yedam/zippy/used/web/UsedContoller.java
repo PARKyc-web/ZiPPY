@@ -37,12 +37,12 @@ public class UsedContoller {
 
   // 전체조회
   @GetMapping("/main")
-  public PageInfo<UsedProductVO> search(@RequestParam String location, 
+  public PageInfo<UsedProductVO> search(@RequestParam(defaultValue = "1", required = false) String location, 
                                     @RequestParam String keyword,
                                     @RequestParam String category, 
                                     @RequestParam String checked,
                                     @RequestParam(value = "dropbox", required = false) String dropbox,
-                                    @RequestParam int pageNum) {
+                                    @RequestParam(defaultValue = "1", required = false)   int pageNum) {
     if (category.equals("전체")) {
       category = "";
     }

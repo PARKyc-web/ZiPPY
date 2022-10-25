@@ -132,7 +132,7 @@
 		AND service_id = #{serviceId}
 		ORDER BY review_no DESC
 	</select>
-
+	
 	<select id="showReportList" resultType="ReportVO">
 		SELECT *
 		FROM service_report
