@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.yedam.zippy.common.service.CommonService;
 import com.yedam.zippy.member.mapper.MemberMapper;
 import com.yedam.zippy.member.service.BusinessVO;
 import com.yedam.zippy.member.service.GeneralUserVO;
@@ -25,7 +26,10 @@ public class MemberServiceImpl implements MemberService{
     private final String imageFolder = "D:/businessImage";  
   
     @Autowired
-    MemberMapper mapper;      
+    MemberMapper mapper;    
+    
+    @Autowired
+    CommonService commonService;
     
     @Override
     public Object login(LoginVO login) {      
@@ -93,11 +97,11 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public void signBusinessMember(LoginVO loginVO, BusinessVO bVO, List<MultipartFile> images) {
         insertLoginInfo(loginVO);        
-        String businessIdImage = storeImages(bVO, images.get(0));
+        String businessIdImage = commonService.saveImage(images.get(0), "member");
         String brokerIdImage = null;
         
         if(bVO.getMemberType() == 0) {          
-          brokerIdImage = storeImages(bVO, images.get(1));
+          brokerIdImage = commonService.saveImage(images.get(1), "member");
         }
         
         System.out.println("=== 사진의 경로!! ");
@@ -116,35 +120,6 @@ public class MemberServiceImpl implements MemberService{
     public int emailRedundancy(String email) {
       return mapper.emailRedundacyCheck(email);
     }    
-    
-    
-    private String storeImages(BusinessVO bVO, MultipartFile image) {      
-      File folder = new File(imageFolder);      
-      if(!folder.exists()) {        
-         try {
-           folder.mkdir();
-           
-         }catch (Exception e) {
-           e.getStackTrace();
-        }
-      }
-      
-      long now = System.currentTimeMillis();
-      Random rand = new Random();
-      
-      String imagePath = bVO.getBusinessId() + "_" + now + rand.nextInt(10) + image.getOriginalFilename();     
-      
-      File write = new File(imageFolder + File.separator + imagePath);      
-      System.out.println("저장할 위치 :: " + write.toString());
-      try {
-        image.transferTo(write);
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-      
-      return imagePath;      
-    }
-        
     
     @Override
     public Object findUserByEmail(String email) {  

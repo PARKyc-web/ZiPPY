@@ -129,7 +129,8 @@ export default{
 <style scoped>
 #container {
   width: 35%;
-  margin-top: 7%;
+  margin: 7% auto;
+  /* margin-top: 7%; */  
 }
 
 .login_img{

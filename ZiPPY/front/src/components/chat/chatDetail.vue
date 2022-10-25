@@ -6,10 +6,11 @@
 
       <h1 v-if="item.user2 == $store.state.loginInfo.email">
         <img>{{item.user1Name}}</h1>
-    
+        <div id="download-btn" class="ml-auto">
       <button type="button" class="form-control"><a :href="txtFile">TXT 파일 다운로드</a></button>
       <button type="button" class="form-control"><a :href="pdfFile">PDF 파일 다운로드</a></button>
     </div>
+    </div><br>
     <div class="chatBody" style="overflow:auto;">
       <ul class="list-group">
         <li class="list-group-item" v-for="msg in messages">
@@ -86,8 +87,8 @@
         if(this.roomId == this.value.roomId){
           this.messages.push(this.value);
           console.log(this.roomId + "WATCH!!! RUN!!");
-        } 
-        
+        }
+        this.goToBottom();                
       }
     },
     created() {
@@ -132,8 +133,7 @@
             message: this.message,
             time: this.getTime()
           }));
-          this.message = '';
-          this.goToBottom();
+          this.message = '';          
         }
       },
 
@@ -143,8 +143,7 @@
           "sender": recv.type == 'ENTER' ? '[알림]' : recv.sender,
           "message": recv.message,
           "time": recv.time
-        })
-        this.goToBottom();
+        })        
       },
 
         getTime: function () {
@@ -213,12 +212,22 @@
     border:none;
   }
   #download{
-    width: 30%;
-    display: inline-block;
+    width: 100%;
+    /* display: -webkit-box; */
+    display: flex;    
   }
 
-  h1 {
-    display: inline-block;
+  #download h1 {
+    display: inline-block;    
+    
+  }
+
+  #download-btn{
+    display: flex;
+  }
+
+  #download button {    
+    width: 100px;    
   }
 
   a{

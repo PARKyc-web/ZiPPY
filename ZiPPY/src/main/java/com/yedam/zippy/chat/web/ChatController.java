@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.yedam.zippy.chat.service.ChatMessage;
 import com.yedam.zippy.chat.service.ChatRoomName;
@@ -85,7 +87,7 @@ public class ChatController {
     public void getPdfFile(HttpServletResponse response, @PathVariable int id) throws Exception {
       txtTOpdf(id);
       try {        
-        String path = "C:/dev/chat/roomNum" + id + ".pdf"; // 경로에 접근할 때 역슬래시('\') 사용    
+        String path = "C:/dev/chat/chatLog" + id + ".pdf"; // 경로에 접근할 때 역슬래시('\') 사용    
         
         File file = new File(path);
         response.setHeader("Content-Disposition", "attachment;filename=" + file.getName()); // 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를
@@ -109,8 +111,6 @@ public class ChatController {
       BufferedReader input = null;
       Document output = null;
       System.out.println("Convert text file to pdf");
-      System.out.println("input  : " + "numtxt");
-      System.out.println("output : " + "numpdf");
       
       String path = "C:/dev/chat/roomNum" + id + ".txt"; // 경로에 접근할 때 역슬래시('\') 사용   
       String outFile = "C:/dev/chat/chatLog" + id + ".pdf"; // 경로에 접근할 때 역슬래시('\') 사용
@@ -129,12 +129,15 @@ public class ChatController {
         output.addAuthor("RealHowTo");
         output.addSubject("pdf");
         output.addTitle("pdf");
-
+        
+        BaseFont objBaseFont = BaseFont.createFont("font.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);        
+        Font objFont = new Font(objBaseFont, 12);
+        
         String line = "";
         while(null != (line = input.readLine())) {
           System.out.println(line);
-          Paragraph p = new Paragraph(line);
-          p.setAlignment(Element.ALIGN_JUSTIFIED);
+          Paragraph p = new Paragraph(line, objFont);
+          p.setAlignment(Element.ALIGN_JUSTIFIED);          
           output.add(p);
         }
         System.out.println("Done.");
