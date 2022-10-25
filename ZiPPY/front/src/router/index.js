@@ -8,6 +8,7 @@ import HouseDetail from "../components/property/HouseDetail.vue";
 import AgentDetail from "../components/property/AgentDetail.vue";
 // my page
 import MyWishProperties from "../components/property/MyWishProperties.vue";
+import SellerPropertyList from "../components/property/SellerPropertyList.vue";
 /////////////////////////
 import shopView from "../views/shopView.vue";
 import shopMain from "../views/shop/shopMainView.vue";
@@ -204,6 +205,11 @@ const routes = [
         path : "/",
         name : "seller-info",
         component : companyInfo
+      },
+      {
+        path : "/seller/SellerPropertyList",
+        name : "SellerPropertyList",
+        component : SellerPropertyList
       }
     ]
   },

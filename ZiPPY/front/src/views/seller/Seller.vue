@@ -28,12 +28,12 @@ export default{
                         icon: 'fa fa-user'
                     },
                     {                           
-                        href: '/seller/home',
+                        href: '/seller',
                         title: '매물등록',
                         icon: 'fa fa-chart-area'            
                     },
                     {
-                        href: '/seller/login',
+                        href: '/seller/SellerPropertyList',
                         title: '매물조회',
                         icon: 'fa fa-chart-area',                        
                     }
