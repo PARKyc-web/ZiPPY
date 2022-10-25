@@ -101,8 +101,6 @@
           method: "GET"
         }).then(response => {
           // 성공했을 때
-          console.log('getStreetAddress success!');
-          console.log(response);
           this.streetAddress = response.data;
 
           window.kakao && window.kakao.maps ?
@@ -111,7 +109,6 @@
         })
         .catch(error => {
           // 에러가 났을 때
-          console.log('getStreetAddress fail!');
           console.log(error);
         });
     },
@@ -260,7 +257,7 @@
         // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우
         // 이벤트 헨들러로 cluster 객체가 넘어오지 않을 수도 있습니다
         kakao.maps.event.addListener(clusterer, 'clusterclick', function (cluster) {
-          console.log(cluster.getCenter());
+          console.log('cluster get center', cluster.getCenter());
 
           // 현재 지도 레벨에서 1레벨 확대한 레벨
           var level = map.getLevel() - 1;
@@ -283,13 +280,11 @@
             }
           }).then(response => {
             // 성공했을 때
-            console.log('getPropertyList success!');
             console.log(response);
             this.houseProducts = response.data;
           })
           .catch(error => {
             // 에러가 났을 때
-            console.log('getPropertyList fail!');
             console.log(error);
           });
       },
@@ -299,14 +294,12 @@
             methods: "GET"
           }).then(response => {
             // 성공했을 때
-            console.log('getStreetAddress success!');
             console.log(response);
             this.streetAddress = response.data;
             return response.data;
           })
           .catch(error => {
             // 에러가 났을 때
-            console.log('getStreetAddress fail!');
             console.log(error);
           });
       },
@@ -335,19 +328,15 @@
             }
           }).then(response => {
             // 성공했을 때
-            console.log('currentPositionAptList success!');
             console.log(response);
             this.houseProducts = response.data;
           })
           .catch(error => {
             // 에러가 났을 때
-            console.log('currentPositionAptList fail!');
             console.log(error);
           });
       },
       searchPropertyList(data) {
-        console.log('hi', data.houseType, data.saleType, data.year, data.minSize, data.sigungu + '%');
-
         axios({
             url: "http://localhost:8090/zippy/property/searchPropertyList",
             methods: "GET",
@@ -363,7 +352,6 @@
             }
           }).then(response => {
             // 성공했을 때
-            console.log('searchPropertyList success!');
             console.log(response);
             this.houseProducts = response.data;
 
@@ -373,7 +361,6 @@
           })
           .catch(error => {
             // 에러가 났을 때
-            console.log('searchPropertyList fail!');
             console.log(error);
           });
 
@@ -390,9 +377,7 @@
         // 클러스터를 만들기 위해 필요한 최소 마커 개수를 설정한다.
         clusterer.setMinClusterSize(1);
 
-        console.log('값', this.markers.length);
         this.markers = [];
-        console.log('초기화', this.markers.lengh);
 
         var markers = [];
 

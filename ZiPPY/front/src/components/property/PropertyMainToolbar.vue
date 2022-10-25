@@ -51,7 +51,8 @@
 
                   <v-col class="px-4">
                     <p>금액(만원)</p>
-                    <v-range-slider v-model="data.range" :max="maxPrice" :min="minPrice" step="1000" hide-details class="align-center">
+                    <v-range-slider v-model="data.range" :max="maxPrice" :min="minPrice" step="1000" hide-details
+                      class="align-center" color="#B3E3C3">
                       <template v-slot:prepend>
                         <v-text-field v-model="data.range[0]" class="mt-0 pt-0" hide-details single-line type="number"
                           style="width: 60px" @change="$set(range, 0, $event)"></v-text-field>
@@ -63,9 +64,19 @@
                     </v-range-slider>
                   </v-col>
 
+
+
                   <v-col cols="12">
+
+                    <v-chip-group multiple active-class="green--text" v-model="selectedTags">
+                      <v-chip v-for="tag in tags" :key="tag" filter outlined>
+                        {{ tag }}
+                      </v-chip>
+                    </v-chip-group>
+
+<!-- 
                     <v-autocomplete :items="['조용한', '역세권', '학세권', '태그1', '태그2', '태그3', '태그4', '태그5', '태그6']" label="태그"
-                      multiple v-model="tags"></v-autocomplete>
+                      multiple v-model="tags"></v-autocomplete> -->
                   </v-col>
                 </v-row>
                 <p>선택한 필터 목록 {{ tags }}</p>
@@ -75,10 +86,10 @@
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="save">
+            <v-btn color="green lighten-1" text @click="save">
               저장
             </v-btn>
-            <v-btn color="blue darken-1" text @click="dialog = false">
+            <v-btn color="green lighten-1" text @click="dialog = false">
               닫기
             </v-btn>
           </v-card-actions>
@@ -103,7 +114,19 @@
         constructionYear: '전체',
         sizeLevel: [0, 6],
         houseSize: 0,
-        tags: '',
+        tags: [
+        '조용한',
+        '역세권',
+        '학세권',
+        '신축',
+        '즉시입주',
+        '풀옵션',
+        '올수리',
+        '탑층',
+        '공원뷰',
+        '수변뷰',
+      ],
+      selectedTags: [],
         minPrice: 0,
         maxPrice: 150000,
         data: {
@@ -122,6 +145,7 @@
     methods: {
       save() {
         this.dialog = false;
+        console.log('선택된', this.selectedTags);
 
         this.data.year = new Date().getFullYear();
         switch (this.constructionYear) {
@@ -189,7 +213,6 @@
           this.data.saleType = '';
         }
         this.$emit("search-property-list", this.data);
-        console.log(this.data);
         console.log(this.sigungu);
       },
       clickHouseType(houseType) {
