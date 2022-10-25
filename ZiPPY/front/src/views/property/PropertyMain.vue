@@ -184,7 +184,6 @@
 
                 // ex) 대구광역시 중구 남산1동 -> 대구광역시 중구 남산동
                 for (let i = 1; i < 10; i++) {
-                  console.log('하이', initThis.sigungu)
                   initThis.sigungu = initThis.sigungu.replace(i.toString() + '.' + (i + 1).toString() + '가동', '동');
                   initThis.sigungu = initThis.sigungu.replace(i.toString() + '가동', '동');
                   initThis.sigungu = initThis.sigungu.replace(i.toString() + '.' + (i + 1).toString() + '동', '동');
