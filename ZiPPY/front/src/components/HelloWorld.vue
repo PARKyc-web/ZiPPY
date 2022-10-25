@@ -11,7 +11,7 @@
     name: "HelloWorld",
     data: function () {
       return {
-        file : "http://localhost:8090/zippy/common/img/member/test.jpg",
+        file : "http://localhost:8090/zippy/common/img/member/" + "image3.jpg", 
         return: {},
       };
     },

@@ -62,6 +62,9 @@
 
               <div>
                 방 입구에서 찍은 사진
+                <div v-for="item in list">
+                  <img :src="file" >
+                </div>
               </div>
               <div>
                 방 중앙에서 찍은 사진
@@ -96,9 +99,9 @@ export default {
   },
 
   data : function () {
-    return{
-      
+    return{            
       //펼치기
+      file:"http://localhost:8090/zippy/common/img/move/image1.jpg",
       show: false,
       email:"",
       //

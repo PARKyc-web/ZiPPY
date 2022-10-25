@@ -1,4 +1,4 @@
-<template>
+<template>  
   <div class="pb-1">
     <v-app-bar color="#fff">
       <!-- 카테고리 -->

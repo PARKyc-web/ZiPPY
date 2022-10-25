@@ -16,7 +16,7 @@
             <div id="propertyCard">
               <table style="width: 100%;">
                 <tr>
-                  <td style="width: 35%;">여기에 이미지</td>
+                  <td style="width: 35%;"><img src="http://localhost:8090/zippy/common/img/move/image1.jpg"/></td>
                   <td style="width: 65%;">
                     <v-row align="center" class="mx-0">
                       <div>매물번호 {{item.productId}}</div>
@@ -66,6 +66,7 @@
     },
     data() {
       return {
+        test:"image1.jpg",
         data: chickenJson,
         houseProducts: [],
         sigungu: '',
