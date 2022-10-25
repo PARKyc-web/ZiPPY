@@ -52,7 +52,7 @@ public class CommonController {
   @PostMapping("/addWish")
   public int addWish(@RequestBody BookmarkVO bookmark) {
     System.out.println(bookmark);
-    System.out.println(service.addWish(bookmark));
+    //System.out.println(service.addWish(bookmark));
     return service.addWish(bookmark);
   }
 
@@ -96,12 +96,6 @@ public class CommonController {
   public List<ReviewBoardVO> showReview(@RequestBody ReviewBoardVO rv) {
     return service.showReview(rv);
   } 
-
-//  @GetMapping("/RvOne")
-//  public BookmarkVO getRvOne(@RequestParam int serviceType, @RequestParam int serviceId, @RequestParam String email) {
-//    return service.getRvOn(serviceType, serviceId, email);
-//  }  
-
  
   @GetMapping("img/{type}/{image}")
   public void getImage(HttpServletResponse response, @PathVariable String type, @PathVariable String image) throws Exception {

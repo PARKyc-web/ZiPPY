@@ -18,7 +18,6 @@
 		ON s.email = b.email
 		WHERE s.category = #{category}
 		AND pro_status = 0
-		ORDER BY pro_no DESC
 	</select>
 
 
@@ -41,7 +40,6 @@
 		WHERE comp_name LIKE '%'||#{keyword}||'%'
 		AND member_type=2)
 		AND pro_status = 0
-		ORDER BY pro_no DESC
 	</select>
 
 
@@ -264,6 +262,7 @@
 	</update>
 	
 	<!-- 마이페이지 -->
+	<!-- My Wish -->
 	<select id="getMyWishList" resultType="HashMap">
 		SELECT *
 		FROM bookmark b
@@ -274,7 +273,27 @@
 		AND
 		b.email = #{email}
 	</select>
-	
+	<!-- My Qna -->
+	<select id="getMyQna" resultType="HashMap">
+		SELECT q.*, s.*
+			FROM shop_qna q
+			JOIN shop_product s
+			ON q.pro_no = s.pro_no
+			WHERE q.email = #{email}
+		ORDER BY q.qna_no DESC
+	</select>
+	<!-- My review -->
+	<select id="getMyRv" resultType="HashMap">
+		SELECT r.*, s.*
+			FROM review_board r
+				JOIN
+				shop_product s ON r.service_id = s.pro_no
+				WHERE
+				r.service_type = 2
+				AND
+				r.email = #{email}
+	        ORDER BY r.review_no DESC
+	</select>
 	
 	<!-- 판매자 -->
 	<!-- 상품등록 -->
@@ -398,6 +417,26 @@
 		SET (order_status, delivery_date)
         =(SELECT #{orderStatus}, systimestamp FROM dual)
 		WHERE pur_no =#{purNo}
+	</update>
+	<!-- QNA 전체조회 -->
+	<select id="getSellerQnaList" resultType="QnaVO">
+		SELECT q.*, s.pro_name FROM shop_qna q
+			JOIN shop_product s
+				ON q.pro_no = s.pro_no
+					WHERE q.pro_no IN
+					(SELECT pro_no
+					FROM shop_product
+					WHERE email=#{email})
+		ORDER BY qna_no DESC
+	</select>
+	<!-- QNA 수정 -->
+	<update id="updateQnaAnswer">
+		UPDATE shop_qna
+			SET
+			(answer, answer_status)
+			=
+			(SELECT #{answer}, 1 FROM dual)
+			WHERE qna_no = #{qnaNo}
 	</update>
 
 </mapper>

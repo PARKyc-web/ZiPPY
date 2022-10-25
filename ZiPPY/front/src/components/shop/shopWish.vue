@@ -3,7 +3,7 @@
     <div id="container">
       <div>
         <div class="used-main-title">
-          <h3>찜 목록</h3>
+          <h3>관심상품 목록</h3>
         </div>
       </div>
       <div id="used-usedwishckdel">
@@ -16,12 +16,13 @@
       </div>
       <hr />
       <div id="used-div-cont">
-        <div class="used-wish-cont-div" @click="goDetail(item.proNo)" v-for="(item, index) in wishes" :key="index">
+        <div class="used-wish-cont-div" @click="goDetail(list.PRO_NO)" v-for="list in data">
           <div id="used-wish-product">
             <div class="used-wish-img-1">
               <img
                 src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcnRs2T%2FbtrG3rPqyGx%2FgvSvyKfokqo8yQomsVjuQK%2Fimg.jpg"
                 width="200px" height="200px" />
+              <!--<div id="wish-soldout-img" width="200px" height="200px" v-if="list.isSell == 1">판매완료</div>-->
               <div id="used-wish-info">
                 <div>
                   <button class="used-wish-heart">
@@ -29,44 +30,48 @@
                   </button>
                 </div>
                 <div id="wish-card-ckbox">
-                  <div id="wish-title-price"><span>{{item.proName}}</span></div>
+                  <div id="wish-title-price"><span>{{list.PRO_NAME}}</span></div>
                   <div>
-                    <v-checkbox id="ck" v-model="ckList" color="#b3e3c3" :value="item.bookmarkNo" @click.stop="test()">
+                    <v-checkbox id="ck" v-model="ckList" color="#b3e3c3" :value="list.BOOKMARK_NO" @click.stop="test()">
                     </v-checkbox>
                   </div>
                 </div>
                 <div id="used-wish-price-date">
-                  <div id="wish-title-price" class="used-wish-card-cont"><span>{{item.proPrice | comma}}원</span>
+                  <div id="wish-title-price" class="used-wish-card-cont"><span>{{list.PRO_PRICE | comma}}원</span>
                   </div>
-                </div>
-                <hr />
-                <div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="text-center">
+          <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3"></v-pagination>
+        </div>
       </div>
-    </div>
-    <div class="text-center">
-      <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3"></v-pagination>
     </div>
   </div>
 </template>
 
 <script>
   import axios from 'axios';
+  import navBar from '../../components/used/navBar.vue';
 
   export default {
+    components: {
+      navBar
+    },
     data: () => ({
       data: [],
       ckList: [],
-      uncheck: '',
+      uncheck: "",
       page: 1,
-      pageCount: 1,
-      wishes: []
-
+      pageCount: 1
     }),
+    watch: {
+      page(){
+        this.getWishList();
+      }
+    },
     created() {
       this.getWishList();
     },
@@ -85,7 +90,7 @@
             email: this.$store.state.loginInfo.email
           }
         }).then(res => {
-          this.wishes = res.data.list;
+          this.data = res.data.list;
           this.pageCount = res.data.pages;
         }).catch(error => {
           console.log(error);
@@ -96,7 +101,7 @@
         console.log(ck);
         // console.log(this.data.length)
         if (ck == true) {
-          this.uncheck = false;
+          this.uncheck = false; 
         }
       },
       goDetail(no) {
@@ -109,7 +114,7 @@
         // console.log(isCheck)
         if (isCheck == false) {
           for (let i of this.data) {
-            this.ckList.push(i.bookmarkNo);
+            this.ckList.push(i.BOOKMARK_NO);
           }
         } else if (isCheck == true) {
           this.ckList.splice(0);
@@ -118,7 +123,7 @@
       // 선택 삭제 & 전체 삭제 ?
       delWish: function () {
         axios({
-          url: "/common/delWish",
+          url: "common/delWish",
           method: "DELETE",
           data: {
             bNo: this.ckList
@@ -127,7 +132,7 @@
           console.log(res);
           let arr = [];
           for (let i of this.data) {
-            if (this.ckList.indexOf(i.bookmarkNo) < 0) {
+            if (this.ckList.indexOf(i.BOOKMARK_NO) < 0) {
               arr.push(i);
             }
           }
@@ -136,11 +141,6 @@
         }).catch(err => {
           console.log(err)
         })
-      }
-    },
-    watch: {
-      page() {
-        this.getWishList();
       }
     }
   };
@@ -245,6 +245,49 @@
   .bi {
     vertical-align: -0.125em;
     fill: currentColor;
+  }
+
+  .nav-scroller {
+    position: relative;
+    z-index: 2;
+    height: 2.75rem;
+    overflow-y: hidden;
+  }
+
+  .nav-scroller .nav {
+    display: flex;
+    flex-wrap: nowrap;
+    padding-bottom: 1rem;
+    margin-top: -1px;
+    overflow-x: auto;
+    text-align: center;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-link {
+    color: black;
+  }
+
+  .nav-link dropdown-toggle {
+    float: right;
+    width: 50px;
+  }
+
+  .nav-link:hover {
+    color: #b3e3c3;
+  }
+
+  .nav-item dropdown {
+    float: right;
+  }
+
+  .used-dropdown {
+    list-style: none;
+  }
+
+  #navbarDropdown {
+    color: #212529;
   }
 
   .thumbnail-wrap {
