@@ -97,7 +97,7 @@ public class MoveController {
   
   //견적상태 업데이트 (견적요청후, 상태 0으로 변경)
   @PostMapping("/moveStatusUpdateZero")
-  public String moveStatusUpdateZero(MoveResponseVO vo) {
+  public String moveStatusUpdateZero(MoveRequestVO vo) {
     System.out.println(vo);
     
     service.moveStatusUpdateZero(vo);

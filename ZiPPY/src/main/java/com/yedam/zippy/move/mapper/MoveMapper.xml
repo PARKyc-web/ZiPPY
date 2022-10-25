@@ -28,7 +28,8 @@
 		REQUEST_DATE,
 		VISIT_DATE,
 		VISIT_TIME,
-		COMMON_OPTION
+		COMMON_OPTION,
+		RESERV_STATUS
 		)
 		VALUES
 		(
@@ -51,7 +52,8 @@
 		#{requestDate},
 		#{visitDate},
 		#{visitTime},
-		#{commonOption}
+		#{commonOption},
+		#{reservStatus}
 		)
 	</insert>
 	
@@ -103,7 +105,8 @@
 		REQUEST_DATE,
 		VISIT_DATE,
 		VISIT_TIME,
-		COMMON_OPTION
+		COMMON_OPTION,
+		RESERV_STATUS
 		)
 		VALUES
 		(
@@ -126,7 +129,8 @@
 		#{requestDate},
 		#{visitDate},
 		#{visitTime},
-		#{commonOption}
+		#{commonOption},
+		#{reservStatus}
 		)
 	</insert>
 	
@@ -164,10 +168,10 @@
 			)
 	</insert>
 	
-	<!-- 사용자가 견적요청 후 견적상태 0로 변경 -->
-	<update id="moveStatusUpdate" parameterType="MoveResponseVO">
+	<!-- 사용자가 견적요청 후 견적상태 1로 변경 -->
+	<update id="moveStatusUpdateZero" parameterType="MoveRequestVO">
 		UPDATE untact_estimate_moving 
-        SET reserv_status = 0
+        SET reserv_status = 1
         WHERE estimate_no = #{estimateNo}  
         AND email = #{email}
 	</update>

@@ -107,9 +107,11 @@
                 <v-dialog v-model="dialog" persistent max-width="600px">
                   
                   <template v-slot:activator="{ on, attrs }">
-                    <v-btn :id="i" id="estBtn" @click="modalVal(i)" color="success" dark v-bind="attrs" v-on="on" width="80">
+                    
+                    <v-btn v-if="list.reservStatus == 0" :id="i" id="estBtn" @click="modalVal(i)" color="success" dark v-bind="attrs" v-on="on" width="80">
                       견적작성
                     </v-btn>
+                 
                   </template>
 
                   <!-- 모달 -->
@@ -162,12 +164,12 @@
                         </v-card-text>
                         <v-card-actions>
                           <v-spacer></v-spacer>
+
                           <v-btn color="gray" text @click="dialog = false">
                             닫기
                           </v-btn>
-                          <v-btn color="blue darken-1" text @click="dialog = false">
-                            저장
-                          </v-btn>
+                      
+
                           <v-btn id="sendbtn" color="success darken-1" text @click="sendEstimate()">
                             견적보내기
                           </v-btn>
@@ -235,7 +237,7 @@ export default {
         secondEstimateType: "",
         secondEstimatePrice: "",
         compName: "82이사",
-        reservStatus: 0,
+        reservStatus: '',
         businessEmail: "",
 
         list: [],
@@ -317,7 +319,7 @@ export default {
           dropbox: "",
           dropbox2: "",
           firstEstimateType : this.selectData.estimateType,
-          reservStatus : this.selectData.reservStatus
+          reservStatus : this.list.reservStatus
         }
       }).then(res => {
         console.log(res);
@@ -577,7 +579,7 @@ export default {
             responseMemo :document.querySelector("#memo").value,
             firstEstimatePrice : document.querySelector("#firstPrice").value,
             firstEstimateType : this.selectData.estimateType,
-            reservStatus : 0,
+            reservStatus : 1,
             compName : this.$store.state.loginInfo.compName
           },
           // data: this.selectData
@@ -594,6 +596,28 @@ export default {
             email : this.selectData.email,
             reservStatus : 1
           },
+          
+          // data: formData
+        }).then(res => {
+          console.log(res);
+          alert("견적서 보내기 완료!");
+          
+
+        }).catch(err => {
+          console.log(err)
+        }),
+
+          //견적상태변경
+          this.$axios({
+          url: "http://localhost:8090/zippy/move/moveStatusUpdateZero",
+          method: "POST",
+         
+          params:{
+            estimateNo : this.selectData.estimateNo,
+            email : this.selectData.email,
+            reservStatus : 1
+          },
+          
           // data: formData
         }).then(res => {
           console.log(res);
@@ -603,7 +627,6 @@ export default {
         }).catch(err => {
           console.log(err)
         })
-
 
         }).catch(err => {
           console.log(err)
