@@ -71,7 +71,7 @@
                   <v-row align="center" class="mx-0">
                     <div>매물번호 {{item.productId}}</div>
                   </v-row>
-                  <v-card-title style="font-weight: bold;">{{item.saleType}} {{item.price}}
+                  <v-card-title style="font-weight: bold;">{{item.saleType}} {{item.price | oneHundredMillion}}
                   </v-card-title>
                   <p class="card_contents">{{item.houseType}} · {{item.houseName}}</p>
                   <p class="card_contents">{{item.sigungu}}</p>
@@ -99,9 +99,6 @@
   import InsertProperty from './InsertProperty.vue';
   import UpdateProperty from './UpdateProperty.vue';
   import UpdateAgentProfile from './UpdateAgentProfile.vue';
-  import {
-    oneHundredMillion
-  } from '../../assets/property/propertyPrice';
 
   export default {
     components: {
@@ -143,6 +140,21 @@
     watch: {
       page() {
         this.getPropertyList();
+      }
+    },
+    filters: {
+      oneHundredMillion: function (price) {
+        let result = "";
+
+        if (price.length > 4) {
+          result += price.substr(0, price.length - 4) + '억';
+          price = price.substr(price.length - 4, price.length);
+          if (price == '0000') return result;
+        }
+        price = price.substr(price.length - 4, price.length - 3) + ',' + price.substr(price.length - 3, price.length);
+        result += price;
+
+        return result;
       }
     },
     methods: {
