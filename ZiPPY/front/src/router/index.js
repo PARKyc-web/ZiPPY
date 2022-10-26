@@ -8,6 +8,7 @@ import HouseDetail from "../components/property/HouseDetail.vue";
 import AgentDetail from "../components/property/AgentDetail.vue";
 // my page
 import MyWishProperties from "../components/property/MyWishProperties.vue";
+import SellerPropertyList from "../components/property/SellerPropertyList.vue";
 /////////////////////////
 import shopView from "../views/shopView.vue";
 import shopMain from "../views/shop/shopMainView.vue";
@@ -72,6 +73,7 @@ import usedInsert from "../views/used/usedInsert.vue";
 import usedKeyword from "../views/used/usedKeyword.vue";
 import usedwishList from "../views/used/usedWishList.vue";
 import usedUserPage from "../views/used/usedUserPage.vue";
+import usedMyPage from "../views/used/usedMyPage.vue";
 
 import companyInfo from '@/views/seller/companyInfo.vue';
 import userInfo from '@/views/mypage/userInfo.vue';
@@ -171,6 +173,12 @@ const routes = [
         path: "MyRv",
         name: "shopMyRv",
         component: shopMyReview
+},
+{
+        path : "used/user",
+        name : "mypage-userPage",
+        component : usedUserPage
+
       },
       {
         path : "used/insert",
@@ -186,6 +194,27 @@ const routes = [
         path : "used/wish",
         name : "mypage-wishList",
         component : usedwishList
+      },
+      {
+        path : "move/moveResult",
+        name : "mypage-wishList",
+        component : moveResult
+      },
+      {
+        path : "move/moveMyList",
+        name : "mypage-wishList",
+        component : moveMyList
+      },
+      {
+        path : "move/moveMyReserve",
+        name : "mypage-wishList",
+        component : moveMyReserve
+      },
+      {
+        path : "used/myPage",
+        name : "mypage-usedMyPage",
+        component : usedMyPage
+
       },
     ]
   },
@@ -238,6 +267,11 @@ const routes = [
         path : "/seller/shopSellerQna",
         name : "shopSellerQna",
         component : shopSellerQna
+},
+      {
+        path : "/seller/SellerPropertyList",
+        name : "SellerPropertyList",
+        component : SellerPropertyList
       }
     ]
   },
@@ -470,6 +504,11 @@ const routes = [
     path: "/used/user",
     name: "usedUserPage",
     component: usedUserPage
+  },
+  {
+    path: "/used/myPage",
+    name: "usedMyPage",
+    component: usedMyPage
   },
 
 

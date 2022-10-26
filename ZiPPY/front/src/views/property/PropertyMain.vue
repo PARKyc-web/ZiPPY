@@ -16,12 +16,14 @@
             <div id="propertyCard">
               <table style="width: 100%;">
                 <tr>
-                  <td style="width: 35%;"><img src="http://localhost:8090/zippy/common/img/move/image1.jpg"/></td>
+                  <td style="width: 35%;"><img :src="'http://localhost:8090/zippy/common/img/property/' + item.mainImg"
+                      style="width: 100%; height: 100%" /></td>
+
                   <td style="width: 65%;">
                     <v-row align="center" class="mx-0">
                       <div>매물번호 {{item.productId}}</div>
                     </v-row>
-                    <v-card-title style="font-weight: bold;">{{item.saleType}} {{item.price}}
+                    <v-card-title style="font-weight: bold;">{{item.saleType}} {{item.price | oneHundredMillion}}
                     </v-card-title>
                     <table style="font-size: medium; margin-left: 20px;">
                       <tr>
@@ -29,7 +31,8 @@
                       </tr>
                       <tr>{{item.sigungu}}</tr>
                       <tr>
-                        <v-icon>mdi-border-outside</v-icon>{{item.areaExclusive}}m² · <v-icon>mdi-stairs</v-icon>{{item.floor}}층
+                        <v-icon>mdi-border-outside</v-icon>{{item.areaExclusive}}m² · <v-icon>mdi-stairs</v-icon>
+                        {{item.floor}}층
                       </tr>
                       <tr>
                         {{item.detailContents}}
@@ -55,9 +58,6 @@
   import chickenJson from "../../assets/property/chicken.json";
   import axios from "axios";
   import PropertyMainToolbar from '../../components/property/PropertyMainToolbar.vue';
-  import {
-    oneHundredMillion
-  } from '../../assets/property/propertyPrice';
 
   export default {
     components: {
@@ -66,7 +66,7 @@
     },
     data() {
       return {
-        test:"image1.jpg",
+        test: "image1.jpg",
         data: chickenJson,
         houseProducts: [],
         sigungu: '',
@@ -78,14 +78,30 @@
         markers: []
       }
     },
+    filters: {
+      oneHundredMillion: function (price) {
+        let result = "";
+
+        if (price.length > 4) {
+          result += price.substr(0, price.length - 4) + '억';
+          price = price.substr(price.length - 4, price.length);
+          if (price == '0000') return result;
+        }
+        price = price.substr(price.length - 4, price.length - 3) + ',' + price.substr(price.length - 3, price.length);
+        if(price[0]=='0') {
+          price = price.substr(price.length - 3, price.length);
+        }
+        result += price;
+
+        return result;
+      }
+    },
     created() {
       axios({
           url: "http://localhost:8090/zippy/property/main",
           method: "GET"
         }).then(response => {
           // 성공했을 때
-          console.log('getStreetAddress success!');
-          console.log(response);
           this.streetAddress = response.data;
 
           window.kakao && window.kakao.maps ?
@@ -94,7 +110,6 @@
         })
         .catch(error => {
           // 에러가 났을 때
-          console.log('getStreetAddress fail!');
           console.log(error);
         });
     },
@@ -184,7 +199,6 @@
 
                 // ex) 대구광역시 중구 남산1동 -> 대구광역시 중구 남산동
                 for (let i = 1; i < 10; i++) {
-                  console.log('하이', initThis.sigungu)
                   initThis.sigungu = initThis.sigungu.replace(i.toString() + '.' + (i + 1).toString() + '가동', '동');
                   initThis.sigungu = initThis.sigungu.replace(i.toString() + '가동', '동');
                   initThis.sigungu = initThis.sigungu.replace(i.toString() + '.' + (i + 1).toString() + '동', '동');
@@ -244,7 +258,7 @@
         // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우
         // 이벤트 헨들러로 cluster 객체가 넘어오지 않을 수도 있습니다
         kakao.maps.event.addListener(clusterer, 'clusterclick', function (cluster) {
-          console.log(cluster.getCenter());
+          console.log('cluster get center', cluster.getCenter());
 
           // 현재 지도 레벨에서 1레벨 확대한 레벨
           var level = map.getLevel() - 1;
@@ -267,13 +281,11 @@
             }
           }).then(response => {
             // 성공했을 때
-            console.log('getPropertyList success!');
             console.log(response);
             this.houseProducts = response.data;
           })
           .catch(error => {
             // 에러가 났을 때
-            console.log('getPropertyList fail!');
             console.log(error);
           });
       },
@@ -283,14 +295,12 @@
             methods: "GET"
           }).then(response => {
             // 성공했을 때
-            console.log('getStreetAddress success!');
             console.log(response);
             this.streetAddress = response.data;
             return response.data;
           })
           .catch(error => {
             // 에러가 났을 때
-            console.log('getStreetAddress fail!');
             console.log(error);
           });
       },
@@ -319,19 +329,15 @@
             }
           }).then(response => {
             // 성공했을 때
-            console.log('currentPositionAptList success!');
             console.log(response);
             this.houseProducts = response.data;
           })
           .catch(error => {
             // 에러가 났을 때
-            console.log('currentPositionAptList fail!');
             console.log(error);
           });
       },
       searchPropertyList(data) {
-        console.log('hi', data.houseType, data.saleType, data.year, data.minSize, data.sigungu + '%');
-
         axios({
             url: "http://localhost:8090/zippy/property/searchPropertyList",
             methods: "GET",
@@ -347,7 +353,6 @@
             }
           }).then(response => {
             // 성공했을 때
-            console.log('searchPropertyList success!');
             console.log(response);
             this.houseProducts = response.data;
 
@@ -357,7 +362,6 @@
           })
           .catch(error => {
             // 에러가 났을 때
-            console.log('searchPropertyList fail!');
             console.log(error);
           });
 
@@ -374,9 +378,7 @@
         // 클러스터를 만들기 위해 필요한 최소 마커 개수를 설정한다.
         clusterer.setMinClusterSize(1);
 
-        console.log('값', this.markers.length);
         this.markers = [];
-        console.log('초기화', this.markers.lengh);
 
         var markers = [];
 

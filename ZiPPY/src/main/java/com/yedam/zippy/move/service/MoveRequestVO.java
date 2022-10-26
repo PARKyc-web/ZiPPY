@@ -27,4 +27,5 @@ public class MoveRequestVO {
   String visitDate;
   String visitTime;
   String commonOption;
+  Integer reservStatus;
 }

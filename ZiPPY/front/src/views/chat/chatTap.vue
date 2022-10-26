@@ -10,7 +10,10 @@
                     </b-tab>
                 </b-tabs>
             </b-card>
-        </div> 
+        </div>
+        <div v-else>
+            채팅 기록이 없습니다!
+        </div>
     </div>
 </template>
 
@@ -50,7 +53,7 @@ import chatDetail from '@/components/chat/chatDetail.vue'
         methods: {
             findAllRoom: function () {
                 this.$axios({
-                    url: "/chat/room",
+                    url: "/zippy/chat/room",
                     params: {
                         email: this.$store.state.loginInfo.email
                     }
@@ -71,7 +74,19 @@ import chatDetail from '@/components/chat/chatDetail.vue'
                 }                
             },
             connect: function (i) {
-                var outside = this;            
+                var outside = this;       
+
+                // this.$sock = new SockJS("http://localhost:8090/zippy/ws/chat");
+                // this.$ws = Stomp.over(this.$sock);
+                this.$ws.connect({}, function (frame) {                
+                    outside.$ws.subscribe("FAKE1234", function(message) {                    
+                        console.log("FAKE SUB");
+                    })
+                    console.log("connnnnnect");
+                }, function (error) {
+                    console.log(error);
+                });        
+                
                 var no = this.chatRooms[i].chatRoomNo;
                 this.$ws.unsubscribe(this.sub_id[i]);
 

@@ -34,4 +34,6 @@ public interface MemberService {
   public void updateUserInfo(GeneralUserVO info);
   
   public void updateBusinessInfo(BusinessVO info);
+  
+  public String changeProfileImage(MultipartFile image, String email);
 }

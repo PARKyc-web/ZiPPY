@@ -7,17 +7,19 @@
         </div>
       </div>
       <div class="used-insert-addr">
-        <button id="used-addr">
+        <div id="used-addrs">
+          <CurrentPositionLabel @sigu="test"></CurrentPositionLabel>
+        </div>
+        <!-- <button id="used-addr"> -->
           <i class="fa-solid fa-location-dot fa-2x"></i>
-        </button>
-        <CurrentPositionLabel @sigu="test"></CurrentPositionLabel>
+        <!-- </button> -->
       </div>
       <hr />
       <div>
         <div>
           <div id="used-insert-main">
             <div class="used-insert-img" id="used-insert-img-div">
-              <span>이미지</span> 0/6
+              <span>이미지</span> {{files.length}}/6
             </div>
             <div v-if="!files.length" class="room-file-upload-example-container">
               <div class="room-file-upload-example">
@@ -41,7 +43,7 @@
                 </div>
                 <div class="file-preview-wrapper-upload">
                   <div class="image-box">
-                    <label for="file">추가 사진 등록</label>
+                    <label for="file" v-if="files.length<6">추가 사진 등록</label>
                     <input type="file" name="images" id="file" ref="files" @change="imageAddUpload" multiple
                       accept="image/*" />
                   </div>
@@ -249,6 +251,14 @@
     height: 100%;
   }
 
+  #used-insert-addr {
+    display: flex;
+  }
+
+  #used-addrs{
+    margin-left: 25px;
+  }
+
   .room-file-upload-example-container {
     display: flex;
     align-items: center;
@@ -286,7 +296,7 @@
     display: inline-block;
     padding: 10px 20px;
     background-color: #b3e3c3;
-    color: #fff;
+    color: black;
     vertical-align: middle;
     font-size: 15px;
     cursor: pointer;
@@ -479,9 +489,10 @@
   .used-insert-submit button {
     border: none;
     background-color: #b3e3c3;
-    color: white;
+    color: black;
     width: 100px;
     height: 50px;
+    border-radius: 0.8rem;
   }
 
   .used-insert-submit button:hover {

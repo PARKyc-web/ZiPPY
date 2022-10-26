@@ -39,4 +39,6 @@ public interface MemberMapper {
     
     public void updateBusinessInfo(BusinessVO info);
     
+    public void updateProfileImage(@Param("image") String image, @Param("email") String email);
+    
 }

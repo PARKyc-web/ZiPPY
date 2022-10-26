@@ -7,15 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yedam.zippy.common.service.BookmarkVO;
-import com.yedam.zippy.common.service.ReviewBoardVO;
 import com.yedam.zippy.move.service.MoveCompanyEstimateVO;
 import com.yedam.zippy.move.service.MoveEstimateVO;
 import com.yedam.zippy.move.service.MoveImageVO;
@@ -94,6 +94,16 @@ public class MoveController {
     service.makeEstimate(vo);
     return "";
   }
+  
+  //견적상태 업데이트 (견적요청후, 상태 0으로 변경)
+  @PostMapping("/moveStatusUpdateZero")
+  public String moveStatusUpdateZero(MoveRequestVO vo) {
+    System.out.println(vo);
+    
+    service.moveStatusUpdateZero(vo);
+    return "";
+  }
+  
   
   //견적상태 업데이트 (1차 견적서 발송후, 상태 1로 변경)
   @PostMapping("/moveStatusUpdate")
@@ -178,10 +188,13 @@ public class MoveController {
   
   //사용자가 보낸 자신의 견적 히스토리 확인
   @GetMapping("/moveResult")
-  public List<MoveEstimateVO> selectAllResult(MoveEstimateVO vo){
-    
+  public PageInfo<MoveEstimateVO> selectAllResult(MoveEstimateVO vo){
+    String order="request_date DESC";
     System.out.println(vo);
-    return service.getEstimateResult(vo);
+    
+    
+    PageHelper.startPage(vo.getPageNum(), 10, order);
+    return PageInfo.of(service.getEstimateResult(vo));
   }
 
   //사용자가 받은 견적 리스트 확인
@@ -214,8 +227,8 @@ public class MoveController {
  
  // 후기 출력
  @GetMapping("/moveReview")
- public List<MoveReviewVO> showReview(MoveReviewVO vo) {
-   return service.showReview(vo);
+ public List<MoveReviewVO> showReview(@Param("serviceId")String serviceId) {
+   return service.showReview(serviceId);
  } 
   
 }

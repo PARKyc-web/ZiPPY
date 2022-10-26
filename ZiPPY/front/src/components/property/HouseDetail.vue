@@ -2,19 +2,17 @@
   <div>
     <div id="main-background"></div>
     <div id="container" v-if="this.houseDetail[0]">
-      <v-carousel id="imgSlide" cycle hide-delimiter-background show-arrows-on-hover>
-        <v-carousel-item v-for="(slide, i) in slides" :key="i">
-          <v-sheet :color="colors[i]" height="100%">
-            <v-row class="fill-height" align="center" justify="center">
-              <div class="text-h2">
-                {{ slide }} Slide
-              </div>
-            </v-row>
-          </v-sheet>
-        </v-carousel-item>
+      <v-carousel  id="imgSlide" hide-delimiter-background>
+        <v-carousel-item v-for="(item,i) in items" :key="i" :src="item.src" reverse-transition="fade-transition"
+         ></v-carousel-item>
       </v-carousel>
       <section>
         <article>
+          <v-chip-group multiple active-class="green--text" v-model="selectedTags">
+                  <v-chip v-for="tag in tags" :key="tag" filter outlined disabled>
+                    {{ tag }}
+                  </v-chip>
+                </v-chip-group>
           <h4 class="title">가격정보</h4>
           <table>
             <tr>
@@ -23,7 +21,7 @@
             </tr>
             <tr>
               <th>관리비</th>
-              <td>매월 8만원</td>
+              <td>매월 10만원</td>
             </tr>
             <tr>
               <th>주차</th>
@@ -32,7 +30,7 @@
             </tr>
             <tr>
               <th>한달 예상 주거비용</th>
-              <td>43만원<br> <small>월세 + 관리비 별도 금액으로 부과되는 항목 제외</small>
+              <td>10만원<br><small>별도 금액으로 부과되는 항목 제외</small>
               </td>
             </tr>
           </table>
@@ -42,12 +40,20 @@
           <h4 class="title">상세정보</h4>
           <table>
             <tr>
+              <th>건물이름</th>
+              <td>{{this.houseDetail[0].houseName}}</td>
+            </tr>
+            <tr>
               <th>집종류</th>
               <td>{{this.houseDetail[0].houseType}}</td>
             </tr>
             <tr>
               <th>층수</th>
               <td>{{this.houseDetail[0].floor}}층</td>
+            </tr>
+            <tr>
+              <th>방 수/욕실 수</th>
+              <td>{{this.houseDetail[0].roomCnt}}개/{{this.houseDetail[0].bathCnt}}개</td>
             </tr>
             <tr>
               <th>전용면적</th>
@@ -98,25 +104,28 @@
                 <h6 style="margin-left: 20px;">{{this.houseDetail[0].sigungu}} {{this.houseDetail[0].streetAddress}}
                 </h6>
                 <br>
-                <h5 style="margin-left: 20px;"><v-icon large>mdi-border-outside</v-icon>{{this.houseDetail[0].areaExclusive}}m² · <v-icon large>mdi-stairs</v-icon> {{this.houseDetail[0].floor}}층
+                <h5 style="margin-left: 20px;">
+                  <v-icon large>mdi-border-outside</v-icon>{{this.houseDetail[0].areaExclusive}}m² · <v-icon large>
+                    mdi-stairs</v-icon> {{this.houseDetail[0].floor}}층
                 </h5>
                 <hr>
-                <v-card-title style="font-weight: bold;" @click="goAgentDetail">{{this.houseDetail[0].compName}} 
-                <v-icon color="#B3E3C3" style="margin-left: 3px">mdi-information-outline</v-icon>
+                <v-card-title style="font-weight: bold;" @click="goAgentDetail">{{this.houseDetail[0].compName}}
+                  <v-icon color="#B3E3C3" style="margin-left: 3px">mdi-information-outline</v-icon>
                 </v-card-title>
 
                 <!-- 채팅 버튼 -->
                 <v-row justify="center">
                   <v-dialog v-model="dialog" persistent max-width="600px">
                     <template v-slot:activator="{ on, attrs }">
-                      <v-btn color="#B3E3C3" dark v-bind="attrs" @click="openChat" style="width: 90%; margin-bottom: 10px ">
-                        <b>채팅으로 문의하기</b>
+                      <v-btn color="#B3E3C3" dark v-bind="attrs" @click="openChat"
+                        style="width: 90%; margin-bottom: 10px;" height="50">
+                        <b>문의하기</b>
                       </v-btn>
                     </template>
                     <v-card>
-                        <v-btn style="width: 100%" color="#B3E3C3" text @click="dialog = false">
-                          채팅창 닫기
-                        </v-btn>
+                      <v-btn style="width: 100%" color="#B3E3C3" text @click="dialog = false">
+                        채팅창 닫기
+                      </v-btn>
                       <chat-tap style="width: 100%; height: 100%; padding: 0"></chat-tap>
                     </v-card>
                   </v-dialog>
@@ -154,44 +163,60 @@
     },
     data() {
       return {
-        colors: [
-          'indigo',
-          'warning',
-          'pink darken-2',
-          'red lighten-1',
-          'deep-purple accent-4',
-        ],
-        slides: [
-          'First',
-          'Second',
-          'Third',
-          'Fourth',
-          'Fifth',
+        items: [
+          {
+            src: 'http://localhost:8090/zippy/common/img/property/image1.jpg',
+          },
+          {
+            src: 'http://localhost:8090/zippy/common/img/property/image2.jpg',
+          },
+          {
+            src: 'http://localhost:8090/zippy/common/img/property/image3.jpg',
+          },
+          {
+            src: 'http://localhost:8090/zippy/common/img/property/image4.jpg',
+          },
         ],
         houseDetail: [],
         compName: '',
         price: '',
         dialog: false,
+        tags: [
+        '조용한',
+        '역세권',
+        '학세권',
+        '신축',
+        '즉시입주',
+        '풀옵션',
+        '올수리',
+        '탑층',
+        '공원뷰',
+        '수변뷰',
+      ],
+      selectedTags: [],
       }
     },
     created() {
       axios({
-          url: "http://localhost:8090/zippy/property/houseDetail",
+          url: "/property/houseDetail",
           method: "GET",
           params: {
             productId: this.$route.query.productId // this.productId
           }
         }).then(response => {
           // 성공했을 때
-          console.log('houseDetail success!');
           console.log(response.data);
           this.houseDetail = response.data;
+
+          let temp = this.houseDetail[0].tags.split('/');
+          for (let i = 0; i < temp.length; i++) {
+            this.selectedTags.push(parseInt(temp[i]));
+          }
 
           this.price = oneHundredMillion(this.houseDetail[0].price);
         })
         .catch(error => {
           // 에러가 났을 때
-          console.log('houseDetail fail!');
           console.log(error);
         })
     },
@@ -237,6 +262,10 @@
 
     position: relative;
     z-index: 1;
+  }
+
+  .v-carousel {
+    border-radius: 1.5em;
   }
 
   #main-background {

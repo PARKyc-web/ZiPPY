@@ -74,7 +74,7 @@ export default{
       }
       var outside = this;
       axios({
-        url: "/member/login",
+        url: "/zippy/member/login",
         method : "POST",
         data: {
           email: this.email,

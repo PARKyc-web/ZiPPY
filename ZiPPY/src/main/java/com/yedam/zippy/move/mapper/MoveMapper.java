@@ -3,13 +3,11 @@ package com.yedam.zippy.move.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.github.pagehelper.Page;
 import com.yedam.zippy.common.service.BookmarkVO;
-import com.yedam.zippy.common.service.ReviewBoardVO;
 import com.yedam.zippy.move.service.MoveCompanyEstimateVO;
 import com.yedam.zippy.move.service.MoveEstimateVO;
 import com.yedam.zippy.move.service.MoveImageVO;
@@ -39,13 +37,16 @@ public interface MoveMapper {
   public List<MoveRequestVO> getEstimateList(MoveEstimateVO vo);
   
   //전체조회 - 유저가 자기 견적 히스토리 조회
-  public List<MoveEstimateVO> getEstimateResult(MoveEstimateVO vo);
+  public Page<MoveEstimateVO> getEstimateResult(MoveEstimateVO vo);
   
   //비대면 사진조회
   public List<MoveImageVO> selectAllPhoto(MoveImageVO vo);
   
   //견적서 인서트 - 업체(1차견적까지)
   public int makeEstimate(MoveResponseVO vo);
+  
+//견적상태 업데이트 (견적요청후, 상태 0으로 변경)
+  public int moveStatusUpdateZero(MoveRequestVO vo);
   
   //견적상태 업데이트 (1차 견적서 발송후, 상태 1로 변경)
   public int moveStatusUpdate(MoveResponseVO vo);
@@ -85,9 +86,10 @@ public interface MoveMapper {
   public List<BookmarkVO> getWishOneList(@RequestParam int sId, @RequestParam String email, @RequestParam int serviceType); 
     
 
-
   // 후기 출력
-  public List<MoveReviewVO> showReview(@RequestBody MoveReviewVO vo);
+  public List<MoveReviewVO> showReview(@Param("serviceId")String serviceId);
+  
+  
 } 
 
  

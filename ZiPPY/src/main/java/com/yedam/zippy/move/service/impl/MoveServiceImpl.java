@@ -3,7 +3,6 @@ package com.yedam.zippy.move.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import org.apache.ibatis.annotations.Param;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.pagehelper.Page;
 import com.yedam.zippy.common.service.BookmarkVO;
 import com.yedam.zippy.move.mapper.MoveMapper;
 import com.yedam.zippy.move.service.MoveCompanyEstimateVO;
@@ -151,7 +151,7 @@ public class MoveServiceImpl implements MoveService{
   
   //전체조회 - 유저
   @Override
-  public List<MoveEstimateVO> getEstimateResult(MoveEstimateVO vo) {
+  public Page<MoveEstimateVO> getEstimateResult(MoveEstimateVO vo) {
     return mapper.getEstimateResult(vo);
   }
   
@@ -166,7 +166,12 @@ public class MoveServiceImpl implements MoveService{
   public int makeEstimate(MoveResponseVO vo) {
     return mapper.makeEstimate(vo);
   }
-  
+
+//견적상태 업데이트 (견적요청후, 상태 0으로 변경)
+@Override
+public int moveStatusUpdateZero(MoveRequestVO vo) {
+  return mapper.moveStatusUpdateZero(vo);
+} 
   //견적상태 업데이트 (1차 견적서 발송후, 상태 1로 변경)
   @Override
   public int moveStatusUpdate(MoveResponseVO vo) {
@@ -246,7 +251,7 @@ public class MoveServiceImpl implements MoveService{
   
   //리뷰출력
   @Override
-  public List<MoveReviewVO> showReview(MoveReviewVO vo) {
-    return mapper.showReview(vo);
+  public List<MoveReviewVO> showReview(@Param("serviceId")String serviceId) {
+    return mapper.showReview(serviceId);
   }
 }

@@ -102,4 +102,10 @@
 		WHERE email = #{email}
 	</update>
 	
+	<update id="updateProfileImage">
+		UPDATE general_user
+		SET profile_image = #{image}
+		WHERE email = #{email}
+	</update>
+	
 </mapper>
