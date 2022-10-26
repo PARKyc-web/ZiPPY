@@ -9,6 +9,11 @@
             {{item.payCode}}
           </span>
         </template>
+        <!-- 이미지 -->
+        <template v-slot:item.productVO[0].proMainImg="{ item }">
+          <img class="ma-5" :src="'/zippy/common/img/shop/'+item.productVO[0].proMainImg" width="150" height="150">
+        </template>
+        <!-- 상품이름 -->
         <template v-slot:item.productVO[0].proName="{ item }">
             {{item.productVO[0].proName}}
             <div v-if="item.productVO.length>1">외 {{item.productVO.length-1}}건</div>

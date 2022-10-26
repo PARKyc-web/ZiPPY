@@ -12,13 +12,10 @@
       </v-card-title>
       <v-data-table :headers="headers" :items="products">
         <!-- 이미지 -->
-        <!-- @click="goDetail(item.proNo)
         <template v-slot:item.proMainImg="{ item }">
-        <v-img class="ma-5" width="150px" height="150px"
-          :src="require(`../../assets/shop/productImg/${item.proMainImg}.jpg`)"
-          @click="goDetail(item.cartPno)"></v-img>
-      </template> -->
-        <!-- 수정 -->
+          <img class="ma-5" :src="'/zippy/common/img/shop/'+item.proMainImg" width="150" height="150">
+        </template>
+        <!-- 판매버튼 -->
         <template v-slot:item.update="{ item }">
           <v-btn v-if="item.proStatus==0" depressed color=#B3E3C3 class="mr-2"
             @click="updateStatus(item.proNo, item.proStatus)">
@@ -54,16 +51,16 @@
             value: 'proNo',
           },
           {
+            text: '',
+            value: 'proMainImg'
+          },
+          {
             text: '상품이름',
             value: 'proName'
           },
           {
             text: '카테고리',
             value: 'category'
-          },
-          {
-            text: '',
-            value: 'proMainImg'
           },
           {
             text: '관리',
@@ -163,8 +160,8 @@
             data: {
               email: this.$store.state.loginInfo.email
             },
-            params : {
-              keyword : searchValue
+            params: {
+              keyword: searchValue
             },
             method: "POST",
           }).then(res => {

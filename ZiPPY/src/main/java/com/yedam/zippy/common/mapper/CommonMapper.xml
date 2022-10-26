@@ -98,7 +98,8 @@
 			RATE_2,
 			RATE_3,
 			RATE_4,
-			DELETE_STATE
+			DELETE_STATE,
+			REVIEW_STATUS
 		)
 		VALUES
 		(
@@ -116,6 +117,7 @@
 			,#{rate3}
 			,#{rate4}
 			,#{deleteState}
+			,#{reviewStatus}
 		)
 	</insert>
 	

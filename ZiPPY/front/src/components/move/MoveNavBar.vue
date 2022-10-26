@@ -32,28 +32,28 @@
           name: 'moveTotal',
 
         })).catch(() => {});;
-        this.$router.go(0);
+        
       },
       goCompany: function () {
         this.$router.push(({
           name: 'moveCompanyList',
 
         })).catch(() => {});;
-        this.$router.go(0);
+       
       },
       goReview: function () {
         this.$router.push(({
           name: 'moveReview',
 
         })).catch(() => {});;
-        this.$router.go(0);
+        
       },
       goManage: function () {
         this.$router.push(({
           path: 'mypage/move/moveResult',
 
         })).catch(() => {});;
-        this.$router.go(0);
+       
       },
     }
   }

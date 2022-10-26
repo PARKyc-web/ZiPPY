@@ -27,5 +27,6 @@ public class MoveReviewVO {
   private int rate3;
   private int rate4;
   private int deleteState;
+  Integer reviewCount;
   
 }

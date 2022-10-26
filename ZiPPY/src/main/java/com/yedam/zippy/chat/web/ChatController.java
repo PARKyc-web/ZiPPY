@@ -154,5 +154,11 @@ public class ChatController {
         e.printStackTrace();        
       }
     }
+    
+    @PostMapping("/soldout")
+    public int soldOut(@RequestBody ChatRoomVO vo) {
+      System.out.println(vo);
+      return service.soldout(vo);
+    }
 
 }

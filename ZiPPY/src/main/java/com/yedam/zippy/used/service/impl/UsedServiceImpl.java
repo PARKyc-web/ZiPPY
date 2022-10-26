@@ -109,6 +109,11 @@ public class UsedServiceImpl implements UsedService {
   public int dealRecord() {
     return mapper.dealRecord();
   }
+  
+  @Override
+  public List<UsedProductVO> showRvAll(String email) {
+    return mapper.showRvAll(email);
+  }
 
   @Override
   public void insertUsedProduct(UsedProductVO product, List<MultipartFile> images) {

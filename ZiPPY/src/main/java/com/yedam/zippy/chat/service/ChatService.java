@@ -18,4 +18,6 @@ public interface ChatService {
   public void createChatRoom(ChatRoomVO vo);
   
   public ChatRoomVO getRoomInfo(int roomId);
+
+  public int soldout(ChatRoomVO vo);
 }
