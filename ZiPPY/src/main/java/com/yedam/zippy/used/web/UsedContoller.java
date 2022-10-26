@@ -38,12 +38,12 @@ public class UsedContoller {
 
   // 전체조회
   @GetMapping("/main")
-  public PageInfo<UsedProductVO> search(@RequestParam(defaultValue = "1", required = false) String location, 
-                                    @RequestParam String keyword,
-                                    @RequestParam String category, 
-                                    @RequestParam String checked,
-                                    @RequestParam(value = "dropbox", required = false) String dropbox,
-                                    @RequestParam(defaultValue = "1", required = false)   int pageNum) {
+  public PageInfo<UsedProductVO> search(@RequestParam(defaultValue = "1", required = false) String location,
+      @RequestParam String keyword,
+      @RequestParam String category,
+      @RequestParam String checked,
+      @RequestParam(value = "dropbox", required = false) String dropbox,
+      @RequestParam(defaultValue = "1", required = false) int pageNum) {
     if (category.equals("전체")) {
       category = "";
     }
@@ -52,8 +52,8 @@ public class UsedContoller {
     } else if (checked.equals("false")) {
       checked = "0";
     }
-    System.out.println("checked@@@@@@@@@@@@@@@@@@"+checked);
-String order="product_date DESC";
+    System.out.println("checked@@@@@@@@@@@@@@@@@@" + checked);
+    String order = "product_date DESC";
     if (dropbox.equals("최저가순")) {
       dropbox = "0";
       order = "product_price ASC";
@@ -67,15 +67,15 @@ String order="product_date DESC";
       dropbox = "3";
       order = "product_date";
     }
-    
+
     PageHelper.startPage(pageNum, 15, order);
-    return PageInfo.of( service.usedList(location, keyword, category, checked, dropbox));
+    return PageInfo.of(service.usedList(location, keyword, category, checked, dropbox));
   }
-  
+
   @GetMapping("/userMain")
-  public PageInfo<UsedProductVO> userMain(@RequestParam String email, @RequestParam int pageNum){
-    
-    String order ="";
+  public PageInfo<UsedProductVO> userMain(@RequestParam String email, @RequestParam int pageNum) {
+
+    String order = "";
     PageHelper.startPage(pageNum, 10, order);
     return PageInfo.of(service.userMain(email));
   }
@@ -90,7 +90,7 @@ String order="product_date DESC";
   // 생성
   @PostMapping("/insert")
   public String insert(UsedProductVO product, List<MultipartFile> images) {
-    service.insertUsedProduct(product, images);   
+    service.insertUsedProduct(product, images);
     service.sendKeyword(product);
     return "SUCCESS";
   }
@@ -104,7 +104,7 @@ String order="product_date DESC";
     service.updateUsedProduct(product, images);
     return 1;
   }
-  
+
   // 판매완료
   @PostMapping("/soldot")
   public int soldotupdate(@RequestBody UsedProductVO product) {
@@ -139,10 +139,15 @@ String order="product_date DESC";
   public List<UsedKeywordVO> showKeyword(@RequestParam String email) {
     return service.showKeyword(email);
   }
-  
 
-  @GetMapping("getImg")
+  @GetMapping("/getImg")
   public List<UsedImagesVO> getImg(@RequestParam int pNo) {
     return service.getImg(pNo);
   }
+
+  @GetMapping("/rvAll")
+  public List<UsedProductVO> showRvAll(@RequestParam String email) {
+    return service.showRvAll(email);
+  }
+
 }

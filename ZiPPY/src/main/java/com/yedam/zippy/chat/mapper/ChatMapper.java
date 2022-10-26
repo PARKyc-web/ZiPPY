@@ -16,4 +16,7 @@ public interface ChatMapper {
   public void createChatRoom(ChatRoomVO vo);
   
   public ChatRoomVO getRoomInfo(int roomId);
+  
+  // 판매여부
+  public int soldout(ChatRoomVO vo);
 }

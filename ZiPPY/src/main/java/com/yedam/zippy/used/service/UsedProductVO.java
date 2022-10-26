@@ -28,4 +28,6 @@ public class UsedProductVO {
   private String nickName;
   private String profileImage;
   private String dealRecord;
+  private int totalRating;
+  private String reviewContent; 
 }

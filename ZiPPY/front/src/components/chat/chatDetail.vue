@@ -3,19 +3,18 @@
     <div id="download">
       <h1 v-if="item.user1 == $store.state.loginInfo.email">
         <img>{{item.user2Name}}</h1>
-
+      <insertRv v-if="item.user1 == $store.state.loginInfo.email && this.data.isSell == 1" :buyier="item.user1" :fk="this.data.isSell" :serviceId="this.data.productNo"></insertRv>
       <h1 v-if="item.user2 == $store.state.loginInfo.email">
         <img>{{item.user1Name}}</h1>
 
-      <v-btn v-if="item.user2 == $store.state.loginInfo.email" id="used-soldout" width="90px" depressed color=#B3E3C3
-        @click="soldOut()">
+      <v-btn v-if="item.user2 == $store.state.loginInfo.email && this.data.isSell == 0 && this.data.isSell != 1" id="used-soldout" width="90px"
+        depressed color=#B3E3C3 @click="soldOut()">
         판매완료
       </v-btn>
       <div id="download-btn" class="ml-auto">
         <button type="button" class="form-control"><a :href="txtFile">TXT 파일 다운로드</a></button>
         <button type="button" class="form-control"><a :href="pdfFile">PDF 파일 다운로드</a></button>
       </div>
-
     </div><br>
     <div id="chatBody" style="overflow:auto;">
       <ul class="list-group">
@@ -71,26 +70,33 @@
 </template>
 
 <script>
+  import insertRv from '../used/insertRv.vue';
+  import axios from 'axios';
   var reconnect = 0;
 
   // vue.js
   export default {
+    components: {
+      insertRv
+    },
     props: ['roomId', 'item', 'value'],
     data() {
       return {
-        txtFile : "/zippy/chat/txtFile/" + this.roomId,
-        pdfFile : "/zippy/chat/pdfFile/" + this.roomId,
+        txtFile: "/zippy/chat/txtFile/" + this.roomId,
+        pdfFile: "/zippy/chat/pdfFile/" + this.roomId,
 
         room: {},
         sender: '',
         message: '',
         messages: [],
         isConnect: false,
-        list : {
-          isSell : 1,
-          dealRecord : "",
-          productNo : ""
-        }
+        list: {
+          isSell: 1,
+          dealRecord: "",
+          productNo: "",
+          isSell: ""
+        },
+        data: ""
       }
     },
     watch: {
@@ -106,6 +112,7 @@
       this.sender = this.$store.getters.getName;
       this.loadContent();
       console.log("value :: " + this.value);
+      this.reWrite();
     },
 
 
@@ -125,7 +132,7 @@
         this.messages = temp.data;
         this.goToBottom();
       },
-      
+
       sendMessage: function () {
         if (this.message == '') {
 
@@ -157,18 +164,46 @@
 
         return str;
       },
+      reWrite() {
+        axios({
+          url: "/zippy/chat/roomInfo",
+          params: {
+            roomId: this.roomId
+          },
+        }).then(res => {
+          this.data = res.data;
+          console.log(this.data)
+        }).catch(err => {
+          console.log(err)
+        })
+      },
       soldOut() {
         this.list.dealRecord = this.item.user1;
         this.list.productNo = this.data.productNo;
+        this.list.isSell = 1;
         axios({
-          url: "zippy/used/soldot",
+          url: "/zippy/used/soldot",
           method: "POST",
           headers: {
             "Content-Type": "application/json; charset=utf-8"
           },
-          data: JSON.stringify(this.data)
+          data: JSON.stringify(this.list)
         }).then(res => {
           console.log(res);
+        }).catch(error => {
+          console.log(error);
+        }),
+        axios({
+          url: "/zippy/chat/soldout",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          data: JSON.stringify(this.list)
+        }).then(res => {
+          
+          console.log(res);
+          this.reWrite();
         }).catch(error => {
           console.log(error);
         })
