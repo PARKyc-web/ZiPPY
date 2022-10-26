@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar elevation="4" style="margin-bottom:5px">
+  <v-toolbar flat style="border-bottom:1px solid #D6D6D6"> <!--elevation="4", margin-bottom:5px; -->
     <div style="width: 75vw">
       <v-btn-toggle v-model="data.houseType" tile color="green lighten-1" group>
         <v-btn value="아파트" @click="clickHouseType('아파트')">아파트</v-btn>

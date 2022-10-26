@@ -1,8 +1,10 @@
 <template>
+  <div style="border-top:1px solid #D6D6D6;">
     <div class="frame">
       <button class="custom-btn btn-3" @click="signupForm('G')"><span>일반회원</span></button>
       <button class="custom-btn btn-8" @click="signupForm('B')"><span>기업회원</span></button>
     </div>
+  </div>
 </template>
 
 
@@ -26,6 +28,20 @@
 </script>
 
 <style scoped>
+@font-face {
+    font-family: 'GmarketSans';
+    font-weight: 500;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot?#iefix') format('embedded-opentype'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff') format('woff'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.ttf') format("truetype");
+    font-display: swap;
+} 
+* {
+  font-family: 'GmarketSans';
+}
   .frame {
   width: 100%;
   padding-top: 100px;

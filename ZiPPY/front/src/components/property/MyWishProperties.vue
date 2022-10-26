@@ -153,7 +153,7 @@
       // 선택 삭제 & 전체 삭제 ?
       delWish: function () {
         axios({
-          url: "common/delWish",
+          url: "/zippy/common/delWish",
           method: "DELETE",
           data: {
             bNo: this.ckList

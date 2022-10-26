@@ -1,9 +1,6 @@
 <template>
-  <div class="mx-auto pt-10" id="cart-con">
-    <v-toolbar flat color="white">
-      <v-toolbar-title>장바구니</v-toolbar-title>
-      <v-spacer></v-spacer>
-    </v-toolbar>
+  <div class="mx-auto pt-5" id="cart-con">
+      <h3 style="margin:30px">장바구니</h3>
     <v-data-table v-model="selected" :headers="headers" :items="products" :single-select="singleSelect"
       item-key="cartNo" show-select style="text-align:center" class="elevation-1">
       <!-- 상품명 -->
@@ -134,7 +131,7 @@
 
         //purchase 테이블에 등록
         axios({
-          url: "/shop/insertPur",
+          url: "/zippy/shop/insertPur",
           headers: {
             "Content-Type": "application/json"
           },
@@ -178,7 +175,7 @@
         console.log(JSON.stringify(this.selected))
         //삭제
         axios({
-          url: "/shop/delCart",
+          url: "/zippy/shop/delCart",
           headers: {
             "Content-Type": "application/json"
           },
@@ -265,7 +262,7 @@
     created() {
       //전체 장바구니 조회
       axios({
-        url: "/shop/myCartList",
+        url: "/zippy/shop/myCartList",
         method: "POST",
         params: {
           email: this.$store.state.loginInfo.email

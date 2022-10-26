@@ -265,7 +265,7 @@
       //전체조회(리뷰)
       async getReviewList() {
       var res = await  axios({
-          url: "/common/showProReview",
+          url: "/zippy/common/showProReview",
           method: "GET",
           params: {
             serviceType: 2,
@@ -280,7 +280,7 @@
       //전체조회(Qna)
       getQnaList() {
       axios({
-        url: "/shop/getQnaList",
+        url: "/zippy/shop/getQnaList",
         method: "GET",
         params: {
           proNo: this.pno,
@@ -297,7 +297,7 @@
       insertQna() {
         if (this.$store.state.loginInfo != null) {
           axios({
-            url: "/shop/insertQna",
+            url: "/zippy/shop/insertQna",
             method: "POST",
             headers: {
               "Content-Type": "application/json; charset=utf-8"

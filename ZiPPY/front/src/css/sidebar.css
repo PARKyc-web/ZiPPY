@@ -1,4 +1,18 @@
+@font-face {
+  font-family: 'GmarketSans';
+  font-weight: 500;
+  font-style: normal;
+  src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot');
+  src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot?#iefix') format('embedded-opentype'),
+       url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff') format('woff'),
+       url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.ttf') format("truetype");
+  font-display: swap;
+} 
 
+.vsm--icon{
+  color:#B3E3C3;
+}
 
 .v-sidebar-menu {
   /* font-family: 'Font Awesome 5 Free'; */
@@ -60,7 +74,7 @@
   align-items: center;
   font-size: 16px;
   font-weight: 400;
-  padding: 10px;
+  padding: 0 0 5px 30px;
   line-height: 30px;
   text-decoration: none;
   -webkit-user-select: none;
@@ -131,7 +145,7 @@
 .v-sidebar-menu .vsm--header {
   font-size: 14px;
   font-weight: 600;
-  padding: 10px;
+  padding: 20px 0 10px 25px;
   white-space: nowrap;
   text-transform: uppercase
 }
@@ -244,7 +258,8 @@
 
 .v-sidebar-menu {
   /* background-color: #2a2a2e */
-  background-color: rgb(179, 227, 195, 0.5);
+  /* background-color: rgb(179, 227, 195, 0.5); */
+  background-color: fff;
 }
 
 .v-sidebar-menu .vsm--link {
@@ -255,17 +270,17 @@
 /* 파란색 바 */
 .v-sidebar-menu .vsm--link_level-1.vsm--link_exact-active,
 .v-sidebar-menu .vsm--link_level-1.vsm--link_active {
-  -webkit-box-shadow: 3px 0px 0px 0px #4285f4 inset;
-  box-shadow: 8px 0px 0px 0px #4285f4 inset
+  -webkit-box-shadow: 3px 0px 0px 0px #B3E3C3 inset;
+  box-shadow: 8px 0px 0px 0px #B3E3C3 inset
 }
 
 .v-sidebar-menu .vsm--link_level-1 .vsm--icon {
-  background-color: #B3E3C3
+  background-color: #fff
 }
 
 .v-sidebar-menu .vsm--link_hover,
 .v-sidebar-menu .vsm--link:hover {
-  background-color: rgba(30, 30, 33, 0.5)
+  background-color: #fff;
 }
 
 .v-sidebar-menu .vsm--link_mobile-item {
@@ -309,6 +324,9 @@
 .v-sidebar-menu .vsm--header {
   /* color: rgba(255, 255, 255, 0.7) */
   color:black;
+  font-size:1.1em;
+  font-weight: normal;
+  font-family: 'GmarketSans';
 }
 
 .v-sidebar-menu .vsm--badge_default {

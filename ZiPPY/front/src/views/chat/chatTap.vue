@@ -1,5 +1,6 @@
 <template>
-    <div class="container" v-cloak>
+    <div style="border-top:1px solid #D6D6D6;">
+    <div class="container" v-cloak style="margin-top:20px">
         <div v-if="chatRooms.length != 0">
             <b-card no-body>
                 <b-tabs card vertical>
@@ -11,10 +12,11 @@
                 </b-tabs>
             </b-card>
         </div>
-        <div v-else>
+        <!-- <div v-else>
             채팅 기록이 없습니다!
-        </div>
+        </div> -->
     </div>
+</div>
 </template>
 
 <script>

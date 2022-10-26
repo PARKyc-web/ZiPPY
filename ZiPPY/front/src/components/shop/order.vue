@@ -217,7 +217,7 @@
           });
             //서버에 결제 정보 저장 
             axios({
-              url: "/shop/insertOrder",
+              url: "/zippy/shop/insertOrder",
               headers: {
                 "Content-Type": "application/json"
               },
@@ -253,7 +253,7 @@
     created() {
       //내 정보조회
       axios({
-        url: "/shop/myInfo",
+        url: "/zippy/shop/myInfo",
         method: "POST",
         params: {
           email: this.email
@@ -267,7 +267,7 @@
       })
       //주문상품 정보조회
       axios({
-        url: "/shop/myPurPro",
+        url: "/zippy/shop/myPurPro",
         method: "POST",
         params: {
           payCode: this.$route.query.payCode

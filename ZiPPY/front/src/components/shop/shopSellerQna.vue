@@ -88,7 +88,7 @@
     created() {
       //판매자 qna 리스트 조회
       axios({
-        url: "/shop/getSellerQnaList",
+        url: "/zippy/shop/getSellerQnaList",
         method: "GET",
         params: {
           email: this.$store.state.loginInfo.email
