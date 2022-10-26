@@ -11,7 +11,7 @@
       <button type="button" class="form-control"><a :href="pdfFile">PDF 파일 다운로드</a></button>
     </div>
     </div><br>
-    <div class="chatBody" style="overflow:auto;">
+    <div id="chatBody" style="overflow:auto;">
       <ul class="list-group">
         <li class="list-group-item" v-for="msg in messages">
 
@@ -23,7 +23,7 @@
                     <div class="text-overline mb-4">
                       {{msg.sender}}<small>-{{msg.time}}</small>
                     </div>
-                    <v-list-item-title class="text-h5 mb-1">
+                    <v-list-item-title class="">
                       {{msg.message}}
                     </v-list-item-title>
                   </v-list-item-content>
@@ -88,7 +88,7 @@
           this.messages.push(this.value);
           console.log(this.roomId + "WATCH!!! RUN!!");
         }
-        this.goToBottom();                
+        this.goToBottom();
       }
     },
     created() {
@@ -100,13 +100,13 @@
 
     methods: {      
       goToBottom: function () {
-        var body = document.querySelector(".chatBody");
+        var body = document.querySelector("#chatBody");
         body.scrollTop = body.scrollHeight;
       },
 
       loadContent: async function () {
         var temp = await this.$axios({
-          url: "/chat/room/load",
+          url: "/zippy/chat/room/load",
           params: {
             roomId: this.roomId
           }
@@ -116,7 +116,7 @@
       },
 
       findRoom: function () {
-        var temp = this.$axios.get('/chat/room/' + this.roomId).then(response => {
+        var temp = this.$axios.get('/zippy/chat/room/' + this.roomId).then(response => {
           this.room = response.data;
         }).finally(res => {
           this.connect();
@@ -178,19 +178,19 @@
     padding: 0;
   }
 
-  .chatBody {
+  #chatBody {
     height: 70vh;
     border: 1px solid black;
   }
 
-  .chatBody {
+  #chatBody {
     -ms-overflow-style: none;
     /* IE and Edge */
     scrollbar-width: none;
     /* Firefox */
   }
 
-  .chatBody::-webkit-scrollbar {
+  #chatBody::-webkit-scrollbar {
     display: none;
     /* Chrome, Safari, Opera*/
   }

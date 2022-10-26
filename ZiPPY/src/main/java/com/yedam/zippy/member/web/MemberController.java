@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.yedam.zippy.common.service.CommonService;
 import com.yedam.zippy.member.service.BusinessVO;
 import com.yedam.zippy.member.service.GeneralUserVO;
 import com.yedam.zippy.member.service.LoginVO;
@@ -83,6 +84,11 @@ public class MemberController {
       System.out.println(vo);
       service.updateBusinessInfo(vo);
       return (BusinessVO) service.getMember(vo.getEmail(), 1);
+    }
+    
+    @PostMapping("image")
+    public String changeProfileImage(MultipartFile image, String email) {          
+      return service.changeProfileImage(image, email);             
     }
 
 }

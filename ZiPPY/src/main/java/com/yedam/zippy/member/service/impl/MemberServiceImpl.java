@@ -192,4 +192,11 @@ public class MemberServiceImpl implements MemberService{
     public void updateBusinessInfo(BusinessVO info) {
         mapper.updateBusinessInfo(info);
     }
+    
+    @Override
+    public String changeProfileImage(MultipartFile image, String email) {
+      String name = commonService.saveImage(image, "member");
+      mapper.updateProfileImage(name, email);      
+      return name;
+    }
 }

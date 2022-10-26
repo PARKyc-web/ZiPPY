@@ -21,8 +21,39 @@
                   <div class="row">
 
                     <div class="img-form">
-                      <img src="http://localhost:8090/zippy/common/img/member/image2.jpg">
-                      <input type="button" value="프로필사진 변경" class="form-control">
+                      <img src="/zippy/common/img/member/test.jpg" id="profile_img">                                            
+                      <v-btn
+                        color="primary"
+                        class="form-control"
+                        dark
+                        @click="dialog2 = true"
+                      >
+                        프로필사진 변경
+                      </v-btn>                        
+                      <v-dialog
+                        v-model="dialog2"
+                        max-width="500px">
+                        <v-card>
+                          <v-card-title>
+                            프로필사진 변경
+                          </v-card-title>
+                          <input type="file" name="image" class="form-control" id="temp_img">
+                          <v-card-actions>
+                            <v-btn
+                              color="primary"
+                              text
+                              @click="dialog2 = false">
+                              취소
+                            </v-btn>
+                            <v-btn
+                              color="primary"
+                              text
+                              @click="profile_save()">
+                              적용
+                            </v-btn>
+                          </v-card-actions>
+                        </v-card>
+                      </v-dialog>
                     </div>
 
                     <div class="div-inline-block">
@@ -38,7 +69,7 @@
                       <div v-if="!passValid" style="color:red">
                         <ul>
                           <li><small>비밀번호는 8 ~ 20자까지 입니다</small></li>
-                          <li><small>영어 대/소문자, 숫자, 특수문자 1개씩 사용되어야 합니다.</small></li>                          
+                          <li><small>영어 대/소문자, 숫자, 특수문자 1개씩 사용되어야 합니다.</small></li>                     
                         </ul>                        
                       </div>
                     </div>
@@ -163,6 +194,8 @@ import swal from 'sweetalert2';
   export default {
     data() {
       return {
+        temp_img : "",
+        dialog2 : false,
         info: null,
         passValid : true,
         inputAddress : "",
@@ -172,7 +205,7 @@ import swal from 'sweetalert2';
 
     created: async function () {
       var temp = await this.$axios({
-        url: "/member/mypage",
+        url: "/zippy/member/mypage",
         params: {
           email: this.$store.state.loginInfo.email,
           memberType: this.$store.state.memberType
@@ -256,7 +289,7 @@ import swal from 'sweetalert2';
       console.log("여기?2");
 
       this.$axios({
-        url : "/member/userInfo",
+        url : "/zippy/member/userInfo",
         method:"POST",
         data : formData        
       }).then(res =>{
@@ -281,7 +314,26 @@ import swal from 'sweetalert2';
             })
       });
 
+    },
+
+    profile_save : function(){
+      this.dialog2 = false;
+      var temp = document.getElementById("temp_img");
+      console.log(temp);            
+
+      var formData = new FormData(document.querySelector('#user_info'));
+      formData.append("image", temp.files[0]);
+      this.$axios({
+        url : "/zippy/member/image",
+        method : "POST",
+        data : formData
+      }).then(res => {
+        console.log(res.data);
+        this.info.profileImage = res.data;
+        this.$store.commit('login', this.info);
+      })
     }
+
 
     }
   }
@@ -315,5 +367,12 @@ import swal from 'sweetalert2';
     text-align: center;
 
     width: 15%;
+  }
+
+  img{
+    width: 275px;
+    height: 80%;
+    /* object-fit: cover; */
+    /* object-fit: fill; */
   }
 </style>
