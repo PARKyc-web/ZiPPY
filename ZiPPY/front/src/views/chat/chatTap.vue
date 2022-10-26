@@ -11,10 +11,7 @@
                     </b-tab>
                 </b-tabs>
             </b-card>
-        </div>
-        <!-- <div v-else>
-            채팅 기록이 없습니다!
-        </div> -->
+        </div>    
     </div>
 </div>
 </template>
@@ -24,9 +21,12 @@ import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
 import chatDetail from '@/components/chat/chatDetail.vue'
 
+// var sock = new SockJS("http://localhost:8090/zippy/ws/chat");
+// var ws = Stomp.over(sock);
     export default {
         data() {
-            return {                
+            return {   
+                             
                 msg : "",
                 chatRooms: [],       
                 sub_id : []         
@@ -36,8 +36,8 @@ import chatDetail from '@/components/chat/chatDetail.vue'
         created() {
             var out = this;
             this.findAllRoom();
-            this.$sock = new SockJS("http://localhost:8090/zippy/ws/chat");
-            this.$ws = Stomp.over(this.$sock);
+            // this.$sock = new SockJS("http://localhost:8090/zippy/ws/chat");
+            // this.$ws = Stomp.over(this.$sock);
             this.$ws.connect({}, function (frame) {                
                 out.$ws.subscribe("FAKE1234", function(message) {                    
                     console.log("FAKE SUB");
@@ -78,21 +78,44 @@ import chatDetail from '@/components/chat/chatDetail.vue'
             connect: function (i) {
                 var outside = this;       
 
-                // this.$sock = new SockJS("http://localhost:8090/zippy/ws/chat");
-                // this.$ws = Stomp.over(this.$sock);
-                this.$ws.connect({}, function (frame) {                
-                    outside.$ws.subscribe("FAKE1234", function(message) {                    
-                        console.log("FAKE SUB");
-                    })
-                    console.log("connnnnnect");
-                }, function (error) {
-                    console.log(error);
-                });        
-                
+                this.$sock = new SockJS("http://localhost:8090/zippy/ws/chat");
+                this.$ws = Stomp.over(this.$sock);
+
                 var no = this.chatRooms[i].chatRoomNo;
                 this.$ws.unsubscribe(this.sub_id[i]);
 
-                this.$ws.subscribe("/zippy/topic/chat/room/" + no, function(message) {      
+                this.$ws.connect({}, function (frame) {                
+                out.$ws.subscribe("/topic/chat/room/" + no, function(message) {                    
+                    var recv = JSON.parse(message.body);
+                    console.log(recv);
+                    outside.recvMessage(recv);
+                    console.log("connnnnnect");
+                })  
+                    console.log("connnnnnect");
+                }, function (error) {
+                    console.log(error);
+                });
+
+                // this.$ws.connect({}, function (frame) {        
+                //     this.$ws.subscribe("/topic/chat/room/" + no, function(message) {         
+                //         console.log("구독 후 데이터를 받았니?");
+                //         console.log("asdfasdfsadfsadf :: ", message.headers.subscription);
+                //         outside.sub_id[i] = message.headers.subscription;
+                //         console.log(outside.sub_id[i]);
+                //         var recv = JSON.parse(message.body);
+                //         console.log(recv);
+                //         outside.recvMessage(recv);
+                //         console.log("connnnnnect");
+                //     }                    
+                // }, function (error) {
+                //     console.log(error);
+                // });        
+                
+                // var no = this.chatRooms[i].chatRoomNo;
+                // this.$ws.unsubscribe(this.sub_id[i]);
+
+                this.$ws.subscribe("/topic/chat/room/" + no, function(message) {      
+                    console.log("구독 후 데이터를 받았니?");
                     console.log("asdfasdfsadfsadf :: ", message.headers.subscription);
                     outside.sub_id[i] = message.headers.subscription;
                     console.log(outside.sub_id[i]);
@@ -101,7 +124,7 @@ import chatDetail from '@/components/chat/chatDetail.vue'
                     outside.recvMessage(recv);
                 });
                 
-                this.$ws.send("/zippy/app/chat/message", JSON.stringify({
+                this.$ws.send("/app/chat/message", JSON.stringify({
                     type: 'ENTER',
                     roomId: no,
                     sender: outside.sender,

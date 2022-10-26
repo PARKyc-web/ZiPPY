@@ -71,6 +71,9 @@
 </template>
 
 <script>
+import Stomp from 'webstomp-client'
+import SockJS from 'sockjs-client'
+
   var reconnect = 0;
 
   // vue.js
@@ -103,6 +106,8 @@
       }
     },
     created() {
+      this.$sock = new SockJS("http://localhost:8090/zippy/ws/chat");
+      this.$ws = Stomp.over(this.$sock);
       this.sender = this.$store.getters.getName;
       this.loadContent();
       console.log("value :: " + this.value);
@@ -161,7 +166,7 @@
         this.list.dealRecord = this.item.user1;
         this.list.productNo = this.data.productNo;
         axios({
-          url: "zippy/used/soldot",
+          url: "/zippy/used/soldot",
           method: "POST",
           headers: {
             "Content-Type": "application/json; charset=utf-8"

@@ -28,11 +28,11 @@ public class MessageController {
 
   @MessageMapping("/chat/message")
   public void enter(ChatMessage message) {    
-    System.out.println(message);
-        
-//  입장이 아닐때 사용되는 것
-    if (ChatMessage.MessageType.TALK.equals(message.getType())) {      
-      System.out.println(message.getRoomId());
+      System.out.println(message);
+
+    if (ChatMessage.MessageType.TALK.equals(message.getType())) {
+      System.out.println("메세지 센딩");
+      System.out.println(message);      
       sendingOperations.convertAndSend("/topic/chat/room/" + message.getRoomId(), message);
       chatService.saveChatContent(message);
     }
