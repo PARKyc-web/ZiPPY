@@ -198,7 +198,7 @@
     },
     created() {
       axios({
-          url: "/property/houseDetail",
+          url: "/zippy/property/houseDetail",
           method: "GET",
           params: {
             productId: this.$route.query.productId // this.productId
