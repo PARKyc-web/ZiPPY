@@ -64,7 +64,7 @@
     created() {
       console.log(this.data.email)
       axios({
-        url: "http://localhost:8090/zippy/used/keyword",
+        url: "/zippy/used/keyword",
         method: "GET",
         params: {
           email: this.data.email
@@ -99,7 +99,7 @@
           return false;
         }
         axios({
-          url: "http://localhost:8090/zippy/used/addKeyword",
+          url: "/zippy/used/addKeyword",
           method: "POST",
           headers: {
             "Content-Type": "application/json; charset=utf-8"
@@ -122,7 +122,7 @@
       },
       delKey: function (kNo) {
         axios({
-          url: "http://localhost:8090/zippy/used/delKeyword",
+          url: "/zippy/used/delKeyword",
           method: "DELETE",
           params: {
             kNo

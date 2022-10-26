@@ -62,7 +62,7 @@
               <div id="used-product-price">
                 {{product.productPrice | comma}}원
                 <hr />
-                <div 찜 조회수 신고하기 판매여부 거래지역>
+                <div>
                   <div id="used-wish-eye">
                     <div id="used-view-wish">
                       <img class="used-wish-view-img"
@@ -192,7 +192,7 @@
     },
     created() {
       axios({
-          url: "http://localhost:8090/zippy/used/detail",
+          url: "/zippy/used/detail",
           method: "GET",
           params: {
             pNo: this.$route.query.pNo
@@ -205,7 +205,7 @@
           console.log(error);
         }),
         axios({
-          url: "http://localhost:8090/zippy/used/getImg",
+          url: "/zippy/used/getImg",
           methods: "GET",
           params: {
             pNo: this.$route.query.pNo
@@ -219,7 +219,7 @@
         })
       if (this.$store.state.loginInfo != null) {
         axios({
-          url: "http://localhost:8090/zippy/common/wishOne",
+          url: "/zippy/common/wishOne",
           method: "GET",
           params: {
             email: this.$store.state.loginInfo.email,
@@ -247,7 +247,7 @@
           timer: 1500
         });
         axios({
-          url: "/used/del",
+          url: "/zippy/used/del",
           method: "DELETE",
           params: {
             pNo: this.$route.query.pNo
@@ -264,7 +264,7 @@
       },
       rewrite() {
         axios({
-          url: "http://localhost:8090/zippy/common/wishOne",
+          url: "/zippy/common/wishOne",
           method: "GET",
           params: {
             email: this.$store.state.loginInfo.email,
@@ -321,14 +321,16 @@
         this.$router.push('/used');
       },
       addWish: function () {
+        console.log("찜 추가추가")
         axios({
-          url: "http://localhost:8090/zippy/common/addWish",
+          url: "/zippy/common/addWish",
           method: "POST",
           headers: {
             "Content-Type": "application/json; charset=utf-8"
           },
           data: JSON.stringify(this.data)
         }).then(res => {
+          
           this.rewrite();
         }).catch(err => {
           console.log(err)
@@ -338,7 +340,7 @@
         let bNo = [];
         bNo.push(this.wish.bookmarkNo);
         axios({
-          url: "http://localhost:8090/zippy/common/delWish",
+          url: "/zippy/common/delWish",
           method: "DELETE",
           data: {
             bNo: bNo
@@ -360,12 +362,13 @@
           });
         } else {
           var temp = await this.$axios({
-            url: "/chat/room",
+            url: "/zippy/chat/room",
             method: "POST",
             data: {
               user1: this.$store.state.loginInfo.email,
               user2: this.product.email,
-              chatType: 1
+              chatType: 1,
+              productNo : this.$route.query.pNo
             }
           });
           console.log(temp);
@@ -375,7 +378,7 @@
         this.report.email = this.$store.state.loginInfo.email;
         this.report.serviceId = this.$route.query.pNo;
         axios({
-          url: "http://localhost:8090/zippy/common/addReport",
+          url: "/zippy/common/addReport",
           method: "POST",
           headers: {
             "Content-Type": "application/json; charset=utf-8"

@@ -220,7 +220,7 @@
         // }, 1000);
         this.dropVal();
         axios({
-          url: "http://localhost:8090/zippy/used/insert",
+          url: "/zippy/used/insert",
           method: "POST",
           data: formData
         }).then(res => {

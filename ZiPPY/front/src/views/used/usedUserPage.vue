@@ -149,7 +149,7 @@
                                     </div>
                                 </b-card-text>
                             </b-tab>
-                            <b-tab title="후기 작성">
+                            <!-- <b-tab title="후기 작성">
                                 <b-card-text>
                                     <div>
                                         <div id="used-user-star">
@@ -206,7 +206,7 @@
                                         </div>
                                     </div>
                                 </b-card-text>
-                            </b-tab>
+                            </b-tab> -->
                         </b-tabs>
                     </b-card>
                 </div>
@@ -270,7 +270,7 @@
         methods: {
             rewrite() {
                 axios({
-                    url: "/used/userMain",
+                    url: "/zippy/used/userMain",
                     methods: "GET",
                     params: {
                         email: this.$store.state.loginInfo.email,
@@ -288,20 +288,6 @@
             goDetail(no) {
                 console.log(no);
                 this.$router.push('/used/detail?pNo=' + no);
-            },
-            addRv: function () {
-                axios({
-                    url: "common/addRv",
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json; charset=utf-8"
-                    },
-                    data: JSON.stringify(this.rv)
-                }).then(res => {
-                    console.log(res);
-                }).catch(error => {
-                    console.log(error);
-                })
             }
         }
     }

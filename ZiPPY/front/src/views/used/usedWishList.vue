@@ -22,9 +22,7 @@
       <div class="used-wish-cont-div" @click="goDetail(list.productNo)" v-for="list in data">
         <div id="used-wish-product">
           <div class="used-wish-img-1">
-            <img
-              src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcnRs2T%2FbtrG3rPqyGx%2FgvSvyKfokqo8yQomsVjuQK%2Fimg.jpg"
-              width="200px" height="200px" />
+            <img img :src="'/zippy/common/img/used/'+list.mainImg" width="200px" height="200px" />
             <div id="wish-soldout-img" width="200px" height="200px" v-if="list.isSell == 1">판매완료</div>
             <div id="used-wish-info">
               <div>
@@ -78,7 +76,7 @@
     },
     created() {
       axios({
-        url: "/common/wishAll",
+        url: "/zippy/common/wishAll",
         method: "GET",
         params: {
           email: this.$store.state.loginInfo.email,
@@ -101,7 +99,7 @@
     methods: {
       pagenation() {
         axios({
-          url: "/common/wishAll",
+          url: "/zippy/common/wishAll",
           method: "GET",
           params: {
             email: this.$store.state.loginInfo.email,
@@ -143,7 +141,7 @@
       // 선택 삭제 & 전체 삭제 ?
       delWish: function () {
         axios({
-          url: "common/delWish",
+          url: "/zippy/common/delWish",
           method: "DELETE",
           data: {
             bNo: this.ckList

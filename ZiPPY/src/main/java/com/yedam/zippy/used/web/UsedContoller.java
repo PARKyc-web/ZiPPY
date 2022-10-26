@@ -30,6 +30,7 @@ import com.yedam.zippy.used.service.UsedService;
     RequestMethod.DELETE })
 @RestController
 @RequestMapping("/used")
+//@RequestMapping("/zippy/used")
 public class UsedContoller {
 
   @Autowired
@@ -102,6 +103,12 @@ String order="product_date DESC";
     System.out.println(images);
     service.updateUsedProduct(product, images);
     return 1;
+  }
+  
+  // 판매완료
+  @PostMapping("/soldot")
+  public int soldotupdate(@RequestBody UsedProductVO product) {
+    return service.updateUsed(product);
   }
 
   // 삭제

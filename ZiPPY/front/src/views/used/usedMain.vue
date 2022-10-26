@@ -168,7 +168,7 @@
       },
       findList(searchData) {
         axios({
-          url: "http://localhost:8090/zippy/used/main",
+          url: "/zippy/used/main",
           methods: "GET",
           params: searchData
         }).then(res => {

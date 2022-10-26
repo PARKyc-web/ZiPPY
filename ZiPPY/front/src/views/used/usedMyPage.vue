@@ -14,7 +14,7 @@
                             <div>{{this.nickName}}</div>
                         </div>
                     </div>
-                    <!-- <div class="used-point-report">
+                    <div class="used-point-report">
                         <div>
                             <h4>평점</h4>
                         </div>
@@ -30,7 +30,7 @@
                             <img src="	https://m.bunjang.co.kr/pc-static/resource/982587b0e24b8bccea13.png" width="30px"
                                 height="29px" alt="별점 0">
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
             <hr>
@@ -66,9 +66,9 @@
                                     </div>
                                 </b-card-text>
                             </b-tab>
-                            <!-- <b-tab title="거래 후기">
+                            <b-tab title="거래 후기">
                                 <b-card-text>
-                                    <h5>상점후기</h5>
+                                    <h5>거래후기</h5>
                                     <hr>
                                     <div id="used-totla-profile">
                                         <div id="used-profile">
@@ -148,7 +148,7 @@
                                     </div>
                                 </b-card-text>
                             </b-tab>
-                            <b-tab title="후기 작성">
+                            <!-- <b-tab title="후기 작성">
                                 <b-card-text>
                                     <div>
                                         <div id="used-user-star">
@@ -264,26 +264,11 @@
             }).catch(error => {
                 console.log(error);
             })
-            // ,
-            // axios({
-            //     url: "common/showReview",
-            //     methods: "GET",
-            //     headers: {
-            //         "Content-Type": "application/json; charset=utf-8"
-            //     },
-            //     data: JSON.stringify(this.data)
-            // }).then(res => {
-            //     console.log(res);
-            //     this.data = res.data;
-            //     console.log(this.data);
-            // }).catch(error => {
-            //     console.log(error);
-            // })
         },
         methods: {
             rewrite() {
                 axios({
-                    url: "/used/userMain",
+                    url: "/zippy/used/userMain",
                     methods: "GET",
                     params: {
                         email: this.$store.state.loginInfo.email,
@@ -304,7 +289,7 @@
             },
             addRv: function () {
                 axios({
-                    url: "common/addRv",
+                    url: "/zippycommon/addRv",
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json; charset=utf-8"

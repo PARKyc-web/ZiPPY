@@ -15,4 +15,5 @@ public class ChatRoomVO {
     private int chatType;
     private String lastChat;
     private String lastTime;
+    private int productNo;
 }
