@@ -27,33 +27,9 @@
         <template slot="progress">
           <v-progress-linear color="#B3E3C3" height="10" indeterminate></v-progress-linear>
         </template>
-
-        <!-- <v-img
-      height="250"
-      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-    ></v-img> -->
         
     <!-- 카드 -->
         
-              <!--heart-->
-                <!--<div>
-                   <button>
-                    <div>
-                      <v-btn v-if="heart==0" class="mx-2" color='#D6D6D6' fab depressed dark small
-                        @click="changeHeart()">
-                        <v-icon dark>
-                          mdi-heart
-                        </v-icon>
-                      </v-btn>
-                      <v-btn v-if="heart==1" class="mx-2" color='#FF4063' fab depressed dark small
-                        @click="changeHeart()">
-                        <v-icon dark>
-                          mdi-heart
-                        </v-icon>
-                      </v-btn>
-                    </div>
-                  </button>
-                </div> -->
 
         <v-card-title>업체명 : <span>{{item.compName}}</span></v-card-title>
 
@@ -78,22 +54,6 @@
 
         <v-divider class="mx-4"></v-divider>
         
-
-        <!-- <v-card-text>
-      <v-chip-group
-        v-model="selection"
-        active-class="deep-purple accent-4 white--text"
-        column
-      >
-        <v-chip>5:30PM</v-chip>
-
-        <v-chip>7:30PM</v-chip>
-
-        <v-chip>8:00PM</v-chip>
-
-        <v-chip>9:00PM</v-chip>
-      </v-chip-group>
-    </v-card-text> -->
 
         <v-card-actions>
           <v-btn color="#B3E3C3 lighten-2" text @click="chat">
