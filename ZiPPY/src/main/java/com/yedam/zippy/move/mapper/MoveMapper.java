@@ -49,7 +49,9 @@ public interface MoveMapper {
   public int moveStatusUpdateZero(MoveRequestVO vo);
   
   //견적상태 업데이트 (1차 견적서 발송후, 상태 1로 변경)
-  public int moveStatusUpdate(MoveResponseVO vo);
+//  public int moveStatusUpdate(MoveResponseVO vo);
+  public int moveStatusUpdate(@Param("estimateNo")Integer estimateNo, @Param("email")String email);
+    
   
   //견적서 수정 - 업체
   public int moveEstimateUpdate(MoveResponseVO vo);

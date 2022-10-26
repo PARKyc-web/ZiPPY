@@ -10,7 +10,9 @@
         :events="arrayEvents"
         color="green lighten-1"
         event-color="blue lighten-1"
-        header-color="green -1"
+        header-color="green lighten-2"
+        locale="ko-KR"
+        :allowed-dates="disablePastDates"
       ></v-date-picker>
     </v-row>
     <hr />
@@ -23,9 +25,9 @@
         <b-col>
           <!-- v-if를 걸어서 널값일때는 시간 선택해달라고 안내문구 -->
 
-          <p>
+          <!-- <p>
             선택 시간: <b>{{ moveVisit.visitTime }}</b>
-          </p>
+          </p> -->
           <!-- <p class="mb-0">Context:</p>
       <pre v-if="context != null" class="small">{{ context.Value }}</pre> -->
         </b-col>
@@ -67,6 +69,7 @@ export default {
       visitDate : "",
       visitTime : "",
     },
+    
   }),
 
   mounted() {
@@ -79,6 +82,14 @@ export default {
   },
 
   methods: {
+
+     //현재일보다 과거 선택 불가
+     disablePastDates(val){
+      
+
+        return val >= new Date().toISOString().substring(0,10);
+      },
+
     check_pro : function(){
       console.log(this.moveContact);
     },

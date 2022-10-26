@@ -106,11 +106,19 @@ public class MoveController {
   
   
   //견적상태 업데이트 (1차 견적서 발송후, 상태 1로 변경)
-  @PostMapping("/moveStatusUpdate")
-  public String moveStatusUpdate(MoveResponseVO vo) {
-    System.out.println(vo);
+//  @PostMapping("/moveStatusUpdate")
+//  public String moveStatusUpdate(MoveResponseVO vo) {
+//    System.out.println(vo);
+//    
+//    service.moveStatusUpdate(vo);
+//    return "";
+//  }
+  
+  
+    @PostMapping("/moveStatusUpdate")
+  public String moveStatusUpdate(@Param("estimateNo")Integer estimateNo, @Param("email")String email) {
     
-    service.moveStatusUpdate(vo);
+    service.moveStatusUpdate(estimateNo, email);
     return "";
   }
   

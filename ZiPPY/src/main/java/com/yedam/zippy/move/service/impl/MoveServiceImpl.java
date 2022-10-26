@@ -173,9 +173,13 @@ public int moveStatusUpdateZero(MoveRequestVO vo) {
   return mapper.moveStatusUpdateZero(vo);
 } 
   //견적상태 업데이트 (1차 견적서 발송후, 상태 1로 변경)
+//  @Override
+//  public int moveStatusUpdate(MoveResponseVO vo) {
+//    return mapper.moveStatusUpdate(vo);
+//  }
   @Override
-  public int moveStatusUpdate(MoveResponseVO vo) {
-    return mapper.moveStatusUpdate(vo);
+  public int moveStatusUpdate(Integer estimateNo, String email) {
+    return mapper.moveStatusUpdate(estimateNo, email);
   }
   
   //견적서 수정 - 업체 (2차견적)
