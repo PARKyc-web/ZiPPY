@@ -4,6 +4,9 @@
       <v-btn  v-if="orderStatus == 1" id="reviewBtn" depressed color=#B3E3C3 v-bind="attrs" v-on="on" width="100px">
         후기작성
       </v-btn>
+      <v-btn v-else="product.orderStatus == 2" disabled depressed color=#D6D6D6 width="100px">
+                      작성완료
+      </v-btn>
     </template>
     <v-card>
       <v-card-title>
@@ -138,7 +141,8 @@
             });
             //모달창 닫기
             this.closeReview();
-            this.$emit('orderStatus', 2);
+            this.orderStatus = 2;
+            //this.$emit('orderStatus', 2);
           }).catch(error => {
             console.log(error);
           })

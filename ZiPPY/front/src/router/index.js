@@ -19,8 +19,11 @@ import order from "../views/shop/orderView.vue";
 import orderComplete from "../views/shop/orderCompleteView.vue";
 import shopUpdatePro from "../views/shop/shopUpdateProView.vue";
 import orderSheet from "../views/shop/orderSheetView.vue";
-import shopSellerQnaList from "@/components/shop/shopSellerQnaList.vue";
-
+//seler
+import shopSellerPro from "@/components/shop/shopSellerPro.vue";
+import shopInsertPro from "@/components/shop/shopInsertPro.vue";
+import shopSellerOrder from "@/components/shop/shopSellerOrder.vue";
+import shopSellerQna from "@/components/shop/shopSellerQna.vue";
 //mypage componenets
 import shopCartCom from "@/components/shop/shopCart.vue"
 import shopOrderList from "@/components/shop/shopOrderList.vue";
@@ -162,9 +165,20 @@ const routes = [
         component : shopWish
       },
       {
+        path: "MyQna",
+        name: "shopMyQna",
+        component: shopMyQna
+      },
+      {
+        path: "MyRv",
+        name: "shopMyRv",
+        component: shopMyReview
+},
+{
         path : "used/user",
         name : "mypage-userPage",
         component : usedUserPage
+
       },
       {
         path : "used/insert",
@@ -233,6 +247,27 @@ const routes = [
         name : "seller-info",
         component : companyInfo
       },
+      //shop
+      {
+        path : "/seller/shopSellerPro",
+        name : "shopSellerPro",
+        component : shopSellerPro
+      },
+      {
+        path : "/seller/shopInsertPro",
+        name : "shopInsertPro",
+        component : shopInsertPro
+      },
+      {
+        path : "/seller/shopSellerOrder",
+        name : "shopSellerOrder",
+        component : shopSellerOrder
+      },
+      {
+        path : "/seller/shopSellerQna",
+        name : "shopSellerQna",
+        component : shopSellerQna
+},
       {
         path : "/seller/SellerPropertyList",
         name : "SellerPropertyList",
@@ -324,21 +359,11 @@ const routes = [
     name: "shopWish",
     component: shopWish
   },
-  {
-    path: "/shop/sellerQna",
-    name: "shopSellerQna",
-    component: shopSellerQnaList
-  },
-  {
-    path: "/shop/MyQna",
-    name: "shopMyQna",
-    component: shopMyQna
-  },
-  {
-    path: "/shop/MyRv",
-    name: "shopMyRv",
-    component: shopMyReview
-  },
+  // {
+  //   path: "/shop/sellerQna",
+  //   name: "shopSellerQna",
+  //   component: shopSellerQna
+  // },
   //move
   {
     path: "/move",

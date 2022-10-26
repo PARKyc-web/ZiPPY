@@ -65,15 +65,25 @@
                         icon: 'fa-solid fa-basket-shopping',
                     },
                     {
-                        href: '/mypage/myOrder',
-                        title: '구매목록',
-                        icon: 'fa-solid fa-shop',                        
-                    },                    
-                    {
                         href: '/mypage/myShopWish',
                         title: '관심상품',
                         icon: 'fa-solid fa-heart',                        
+                    },      
+                    {
+                        href: '/mypage/myOrder',
+                        title: '구매내역',
+                        icon: 'fa-solid fa-credit-card',                        
+                    },                    
+                    {
+                        href: '/mypage/myRv',
+                        title: '후기내역',
+                        icon: 'fa-solid fa-pen',                        
                     },       
+                    {
+                        href: '/mypage/myQna',
+                        title: '문의내역',
+                        icon: 'fa-solid fa-q',                        
+                    },      
 
 
                     //  중고거래 관련 정보
@@ -137,18 +147,21 @@
     #side {
         width: 13%;
         float: left;
+        /* height: 100vh; */
     }
     #main{
         /* margin-left: 150px; */
-        margin: 0 auto;        
+        width: 87%;
+        margin: 0 auto;
+        /* height: 100vh;      */
         /* height: 89vh; */
     }
-    #side{
+    /* #side{
         height: 100%;
-    }
+    } */
 
-    #maypage{
-        height: 94vh;
-    }
+     #maypage{
+       border-top:1px solid #D6D6D6;
+    }  
 
 </style>

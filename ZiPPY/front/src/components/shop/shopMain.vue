@@ -6,8 +6,11 @@
         <v-carousel-item v-for="(slide, i) in slides" :key="i">
           <v-img :src="imgs[i]" height="100%">
             <v-row class="fill-height" align="center" justify="center">
-              <div class="text-h2" id="slide-text">
+              <div class="text-h3" id="slide-text">
                 {{ slide }}
+              <div class="text-h6" id="info-text">
+                {{ info[i] }}
+              </div>
               </div>
             </v-row>
           </v-img>
@@ -60,18 +63,19 @@
     data() {
       return {
         imgs: [
-          'https://cdn1.epicgames.com/ue/product/Screenshot/SF039-1920x1080-466e1033381d9706717c5d877d67bd29.jpeg?resize=1&w=1920',
-          'https://i.pinimg.com/originals/e3/50/d2/e350d23264d7c1bbc0b9c03489e9367d.jpg',
-          'https://rare-gallery.com/mocahbig/22117-Living-Room-FurnitureRoom-4k-Ultra-HD-Wallpaper.jpg',
-          'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/best-accent-chair-1647958244.jpg',
-          'https://images6.alphacoders.com/647/647568.jpg',
+          'https://img.freepik.com/free-photo/empty-living-room-with-blue-sofa-plants-and-table-on-empty-white-wall-background-3d-rendering_41470-1778.jpg?w=1480&t=st=1666709412~exp=1666710012~hmac=71b8324cababdaf17f969bb1f9a0eeee78ff94e71fd7f36c4eba5cf0bcbcd392',
+          'https://img.freepik.com/free-photo/mockup-wall-in-the-children39s-room-with-gray-armchair-on-light-white-color-wall_41470-4931.jpg?w=1480&t=st=1666710650~exp=1666711250~hmac=4e3ca8aadeaa744ead36f5b5e7c052dd654201fec4223ed625959e978e812bfb',
+          'https://img.freepik.com/free-photo/interior-wall-mockup-with-green-plant-green-wall-and-shelf-3d-rendering_41470-3280.jpg?w=1800&t=st=1666710759~exp=1666711359~hmac=7b391e3e351fc402d3cf276c809927725fa4cdbafaaea29c09a8f02ade15b86e'
         ],
         slides: [
-          'First',
-          'Second',
-          'Third',
-          'Fourth',
-          'Fifth',
+          '아늑한 거실 꾸미기',
+          '소품으로 포인트 주기',
+          '그린 인테리어'
+        ],
+        info: [
+          '아늑하게 거실을 꾸며보아요🥰',
+          '귀여운 소품 활용🤩',
+          '에코 그린 인테리어🤗'
         ],
         products: []
       }
@@ -112,7 +116,7 @@
   }
   #main-background {
     width:100%;
-    margin-top:68px;
+    margin-top:64px;
     height:450px;
     background-color:#B3E3C3;
     position:absolute;
@@ -120,9 +124,13 @@
     z-index: 0;
   }
   #slide-text{
-    color:#fff;
-    margin:300px 0 0 200px;
+    color:#191919;;
+    margin:0 0 0 300px;
     font-weight: bold;
+  }
+  #info-text{
+    /*font-weight: bold;*/
+    padding: 30px 0 0 5px;
   }
   /* 아이템 리스트 */
   /*** 아마 공통? ***/

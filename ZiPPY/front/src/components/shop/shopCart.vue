@@ -268,7 +268,7 @@
         url: "/shop/myCartList",
         method: "POST",
         params: {
-          email: this.$route.query.email
+          email: this.$store.state.loginInfo.email
         }
       }).then(res => {
         console.log(res);

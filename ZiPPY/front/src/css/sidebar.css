@@ -1,3 +1,5 @@
+
+
 .v-sidebar-menu {
   /* font-family: 'Font Awesome 5 Free'; */
   /* position: fixed;
@@ -22,7 +24,7 @@
   -webkit-transition: 0.3s max-width ease;
   transition: 0.3s max-width ease;
   box-shadow: 0px 0px 0px rgba(104, 104, 104, 0.959);
-  border-right :1px solid black;
+  /* border-right :1px solid black; */
 }
 
 .v-sidebar-menu * {

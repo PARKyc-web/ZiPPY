@@ -1,6 +1,6 @@
-<template>  
+<template> 
   <div class="pb-1">
-    <v-app-bar color="#fff">
+    <v-app-bar flat color="#fff" style="border-bottom:1px solid #D6D6D6">
       <!-- 카테고리 -->
       <v-menu left bottom>
         <template v-slot:activator="{ on, attrs }">
