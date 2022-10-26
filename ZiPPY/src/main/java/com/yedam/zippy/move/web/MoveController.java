@@ -227,6 +227,14 @@ public class MoveController {
     return service.getCompanyList(vo);
   }
   
+  //업체조회 페이지 - 단건
+  @GetMapping("/moveCompanyOne")
+  public List<MoveMyListVO> moveCompanyOne(MoveMyListVO vo){
+    
+    System.out.println(vo);
+    return service.moveCompanyOne(vo);
+  }
+  
   //해당상품 찜 출력
  @GetMapping("/wishOneList")
  public List<BookmarkVO> getWishOneList(@RequestParam int sId, @RequestParam String email, @RequestParam int serviceType) {
@@ -238,5 +246,11 @@ public class MoveController {
  public List<MoveReviewVO> showReview(@Param("serviceId")String serviceId) {
    return service.showReview(serviceId);
  } 
+ 
+ //후기 개수
+ @GetMapping("/moveRvCount")
+ public List<MoveReviewVO> moveRvCount(@Param("serviceId")String serviceId) {
+   return service.moveRvCount(serviceId);
+ }
   
 }

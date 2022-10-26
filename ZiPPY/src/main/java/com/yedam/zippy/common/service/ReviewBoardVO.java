@@ -26,5 +26,5 @@ public class ReviewBoardVO {
   private int rate3;
   private int rate4;
   private int deleteState;
-  
+  private int reviewStatus;
 }

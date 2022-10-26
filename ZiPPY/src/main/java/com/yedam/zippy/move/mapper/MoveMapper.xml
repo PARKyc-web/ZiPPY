@@ -361,12 +361,29 @@
 	
 	<!-- 업체조회 -->
 	<select id="getCompanyList" parameterType="MoveMyListVO" resultType="MoveMyListVO">
-		SELECT b.comp_intro, b.phone, b.comp_address, (SELECT AVG(total_rating)
+		SELECT b.comp_intro, b.phone, b.comp_address, b.comp_name, b.email, (SELECT AVG(total_rating)
 		FROM review_board
 		WHERE service_type = 3
 		AND service_id = b.email) total_rating
 		FROM business b
 		WHERE b.member_type = 3
+		<if test="dropbox == '평점순'">
+		ORDER BY total_rating DESC
+		</if>
+		<if test="dropbox == '지역순'">
+		ORDER BY SUBSTR(b.comp_address, 1, 2)
+		</if>
+	</select>
+	
+	<!-- 업체조회-단건 -->
+	<select id="moveCompanyOne" parameterType="MoveMyListVO" resultType="MoveMyListVO">
+		 SELECT b.comp_intro, b.phone, b.comp_address, b.comp_name, b.email, (SELECT AVG(total_rating)
+		FROM review_board
+		WHERE service_type = 3
+		AND service_id = b.email) total_rating
+		FROM business b
+		WHERE b.member_type = 3
+        AND b.email = #{email}
 		<if test="dropbox == '평점순'">
 		ORDER BY total_rating DESC
 		</if>
@@ -385,12 +402,20 @@
 		AND service_type = #{serviceType}
 	</select>
 	
+	<!-- 리뷰조회 -->
 	<select id="showReview" resultType="MoveReviewVO" parameterType="String">
 		SELECT * 
 		FROM review_board
 		WHERE service_type = 3
 		AND service_id = #{serviceId}
 		ORDER BY review_no DESC
+	</select>
+	
+	<!-- 리뷰개수 -->
+	<select id="moveRvCount" resultType="MoveReviewVO" parameterType="String">
+		SELECT COUNT(review_content) AS review_count 
+		FROM review_board
+		WHERE service_id = #{serviceId}
 	</select>
 	
 </mapper>

@@ -54,8 +54,8 @@
                                             background-color="#64c481 lighten-3" color="#64c481" large readonly>
                                         </v-rating>
                                     </div>
-                                    <h2 class="ml-3 mt-3" style="font-weight:bold" v-if="reviews.length != 0">
-                                        {{proTotalRating}}</h2>
+                                    <h2 class="ml-3 mt-3" style="font-weight:bold" v-if="data.length != 0">
+                                        {{data.totalRating}}</h2>
                                 </div>
                                 <div id="star-right">
                                     <v-progress-linear color="#64c481" height="20" :value=rate1 style="width:200px">
@@ -110,13 +110,13 @@
                     <v-card>
                         <v-data-table :headers="headers" :items="data">
                             <!-- 별점 -->
-                            <template v-for="item in data" v-slot:item.REVIEW_CONTENT="{ item }">
+                            <template v-for="item in data" v-slot:item.reviewContent="{ item }">
 
                                 <div class="pa-5">
 
-                                    <v-rating v-model="item.TOTAL_RATING" half-increments
+                                    <v-rating v-model="item.totalRating" half-increments
                                         background-color="#64c481 lighten-3" color="#64c481" small readonly></v-rating>
-                                    <div class="ml-2">{{item.REVIEW_CONTENT}}</div>
+                                    <div class="ml-2">{{item.reviewContent}}</div>
                                 </div>
 
                             </template>
@@ -204,7 +204,7 @@
                             <v-card-actions>
                                 <v-spacer></v-spacer>
 
-                                <input type="button" id="subBtn" value="등록" disabled="disabled"
+                                <input type="button" id="subBtn" value="등록" 
                                     color="success lighten -2" text @click="insertReview()" />
 
 
@@ -239,22 +239,7 @@
                 estimateType: "",
                 serviceId: "",
                 pageNum: "",
-                rv: {
-                    reviewNo: "",
-                    email: "",
-                    reviewTitle: "none",
-                    reviewContent: "",
-                    reviewDate: "",
-                    serviceType: 3,
-                    serviceId: '',
-                    viewCnt: 0,
-                    totalRating: 0,
-                    rate1: 0,
-                    rate2: 0,
-                    rate3: 0,
-                    rate4: 0,
-                    deleteState: ""
-                },
+                
 
 
                 //은하
@@ -309,87 +294,80 @@
                 this.rewrite();
             }
         },
-        created() {
+        async created() {
+
+            let res =  await axios({
+                    url: "http://localhost:8090/zippy/move/moveMyListOne",
+                    methods: "GET",
+                    params: {
+                        email: this.list.serviceId,
+                        userEmail: this.$store.state.loginInfo.email,
+                        // movingResponseNo : this.list.movingResponseNo,
+                        movingResponseNo: 14,
+                        pageNum: this.page
+
+                    }
+            });
+
+            this.list = res.data;
+            this.pageCount = res.data.pages;
+            console.log("res", res);
+            console.log(res.data);
+            console.log("list!!!!!!!", this.list);
+
+                   
+
+            //후기 가져오기
+            res = await  axios({
+                url: "http://localhost:8090/zippy/move/moveReview",
+                methods: "GET",
+                params: {
+
+                    serviceId: this.list.email,
+                
+                    pageNum: this.page,
 
 
-            // await this.getReviewList();
+                }
+            })
 
+            this.data = res.data;
+            this.pageCount = res.data.pages;
+            this.nickName = this.$store.state.loginInfo.nickName;
+            console.log("res", res);
+            console.log(res.data);
+            console.log("list!!!!!!!", this.data);
+
+            // this.data.email = this.$store.state.loginInfo.email;
+            // this.data.serviceId= this.list[i].email;
+            // console.log(this.data.serviceId);
+
+                
             //별점 계산
             var tSum = 0;
             var r1Sum = 0;
             var r2Sum = 0;
             var r3Sum = 0;
             var r4Sum = 0;
-            for (var i in this.reviews) {
-                tSum += Number(this.reviews[i].totalRating)
-                r1Sum += Number(this.reviews[i].rate1)
-                r2Sum += Number(this.reviews[i].rate2)
-                r3Sum += Number(this.reviews[i].rate3)
-                r4Sum += Number(this.reviews[i].rate4)
+            for (var i in this.data) {
+                tSum += Number(this.data[i].totalRating)
+                r1Sum += Number(this.data[i].rate1)
+                r2Sum += Number(this.data[i].rate2)
+                r3Sum += Number(this.data[i].rate3)
+                r4Sum += Number(this.data[i].rate4)
             }
-            this.proTotalRating = Math.round(tSum / this.reviews.length * 10) / 10
-            this.rate1 = Math.round(r1Sum / this.reviews.length) * 10
-            this.rate2 = Math.round(r2Sum / this.reviews.length) * 10
-            this.rate3 = Math.round(r3Sum / this.reviews.length) * 10
-            this.rate4 = Math.round(r4Sum / this.reviews.length) * 10
+            this.proTotalRating = Math.round(tSum / this.data.length * 10) / 10
+            this.rate1 = Math.round(r1Sum / this.data.length) * 10
+            this.rate2 = Math.round(r2Sum / this.data.length) * 10
+            this.rate3 = Math.round(r3Sum / this.data.length) * 10
+            this.rate4 = Math.round(r4Sum / this.data.length) * 10
 
+            console.log('총:', this.proTotalRating);
+            console.log('1:', this.rate1);
+            console.log('2:', this.rate2);
+            console.log('3:', this.rate3);
+            console.log('4:', this.rate4);
 
-
-            axios({
-                url: "http://localhost:8090/zippy/move/moveMyListOne",
-                methods: "GET",
-                params: {
-
-                    userEmail: this.$store.state.loginInfo.email,
-                    // movingResponseNo : this.list.movingResponseNo,
-                    movingResponseNo: 14,
-                    pageNum: this.page
-
-                }
-            }).then(res => {
-                this.list = res.data;
-                this.pageCount = res.data.pages;
-                console.log("res", res);
-                console.log(res.data);
-                console.log("list!!!!!!!", this.list);
-
-                // this.data.email = this.$store.state.loginInfo.email;
-                // this.data.serviceId= this.list[i].email;
-                // console.log(this.data.serviceId);
-
-
-                //후기 가져오기
-                axios({
-                    url: "http://localhost:8090/zippy/move/moveReview",
-                    methods: "GET",
-                    params: {
-
-                        // email: this.$store.state.loginInfo.email,
-                        // movingResponseNo : 14,
-                        serviceId: this.list.email,
-                        // serviceType : this.rv.serviceType,
-                        pageNum: this.page,
-
-
-                    }
-                }).then(res => {
-                    this.data = res.data;
-                    this.pageCount = res.data.pages;
-                    this.nickName = this.$store.state.loginInfo.nickName;
-                    console.log("res", res);
-                    console.log(res.data);
-                    console.log("list!!!!!!!", this.data);
-
-                    // this.data.email = this.$store.state.loginInfo.email;
-                    // this.data.serviceId= this.list[i].email;
-                    // console.log(this.data.serviceId);
-                }).catch(error => {
-                    console.log(error);
-                })
-
-            }).catch(error => {
-                console.log(error);
-            })
 
         },
 
@@ -411,8 +389,10 @@
                             Number(this.rate2) +
                             Number(this.rate3) +
                             Number(this.rate4)) / 4
+
+                    //리뷰등록        
                     axios({
-                        url: "/common/addRv",
+                        url: "/zippy/common/addRv",
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
@@ -439,28 +419,27 @@
                             timer: 1500
                         });
 
-                        const btn = document.getElementById('subBtn');
-                        btn.disabled = true;
+                        
 
                     }).catch(error => {
                         console.log(error);
                     })
                 }
                 //상태 변경
-                axios({
-                    url: "/shop/updateRvStatus",
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    data: {
-                        purNo: this.purNo
-                    }
-                }).then(res => {
-                    console.log(res);
-                }).catch(error => {
-                    console.log(error);
-                })
+                // axios({
+                //     url: "/shop/updateRvStatus",
+                //     method: "POST",
+                //     headers: {
+                //         "Content-Type": "application/json"
+                //     },
+                //     data: {
+                //         purNo: this.purNo
+                //     }
+                // }).then(res => {
+                //     console.log(res);
+                // }).catch(error => {
+                //     console.log(error);
+                // })
             },
 
 
