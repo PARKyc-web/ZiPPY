@@ -42,4 +42,10 @@
 		VALUES(#{chatRoomNo}, #{user1}, #{user2}, #{chatType}, #{lastChat}, #{lastTime}, #{productNo})		
 	</insert>
 
+	<select id="getRoomInfo"  parameterType="Integer" resultType="ChatRoomVO">
+		SELECT *
+		FROM chat_room
+		WHERE room_id = #{roomId}
+	</select>
+
 </mapper>

@@ -6,6 +6,7 @@
 
       <h1 v-if="item.user2 == $store.state.loginInfo.email">
         <img>{{item.user1Name}}</h1>
+
       <v-btn v-if="item.user2 == $store.state.loginInfo.email" id="used-soldout" width="90px" depressed color=#B3E3C3
         @click="soldOut()">
         판매완료
@@ -14,6 +15,7 @@
         <button type="button" class="form-control"><a :href="txtFile">TXT 파일 다운로드</a></button>
         <button type="button" class="form-control"><a :href="pdfFile">PDF 파일 다운로드</a></button>
       </div>
+
     </div><br>
     <div id="chatBody" style="overflow:auto;">
       <ul class="list-group">
@@ -42,7 +44,7 @@
                     <div class="text-overline mb-4">
                       {{msg.sender}}<small>-{{msg.time}}</small>
                     </div>
-                    <v-list-item-title class="text-h6 mb-1">
+                    <v-list-item-title class="">
                       {{msg.message}}
                     </v-list-item-title>
                   </v-list-item-content>
@@ -76,8 +78,9 @@
     props: ['roomId', 'item', 'value'],
     data() {
       return {
-        txtFile: "http://localhost:8090/zippy/chat/txtFile/" + this.roomId,
-        pdfFile: "http://localhost:8090/zippy/chat/pdfFile/" + this.roomId,
+        txtFile : "/zippy/chat/txtFile/" + this.roomId,
+        pdfFile : "/zippy/chat/pdfFile/" + this.roomId,
+
         room: {},
         sender: '',
         message: '',
@@ -122,14 +125,7 @@
         this.messages = temp.data;
         this.goToBottom();
       },
-
-      findRoom: function () {
-        var temp = this.$axios.get('/zippy/chat/room/' + this.roomId).then(response => {
-          this.room = response.data;
-        }).finally(res => {
-          this.connect();
-        })
-      },
+      
       sendMessage: function () {
         if (this.message == '') {
 

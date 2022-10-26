@@ -14,4 +14,6 @@ public interface ChatMapper {
   public List<ChatRoomName> findAllRoomName(@Param("room") ChatRoomVO room, @Param("email") String email);
   
   public void createChatRoom(ChatRoomVO vo);
+  
+  public ChatRoomVO getRoomInfo(int roomId);
 }

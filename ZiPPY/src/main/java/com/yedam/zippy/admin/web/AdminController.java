@@ -16,6 +16,7 @@ import com.yedam.zippy.member.service.GeneralUserVO;
 @CrossOrigin
 @RestController
 @RequestMapping("/admin")
+//@RequestMapping("/zippy/admin")
 public class AdminController {
   
   @Autowired

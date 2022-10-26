@@ -33,6 +33,7 @@ import com.yedam.zippy.common.service.ReviewBoardVO;
     RequestMethod.DELETE })
 @RestController
 @RequestMapping("/common")
+//@RequestMapping("/zippy/common")
 public class CommonController {
   
   @Autowired

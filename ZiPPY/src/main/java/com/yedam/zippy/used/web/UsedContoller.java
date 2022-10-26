@@ -90,8 +90,8 @@ String order="product_date DESC";
   // 생성
   @PostMapping("/insert")
   public String insert(UsedProductVO product, List<MultipartFile> images) {
-    service.insertUsedProduct(product, images);
-    service.findKeyword(product);
+    service.insertUsedProduct(product, images);   
+    service.sendKeyword(product);
     return "SUCCESS";
   }
 

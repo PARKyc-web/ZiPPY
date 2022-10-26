@@ -286,21 +286,18 @@
             title: "회원가입을 축하드립니다!",
             test: "확인버튼을 누르시면 \n 로그인창으로 이동합니다"
           });
-          var temp = await axios({
-              url: "http://localhost:8090/zippy/member/gSignUp",
-              method: "POST",
-              // headers :{
-              //   'Content-Type': 'multipart/form-data'
-              //   "Content-Type" : "application/x-www-form-urlencoded;charset=UTF-8"
-              // },
-              data: formData
-            })
-            .then((res) => {
-              console.log(res);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+
+        var temp = await axios({
+          url: "/zippy/member/gSignUp",
+          method: "POST",          
+          data: formData  
+        })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((error) => {
+            console.log(error);
+          });         
 
           this.$router.push("/login");
 

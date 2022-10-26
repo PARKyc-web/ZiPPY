@@ -50,7 +50,9 @@ public interface UsedService {
   public List<UsedKeywordVO> showKeyword(String email);
 
   //키워드 조회
-  public List<UsedKeywordVO> findKeyword(UsedProductVO product );
+  public List<UsedKeywordVO> findKeyword(UsedProductVO product);
+  
+  public void sendKeyword(UsedProductVO product);
 
   // 이미지 포함 등록
   public void insertUsedProduct(UsedProductVO product, List<MultipartFile> images);

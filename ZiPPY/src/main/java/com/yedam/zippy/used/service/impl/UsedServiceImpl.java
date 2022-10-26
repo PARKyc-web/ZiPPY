@@ -1,9 +1,7 @@
 package com.yedam.zippy.used.service.impl;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,13 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.Page;
-import com.itextpdf.text.Image;
 import com.yedam.zippy.common.service.CommonService;
 import com.yedam.zippy.used.mapper.UsedMapper;
 import com.yedam.zippy.used.service.UsedImagesVO;
 import com.yedam.zippy.used.service.UsedKeywordVO;
 import com.yedam.zippy.used.service.UsedProductVO;
 import com.yedam.zippy.used.service.UsedService;
+import com.yedam.zippy.validation.service.ValidationService;
 
 @Service
 public class UsedServiceImpl implements UsedService {
@@ -27,6 +25,9 @@ public class UsedServiceImpl implements UsedService {
 
   @Autowired
   CommonService commonService;
+  
+  @Autowired
+  ValidationService validationService;
   
   @Override
   public Page<UsedProductVO> usedList(String location, String keyword, String category, String checked,
@@ -169,6 +170,32 @@ public class UsedServiceImpl implements UsedService {
       
       mapper.insertImg(vo);
     } 
+  }
+  
+  @Override
+  public void sendKeyword(UsedProductVO product) {
+    List<UsedKeywordVO> keywordList = findKeyword(product);
+    
+    List<UsedKeywordVO> sendingTarget = new ArrayList<UsedKeywordVO>();
+    for(int i=0; i<keywordList.size(); i++) {
+      System.out.println("비교하는중");
+      System.out.println("상품 이름 : " + product.getProductName());
+      System.out.println("키워드 이름 ::" + keywordList.get(i).getKeyword());
+      
+      if(product.getProductName().contains(keywordList.get(i).getKeyword())) {
+        
+        sendingTarget.add(keywordList.get(i));
+      }
+    }
+    
+    String mailContent = "";    
+    for(int i=0; i<sendingTarget.size(); i++) {
+        mailContent = "현재 [" + sendingTarget.get(i).getKeywordLocation() + "]에 등록된 Keyword : [" 
+                    + sendingTarget.get(i).getKeyword() + "]가 해당하는"
+                    + "\n 상품 [" + product.getProductName() + "]가 등록되었습니다";
+        
+        validationService.sendEmail(sendingTarget.get(i).getEmail(), "ZIPPY 상품등록!", mailContent);       
+    }    
   }
   
 }

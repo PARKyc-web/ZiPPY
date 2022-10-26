@@ -6,7 +6,7 @@
           <v-card color="dark" elevation-24 style="padding: 20px; border: 1px; border-radius: 30px;">
             <v-card-text>
               <div class="login_img">
-                <img src="../../assets/zippy_logo2.png" width="150px" />
+                <img src="@/assets/zippy_logo2.png" width="150px" />
               </div>
               <br>
               <!--<h5 color="#B3E3C3 !important" class="font-weight-bold">로그인</h5>-->
