@@ -329,7 +329,7 @@
       },
       searchPropertyList(data) {
         axios({
-            url: "http://localhost:8090/zippy/property/searchPropertyList",
+            url: "/zippy/property/searchPropertyList",
             methods: "GET",
             params: {
               houseType: data.houseType,
@@ -339,7 +339,7 @@
               maxPrice: data.range[1],
               minSize: data.minSize,
               maxSize: data.maxSize,
-              sigungu: data.sigungu + '%'
+              sigungu: data.sigungu + '%',
             }
           }).then(response => {
             // 성공했을 때

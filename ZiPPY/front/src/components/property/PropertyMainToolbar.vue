@@ -68,7 +68,7 @@
 
                   <v-col cols="12">
 
-                    <v-chip-group multiple active-class="green--text" v-model="selectedTags">
+                    <v-chip-group multiple active-class="green--text" v-model="data.selectedTags">
                       <v-chip v-for="tag in tags" :key="tag" filter outlined>
                         {{ tag }}
                       </v-chip>
@@ -122,7 +122,6 @@
         '공원뷰',
         '수변뷰',
       ],
-      selectedTags: [],
         minPrice: 0,
         maxPrice: 150000,
         data: {
@@ -134,6 +133,7 @@
           year: 1000,
           sigungu: '',
           range: [0, 150000],
+          selectedTags: [],
         },
 
       }
@@ -141,7 +141,7 @@
     methods: {
       save() {
         this.dialog = false;
-        console.log('선택된', this.selectedTags);
+        console.log('선택된', this.data.selectedTags);
 
         this.data.year = new Date().getFullYear();
         switch (this.constructionYear) {
