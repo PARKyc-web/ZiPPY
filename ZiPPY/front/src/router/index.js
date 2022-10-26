@@ -38,7 +38,7 @@ import login from '@/views/login/login.vue';
 import admin from '@/views/admin/admin.vue';
 import mypage from '@/views/mypage/mypageMain.vue';
 import chat from '@/views/chat/chatTap.vue';
-import chatDetail from '@/views/chat/chatTap.vue';
+import chatDetail from '@/views/chat/chatDetail.vue';
 import findUserInfo from '@/views/login/findInfo.vue';
 import seller from '@/views/seller/Seller.vue';
 import generalUser from '@/views/admin/searchUser.vue';
@@ -174,8 +174,8 @@ const routes = [
         path: "MyRv",
         name: "shopMyRv",
         component: shopMyReview
-},
-{
+      },
+      {
         path : "used/user",
         name : "mypage-userPage",
         component : usedUserPage
@@ -284,7 +284,7 @@ const routes = [
   },
   {
     path : "/chatDetail",
-    name :"chatDetail",
+    name : "chatDetail",
     component : chatDetail    
   },
 

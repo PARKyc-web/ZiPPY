@@ -1,55 +1,32 @@
 <template>
-    <div style="border-top:1px solid #D6D6D6;">
-    <div class="container" v-cloak style="margin-top:20px">
-        <div v-if="chatRooms.length != 0">
-            <b-card no-body>
-                <b-tabs card vertical>
-                    <!-- pills -->
-                    <b-tab :title="(item.user1 == $store.state.loginInfo.email) ? item.user2Name : item.user1Name" 
-                            v-for="(item, i) in chatRooms" @click="connect(i)">                            
-                        <chatDetail :roomId="item.chatRoomNo" :item="item" :value="msg" @input="msg = recvMessage()"></chatDetail>
-                    </b-tab>
-                </b-tabs>
-            </b-card>
-        </div>    
-    </div>
+<div class="container">
+    <b-list-group>
+        <b-list-group-item class="flex-column align-items-start" v-for="(item, i) in chatRooms" @click="enterChatRoom(item)">
+            <img :src="'/zippy/common/img/member/test.jpg'" style="border-radius: 50%; width: 100px; height: 100px;">
+            <div class="d-flex w-100  justify-content-between">                
+                <h5 class="mb-1" v-if="$store.state.loginInfo.email == item.user1">{{item.user2Name}}</h5>
+                <h5 class="mb-1" v-else>{{item.user1Name}}</h5>                
+                <small>{{item.lastTime}}</small>
+            </div>
+            <p class="mb-1">
+            {{item.lastChat}}
+            </p>
+            <!-- <small>Donec id elit non mi porta.</small> -->
+        </b-list-group-item>
+    </b-list-group>
 </div>
 </template>
 
 <script>
-import Stomp from 'webstomp-client'
-import SockJS from 'sockjs-client'
-import chatDetail from '@/components/chat/chatDetail.vue'
-
-// var sock = new SockJS("http://localhost:8090/zippy/ws/chat");
-// var ws = Stomp.over(sock);
     export default {
         data() {
-            return {   
-                             
-                msg : "",
-                chatRooms: [],       
-                sub_id : []         
+            return {
+                chatRooms: []                
             }
         },
 
-        created() {
-            var out = this;
-            this.findAllRoom();
-            // this.$sock = new SockJS("http://localhost:8090/zippy/ws/chat");
-            // this.$ws = Stomp.over(this.$sock);
-            this.$ws.connect({}, function (frame) {                
-                out.$ws.subscribe("FAKE1234", function(message) {                    
-                    console.log("FAKE SUB");
-                })
-                console.log("connnnnnect");
-            }, function (error) {
-                console.log(error);
-            });            
-        },
-
-        components: {
-            chatDetail
+        created() {            
+            this.findAllRoom();             
         },
 
         methods: {
@@ -66,23 +43,21 @@ import chatDetail from '@/components/chat/chatDetail.vue'
                     console.log(error);
                 })
             },
-            recvMessage: function (recv) {
-                return this.msg = {
-                "type": recv.type,        
-                "roomId" : recv.roomId,        
-                "sender": recv.type == 'ENTER' ? '[알림]' : recv.sender,
-                "message": recv.message,
-                "time": recv.time
-                }                
+
+            enterChatRoom: function(item){
+                this.$router.push({
+                    name: "chatDetail",
+                    query : {
+                        roomId : item.chatRoomNo
+                    }
+                });
             },
+            
             connect: function (i) {
                 var outside = this;       
 
                 this.$sock = new SockJS("http://localhost:8090/zippy/ws/chat");
                 this.$ws = Stomp.over(this.$sock);
-
-                var no = this.chatRooms[i].chatRoomNo;
-                this.$ws.unsubscribe(this.sub_id[i]);
 
                 this.$ws.connect({}, function (frame) {                
                 out.$ws.subscribe("/topic/chat/room/" + no, function(message) {                    
@@ -146,6 +121,10 @@ import chatDetail from '@/components/chat/chatDetail.vue'
 <style scoped>
     #container {
         height: 70vh;
+    }
+
+    .align-items-start:hover{
+        background-color: #B3E3C3;
     }
 
     h5 {
