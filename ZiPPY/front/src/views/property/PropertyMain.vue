@@ -4,10 +4,7 @@
     <div id="container">
       <section>
         <div id="map" class="map">
-          <!-- <div class="hAddr">
-            <span class="title">지도중심기준 행정동 주소정보</span>
-            <span id="centerAddr"><input type="text" v-model="sigungu"></span>
-          </div> -->
+
         </div>
       </section>
       <aside>
@@ -88,7 +85,7 @@
           if (price == '0000') return result;
         }
         price = price.substr(price.length - 4, price.length - 3) + ',' + price.substr(price.length - 3, price.length);
-        if(price[0]=='0') {
+        if (price[0] == '0') {
           price = price.substr(price.length - 3, price.length);
         }
         result += price;
@@ -216,9 +213,14 @@
 
         var markers = [];
 
+        let address = [];
+        for (let i = 0; i < this.streetAddress.length; i++) {
+          address[i] = '' + this.streetAddress[i].sigungu + this.streetAddress[i].streetAddress;
+        }
+
         for (let i = 0; i < this.streetAddress.length; i++) {
           // 주소로 좌표를 검색합니다
-          geocoder.addressSearch(this.streetAddress[i].streetAddress, function (result, status) {
+          geocoder.addressSearch(address[i], function (result, status) {
             // 정상적으로 검색이 완료됐으면 
             if (status === kakao.maps.services.Status.OK) {
               var marker = new kakao.maps.Marker({
@@ -229,19 +231,7 @@
           });
         }
         this.markers = markers;
-        //////////////////////////////////////
-        // function makeClusterer() {
-        //   // 클러스터러에 마커들을 추가합니다
-        //   clusterer.addMarkers(markers);
-        // }
 
-        // let setClusterer = setInterval(function () {
-        //   makeClusterer();
-        //   if (markers.length == initThis.streetAddress.length) {
-        //     clearInterval(setClusterer)
-        //   };
-        // }, 100);
-        //////////////////////////////
         function makeClusterer() {
           // 클러스터러에 마커들을 추가합니다
           clusterer.addMarkers(initThis.markers);
@@ -382,9 +372,14 @@
 
         var markers = [];
 
+        let address = [];
+        for (let i = 0; i < this.houseProducts.length; i++) {
+          address[i] = '' + this.houseProducts[i].sigungu + this.houseProducts[i].streetAddress;
+        }
+
         for (let i = 0; i < this.houseProducts.length; i++) {
           // 주소로 좌표를 검색합니다
-          geocoder.addressSearch(this.houseProducts[i].streetAddress, function (result, status) {
+            geocoder.addressSearch(address[i], function (result, status) {
             // 정상적으로 검색이 완료됐으면 
             if (status === kakao.maps.services.Status.OK) {
               var marker = new kakao.maps.Marker({

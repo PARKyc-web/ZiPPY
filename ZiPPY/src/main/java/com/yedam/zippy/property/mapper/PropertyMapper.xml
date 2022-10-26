@@ -3,9 +3,8 @@
 <mapper
 	namespace="com.yedam.zippy.property.mapper.PropertyMapper">
 	<select id="getAllPropertyList" resultType="PropertyVO">
-		select street_address
-		from
-		house_detail
+		select sigungu, street_address
+		from house_product natural join house_detail
 	</select>
 
 	<select id="getPropertyList" parameterType="String"

@@ -74,12 +74,8 @@
                       </v-chip>
                     </v-chip-group>
 
-<!-- 
-                    <v-autocomplete :items="['조용한', '역세권', '학세권', '태그1', '태그2', '태그3', '태그4', '태그5', '태그6']" label="태그"
-                      multiple v-model="tags"></v-autocomplete> -->
                   </v-col>
                 </v-row>
-                <p>선택한 필터 목록 {{ tags }}</p>
               </v-container>
             </template>
           </v-card-text>
