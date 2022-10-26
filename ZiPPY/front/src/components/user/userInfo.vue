@@ -4,7 +4,7 @@
       <div class="row">
         <div class="order-xl-1 col-xl-8">
 
-          <div class="card">
+          <!-- <div class="card"> -->
 
             <div class="card-header">
               <div class="row align-items-center">
@@ -180,7 +180,7 @@
                 </div>
               </form>
             </div>
-          </div>
+          <!-- </div> -->
 
         </div>
       </div>
@@ -344,6 +344,7 @@ import swal from 'sweetalert2';
     margin: 0 auto;
     overflow: auto;
     margin-left: 35%;
+    overflow: hidden;
   }
 
   img {
@@ -375,4 +376,5 @@ import swal from 'sweetalert2';
     /* object-fit: cover; */
     /* object-fit: fill; */
   }
+
 </style>
