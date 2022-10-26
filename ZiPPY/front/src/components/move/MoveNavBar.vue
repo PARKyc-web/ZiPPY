@@ -5,8 +5,7 @@
         <v-btn value="견적받기" @click="goEstimate()" class="nav-link active" aria-current="page"> 견적받기</v-btn>
         <v-btn value="업체조회" @click="goCompany()" class="nav-link">업체조회</v-btn>
         <v-btn value="업체후기" @click="goReview()" class="nav-link">업체후기</v-btn>
-        <v-btn value="커뮤니티" @click="goBoard()" class="nav-link">커뮤니티</v-btn>
-        <v-btn value="마이페이지" @click="goManage()" class="nav-link">마이페이지</v-btn>
+        <v-btn value="마이페이지" @click="goManage()" class="nav-link">견적/예약관리</v-btn>
       </v-btn-toggle>
     </div>
   </v-toolbar>
@@ -37,28 +36,21 @@
       },
       goCompany: function () {
         this.$router.push(({
-          name: 'moveEstimate',
+          name: 'moveCompanyList',
 
         })).catch(() => {});;
         this.$router.go(0);
       },
       goReview: function () {
         this.$router.push(({
-          name: 'moveMyList',
-
-        })).catch(() => {});;
-        this.$router.go(0);
-      },
-      goBoard: function () {
-        this.$router.push(({
-          name: 'moveResult',
+          name: 'moveReview',
 
         })).catch(() => {});;
         this.$router.go(0);
       },
       goManage: function () {
         this.$router.push(({
-          name: 'moveMyReserve',
+          path: 'mypage/move/moveResult',
 
         })).catch(() => {});;
         this.$router.go(0);
