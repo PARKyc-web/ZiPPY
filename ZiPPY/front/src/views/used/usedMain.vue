@@ -50,9 +50,7 @@
       </div>
       <div @click="goDetail(list.productNo)" class="used-main-card" v-if="data.length != 0" v-for="list in data">
         <div>
-          <div><img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkW5iRqvi6VdPWVWYswwWoUYhmW-AA2W8P0tExfMLx3wWPiwVFHegzq29vq8KoN1jKVxQ&usqp=CAU"
-              width="191px" height="194px"></div>
+          <div><img :src="'/zippy/common/img/used/'+list.mainImg" width="191px" height="194px"></div>
           <div class="used-main-card-cont">
             <div class="used-main-card-title">{{list.productName}}</div>
             <div class="used-main-price-date">
@@ -63,7 +61,7 @@
           </div>
         </div>
       </div>
-      <div class="text-center">
+      <div class="text-center" v-if="data.length >=16">
         <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3"></v-pagination>
       </div>
     </div>
@@ -71,10 +69,10 @@
 </template>
 
 <script>
-  import router from '@/router';
   import axios from 'axios';
   import navBar from '../../components/used/navBar.vue';
   import CurrentPositionLabel from '../../components/used/CurrentPositionLabel.vue';
+  import swal from 'sweetalert2';
 
   export default {
     components: {
@@ -170,7 +168,7 @@
       },
       findList(searchData) {
         axios({
-          url: "http://localhost:8090/zippy/used/main",
+          url: "/zippy/used/main",
           methods: "GET",
           params: searchData
         }).then(res => {
@@ -195,7 +193,25 @@
         })
       },
       insert() {
-        window.location.assign('/mypage/used/insert');
+        if (this.$store.state.loginInfo == null || this.$store.state.loginInfo.email == "") {
+          swal.fire({
+            title: '로그인이 필요합니다.',
+            text: "로그인 하시겠습니까 ?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#96e5b8',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'YES'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.$router.push('/login')
+            }
+          })
+          // this.$router.push('/login');
+        } else {
+          window.location.assign('/mypage/used/insert');
+        }
+
       }
     }
   }

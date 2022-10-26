@@ -220,7 +220,7 @@
         // }, 1000);
         this.dropVal();
         axios({
-          url: "http://localhost:8090/zippy/used/insert",
+          url: "/zippy/used/insert",
           method: "POST",
           data: formData
         }).then(res => {
@@ -249,6 +249,10 @@
 <style scoped>
   .room-file-upload-example {
     height: 100%;
+  }
+
+  #used-main-dropbox{
+    width: 110px;
   }
 
   #used-insert-addr {

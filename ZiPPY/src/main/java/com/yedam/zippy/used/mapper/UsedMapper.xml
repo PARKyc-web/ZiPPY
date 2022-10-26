@@ -105,15 +105,29 @@
 	<!-- 수정 -->
 	<update id="updateUsed" parameterType="usedProductVO">
 		UPDATE used_product
-		SET
-		product_name = #{productName},
-		product_category = #{productCategory},
-		product_price = #{productPrice},
-		product_info = #{productInfo},
-		is_sell	= #{isSell}
-		WHERE
-		product_no = #{productNo}
+		<set>
+			<if test="productName != null and !productName.equals('')">
+				product_name = #{productName},
+			</if>
+			<if test="productName != null and !productName.equals('')">
+				product_category = #{productCategory},
+			</if>
+			<if test="productName != null and !productName.equals('')">
+				product_price = #{productPrice},
+			</if>
+			<if test="productName != null and !productName.equals('')">
+				product_info = #{productInfo},
+			</if>
+			<if test="productName != null and !productName.equals('')">
+				is_sell	= #{isSell},
+			</if>
+			<if test="productName != null and !productName.equals('')">
+				deal_record = #{dealRecord}
+			</if>
+		</set>
+		WHERE product_no = #{productNo}
 	</update>
+	
 	
 	<!-- 사진 삭제 -->
 	<delete id="deleteImg" parameterType="UsedProductVO">

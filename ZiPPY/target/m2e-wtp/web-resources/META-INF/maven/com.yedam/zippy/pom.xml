@@ -8,6 +8,7 @@
 	<name>ZiPPY</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
+	
 	<properties>
 		<java-version>11</java-version>
 		<org.springframework-version>5.3.16</org.springframework-version>
@@ -305,22 +306,6 @@
 			<artifactId>itext-asian</artifactId>
 			<version>5.2.0</version>
 		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/com.itextpdf/itext-asian -->
-		<dependency>
-		    <groupId>com.itextpdf</groupId>
-		    <artifactId>itext-asian</artifactId>
-		    <version>5.2.0</version>
-		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/com.itextpdf/itext-pdfa -->
-		<dependency>
-		    <groupId>com.itextpdf</groupId>
-		    <artifactId>itext-pdfa</artifactId>
-		    <version>5.5.13.3</version>
-		</dependency>
-		
-		
 
 		<!-- https://mvnrepository.com/artifact/com.itextpdf/itext-pdfa -->
 		<dependency>
@@ -370,11 +355,10 @@
 					<showWarnings>true</showWarnings>
 					<showDeprecation>true</showDeprecation>
 					<encoding>utf-8</encoding>
-
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId> <!-- 명령어를 실행 시키도록 해주는 plugin -->
+				<groupId>org.codehaus.mojo</groupId> 
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.6.0</version>
 				<executions>
@@ -415,8 +399,7 @@
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>3.1.0</version>
-				<executions>
-					<!-- disc 폴더 에서 html 파일을 /src/main/resources/templates 로 이동 -->
+				<executions>					
 					<execution>
 						<id>copy front-end template</id>
 						<goals>
@@ -435,8 +418,7 @@
 							</resources>
 						</configuration>
 					</execution>
-
-					<!-- disc 폴더 에서 html 파일을 제외하고 /src/main/resources/static 폴더로 이동 -->
+					
 					<execution>
 						<id>copy front-end static assets</id>
 						<goals>
