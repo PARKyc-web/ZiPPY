@@ -57,5 +57,8 @@ public interface UsedMapper {
 	
 	// 거래내역
 	public int dealRecord();
+	
+	// 리뷰 저넻조회
+	public List<UsedProductVO> showRvAll(@Param("email") String email);
 	  
 }

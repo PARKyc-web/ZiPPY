@@ -4,43 +4,50 @@
 	<!-- 전체조회 -->
 	<select id="usedList" resultType="UsedProductVO"
 		parameterType="hashmap">
-		SELECT p.*, 
-		       g.NICK_NAME,
-		       g.PROFILE_IMAGE
-		  FROM used_product p, general_user g
-		 WHERE g.email = p.email
+		SELECT p.*,
+		g.NICK_NAME,
+		g.PROFILE_IMAGE
+		FROM used_product p, general_user g
+		WHERE g.email = p.email
 		<if test='keyword != null and keyword != ""'>
-		   AND p.product_name LIKE '%'||#{keyword}||'%'
+			AND p.product_name LIKE '%'||#{keyword}||'%'
 		</if>
-		   AND p.product_location = #{location}
+		AND p.product_location = #{location}
 		<if test='category != ""'>
-		   AND	p.product_category LIKE '%'||#{category}||'%'
+			AND p.product_category LIKE '%'||#{category}||'%'
 		</if>
 		<if test="checked == 1">
-		   AND ( p.is_sell=0 OR p.is_sell=1 )
+			AND ( p.is_sell=0 OR p.is_sell=1 )
 		</if>
 		<if test="checked == 0">
-		   AND p.is_sell=0
+			AND p.is_sell=0
 		</if>
 	</select>
-	
+
 	<select id="userMain" resultType="UsedProductVO"
 		parameterType="String">
-			SELECT p.*, 
-		       g.NICK_NAME,
-		       g.PROFILE_IMAGE
-		  FROM used_product p, general_user g
-		 WHERE g.email = p.email
-		 AND g.email = #{email}
-		</select>
+		<!-- SELECT p.*,
+		g.NICK_NAME,
+		g.PROFILE_IMAGE
+		FROM used_product p, general_user g
+		WHERE g.email = p.email
+		AND g.email = #{email} -->
+		SELECT DISTINCT
+		g.profile_image, g.nick_name, r.total_rating, r.review_content, p.product_name
+		FROM used_product p, general_user g, review_board r
+		WHERE g.email = r.email
+		AND r.email = p.email
+		AND r.service_type = 1
+		AND p.email = #{email}
+	</select>
 
 	<select id="usedOne" resultType="UsedProductVO"
 		parameterType="Integer">
 		SELECT p.*,
-		       g.NICK_NAME
-		  FROM used_product p, general_user g
-		 WHERE g.email = p.email
-		   AND p.product_no=#{pNo}
+		g.NICK_NAME
+		FROM used_product p, general_user g
+		WHERE g.email = p.email
+		AND p.product_no=#{pNo}
 	</select>
 
 
@@ -54,31 +61,31 @@
 		</selectKey>
 		INSERT INTO used_product
 		(
-			product_no,
-			email,
-			PRODUCT_NAME,
-			PRODUCT_CATEGORY,
-			PRODUCT_PRICE,
-			PRODUCT_INFO,
-			product_location,
-			is_sell,
-			views,
-			product_date,
-			main_img
+		product_no,
+		email,
+		PRODUCT_NAME,
+		PRODUCT_CATEGORY,
+		PRODUCT_PRICE,
+		PRODUCT_INFO,
+		product_location,
+		is_sell,
+		views,
+		product_date,
+		main_img
 		)
 		VALUES
 		(
-			#{productNo}
-			,#{email}
-			,#{productName}
-			,#{productCategory}
-			,#{productPrice}
-			,#{productInfo}
-			,#{productLocation}
-			,0
-			,0
-			,systimestamp
-			,#{mainImg}
+		#{productNo}
+		,#{email}
+		,#{productName}
+		,#{productCategory}
+		,#{productPrice}
+		,#{productInfo}
+		,#{productLocation}
+		,0
+		,0
+		,systimestamp
+		,#{mainImg}
 		)
 	</insert>
 
@@ -109,29 +116,29 @@
 			<if test="productName != null and !productName.equals('')">
 				product_name = #{productName},
 			</if>
-			<if test="productName != null and !productName.equals('')">
+			<if test="productCategory != null and !productCategory.equals('')">
 				product_category = #{productCategory},
 			</if>
-			<if test="productName != null and !productName.equals('')">
+			<if test="productPrice != null and !productPrice.equals('')">
 				product_price = #{productPrice},
 			</if>
-			<if test="productName != null and !productName.equals('')">
+			<if test="productInfo != null and !isSell.equals('')">
 				product_info = #{productInfo},
 			</if>
-			<if test="productName != null and !productName.equals('')">
-				is_sell	= #{isSell},
+			<if test="isSell != null and !isSell.equals('')">
+				is_sell = #{isSell},
 			</if>
-			<if test="productName != null and !productName.equals('')">
+			<if test="dealRecord != null and !dealRecord.equals('')">
 				deal_record = #{dealRecord}
 			</if>
 		</set>
 		WHERE product_no = #{productNo}
 	</update>
-	
-	
+
+
 	<!-- 사진 삭제 -->
 	<delete id="deleteImg" parameterType="UsedProductVO">
-		DELETE 
+		DELETE
 		FROM used_images
 		WHERE product_no = #{productNo}
 	</delete>
@@ -208,27 +215,40 @@
 		FROM Used_keyword
 		WHERE email = #{email}
 	</select>
-	
+
 	<!-- 키워드 조회 -->
-	<select id="findKeyword" resultType="UsedKeywordVO" parameterType="UsedProductVO">
-		SELECT * 
-		FROM used_keyword	
+	<select id="findKeyword" resultType="UsedKeywordVO"
+		parameterType="UsedProductVO">
+		SELECT *
+		FROM used_keyword
 	</select>
-	
+
 
 	<!-- 상품 이미지 조회 -->
 	<select id="getImg" resultType="UsedImagesVO"
 		parameterType="int">
 		SELECT *
 		FROM used_images
-		WHERE product_no = #{pNo}		
+		WHERE product_no = #{pNo}
 	</select>
-	
+
 	<update id="dealRecord" parameterType="UsedProductVO">
 		UPDATE used_product
-		SET 
+		SET
 		deal_record = #{dealRecord}
 		WHERE product_no = #{productNo}
 	</update>
+
+	<select id="showRvAll" resultType="UsedProductVO">
+		SELECT DISTINCT
+		g.profile_image, g.nick_name, r.total_rating, r.review_content,
+		p.product_name
+		FROM used_product p, general_user g, review_board r
+		WHERE g.email = r.email
+		AND r.email = p.email
+		AND r.service_type = 1
+		AND p.email = #{email}
+
+	</select>
 
 </mapper>

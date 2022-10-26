@@ -28,7 +28,7 @@
             <!-- slide start -->
             <div id="detail-container">
               <v-carousel hide-delimiters>
-                <v-carousel-item v-for="(img,i) in imgs" :key="i" :src="img.src"></v-carousel-item>
+                <v-carousel-item v-for="(img,i) in imgs" :key="i" :src="'/zippy/common/img/used/' + img.src"></v-carousel-item>
               </v-carousel>
             </div>
             <!-- slide end -->
@@ -105,12 +105,9 @@
                       </button>
                     </div>
                     <div>
-                      <v-btn width="160" depressed color=#B3E3C3>
+                      <v-btn width="160" depressed color=#B3E3C3 v-if="this.$store.state.loginInfo.email != product.email && product.isSell == 0 ">
                         <i class="fa-solid fa-comments" @click="createChat()"> 채팅하기</i>
                       </v-btn>
-                      <!-- <button class="used-detail-wish" width="30px">
-                        <i class="fa-solid fa-comments" @click="createChat()"> 채팅하기</i>
-                      </button> -->
                     </div>
                   </div>
                 </div>
@@ -119,8 +116,8 @@
             </div>
           </div>
         </div>
-        <hr />
       </div>
+      <hr>
       <div id="used-detail-info-div">
         <h3 id="used-detail-info">상품정보</h3>
         <hr />
@@ -144,33 +141,34 @@
       usedReport
     },
     data: () => ({
-      imgs: [{
-          src: "http://file3.instiz.net/data/file3/2022/06/08/2/6/f/26fe0e3efee7315868ff30668e109e1d.jpg"
-        },
-        {
-          src: "http://file3.instiz.net/data/file3/2022/06/08/7/7/b/77b348b96cef2c41cfae7a1293ca395e.jpg"
-        },
-        {
-          src: "http://file3.instiz.net/data/file3/2022/06/08/b/2/2/b2221c8f6fd58a1670652ac5300299f1.jpg"
-        },
-        {
-          src: "http://file3.instiz.net/data/file3/2022/06/08/a/4/8/a484eeb9b529d2d86a983d75beb86cae.jpg"
-        },
-        {
-          src: "http://file3.instiz.net/data/file3/2022/06/08/7/e/1/7e113a4442c27945a2a379401c5021c8.jpg"
-        },
-        {
-          src: "http://file3.instiz.net/data/file3/2022/06/08/e/f/7/ef70fcab688d843508f786052ebaf9a6.jpg"
-        },
-        {
-          src: "http://file3.instiz.net/data/file3/2022/06/08/3/6/b/36bf72e0e424d860262d5cb8e50e4b69.jpg"
-        },
-        {
-          src: "http://file3.instiz.net/data/file3/2022/06/08/b/8/e/b8e6359f0fd89cbf68ac1dbd7d9399e2.jpg"
-        },
-        {
-          src: "http://file3.instiz.net/data/file3/2022/06/08/2/c/2/2c2f759ae3ff1d3cc9470a988ffe7ebf.jpg"
-        },
+      imgs: [
+        // {
+        //   src: "http://file3.instiz.net/data/file3/2022/06/08/2/6/f/26fe0e3efee7315868ff30668e109e1d.jpg"
+        // },
+        // {
+        //   src: "http://file3.instiz.net/data/file3/2022/06/08/7/7/b/77b348b96cef2c41cfae7a1293ca395e.jpg"
+        // },
+        // {
+        //   src: "http://file3.instiz.net/data/file3/2022/06/08/b/2/2/b2221c8f6fd58a1670652ac5300299f1.jpg"
+        // },
+        // {
+        //   src: "http://file3.instiz.net/data/file3/2022/06/08/a/4/8/a484eeb9b529d2d86a983d75beb86cae.jpg"
+        // },
+        // {
+        //   src: "http://file3.instiz.net/data/file3/2022/06/08/7/e/1/7e113a4442c27945a2a379401c5021c8.jpg"
+        // },
+        // {
+        //   src: "http://file3.instiz.net/data/file3/2022/06/08/e/f/7/ef70fcab688d843508f786052ebaf9a6.jpg"
+        // },
+        // {
+        //   src: "http://file3.instiz.net/data/file3/2022/06/08/3/6/b/36bf72e0e424d860262d5cb8e50e4b69.jpg"
+        // },
+        // {
+        //   src: "http://file3.instiz.net/data/file3/2022/06/08/b/8/e/b8e6359f0fd89cbf68ac1dbd7d9399e2.jpg"
+        // },
+        // {
+        //   src: "http://file3.instiz.net/data/file3/2022/06/08/2/c/2/2c2f759ae3ff1d3cc9470a988ffe7ebf.jpg"
+        // },
       ],
       product: "",
       email: "",
@@ -199,6 +197,8 @@
           }
         }).then(res => {
           this.product = res.data;
+          console.log(this.product.email)
+          console.log(this.$store.state.loginInfo.email)
           this.data.serviceId = this.product.productNo;
           this.data.email = this.$store.state.loginInfo.email;
         }).catch(error => {
@@ -214,6 +214,13 @@
           console.log(res);
           this.img = res.data;
           console.log(this.img);
+
+          for(let i=0; i<this.img.length; i++){
+            this.imgs.push({"src" : this.img[i].image});
+          }
+          console.log(this.imgs);
+          
+
         }).catch(err => {
           console.log(err)
         })
@@ -368,7 +375,8 @@
               user1: this.$store.state.loginInfo.email,
               user2: this.product.email,
               chatType: 1,
-              productNo : this.$route.query.pNo
+              productNo : this.$route.query.pNo,
+              isSell : this.product.isSell
             }
           });
           console.log(temp);

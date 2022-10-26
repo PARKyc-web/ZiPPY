@@ -122,5 +122,10 @@ public class ChatServiceImpl implements ChatService{
   public ChatRoomVO getRoomInfo(int roomId) {
     return mapper.getRoomInfo(roomId); 
   }
+  
+  @Override
+  public int soldout(ChatRoomVO vo) {
+    return mapper.soldout(vo);
+  }
 
 }

@@ -65,4 +65,9 @@ public interface UsedService {
   
   //거래내역
   public int dealRecord();
+  
+  // 리뷰전체주회
+  public List<UsedProductVO> showRvAll(String email);
+  
+  
 }

@@ -16,4 +16,5 @@ public class ChatRoomVO {
     private String lastChat;
     private String lastTime;
     private int productNo;
+    private int isSell;
 }
