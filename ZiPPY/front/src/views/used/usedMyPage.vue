@@ -14,7 +14,7 @@
                             <div>{{this.nickName}}</div>
                         </div>
                     </div>
-                    <div class="used-point-report">
+                    <!-- <div class="used-point-report">
                         <div>
                             <h4>평점</h4>
                         </div>
@@ -30,13 +30,7 @@
                             <img src="	https://m.bunjang.co.kr/pc-static/resource/982587b0e24b8bccea13.png" width="30px"
                                 height="29px" alt="별점 0">
                         </div>
-                    </div>
-                    <div id="used-user-report">
-                        <button id="used-detail-report">
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAbBJREFUeNrsls9LAkEcxb+au+JSGIEQyGbBdg881CmConsE9Qd07S/p0qG69RcUdOzSoUt0UujS3c0kEQULU7R17c2wyhazNbvaesgHH9xZh3kzb35tpNfrUV/5fJ7+Stls9ks5FqCNKTDv/L6AjyAdiUrWi4AdcAXewDMwwTu4AQdAHbXxCrh3TJm55vpPAVvgHDyC7VEZM6M7sCbRlgGuwaGM8U9zvAkunbn0M/8nzvNpkBHr4MKnqVvHYDWI8RGY84wpFiNFUX5L8sxZlNJRL4E9UeVkMknpdJoSiQQvt9ttKpfLVK1WhVsXbIBb2RHvi96nUikyDGNgyhSPxymTyZCu614D2/UT9bqooqZpnrm6OyNYoNLGy6KKxWKRR/td3W6XCoWCV/sLfoyFJ5Bt29zAfbb3O9TpdLzaZzFND3NkcjUaDapUKoNyvV6nWq0ms7eHM2YqlUrUarXIsiwyTTPwbeX7dmJRs8hVVeXmoRkzNZtNzjCK0pg0MQ5NosX1BKwRetjCb6lcLje2ES+GHDk72G1m/MCu2hCNZ8HrZDv9j33MVtlMiJ58X38KMADfFnDPWur9bAAAAABJRU5ErkJggg=="
-                                width="15" height="15" alt="신고 아이콘" />신고하기
-                        </button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <hr>
@@ -46,13 +40,16 @@
                         <b-tabs card>
                             <b-tab title="상품" active>
                                 <b-card-text>
+                                    <div id="noProduct" class="mx-auto" v-if="data.length == 0"
+                                        style="text-align:center">
+                                        <v-icon style="font-size:100px; color:#B3E3C3" class="mb-5">
+                                            mdi-alert-circle-outline</v-icon>
+                                        <h2 style="font-weight:bold">등록한 상품이 없습니다.</h2>
+                                    </div>
                                     <div @click="goDetail(list.productNo)" class="used-main-card"
                                         v-if="data.length != 0" v-for="list in data">
                                         <div>
-                                            <div><img
-                                                    src="http://file3.instiz.net/data/file3/2022/06/08/7/e/1/7e113a4442c27945a2a379401c5021c8.jpg"
-                                                    width="194px" height="194px">
-                                            </div>
+                                            <div><img :src="'/zippy/common/img/used/'+list.mainImg" width="191px" height="194px"></div>
                                             <div class="used-main-card-cont">
                                                 <div class="used-main-card-title">{{list.productName}}</div>
                                                 <div class="used-main-price-date">
@@ -63,13 +60,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-center">
+                                    <div class="text-center" v-if="data.length >=11">
                                         <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3">
                                         </v-pagination>
                                     </div>
                                 </b-card-text>
                             </b-tab>
-                            <b-tab title="거래 후기">
+                            <!-- <b-tab title="거래 후기">
                                 <b-card-text>
                                     <h5>상점후기</h5>
                                     <hr>
@@ -208,7 +205,7 @@
                                         </div>
                                     </div>
                                 </b-card-text>
-                            </b-tab>
+                            </b-tab> -->
                         </b-tabs>
                     </b-card>
                 </div>
@@ -253,10 +250,10 @@
         },
         created() {
             axios({
-                url: "/used/userMain",
+                url: "/zippy/used/userMain",
                 methods: "GET",
                 params: {
-                    email: this.$route.query.email,
+                    email: this.$store.state.loginInfo.email,
                     pageNum: this.page
                 }
             }).then(res => {
@@ -264,7 +261,6 @@
                 this.data = res.data.list;
                 this.pageCount = res.data.pages;
                 this.nickName = this.data[0].nickName;
-                this.rv.email = this.$store.state.loginInfo.email;
             }).catch(error => {
                 console.log(error);
             })
