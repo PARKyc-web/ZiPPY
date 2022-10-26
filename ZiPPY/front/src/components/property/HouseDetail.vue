@@ -2,17 +2,17 @@
   <div>
     <div id="main-background"></div>
     <div id="container" v-if="this.houseDetail[0]">
-      <v-carousel  id="imgSlide" hide-delimiter-background>
-        <v-carousel-item v-for="(item,i) in items" :key="i" :src="item.src" reverse-transition="fade-transition"
-         ></v-carousel-item>
+      <v-carousel id="imgSlide" hide-delimiter-background>
+        <v-carousel-item v-for="(item,i) in items" :key="i" :src="item.src" reverse-transition="fade-transition">
+        </v-carousel-item>
       </v-carousel>
+       <v-chip-group multiple active-class="green--text" v-model="selectedTags" style="margin: 0 auto">
+            <v-chip v-for="tag in tags" :key="tag" filter outlined disabled>
+              {{ tag }}
+            </v-chip>
+         </v-chip-group>
       <section>
         <article>
-          <v-chip-group multiple active-class="green--text" v-model="selectedTags">
-                  <v-chip v-for="tag in tags" :key="tag" filter outlined disabled>
-                    {{ tag }}
-                  </v-chip>
-                </v-chip-group>
           <h4 class="title">가격정보</h4>
           <table>
             <tr>
@@ -109,10 +109,11 @@
                     mdi-stairs</v-icon> {{this.houseDetail[0].floor}}층
                 </h5>
                 <hr>
-                <v-card-title style="font-weight: bold;" @click="goAgentDetail">{{this.houseDetail[0].compName}}
-                  <v-icon color="#B3E3C3" style="margin-left: 3px">mdi-information-outline</v-icon>
-                </v-card-title>
-
+                <div style="cursor: pointer">
+                  <v-card-title style="font-weight: bold;" @click="goAgentDetail">{{this.houseDetail[0].compName}}
+                    <v-icon color="#B3E3C3" style="margin-left: 3px">mdi-information-outline</v-icon>
+                  </v-card-title>
+                </div>
                 <!-- 채팅 버튼 -->
                 <v-row justify="center">
                   <v-dialog v-model="dialog" persistent max-width="600px">
@@ -163,8 +164,7 @@
     },
     data() {
       return {
-        items: [
-          {
+        items: [{
             src: 'http://localhost:8090/zippy/common/img/property/image1.jpg',
           },
           {
@@ -182,18 +182,18 @@
         price: '',
         dialog: false,
         tags: [
-        '조용한',
-        '역세권',
-        '학세권',
-        '신축',
-        '즉시입주',
-        '풀옵션',
-        '올수리',
-        '탑층',
-        '공원뷰',
-        '수변뷰',
-      ],
-      selectedTags: [],
+          '조용한',
+          '역세권',
+          '학세권',
+          '신축',
+          '즉시입주',
+          '풀옵션',
+          '올수리',
+          '탑층',
+          '공원뷰',
+          '수변뷰',
+        ],
+        selectedTags: [],
       }
     },
     created() {
@@ -269,6 +269,7 @@
   }
 
   #main-background {
+    margin-top: 76px;
     width: 100vw;
     height: 450px;
     background-color: #B3E3C3;
