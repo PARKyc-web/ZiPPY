@@ -69,6 +69,7 @@ import usedInsert from "../views/used/usedInsert.vue";
 import usedKeyword from "../views/used/usedKeyword.vue";
 import usedwishList from "../views/used/usedWishList.vue";
 import usedUserPage from "../views/used/usedUserPage.vue";
+import usedMyPage from "../views/used/usedMyPage.vue";
 
 import companyInfo from '@/views/seller/companyInfo.vue';
 import userInfo from '@/views/mypage/userInfo.vue';
@@ -160,6 +161,11 @@ const routes = [
         component : shopWish
       },
       {
+        path : "used/user",
+        name : "mypage-userPage",
+        component : usedUserPage
+      },
+      {
         path : "used/insert",
         name : "mypage-insert-product",
         component : usedInsert
@@ -173,6 +179,11 @@ const routes = [
         path : "used/wish",
         name : "mypage-wishList",
         component : usedwishList
+      },
+      {
+        path : "used/myPage",
+        name : "mypage-usedMyPage",
+        component : usedMyPage
       },
     ]
   },
@@ -446,6 +457,11 @@ const routes = [
     path: "/used/user",
     name: "usedUserPage",
     component: usedUserPage
+  },
+  {
+    path: "/used/myPage",
+    name: "usedMyPage",
+    component: usedMyPage
   },
 
 

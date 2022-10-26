@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav-bar @click="search($event)"></nav-bar>
+    <nav-bar @click="search($event,cate)"></nav-bar>
     <div id="container">
       <div>
         <div class="used-main-title">
@@ -12,11 +12,14 @@
       <hr />
       <div id="used-cate-update">
         <div>
-          <div></div>
         </div>
         <div v-if="this.$store.state.loginInfo != null && this.$store.state.loginInfo.email == this.product.email">
-          <button class="used-up-del-btn" @click="goUpdate(product.productNo)">수정하기</button>
-          <button class="used-up-del-btn" @click="delProduct()">삭제</button>
+          <v-btn width="90px" class="mr-2" outlined color="#64c481" @click="goUpdate(product.productNo)">
+            수정
+          </v-btn>
+          <v-btn width="90px" depressed color=#B3E3C3 @click="delProduct()">
+            삭제
+          </v-btn>
         </div>
       </div>
       <div id="used-detail-main">
@@ -102,9 +105,12 @@
                       </button>
                     </div>
                     <div>
-                      <button class="used-detail-wish" width="30px">
+                      <v-btn width="160" depressed color=#B3E3C3>
                         <i class="fa-solid fa-comments" @click="createChat()"> 채팅하기</i>
-                      </button>
+                      </v-btn>
+                      <!-- <button class="used-detail-wish" width="30px">
+                        <i class="fa-solid fa-comments" @click="createChat()"> 채팅하기</i>
+                      </button> -->
                     </div>
                   </div>
                 </div>
@@ -176,7 +182,8 @@
         serviceType: 1
       },
       heart: 0,
-      wish: ""
+      wish: "",
+      cate : ""
     }),
     filters: {
       comma(val) {
@@ -191,7 +198,6 @@
             pNo: this.$route.query.pNo
           }
         }).then(res => {
-          console.log(res);
           this.product = res.data;
           this.data.serviceId = this.product.productNo;
           this.data.email = this.$store.state.loginInfo.email;
@@ -247,7 +253,6 @@
             pNo: this.$route.query.pNo
           }
         }).then(res => {
-          console.log(res);
           window.location.assign('/used');
 
         }).catch(err => {
@@ -255,7 +260,6 @@
         })
       },
       goUserPage(email) {
-        console.log(this.product.email);
         this.$router.push('/used/user?email=' + email);
       },
       rewrite() {
@@ -309,27 +313,12 @@
         }
       },
       goUpdate(no) {
-        console.log(this.product.productNo);
         this.$router.push('/used/update?pNo=' + no);
       },
       search: function (e) {
-        var categoryVal = e.target.innerText;
-        axios({
-          url: "http://localhost:8090/zippy/used/main",
-          method: "GET",
-          params: {
-            keyword: "",
-            location: "",
-            category: categoryVal,
-            checked: "",
-            dropbox: ""
-          }
-        }).then(res => {
-          console.log(res);
-          this.data = res.data;
-        }).catch(err => {
-          console.log(err)
-        })
+        var cate = e.target.innerText;
+        sessionStorage.setItem("cate",cate);
+        this.$router.push('/used');
       },
       addWish: function () {
         axios({
@@ -355,7 +344,6 @@
             bNo: bNo
           }
         }).then(res => {
-          console.log(res);
         }).catch(err => {
           console.log(err)
         })
@@ -380,7 +368,6 @@
               chatType: 1
             }
           });
-
           console.log(temp);
         }
       },
@@ -395,7 +382,6 @@
           },
           data: JSON.stringify(this.report)
         }).then(res => {
-          console.log(res);
         }).catch(err => {
           console.log(err)
         })
@@ -530,11 +516,7 @@
   }
 
   #used-cate-update button {
-    border: none;
-    color: white;
-    background-color: #b3e3c3;
-    font-size: x-large;
-    border-radius: 10px;
+    margin-left: 1px;
   }
 
   #used-img-slide {

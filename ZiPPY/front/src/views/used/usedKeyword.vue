@@ -157,7 +157,7 @@
   .submitBtn {
     border: none;
     background-color: #b3e3c3;
-    color: white;
+    color:black;
     width: 150px;
     height: 50px;
     margin-left: 1px;
