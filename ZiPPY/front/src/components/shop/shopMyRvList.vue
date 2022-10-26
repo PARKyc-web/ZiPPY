@@ -1,9 +1,14 @@
 <template>
   <div class="mx-auto pt-5" id="cart-con">
-    <h3 style="margin:30px">장바구니</h3>
+    <h3 style="margin:30px">후기내역</h3>
 
     <v-card>
       <v-data-table :headers="headers" :items="reviews">
+        <!-- 이미지 -->
+        <!-- 별점 -->
+        <template v-slot:item.PRO_MAIN_IMG="{ item }">
+          <img class="ma-5" :src="'/zippy/common/img/shop/'+item.PRO_MAIN_IMG" width="150" height="150">
+        </template>
         <!-- 별점 -->
         <template v-slot:item.REVIEW_CONTENT="{ item }">
           <div class="pa-5">

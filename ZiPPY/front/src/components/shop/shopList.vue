@@ -25,14 +25,14 @@
       <div id="product-list">
         <!-- 상품 없을 때-->
         <div id="noProduct" class="mb-10 pt-10" v-if="products.length == 0">
-          <v-icon style="font-size:100px; color:#B3E3C3" class="mb-5">mdi-alert-circle-outline</v-icon>
-          <h2 style="font-weight:bold">고객님께서 찾으시는 상품이 없습니다.</h2>
-          <p>다시 검색해주세요.</p>
+          <v-icon style="font-size:180px; color:#B3E3C3" class="mb-5">mdi-alert-circle-outline</v-icon>
+          <h2 class="mt-5" style="font-weight:bold">고객님께서 찾으시는 상품이 없습니다.</h2>
+          <p class="mt-5">다시 검색해주세요.</p>
         </div>
         <!-- 상품정보 -->
         <div id="product-info" v-for="product in products" :key="product.proNo" @click="goDetail(product.proNo)">
           <div id="product-img">
-            <img :src="require(`../../assets/shop/productImg/${product.proMainImg}.jpg`)">
+            <img :src="'/zippy/common/img/shop/'+product.proMainImg">
           </div>
           <div class="product-about">
             <h6 class="product-seller-name">{{product.compName}}</h6>
@@ -40,9 +40,9 @@
             <h5 style="display:inline-block">{{product.proPrice | comma}}</h5>
             <p class="ma-0" style="display:inline-block; font-size:small">원</p>
           </div>
-          <h6 class="product-seller-name">
+          <!-- <h6 class="product-seller-name">
             <v-icon style="font-size:15px">mdi-star</v-icon> 4.5(10)
-          </h6>
+          </h6> -->
         </div>
       </div>
       <!-- 페이지네이션 -->
@@ -85,7 +85,7 @@
     methods: {
       //디테일 페이지로 이동
       goDetail(no) {
-        this.$router.push('shop/detail?pno=' + no)
+        this.$router.push('/shop/detail?pno=' + no)
       },
       goList(cate) {
         this.$router.push({
@@ -173,6 +173,7 @@
   #main-container {
     display: flex;
     margin: 0;
+    padding-bottom: 100px;
   }
 
   /* 카테고리 */
@@ -217,7 +218,7 @@
   #noProduct {
     height: 400px;
     text-align: center;
-    margin-left: 26%;
+    margin: 0 auto;
   }
 
   #product-list {

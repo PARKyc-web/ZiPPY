@@ -79,7 +79,7 @@
                   <td class="pl-9">{{product.productVO.proName}}</td>
                   <td>
                     <v-img width="150px" height="150px"
-                      :src="require(`../../assets/shop/productImg/${product.productVO.proMainImg}.jpg`)"
+                    :src="'/zippy/common/img/shop/'+product.productVO.proMainImg"
                       style="cursor:default"></v-img>
                   </td>
                   <td>{{product.optName}}</td>

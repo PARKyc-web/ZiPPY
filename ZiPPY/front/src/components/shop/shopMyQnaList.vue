@@ -4,6 +4,11 @@
 
     <v-card>
       <v-data-table :headers="headers" :items="qnas">
+          <!-- 이미지 -->
+          <template v-slot:item.PRO_MAIN_IMG="{ item }">
+          <img class="ma-5" :src="'/zippy/common/img/shop/'+item.PRO_MAIN_IMG" width="150" height="150">
+        </template>
+        <!-- 별점 -->
         <!-- 답변상태 -->
         <template v-slot:item.ANSWER_STATUS="{ item }">
           <div v-if="item.ANSWER_STATUS==0">

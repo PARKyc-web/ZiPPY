@@ -20,7 +20,7 @@
           <div id="used-wish-product">
             <div class="used-wish-img-1">
               <img
-                src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcnRs2T%2FbtrG3rPqyGx%2FgvSvyKfokqo8yQomsVjuQK%2Fimg.jpg"
+              :src="'/zippy/common/img/shop/'+list.PRO_MAIN_IMG"
                 width="200px" height="200px" />
               <!--<div id="wish-soldout-img" width="200px" height="200px" v-if="list.isSell == 1">판매완료</div>-->
               <div id="used-wish-info">

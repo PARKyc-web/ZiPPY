@@ -4,7 +4,7 @@
     <div id="detail-container">
       <v-carousel height="450" hide-delimiter-background :show-arrows="false" class="mt-5">
         <v-carousel-item v-for="(img, i) in imgs" :key="i">
-          <v-img :src="require(`../../assets/shop/productImg/${imgs[i]}.jpg`)" height="100%">
+          <v-img :src="'/zippy/common/img/shop/'+imgs[i]" height="100%">
             <v-row class="fill-height" align="center" justify="center">
             </v-row>
           </v-img>

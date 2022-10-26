@@ -12,7 +12,7 @@
       <!-- 이미지 -->
       <template v-slot:item.productVO.proMainImg="{ item }">
         <v-img class="ma-5" width="150px" height="150px"
-          :src="require(`../../assets/shop/productImg/${item.productVO.proMainImg}.jpg`)"
+        :src="'/zippy/common/img/shop/'+item.productVO.proMainImg"
           @click="goDetail(item.cartPno)"></v-img>
       </template>
       <!-- 상품가격 -->

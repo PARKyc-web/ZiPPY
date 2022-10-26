@@ -27,7 +27,7 @@
       <!-- 아이템 -->
         <div id="main-item" v-for="product in products" :key="product.proNo" @click="goDetail(product.proNo)">
           <div id="main-product-img">
-            <img :src="require(`../../assets/shop/productImg/${product.proMainImg}.jpg`)">
+            <img :src="'/zippy/common/img/shop/'+product.proMainImg">
           </div>
           <div class="product-about" id="left">
             <h6 id="product-name">{{ product.proName }}</h6>
@@ -44,7 +44,7 @@
         </div>
         <div id="main-item" v-for="product in products" :key="product.proNo" @click="goDetail(product.proNo)">
           <div id="main-product-img">
-            <img :src="require(`../../assets/shop/productImg/${product.proMainImg}.jpg`)">
+            <img :src="'/zippy/common/img/shop/'+product.proMainImg">
           </div>
           <div class="product-about" id="left">
             <h6 id="product-name">{{ product.proName }}</h6>
