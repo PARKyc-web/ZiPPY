@@ -72,7 +72,17 @@
         productPosition: [],
         price: '',
         clusterer: 0,
-        markers: []
+        markers: [],
+        initData: {
+          houseType: '아파트',
+          saleType: '',
+          minSize: 0,
+          maxSize: 999999,
+          tagsToString: '',
+          year: 1000,
+          sigungu: '',
+          range: [0, 150000],
+        }
       }
     },
     filters: {
@@ -253,13 +263,39 @@
           // 현재 지도 레벨에서 1레벨 확대한 레벨
           var level = map.getLevel() - 1;
 
+
+          //////////////////// 여기서 get center 를 이용해서 시군구 구한 다 음,  그 정보를 넘겨주기
+          var coord = new kakao.maps.LatLng(37.56496830314491, 126.93990862062978);
+var callback = function(result, status) {
+    if (status === kakao.maps.services.Status.OK) {
+        console.log('그런 너를 마주칠까 ' + result[0].address.address_name + '을 못가');
+    }
+};
+
+geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+
+          var callback = function (result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+
+              console.log('지역 명칭 : ' + result[0].address_name);
+              console.log('행정구역 코드 : ' + result[0].code);
+              console.log("지역 명칭 및 해정구역 코드: ", initThis.sigungu);
+            }
+          };
+
+          geocoder.coord2RegionCode(126.9786567, 37.566826, callback);
+
+
+          console.log("click: ", initThis.sigungu);
+          initThis.getPropertyList(initThis.sigungu);
+          // initThis.initData.sigungu = initThis.sigungu;
+          // initThis.searchPropertyList(initThis.initData);
+
           // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다
           map.setLevel(level, {
             anchor: cluster.getCenter()
           });
 
-          console.log("click: ", initThis.sigungu);
-          initThis.getPropertyList(initThis.sigungu);
         });
       },
       getPropertyList(sigungu) {
@@ -267,7 +303,7 @@
             url: "http://localhost:8090/zippy/property/getPropertyList",
             methods: "GET",
             params: {
-              sigungu: sigungu + '%'
+              sigungu: sigungu + '%',
             }
           }).then(response => {
             // 성공했을 때
@@ -346,6 +382,14 @@
             console.log(response);
             this.houseProducts = response.data;
 
+            this.initData.houseType = data.houseType;
+            this.initData.saleType = data.saleType + '%';
+            this.initData.minSize = data.minSize;
+            this.initData.maxSize = data.maxSize;
+            this.initData.year = data.year;
+            this.initData.sigungu = data.sigungu + '%';
+            this.initData.range = data.range;
+
             //////// 마크 클러스터러 모두 지우고, 새로운 마크 클러스터러 추가
             this.clusterer.clear();
             this.showclusterer();
@@ -379,7 +423,7 @@
 
         for (let i = 0; i < this.houseProducts.length; i++) {
           // 주소로 좌표를 검색합니다
-            geocoder.addressSearch(address[i], function (result, status) {
+          geocoder.addressSearch(address[i], function (result, status) {
             // 정상적으로 검색이 완료됐으면 
             if (status === kakao.maps.services.Status.OK) {
               var marker = new kakao.maps.Marker({
