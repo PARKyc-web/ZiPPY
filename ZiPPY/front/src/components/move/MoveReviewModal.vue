@@ -1,100 +1,109 @@
 <template>
-  <div class="review-wrap">
-    <move-nav-bar @click="categoryVal=$event.target.innerText"></move-nav-bar>
+  <v-dialog v-model="dialog" persistent :retain-focus="false" max-width="500px">
+    <template v-slot:activator="{ on, attrs }">
+      <!-- <v-btn  v-if="list.reservStatus == 5" id="reviewBtn" depressed color=#B3E3C3 v-bind="attrs" v-on="on" width="100px">
+        후기작성
+      </v-btn>
+      <v-btn v-else="list.reservStatus == 6" disabled depressed color=#D6D6D6 width="100px">
+        작성완료
+      </v-btn> -->
+      <v-btn  id="reviewBtn" depressed color=#B3E3C3 v-bind="attrs" v-on="on" width="100px">
+        후기작성
+      </v-btn>
+    </template>
     <div v-if="list.userEmail == this.$store.state.loginInfo.email">
                   
       
     
-              <v-card>
+                  <v-card>
+    
+                      <v-card-title>
+                          <span class="text-h6">견적정보</span>
+                      </v-card-title>
+                      <v-card-text>
+                          <div><span>NO.{{list.movingResponseNo}}</span></div>
+                          <div><span>견적일자 : {{list.requestDate}}</span></div>
+                          <div><span>글쓴이 : {{list.userEmail}}</span></div>
+                          <div v-if="list.secondEstimateType == null">
+                              <div><span>견적타입: {{list.firstEstimateType}}</span></div>
+                          </div>
+                          <div v-if="list.secondEstimateType != null">
+                              <div><span>견적타입 : {{list.secondEstimateType}}</span></div>
+                          </div>
+    
+                      </v-card-text>
+    
+                      <hr />
+    
+                      <v-card-title>
+                          <span class="text-h6">이사후기</span>
+                      </v-card-title>
+                      <v-card-text>
+                          <v-container style="color:#212529">
+                              <v-row>
+                                  <!-- 별점선택 -->
+                                  <v-col cols="11">
+                                      <table>
+                                          <tbody>
+                                              <tr style="border: 0">
+                                                  <td>손이 빨라요</td>
+                                                  <td>
+                                                      <b-form-rating v-model="rate1" no-border color="#64c481"
+                                                          size="sm"></b-form-rating>
+                                                  </td>
+                                              </tr>
+                                              <tr style="border: 0">
+                                                  <td>전문적이에요</td>
+                                                  <td>
+                                                      <b-form-rating v-model="rate2" no-border color="#64c481"
+                                                          size="sm"></b-form-rating>
+                                                  </td>
+                                              </tr>
+                                              <tr style="border: 0">
+                                                  <td>친절해요</td>
+                                                  <td>
+                                                      <b-form-rating v-model="rate3" no-border color="#64c481"
+                                                          size="sm"></b-form-rating>
+                                                  </td>
+                                              </tr>
+                                              <tr style="border: 0">
+                                                  <td>마무리가 깔끔해요</td>
+                                                  <td>
+                                                      <b-form-rating v-model="rate4" no-border color="#64c481"
+                                                          size="sm"></b-form-rating>
+                                                  </td>
+                                              </tr>
+                                          </tbody>
+                                      </table>
+                                  </v-col>
+                                  <v-col cols="12">
+                                      리뷰
+                                      <v-textarea solo v-model="reviewContent" no-border name="input-7-4"
+                                          label="리뷰를 입력해주세요">
+                                      </v-textarea>
+                                  </v-col>
+                              </v-row>
+                          </v-container>
+                      </v-card-text>
+                      <v-card-actions>
+                          <v-spacer></v-spacer>
+    
+                          <v-btn color="#212529" text @click="closeReview()">
+                            닫기
+                            </v-btn>
+    
+                          <div >
+                          <input type="button" id="subBtn" value="등록"
+                              color="success lighten -2" text @click="insertReview()" />
+                            </div>  
+    
+    
+                      </v-card-actions>
+                  </v-card>
+           
+          </div>
 
-                  <v-card-title>
-                      <span class="text-h6">견적정보</span>
-                  </v-card-title>
-                  <v-card-text>
-                      <div><span>NO.{{list.movingResponseNo}}</span></div>
-                      <div><span>견적일자 : {{list.requestDate}}</span></div>
-                      <div><span>글쓴이 : {{list.userEmail}}</span></div>
-                      <div v-if="list.secondEstimateType == null">
-                          <div><span>견적타입: {{list.firstEstimateType}}</span></div>
-                      </div>
-                      <div v-if="list.secondEstimateType != null">
-                          <div><span>견적타입 : {{list.secondEstimateType}}</span></div>
-                      </div>
-
-                  </v-card-text>
-
-                  <hr />
-
-                  <v-card-title>
-                      <span class="text-h6">이사후기</span>
-                  </v-card-title>
-                  <v-card-text>
-                      <v-container style="color:#212529">
-                          <v-row>
-                              <!-- 별점선택 -->
-                              <v-col cols="11">
-                                  <table>
-                                      <tbody>
-                                          <tr style="border: 0">
-                                              <td>손이 빨라요</td>
-                                              <td>
-                                                  <b-form-rating v-model="rate1" no-border color="#64c481"
-                                                      size="sm"></b-form-rating>
-                                              </td>
-                                          </tr>
-                                          <tr style="border: 0">
-                                              <td>전문적이에요</td>
-                                              <td>
-                                                  <b-form-rating v-model="rate2" no-border color="#64c481"
-                                                      size="sm"></b-form-rating>
-                                              </td>
-                                          </tr>
-                                          <tr style="border: 0">
-                                              <td>친절해요</td>
-                                              <td>
-                                                  <b-form-rating v-model="rate3" no-border color="#64c481"
-                                                      size="sm"></b-form-rating>
-                                              </td>
-                                          </tr>
-                                          <tr style="border: 0">
-                                              <td>마무리가 깔끔해요</td>
-                                              <td>
-                                                  <b-form-rating v-model="rate4" no-border color="#64c481"
-                                                      size="sm"></b-form-rating>
-                                              </td>
-                                          </tr>
-                                      </tbody>
-                                  </table>
-                              </v-col>
-                              <v-col cols="12">
-                                  리뷰
-                                  <v-textarea solo v-model="reviewContent" no-border name="input-7-4"
-                                      label="리뷰를 입력해주세요">
-                                  </v-textarea>
-                              </v-col>
-                          </v-row>
-                      </v-container>
-                  </v-card-text>
-                  <v-card-actions>
-                      <v-spacer></v-spacer>
-
-                      <v-btn color="#212529" text @click="closeReview()">
-                        닫기
-                        </v-btn>
-
-                      <div >
-                      <input type="button" id="subBtn" value="등록"
-                          color="success lighten -2" text @click="insertReview()" />
-                        </div>  
-
-
-                  </v-card-actions>
-              </v-card>
-       
-      </div>
-
-  </div>
-
+  </v-dialog>
 </template>
 
 <script>
@@ -179,7 +188,7 @@ import swal from 'sweetalert2';
                         email: 'move123@move.com',
                         userEmail: this.$store.state.loginInfo.email,
                         // movingResponseNo : this.list.movingResponseNo,
-                        movingResponseNo: 15,
+                        movingResponseNo: 18,
                         pageNum: this.page
 
                     }

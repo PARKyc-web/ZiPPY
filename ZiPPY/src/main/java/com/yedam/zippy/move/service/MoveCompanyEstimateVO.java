@@ -42,6 +42,7 @@ public class MoveCompanyEstimateVO {
   Integer secondEstimatePrice;
   String secondEstimateType;
   Integer reservStatus;
+  Integer reservStatuss;
   String compName;
   String responseMemo;
   

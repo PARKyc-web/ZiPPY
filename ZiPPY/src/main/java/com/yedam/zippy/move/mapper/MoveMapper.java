@@ -81,6 +81,9 @@ public interface MoveMapper {
   //사용자가 받은 견적 리스트 확인 - 단건
   public MoveMyListVO getMyEstimateListOne(@Param("movingResponseNo")Integer movingResponseNo, @Param("userEmail")String userEmail);
   
+  //사용자의 예약내역 확인 (요청:3, 예약확정:4, 이사완료:5)
+  public List<MoveMyListVO> moveReserve(MoveMyListVO vo);
+  
   //업체조회 페이지
   public List<MoveMyListVO> getCompanyList(MoveMyListVO vo);
   
