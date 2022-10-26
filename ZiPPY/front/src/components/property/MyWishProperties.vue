@@ -33,12 +33,13 @@
 
           <table>
             <tr>
-              <td style="width: 35%;">여기에 이미지</td>
+              <td style="width: 35%;"><img :src="'http://localhost:8090/zippy/common/img/property/' + item.mainImg"
+                      style="width: 100%; height: 100%" /></td>
               <td style="width: 65%;">
                 <v-row align="center" class="mx-0">
                   <div>매물번호 {{item.productId}}</div>
                 </v-row>
-                <v-card-title style="font-weight: bold;">{{item.saleType}} {{item.price}}
+                <v-card-title style="font-weight: bold;">{{item.saleType}} {{item.price | oneHundredMillion}}
                 </v-card-title>
                 <p class="card_contents">{{item.houseType}} · {{item.houseName}}</p>
                 <p class="card_contents">{{item.sigungu}}</p>
@@ -80,6 +81,24 @@
     watch: {
       page() {
         this.getPropertyList();
+      }
+    },
+    filters: {
+      oneHundredMillion: function (price) {
+        let result = "";
+
+        if (price.length > 4) {
+          result += price.substr(0, price.length - 4) + '억';
+          price = price.substr(price.length - 4, price.length);
+          if (price == '0000') return result;
+        }
+        price = price.substr(price.length - 4, price.length - 3) + ',' + price.substr(price.length - 3, price.length);
+        if(price[0]=='0') {
+          price = price.substr(price.length - 3, price.length);
+        }
+        result += price;
+
+        return result;
       }
     },
     methods: {

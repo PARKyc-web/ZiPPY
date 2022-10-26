@@ -1,73 +1,18 @@
 <template>
   <div id="container">
-    <div id="agent_profile">
-      <div id="agent_profile_left">
-        <table>
-          <tr>
-            <td>
-              <h3 id="main_title">{{this.profile[0].compName}}</h3>
-            </td>
-            <td>
-              <update-agent-profile :profile="this.profile[0]"></update-agent-profile>
-            </td>
-          </tr>
-        </table>
-        <table>
-          <tr>
-            <td>
-              <h4 class="title">대표자</h4>
-            </td>
-            <td>
-              <h5 style="margin-left: 10px;">
-                {{this.profile[0].ceoName}}
-              </h5>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <h4 class="title">연락처</h4>
-            </td>
-            <td>
-              <h5 style="margin-left: 10px;">
-                {{this.profile[0].phone}}
-              </h5>
-            </td>
-          </tr>
-        </table>
-
-        <h4 class="title">인사말</h4>
-        <p class="contents">{{this.profile[0].compIntro}}</p>
-      </div>
-      <div id="agent_profile_right">
-        <h4 class="title" style="margin-top: 83.6px;">오시는 길</h4>
-        <div class="contents">
-          <p>{{this.profile[0].compAddress}}</p>
-          <!-- 지도 -->
-          <basic-marker-map :address="this.profile[0].compAddress" :name="this.profile[0].compName" />
-        </div>
-      </div>
-    </div>
-    <hr>
     <div>
-      <table>
-        <tr>
-          <td>
-            <h4 class="title">
-              매물 목록
-            </h4>
-          </td>
-          <td>
-            <insert-property :email="this.profile[0].email" />
-          </td>
-        </tr>
-      </table>
+      <h4 class="title">
+        매물 목록
+      </h4>
+
       <div class="row" style="margin-left:35px ;">
-        <v-card v-if="properties.length != 0" v-for="item in properties" style="width: 45%; margin: 1%; padding: 20px;" @click="goHouseDetail(item.productId)">
+        <v-card v-if="properties.length != 0" v-for="item in properties" style="width: 45%; margin: 1%; padding: 20px;"
+          @click="goHouseDetail(item.productId)">
           <v-card-text>
             <table>
               <tr>
                 <td style="width: 35%;"><img :src="'http://localhost:8090/zippy/common/img/property/' + item.mainImg"
-                      style="width: 100%; height: 100%" /></td>
+                    style="width: 100%; height: 100%" /></td>
                 <td style="width: 65%;">
                   <v-row align="center" class="mx-0">
                     <div>매물번호 {{item.productId}}</div>
@@ -76,7 +21,10 @@
                   </v-card-title>
                   <p class="card_contents">{{item.houseType}} · {{item.houseName}}</p>
                   <p class="card_contents">{{item.sigungu}}</p>
-                  <p class="card_contents"><v-icon>mdi-border-outside</v-icon>{{item.areaExclusive}}m² · <v-icon>mdi-stairs</v-icon>{{item.floor}}층</p>
+                  <p class="card_contents">
+                    <v-icon>mdi-border-outside</v-icon>{{item.areaExclusive}}m² · <v-icon>mdi-stairs</v-icon>
+                    {{item.floor}}층
+                  </p>
                   <p class="card_contents">{{item.detailContents}}</p>
                   <update-property :productId="item.productId"></update-property>
                 </td>
@@ -123,17 +71,15 @@
           url: "http://localhost:8090/zippy/property/getAgentProfile",
           methods: "GET",
           params: {
-            email: this.$route.query.email
+            email: this.$store.state.loginInfo.email
           }
         }).then(response => {
           // 성공했을 때
-          console.log('getAgentProfile success!');
-          console.log(response);
+          // console.log(response);
           this.profile = response.data;
         })
         .catch(error => {
           // 에러가 났을 때
-          console.log('getAgentProfile fail!');
           console.log(error);
 
         })
@@ -153,7 +99,7 @@
           if (price == '0000') return result;
         }
         price = price.substr(price.length - 4, price.length - 3) + ',' + price.substr(price.length - 3, price.length);
-        if(price[0]=='0') {
+        if (price[0] == '0') {
           price = price.substr(price.length - 3, price.length);
         }
         result += price;
@@ -167,19 +113,17 @@
             url: "http://localhost:8090/zippy/property/getAgentProperties",
             methods: "GET",
             params: {
-              email: this.$route.query.email,
+              email: this.$store.state.loginInfo.email,
               pageNum: this.page
             }
           }).then(response => {
             // 성공했을 때
-            console.log('getAgentProperties success!');
-            console.log(response);
+            // console.log(response);
             this.properties = response.data.list;
             this.pageCount = response.data.pages;
           })
           .catch(error => {
             // 에러가 났을 때
-            console.log('getAgentProperties fail!');
             console.log(error);
           })
       },
