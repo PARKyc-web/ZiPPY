@@ -8,6 +8,7 @@
 	<name>ZiPPY</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
+	
 	<properties>
 		<java-version>11</java-version>
 		<org.springframework-version>5.3.16</org.springframework-version>
@@ -357,7 +358,7 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId> <!-- 명령어를 실행 시키도록 해주는 plugin -->
+				<groupId>org.codehaus.mojo</groupId> 
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.6.0</version>
 				<executions>
@@ -398,8 +399,7 @@
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>3.1.0</version>
-				<executions>
-					<!-- disc 폴더 에서 html 파일을 /src/main/resources/templates 로 이동 -->
+				<executions>					
 					<execution>
 						<id>copy front-end template</id>
 						<goals>
@@ -418,8 +418,7 @@
 							</resources>
 						</configuration>
 					</execution>
-
-					<!-- disc 폴더 에서 html 파일을 제외하고 /src/main/resources/static 폴더로 이동 -->
+					
 					<execution>
 						<id>copy front-end static assets</id>
 						<goals>

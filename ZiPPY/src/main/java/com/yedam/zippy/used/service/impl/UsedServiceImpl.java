@@ -151,14 +151,7 @@ public class UsedServiceImpl implements UsedService {
 
   @Override
   @Transactional
-  public void updateUsedProduct(UsedProductVO product, List<MultipartFile> images) {
-    System.out.println("================================ RUNNNNNNNNNNN~~~~~~~~~~~~");
-    System.out.println("================================ RUNNNNNNNNNNN~~~~~~~~~~~~");
-    System.out.println("================================ RUNNNNNNNNNNN~~~~~~~~~~~~");
-    System.out.println("================================ RUNNNNNNNNNNN~~~~~~~~~~~~");
-    System.out.println("================================ RUNNNNNNNNNNN~~~~~~~~~~~~");
-    System.out.println("================================ RUNNNNNNNNNNN~~~~~~~~~~~~");
-    System.out.println("================================ RUNNNNNNNNNNN~~~~~~~~~~~~");
+  public void updateUsedProduct(UsedProductVO product, List<MultipartFile> images) {   
     mapper.deleteImg(product);
     
     String mainImage = commonService.saveImage(images.get(0), "used");
@@ -168,10 +161,8 @@ public class UsedServiceImpl implements UsedService {
     UsedImagesVO vo = new UsedImagesVO();
     vo.setProductNo(product.getProductNo());
     vo.setImage(mainImage);
-    mapper.insertImg(vo);
-    System.out.println("아니 반복문 전인데 실행 됩니까?");
-    for(int i=1; i<images.size(); i++) {
-      System.out.println("사진이 등록되는 중입니다");
+    mapper.insertImg(vo);    
+    for(int i=1; i<images.size(); i++) {      
       vo = new UsedImagesVO();
       vo.setProductNo(product.getProductNo());
       vo.setImage(commonService.saveImage(images.get(i), "used"));
