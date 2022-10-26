@@ -358,8 +358,7 @@
         })
       },
 
-      createChat: async function () {
-        alert("채팅방 생성 실행!");
+      createChat: async function () {        
         if (this.$store.state.loginInfo == null) {
           swal.fire({
             icon: 'warning',

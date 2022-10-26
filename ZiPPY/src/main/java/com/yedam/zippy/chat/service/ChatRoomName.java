@@ -12,4 +12,6 @@ public class ChatRoomName {
   private String user2Name;
   private String user1Pic;
   private String user2Pic;
+  private String lastChat;
+  private String lastTime;
 }

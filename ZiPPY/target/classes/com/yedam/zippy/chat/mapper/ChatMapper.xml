@@ -30,8 +30,7 @@
 			FROM chat_room c
             		WHERE c.chat_room_no = #{room.chatRoomNo}		
 		</if>
-	</select>
-	
+	</select>	
 	
 	<insert id="createChatRoom" parameterType="ChatRoomVO">
 		<selectKey resultType="Integer" keyProperty="chatRoomNo" order="BEFORE">

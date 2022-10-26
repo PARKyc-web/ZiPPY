@@ -21,7 +21,7 @@
                   <div class="row">
 
                     <div class="img-form">
-                      <img src="/zippy/common/img/member/test.jpg" id="profile_img">                                            
+                      <img :src="'/zippy/common/img/member/' + this.$store.state.loginInfo.profileImage" id="profile_img">                  
                       <v-btn
                         color="primary"
                         class="form-control"

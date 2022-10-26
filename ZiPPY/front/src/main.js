@@ -16,17 +16,16 @@ import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
 
 // Axios Setting
-var sock = new SockJS("http://localhost:8090/zippy/ws/chat");
-var ws = Stomp.over(sock);
+// var sock = new SockJS("http://localhost:8090/zippy/ws/chat");
+// var ws = Stomp.over(sock);
 
-Vue.prototype.$sock = sock
-Vue.prototype.$ws = ws
+// Vue.prototype.$sock = sock
+// Vue.prototype.$ws = ws
 
 Vue.prototype.$http = axios;
 Vue.prototype.$axios = axios;
 axios.defaults.crossDomain = true;
 // port는 sts의 포트넘버
-// axios.defaults.baseURL = "http://localhost:8090/zippy";
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);

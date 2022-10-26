@@ -70,8 +70,12 @@
 </template>
 
 <script>
-  import insertRv from '../used/insertRv.vue';
-  import axios from 'axios';
+
+import Stomp from 'webstomp-client'
+import SockJS from 'sockjs-client'
+import insertRv from '../used/insertRv.vue';
+import axios from 'axios';
+
   var reconnect = 0;
 
   // vue.js
@@ -109,6 +113,8 @@
       }
     },
     created() {
+      this.$sock = new SockJS("http://localhost:8090/zippy/ws/chat");
+      this.$ws = Stomp.over(this.$sock);
       this.sender = this.$store.getters.getName;
       this.loadContent();
       console.log("value :: " + this.value);
