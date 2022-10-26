@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="border-top:1px solid #D6D6D6;">
         <div id="side">
             <sidebar-menu :menu="property" v-if="$store.state.loginInfo.memberType == 0"></sidebar-menu>
             <sidebar-menu :menu="shop" v-if="$store.state.loginInfo.memberType == 2"></sidebar-menu>

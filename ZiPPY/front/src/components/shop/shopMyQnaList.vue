@@ -1,8 +1,6 @@
 <template>
-  <div class="mx-auto pt-10" id="cart-con">
-    <v-toolbar flat color="white">
-      <v-toolbar-title>나의 후기</v-toolbar-title>
-    </v-toolbar>
+  <div class="mx-auto pt-5" id="cart-con">
+    <h3 style="margin:30px">문의내역</h3>
 
     <v-card>
       <v-data-table :headers="headers" :items="qnas">
@@ -73,7 +71,7 @@
     created() {
       //내 후기 조회
       axios({
-        url: "/shop/getMyQna",
+        url: "/zippy/shop/getMyQna",
         method: "POST",
         params: {
           email: this.$store.state.loginInfo.email

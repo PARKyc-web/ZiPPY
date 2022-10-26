@@ -85,7 +85,7 @@
     methods: {
       //디테일 페이지로 이동
       goDetail(no) {
-        this.$router.push('/shop/detail?pno=' + no)
+        this.$router.push('shop/detail?pno=' + no)
       },
       goList(cate) {
         this.$router.push({
@@ -105,7 +105,7 @@
       //키워드로 조회
       getKeywList() {
         axios({
-          url: "/shop/keyword",
+          url: "/zippy/shop/keyword",
           method: "GET",
           params: {
             keyw: this.$route.query.keyw,
@@ -124,7 +124,7 @@
       //카테고리로 조회
       getCateList() {
         axios({
-          url: "/shop/category",
+          url: "/zippy/shop/category",
           method: "GET",
           params: {
             cate: this.$route.query.cate,

@@ -118,7 +118,7 @@
     created() {
       //주문상품 조회
       axios({
-        url: "/shop/myPurPro",
+        url: "/zippy/shop/myPurPro",
         method: "POST",
         params: {
           purNo: this.$route.query.purNo,
@@ -133,7 +133,7 @@
       })
       //주문자 정보 조회
       axios({
-        url: "/shop/oneOrder",
+        url: "/zippy/shop/oneOrder",
         method: "POST",
         params: {
           payCode: this.$route.query.payCode

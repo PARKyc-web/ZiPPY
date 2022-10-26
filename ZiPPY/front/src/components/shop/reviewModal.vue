@@ -149,7 +149,7 @@
         }
         //상태 변경
         axios({
-          url: "/shop/updateRvStatus",
+          url: "/zippy/shop/updateRvStatus",
           method: "POST",
           headers: {
             "Content-Type": "application/json"

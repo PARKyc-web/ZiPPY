@@ -229,7 +229,7 @@
             let check = '';
             //장바구니에 존재한 상품 check
             axios({
-              url: "/shop/myCartList",
+              url: "/zippy/shop/myCartList",
               method: "POST",
               params: {
                 email: this.$store.state.loginInfo.email
@@ -292,7 +292,7 @@
               //상품등록
               if (check) {
                 axios({
-                  url: "/shop/insertCart",
+                  url: "/zippy/shop/insertCart",
                   method: "POST",
                   headers: {
                     "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
@@ -342,7 +342,7 @@
             this.makePayCode();
             //purchase 테이블에 등록(1개)
             axios({
-              url: "/shop/insertPurOne",
+              url: "/zippy/shop/insertPurOne",
               headers: {
                 "Content-Type": "application/json"
               },
@@ -398,7 +398,7 @@
       //찜 추가
       addWish: function () {
         axios({
-          url: "/common/addWish",
+          url: "/zippy/common/addWish",
           method: "POST",
           headers: {
             "Content-Type": "application/json; charset=utf-8"
@@ -418,7 +418,7 @@
         bNo.push(this.wish.bookmarkNo);
         console.log(bNo);
         axios({
-          url: "/common/delWish",
+          url: "/zippy/common/delWish",
           method: "DELETE",
           data: {
             bNo: bNo
@@ -431,7 +431,7 @@
       },
       rewrite() {
         axios({
-          url: "http://localhost:8090/zippy/common/wishOne",
+          url: "/zippy/common/wishOne",
           method: "GET",
           params: {
             email: this.$store.state.loginInfo.email,
@@ -453,7 +453,7 @@
     created() {
       //단건조회
       axios({
-          url: "/shop/detail",
+          url: "/zippy/shop/detail",
           method: "GET",
           params: {
             pno: this.$route.query.pno
@@ -469,7 +469,7 @@
         }),
         //이미지조회
         axios({
-          url: "/shop/img",
+          url: "/zippy/shop/img",
           method: "GET",
           params: {
             pno: this.$route.query.pno
@@ -483,7 +483,7 @@
         }),
         //옵션조회
         axios({
-          url: "/shop/opt",
+          url: "/zippy/shop/opt",
           method: "GET",
           params: {
             pno: this.$route.query.pno
@@ -498,7 +498,7 @@
       //찜여부조회
       if (this.$store.state.loginInfo != null) {
         axios({
-          url: "/common/wishOne",
+          url: "/zippy/common/wishOne",
           method: "GET",
           params: {
             email: this.$store.state.loginInfo.email,

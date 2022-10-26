@@ -144,15 +144,18 @@
     }
 </script>
 <style scoped>
+
     #side {
         width: 13%;
         float: left;
         /* height: 100vh; */
+        position:fixed;
+        top: 80px;
     }
     #main{
         /* margin-left: 150px; */
         width: 87%;
-        margin: 0 auto;
+        float:left;
         /* height: 100vh;      */
         /* height: 89vh; */
     }

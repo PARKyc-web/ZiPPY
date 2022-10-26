@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar elevation="4" style="margin-bottom:5px">
+  <v-toolbar flat style="border-bottom:1px solid #D6D6D6">
     <div style="width: 75vw">
       <v-btn-toggle v-model="text" tile color="success lighten-1" group>
         <v-btn value="침실" @click="pushCategory($event)" class="nav-link active" aria-current="page">전체</v-btn>
@@ -27,3 +27,9 @@
     }
   }
 </script>
+
+<style>
+ .v-btn{
+    color:black;
+  }
+</style>
