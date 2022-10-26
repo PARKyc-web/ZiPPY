@@ -11,7 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.Page;
-import com.yedam.zippy.shop.service.ProductVO;
+import com.itextpdf.text.Image;
+import com.yedam.zippy.common.service.CommonService;
 import com.yedam.zippy.used.mapper.UsedMapper;
 import com.yedam.zippy.used.service.UsedImagesVO;
 import com.yedam.zippy.used.service.UsedKeywordVO;
@@ -21,11 +22,12 @@ import com.yedam.zippy.used.service.UsedService;
 @Service
 public class UsedServiceImpl implements UsedService {
 
-  private final String usedImageFoler = "C:/usedImage";
-
   @Autowired
   UsedMapper mapper;
 
+  @Autowired
+  CommonService commonService;
+  
   @Override
   public Page<UsedProductVO> usedList(String location, String keyword, String category, String checked,
       String dropbox) {
@@ -124,106 +126,58 @@ public class UsedServiceImpl implements UsedService {
      */
 
     // 메인 이미지 설정
-    product.setMainImg(storeImages(images)[0].getImage());
 
     // 이미지 전부 삭제
     mapper.deleteImg(product);
-
+    
+    String mainImage = commonService.saveImage(images.get(0), "used");
+    product.setMainImg(mainImage);   
     // 글 정보 등록
     mapper.insertUsed(product);
 
-    UsedImagesVO[] vo = storeImages(images);
-
-    for (int i = 0; i < vo.length; i++) {
-      vo[i].setProductNo(product.getProductNo());
-    }
-    for (int i = 0; i < vo.length; i++) {
-      mapper.insertImg(vo[i]);
-    }
-  }
-
-  private UsedImagesVO[] storeImages(List<MultipartFile> images) {
-
-    UsedImagesVO[] list = new UsedImagesVO[images.size()];
-
-    File folder = new File(usedImageFoler);
-    if (!folder.exists()) {
-      folder.mkdir();
-    }
-    for (int i = 0; i < images.size(); i++) {
-      long now = System.currentTimeMillis();
-      Random rand = new Random();
-
-      // ~~~~.jpg png
-      String imagePath = now + "_" + rand.nextInt(100) + images.get(i).getOriginalFilename();
-
-      File write = new File(folder + File.separator + imagePath);
-
-      try {
-        images.get(i).transferTo(write);
-      } catch (IllegalStateException e) {
-        e.printStackTrace();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-
-      UsedImagesVO vo = new UsedImagesVO();
-      vo.setImage(write.toString());
-
-      list[i] = vo;
-    }
-
-    return list;
+    UsedImagesVO vo = new UsedImagesVO();
+    vo.setProductNo(product.getProductNo());
+    vo.setImage(mainImage);
+    mapper.insertImg(vo);
+    
+    for(int i=1; i<images.size(); i++) {
+      vo = new UsedImagesVO();
+      vo.setProductNo(product.getProductNo());
+      vo.setImage(commonService.saveImage(images.get(i), "used"));
+      
+      mapper.insertImg(vo);
+    } 
   }
 
   @Override
   @Transactional
   public void updateUsedProduct(UsedProductVO product, List<MultipartFile> images) {
+    System.out.println("================================ RUNNNNNNNNNNN~~~~~~~~~~~~");
+    System.out.println("================================ RUNNNNNNNNNNN~~~~~~~~~~~~");
+    System.out.println("================================ RUNNNNNNNNNNN~~~~~~~~~~~~");
+    System.out.println("================================ RUNNNNNNNNNNN~~~~~~~~~~~~");
+    System.out.println("================================ RUNNNNNNNNNNN~~~~~~~~~~~~");
+    System.out.println("================================ RUNNNNNNNNNNN~~~~~~~~~~~~");
+    System.out.println("================================ RUNNNNNNNNNNN~~~~~~~~~~~~");
     mapper.deleteImg(product);
+    
+    String mainImage = commonService.saveImage(images.get(0), "used");
+    product.setMainImg(mainImage);   
     mapper.updateUsed(product);
-    UsedImagesVO[] vo = updateImages(images);
-
-    for (int i = 0; i < vo.length; i++) {
-      vo[i].setProductNo(product.getProductNo());
-    }
-    for (int i = 0; i < vo.length; i++) {
-      mapper.updateImg(vo[i]);
-    }
+    
+    UsedImagesVO vo = new UsedImagesVO();
+    vo.setProductNo(product.getProductNo());
+    vo.setImage(mainImage);
+    mapper.insertImg(vo);
+    System.out.println("아니 반복문 전인데 실행 됩니까?");
+    for(int i=1; i<images.size(); i++) {
+      System.out.println("사진이 등록되는 중입니다");
+      vo = new UsedImagesVO();
+      vo.setProductNo(product.getProductNo());
+      vo.setImage(commonService.saveImage(images.get(i), "used"));
+      
+      mapper.insertImg(vo);
+    } 
   }
-
-  private UsedImagesVO[] updateImages(List<MultipartFile> images) {
-
-    UsedImagesVO[] list = new UsedImagesVO[images.size()];
-
-    File folder = new File(usedImageFoler);
-    if (!folder.exists()) {
-      folder.mkdir();
-    }
-
-    for (int i = 0; i < images.size(); i++) {
-      long now = System.currentTimeMillis();
-      Random rand = new Random();
-
-      // ~~~~.jpg png
-      String imagePath = now + "_" + rand.nextInt(100) + images.get(i).getOriginalFilename();
-
-      File write = new File(folder + File.separator + imagePath);
-
-      try {
-        images.get(i).transferTo(write);
-      } catch (IllegalStateException e) {
-        e.printStackTrace();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-
-      UsedImagesVO vo = new UsedImagesVO();
-      vo.setImage(write.toString());
-
-      list[i] = vo;
-    }
-
-    return list;
-  }
-
+  
 }

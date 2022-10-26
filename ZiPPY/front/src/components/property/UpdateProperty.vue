@@ -19,8 +19,8 @@
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-select :items="['판매중', '거래 완료']" label="거래 상태" required
-                  v-model="state" ref="productState"></v-select>
+                <v-select :items="['판매중', '거래 완료']" label="거래 상태" required v-model="state" ref="productState">
+                </v-select>
               </v-col>
               <v-col cols="12" sm="6">
                 <v-file-input label='대표 이미지' v-model="houseDetail[0].mainImg" ref="mainImg"></v-file-input>
@@ -68,8 +68,7 @@
                 </v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="4">
-                <v-select :items="['가능', '불가능']" label="주차 여부" required
-                  v-model="parking" ref="parking"></v-select>
+                <v-select :items="['가능', '불가능']" label="주차 여부" required v-model="parking" ref="parking"></v-select>
               </v-col>
               <v-col cols="12" sm="6" md="4">
                 <v-text-field label="방 수" :value="houseDetail[0].roomCnt" ref="roomCnt"></v-text-field>
@@ -78,8 +77,11 @@
                 <v-text-field label="욕실 수" required v-model="houseDetail[0].bathCnt" ref="bathCnt"></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-autocomplete :items="['조용한', '역세권', '학세권', '태그1', '태그2', '태그3', '태그4', '태그5', '태그6']" label="태그"
-                  multiple v-model="tags" ref="tags"></v-autocomplete>
+                <v-chip-group multiple active-class="green--text" v-model="selectedTags">
+                  <v-chip v-for="tag in tags" :key="tag" filter outlined>
+                    {{ tag }}
+                  </v-chip>
+                </v-chip-group>
               </v-col>
               <v-col cols="12">
                 <v-textarea label="상세 설명" v-model="houseDetail[0].detailContents" ref="detailContents"></v-textarea>
@@ -109,7 +111,19 @@
     data: () => ({
       dialog: false,
       houseDetail: [],
-      tags: [],
+      tags: [
+        '조용한',
+        '역세권',
+        '학세권',
+        '신축',
+        '즉시입주',
+        '풀옵션',
+        '올수리',
+        '탑층',
+        '공원뷰',
+        '수변뷰',
+      ],
+      selectedTags: [],
       parking: '',
       ////
       state: ''
@@ -122,18 +136,18 @@
           url: "http://localhost:8090/zippy/property/houseDetail",
           methods: "GET",
           params: {
-            productId: this.productId // this.productId
+            productId: this.productId
           }
         }).then(response => {
           // 성공했을 때
-          console.log('houseDetail success!');
           this.houseDetail = response.data;
-          this.state = this.houseDetail[0].productState==1 ? '판매중' : '거래 완료';
-          this.parking = this.houseDetail[0].parking==1 ? '가능' : '불가능';
+          this.state = this.houseDetail[0].productState == 1 ? '판매중' : '거래 완료';
+          this.parking = this.houseDetail[0].parking == 1 ? '가능' : '불가능';
           let temp = this.houseDetail[0].tags.split('/');
           for (let i = 0; i < temp.length; i++) {
-            this.tags.push(temp[i]);
+            this.selectedTags.push(parseInt(temp[i]));
           }
+
         })
         .catch(error => {
           // 에러가 났을 때
@@ -145,7 +159,7 @@
       updateProperty() {
         let result = 0;
         console.log(this.$refs.mainImg.value.name);
-        
+
         axios({
             url: "http://localhost:8090/zippy/property/updateHouseProduct",
             methods: "PUT",
@@ -194,7 +208,7 @@
             params: {
               streetAddress: this.$refs.streetAddress.value,
               houseFace: this.$refs.houseFace.value,
-              parking: this.parking == '가능' ? 1 : 0,//this.$refs.parking.value == '가능' ? 1 : 0,
+              parking: this.parking == '가능' ? 1 : 0, //this.$refs.parking.value == '가능' ? 1 : 0,
               bathCnt: this.$refs.bathCnt.value,
               constructionYear: this.$refs.constructionYear.value,
               tags: tags,
@@ -202,7 +216,6 @@
             }
           }).then(response => {
             // 성공했을 때
-            console.log('updateHouseDetail success!');
             result++;
             if (result == 2) {
               Swal.fire({
@@ -215,7 +228,6 @@
           })
           .catch(error => {
             // 에러가 났을 때
-            console.log('updateHouseDetail fail!');
             console.log(error);
           })
 

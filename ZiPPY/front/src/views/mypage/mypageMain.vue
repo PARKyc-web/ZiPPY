@@ -83,9 +83,9 @@
                         hiddenOnCollapse: true
                     },
                     {
-                        href: '/mypage/order',
-                        title: '구매목록',
-                        icon: 'fa-solid fa-list',
+                        href: '/mypage/used/myPage?email='+this.$store.state.loginInfo.email,
+                        title: '마이페이지',
+                        icon: 'fa-solid fa-user',
                     },
                     {
                         href: '/mypage/used/insert',

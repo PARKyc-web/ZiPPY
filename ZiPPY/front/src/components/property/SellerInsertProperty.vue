@@ -1,6 +1,5 @@
 <template>
   <v-row>
-    <v-dialog v-model="dialog2" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
         <v-btn x-small elevation="2" fab dark v-bind="attrs" v-on="on">
           <v-icon small>mdi-plus</v-icon>
@@ -84,7 +83,6 @@
           </v-btn>
         </v-card-actions>
       </v-card>
-    </v-dialog>
   </v-row>
 </template>
 

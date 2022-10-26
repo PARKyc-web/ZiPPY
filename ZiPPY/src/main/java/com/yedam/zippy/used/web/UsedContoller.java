@@ -89,7 +89,6 @@ String order="product_date DESC";
   // 생성
   @PostMapping("/insert")
   public String insert(UsedProductVO product, List<MultipartFile> images) {
-    System.out.println("asdfasdf@@@@@@@@@@@@@@"+product.getProductLocation());
     service.insertUsedProduct(product, images);
     service.findKeyword(product);
     return "SUCCESS";
@@ -100,6 +99,7 @@ String order="product_date DESC";
   public int update(UsedProductVO product, List<MultipartFile> images) {
     System.out.println(product.getIsSell());
 //    service.insertUsedProduct(product, images);
+    System.out.println(images);
     service.updateUsedProduct(product, images);
     return 1;
   }
