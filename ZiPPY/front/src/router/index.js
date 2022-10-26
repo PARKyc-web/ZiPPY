@@ -66,6 +66,7 @@ import moveWishList from "../views/move/moveWishList";
 import moveReview from "../views/move/moveReview";
 import moveReviewWrite from "../views/move/moveReviewWrite";
 
+
 import usedUpdate from "../views/used/usedUpdate.vue";
 import usedDetail from "../views/used/usedDetail.vue";
 import usedMain from "../views/used/usedMain.vue";
@@ -467,6 +468,7 @@ const routes = [
     component: moveReviewWrite,
     props: true,
   },
+ 
 
 
   //used

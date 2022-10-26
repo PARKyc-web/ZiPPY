@@ -144,24 +144,22 @@
     }
 </script>
 <style scoped>
+
     #side {
         width: 13%;
         float: left;
         /* height: 100vh; */
+        position:fixed;
+        top: 80px;
     }
     #main{
-        /* margin-left: 150px; */
         width: 87%;
-        margin: 0 auto;
+        float:left;
         /* height: 100vh;      */
         /* height: 89vh; */
     }
-    /* #side{
-        height: 100%;
-    } */
 
      #maypage{
        border-top:1px solid #D6D6D6;
     }  
-
 </style>

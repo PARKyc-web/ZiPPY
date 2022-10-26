@@ -40,7 +40,7 @@
         <strong>{{$store.getters.getName}}</strong>님 환영합니다!
       </div>
 
-      <button v-if="this.$store.state.loginInfo != null" @click="">
+      <button v-if="this.$store.state.loginInfo != null">
         <!-- <router-link to="/chat" class="nav-link"><img id="Icon" src="@/assets/chat.png"></router-link> -->
         <router-link to="/chat" class="nav-link"><v-icon id="Icon">mdi-wechat</v-icon></router-link>
       </button>

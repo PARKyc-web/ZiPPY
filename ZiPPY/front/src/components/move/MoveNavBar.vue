@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar elevation="4" style="margin-bottom:5px">
+  <v-toolbar flat style="border-bottom:1px solid #D6D6D6;">
     <div style="width: 75vw">
       <v-btn-toggle v-model="text" tile color="success lighten-1" group>
         <v-btn value="견적받기" @click="goEstimate()" class="nav-link active" aria-current="page"> 견적받기</v-btn>
@@ -63,5 +63,8 @@
   .nav {
     width: 100%;
     z-index: 1000000000;
+  }
+  .v-btn{
+    color:black;
   }
 </style>

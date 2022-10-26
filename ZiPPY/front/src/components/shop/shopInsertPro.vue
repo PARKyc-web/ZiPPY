@@ -157,7 +157,7 @@
 
         console.log(formData);
         axios({
-          url: "/shop/insertPro",
+          url: "/zippy/shop/insertPro",
           method: "POST",
           data: formData
         }).then(res => {

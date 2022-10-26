@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar elevation="4" style="margin-bottom:5px">
+  <v-toolbar flat style="border-bottom:1px solid #D6D6D6"> <!--elevation="4", margin-bottom:5px; -->
     <div style="width: 75vw">
       <v-btn-toggle v-model="data.houseType" tile color="green lighten-1" group>
         <v-btn value="아파트" @click="clickHouseType('아파트')">아파트</v-btn>
@@ -68,18 +68,14 @@
 
                   <v-col cols="12">
 
-                    <v-chip-group multiple active-class="green--text" v-model="selectedTags">
+                    <v-chip-group multiple active-class="green--text" v-model="data.selectedTags">
                       <v-chip v-for="tag in tags" :key="tag" filter outlined>
                         {{ tag }}
                       </v-chip>
                     </v-chip-group>
 
-<!-- 
-                    <v-autocomplete :items="['조용한', '역세권', '학세권', '태그1', '태그2', '태그3', '태그4', '태그5', '태그6']" label="태그"
-                      multiple v-model="tags"></v-autocomplete> -->
                   </v-col>
                 </v-row>
-                <p>선택한 필터 목록 {{ tags }}</p>
               </v-container>
             </template>
           </v-card-text>
@@ -126,7 +122,6 @@
         '공원뷰',
         '수변뷰',
       ],
-      selectedTags: [],
         minPrice: 0,
         maxPrice: 150000,
         data: {
@@ -138,6 +133,7 @@
           year: 1000,
           sigungu: '',
           range: [0, 150000],
+          selectedTags: [],
         },
 
       }
@@ -145,7 +141,7 @@
     methods: {
       save() {
         this.dialog = false;
-        console.log('선택된', this.selectedTags);
+        console.log('선택된', this.data.selectedTags);
 
         this.data.year = new Date().getFullYear();
         switch (this.constructionYear) {

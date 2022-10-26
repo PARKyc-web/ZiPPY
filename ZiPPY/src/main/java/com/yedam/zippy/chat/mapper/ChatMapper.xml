@@ -39,7 +39,7 @@
 			FROM chat_room					
 		</selectKey>
 		INSERT INTO chat_room
-		VALUES(#{chatRoomNo}, #{user1}, #{user2}, #{chatType}, #{lastChat}, #{lastTime})		
+		VALUES(#{chatRoomNo}, #{user1}, #{user2}, #{chatType}, #{lastChat}, #{lastTime}, #{productNo})		
 	</insert>
 
 	<select id="getRoomInfo"  parameterType="Integer" resultType="ChatRoomVO">

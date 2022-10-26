@@ -1,8 +1,6 @@
 <template>
-  <div class="mx-auto pt-10" id="cart-con">
-    <v-toolbar flat color="white">
-      <v-toolbar-title>구매내역</v-toolbar-title>
-    </v-toolbar>
+  <div class="mx-auto pt-5" id="cart-con">
+    <h3 style="margin:30px">구매내역</h3>
 
     <v-card>
       <v-data-table :headers="headers" :items="ords">
@@ -69,7 +67,7 @@
     created() {
       //구매내역 조회
       axios({
-        url: "/shop/myOrderList",
+        url: "/zippy/shop/myOrderList",
         method: "POST",
         params: {
           email: this.$store.state.loginInfo.email

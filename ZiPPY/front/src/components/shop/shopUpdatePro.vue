@@ -164,7 +164,7 @@
         formData.append('option', "" + JSON.stringify(this.option));
 
         axios({
-          url: "/shop/updatePro",
+          url: "/zippy/shop/updatePro",
           method: "POST",
           data: formData
         }).then(res => {
@@ -191,7 +191,7 @@
     created() {
       //단건조회
       axios({
-          url: "/shop/detail",
+          url: "/zippy/shop/detail",
           method: "GET",
           params: {
             pno: this.$route.query.proNo
@@ -205,7 +205,7 @@
         }),
         //이미지조회
         axios({
-          url: "/shop/img",
+          url: "/zippy/shop/img",
           method: "GET",
           params: {
             pno: this.$route.query.proNo
@@ -219,7 +219,7 @@
         }),
         //옵션조회
         axios({
-          url: "/shop/opt",
+          url: "/zippy/shop/opt",
           method: "GET",
           params: {
             pno: this.$route.query.proNo

@@ -13,7 +13,7 @@
                             width="100px" height="100px" alt="">
                     </div>
                 </div> -->
-                
+
                 <!-- 업체정보 -->
                 <div class="loaf">
                     <div id="used-seller-name">
@@ -43,31 +43,37 @@
                     </div>
 
                     <div class="right-loaf">
-                    <div class="used-point-report">
+                        <div class="used-point-report">
 
 
-                        <!-- 별점 박스 -->
-              <div id="star-box">
-                <div id="star-left">
-                  <div class="mt-1">
-                    <v-rating v-model="proTotalRating" half-increments background-color="#64c481 lighten-3"
-                      color="#64c481" large readonly></v-rating>
-                  </div>
-                  <h2 class="ml-3 mt-3" style="font-weight:bold" v-if="reviews.length != 0">{{proTotalRating}}</h2>
-                </div>
-                <div id="star-right">
-                  <v-progress-linear color="#64c481" height="20" :value=rate1 style="width:200px"></v-progress-linear>
-                  <h6>손이 빨라요</h6>
-                  <v-progress-linear color="#64c481" height="20" :value=rate2 style="width:200px"></v-progress-linear>
-                  <h6>전문적이에요</h6>
-                  <v-progress-linear color="#64c481" height="20" :value=rate3 style="width:200px"></v-progress-linear>
-                  <h6>친절해요</h6>
-                  <v-progress-linear color="#64c481" height="20" :value=rate4 style="width:200px"></v-progress-linear>
-                  <h6>마무리가 깔끔해요</h6>
-                </div>
-              </div>
-              <!-- 별점 박스 끝 -->
-            </div>
+                            <!-- 별점 박스 -->
+                            <div id="star-box">
+                                <div id="star-left">
+                                    <div class="mt-1">
+                                        <v-rating v-model="proTotalRating" half-increments
+                                            background-color="#64c481 lighten-3" color="#64c481" large readonly>
+                                        </v-rating>
+                                    </div>
+                                    <h2 class="ml-3 mt-3" style="font-weight:bold" v-if="reviews.length != 0">
+                                        {{proTotalRating}}</h2>
+                                </div>
+                                <div id="star-right">
+                                    <v-progress-linear color="#64c481" height="20" :value=rate1 style="width:200px">
+                                    </v-progress-linear>
+                                    <h6>손이 빨라요</h6>
+                                    <v-progress-linear color="#64c481" height="20" :value=rate2 style="width:200px">
+                                    </v-progress-linear>
+                                    <h6>전문적이에요</h6>
+                                    <v-progress-linear color="#64c481" height="20" :value=rate3 style="width:200px">
+                                    </v-progress-linear>
+                                    <h6>친절해요</h6>
+                                    <v-progress-linear color="#64c481" height="20" :value=rate4 style="width:200px">
+                                    </v-progress-linear>
+                                    <h6>마무리가 깔끔해요</h6>
+                                </div>
+                            </div>
+                            <!-- 별점 박스 끝 -->
+                        </div>
 
                         <!-- <div>
                             <h4>평점</h4>
@@ -99,15 +105,15 @@
                 </b-tab> -->
 
 
-                <b-tab  title="이사후기">
+                <b-tab title="이사후기">
 
-                    <v-card >
+                    <v-card>
                         <v-data-table :headers="headers" :items="data">
                             <!-- 별점 -->
                             <template v-for="item in data" v-slot:item.REVIEW_CONTENT="{ item }">
-                                
+
                                 <div class="pa-5">
-                                    
+
                                     <v-rating v-model="item.TOTAL_RATING" half-increments
                                         background-color="#64c481 lighten-3" color="#64c481" small readonly></v-rating>
                                     <div class="ml-2">{{item.REVIEW_CONTENT}}</div>
@@ -115,94 +121,100 @@
 
                             </template>
                         </v-data-table>
-                        
+
                     </v-card>
 
-                
+
 
                 </b-tab>
 
-                
-                <div v-if="list.userEmail == this.$store.state.loginInfo.email">            
+
+                <div v-if="list.userEmail == this.$store.state.loginInfo.email">
                     <b-tab title="후기작성">
-        <v-card>
+                        <v-card>
 
-                        <v-card-title>
-        <span class="text-h6">견적정보</span>
-      </v-card-title>
-      <v-card-text>
-        <div><span>NO.{{list.movingResponseNo}}</span></div>
-                    <div><span>견적일자 : {{list.requestDate}}</span></div>
-                    <div><span>글쓴이 : {{nickName}}</span></div>
-                    <div v-if="list.secondEstimateType == null">
-                        <div><span>견적타입: {{list.firstEstimateType}}</span></div>
-                    </div>
-                    <div v-if="list.secondEstimateType != null">
-                        <div><span>견적타입 : {{list.secondEstimateType}}</span></div>
-                    </div>
+                            <v-card-title>
+                                <span class="text-h6">견적정보</span>
+                            </v-card-title>
+                            <v-card-text>
+                                <div><span>NO.{{list.movingResponseNo}}</span></div>
+                                <div><span>견적일자 : {{list.requestDate}}</span></div>
+                                <div><span>글쓴이 : {{nickName}}</span></div>
+                                <div v-if="list.secondEstimateType == null">
+                                    <div><span>견적타입: {{list.firstEstimateType}}</span></div>
+                                </div>
+                                <div v-if="list.secondEstimateType != null">
+                                    <div><span>견적타입 : {{list.secondEstimateType}}</span></div>
+                                </div>
 
-        </v-card-text>
+                            </v-card-text>
 
-        <hr />
-        
-      <v-card-title>
-        <span class="text-h6">이사후기</span>
-      </v-card-title>
-      <v-card-text>
-        <v-container style="color:#212529">
-          <v-row>
-            <!-- 별점선택 -->
-            <v-col cols="11">
-              <table>
-                <tbody>
-                  <tr style="border: 0">
-                    <td>손이 빨라요</td>
-                    <td>
-                      <b-form-rating v-model="rate1" no-border color="#64c481" size="sm"></b-form-rating>
-                    </td>
-                  </tr>
-                  <tr style="border: 0">
-                    <td>전문적이에요</td>
-                    <td>
-                      <b-form-rating v-model="rate2" no-border color="#64c481" size="sm"></b-form-rating>
-                    </td>
-                  </tr>
-                  <tr style="border: 0">
-                    <td>친절해요</td>
-                    <td>
-                      <b-form-rating v-model="rate3" no-border color="#64c481" size="sm"></b-form-rating>
-                    </td>
-                  </tr>
-                  <tr style="border: 0">
-                    <td>마무리가 깔끔해요</td>
-                    <td>
-                      <b-form-rating v-model="rate4" no-border color="#64c481" size="sm"></b-form-rating>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </v-col>
-            <v-col cols="12">
-              리뷰
-              <v-textarea solo v-model="reviewContent" no-border name="input-7-4" label="리뷰를 입력해주세요">
-              </v-textarea>
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-      
-        <input type="button" id="subBtn" value="등록" disabled="disabled" color="success lighten -2" text @click="insertReview()" />
-          
-     
-     
-      </v-card-actions>
-    </v-card>
-</b-tab>
-</div>
+                            <hr />
 
-                    
+                            <v-card-title>
+                                <span class="text-h6">이사후기</span>
+                            </v-card-title>
+                            <v-card-text>
+                                <v-container style="color:#212529">
+                                    <v-row>
+                                        <!-- 별점선택 -->
+                                        <v-col cols="11">
+                                            <table>
+                                                <tbody>
+                                                    <tr style="border: 0">
+                                                        <td>손이 빨라요</td>
+                                                        <td>
+                                                            <b-form-rating v-model="rate1" no-border color="#64c481"
+                                                                size="sm"></b-form-rating>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="border: 0">
+                                                        <td>전문적이에요</td>
+                                                        <td>
+                                                            <b-form-rating v-model="rate2" no-border color="#64c481"
+                                                                size="sm"></b-form-rating>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="border: 0">
+                                                        <td>친절해요</td>
+                                                        <td>
+                                                            <b-form-rating v-model="rate3" no-border color="#64c481"
+                                                                size="sm"></b-form-rating>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="border: 0">
+                                                        <td>마무리가 깔끔해요</td>
+                                                        <td>
+                                                            <b-form-rating v-model="rate4" no-border color="#64c481"
+                                                                size="sm"></b-form-rating>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </v-col>
+                                        <v-col cols="12">
+                                            리뷰
+                                            <v-textarea solo v-model="reviewContent" no-border name="input-7-4"
+                                                label="리뷰를 입력해주세요">
+                                            </v-textarea>
+                                        </v-col>
+                                    </v-row>
+                                </v-container>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+
+                                <input type="button" id="subBtn" value="등록" disabled="disabled"
+                                    color="success lighten -2" text @click="insertReview()" />
+
+
+
+                            </v-card-actions>
+                        </v-card>
+                    </b-tab>
+                </div>
+
+
             </b-tabs>
         </div>
 
@@ -247,7 +259,7 @@
 
                 //은하
 
-                 //후기 
+                //후기 
                 reviewContent: '',
                 serviceType: 3,
                 totalRating: '',
@@ -255,7 +267,7 @@
                 rate2: '',
                 rate3: '',
                 rate4: '',
-                
+
                 singleSelect: false,
                 reviews: [],
                 headers: [{
@@ -290,7 +302,7 @@
                 rate2: '',
                 rate3: '',
                 rate4: '',
-                        }
+            }
         },
         watch: {
             page() {
@@ -302,26 +314,26 @@
 
             // await this.getReviewList();
 
-        //별점 계산
-        var tSum = 0;
-        var r1Sum = 0;
-        var r2Sum = 0;
-        var r3Sum = 0;
-        var r4Sum = 0;
-        for (var i in this.reviews) {
-        tSum += Number(this.reviews[i].totalRating)
-        r1Sum += Number(this.reviews[i].rate1)
-        r2Sum += Number(this.reviews[i].rate2)
-        r3Sum += Number(this.reviews[i].rate3)
-        r4Sum += Number(this.reviews[i].rate4)
-        }
-        this.proTotalRating = Math.round(tSum / this.reviews.length * 10) / 10
-        this.rate1 = Math.round(r1Sum / this.reviews.length) * 10
-        this.rate2 = Math.round(r2Sum / this.reviews.length) * 10
-        this.rate3 = Math.round(r3Sum / this.reviews.length) * 10
-        this.rate4 = Math.round(r4Sum / this.reviews.length) * 10
+            //별점 계산
+            var tSum = 0;
+            var r1Sum = 0;
+            var r2Sum = 0;
+            var r3Sum = 0;
+            var r4Sum = 0;
+            for (var i in this.reviews) {
+                tSum += Number(this.reviews[i].totalRating)
+                r1Sum += Number(this.reviews[i].rate1)
+                r2Sum += Number(this.reviews[i].rate2)
+                r3Sum += Number(this.reviews[i].rate3)
+                r4Sum += Number(this.reviews[i].rate4)
+            }
+            this.proTotalRating = Math.round(tSum / this.reviews.length * 10) / 10
+            this.rate1 = Math.round(r1Sum / this.reviews.length) * 10
+            this.rate2 = Math.round(r2Sum / this.reviews.length) * 10
+            this.rate3 = Math.round(r3Sum / this.reviews.length) * 10
+            this.rate4 = Math.round(r4Sum / this.reviews.length) * 10
 
-              
+
 
             axios({
                 url: "http://localhost:8090/zippy/move/moveMyListOne",
@@ -357,13 +369,13 @@
                         serviceId: this.list.email,
                         // serviceType : this.rv.serviceType,
                         pageNum: this.page,
-                        
+
 
                     }
                 }).then(res => {
                     this.data = res.data;
                     this.pageCount = res.data.pages;
-                   this.nickName= this.$store.state.loginInfo.nickName;
+                    this.nickName = this.$store.state.loginInfo.nickName;
                     console.log("res", res);
                     console.log(res.data);
                     console.log("list!!!!!!!", this.data);
@@ -383,89 +395,88 @@
 
         methods: {
 
-                //리뷰 등록
-      insertReview() {
-        if (!this.rate1 || !this.rate2 || !this.rate3 || !this.rate4 || !this.reviewContent) {
-          swal.fire({
-            icon: 'warning',
-            title: '별점과 리뷰를 입력해주세요.',
-            showConfirmButton: false,
-            timer: 1500
-          });
-        } else {
-            //totalRating 입력
-            this.totalRating =
-            (Number(this.rate1) +
-              Number(this.rate2) +
-              Number(this.rate3) +
-              Number(this.rate4)) / 4
-          axios({
-            url: "/common/addRv",
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            data: {
-              email: this.$store.state.loginInfo.email,
-              reviewTitle: 0,
-              reviewContent: this.reviewContent,
-              serviceType: 3,
-              serviceId: this.list.email,
-              viewCnt: 0,
-              totalRating: this.totalRating,
-              rate1: this.rate1,
-              rate2: this.rate2,
-              rate3: this.rate3,
-              rate4: this.rate4,
-            }
-          }).then(res => {
-            console.log(res);
-            swal.fire({
-              icon: 'success',
-              title: '리뷰가 등록되었습니다.',
-              showConfirmButton: false,
-              timer: 1500
-            });
-            
-            const btn = document.getElementById('subBtn') ;
-            btn.disabled = true;
-           
-          }).catch(error => {
-            console.log(error);
-          })
-        }
-        //상태 변경
-        axios({
-          url: "/shop/updateRvStatus",
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          data: {
-            purNo: this.purNo
-          }
-        }).then(res => {
-          console.log(res);
-        }).catch(error => {
-          console.log(error);
-        })
-      } ,
+            //리뷰 등록
+            insertReview() {
+                if (!this.rate1 || !this.rate2 || !this.rate3 || !this.rate4 || !this.reviewContent) {
+                    swal.fire({
+                        icon: 'warning',
+                        title: '별점과 리뷰를 입력해주세요.',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    //totalRating 입력
+                    this.totalRating =
+                        (Number(this.rate1) +
+                            Number(this.rate2) +
+                            Number(this.rate3) +
+                            Number(this.rate4)) / 4
+                    axios({
+                        url: "/common/addRv",
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        data: {
+                            email: this.$store.state.loginInfo.email,
+                            reviewTitle: 0,
+                            reviewContent: this.reviewContent,
+                            serviceType: 3,
+                            serviceId: this.list.email,
+                            viewCnt: 0,
+                            totalRating: this.totalRating,
+                            rate1: this.rate1,
+                            rate2: this.rate2,
+                            rate3: this.rate3,
+                            rate4: this.rate4,
+                        }
+                    }).then(res => {
+                        console.log(res);
+                        swal.fire({
+                            icon: 'success',
+                            title: '리뷰가 등록되었습니다.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
 
-            
+                        const btn = document.getElementById('subBtn');
+                        btn.disabled = true;
+
+                    }).catch(error => {
+                        console.log(error);
+                    })
+                }
+                //상태 변경
+                axios({
+                    url: "/shop/updateRvStatus",
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    data: {
+                        purNo: this.purNo
+                    }
+                }).then(res => {
+                    console.log(res);
+                }).catch(error => {
+                    console.log(error);
+                })
+            },
+
+
 
         }
     }
 </script>
 
 <style scoped>
-
-/* .loaf{
+    /* .loaf{
     float: left;
 }
 .right-loaf{
     float: right;
 } */
-  
+
     /* 은하 */
     #cart-con {
         width: 70%;

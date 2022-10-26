@@ -27,6 +27,7 @@
     <input type="hidden" name="visitDate" v-model="moveVisit.visitDate">
     <input type="hidden" name="visitTime" v-model="moveVisit.visitTime">
     <input type="hidden" name="requestDate" v-model="requestDateSend">
+    <input type="hidden" name="reservStatus" v-model="reservStatus">
 
     <!-- 이사유형 -->
     <v-expansion-panels>
@@ -373,23 +374,7 @@
           <v-row no-gutters>
             <v-col cols="4"> 집 정보 </v-col>
             <v-col cols="8" class="text--secondary">
-              <!-- <v-fade-transition leave-absolute>
-              <span
-                v-if="open"
-                key="0"
-              >
-                
-              </span>
-              <span
-                v-else
-                key="1"
-              >
-                {{ move.house }}
-                {{ move.square }}
-                {{ move.floor }}
-              </span>
-            </v-fade-transition> -->
-
+              
               <v-fade-transition leave-absolute>
                 <span v-if="open">집 정보를 확인해주세요.</span>
                 <v-row v-else no-gutters style="width: 100%">
@@ -518,12 +503,7 @@
     
     </v-expansion-panels>
 
-    <v-btn
-  color="success"
-  elevation="10"
-  
-  @click="moveInfoCheck()"
->확인완료</v-btn>
+    
 
     <!-- <v-sheet color="white" elevation="3" height="250" width="250"></v-sheet> -->
     <div class="table">
@@ -628,6 +608,7 @@ export default {
           address2: "",
           detailAddress2:"",
           extraAddress2: "",
+          reservStatus:"",
 
       // checkbox
       ex4: ['success'],
@@ -645,6 +626,7 @@ export default {
        
         contactForm.commonOption.value= moveInfoJson;
         contactForm.email.value = this.$store.state.loginInfo.email;
+        contactForm.reservStatus.value =0;
         
         // contactForm.movingOption.value= "["+ JSON.stringify(this.moveInfo) +"]";
         //form으로 데이터보내기
@@ -713,24 +695,7 @@ export default {
 
       },
 
-      moveInfoCheck : function(){   
-        
-        //값이 잘 넘어가는지 확인
-
-       
-        
-        console.log(JSON.stringify(this.moveInfo))
-        console.log(moveInfo);
-        console.log(this.commonOption);
-        // console.log(JSON.stringify(this.moveInfo));
-        // console.log(this.contactCheckk);
-
-        // console.log(this.moveVisit);
-        // console.log(this.moveInfo);
-        // console.log(this.moveType);
-        // console.log(this.moveEstimateType);        
-      },
-
+     
       execDaumPostcode(number) {  
       console.log(number);
       var postcode = document.querySelector("#post"+number);

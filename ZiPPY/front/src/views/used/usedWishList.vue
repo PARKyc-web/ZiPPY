@@ -1,59 +1,61 @@
 <template>
-    <div id="container">
-      <div>
-        <div class="used-main-title">
-          <h3>찜 목록</h3>
-        </div>
+  <div id="container">
+    <div>
+      <div class="used-main-title">
+        <h3>찜 목록</h3>
       </div>
-      <div id="used-usedwishckdel">
-        <div id="used-wish-chkbox">
-          <v-checkbox v-model="uncheck" @click="selectAll()" id="ckAll" color="#b3e3c3"></v-checkbox>
-        </div>
-        <div id="used-wish-del-div">
-          <button @click="delWish()" class="used-wish-del-btn">선택삭제</button>
-        </div>
+    </div>
+    <div id="used-usedwishckdel">
+      <div id="used-wish-chkbox">
+        <v-checkbox v-model="uncheck" @click="selectAll()" id="ckAll" color="#b3e3c3"></v-checkbox>
       </div>
-      <hr />
-      <div id="used-div-cont">
-        <div class="used-wish-cont-div" @click="goDetail(list.productNo)" v-for="list in data">
-          <div id="used-wish-product">
-            <div class="used-wish-img-1">
-              <img
-                src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcnRs2T%2FbtrG3rPqyGx%2FgvSvyKfokqo8yQomsVjuQK%2Fimg.jpg"
-                width="200px" height="200px" />
-              <div id="wish-soldout-img" width="200px" height="200px" v-if="list.isSell == 1">판매완료</div>
-              <div id="used-wish-info">
+      <div id="used-wish-del-div">
+        <button @click="delWish()" class="used-wish-del-btn">선택삭제</button>
+      </div>
+    </div>
+    <hr />
+    <div id="noProduct" class="mx-auto" v-if="data.length == 0" style="text-align:center">
+      <v-icon style="font-size:100px; color:#B3E3C3" class="mb-5">mdi-alert-circle-outline</v-icon>
+      <h2 style="font-weight:bold">아직 찜한 상품이 없습니다.</h2>
+    </div>
+    <div id="used-div-cont">
+      <div class="used-wish-cont-div" @click="goDetail(list.productNo)" v-for="list in data">
+        <div id="used-wish-product">
+          <div class="used-wish-img-1">
+            <img img :src="'/zippy/common/img/used/'+list.mainImg" width="200px" height="200px" />
+            <div id="wish-soldout-img" width="200px" height="200px" v-if="list.isSell == 1">판매완료</div>
+            <div id="used-wish-info">
+              <div>
+                <button class="used-wish-heart">
+                  <i class="bi bi-heart-fill"></i>
+                </button>
+              </div>
+              <div id="wish-card-ckbox">
+                <div id="wish-title-price"><span>{{list.productName}}</span></div>
                 <div>
-                  <button class="used-wish-heart">
-                    <i class="bi bi-heart-fill"></i>
-                  </button>
+                  <v-checkbox id="ck" v-model="ckList" color="#b3e3c3" :value="list.bookmarkNo" @click.stop="test()">
+                  </v-checkbox>
                 </div>
-                <div id="wish-card-ckbox">
-                  <div id="wish-title-price"><span>{{list.productName}}</span></div>
-                  <div>
-                    <v-checkbox id="ck" v-model="ckList" color="#b3e3c3" :value="list.bookmarkNo" @click.stop="test()">
-                    </v-checkbox>
-                  </div>
+              </div>
+              <div id="used-wish-price-date">
+                <div id="wish-title-price" class="used-wish-card-cont"><span>{{list.productPrice | comma}}원</span>
                 </div>
-                <div id="used-wish-price-date">
-                  <div id="wish-title-price" class="used-wish-card-cont"><span>{{list.productPrice | comma}}원</span>
-                  </div>
-                  <div id="used-wish-date"><span>{{list.productDate}}</span></div>
-                </div>
-                <hr />
-                <div>
-                  <span>거래지역 : </span>
-                  <span>{{list.productLocation}}</span>
-                </div>
+                <div id="used-wish-date"><span>{{list.productDate}}</span></div>
+              </div>
+              <hr />
+              <div>
+                <span>거래지역 : </span>
+                <span>{{list.productLocation}}</span>
               </div>
             </div>
           </div>
         </div>
-        <div class="text-center">
-          <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3"></v-pagination>
-        </div>
+      </div>
+      <div class="text-center" v-if="data.length >=11">
+        <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3"></v-pagination>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -68,13 +70,13 @@
       pageCount: 1
     }),
     watch: {
-      page(){
+      page() {
         this.pagenation();
       }
     },
     created() {
       axios({
-        url: "/common/wishAll",
+        url: "/zippy/common/wishAll",
         method: "GET",
         params: {
           email: this.$store.state.loginInfo.email,
@@ -97,7 +99,7 @@
     methods: {
       pagenation() {
         axios({
-          url: "/common/wishAll",
+          url: "/zippy/common/wishAll",
           method: "GET",
           params: {
             email: this.$store.state.loginInfo.email,
@@ -117,7 +119,7 @@
         console.log(ck);
         // console.log(this.data.length)
         if (ck == true) {
-          this.uncheck = false; 
+          this.uncheck = false;
         }
       },
       goDetail(no) {
@@ -139,7 +141,7 @@
       // 선택 삭제 & 전체 삭제 ?
       delWish: function () {
         axios({
-          url: "common/delWish",
+          url: "/zippy/common/delWish",
           method: "DELETE",
           data: {
             bNo: this.ckList

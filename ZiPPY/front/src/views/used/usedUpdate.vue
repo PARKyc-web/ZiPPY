@@ -174,7 +174,7 @@
     }),
     created() {
       axios({
-        url: "http://localhost:8090/zippy/used/detail",
+        url: "/zippy/used/detail",
         methods: "GET",
         params: {
           pNo: this.$route.query.pNo
@@ -261,7 +261,7 @@
         }
 
         axios({
-          url: "http://localhost:8090/zippy/used/update",
+          url: "/zippy/used/update",
           method: "POST",
           data: formData
         }).then(res => {

@@ -102,7 +102,7 @@
       updateOrdStatus(no, st) {
         //상태 update
         axios({
-          url: "/shop/updateOrdStatus",
+          url: "/zippy/shop/updateOrdStatus",
           method: "POST",
           data: {
             purNo: no,
@@ -142,7 +142,7 @@
         if (window.event.keyCode == 13) {
           //키워드 상품 조회
           axios({
-            url: "/shop/sellerPurList",
+            url: "/zippy/shop/sellerPurList",
             method: "POST",
             data: {
               email: this.$store.state.loginInfo.email
@@ -173,7 +173,7 @@
     created() {
       //판매내역 조회
       axios({
-        url: "/shop/sellerPurList",
+        url: "/zippy/shop/sellerPurList",
         method: "POST",
         data: {
           email: this.$store.state.loginInfo.email

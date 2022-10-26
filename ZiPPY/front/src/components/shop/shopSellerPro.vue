@@ -119,7 +119,7 @@
       updateProStatus(no, st) {
         //상태 update
         axios({
-          url: "/shop/updateStatus",
+          url: "/zippy/shop/updateStatus",
           method: "POST",
           data: {
             proNo: no,
@@ -158,7 +158,7 @@
         if (window.event.keyCode == 13) {
           //키워드 상품 조회
           axios({
-            url: "/shop/myProList",
+            url: "/zippy/shop/myProList",
             method: "POST",
             data: {
               email: this.$store.state.loginInfo.email
@@ -180,7 +180,7 @@
     created() {
       //내 상품 조회
       axios({
-        url: "/shop/myProList",
+        url: "/zippy/shop/myProList",
         method: "POST",
         data: {
           email: this.$store.state.loginInfo.email

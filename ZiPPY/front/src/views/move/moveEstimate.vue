@@ -34,7 +34,7 @@
             <span>{{item.requestDate}}</span>&nbsp;&nbsp; 견적 방법 : <span>{{item.estimateType}}</span>
             <v-col cols="12" sm="6" md="4">
               <div id="mus" v-if="item.reservStatus == 0">견적 상태 : <span>견적전</span></div>
-              <div id="mus" v-if="item.reservStatus == 1">견적 상태 : <span>1차견적</span></div>
+              <div id="mus" v-if="item.reservStatus == 1">견적 상태 : <span>견적발송</span></div>
               <div id="mus" v-if="item.reservStatus == 2">견적 상태 : <span>2차견적</span></div>
               <div id="mus" v-if="item.reservStatus == 3">견적 상태 : <span>예약요청</span></div>
               <div id="mus" v-if="item.reservStatus == 4">견적 상태 : <span>예약완료</span></div>
@@ -108,7 +108,7 @@
                   
                   <template v-slot:activator="{ on, attrs }">
                     
-                    <v-btn v-if="list.reservStatus == 0" :id="i" id="estBtn" @click="modalVal(i)" color="success" dark v-bind="attrs" v-on="on" width="80">
+                    <v-btn v-if="item.reservStatus == 0 " :id="i" id="estBtn" @click="modalVal(i)" color="success" dark v-bind="attrs" v-on="on" width="80">
                       견적작성
                     </v-btn>
                  

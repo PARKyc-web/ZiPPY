@@ -83,7 +83,7 @@
     methods: {
       getWishList() {
         axios({
-          url: "/shop/getMyWishList",
+          url: "/zippy/shop/getMyWishList",
           method: "GET",
           params: {
             pageNum: this.page,
@@ -123,7 +123,7 @@
       // 선택 삭제 & 전체 삭제 ?
       delWish: function () {
         axios({
-          url: "common/delWish",
+          url: "/zippy/common/delWish",
           method: "DELETE",
           data: {
             bNo: this.ckList
@@ -190,7 +190,6 @@
   }
 
   #used-div-cont {
-    margin: 20px 0 0 100px;
     margin-bottom: 50px;
   }
 
@@ -303,7 +302,7 @@
   }
 
   .used-wish-del-btn {
-    padding: 0px 10px px;
+    padding: 0px 5px;
     height: 28px;
     border: 1px solid rgb(238, 238, 238);
     display: flex;
