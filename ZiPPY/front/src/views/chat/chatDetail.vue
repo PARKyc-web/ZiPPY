@@ -1,13 +1,13 @@
 <template>
-    <div>
+    <div class="container">
       <div id="download">
-        <h1 v-if="item.user1 == $store.state.loginInfo.email">
-          <img>{{item.user2Name}}</h1>
+        <h1 v-if="room.user1 == $store.state.loginInfo.email">
+          <img :src="'/zippy/common/img/member/test.jpg'" style="width: 80px; height: 80px;">{{room.user2Name}}</h1>
   
-        <h1 v-if="item.user2 == $store.state.loginInfo.email">
-          <img>{{item.user1Name}}</h1>
+        <h1 v-if="room.user2 == $store.state.loginInfo.email">
+          <img :src="'/zippy/common/img/member/test.jpg'" style="width: 80px; height: 80px;">{{room.user1Name}}</h1>
   
-        <v-btn v-if="item.user2 == $store.state.loginInfo.email" id="used-soldout" width="90px" depressed color=#B3E3C3
+        <v-btn v-if="room.user2 == $store.state.loginInfo.email" id="used-soldout" width="90px" depressed color=#B3E3C3
           @click="soldOut()">
           판매완료
         </v-btn>
@@ -20,6 +20,7 @@
       <div id="chatBody" style="overflow:auto;">
         <ul class="list-group">
           <li class="list-group-item" v-for="msg in messages">
+
             <div v-if="msg.sender == sender" style="text-align: right; ">
               <div class="ccard">
                 <v-card class="mx-auto" max-width="400" outlined shaped style="background-color: #b3e3c3;">
@@ -36,6 +37,7 @@
                 </v-card>
               </div>
             </div>
+
             <div class="ccard">
               <div v-if="msg.sender != sender" style="text-align: left;">
                 <v-card class="mx-auto" max-width="400" outlined shaped>
@@ -53,8 +55,7 @@
               </div>
             </div>
           </li>
-        </ul>
-        <div id="bottom"></div>
+        </ul>        
       </div><br>
   
       <div class="input-group">
@@ -69,25 +70,28 @@
     </div>  
   </template>
   
-  <script>
-  import Stomp from 'webstomp-client'
-  import SockJS from 'sockjs-client'
-  
+<script>
+import Stomp from 'webstomp-client'
+import SockJS from 'sockjs-client'
+
+var sock;
+var ws;
 var reconnect = 0;
   
     // vue.js
-    export default {
-      props: ['item', 'value'],
+    export default {      
       data() {
         return {
-          txtFile : "/zippy/chat/txtFile/" + this.roomId,
-          pdfFile : "/zippy/chat/pdfFile/" + this.roomId,
+          txtFile : "/zippy/chat/txtFile/",
+          pdfFile : "/zippy/chat/pdfFile/",
+          // txtFile : "/zippy/chat/txtFile/" + this.room.chatRoomNo,
+          // pdfFile : "/zippy/chat/pdfFile/" + this.room.chatRoomNo,
 
           room: {},
           sender: '',
           message: '',
-          messages: [],
-          isConnect: false,
+          messages: [],          
+          subId : "",
           list : {
             isSell : 1,
             dealRecord : "",
@@ -96,37 +100,38 @@ var reconnect = 0;
         }
       },
       watch: {
-        value: function () {
-          if (this.roomId == this.value.roomId) {
-            this.messages.push(this.value);
-            console.log(this.roomId + "WATCH!!! RUN!!");
-          }
+        messages: function () {          
           this.goToBottom();
         }
       },
       created() {        
         this.sender = this.$store.getters.getName;        
-        this.findRoomInfo();
+        this.getRoomInfo();
         this.loadContent();
+        this.connect();
       },
-  
+      updated(){
+        var body = document.getElementById("chatBody");          
+        body.scrollTop = body.scrollHeight;
+      },
   
       methods: {
         goToBottom: function () {
-          var body = document.querySelector("#chatBody");
-          body.scrollTop = body.scrollHeight;
+          var body = document.getElementById("chatBody");          
+          body.scrollTop = body.scrollHeight;          
         },
 
-        findRoomInfo : function(){
-            var out = this;
+        getRoomInfo : function(){
+            var out = this;           
             this.$axios({
-                url : "/zippy/chat/roomInfo",
+                url : "/zippy/chat/oneRoom",
                 method: "GET",
                 params:{
                     roomId : this.$route.query.roomId
                 }
             }).then(res =>{
-                out.room = res.data;                
+                out.room = res.data;
+                console.log(out.room);
             })
         },
   
@@ -134,27 +139,45 @@ var reconnect = 0;
           var temp = await this.$axios({
             url: "/zippy/chat/room/load",
             params: {
-              roomId: this.room.chatRoomNo
+              roomId: this.$route.query.roomId
             }
           });
           this.messages = temp.data;
-          console.log(this.messages);
-          this.goToBottom();
+          console.log(this.messages);          
+        },        
+
+        connect : function(){
+          sock = new SockJS("http://localhost:8090/zippy/ws/chat");          
+          ws = Stomp.over(sock);
+          var out = this;
+          ws.connect({}, function(frame){
+            ws.subscribe("/topic/chat/room/" + out.$route.query.roomId, function(message){                                
+                var recv = JSON.parse(message.body);     
+                console.log(recv);
+                out.recvMessage(recv);
+                console.log(frame)
+              console.log(frame.headers.id);
+            })
+            
+          })   
+          this.goToBottom();      
         },
-        
-        sendMessage: function () {
+
+        sendMessage: function () {          
+          var out = this;
           if (this.message == '') {
-  
+            console.log("빈값이 들어감");
           } else {
-            this.$ws.send("/app/chat/message", JSON.stringify({
+            ws.send("/app/chat/message", JSON.stringify({
               type: 'TALK',
-              roomId: this.roomId,
-              sender: this.sender,
-              message: this.message,
-              time: this.getTime()
+              roomId: out.$route.query.roomId,
+              sender: out.sender,
+              message: out.message,
+              time: out.getTime()
             }));
             this.message = '';
           }
+          this.goToBottom();
         },
   
         recvMessage: function (recv) {
@@ -164,6 +187,7 @@ var reconnect = 0;
             "message": recv.message,
             "time": recv.time
           })
+          this.goToBottom();
         },
   
         getTime: function () {
@@ -174,7 +198,7 @@ var reconnect = 0;
           return str;
         },
         soldOut() {
-          this.list.dealRecord = this.item.user1;
+          this.list.dealRecord = this.room.user1;
           this.list.productNo = this.data.productNo;
           axios({
             url: "/zippy/used/soldot",
@@ -266,6 +290,7 @@ var reconnect = 0;
   
     #download-btn {
       display: flex;
+      padding: 0;
     }
   
     #download button {
