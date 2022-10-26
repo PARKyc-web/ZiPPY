@@ -198,9 +198,7 @@
 	<!-- 키워드 조회 -->
 	<select id="findKeyword" resultType="UsedKeywordVO" parameterType="UsedProductVO">
 		SELECT * 
-		FROM used_keyword
-		WHERE keyword  LIKE '%'||#{productName}||'%'
-		AND keyword_location LIKE '%'||#{productLocation}||'%'
+		FROM used_keyword	
 	</select>
 	
 
@@ -209,7 +207,7 @@
 		parameterType="int">
 		SELECT *
 		FROM used_images
-		WHERE product_no = #{pNo}
+		WHERE product_no = #{pNo}		
 	</select>
 	
 	<update id="dealRecord" parameterType="UsedProductVO">

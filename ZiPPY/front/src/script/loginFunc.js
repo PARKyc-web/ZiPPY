@@ -8,7 +8,7 @@ export default {
         var redundancy = 14156;
 
         const test = await axios({
-            url: "http://localhost:8090/zippy/validation/emailRedundancy",
+            url: "/zippy/validation/emailRedundancy",
             method: "GET",
             params: {
                 email: user_email
@@ -38,7 +38,7 @@ export default {
                 })
 
                 const temp = await axios({
-                    url : "http://localhost:8090/zippy/validation/email",
+                    url : "/zippy/validation/email",
                     params : {
                         email : email
                     }
@@ -154,7 +154,7 @@ export default {
 
             document.querySelector("#phoneNumberBtn").disabled = false;
             const temp = await axios({                
-              url : "http://localhost:8090/zippy/validation/phone",
+              url : "/zippy/validation/phone",
               method : "GET",
               params : {
                 phone : number

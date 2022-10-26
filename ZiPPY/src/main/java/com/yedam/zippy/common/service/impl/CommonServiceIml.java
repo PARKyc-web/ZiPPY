@@ -23,7 +23,7 @@ import com.yedam.zippy.common.service.ReviewBoardVO;
 public class CommonServiceIml implements CommonService {
 
   private final String imageFolder = "C:/dev/image"; 
-  
+//  private final String imageFolder = "/home"; 
   
   @Autowired
   CommonMapper mapper;

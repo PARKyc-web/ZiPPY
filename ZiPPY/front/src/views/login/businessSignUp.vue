@@ -9,7 +9,7 @@
           >
             <div class="card-body p-4 p-sm-5">
               <h5 class="card-title text-center mb-5 fw-light fs-5">
-                <img src="../../assets/zippy_logo.png" width="150px" />
+                <img src="@/assets/zippy_logo.png" width="150px" />
               </h5>
               <hr class="my-4" />              
               
@@ -625,7 +625,7 @@ export default {
       if (this.business_valid == true && this.user_info.ceoName != "" && 
           this.user_info.compName != "" && this.user_info.compIntro != "") {    
          axios({
-          url: "/member/bSignUp",
+          url: "/zippy/member/bSignUp",
           method: "POST",    
           data: formData
         })

@@ -36,16 +36,22 @@ import lombok.RequiredArgsConstructor;
 @CrossOrigin
 @RestController
 @RequestMapping("/chat")
+//@RequestMapping("/zippy/chat")
 @RequiredArgsConstructor
 public class ChatController {
    
     private final ChatService service;
-      
+     
     // 모든 채팅방 목록 반환
     @GetMapping("/room")
     public List<ChatRoomName> getRooms(String email){
       System.out.println(service.findAllRoom(email));
       return service.findAllRoom(email);
+    }
+    
+    @GetMapping("/roomInfo")
+    public ChatRoomVO getRoomInfo(int roomId) {
+      return service.getRoomInfo(roomId);
     }
     
     @GetMapping("/room/load")

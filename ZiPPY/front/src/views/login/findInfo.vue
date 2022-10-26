@@ -128,7 +128,7 @@ import swal from 'sweetalert2';
 
             if(result){
               this.$axios({
-                url : "validation/password",
+                url : "/zippy/validation/password",
                 params : {
                   email : email.value
                 }
@@ -167,7 +167,7 @@ import swal from 'sweetalert2';
 
             if(result){
               this.$axios({
-                url : "validation/phone",
+                url : "/zippy/validation/phone",
                 params : {                  
                   phone : phone.value
                 }
@@ -199,7 +199,7 @@ import swal from 'sweetalert2';
 
           if(this.phoneValidNum == userInput.value){            
             this.$axios({
-              url : "/validation/findEmail",
+              url : "/zippy/validation/findEmail",
               params:{
                 userName : userName.value,
                 phoneNumber : phone.value

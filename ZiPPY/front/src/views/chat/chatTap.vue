@@ -90,7 +90,7 @@ import chatDetail from '@/components/chat/chatDetail.vue'
                 var no = this.chatRooms[i].chatRoomNo;
                 this.$ws.unsubscribe(this.sub_id[i]);
 
-                this.$ws.subscribe("/topic/chat/room/" + no, function(message) {      
+                this.$ws.subscribe("/zippy/topic/chat/room/" + no, function(message) {      
                     console.log("asdfasdfsadfsadf :: ", message.headers.subscription);
                     outside.sub_id[i] = message.headers.subscription;
                     console.log(outside.sub_id[i]);
@@ -99,7 +99,7 @@ import chatDetail from '@/components/chat/chatDetail.vue'
                     outside.recvMessage(recv);
                 });
                 
-                this.$ws.send("/app/chat/message", JSON.stringify({
+                this.$ws.send("/zippy/app/chat/message", JSON.stringify({
                     type: 'ENTER',
                     roomId: no,
                     sender: outside.sender,
