@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.Page;
 import com.yedam.zippy.common.service.BookmarkVO;
+import com.yedam.zippy.common.service.CommonService;
 import com.yedam.zippy.common.service.ReviewBoardVO;
 import com.yedam.zippy.member.service.GeneralUserVO;
 import com.yedam.zippy.shop.mapper.ShopMapper;
@@ -32,6 +33,9 @@ public class ShopServiceImpl implements ShopService {
 
   @Autowired
   ShopMapper mapper;
+  @Autowired
+  CommonService commonService;
+  
   //상품 전체조회
   @Override
   public List<ProductVO> getProductList() {
@@ -145,12 +149,15 @@ public class ShopServiceImpl implements ShopService {
     return mapper.getMyRv(email);
   }
   
-  //판매자 CRUD
+//판매자 CRUD
+  //상품등록
   @Override
   public void insertProduct(ProductVO productVO, List<ProductOptionVO> options, MultipartFile image,
       List<MultipartFile> images) {
     // 메인이미지 등록
-    productVO.setProMainImg(proMainImg(image));
+    String mainImage = commonService.saveImage(image, "shop");
+    productVO.setProMainImg(mainImage);
+    
     mapper.insertProduct(productVO, options, image, images);
     // 옵션 등록
     if (options.size() > 0) {
@@ -160,75 +167,44 @@ public class ShopServiceImpl implements ShopService {
       mapper.insertOpt(options);
     }
     // 상세이미지 등록
-    ProductImgVO[] vo = proImgs(images);
-    for (int i = 0; i < vo.length; i++) {
-      vo[i].setProNo(productVO.getProNo());
-    }
-    for (int i = 0; i < vo.length; i++) {
-      mapper.insertImg(vo[i]);
-    }
+    ProductImgVO vo = new ProductImgVO();
+    for(int i=0; i<images.size(); i++) {
+      vo = new ProductImgVO();
+      vo.setProNo(productVO.getProNo());
+      vo.setProImg(commonService.saveImage(images.get(i), "shop"));
+      
+      mapper.insertImg(vo);
+    } 
   }
-  // 메인이미지
+  //상품수정
   @Override
-  public String proMainImg(MultipartFile image) {
-    String img;
-
-    File folder = new File(storeImageFolder);
-    if (!folder.exists()) {
-      folder.mkdir();
-    }
-
-    long now = System.currentTimeMillis();
-    Random rand = new Random();
-
-    String imagePath = now + "_" + rand.nextInt(100) + image.getOriginalFilename();
-
-    File write = new File(folder + File.separator + imagePath);
-
-    try {
-      image.transferTo(write);
-    } catch (IllegalStateException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    img = write.toString();
-
-    return img;
-  }
-
-  // 상세이미지
-  @Override
-  public ProductImgVO[] proImgs(List<MultipartFile> images) {
-    ProductImgVO[] list = new ProductImgVO[images.size()];
-
-    File folder = new File(storeImageFolder);
-    if (!folder.exists()) {
-      folder.mkdir();
-    }
-    for (int i = 0; i < images.size(); i++) {
-      long now = System.currentTimeMillis();
-      Random rand = new Random();
-
-      String imagePath = now + "_" + rand.nextInt(100) + images.get(0).getOriginalFilename();
-      File write = new File(folder + File.separator + imagePath);
-
-      try {
-        images.get(0).transferTo(write);
-      } catch (IllegalStateException e) {
-        e.printStackTrace();
-      } catch (IOException e) {
-        e.printStackTrace();
+  public void updateProduct(ProductVO productVO, List<ProductOptionVO> options, MultipartFile image,
+      List<MultipartFile> images) {
+    // 메인이미지 등록
+    String mainImage = commonService.saveImage(image, "shop");
+    productVO.setProMainImg(mainImage);
+    // 전체 수정
+    mapper.updateProduct(productVO, options, image, images);
+    // 옵션 삭제
+    mapper.deleteOpt(productVO.getProNo());
+    // 이미지 삭제
+    mapper.deleteImg(productVO.getProNo());
+    // 옵션 등록
+    if (options.size() > 0) {
+      for (ProductOptionVO x : options) {
+        x.setProNo(productVO.getProNo());
       }
-
-      ProductImgVO vo = new ProductImgVO();
-      vo.setProImg(write.toString());
-
-      list[i] = vo;
+      mapper.insertOpt(options);
     }
-
-    return list;
+    // 상세이미지 등록
+    ProductImgVO vo = new ProductImgVO();
+    for(int i=0; i<images.size(); i++) {
+      vo = new ProductImgVO();
+      vo.setProNo(productVO.getProNo());
+      vo.setProImg(commonService.saveImage(images.get(i), "shop"));
+      
+      mapper.insertImg(vo);
+    } 
   }
   
   @Override
@@ -245,35 +221,6 @@ public class ShopServiceImpl implements ShopService {
   @Override
   public void updateStatus(ProductVO productVO) {
     mapper.updateStatus(productVO);
-  }
-
-  @Override
-  public void updateProduct(ProductVO productVO, List<ProductOptionVO> options, MultipartFile image,
-      List<MultipartFile> images) {
-    // 메인이미지 등록
-    productVO.setProMainImg(proMainImg(image));
-    // 전체 수정
-    mapper.updateProduct(productVO, options, image, images);
-    // 옵션 삭제
-    mapper.deleteOpt(productVO.getProNo());
-    // 이미지 삭제
-    mapper.deleteImg(productVO.getProNo());
-    // 옵션 등록
-    if (options.size() > 0) {
-      for (ProductOptionVO x : options) {
-        x.setProNo(productVO.getProNo());
-      }
-      mapper.insertOpt(options);
-    }
-    // 상세이미지 등록
-    ProductImgVO[] vo = proImgs(images);
-    for (int i = 0; i < vo.length; i++) {
-      vo[i].setProNo(productVO.getProNo());
-    }
-    for (int i = 0; i < vo.length; i++) {
-      mapper.insertImg(vo[i]);
-    }
-
   }
 
   @Override
