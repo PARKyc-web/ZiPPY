@@ -251,6 +251,10 @@
     height: 100%;
   }
 
+  #used-main-dropbox{
+    width: 110px;
+  }
+
   #used-insert-addr {
     display: flex;
   }

@@ -50,10 +50,7 @@
                                     <div @click="goDetail(list.productNo)" class="used-main-card"
                                         v-if="data.length != 0" v-for="list in data">
                                         <div>
-                                            <div><img
-                                                    src="http://file3.instiz.net/data/file3/2022/06/08/7/e/1/7e113a4442c27945a2a379401c5021c8.jpg"
-                                                    width="194px" height="194px">
-                                            </div>
+                                            <div><img :src="'/zippy/common/img/used/'+list.mainImg" width="191px" height="194px"></div>
                                             <div class="used-main-card-cont">
                                                 <div class="used-main-card-title">{{list.productName}}</div>
                                                 <div class="used-main-price-date">
@@ -64,7 +61,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-center">
+                                    <div class="text-center" v-if="data.length >=11">
                                         <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3">
                                         </v-pagination>
                                     </div>
@@ -254,7 +251,7 @@
         },
         created() {
             axios({
-                url: "/used/userMain",
+                url: "/zippy/used/userMain",
                 methods: "GET",
                 params: {
                     email: this.$route.query.email,
