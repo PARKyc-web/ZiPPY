@@ -247,6 +247,12 @@ public int moveStatusUpdateZero(MoveRequestVO vo) {
     return mapper.getCompanyList(vo);
   }
   
+  //업체조회 - 단건
+  @Override
+  public List<MoveMyListVO> moveCompanyOne(MoveMyListVO vo) {
+    return mapper.moveCompanyOne(vo);
+  }
+  
   //해당찜조회
   @Override
   public List<BookmarkVO> getWishOneList(int sId, String email, int serviceType) {
@@ -257,5 +263,11 @@ public int moveStatusUpdateZero(MoveRequestVO vo) {
   @Override
   public List<MoveReviewVO> showReview(@Param("serviceId")String serviceId) {
     return mapper.showReview(serviceId);
+  }
+  
+  //리뷰개수
+  @Override
+  public List<MoveReviewVO> moveRvCount(String serviceId) {
+    return mapper.moveRvCount(serviceId);
   }
 }

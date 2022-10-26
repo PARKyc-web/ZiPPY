@@ -72,9 +72,16 @@ public interface MoveService {
   //업체조회 페이지
   public List<MoveMyListVO> getCompanyList(MoveMyListVO vo);
   
+//업체조회 페이지 - 단건
+  public List<MoveMyListVO> moveCompanyOne(MoveMyListVO vo);
+  
   //해당찜조회
   public List<BookmarkVO> getWishOneList(@RequestParam int sId, @RequestParam String email, @RequestParam int serviceType); 
    
   //후기 출력
    public List<MoveReviewVO> showReview(@Param("serviceId")String serviceId);
+   
+ //후기 개수
+   public List<MoveReviewVO> moveRvCount(@Param("serviceId")String serviceId);
+   
 }
