@@ -1,6 +1,5 @@
 <template>
     <div>
-        <nav-bar @click="categoryVal=$event.target.innerText"></nav-bar>
         <div id="container">
             <div id="used-seller-main">
                 <div id="used-img">
@@ -245,7 +244,7 @@
                 rate4: 0,
                 deleteState: ""
             },
-            nickName : ""
+            nickName: ""
         }),
         watch: {
             page() {
@@ -269,6 +268,21 @@
             }).catch(error => {
                 console.log(error);
             })
+            // ,
+            // axios({
+            //     url: "common/showReview",
+            //     methods: "GET",
+            //     headers: {
+            //         "Content-Type": "application/json; charset=utf-8"
+            //     },
+            //     data: JSON.stringify(this.data)
+            // }).then(res => {
+            //     console.log(res);
+            //     this.data = res.data;
+            //     console.log(this.data);
+            // }).catch(error => {
+            //     console.log(error);
+            // })
         },
         methods: {
             rewrite() {

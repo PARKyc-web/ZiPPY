@@ -95,7 +95,8 @@ public class CommonServiceIml implements CommonService {
     Random rand = new Random();    
     String path = now + rand.nextInt(10) + image.getOriginalFilename();     
     
-    File write = new File(folder + File.separator + path);      
+    File write = new File(folder + File.separator + path);
+    System.out.println("저장할 파일의 이름 : " + image.getOriginalFilename());
     System.out.println("저장할 위치 :: " + write.toString());
     try {
       image.transferTo(write);

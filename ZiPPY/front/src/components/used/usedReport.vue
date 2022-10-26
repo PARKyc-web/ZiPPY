@@ -14,7 +14,7 @@
                 <v-card-text>신고 사유를 입력해주세요.</v-card-text>
                 <v-card-text>
                     <v-radio-group v-model="reportContents">
-                        <v-radio label="판매금지 물풉입니다(마약,술,담배,칼 등)" value="판매금지 물풉입니다(마약,술,담배,칼 등)"
+                        <v-radio label="판매금지 물품입니다(마약,술,담배,칼 등)" value="판매금지 물품입니다(마약,술,담배,칼 등)"
                             color="green lighten-3"></v-radio>
                         <v-radio label="허위로 기재된 글입니다." value="허위로 기재된 글입니다." color="green lighten-3"></v-radio>
                     </v-radio-group>

@@ -305,6 +305,22 @@
 			<artifactId>itext-asian</artifactId>
 			<version>5.2.0</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.itextpdf/itext-asian -->
+		<dependency>
+		    <groupId>com.itextpdf</groupId>
+		    <artifactId>itext-asian</artifactId>
+		    <version>5.2.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.itextpdf/itext-pdfa -->
+		<dependency>
+		    <groupId>com.itextpdf</groupId>
+		    <artifactId>itext-pdfa</artifactId>
+		    <version>5.5.13.3</version>
+		</dependency>
+		
+		
 
 		<!-- https://mvnrepository.com/artifact/com.itextpdf/itext-pdfa -->
 		<dependency>
@@ -354,6 +370,7 @@
 					<showWarnings>true</showWarnings>
 					<showDeprecation>true</showDeprecation>
 					<encoding>utf-8</encoding>
+
 				</configuration>
 			</plugin>
 			<plugin>

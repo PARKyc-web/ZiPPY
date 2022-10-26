@@ -830,6 +830,28 @@ export default {
           data: formData
         }).then(res => {
           console.log(res);
+
+           
+            //견적상태변경
+          this.$axios({
+            url: "http://localhost:8090/zippy/move/moveStatusUpdateZero",
+            method: "POST",
+          
+            params:{
+              estimateNo : this.selectData.estimateNo,
+              email : this.selectData.email,
+              reservStatus : 0
+            },
+            // data: formData
+          }).then(res => {
+            console.log(res);
+            alert("견적서 보내기 완료!");
+            
+
+          }).catch(err => {
+            console.log(err)
+          })
+
         }).catch(err => {
           console.log(err)
         })

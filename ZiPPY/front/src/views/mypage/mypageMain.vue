@@ -83,9 +83,9 @@
                         hiddenOnCollapse: true
                     },
                     {
-                        href: '/mypage/order',
-                        title: '구매목록',
-                        icon: 'fa-solid fa-list',
+                        href: '/mypage/used/myPage?email='+this.$store.state.loginInfo.email,
+                        title: '마이페이지',
+                        icon: 'fa-solid fa-user',
                     },
                     {
                         href: '/mypage/used/insert',
@@ -111,16 +111,20 @@
                         hiddenOnCollapse: true
                     },
                     {
-                        href: '/mypage',
+                        href: '/mypage/move/moveResult',
+                        title: '이사요청',
+                        icon: 'fa-solid fa-truck-moving',
+                    },
+                    {
+                        href: '/mypage/move/moveMyList',
                         title: '견적서',
                         icon: 'fa-solid fa-paste',
                     },
                     {
-                        href: '/mypage',
-                        title: '견적서',
-                        icon: 'fa-solid fa-truck-moving',
+                        href: '/mypage/move/moveMyReserve',
+                        title: '예약목록',
+                        icon: 'fa-solid fa-list',
                     },
-
                 ]
             }
         },

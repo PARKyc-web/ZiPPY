@@ -1,53 +1,24 @@
-<!-- <template>
-  <v-app-bar color="#fff">
-    <a @click="pushCategory($event)" class="nav-link active" aria-current="page" href="#">전체</a>
-    <a @click="pushCategory($event)" class="nav-link" href="#">침실</a>
-    <a @click="pushCategory($event)" class="nav-link" href="#">수납</a>
-    <a @click="pushCategory($event)" class="nav-link" href="#">주방</a>
-    <a @click="pushCategory($event)" class="nav-link" href="#">욕실</a>
-    <a @click="pushCategory($event)" class="nav-link" href="#">서재</a>
-    <a @click="pushCategory($event)" class="nav-link" href="#">다용도실</a>
-  </v-app-bar>
-</template> -->
 <template>
-  <nav class="py-2 border-bottom">
-    <div class="container d-flex flex-wrap">
-      <ul class="nav me-auto">
-        <li class="nav-item">
-          <a @click="pushCategory($event)" href="#" class="nav-link link-dark px-2 active" aria-current="page">침실</a>
-        </li>
-        <li class="nav-item">
-          <a @click="pushCategory($event)" href="#" class="nav-link link-dark px-2">수납</a>
-        </li>
-        <li class="nav-item">
-          <a @click="pushCategory($event)" href="#" class="nav-link link-dark px-2">주방</a>
-        </li>
-        <li class="nav-item">
-          <a @click="pushCategory($event)" href="#" class="nav-link link-dark px-2">욕실</a>
-        </li>
-        <li class="nav-item">
-          <a @click="pushCategory($event)" href="#" class="nav-link link-dark px-2">서재</a>
-        </li>
-        <li class="nav-item">
-          <a @click="pushCategory($event)" href="#" class="nav-link link-dark px-2">다용도실</a>
-        </li>
-      </ul>
+  <v-toolbar elevation="4" style="margin-bottom:5px">
+    <div style="width: 75vw">
+      <v-btn-toggle v-model="text" tile color="success lighten-1" group>
+        <v-btn value="침실" @click="pushCategory($event)" class="nav-link active" aria-current="page">전체</v-btn>
+        <v-btn value="수납" @click="pushCategory($event)" class="nav-link">침실</v-btn>
+        <v-btn value="주방" @click="pushCategory($event)" class="nav-link">수납</v-btn>
+        <v-btn value="주방" @click="pushCategory($event)" class="nav-link">주방</v-btn>
+        <v-btn value="욕실" @click="pushCategory($event)" class="nav-link">욕실</v-btn>
+        <v-btn value="서재" @click="pushCategory($event)" class="nav-link">서재</v-btn>
+        <v-btn value="다용도실" @click="pushCategory($event)" class="nav-link">다용도실</v-btn>
+      </v-btn-toggle>
     </div>
-  </nav>
+  </v-toolbar>
 </template>
 
 <script>
   export default {
     data: () => ({
       data: [],
-      cate: [
-        '침실',
-        '수납',
-        '주방',
-        '욕실',
-        '서재',
-        '다용도실',
-      ]
+      text : ""
     }),
     methods: {
       pushCategory: function (e) {
@@ -56,18 +27,3 @@
     }
   }
 </script>
-
-<style scoped>
-  .nav {
-    width: 100%;
-  }
-
-  .nav-item{
-    margin-right: 10px;
-  }
-  .nav-item:hover{
-    background-color: #b3e3c3;
-    border-radius: 20%;
-    
-  }
-</style>

@@ -1,7 +1,6 @@
 <template>
   <form id="usedUpdate">
     <div>
-      <nav-bar @click="search($event)"></nav-bar>
       <div id="container">
         <div>
           <div class="used-main-title">
@@ -9,48 +8,49 @@
           </div>
         </div>
         <div class="used-insert-addr">
-          <button id="used-addr">
+          <div id="used-addrs">
+            <current-position-label @sigu="test"></current-position-label>
+          </div>
+          <!-- <button id="used-addr"> -->
             <i class="fa-solid fa-location-dot fa-2x"></i>
-          </button>
-          <current-position-label @sigu="test"></current-position-label>
+          <!-- </button> -->
         </div>
         <hr />
         <div>
           <div>
             <div id="used-insert-main">
               <div class="used-insert-img" id="used-insert-img-div">
-                <span>이미지</span> 0/6
+                <span>이미지</span> {{files.length}}/6
               </div>
               <div v-if="!files.length" class="room-file-upload-example-container">
-                <div class="room-file-upload-example">
-                  <div class="room-file-image-example-wrapper"></div>
-                  <div class="room-file-notice-item room-file-upload-button">
-                    <div class="image-box">
-                      <label for="file">일반 사진 등록</label>
-                      <input type="file" name="images" id="file" ref="files" @change="imageUpload" multiple
-                        accept="image/*" />
-                    </div>
+              <div class="room-file-upload-example">
+                <div class="room-file-image-example-wrapper"></div>
+                <div class="room-file-notice-item room-file-upload-button">
+                  <div class="image-box">
+                    <label for="file">일반 사진 등록</label>
+                    <input type="file" name="images" id="file" ref="files" @change="imageUpload" multiple
+                      accept="image/*" />
                   </div>
                 </div>
               </div>
-              <div v-else class="file-preview-content-container">
-                <div class="file-preview-container">
-                  <div class="file-preview-wrapper-upload">
-                    <div class="image-box">
-                      <label for="file">추가 사진 등록</label>
-                      <input type="file" name="images" id="file" ref="files" @change="imageAddUpload" multiple
-                        accept="image/*" />
-                    </div>
-                    <!-- <div class="file-close-button" @click="fileDeleteButton" :name="file.number">x</div> -->
+            </div>
+            <div v-else class="file-preview-content-container">
+              <div class="file-preview-container">
+                <div v-for="(file, index) in files" :key="index" class="file-preview-wrapper">
+                  <div class="file-close-button" @click="fileDeleteButton" :name="file.number">
+                    x
                   </div>
-                  <div v-for="(file, index) in files" :key="index" class="file-preview-wrapper">
-                    <div class="file-close-button" @click="fileDeleteButton" :name="file.number">
-                      x
-                    </div>
-                    <img :src="file.preview" />
+                  <img :src="file.preview" />
+                </div>
+                <div class="file-preview-wrapper-upload">
+                  <div class="image-box">
+                    <label for="file" v-if="files.length<6">추가 사진 등록</label>
+                    <input type="file" name="images" id="file" ref="files" @change="imageAddUpload" multiple
+                      accept="image/*" />
                   </div>
                 </div>
               </div>
+            </div>
             </div>
           </div>
         </div>
@@ -221,10 +221,8 @@
         console.log(this.files);
         // console.log(this.filesPreview);
       },
-
       imageAddUpload() {
         console.log(this.$refs.files.files);
-
         // this.files = [...this.files, this.$refs.files.files];
         //하나의 배열로 넣기c
         let num = -1;
@@ -245,12 +243,11 @@
           num = i;
         }
         this.uploadImageIndex = this.uploadImageIndex + num + 1;
-
         console.log(this.files);
         // console.log(this.filesPreview);
       },
       fileDeleteButton(e) {
-        const name = e.target.getAttribute('name');
+        const name = e.target.getAttribute("name");
         this.files = this.files.filter(data => data.number !== Number(name));
         // console.log(this.files);
       },
@@ -258,13 +255,18 @@
         this.test();
         this.dropVal();
         var formData = new FormData(document.querySelector('#usedUpdate'));
+
+        for(let key of formData.keys()){
+          console.log(`${key}, :: ${formData.get(key)}`);
+        }
+
         axios({
           url: "http://localhost:8090/zippy/used/update",
           method: "POST",
           data: formData
         }).then(res => {
           console.log(res);
-          window.location.assign('/used/detail?pNo=' + this.$route.query.pNo);
+          // window.location.assign('/used/detail?pNo=' + this.$route.query.pNo);
         }).catch(err => {
           console.log(err)
         })
@@ -286,6 +288,10 @@
 <style scoped>
   .room-file-upload-example {
     height: 100%;
+  }
+
+  #used-addrs{
+    margin-left: 25px;
   }
 
   .room-file-upload-example-container {
@@ -325,7 +331,7 @@
     display: inline-block;
     padding: 10px 20px;
     background-color: #b3e3c3;
-    color: #fff;
+    color: black;
     vertical-align: middle;
     font-size: 15px;
     cursor: pointer;
@@ -513,9 +519,13 @@
   .used-insert-submit button {
     border: none;
     background-color: #b3e3c3;
-    color: white;
+    color: black;
     width: 100px;
     height: 50px;
+    border-radius: 0.8rem;
+  }
+  .used-insert-submit button:hover {
+    background-color: #95d7ab;
   }
 
   .used-wish-detailInfo {
