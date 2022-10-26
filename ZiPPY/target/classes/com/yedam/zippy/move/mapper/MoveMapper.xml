@@ -177,7 +177,7 @@
 	</update>
 	
 	<!-- 업체가 1차견적 발송 후 견적상태 1로 변경 -->
-	<update id="moveStatusUpdate" parameterType="MoveResponseVO">
+	<update id="moveStatusUpdate" parameterType="hashmap">
 		UPDATE moving_response 
         SET reserv_status = 1
         WHERE estimate_no = #{estimateNo}  

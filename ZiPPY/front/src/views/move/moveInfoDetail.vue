@@ -1,10 +1,11 @@
 <template>
   <div class="wrap">
     <h3>이삿짐의 상세 정보를 입력해주세요.</h3>
-    <br /><br />
+    
+    <div class="move-detail">
+      <br />
     <h4>가구</h4>
     <br />
-    <div class="move-detail">
       <div class="move-furniture1">
         <input type="checkbox" name="bed" v-model="bedAvail"/><label>침대</label>
         <button v-bind:disabled="bedAvail==false" 
@@ -87,13 +88,12 @@
     </div>
 
 
-    <br />
-    <hr />
-    <br />
+   
+    
+    <div class="move-detail">
+      <br />
     <h4>가전</h4>
     <br />
-    <div class="move-detail">
-
       <div class="move-furniture1">
         <input type="checkbox" name="tv" v-model="tvAvail"/><label>TV</label>
         <button v-bind:disabled="tvAvail==false" 
@@ -176,8 +176,7 @@
 
 
     <div>
-      <br />
-      <hr />
+      
       <br />
       <h4>기타</h4>
       <br />
@@ -199,12 +198,11 @@
         </div>
       </div>
 
-      <br />
-      <hr />
-      <br />
-      <h4>박스 수량</h4>
-      <br />
+     
       <div class="move-detail-2">
+        <br />
+        <h4>박스 수량</h4>
+        <br />
         <div class="move-furniture3">
           <br />
           <h5>
@@ -229,28 +227,29 @@
         </div>
       </div>
 
-      <br />
-      <hr />
-      <br />
-      <h4>짐사진 첨부(선택)</h4>
-      <br />
+      
       <div class="move-detail-2">
+        <br />
+        <h4>전달사항(선택)</h4>
+        <br />
         <div class="move-furniture1">
           <br />
           <h5>
-            ※측정하기 힘든 짐은 사진을 첨부하면 더 정확한 견적을 받을 수
-            있습니다.
+            ※이사업체에 전달하고 싶은 사항이 있으면 작성해주세요.
           </h5>
           <br />
           <div class="move-detail-drop">
-            <v-file-input outlined v-model="moveDetail.filesPhoto" placeholder="Upload your documents" label="사진첨부" 
+            <v-textarea v-model="movingMemo" placeholder="전달사항을 입력해주세요.">
+
+            </v-textarea>
+            <!-- <v-file-input outlined v-model="moveDetail.filesPhoto" placeholder="Upload your documents" label="사진첨부" 
               prepend-icon="mdi-paperclip">
               <template v-slot:selection="{ text }">
                 <v-chip small label color="success">
                   {{ text }}
                 </v-chip>
               </template>
-            </v-file-input>
+            </v-file-input> -->
           </div>
         </div>
       </div>
@@ -300,9 +299,9 @@
 
         box: "",
         filesPhoto: "",
-
       }],
-
+      movingMemo: "",
+      
       // 사진
       img: require("../../assets/box.jpg"),
     }),
@@ -463,7 +462,8 @@
                   moveInfo : this.moveInfo,
                   moveType:this.moveType,
                   moveDate: this.moveDate, 
-                  moveAddress: this.moveAddress
+                  moveAddress: this.moveAddress,
+                  movingMemo : this.movingMemo
           }
         })
         }
@@ -474,6 +474,7 @@
 </script>
 
 <style scoped>
+
   .head {
     display: inline-block;
   }
@@ -561,15 +562,23 @@
     margin: 5px;
   }
 
+.move-detail{
+  
+  overflow: hidden;
+}
+
   .move-furniture1 {
-    display: inline-block;
-    margin: 35px;
-    width: 250px;
+    /* display: inline-block; */
+    float: left;
+    margin: 20px;
+    width: 25%;
   }
 
   .move-furniture2 {
-    display: inline-block;
+    float: left;
+    /* display: inline-block; */
     margin: 20px;
+    width: 250px;
   }
 
   .type-2 {
@@ -585,6 +594,8 @@
   .type-2:hover {
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
   }
+
+  
 
   .move-detail-2 {
     text-align: center;

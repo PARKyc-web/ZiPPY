@@ -1,6 +1,7 @@
 <template>
   <div class="whole-wrap">
     <move-nav-bar @click="categoryVal=$event.target.innerText"></move-nav-bar>
+    <move-slide @click="categoryVal=$event.target.innerText"></move-slide>
     <form>
 
   <!-- moveSelect (이사유형 선택) -->
@@ -68,29 +69,31 @@
     <h3>이사 희망 날짜를 선택해주세요.</h3>
     <v-row justify="space-between" locale="ko-KR">
       <div class="subheading"></div>
-      <v-date-picker
+      <v-date-picker 
         v-model="moveDate.date"
         :events="arrayEvents"
         color="green lighten-1"
         event-color="blue lighten-1"
         header-color="green -1"
+        locale="ko-KR"
+        :allowed-dates="disablePastDates"
       ></v-date-picker>
     </v-row>
     <hr />
     <h3>이사 희망 시간을 선택해주세요.</h3>
     <div class="selectTime">
       <b-row>
-        <b-col md="auto">
+        <b-col md="auto" locale="ko-KR">
           <b-time v-model="moveDate.time" locale="ko-KR" @context="onContext"></b-time>
         </b-col>
         <b-col>
           <!-- v-if를 걸어서 널값일때는 시간 선택해달라고 안내문구 -->
-
+<!-- 
           <p>
             선택 시간: <b>{{ moveDate.time }}</b>
-          </p>
-          <!-- <p class="mb-0">Context:</p>
-      <pre v-if="context != null" class="small">{{ context.Value }}</pre> -->
+            
+          </p> -->
+          
         </b-col>
       </b-row>
     </div>
@@ -384,10 +387,11 @@
 <script>
 import swal from 'sweetalert2';
 import MoveNavBar from '../../components/move/MoveNavBar.vue';
+import MoveSlide from '../../components/move/MoveSlide.vue';
 
 export default {
   components: {
-    MoveNavBar
+    MoveNavBar, MoveSlide
   },
   
 
@@ -446,14 +450,9 @@ export default {
         parkable : "",
         veranda:"",
 
-      //   //moveVisitDate
-      //   visitDate : "",
-      // visitTime : "",
-
-        
       },
 
-    
+      today : new Date()
 
   }),
 
@@ -470,6 +469,11 @@ export default {
   },
 
     methods: {
+      //현재일보다 과거 선택 불가
+      disablePastDates(val){
+        return val >= new Date().toISOString().substring(0,10);
+      },
+
       // moveSelect
       small() {
         let item = document.querySelector(".explain1");
@@ -547,6 +551,8 @@ export default {
         window.scrollTo(0,0);
         }
       },
+
+    
 
     //moveInfo
     moveInfoNext(){
@@ -762,12 +768,12 @@ form{
 
 .moveSelect-wrap {
   width: 90%;
-  margin: 100px auto;
+  z-index: 1;
   text-align: center;
 }
 
 button {
-  margin: 70px;
+  margin: 20px;
 }
 
 .custom-btn {
@@ -863,8 +869,9 @@ button {
 
 .explain1,
 .explain2 {
-  height: 200px;
+  /* height: 200px; */
   display: none;
+  padding: 30px;
 }
 
 
@@ -1037,7 +1044,7 @@ label {
 }
 .contact-explain1,
 .untact-explain2 {
-  height: 100px;
+  /* height: 100px; */
   display: none;
 }
 

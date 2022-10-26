@@ -9,7 +9,7 @@
     <input type="hidden" name="movingOption" v-model="checkk">
     <input type="hidden" name="commonOption" v-model="commonOption">
     <input type="hidden" name="email" v-model="email">
-    <input type="hidden" name="movingMemo" v-model="movingMemoSend">
+    <input type="hidden" name="movingMemo" v-model="movingMemo">
     
     <input type="hidden" name="departAddress" v-model="moveAddress.address">
     <input type="hidden" name="arriveAddress" v-model="moveAddress.address2">
@@ -27,6 +27,7 @@
 
     <input type="hidden" name="moveType" v-model="moveType">
     <input type="hidden" name="requestDate" v-model="requestDateSend">
+    <input type="hidden" name="reservStatus" v-model="reservStatus">
 
     <!-- 이사유형 -->
     <v-expansion-panels>
@@ -52,10 +53,6 @@
               <v-select name="moveType" v-model="moveType" :items="types" chips flat solo outlined placeholder="선택한 이사유형 불러오기">
               </v-select>
 
-              <div class="drop-btn">
-                <v-btn text color="secondary"> 취소 </v-btn>
-                <v-btn text color="primary"> 수정 </v-btn>
-              </div>
             </v-col>
 
           </v-row>
@@ -183,12 +180,7 @@
                     placeholder="참고항목" />
 
                   <v-spacer></v-spacer>
-                  <v-btn text color="primary" @click="$refs.startMenu.isActive = false">
-                    취소
-                  </v-btn>
-                  <v-btn text color="primary" @click="$refs.startMenu.save(address, detailAddress)">
-                    수정
-                  </v-btn>
+                  
                 </v-card>
                 <!-- </v-date-picker> -->
               </v-menu>
@@ -222,12 +214,7 @@
                     placeholder="참고항목" />
 
                   <v-spacer></v-spacer>
-                  <v-btn text color="primary" @click="$refs.endMenu.isActive = false">
-                    취소
-                  </v-btn>
-                  <v-btn text color="primary" @click="$refs.endMenu.save(postcode2)">
-                    수정
-                  </v-btn>
+                  
                 </v-card>
                 <!-- </v-time-picker> -->
               </v-menu>
@@ -271,10 +258,7 @@
               <v-select class="select-home" v-model="moveInfo.floor" :items="floors" chips flat solo outlined
                 placeholder="선택한 집층수 불러오기"></v-select>
 
-              <div class="drop-btn">
-                <v-btn text color="secondary"> 취소 </v-btn>
-                <v-btn text color="primary"> 수정 </v-btn>
-              </div>
+              
             </v-col>
           </v-row>
         </v-expansion-panel-content>
@@ -316,10 +300,7 @@
               <v-select class="select-home" v-model="moveInfo.veranda" :items="verandas" chips flat solo outlined
                 placeholder="선택한 베란다 개수 불러오기"></v-select>
 
-              <div class="drop-btn">
-                <v-btn text color="secondary"> 취소 </v-btn>
-                <v-btn text color="primary"> 수정 </v-btn>
-              </div>
+              
             </v-col>
           </v-row>
         </v-expansion-panel-content>
@@ -362,10 +343,7 @@
               <v-select class="select-home" v-model="moveInfo.parkable" :items="parkable" chips flat solo outlined
                 placeholder="주차가능 여부"></v-select>
 
-              <div class="drop-btn">
-                <v-btn text color="secondary"> 취소 </v-btn>
-                <v-btn text color="primary"> 수정 </v-btn>
-              </div>
+              
             </v-col>
           </v-row>
         </v-expansion-panel-content>
@@ -526,32 +504,32 @@
               <br />
               <div class="boxes">
               <h4>박스 수량</h4>
-              <v-col cols="10" sm="6" md="3">
+              <v-row cols="10" sm="3" md="1">
                 <v-select class="select-home" v-model="moveDetail[0].box" :items="boxes" chips flat solo outlined
                   placeholder="선택한 박스 개수를 확인해주세요."></v-select>
-              </v-col>
+              </v-row>
             </div>
 
               <br />
               <hr />
               <br />
               <div class="photos">
-              <h4>짐사진 첨부(선택)</h4>
+              <h4>전달사항(선택)</h4>
               <br />
-              <v-file-input outlined v-model="moveDetail.filesPhoto" placeholder="Upload your documents" label="사진첨부"
+              
+                <v-textarea v-model="movingMemo">
+                  
+                </v-textarea>
+              <!-- <v-file-input outlined v-model="moveDetail.filesPhoto" placeholder="Upload your documents" label="사진첨부"
                 prepend-icon="mdi-paperclip">
                 <template v-slot:selection="{ text }">
                   <v-chip small label color="success">
                     {{ text }}
                   </v-chip>
                 </template>
-              </v-file-input>
+              </v-file-input> -->
             </div>
 
-              <div class="drop-btn">
-                <v-btn text color="secondary"> 취소 </v-btn>
-                <v-btn text color="primary"> 수정 </v-btn>
-              </div>
             </v-col>
           </v-row>
         </v-expansion-panel-content>
@@ -610,13 +588,6 @@
                   </v-chip>
                 </template>
               </v-file-input>
-
-
-
-              <div class="drop-btn">
-                <v-btn text color="secondary"> 취소 </v-btn>
-                <v-btn text color="primary"> 수정 </v-btn>
-              </div>
             </v-col>
           </v-row>
         </v-expansion-panel-content>
@@ -625,7 +596,6 @@
 
     </v-expansion-panels>
 
-    <v-btn color="success" elevation="10" @click="moveInfoCheck()">확인완료</v-btn>
 
 
     <!-- <v-sheet color="white" elevation="3" height="250" width="250"></v-sheet> -->
@@ -672,13 +642,13 @@ export default {
     MoveNavBar
   },
 
-    props: ['moveImage', 'moveDetail', 'moveEstimateType', 'moveType', 'moveInfo', 'moveDate', 'moveAddress'],
+    props: ['moveImage', 'moveDetail', 'moveEstimateType', 'moveType', 'moveInfo', 'moveDate', 'moveAddress', 'movingMemo'],
 
     data: () => ({
       commonOption:"",
       checkk: "",
       email : "",
-      movingMemoSend: "MemoMemo",
+      // movingMemo: "",
       requestDateSend: new Date().toLocaleDateString(),
 
       date: null,
@@ -687,7 +657,7 @@ export default {
       visitTime: null,
       postcode: null,
       postcode2: null,
-
+      reservStatus: '',
       //items
       types: ["소형이사", "가정이사"],
       houses: ["빌라/주택", "오피스텔", "아파트"],
@@ -780,6 +750,7 @@ export default {
         untactForm.movingOption.value= JSON.stringify(this.moveDetail[0])
         untactForm.commonOption.value= JSON.stringify(this.moveInfo) ;
         untactForm.email.value = this.$store.state.loginInfo.email;
+        untactForm.reservStatus.value =0;
 
         // var moveDetailJson = JSON.stringify(this.moveDetail[0]);
         // var moveInfoJson = JSON.stringify(this.moveInfo);
@@ -871,7 +842,8 @@ export default {
             moveDate: this.moveDate, 
             moveAddress: this.moveAddress,
             requestDate : this.requestDateSend,
-            email : this.$store.state.loginInfo.email
+            email : this.$store.state.loginInfo.email,
+            
           }
           })
         } else {
@@ -1000,32 +972,6 @@ export default {
        }else if(i<1){
         this.moveDetail[0].etcCount = 1;
        }
-      },
-
-
-      //값 넘어가는지 확인
-      moveInfoCheck: function () {
-
-        console.log(this.moveImage);
-        
-
-        
-
-        console.log(JSON.stringify(this.moveDetail[0]));
-        console.log(JSON.stringify(this.moveInfo));
-        console.log(JSON.stringify(this.moveImage));
-        console.log(this.checkk);
-
-        // console.log(this.moveDetail);
-        // console.log(JSON.stringify(this.moveDetail));
-
-        // console.log(this.moveImage);
-        // console.log(this.moveDetail);
-        // console.log(this.moveInfo);
-        // console.log(this.moveType);
-        // console.log(this.moveEstimateType);
-        // console.log("==================")
-        // console.log(this.moveInfo.date);
       },
 
       //우편번호api
