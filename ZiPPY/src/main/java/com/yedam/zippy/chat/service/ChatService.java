@@ -20,4 +20,8 @@ public interface ChatService {
   public ChatRoomVO getRoomInfo(int roomId);
 
   public int soldout(ChatRoomVO vo);
+  
+  public ChatRoomName findOneRoom(int roomId);
+  
+  public void saveLastChatLog(ChatMessage chatMessage);
 }

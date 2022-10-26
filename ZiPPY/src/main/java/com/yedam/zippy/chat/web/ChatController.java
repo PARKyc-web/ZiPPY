@@ -49,6 +49,11 @@ public class ChatController {
       return service.findAllRoom(email);
     }
     
+    @GetMapping("/oneRoom")
+    public ChatRoomName getOneRoom(int roomId) {  
+      return service.findOneRoom(roomId);
+    }
+    
     @GetMapping("/roomInfo")
     public ChatRoomVO getRoomInfo(int roomId) {
       return service.getRoomInfo(roomId);
