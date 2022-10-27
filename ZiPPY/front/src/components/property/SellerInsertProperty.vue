@@ -1,4 +1,5 @@
 <template>
+  <form id="insertProperty">
   <v-row>
     <template v-slot:activator="{ on, attrs }">
       <v-btn x-small elevation="2" fab dark v-bind="attrs" v-on="on">
@@ -12,7 +13,7 @@
           <v-container>
             <v-row>
               <v-col cols="12" sm="6">
-                <v-file-input label='대표 이미지' v-model="mainImg"></v-file-input>
+                <v-file-input label='대표 이미지' v-model="mainImg" id="mainImage"></v-file-input>
               </v-col>
               <v-col cols="12" sm="6">
                 <v-file-input label='상세 이미지' multiple small-chips truncate-length="15"></v-file-input>
@@ -77,8 +78,9 @@
           <v-btn color="blue darken-1" text @click="click">
             등록
           </v-btn>
-        </v-card-actions>
+        </v-card-actions>        
   </v-row>
+</form>
 </template>
 
 <script>
@@ -134,25 +136,27 @@
       },
       insert(tags) {
         
-
+        var formData = new FormData(document.querySelector('#insertProperty'));
         let result = 0;
+
+        var temp = document.getElementById("mainImage");
+
+        formData.append("email", this.$store.state.loginInfo.email);
+        formData.append("detailContents", this.detailContents);
+        formData.append("roomCnt", this.roomCnt);
+        formData.append("areaExclusive", this.areaExclusive);
+        formData.append("floor", this.floor);
+        formData.append("houseType", this.houseType);
+        formData.append("sigungu", this.sigungu);
+        formData.append("price", this.price);
+        formData.append("saleType", this.saleType);  
+        formData.append("houseName", this.houseName)
+        formData.append("images", temp.files[0]);     
 
         axios({
             url: "/zippy/property/insertHouseProduct",
-            methods: "POST",
-            params: {
-              mainImg: this.mainImg.name,
-              houseName: this.houseName,
-              saleType: this.saleType,
-              price: this.price,
-              sigungu: this.sigungu,
-              houseType: this.houseType,
-              floor: this.floor,
-              areaExclusive: this.areaExclusive,
-              roomCnt: this.roomCnt,
-              detailContents: this.detailContents,
-              email: this.$store.state.loginInfo.email,
-            }
+            method: "POST",
+            data : formData
           }).then(response => {
             // 성공했을 때
             result++;
