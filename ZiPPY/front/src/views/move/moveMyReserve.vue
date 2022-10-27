@@ -76,7 +76,7 @@
             <v-rating :value="4.5" color="amber" dense half-increments readonly size="20"></v-rating>
 
             <div class="grey--text ms-4">
-              평점{{item.totalRating}} (413)
+              평점 {{Math.round(item.totalRating * 10)/10}} (413)
             </div>
           </v-row>
           <v-divider class="mx-4"></v-divider>
@@ -123,8 +123,8 @@
           </v-btn>
 
           <!-- 후기 작성 모달 -->
-          <Move-Review-Modal :serviceId="item.email" :movingResponseNo="item.movingResponseNo">
-          </Move-Review-Modal>
+          <MoveReviewModal :email="item.email" :movingResponseNo="item.movingResponseNo" :reservStatus="item.reservStatus">
+          </MoveReviewModal>
           <!-- <v-btn v-if="item.reservStatus == 5" color="deep-purple lighten-2" text @click="review">
             후기작성
           </v-btn> -->
@@ -159,7 +159,8 @@ export default {
       selection: 1,
       heart : 0,
       wish: "",
-
+      on: "",
+      attrs : "",
       list: [],
 
       //받은정보

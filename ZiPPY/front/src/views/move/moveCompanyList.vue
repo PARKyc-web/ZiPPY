@@ -60,7 +60,7 @@
             채팅하기
           </v-btn>
 
-          <v-btn color="#B3E3C3 lighten-2" text @click="goToCompany(item.email)">
+          <v-btn color="#B3E3C3 lighten-2" text @click="goToCompany(item.email, item.movingResponseNo)">
             후기보기
           </v-btn>
         </v-card-actions>
@@ -181,10 +181,11 @@ export default {
         setTimeout(() => (this.loading = false), 2000)
       },
       //후기보기
-      goToCompany(email){
+      goToCompany(email, movingResponseNo){
         
-        this.$router.push('/move/moveReview?serviceId=' + email);
-        console.log('이메일 :::',email);
+        this.$router.push('/move/moveReview?serviceId=' + email + 
+                      '&movingResponseNo=' + movingResponseNo);        
+        console.log('이메일 :::',email, movingResponseNo);
       },
       //체크박스
       checkbox: function () {

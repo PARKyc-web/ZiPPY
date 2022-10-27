@@ -1,10 +1,10 @@
 <template>
   <v-dialog v-model="dialog" persistent :retain-focus="false" max-width="500px">
     <template v-slot:activator="{ on, attrs }">
-      <!-- <v-btn  v-if="list.reservStatus == 5" id="reviewBtn" depressed color=#B3E3C3 v-bind="attrs" v-on="on" width="100px">
+      <!-- <v-btn  v-if="this.reservStatus == 5" id="reviewBtn" depressed color=#B3E3C3 v-bind="attrs" v-on="on" width="100px">
         후기작성
       </v-btn>
-      <v-btn v-else="list.reservStatus == 6" disabled depressed color=#D6D6D6 width="100px">
+      <v-btn v-else="this.reservStatus == 6" disabled depressed color=#D6D6D6 width="100px">
         작성완료
       </v-btn> -->
       <v-btn  id="reviewBtn" depressed color=#B3E3C3 v-bind="attrs" v-on="on" width="100px">
@@ -114,6 +114,7 @@ import swal from 'sweetalert2';
         components: {
             MoveNavBar
         },
+        props:['email','movingResponseNo'],
         data: function () {
             return {
                 dialog: false,
@@ -123,12 +124,12 @@ import swal from 'sweetalert2';
                 pageCount: 1,
                 estimateType: "",
                 serviceId: "",
-                pageNum: "",
-                email: 'move123@move.com',
+                pageNum: "",                
 
 
                 //은하
-
+                on: "",
+                attrs:"",
                 //후기 
                 reviewContent: '',
                 serviceType: 3,
@@ -137,7 +138,7 @@ import swal from 'sweetalert2';
                 rate2: '',
                 rate3: '',
                 rate4: '',
-
+                reservStatus:'',
                 singleSelect: false,
                 reviews: [],
                 headers: [{
@@ -180,15 +181,14 @@ import swal from 'sweetalert2';
             }
         },
         async created() {
-
+            var outside = this.list;
             let res =  await axios({
                     url: "http://localhost:8090/zippy/move/moveMyListOne",
                     methods: "GET",
                     params: {
-                        email: 'move123@move.com',
+                        email: this.email,
                         userEmail: this.$store.state.loginInfo.email,
-                        // movingResponseNo : this.list.movingResponseNo,
-                        movingResponseNo: 18,
+                        movingResponseNo : this.movingResponseNo,                        
                         pageNum: this.page
 
                     }
@@ -196,6 +196,7 @@ import swal from 'sweetalert2';
 
             this.list = res.data;
             this.pageCount = res.data.pages;
+            console.log('outside',outside.list);
             console.log("res", res);
             console.log(res.data);
             console.log("list!!!!!!!", this.list);

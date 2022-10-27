@@ -116,7 +116,6 @@
               채팅하기
             </v-btn>
 
-            <Move-Review-Modal></Move-Review-Modal>
           </v-card-actions>
         </v-card>
       </div>
@@ -135,7 +134,7 @@
   import axios from 'axios';
   import swal from 'sweetalert2';
   import MoveNavBar from '../../components/move/MoveNavBar.vue';
-  import MoveReviewModal from '@/components/move/MoveReviewModal.vue';
+ 
 
   export default {
     components: {

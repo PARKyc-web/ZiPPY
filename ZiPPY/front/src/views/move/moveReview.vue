@@ -7,12 +7,6 @@
 
         <v-card>
             <div id="used-seller-main">
-                <!-- <div id="used-img">
-                    <div id="used-img-img">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkW5iRqvi6VdPWVWYswwWoUYhmW-AA2W8P0tExfMLx3wWPiwVFHegzq29vq8KoN1jKVxQ&usqp=CAU"
-                            width="100px" height="100px" alt="">
-                    </div>
-                </div> -->
 
                 <!-- 업체정보 -->
                 <div class="loaf">
@@ -20,7 +14,7 @@
 
                         <div id="used-name-report">
                             <!-- <div>{{this.nickName}}</div> -->
-                            <div>NO.{{list.compName}}</div>
+                            <div>NO.{{list.compName}}</div>                            
                         </div>
                     </div>
                     <div id="used-seller-name">
@@ -129,92 +123,6 @@
                 </b-tab>
 
 
-                <div v-if="list.userEmail == this.$store.state.loginInfo.email">
-                    <b-tab title="후기작성">
-                        <v-card>
-
-                            <v-card-title>
-                                <span class="text-h6">견적정보</span>
-                            </v-card-title>
-                            <v-card-text>
-                                <div><span>NO.{{list.movingResponseNo}}</span></div>
-                                <div><span>견적일자 : {{list.requestDate}}</span></div>
-                                <div><span>글쓴이 : {{nickName}}</span></div>
-                                <div v-if="list.secondEstimateType == null">
-                                    <div><span>견적타입: {{list.firstEstimateType}}</span></div>
-                                </div>
-                                <div v-if="list.secondEstimateType != null">
-                                    <div><span>견적타입 : {{list.secondEstimateType}}</span></div>
-                                </div>
-
-                            </v-card-text>
-
-                            <hr />
-
-                            <v-card-title>
-                                <span class="text-h6">이사후기</span>
-                            </v-card-title>
-                            <v-card-text>
-                                <v-container style="color:#212529">
-                                    <v-row>
-                                        <!-- 별점선택 -->
-                                        <v-col cols="11">
-                                            <table>
-                                                <tbody>
-                                                    <tr style="border: 0">
-                                                        <td>손이 빨라요</td>
-                                                        <td>
-                                                            <b-form-rating v-model="rate1" no-border color="#64c481"
-                                                                size="sm"></b-form-rating>
-                                                        </td>
-                                                    </tr>
-                                                    <tr style="border: 0">
-                                                        <td>전문적이에요</td>
-                                                        <td>
-                                                            <b-form-rating v-model="rate2" no-border color="#64c481"
-                                                                size="sm"></b-form-rating>
-                                                        </td>
-                                                    </tr>
-                                                    <tr style="border: 0">
-                                                        <td>친절해요</td>
-                                                        <td>
-                                                            <b-form-rating v-model="rate3" no-border color="#64c481"
-                                                                size="sm"></b-form-rating>
-                                                        </td>
-                                                    </tr>
-                                                    <tr style="border: 0">
-                                                        <td>마무리가 깔끔해요</td>
-                                                        <td>
-                                                            <b-form-rating v-model="rate4" no-border color="#64c481"
-                                                                size="sm"></b-form-rating>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </v-col>
-                                        <v-col cols="12">
-                                            리뷰
-                                            <v-textarea solo v-model="reviewContent" no-border name="input-7-4"
-                                                label="리뷰를 입력해주세요">
-                                            </v-textarea>
-                                        </v-col>
-                                    </v-row>
-                                </v-container>
-                            </v-card-text>
-                            <v-card-actions>
-                                <v-spacer></v-spacer>
-
-                                <input type="button" id="subBtn" value="등록" 
-                                    color="success lighten -2" text @click="insertReview()" />
-
-
-
-                            </v-card-actions>
-                        </v-card>
-                    </b-tab>
-                </div>
-
-
             </b-tabs>
         </div>
 
@@ -297,29 +205,29 @@
         async created() {
 
             let res =  await axios({
-                    url: "http://localhost:8090/zippy/move/moveMyListOne",
+                    url: "/zippy/move/moveMyListOne",
                     methods: "GET",
                     params: {
-                        email: this.list.serviceId,
+                        email: this.$route.query.serviceId,
                         userEmail: this.$store.state.loginInfo.email,
-                        // movingResponseNo : this.list.movingResponseNo,
-                        movingResponseNo: 14,
+                        movingResponseNo : this.$route.query.movingResponseNo,
+                        // movingResponseNo: 14,
                         pageNum: this.page
 
                     }
             });
 
+            console.log("list!!!!!!!:::::::", this.list);
             this.list = res.data;
             this.pageCount = res.data.pages;
             console.log("res", res);
             console.log(res.data);
-            console.log("list!!!!!!!", this.list);
 
                    
 
             //후기 가져오기
             res = await  axios({
-                url: "http://localhost:8090/zippy/move/moveReview",
+                url: "/zippy/move/moveReview",
                 methods: "GET",
                 params: {
 
@@ -336,7 +244,7 @@
             this.nickName = this.$store.state.loginInfo.nickName;
             console.log("res", res);
             console.log(res.data);
-            console.log("list!!!!!!!", this.data);
+            console.log("list리스트", this.data);
 
             // this.data.email = this.$store.state.loginInfo.email;
             // this.data.serviceId= this.list[i].email;
