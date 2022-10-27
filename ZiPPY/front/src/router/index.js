@@ -9,6 +9,7 @@ import AgentDetail from "../components/property/AgentDetail.vue";
 // my page
 import MyWishProperties from "../components/property/MyWishProperties.vue";
 import SellerPropertyList from "../components/property/SellerPropertyList.vue";
+import SellerInsertProperty from "../components/property/SellerInsertProperty.vue";
 /////////////////////////
 import shopView from "../views/shopView.vue";
 import shopMain from "../views/shop/shopMainView.vue";
@@ -273,6 +274,11 @@ const routes = [
         path : "/seller/SellerPropertyList",
         name : "SellerPropertyList",
         component : SellerPropertyList
+      },
+      {
+        path : "/seller/SellerInsertProperty",
+        name : "SellerInsertProperty",
+        component : SellerInsertProperty
       }
     ]
   },
