@@ -4,8 +4,7 @@
         <div class="row">
           <div class="order-xl-1 col-xl-8">
   
-            <div class="card">
-  
+               <div>
               <div class="card-header">
                 <div class="row align-items-center">
                   <div class="col-8">
@@ -23,10 +22,10 @@
                       <div class="img-form">                        
                         <img :src="'/zippy/common/img/member/' + this.$store.state.loginInfo.profilePic" id="profile_img">
                         <v-btn
-                        color="primary"
+                        color="#B3E3C3"
                         class="form-control"
-                        dark
                         @click="dialog2 = true"
+                        depressed
                       >
                         프로필사진 변경
                       </v-btn>                        

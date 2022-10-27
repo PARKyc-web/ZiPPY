@@ -105,7 +105,7 @@
       getPropertyList() {
         axios({
             url: "http://localhost:8090/zippy/property/getAllWishProperties",
-            methods: "GET",
+            method: "GET",
             params: {
               email: this.$store.state.loginInfo.email,
               pageNum: this.page

@@ -40,7 +40,10 @@
 
 	<select id="getAgentProperties" parameterType="String"
 		resultType="propertyVO">
-		select * from house_product where email = #{email}
+		select *
+		from house_product
+		where email = #{email}
+		order by product_state desc, product_id desc
 	</select>
 
 	<select id="getAgentProfile" parameterType="String"

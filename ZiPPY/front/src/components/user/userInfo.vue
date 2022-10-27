@@ -23,9 +23,9 @@
                     <div class="img-form">
                       <img :src="'/zippy/common/img/member/' + this.$store.state.loginInfo.profileImage" id="profile_img">
                       <v-btn
-                        color="primary"
+                        color="#B3E3C3"
                         class="form-control"
-                        dark
+                        depressed
                         @click="dialog2 = true"
                       >
                         프로필사진 변경

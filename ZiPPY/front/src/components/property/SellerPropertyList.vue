@@ -1,10 +1,11 @@
 <template>
   <div id="container">
     <div>
-      <h4 class="title">
-        매물 목록
-      </h4>
-
+      <v-card-title>
+        <h4 class="title">
+          나의 매물 목록
+        </h4>
+      </v-card-title>
       <div class="row" style="margin-left:35px ;">
         <v-card v-if="properties.length != 0" v-for="item in properties" style="width: 45%; margin: 1%; padding: 20px;"
           @click="goHouseDetail(item.productId)">
@@ -67,22 +68,21 @@
     created() {
       this.getPropertyList();
 
-      axios({
-          url: "http://localhost:8090/zippy/property/getAgentProfile",
-          methods: "GET",
-          params: {
-            email: this.$store.state.loginInfo.email
-          }
-        }).then(response => {
-          // 성공했을 때
-          // console.log(response);
-          this.profile = response.data;
-        })
-        .catch(error => {
-          // 에러가 났을 때
-          console.log(error);
-
-        })
+      // axios({
+      //     url: "http://localhost:8090/zippy/property/getAgentProfile",
+      //     method: "GET",
+      //     params: {
+      //       email: this.$store.state.loginInfo.email
+      //     }
+      //   }).then(response => {
+      //     // 성공했을 때
+      //     // console.log(response);
+      //     this.profile = response.data;
+      //   })
+      //   .catch(error => {
+      //     // 에러가 났을 때
+      //     console.log(error);
+      //   })
     },
     watch: {
       page() {
@@ -111,7 +111,7 @@
       getPropertyList() {
         axios({
             url: "http://localhost:8090/zippy/property/getAgentProperties",
-            methods: "GET",
+            method: "GET",
             params: {
               email: this.$store.state.loginInfo.email,
               pageNum: this.page
@@ -142,7 +142,7 @@
 <style scoped>
   #container {
     margin: 0 auto;
-    width: 70%;
+    width: 1224px;
   }
 
   #agent_profile {
