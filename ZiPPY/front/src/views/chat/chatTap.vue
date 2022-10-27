@@ -2,22 +2,28 @@
 <div class="container">
     <b-list-group>
         <b-list-group-item class="flex-column align-items-start" v-for="(item, i) in chatRooms" @click="enterChatRoom(item)">
-            <img v-if="$store.state.loginInfo.email == item.user1" 
-                       :src="'/zippy/common/img/member/' + item.user2Pic"
-                       style="border-radius: 50%; width: 100px; height: 100px;">
-                       
-            <img v-else="$store.state.loginInfo.email != item.user1" 
-                       :src="'/zippy/common/img/member/' + item.user1Pic"
-                       style="border-radius: 50%; width: 100px; height: 100px;">
-
-            <div class="d-flex w-100  justify-content-between">                
-                <h5 class="mb-1" v-if="$store.state.loginInfo.email == item.user1">{{item.user2Name}}</h5>
-                <h5 class="mb-1" v-else>{{item.user1Name}}</h5>                
-                <small>{{item.lastTime}}</small>
+            <div class="d-flex w-100 justify-content-around">
+                <!--  style="display:flex" -->
+                <div id="userImage">
+                    <img v-if="$store.state.loginInfo.email == item.user1" 
+                            :src="'/zippy/common/img/member/' + item.user2Pic"
+                            style="border-radius: 50%; width: 100px; height: 100px;">
+                            
+                    <img v-else="$store.state.loginInfo.email != item.user1" 
+                            :src="'/zippy/common/img/member/' + item.user1Pic"
+                            style="border-radius: 50%; width: 100px; height: 100px;">
+                </div>
+                <div>
+                    <div class="d-flex w-100  justify-content-between">                
+                        <h5 class="mb-1" v-if="$store.state.loginInfo.email == item.user1">{{item.user2Name}}</h5>
+                        <h5 class="mb-1" v-else>{{item.user1Name}}</h5>                
+                        <small>{{item.lastTime}}</small>
+                    </div>
+                    <p class="mb-1">
+                    {{item.lastChat}}
+                    </p>
+                </div>
             </div>
-            <p class="mb-1">
-            {{item.lastChat}}
-            </p>
             <!-- <small>Donec id elit non mi porta.</small> -->
         </b-list-group-item>
     </b-list-group>

@@ -14,8 +14,7 @@
         <div id="download-btn" class="ml-auto">
           <button type="button" class="form-control"><a :href="txtFile">TXT 파일 다운로드</a></button>
           <button type="button" class="form-control"><a :href="pdfFile">PDF 파일 다운로드</a></button>
-        </div>
-  
+        </div>  
       </div><br>
       <div id="chatBody" style="overflow:auto;">
         <ul class="list-group">
