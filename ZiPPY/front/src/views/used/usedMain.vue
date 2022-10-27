@@ -1,6 +1,23 @@
 <template>
   <div>
     <nav-bar @click="categoryVal=$event.target.innerText"></nav-bar>
+    <div>
+      <v-carousel cycle height="500" hide-delimiter-background :show-arrows="false" class="mt-5">
+        <v-carousel-item v-for="(slide, i) in slides" :key="i">
+          <v-img :src="imgs[i]" height="100%">
+            <v-row class="fill-height" align="center" justify="center">
+              <div class="text-h3" id="slide-text">
+                {{ slide }}
+                <div class="text-h6" id="info-text">
+                  {{ info[i] }}
+                </div>
+              </div>
+            </v-row>
+          </v-img>
+        </v-carousel-item>
+      </v-carousel>
+    </div>
+    <div id="main-background"></div>
     <div id="container">
       <div>
         <div class="used-main-title">
@@ -108,6 +125,21 @@
       page: 1,
       pageCount: 1,
       cate: "",
+      imgs: [
+        'https://images.pexels.com/photos/4430925/pexels-photo-4430925.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+        'https://images.pexels.com/photos/1571459/pexels-photo-1571459.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+        'https://images.pexels.com/photos/312029/pexels-photo-312029.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+      ],
+      slides: [
+        '싼 값에 좋은 물건을',
+        '중고제품으로 꾸미는 집안',
+        '쓰지않는 물건은 보내기'
+      ],
+      info: [
+        '중고거래만의 묘미',
+        '셀프 인테리어의 재미',
+        '갖고싶은 물건은 들여오기'
+      ],
 
       // 주소 출력에 필요한 데이터들입니다.
       map: null,
@@ -222,6 +254,37 @@
     margin: 0 auto;
   }
 
+  #slide-text {
+    color: white;
+    /* color:#191919; */
+    margin: 0 0 0 300px;
+    font-weight: bold;
+  }
+
+  #info-text {
+    /*font-weight: bold;*/
+    padding: 30px 0 0 5px;
+  }
+
+  .v-carousel {
+    width: 70%;
+    border-radius: 1.5em;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    top: 10px;
+  }
+
+  #main-background {
+    width: 100%;
+    margin-top: 64px;
+    height: 450px;
+    background-color: #B3E3C3;
+    position: absolute;
+    top: 76px;
+    z-index: 0;
+  }
+
   #used-show-cate {
     margin-top: 30px;
   }
@@ -266,7 +329,8 @@
   }
 
   .used-main-card img {
-    border-radius: 0.8em;
+    border-top-left-radius: 0.8rem;
+    border-top-right-radius: 0.8rem;
   }
 
   v-container:hover {
@@ -288,7 +352,7 @@
   }
 
   .used-main-title {
-    margin: 50px;
+    margin: 150px 50px 50px 50px;
     display: flex;
     justify-content: space-between;
   }
