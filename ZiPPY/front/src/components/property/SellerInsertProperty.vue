@@ -5,8 +5,6 @@
         <v-icon small>mdi-plus</v-icon>
       </v-btn>
     </template>
-    <v-card>
-      <form id="insertProperty">
         <v-card-title>
           <span class="text-h5">매물 등록</span>
         </v-card-title>
@@ -61,7 +59,7 @@
               </v-col>
 
               <v-col cols="12">
-                <v-chip-group multiple active-class="green--text" v-model="selectedTags">
+                <v-chip-group multiple active-class="green--text" v-model="selectedTags" style="margin: 0 auto">
                   <v-chip v-for="tag in tags" :key="tag" filter outlined>
                     {{ tag }}
                   </v-chip>
@@ -79,12 +77,7 @@
           <v-btn color="blue darken-1" text @click="click">
             등록
           </v-btn>
-          <v-btn color="blue darken-1" text @click="dialog2 = false">
-            닫기
-          </v-btn>
         </v-card-actions>
-      </form>
-    </v-card>
   </v-row>
 </template>
 
@@ -158,7 +151,7 @@
               areaExclusive: this.areaExclusive,
               roomCnt: this.roomCnt,
               detailContents: this.detailContents,
-              email: this.email,
+              email: this.$store.state.loginInfo.email,
             }
           }).then(response => {
             // 성공했을 때
