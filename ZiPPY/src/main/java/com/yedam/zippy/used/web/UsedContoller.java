@@ -52,7 +52,6 @@ public class UsedContoller {
     } else if (checked.equals("false")) {
       checked = "0";
     }
-    System.out.println("checked@@@@@@@@@@@@@@@@@@" + checked);
     String order = "product_date DESC";
     if (dropbox.equals("최저가순")) {
       dropbox = "0";
@@ -98,8 +97,6 @@ public class UsedContoller {
   // 수정
   @PostMapping("/update")
   public int update(UsedProductVO product, List<MultipartFile> images) {
-    System.out.println(product.getIsSell());
-//    service.insertUsedProduct(product, images);
     System.out.println(images);
     service.updateUsedProduct(product, images);
     return 1;

@@ -5,8 +5,7 @@
             <div id="used-seller-main">
                 <div id="used-img">
                     <div id="used-img-img">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkW5iRqvi6VdPWVWYswwWoUYhmW-AA2W8P0tExfMLx3wWPiwVFHegzq29vq8KoN1jKVxQ&usqp=CAU"
-                            width="100px" height="100px" alt="">
+                        <img :src="'/zippy/common/img/member/'+data.profileImage" width="100px" height="100px" alt="">
                     </div>
                 </div>
                 <div 판매자정보 부분>
@@ -137,7 +136,7 @@
                     this.data = res.data.list;
                     this.pageCount = res.data.pages;
                     this.nickName = this.data[0].nickName;
-                    this.rv.email = this.$store.state.loginInfo.email;
+                    console.log(this.data)
                 }).catch(error => {
                     console.log(error);
                 })
@@ -382,6 +381,12 @@
         height: auto;
         display: inline-block;
         margin: 20px;
+        border-radius: 0.8rem;
+    }
+
+    .used-main-card img{
+        border-top-left-radius: 0.8rem;
+        border-top-right-radius: 0.8rem;
     }
 
 
