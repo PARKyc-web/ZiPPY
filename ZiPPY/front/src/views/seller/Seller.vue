@@ -5,7 +5,8 @@
             <sidebar-menu :menu="shop" v-if="$store.state.loginInfo.memberType == 2"></sidebar-menu>
             <sidebar-menu :menu="move" v-if="$store.state.loginInfo.memberType == 3"></sidebar-menu>
         </div>
-        <router-view />        
+        <router-view />
+        <div style="padding-top:100px"></div>     
     </div>
 </template>
 

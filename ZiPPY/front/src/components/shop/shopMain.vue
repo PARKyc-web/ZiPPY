@@ -4,15 +4,16 @@
     <div>
       <v-carousel cycle height="500" hide-delimiter-background :show-arrows="false" class="mt-5">
         <v-carousel-item v-for="(slide, i) in slides" :key="i">
-          <v-img :src="imgs[i]" height="100%">
-            <v-row class="fill-height" align="center" justify="center">
-              <div class="text-h3" id="slide-text">
-                {{ slide }}
+          <v-img :src="require(`../../assets/shop/${imgs[i]}.jpg`)" height="100%">
+          <!-- <v-img :src="imgs[i]" height="100%"> -->
+          <v-row class="fill-height" align="center" justify="center">
+            <div class="text-h3" id="slide-text">
+              {{ slide }}
               <div class="text-h6" id="info-text">
                 {{ info[i] }}
               </div>
-              </div>
-            </v-row>
+            </div>
+          </v-row>
           </v-img>
         </v-carousel-item>
       </v-carousel>
@@ -25,15 +26,15 @@
         <h2 style="color:#B3E3C3">#BEST</h2>
       </div>
       <!-- 아이템 -->
-        <div id="main-item" v-for="product in products" :key="product.proNo" @click="goDetail(product.proNo)">
-          <div id="main-product-img">
-            <img :src="'/zippy/common/img/shop/'+product.proMainImg">
-          </div>
-          <div class="product-about" id="left">
-            <h6 id="product-name">{{ product.proName }}</h6>
-            <h6>{{ product.proPrice | comma }}</h6>
-          </div>
+      <div id="main-item" v-for="product in products" :key="product.proNo" @click="goDetail(product.proNo)">
+        <div id="main-product-img">
+          <img :src="'/zippy/common/img/shop/'+product.proMainImg">
         </div>
+        <div class="product-about" id="left">
+          <h6 id="product-name">{{ product.proName }}</h6>
+          <h6>{{ product.proPrice | comma }}</h6>
+        </div>
+      </div>
       <!-- 아이템 끝 -->
     </div>
     <!-- 아이템 리스트 -->
@@ -48,7 +49,7 @@
           </div>
           <div class="product-about" id="left">
             <h6 id="product-name">{{ product.proName }}</h6>
-             <h6>{{ product.proPrice | comma }}</h6>
+            <h6>{{ product.proPrice | comma }}</h6>
           </div>
         </div>
       </div>
@@ -62,10 +63,15 @@
   export default {
     data() {
       return {
+        // imgs: [
+        //   'https://img.freepik.com/free-photo/empty-living-room-with-blue-sofa-plants-and-table-on-empty-white-wall-background-3d-rendering_41470-1778.jpg?w=1480&t=st=1666709412~exp=1666710012~hmac=71b8324cababdaf17f969bb1f9a0eeee78ff94e71fd7f36c4eba5cf0bcbcd392',
+        //   'https://img.freepik.com/free-photo/mockup-wall-in-the-children39s-room-with-gray-armchair-on-light-white-color-wall_41470-4931.jpg?w=1480&t=st=1666710650~exp=1666711250~hmac=4e3ca8aadeaa744ead36f5b5e7c052dd654201fec4223ed625959e978e812bfb',
+        //   '/'
+        // ],
         imgs: [
-          'https://img.freepik.com/free-photo/empty-living-room-with-blue-sofa-plants-and-table-on-empty-white-wall-background-3d-rendering_41470-1778.jpg?w=1480&t=st=1666709412~exp=1666710012~hmac=71b8324cababdaf17f969bb1f9a0eeee78ff94e71fd7f36c4eba5cf0bcbcd392',
-          'https://img.freepik.com/free-photo/mockup-wall-in-the-children39s-room-with-gray-armchair-on-light-white-color-wall_41470-4931.jpg?w=1480&t=st=1666710650~exp=1666711250~hmac=4e3ca8aadeaa744ead36f5b5e7c052dd654201fec4223ed625959e978e812bfb',
-          'https://img.freepik.com/free-photo/interior-wall-mockup-with-green-plant-green-wall-and-shelf-3d-rendering_41470-3280.jpg?w=1800&t=st=1666710759~exp=1666711359~hmac=7b391e3e351fc402d3cf276c809927725fa4cdbafaaea29c09a8f02ade15b86e'
+          'main1',
+          'main2',
+          'main3'
         ],
         slides: [
           '아늑한 거실 꾸미기',
@@ -94,11 +100,11 @@
     },
     methods: {
       goDetail(no) {
-        this.$router.push('/shop/detail?pno='+no)
+        this.$router.push('/shop/detail?pno=' + no)
       }
     },
-    filters : {
-      comma(val){
+    filters: {
+      comma(val) {
         return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
       }
     }
@@ -110,28 +116,33 @@
   .v-carousel {
     width: 70%;
     border-radius: 1.5em;
-    margin:0 auto;
-    position:relative;
+    margin: 0 auto;
+    position: relative;
     z-index: 1;
   }
+
   #main-background {
-    width:100%;
-    margin-top:64px;
-    height:450px;
-    background-color:#B3E3C3;
-    position:absolute;
-    top:0;
+    width: 100%;
+    margin-top: 64px;
+    height: 450px;
+    background-color: #B3E3C3;
+    position: absolute;
+    top: 0;
     z-index: 0;
   }
-  #slide-text{
-    color:#191919;;
-    margin:0 0 0 300px;
+
+  #slide-text {
+    color: #191919;
+    ;
+    margin: 0 0 0 300px;
     font-weight: bold;
   }
-  #info-text{
+
+  #info-text {
     /*font-weight: bold;*/
     padding: 30px 0 0 5px;
   }
+
   /* 아이템 리스트 */
   /*** 아마 공통? ***/
   #left {
@@ -164,6 +175,7 @@
   #list-name h2 {
     font-weight: bold;
   }
+
   #main-color1 {
     background-color: #F7F7F7;
   }

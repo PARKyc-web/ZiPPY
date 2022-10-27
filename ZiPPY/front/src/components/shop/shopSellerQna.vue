@@ -1,8 +1,6 @@
 <template>
   <div class="mx-auto pt-10" id="cart-con">
-    <v-toolbar flat color="white">
-      <v-toolbar-title>QNA 조회</v-toolbar-title>
-    </v-toolbar>
+    <h3 style="margin:30px">CS내역</h3>
 
     <v-card>
       <v-data-table :headers="headers" :items="qnas">

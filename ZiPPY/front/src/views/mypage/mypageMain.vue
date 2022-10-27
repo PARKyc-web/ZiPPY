@@ -149,8 +149,8 @@
         width: 13%;
         float: left;
         /* height: 100vh; */
-        position:fixed;
-        top: 80px;
+        /* position:fixed;
+        top: 80px; */
     }
     #main{
         width: 87%;

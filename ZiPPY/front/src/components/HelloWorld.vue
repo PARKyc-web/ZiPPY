@@ -1,7 +1,9 @@
 <template>
   <div>
-    <h1>ZiPPY에 오신걸 환영합니다!</h1>
-    <img :src="'/zippy/common/img/member/image1.jpg'">     
+    <div class="wrap"></div>
+      <video id="video" autoplay="autoplay" muted="muted" loop>
+        <source src="../assets/zippyMain.mp4" type="video/mp4">
+      </video>
   </div>
 </template>
 
@@ -9,18 +11,32 @@
   export default {
     name: "HelloWorld",
     data: function () {
-      return {       
+      return {
         return: {},
       };
     },
-
-    methods : {      
-    }
+    mounted() {
+     document.getElementById('video').playbackRate = 0.8;
+    },
+    methods: {}
   };
 </script>
 
 <style scoped>
-img {
-  width: 500px;
+video {
+  width: 100%; 
+  height: 100vh;
+  object-fit: cover;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
 }
+/* .wrap {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(red, black);
+  
+} */
+
 </style>

@@ -1,8 +1,8 @@
 <template>
   <form id="shopInsert">
     <div>
-      <div class="mx-auto pt-10" style="width:485px">
-        <h5 style="font-weight:bold">상품수정</h5>
+      <div class="mx-auto pt-5" style="width:485px">
+        <h3 style="margin:30px">상품수정</h3>
         <!-- 상품입력 테이블 -->
         <hr>
         <table id="insertTable" width="100%">

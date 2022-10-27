@@ -1,8 +1,6 @@
 <template>
-  <div class="mx-auto pt-10" id="cart-con">
-    <v-toolbar flat color="white">
-      <v-toolbar-title>판매내역</v-toolbar-title>
-    </v-toolbar>
+  <div class="mx-auto pt-5" id="cart-con">
+    <h3 style="margin:30px">판매내역</h3>
 
     <v-card>
       <v-card-title>

@@ -1,8 +1,8 @@
 <template>
   <form id="shopInsert">
     <div>
-      <div class="mx-auto pt-10" style="width:485px">
-        <h5 style="font-weight:bold">상품등록</h5>
+      <div class="mx-auto pt-5" style="width:485px">
+        <h3 style="margin:30px">상품등록</h3>
         <!-- 상품입력 테이블 -->
         <hr>
         <table id="insertTable" width="100%">
@@ -78,20 +78,20 @@
             </tr>
           </tbody>
         </table>
-        <div v-for="(item, index) in option" :key="item.optName" style="width:485px">
+        <div v-for="(item, index) in option" :key="index" style="width:485px">
           <!-- 옵션명 -->
           <div class="pl-3 mt-5" style="width:100px; display:inline-block">옵션이름</div>
           <div style="padding:10px; width:354px; display:inline-block">
-            <input data-v-656fe1d6 type="text" class="form-control" v-model="option[index].optName">
+            <input data-v-656fe1d6 type="text" class="form-control" v-model="item.optName">
           </div>
           <!-- 추가 가격-->
           <div class="pl-3 mb-5" style="width:100px;  display:inline-block">추가가격</div>
           <div style="padding:10px; width:354px;  display:inline-block">
-            <input data-v-656fe1d6 type="text" class="form-control" v-model="option[index].optPrice">
+            <input data-v-656fe1d6 type="text" class="form-control" v-model="item.optPrice">
           </div>
         </div>
         <!-- 상품입력 테이블 -->
-        <input data-v-656fe1d6 hidden type="text" class="form-control" name="email" value="shop@mail.com">
+        <input data-v-656fe1d6 hidden type="text" class="form-control"  name="email" v-model="email">
         <hr>
         <div>
           <div style="width:150px; margin-top:50px; margin-bottom:120px" class="mx-auto">
@@ -115,6 +115,7 @@
   export default {
     data() {
       return {
+        email: '',
         //담을 상품
         product: {},
         //null체크용
@@ -126,6 +127,9 @@
         //옵션
         option: []
       }
+    },
+    created() {
+      this.email = this.$store.state.loginInfo.email;
     },
     //옵션 추가
     methods: {
