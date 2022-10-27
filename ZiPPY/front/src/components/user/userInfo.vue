@@ -21,7 +21,7 @@
                   <div class="row">
 
                     <div class="img-form">
-                      <img :src="'/zippy/common/img/member/' + this.$store.state.loginInfo.profileImage" id="profile_img">                  
+                      <img :src="'/zippy/common/img/member/' + this.$store.state.loginInfo.profileImage" id="profile_img">
                       <v-btn
                         color="primary"
                         class="form-control"
@@ -346,12 +346,7 @@ import swal from 'sweetalert2';
     margin-left: 35%;
     overflow: hidden;
   }
-
-  img {
-    width: 100%;
-    /* border-radius: 50%; */
-  }
-
+  
   .img-form {
     width: 300px;
     height: 300px;

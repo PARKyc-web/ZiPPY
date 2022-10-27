@@ -9,7 +9,7 @@ export default new Vuex.Store({
     loginInfo : null,
     memberType : null,
     cartCount : 0,
-  },
+  },  
   getters: {
     getName : function(state){
       if(state.memberType == 0){
