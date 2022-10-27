@@ -184,6 +184,8 @@
 		]]>
 		and
 		p.sigungu like #{sigungu}
+		and 
+		d.tags like #{tags}
 	</select>
 	
 	<!--  로그인 된 회원의 관심 매물 목록 불러오기 -->

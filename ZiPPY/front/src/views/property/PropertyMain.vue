@@ -82,6 +82,7 @@
           year: 1000,
           sigungu: '',
           range: [0, 150000],
+          tags: ''
         }
       }
     },
@@ -349,6 +350,16 @@
           });
       },
       searchPropertyList(data) {
+        this.initData.tags = '';
+        
+        console.log(data.selectedTags);
+        data.selectedTags.sort();
+        console.log(data.selectedTags);
+        for(let i=0; i<data.selectedTags.length; i++) {
+          this.initData.tags += data.selectedTags[i] + '/';
+        }
+        console.log(this.initData.tags);
+
         axios({
             url: "/zippy/property/searchPropertyList",
             methods: "GET",
@@ -361,6 +372,7 @@
               minSize: data.minSize,
               maxSize: data.maxSize,
               sigungu: data.sigungu + '%',
+              tags: '%' + this.initData.tags + '%'
             }
           }).then(response => {
             // 성공했을 때
