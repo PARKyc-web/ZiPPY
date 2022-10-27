@@ -168,6 +168,16 @@
 			)
 	</insert>
 	
+	<!-- 견적 작성했는지 안했는지 여부 -->
+	<select id="moveWhether" parameterType="MoveCompanyEstimateVO" resultType="MoveCompanyEstimateVO">
+		SELECT *
+		FROM moving_response r, untact_estimate_moving m
+		WHERE r.estimate_no = m.estimate_no
+		AND m.estimate_no = #{estimateNo}
+		AND r.email = #{email}
+		AND r.moving_response_no IS NOT NULL
+	</select>
+	
 	<!-- 사용자가 견적요청 후 견적상태 1로 변경 -->
 	<update id="moveStatusUpdateZero" parameterType="MoveRequestVO">
 		UPDATE untact_estimate_moving 
@@ -245,7 +255,7 @@
 		AND SUBSTR(depart_address, 1, 2) LIKE 
 				'%'|| (SELECT SUBSTR(comp_address, 1,2) 
 					   FROM business
-					   WHERE email = #{businessEmail}) || '%'
+					   WHERE email = #{email}) || '%'
 		</if>
 		
 		<!-- AND estimate_type LIKE '%'||#{estimateType}||'%' -->
