@@ -56,6 +56,10 @@
               <td>{{this.houseDetail[0].roomCnt}}개/{{this.houseDetail[0].bathCnt}}개</td>
             </tr>
             <tr>
+              <th>방향</th>
+              <td>{{this.houseDetail[0].houseFace}}</td>
+            </tr>
+            <tr>
               <th>전용면적</th>
               <td>{{this.houseDetail[0].areaExclusive}}m²</td>
             </tr>
@@ -165,7 +169,7 @@
     data() {
       return {
         items: [{
-            src: 'http://localhost:8090/zippy/common/img/property/image1.jpg',
+            src: 'http://localhost:8090/zippy/common/img/property/',
           },
           {
             src: 'http://localhost:8090/zippy/common/img/property/image2.jpg',
@@ -207,6 +211,7 @@
           // 성공했을 때
           console.log(response.data);
           this.houseDetail = response.data;
+          this.items[0] = {src: 'http://localhost:8090/zippy/common/img/property/'+this.houseDetail[0].mainImg }
 
           let temp = this.houseDetail[0].tags.split('/');
           for (let i = 0; i < temp.length; i++) {
