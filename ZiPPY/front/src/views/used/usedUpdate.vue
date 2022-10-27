@@ -1,5 +1,8 @@
 <template>
-  <form id="usedUpdate">
+  <form id="usedUpdate">    
+    <div v-for="item in oldImage">
+                  <img :src="'/zippy/common/img/used/' + item.image">
+              </div>
     <div>
       <div id="container">
         <div>
@@ -22,6 +25,7 @@
               <div class="used-insert-img" id="used-insert-img-div">
                 <span>이미지</span> {{files.length}}/6
               </div>
+              
               <div v-if="!files.length" class="room-file-upload-example-container">
               <div class="room-file-upload-example">
                 <div class="room-file-image-example-wrapper"></div>
@@ -41,6 +45,7 @@
                     x
                   </div>
                   <img :src="file.preview" />
+                  <img :src="'/zippy/common/img/used/' +file.preview" />
                 </div>
                 <div class="file-preview-wrapper-upload">
                   <div class="image-box">
@@ -121,6 +126,7 @@
   import axios from 'axios';
   import navBar from '../../components/used/navBar.vue';
   import CurrentPositionLabel from '../../components/used/CurrentPositionLabel.vue';
+  import swal from 'sweetalert2';
   export default {
     components: {
       navBar,
@@ -170,7 +176,9 @@
       product: "",
       files: [], //업로드용 파일
       filesPreview: [],
-      uploadImageIndex: 0 // 이미지 업로드를 위한 변수
+      uploadImageIndex: 0, // 이미지 업로드를 위한 변수
+      img: {},
+      oldImage:[]
     }),
     created() {
       axios({
@@ -180,18 +188,35 @@
           pNo: this.$route.query.pNo
         }
       }).then(res => {
-        console.log(res);
         this.product = res.data;
         this.product.isSell += "";
-        console.log(this.product.isSell)
         this.select = this.product.productCategory;
-        console.log(this.select);
         this.select2 = this.isSell[this.product.isSell].value;
       }).catch(error => {
         console.log(error);
       })
+      axios({
+          url: "/zippy/used/getImg",
+          methods: "GET",
+          params: {
+            pNo: this.$route.query.pNo
+          }
+        }).then(res => {
+          // this.oldImage = res.data;
+          this.files = res.data;
+          // console.log(this.files);
+          // console.log(this.oldImage);
+
+          // for(let i=0; i<this.img.length; i++){
+          //   this.imgs.push({"src" : this.img[i].image});
+          // }
+          // console.log(this.imgs);
+        }).catch(err => {
+          console.log(err)
+        })
     },
     methods: {
+      
       imageUpload() {
         console.log(this.$refs.files.files);
         // this.files = [...this.files, this.$refs.files.files];
@@ -259,14 +284,18 @@
         for(let key of formData.keys()){
           console.log(`${key}, :: ${formData.get(key)}`);
         }
-
         axios({
           url: "/zippy/used/update",
           method: "POST",
           data: formData
         }).then(res => {
-          console.log(res);
-          // window.location.assign('/used/detail?pNo=' + this.$route.query.pNo);
+          swal.fire({
+            icon: 'success',
+            title: '수정되었습니다 !',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          window.location.assign('/used/detail?pNo=' + this.$route.query.pNo);
         }).catch(err => {
           console.log(err)
         })
@@ -274,12 +303,9 @@
       dropVal: function () {
         this.product.productCategory = this.select;
         this.product.isSell = this.select2;
-        console.log(this.product.isSell)
-        console.log(this.product.productCategory);
       },
       test(sigu) {
         this.product.productLocation = sigu;
-        console.log("test 함수에서 sigu(" + sigu + ")를 출력하고 있습니다.");
       }
     }
   };

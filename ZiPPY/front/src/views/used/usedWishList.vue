@@ -51,7 +51,7 @@
           </div>
         </div>
       </div>
-      <div class="text-center" v-if="data.length >=11">
+      <div class="text-center">
         <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3"></v-pagination>
       </div>
     </div>

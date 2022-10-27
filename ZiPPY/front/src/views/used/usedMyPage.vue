@@ -4,22 +4,22 @@
             <div id="used-seller-main">
                 <div id="used-img">
                     <div id="used-img-img">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkW5iRqvi6VdPWVWYswwWoUYhmW-AA2W8P0tExfMLx3wWPiwVFHegzq29vq8KoN1jKVxQ&usqp=CAU"
-                            width="100px" height="100px" alt="">
+                        <img :src="'/zippy/common/img/member/'+data.profileImage" width="100px" height="100px" alt="">
                     </div>
                 </div>
-                <div 판매자정보 부분>
+                <div id="used-nick-stars">
                     <div id="used-seller-name">
                         <div id="used-name-report">
-                            <div>{{this.nickName}}</div>
+                            <div id="used-user-nickname">{{this.nickName}}</div>
                         </div>
                     </div>
                     <div class="used-point-report">
                         <div>
-                            <h4>평점</h4>
+                            <h5>평점</h5>
                         </div>
-                        <div>
-                            <b-form-rating variant="warning" v-model="allTotal" no-border color="#64c481" readonly>
+                        <div class="">
+                            <b-form-rating variant="warning" v-model="allTotal" no-border color="#64c481" size="lg"
+                                readonly>
                             </b-form-rating>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-center" v-if="data.length >=11">
+                                    <div class="text-center">
                                         <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3">
                                         </v-pagination>
                                     </div>
@@ -132,7 +132,7 @@
                     this.data = res.data.list;
                     this.pageCount = res.data.pages;
                     this.nickName = this.data[0].nickName;
-                    this.rv.email = this.$store.state.loginInfo.email;
+                    console.log(this.data)
                 }).catch(error => {
                     console.log(error);
                 })
@@ -160,10 +160,35 @@
 </script>
 
 <style scoped>
+    @font-face {
+        font-family: 'GmarketSans';
+        font-weight: 500;
+        font-style: normal;
+        src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot');
+        src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot?#iefix') format('embedded-opentype'),
+            url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2') format('woff2'),
+            url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff') format('woff'),
+            url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.ttf') format("truetype");
+        font-display: swap;
+    }
+
+    h5,
+    #used-user-nickname {
+        font-family: 'GmarketSans';
+    }
+
+    .nav-link {
+        color: black;
+    }
+
     #container {
         width: 1200px;
         margin: 0 auto;
         margin-top: 20px;
+    }
+
+    #used-nick-stars h4 {
+        margin-top: 10px;
     }
 
     #b-title {
@@ -176,6 +201,10 @@
 
     #start-size {
         width: 90px;
+    }
+
+    #used-user-nickname {
+        font-size: xx-large;
     }
 
     a {
@@ -258,11 +287,16 @@
     .used-point-report {
         margin-left: 20px;
         margin-bottom: 20px;
+        height: 50px;
         display: flex;
     }
 
+    .used-point-report h5 {
+        margin-top: 15px;
+    }
+
     #used-img-img {
-        width: 200px;
+        /* width: 200px;
         height: 200px;
         position: inherit;
         display: flex;
@@ -271,11 +305,12 @@
         -webkit-box-align: center;
         align-items: center;
         flex-direction: column;
-        box-shadow: rgb(4 0 0 / 3%) 0px 5px 10px 0px;
-        background-color: #B3E3C3;
+        box-shadow: rgb(4 0 0 / 3%) 0px 5px 10px 0px; */
+    }
 
-
-
+    #used-img-img img {
+        margin-top: 10px;
+        margin-left: 10px;
     }
 
     #used-detail-report {
@@ -302,14 +337,14 @@
     }
 
     #used-img {
-        position: inherit;
+        /* position: inherit;
         height: 100%;
         -webkit-box-pack: center;
         justify-content: center;
         -webkit-box-align: center;
         align-items: center;
         flex-direction: column;
-        box-shadow: rgb(4 0 0 / 3%) 0px 5px 10px 0px;
+        box-shadow: rgb(4 0 0 / 3%) 0px 5px 10px 0px; */
     }
 
     #used-img img {
@@ -380,10 +415,8 @@
         border-radius: 0.8rem;
     }
 
-
     .used-main-card img {
-        border-top-left-radius: 0.8rem;
-        border-top-right-radius: 0.8rem;
+        border-radius: 0.8rem;
     }
 
 
@@ -421,39 +454,4 @@
         font-size: smaller;
     }
 
-    /*input 바로 다음의 label*/
-    input#chk_top+label {
-        cursor: pointer;
-    }
-
-    /*input 바로 다음의 label:before 에 체크하기 전 CSS 설정*/
-    input#chk_top+label:before {
-        content: "";
-        display: inline-block;
-        width: 17px;
-        height: 17px;
-        line-height: 17px;
-        border: 1px solid #cbcbcb;
-        vertical-align: middle;
-        /*체크 전과 체크 후 높이 차이 때문에 설정*/
-    }
-
-    .chk_box {
-        margin-top: 30px;
-    }
-
-    /*checked된 input 바로 다음의 label:before 에 체크 후 CSS 설정*/
-    input#chk_top:checked+label:before {
-        content: "\f00c";
-        /*폰트어썸 유니코드*/
-        font-family: "Font Awesome 5 free";
-        /*폰트어썸 아이콘 사용*/
-        font-weight: 900;
-        /*폰트어썸 설정*/
-        color: #fff;
-        background-color: #B3E3C3;
-        border-color: #B3E3C3;
-        font-size: 13px;
-        text-align: center;
-    }
 </style>

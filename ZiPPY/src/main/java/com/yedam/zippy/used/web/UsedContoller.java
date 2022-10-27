@@ -67,7 +67,7 @@ public class UsedContoller {
       order = "product_date";
     }
 
-    PageHelper.startPage(pageNum, 15, order);
+    PageHelper.startPage(pageNum, 10, order);
     return PageInfo.of(service.usedList(location, keyword, category, checked, dropbox));
   }
 
