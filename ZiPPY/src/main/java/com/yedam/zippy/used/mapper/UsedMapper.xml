@@ -26,19 +26,12 @@
 
 	<select id="userMain" resultType="UsedProductVO"
 		parameterType="String">
-		<!-- SELECT p.*,
+		SELECT p.*,
 		g.NICK_NAME,
 		g.PROFILE_IMAGE
 		FROM used_product p, general_user g
 		WHERE g.email = p.email
-		AND g.email = #{email} -->
-		SELECT DISTINCT
-		g.profile_image, g.nick_name, r.total_rating, r.review_content, p.product_name
-		FROM used_product p, general_user g, review_board r
-		WHERE g.email = r.email
-		AND r.email = p.email
-		AND r.service_type = 1
-		AND p.email = #{email}
+		AND g.email = #{email}
 	</select>
 
 	<select id="usedOne" resultType="UsedProductVO"
@@ -240,15 +233,16 @@
 	</update>
 
 	<select id="showRvAll" resultType="UsedProductVO">
-		SELECT DISTINCT
-		g.profile_image, g.nick_name, r.total_rating, r.review_content,
-		p.product_name
-		FROM used_product p, general_user g, review_board r
-		WHERE g.email = r.email
-		AND r.email = p.email
-		AND r.service_type = 1
-		AND p.email = #{email}
-
+		SELECT 
+        g.profile_image, g.nick_name, r.total_rating, r.review_content, p.product_name, p.product_no, r.email
+        FROM used_product p, general_user g, review_board r
+        WHERE g.email = r.email
+        AND r.service_id = p.product_no
+        AND r.service_type = 1
+        AND r.service_id IN (
+        SELECT product_no
+        FROM used_product
+        WHERE email = #{email})
 	</select>
 
 </mapper>

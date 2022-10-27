@@ -105,7 +105,7 @@
                       </button>
                     </div>
                     <div>
-                      <v-btn width="160" depressed color=#B3E3C3 v-if="this.$store.state.loginInfo.email != product.email && product.isSell == 0 ">
+                      <v-btn width="160" depressed color=#B3E3C3 v-if="product.isSell == 0">
                         <i class="fa-solid fa-comments" @click="createChat()"> 채팅하기</i>
                       </v-btn>
                     </div>
@@ -141,35 +141,7 @@
       usedReport
     },
     data: () => ({
-      imgs: [
-        // {
-        //   src: "http://file3.instiz.net/data/file3/2022/06/08/2/6/f/26fe0e3efee7315868ff30668e109e1d.jpg"
-        // },
-        // {
-        //   src: "http://file3.instiz.net/data/file3/2022/06/08/7/7/b/77b348b96cef2c41cfae7a1293ca395e.jpg"
-        // },
-        // {
-        //   src: "http://file3.instiz.net/data/file3/2022/06/08/b/2/2/b2221c8f6fd58a1670652ac5300299f1.jpg"
-        // },
-        // {
-        //   src: "http://file3.instiz.net/data/file3/2022/06/08/a/4/8/a484eeb9b529d2d86a983d75beb86cae.jpg"
-        // },
-        // {
-        //   src: "http://file3.instiz.net/data/file3/2022/06/08/7/e/1/7e113a4442c27945a2a379401c5021c8.jpg"
-        // },
-        // {
-        //   src: "http://file3.instiz.net/data/file3/2022/06/08/e/f/7/ef70fcab688d843508f786052ebaf9a6.jpg"
-        // },
-        // {
-        //   src: "http://file3.instiz.net/data/file3/2022/06/08/3/6/b/36bf72e0e424d860262d5cb8e50e4b69.jpg"
-        // },
-        // {
-        //   src: "http://file3.instiz.net/data/file3/2022/06/08/b/8/e/b8e6359f0fd89cbf68ac1dbd7d9399e2.jpg"
-        // },
-        // {
-        //   src: "http://file3.instiz.net/data/file3/2022/06/08/2/c/2/2c2f759ae3ff1d3cc9470a988ffe7ebf.jpg"
-        // },
-      ],
+      imgs: [],
       product: "",
       email: "",
       img: {},
