@@ -16,7 +16,7 @@ public interface ChatMapper {
   
   public ChatRoomName findOneRoomName(@Param("room") ChatRoomVO room);
   
-  public void createChatRoom(@Param("vo") ChatRoomVO vo);
+  public void createChatRoom(ChatRoomVO vo);
   
   public ChatRoomVO getRoomInfo(int roomId);
   
@@ -24,4 +24,6 @@ public interface ChatMapper {
   public int soldout(ChatRoomVO vo);
   
   public void saveLastChatLog(ChatMessage chatMessage);
+  
+  public int sellProduct(ChatRoomVO vo);
 }

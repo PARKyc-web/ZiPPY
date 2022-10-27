@@ -105,6 +105,10 @@ public class UsedContoller {
   // 판매완료
   @PostMapping("/soldot")
   public int soldotupdate(@RequestBody UsedProductVO product) {
+    System.out.println("==========================");
+    System.out.println(product);
+    System.out.println("==========================");
+    
     return service.updateUsed(product);
   }
 

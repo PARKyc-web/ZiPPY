@@ -146,5 +146,10 @@ public class ChatServiceImpl implements ChatService {
   public void saveLastChatLog(ChatMessage chatMessage) {
     mapper.saveLastChatLog(chatMessage);
   }
-
+  
+  @Override
+  public int sellProduct(ChatRoomVO vo) {     
+    return mapper.sellProduct(vo);
+  }
+  
 }

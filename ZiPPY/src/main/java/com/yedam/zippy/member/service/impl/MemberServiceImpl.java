@@ -1,12 +1,7 @@
 package com.yedam.zippy.member.service.impl;
 
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.security.MessageDigest;
-import java.util.Base64;
 import java.util.List;
-import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -196,7 +191,10 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public String changeProfileImage(MultipartFile image, String email) {
       String name = commonService.saveImage(image, "member");
-      mapper.updateProfileImage(name, email);      
+      
+      LoginVO info = mapper.getLoginInfo(email);
+      
+      mapper.updateProfileImage(name, info);
       return name;
     }
 }

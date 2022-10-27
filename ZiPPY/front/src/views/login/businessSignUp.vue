@@ -8,7 +8,7 @@
               <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
                 <div class="card-body p-4 p-sm-5">
                   <h5 class="card-title text-center mb-5 fw-light fs-5">
-                    <img src="../../assets/zippy_logo2.png" width="150px" />
+                    <img src="@/assets/zippy_logo2.png" width="150px" />
                   </h5>
                   <hr class="my-4" />
 

@@ -20,9 +20,40 @@
                   <div class="pl-lg-4">
                     <div class="row">
   
-                      <div class="img-form">
-                        <img src="http://localhost:8090/zippy/common/img/member/image2.jpg">
-                        <input type="button" value="프로필사진 변경" class="form-control">
+                      <div class="img-form">                        
+                        <img :src="'/zippy/common/img/member/' + this.$store.state.loginInfo.profilePic" id="profile_img">
+                        <v-btn
+                        color="primary"
+                        class="form-control"
+                        dark
+                        @click="dialog2 = true"
+                      >
+                        프로필사진 변경
+                      </v-btn>                        
+                      <v-dialog
+                        v-model="dialog2"
+                        max-width="500px">
+                        <v-card>
+                          <v-card-title>
+                            프로필사진 변경
+                          </v-card-title>
+                          <input type="file" name="image" class="form-control" id="temp_img">
+                          <v-card-actions>
+                            <v-btn
+                              color="primary"
+                              text
+                              @click="dialog2 = false">
+                              취소
+                            </v-btn>
+                            <v-btn
+                              color="primary"
+                              text
+                              @click="profile_save()">
+                              적용
+                            </v-btn>
+                          </v-card-actions>
+                        </v-card>
+                      </v-dialog>
                       </div>
   
                       <div class="div-inline-block">
@@ -164,15 +195,16 @@
     export default {
       data() {
         return {
+          dialog2 : false,
           info: null,
           passValid : true,
-          inputAddress : "",          
+          inputAddress : "",
         }
       },
   
       created: async function () {
         var temp = await this.$axios({
-          url: "/member/mypage",
+          url: "/zippy/member/mypage",
           params: {
             email: this.$store.state.loginInfo.email,
             memberType: this.$store.state.memberType
@@ -279,9 +311,27 @@
                 showConfirmButton: false,
                 timer: 2000
               })
-        });
-  
+        });  
+      },
+
+      profile_save : function(){
+        this.dialog2 = false;
+        var temp = document.getElementById("temp_img");
+        console.log(temp);            
+
+        var formData = new FormData(document.querySelector('#comp_info'));
+        formData.append("image", temp.files[0]);
+        this.$axios({
+          url : "/zippy/member/image",
+          method : "POST",
+          data : formData
+        }).then(res => {
+          console.log(res.data);
+          this.info.profilePic = res.data;
+          this.$store.commit('login', this.info);
+        })
       }
+
   
       }
     }
@@ -294,16 +344,11 @@
       margin-left: 35%;
     }
   
-    img {
-      width: 100%;
-      /* border-radius: 50%; */
-    }
-  
     .img-form {
-      width: 300px;
-      height: 300px;
-      display: inline-block;
-    }
+    width: 300px;
+    height: 300px;
+    display: inline-block;
+  }
   
     .div-inline-block {
       width: 50%;
@@ -316,4 +361,11 @@
   
       width: 15%;
     }
+
+    img{
+    width: 275px;
+    height: 80%;
+    /* object-fit: cover; */
+    /* object-fit: fill; */
+  }
   </style>

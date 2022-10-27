@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>ZiPPY에 오신걸 환영합니다!</h1>
-    <img :src="'/zippy/common/img/member/image1.jpg'">        
+    <img :src="'/zippy/common/img/member/image1.jpg'">     
   </div>
 </template>
 
