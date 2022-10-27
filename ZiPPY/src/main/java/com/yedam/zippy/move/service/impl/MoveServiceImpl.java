@@ -161,6 +161,12 @@ public class MoveServiceImpl implements MoveService{
     return mapper.selectAllPhoto(vo);
   }
   
+  //업체가 견적 보냈는지 안보냈는지 확인 
+  @Override
+  public List<MoveCompanyEstimateVO> moveWhether(MoveCompanyEstimateVO vo) {
+    return mapper.moveWhether(vo);
+  }
+  
   //견적서 인서트 - 업체(1차)
   @Override
   public int makeEstimate(MoveResponseVO vo) {

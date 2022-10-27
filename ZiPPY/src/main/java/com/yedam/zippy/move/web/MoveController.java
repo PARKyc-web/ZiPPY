@@ -87,6 +87,12 @@ public class MoveController {
     return service.selectAllPhoto(vo);
   }
   
+  //받은 견적에서 견적전, 견적후 구분 - 업체
+  @GetMapping("/moveWhether")
+  public List<MoveCompanyEstimateVO> moveWhether(MoveCompanyEstimateVO vo){
+    return service.moveWhether(vo);
+  }
+  
   //견적서 인서트- 업체(1차까지)
   @PostMapping("/moveEstimate")
   public String makeEstimate(MoveResponseVO vo) {   

@@ -43,6 +43,10 @@ public interface MoveMapper {
   //비대면 사진조회
   public List<MoveImageVO> selectAllPhoto(MoveImageVO vo);
   
+  //받은 견적에서 견적전, 견적후 구분 - 업체
+  public List<MoveCompanyEstimateVO> moveWhether(MoveCompanyEstimateVO vo);
+  
+  
   //견적서 인서트 - 업체(1차견적까지)
   public int makeEstimate(MoveResponseVO vo);
   

@@ -1,11 +1,10 @@
 <template>
   <v-row>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn x-small elevation="2" fab dark v-bind="attrs" v-on="on">
-          <v-icon small>mdi-plus</v-icon>
-        </v-btn>
-      </template>
-      <v-card>
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn x-small elevation="2" fab dark v-bind="attrs" v-on="on">
+        <v-icon small>mdi-plus</v-icon>
+      </v-btn>
+    </template>
         <v-card-title>
           <span class="text-h5">매물 등록</span>
         </v-card-title>
@@ -60,7 +59,7 @@
               </v-col>
 
               <v-col cols="12">
-                <v-chip-group multiple active-class="green--text" v-model="selectedTags">
+                <v-chip-group multiple active-class="green--text" v-model="selectedTags" style="margin: 0 auto">
                   <v-chip v-for="tag in tags" :key="tag" filter outlined>
                     {{ tag }}
                   </v-chip>
@@ -78,11 +77,7 @@
           <v-btn color="blue darken-1" text @click="click">
             등록
           </v-btn>
-          <v-btn color="blue darken-1" text @click="dialog2 = false">
-            닫기
-          </v-btn>
         </v-card-actions>
-      </v-card>
   </v-row>
 </template>
 
@@ -134,14 +129,16 @@
         Array.from(this.selectedTags).forEach(element => {
           tags += element + '/';
         });
-        
+
         this.insert(tags);
       },
       insert(tags) {
+        
+
         let result = 0;
 
         axios({
-            url: "http://localhost:8090/zippy/property/insertHouseProduct",
+            url: "/zippy/property/insertHouseProduct",
             methods: "POST",
             params: {
               mainImg: this.mainImg.name,
@@ -154,7 +151,7 @@
               areaExclusive: this.areaExclusive,
               roomCnt: this.roomCnt,
               detailContents: this.detailContents,
-              email: this.email,
+              email: this.$store.state.loginInfo.email,
             }
           }).then(response => {
             // 성공했을 때
@@ -174,7 +171,7 @@
           })
 
         axios({
-            url: "http://localhost:8090/zippy/property/insertHouseDetail",
+            url: "/zippy/property/insertHouseDetail",
             methods: "POST",
             params: {
               streetAddress: this.streetAddress,

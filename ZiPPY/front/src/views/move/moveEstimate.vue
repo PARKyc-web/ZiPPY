@@ -27,19 +27,19 @@
     <hr />
     <div class="panel">
       <v-expansion-panels>
-        <v-expansion-panel v-if="list.length != 0" v-for="(item,i) in list">
+        <v-expansion-panel v-if="list.length != 0" v-for="(item, i) in list">
           <v-expansion-panel-header>
           
             <span>NO.{{item.estimateNo}}</span> &nbsp;&nbsp; 견적요청일 :
             <span>{{item.requestDate}}</span>&nbsp;&nbsp; 견적 방법 : <span>{{item.estimateType}}</span>
             <v-col cols="12" sm="6" md="4">
-              <div id="mus" v-if="item.reservStatus == 0">견적 상태 : <span>견적전</span></div>
+              <!-- <div id="mus" v-if="item.reservStatus == 0">견적 상태 : <span>견적전</span></div>
               <div id="mus" v-if="item.reservStatus == 1">견적 상태 : <span>견적발송</span></div>
               <div id="mus" v-if="item.reservStatus == 2">견적 상태 : <span>2차견적</span></div>
               <div id="mus" v-if="item.reservStatus == 3">견적 상태 : <span>예약요청</span></div>
               <div id="mus" v-if="item.reservStatus == 4">견적 상태 : <span>예약완료</span></div>
               <div id="mus" v-if="item.reservStatus == 5">견적 상태 : <span>이사완료</span></div>
-              <div id="mus" v-if="item.reservStatus == 9">견적 상태 : <span>취소</span></div>
+              <div id="mus" v-if="item.reservStatus == 9">견적 상태 : <span>취소</span></div> -->
             </v-col>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
@@ -83,15 +83,26 @@
             <div v-show="show">
               <v-divider></v-divider>
 
-              <div>
-                <img />방 입구에서 찍은 사진
+            <div id="showImg">
+              방입구
+              <div v-for="img in photoList">
+                <img v-if="img.estimateNo == item.estimateNo && img.imgType ==1" 
+                :src="'/zippy/common/img/move/' + img.houseImg"/>
               </div>
-              <div>
-                <img />방 중앙에서 찍은 사진
+
+              방중앙
+              <div v-for="img in photoList">
+                <img v-if="img.estimateNo == item.estimateNo && img.imgType ==2" 
+                :src="'/zippy/common/img/move/' + img.houseImg"/>
               </div>
-              <div>
-                <img />내부 구조 사진(짐, 장롱, 창고 등)
+
+              내부
+              <div v-for="img in photoList">
+                <img v-if="img.estimateNo == item.estimateNo && img.imgType ==3" 
+                :src="'/zippy/common/img/move/' + img.houseImg"/>
               </div>
+              
+            </div>
               <!-- <v-card-text>
                 I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
               </v-card-text> -->
@@ -108,7 +119,7 @@
                   
                   <template v-slot:activator="{ on, attrs }">
                     
-                    <v-btn v-if="item.reservStatus == 0 " :id="i" id="estBtn" @click="modalVal(i)" color="success" dark v-bind="attrs" v-on="on" width="80">
+                    <v-btn :id="i" id="estBtn" @click="modalVal(i)" color="success" dark width="80">
                       견적작성
                     </v-btn>
                  
@@ -170,7 +181,7 @@
                           </v-btn>
                       
 
-                          <v-btn id="sendbtn" color="success darken-1" text @click="sendEstimate()">
+                          <v-btn id="sendbtn" color="success darken-1" text @click="sendEstimate(i)">
                             견적보내기
                           </v-btn>
                         </v-card-actions>
@@ -214,7 +225,7 @@
 
 <script>
   import axios from 'axios';
-  
+  import swal from 'sweetalert2';
   import MoveNavBar from '../../components/move/MoveNavBar.vue';
 
 export default {
@@ -298,21 +309,22 @@ export default {
         ],
 
         data: [],
+        state:"",
         selectData:{},
         select: '',
         select2: '', //지역
         dialog: false,
         on: '',
         attrs: '',
-
+        photoList:[]
       }
     },
     created() {
       axios({
-        url: "http://localhost:8090/zippy/move/moveEstimate",
+        url: "/zippy/move/moveEstimate",
         methods: "GET",
         params: {
-          email: "",
+          email: this.$store.state.loginInfo.email,
           movingOption: "",
           commonOption: "",
           checked: "",
@@ -324,11 +336,26 @@ export default {
       }).then(res => {
         console.log(res);
         this.reservStatus = this.selectData.reservStatus;
-
         this.list = res.data;
+        this.email= this.$store.state.loginInfo.email;
+        console.log('lilsss',this.list)
       }).catch(error => {
         console.log(error);
       })
+
+      //사진가져오기
+      axios({
+        url: "/zippy/move/movePhoto",
+        methods: "GET",
+        
+      }).then(res => {
+        console.log(res);
+        this.photoList = res.data;
+        console.log('lilssstttt',this.photoList)
+      }).catch(error => {
+        console.log(error);
+      })
+
     },
     watch: {
     },
@@ -339,7 +366,7 @@ export default {
         var isChecked = document.querySelector(".form-check-input").innerText = is_cked
         console.log(isChecked);
         axios({
-          url: "http://localhost:8088/zippy/used/main",
+          url: "/zippy/used/main",
           methods: "GET",
           params: {
             keyword: this.searchValue,
@@ -360,12 +387,12 @@ export default {
         console.log(dropValue);
         console.log(this.vo.email);
         axios({
-          url: "http://localhost:8090/zippy/move/moveEstimate",
+          url: "/zippy/move/moveEstimate",
           methods: "GET",
           params: {
             dropbox: dropValue,
             dropbox2: this.select2,
-            email: this.vo.email,
+            email: this.$store.state.loginInfo.email,
             requestDate: this.vo.requestDate,
             departAddress: this.vo.departAddress,
             arriveAddress: this.vo.arriveAddress,
@@ -383,12 +410,12 @@ export default {
         console.log(dropValue2);
         console.log(this.vo.email);
         axios({
-          url: "http://localhost:8090/zippy/move/moveEstimate",
+          url: "/zippy/move/moveEstimate",
           methods: "GET",
           params: {
             dropbox: this.select,
             dropbox2: dropValue2, //지역
-            email: this.vo.email,
+            email: this.$store.state.loginInfo.email,
             requestDate: this.vo.requestDate,
             departAddress: this.vo.departAddress,
             arriveAddress: this.vo.arriveAddress,
@@ -401,12 +428,12 @@ export default {
           console.log(err);
         })
       },
-      modalVal: function (i) {
+      modalVal: function (i) {        
         this.selectData.firstEstimatePrice = '';    
         this.selectData.responseMemo='';
-        
+        var outside = this; 
         axios({
-          url: "http://localhost:8090/zippy/move/moveEstimate",
+          url: "/zippy/move/moveEstimate",
           methods: "GET",
           params: {
             businessEmail: this.email,
@@ -423,12 +450,39 @@ export default {
           this.selectData.estimateType = this.list[i].estimateType;
           this.selectData.reservStatus = this.selectData.reservStatus;
           this.selectData.compName = this.$store.state.loginInfo.compName;
-          console.log(res);
-          this.list = res.data;
+          
+          this.list = res.data;          
         }).catch(err => {
           console.log(err);
         })
-      },
+        
+        //여기서 여부 액시오스 쓰기 -> 알러트 띄워서 이미 작성한 후기입니다 ,,,,
+        //내가 응답을 1번이라도 보낸 견적들을 가져온다
+        axios({
+            url: "/zippy/move/moveWhether",
+            methods: "GET",
+            params: {
+              email: this.$store.state.loginInfo.email,
+              estimateNo : this.list[i].estimateNo
+            }
+          }).then(res => {
+            console.log(res);
+            outside.data = res.data;            
+
+            // 결과값 가져오기
+            console.log("result : ",outside.data);
+            if(outside.data.length == 0){
+              
+              outside.dialog = true;              
+            } else {              
+              
+              swal.fire("이미 작성한 견적입니다.");
+            }
+          }).catch(error => {
+            console.log(error);
+          })
+          
+    },
 
       par : function(string){
           // var data = '{"bedCount":2,"bed":["","싱글","슈퍼싱글"],"sofaCount":1,"sofa":[""],"closetCount":1,"closet":[""],"closetsCount":1,"closets":[""],"tvCount":1,"tv":[""],"pcCount":1,"pc":[""],"fridgeCount":1,"fridge":[""],"trolleyCount":1,"trolley":[""],"etcCount":1,"etcName":[""],"etcSize":[""],"box":"16-20개","filesPhoto":""}';
@@ -542,7 +596,7 @@ export default {
         return detailVal;
       },
 
-      sendEstimate: function () {
+      sendEstimate: function (i) {
 
         console.log('1차 가격 : ',document.querySelector("#firstPrice").value);
         console.log('어필 : ',document.querySelector("#memo").value);
@@ -592,7 +646,7 @@ export default {
           method: "POST",
          
           params:{
-            estimateNo : this.selectData.estimateNo,
+            estimateNo : this.list[i].estimateNo,
             email : this.selectData.email,
             reservStatus : 1
           },
@@ -600,6 +654,8 @@ export default {
           // data: formData
         }).then(res => {
           console.log(res);
+
+          console.log('list!!',this.list)
           alert("견적서 보내기 완료!");
           
 

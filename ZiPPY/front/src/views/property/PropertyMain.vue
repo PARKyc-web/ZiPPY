@@ -82,6 +82,7 @@
           year: 1000,
           sigungu: '',
           range: [0, 150000],
+          tags: ''
         }
       }
     },
@@ -265,31 +266,16 @@
 
 
           //////////////////// 여기서 get center 를 이용해서 시군구 구한 다 음,  그 정보를 넘겨주기
-          var coord = new kakao.maps.LatLng(37.56496830314491, 126.93990862062978);
-var callback = function(result, status) {
-    if (status === kakao.maps.services.Status.OK) {
-        console.log('그런 너를 마주칠까 ' + result[0].address.address_name + '을 못가');
-    }
-};
-
-geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
-
           var callback = function (result, status) {
             if (status === kakao.maps.services.Status.OK) {
-
-              console.log('지역 명칭 : ' + result[0].address_name);
-              console.log('행정구역 코드 : ' + result[0].code);
-              console.log("지역 명칭 및 해정구역 코드: ", initThis.sigungu);
+              // console.log('지역 명칭 : ' + result[0].address_name);
+              // console.log('행정구역 코드 : ' + result[0].code);
+              // console.log("지역 명칭 및 해정구역 코드: ", initThis.sigungu);
+              initThis.getPropertyList(initThis.sigungu);
             }
           };
 
-          geocoder.coord2RegionCode(126.9786567, 37.566826, callback);
-
-
-          console.log("click: ", initThis.sigungu);
-          initThis.getPropertyList(initThis.sigungu);
-          // initThis.initData.sigungu = initThis.sigungu;
-          // initThis.searchPropertyList(initThis.initData);
+          geocoder.coord2RegionCode(cluster.getCenter().La, cluster.getCenter().Ma, callback);
 
           // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다
           map.setLevel(level, {
@@ -364,6 +350,16 @@ geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
           });
       },
       searchPropertyList(data) {
+        this.initData.tags = '';
+        
+        console.log(data.selectedTags);
+        data.selectedTags.sort();
+        console.log(data.selectedTags);
+        for(let i=0; i<data.selectedTags.length; i++) {
+          this.initData.tags += data.selectedTags[i] + '/';
+        }
+        console.log(this.initData.tags);
+
         axios({
             url: "/zippy/property/searchPropertyList",
             methods: "GET",
@@ -376,6 +372,7 @@ geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
               minSize: data.minSize,
               maxSize: data.maxSize,
               sigungu: data.sigungu + '%',
+              tags: '%' + this.initData.tags + '%'
             }
           }).then(response => {
             // 성공했을 때
@@ -447,9 +444,7 @@ geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
             clearInterval(setClusterer)
           };
         }, 100);
-
       },
-
     }
   };
 </script>

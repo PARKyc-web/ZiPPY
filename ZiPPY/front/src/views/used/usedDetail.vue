@@ -330,7 +330,8 @@
         })
       },
 
-      createChat: async function () {        
+      createChat: async function () {  
+        var out = this;      
         if (this.$store.state.loginInfo == null) {
           swal.fire({
             icon: 'warning',
@@ -349,7 +350,15 @@
               productNo : this.$route.query.pNo,
               isSell : this.product.isSell
             }
-          });
+          }).then(res =>{
+            out.$router.push({
+            name : "chatDetail",
+            query : {
+              roomId : res.data
+            }
+          })
+          })
+          
           console.log(temp);
         }
       },

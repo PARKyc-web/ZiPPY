@@ -112,7 +112,7 @@
 			<if test="productCategory != null and !productCategory.equals('')">
 				product_category = #{productCategory},
 			</if>
-			<if test="productPrice != null and !productPrice.equals('')">
+			<if test="productPrice != null and !productPrice.equals('') and productPrice != 0">
 				product_price = #{productPrice},
 			</if>
 			<if test="productInfo != null and !isSell.equals('')">

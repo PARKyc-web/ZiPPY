@@ -69,7 +69,7 @@
   import axios from 'axios';
   import swal from 'sweetalert2';
   export default {
-    props: ['buyier', 'fk', 'serviceId'],
+    props: ['buyier', 'serviceId'],
     data() {
       return {
         //후기 
@@ -81,12 +81,10 @@
         rate3: '',
         rate4: '',
         //모달
-        dialog: false,
-        fk : ""
+        dialog: false,        
       }
     },
-    created(){
-      this.isSell = this.fk;
+    created(){      
     },
     methods: {
       //모달 닫기

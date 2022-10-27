@@ -14,4 +14,6 @@ public class ChatRoomName {
   private String user2Pic;
   private String lastChat;
   private String lastTime;
+  private int productNo;
+  private int isSell;  
 }

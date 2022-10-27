@@ -3,17 +3,19 @@
       <div id="download">
         <h1 v-if="room.user1 == $store.state.loginInfo.email">
           <img :src="'/zippy/common/img/member/test.jpg'" style="width: 80px; height: 80px;">{{room.user2Name}}</h1>
-  
+          
         <h1 v-if="room.user2 == $store.state.loginInfo.email">
           <img :src="'/zippy/common/img/member/test.jpg'" style="width: 80px; height: 80px;">{{room.user1Name}}</h1>
-  
-        <v-btn v-if="room.user2 == $store.state.loginInfo.email" id="used-soldout" width="90px" depressed color=#B3E3C3
+          
+          <insert-rv :buyier="room.user1" :serviceId="room.productNo" 
+                      v-if="room.isSell == 1 && room.user1 == $store.state.loginInfo.email"></insert-rv>
+        <v-btn v-if="room.user2 == $store.state.loginInfo.email && room.isSell == 0" id="used-soldout" width="90px" depressed color=#B3E3C3
           @click="soldOut()">
           판매완료
-        </v-btn>
+        </v-btn>        
         <div id="download-btn" class="ml-auto">
-          <button type="button" class="form-control"><a :href="txtFile">TXT 파일 다운로드</a></button>
-          <button type="button" class="form-control"><a :href="pdfFile">PDF 파일 다운로드</a></button>
+          <button type="button" class="form-control"><a :href="'/zippy/chat/txtFile/' + room.chatRoomNo">TXT 파일 다운로드</a></button>
+          <button type="button" class="form-control"><a :href="'/zippy/chat/pdfFile/' + room.chatRoomNo">PDF 파일 다운로드</a></button>
         </div>  
       </div><br>
       <div id="chatBody" style="overflow:auto;">
@@ -70,21 +72,25 @@
   </template>
   
 <script>
-import Stomp from 'webstomp-client'
-import SockJS from 'sockjs-client'
+import Stomp from 'webstomp-client';
+import SockJS from 'sockjs-client';
+import axios from 'axios';
+
+import insertRv from'@/components/used/insertRv.vue';
 
 var sock;
 var ws;
 var reconnect = 0;
   
     // vue.js
-    export default {      
+    export default {    
+      components: {
+        insertRv
+      } , 
       data() {
         return {
           txtFile : "/zippy/chat/txtFile/",
-          pdfFile : "/zippy/chat/pdfFile/",
-          // txtFile : "/zippy/chat/txtFile/" + this.room.chatRoomNo,
-          // pdfFile : "/zippy/chat/pdfFile/" + this.room.chatRoomNo,
+          pdfFile : "/zippy/chat/pdfFile/",          
 
           room: {},
           sender: '',
@@ -198,18 +204,32 @@ var reconnect = 0;
         },
         soldOut() {
           this.list.dealRecord = this.room.user1;
-          this.list.productNo = this.data.productNo;
+          this.list.productNo = this.room.productNo;
+          console.log(this.list);
           axios({
             url: "/zippy/used/soldot",
             method: "POST",
             headers: {
               "Content-Type": "application/json; charset=utf-8"
             },
-            data: JSON.stringify(this.data)
+            data: JSON.stringify(this.list)
           }).then(res => {
             console.log(res);
           }).catch(error => {
             console.log(error);
+          })
+
+          axios({
+            url:"/zippy/chat/sell",
+            method : "PUT",
+            data :{
+              chatRoomNo : this.room.chatRoomNo,
+              productNo : this.room.productNo,
+              isSell: 1 
+            }
+          }).then(res =>{
+            this.room.isSell = res.data;
+            console.log(res.data);
           })
         }
       }
