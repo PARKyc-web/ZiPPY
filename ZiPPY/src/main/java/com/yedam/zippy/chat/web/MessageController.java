@@ -27,14 +27,12 @@ public class MessageController {
   private ChatService chatService;
 
   @MessageMapping("/chat/message")
-  public void enter(ChatMessage message) {    
-      System.out.println(message);
+  public void enter(ChatMessage message) {
 
-    if (ChatMessage.MessageType.TALK.equals(message.getType())) {
-      System.out.println("메세지 센딩");
-      System.out.println(message);      
-      sendingOperations.convertAndSend("/topic/chat/room/" + message.getRoomId(), message);
-      chatService.saveChatContent(message);
-    }
+    System.out.println(message);
+    sendingOperations.convertAndSend("/topic/chat/room/" + message.getRoomId(), message);
+    chatService.saveChatContent(message);
+    chatService.saveLastChatLog(message);
+
   }
 }

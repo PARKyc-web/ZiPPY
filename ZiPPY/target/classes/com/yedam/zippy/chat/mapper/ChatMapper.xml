@@ -28,9 +28,29 @@
 				    (SELECT profile_image FROM general_user WHERE email = #{room.user1}) user1_pic,
 				    (SELECT profile_pic FROM business WHERE email = #{room.user2}) user2_pic
 			FROM chat_room c
-            		WHERE c.chat_room_no = #{room.chatRoomNo}		
+            WHERE c.chat_room_no = #{room.chatRoomNo}		
 		</if>
-	</select>	
+	</select>
+	
+	<select id="findOneRoomName" resultType="ChatRoomName">
+		<if test="room.chatType == 1">
+			SELECT c.*, (SELECT user_name FROM general_user WHERE email = #{room.user1}) user1_name,
+				    (SELECT user_name FROM general_user WHERE email = #{room.user2}) user2_name,
+				    (SELECT profile_image FROM general_user WHERE email = #{room.user2}) user1_pic,
+				    (SELECT profile_image FROM general_user WHERE email = #{room.user2}) user2_pic
+			FROM chat_room c
+			WHERE c.chat_room_no = #{room.chatRoomNo}			
+		</if>
+
+		<if test="room.chatType != 1">
+			SELECT c.*, (SELECT user_name FROM general_user WHERE email = #{room.user1}) user1_name,
+				    (SELECT comp_name FROM business WHERE email = #{room.user2}) user2_name,
+				    (SELECT profile_image FROM general_user WHERE email = #{room.user1}) user1_pic,
+				    (SELECT profile_pic FROM business WHERE email = #{room.user2}) user2_pic
+			FROM chat_room c
+            WHERE c.chat_room_no = #{room.chatRoomNo}		
+		</if>
+	</select>
 	
 	<insert id="createChatRoom" parameterType="ChatRoomVO">
 		<selectKey resultType="Integer" keyProperty="chatRoomNo" order="BEFORE">
@@ -52,5 +72,12 @@
 		FROM chat_room
 		WHERE chat_room_no = #{roomId}
 	</select>
+	
+	
+	<insert id="saveLastChatLog" parameterType="ChatMessage">
+		UPDATE chat_room
+		SET last_chat = #{message}, last_time = systimestamp
+		WHERE chat_room_no = #{roomId} 
+	</insert>
 
 </mapper>

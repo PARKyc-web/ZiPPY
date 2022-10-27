@@ -42,6 +42,12 @@ public class ChatServiceImpl implements ChatService {
 
     return result;
   }
+  
+  @Override
+  public ChatRoomName findOneRoom(int roomId) {
+    ChatRoomVO vo = mapper.getRoomInfo(roomId);            
+    return mapper.findOneRoomName(vo);
+  }
 
   @Override
   public void saveChatContent(ChatMessage cm) {
@@ -134,6 +140,11 @@ public class ChatServiceImpl implements ChatService {
   @Override
   public int soldout(ChatRoomVO vo) {
     return mapper.soldout(vo);
+  }
+  
+  @Override
+  public void saveLastChatLog(ChatMessage chatMessage) {
+    mapper.saveLastChatLog(chatMessage);
   }
 
 }

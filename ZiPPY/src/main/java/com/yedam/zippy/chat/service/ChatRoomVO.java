@@ -2,11 +2,6 @@ package com.yedam.zippy.chat.service;
 
 import lombok.Data;
 
-/** 
- * 채팅방 VO
- * @author pyc
- *
- */
 @Data
 public class ChatRoomVO {     
     private int chatRoomNo;
