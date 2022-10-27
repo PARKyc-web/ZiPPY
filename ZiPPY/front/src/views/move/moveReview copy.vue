@@ -14,25 +14,25 @@
 
                         <div id="used-name-report">
                             <!-- <div>{{this.nickName}}</div> -->
-                            <div>업체명{{list.compName}}</div>                            
+                            <div>NO.{{list.compName}}</div>                            
                         </div>
                     </div>
                     <div id="used-seller-name">
 
                         <div id="used-name-report">
-                            <div>업체연락처{{list.phone}}</div>
+                            <div>{{list.phone}}</div>
                         </div>
                     </div>
                     <div id="used-seller-name">
 
                         <div id="used-name-report">
-                            <div>업체주소{{list.compAddress}}</div>
+                            <div>{{list.compAddress}}</div>
                         </div>
                     </div>
                     <div id="used-seller-name">
 
                         <div id="used-name-report">
-                            <div>업체소개{{list.compIntro}}</div>
+                            <div>{{list.compIntro}}</div>
                         </div>
                     </div>
 
@@ -48,8 +48,8 @@
                                             background-color="#64c481 lighten-3" color="#64c481" large readonly>
                                         </v-rating>
                                     </div>
-                                    <h2 class="ml-3 mt-3" style="font-weight:bold" v-if="list.length != 0">
-                                        평점{{list.CompanyTotalRating}}</h2>
+                                    <h2 class="ml-3 mt-3" style="font-weight:bold" v-if="data.length != 0">
+                                        {{data.totalRating}}</h2>
                                 </div>
                                 <div id="star-right">
                                     <v-progress-linear color="#64c481" height="20" :value=rate1 style="width:200px">
@@ -102,9 +102,9 @@
                 <b-tab title="이사후기">
 
                     <v-card>
-                        <v-data-table :headers="headers" :items="list">
+                        <v-data-table :headers="headers" :items="data">
                             <!-- 별점 -->
-                            <template v-for="item in list" v-slot:item.reviewContent="{ item }">
+                            <template v-for="item in data" v-slot:item.reviewContent="{ item }">
 
                                 <div class="pa-5">
 
@@ -140,18 +140,16 @@
         data: function () {
             return {
                 nickName: this.$store.state.loginInfo.nickName,
-                list: [],
-                
+                list: {},
                 data: [],
                 page: 1,
                 pageCount: 1,
                 estimateType: "",
                 serviceId: "",
                 pageNum: "",
-                compName:"",
-                compAddress:"",
-                compIntro : "",
-                phone: "",
+                
+
+
                 //은하
 
                 //후기 
@@ -206,13 +204,34 @@
         },
         async created() {
 
-             //후기 가져오기
-            let res = await  axios({
+            let res =  await axios({
+                    url: "http://localhost:8090/zippy/move/moveMyListOne",
+                    methods: "GET",
+                    params: {
+                        email: this.list.serviceId,
+                        userEmail: this.$store.state.loginInfo.email,
+                        // movingResponseNo : this.list.movingResponseNo,
+                        movingResponseNo: 14,
+                        pageNum: this.page
+
+                    }
+            });
+
+            console.log("list!!!!!!!:::::::", this.list);
+            this.list = res.data;
+            this.pageCount = res.data.pages;
+            console.log("res", res);
+            console.log(res.data);
+
+                   
+
+            //후기 가져오기
+            res = await  axios({
                 url: "/zippy/move/moveReview",
                 methods: "GET",
                 params: {
 
-                    serviceId: this.$route.query.serviceId,
+                    serviceId: this.list.email,
                 
                     pageNum: this.page,
 
@@ -220,12 +239,12 @@
                 }
             })
 
-            this.list = res.data;
+            this.data = res.data;
             this.pageCount = res.data.pages;
             this.nickName = this.$store.state.loginInfo.nickName;
             console.log("res", res);
-            console.log(res.list);
-            console.log("list리스트", this.list);
+            console.log(res.data);
+            console.log("list리스트", this.data);
 
             // this.data.email = this.$store.state.loginInfo.email;
             // this.data.serviceId= this.list[i].email;
@@ -238,18 +257,18 @@
             var r2Sum = 0;
             var r3Sum = 0;
             var r4Sum = 0;
-            for (var i in this.list) {
-                tSum += Number(this.list[i].totalRating)
-                r1Sum += Number(this.list[i].rate1)
-                r2Sum += Number(this.list[i].rate2)
-                r3Sum += Number(this.list[i].rate3)
-                r4Sum += Number(this.list[i].rate4)
+            for (var i in this.data) {
+                tSum += Number(this.data[i].totalRating)
+                r1Sum += Number(this.data[i].rate1)
+                r2Sum += Number(this.data[i].rate2)
+                r3Sum += Number(this.data[i].rate3)
+                r4Sum += Number(this.data[i].rate4)
             }
-            this.proTotalRating = Math.round(tSum / this.list.length * 10) / 10
-            this.rate1 = Math.round(r1Sum / this.list.length) * 10
-            this.rate2 = Math.round(r2Sum / this.list.length) * 10
-            this.rate3 = Math.round(r3Sum / this.list.length) * 10
-            this.rate4 = Math.round(r4Sum / this.list.length) * 10
+            this.proTotalRating = Math.round(tSum / this.data.length * 10) / 10
+            this.rate1 = Math.round(r1Sum / this.data.length) * 10
+            this.rate2 = Math.round(r2Sum / this.data.length) * 10
+            this.rate3 = Math.round(r3Sum / this.data.length) * 10
+            this.rate4 = Math.round(r4Sum / this.data.length) * 10
 
             console.log('총:', this.proTotalRating);
             console.log('1:', this.rate1);
@@ -257,30 +276,6 @@
             console.log('3:', this.rate3);
             console.log('4:', this.rate4);
 
-
-
-            // res =  await axios({
-            //         url: "http://localhost:8090/zippy/move/moveMyListOne",
-            //         methods: "GET",
-            //         params: {
-            //             email: this.list.serviceId,
-            //             userEmail: this.$store.state.loginInfo.email,
-            //             // movingResponseNo : this.list.movingResponseNo,
-            //             movingResponseNo: 14,
-            //             pageNum: this.page
-
-            //         }
-            // });
-
-            // console.log("list!!!!!!!:::::::", this.list);
-            // this.list = res.data;
-            // this.pageCount = res.data.pages;
-            // console.log("res", res);
-            // console.log(res.data);
-
-                   
-
-           
 
         },
 

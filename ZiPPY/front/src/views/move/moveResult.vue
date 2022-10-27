@@ -60,18 +60,25 @@
             <div v-show="show">
               <v-divider></v-divider>
 
-              <div>
-                방 입구에서 찍은 사진
+              <div id="showImg">
+              방입구
+              <div v-for="img in photoList">
+                <img v-if="img.estimateNo == item.estimateNo && img.imgType ==1" 
+                :src="'/zippy/common/img/move/' + img.houseImg"/>
               </div>
-              <div>
-                방 중앙에서 찍은 사진
+
+              방중앙
+              <div v-for="img in photoList">
+                <img v-if="img.estimateNo == item.estimateNo && img.imgType ==2" 
+                :src="'/zippy/common/img/move/' + img.houseImg"/>
               </div>
-              <div>
-                내부 구조 사진(짐, 장롱, 창고 등)
+
+              내부
+              <div v-for="img in photoList">
+                <img v-if="img.estimateNo == item.estimateNo && img.imgType ==3" 
+                :src="'/zippy/common/img/move/' + img.houseImg"/>
               </div>
-              <!-- <v-card-text>
-                I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-              </v-card-text> -->
+            </div>
             </div>
           </v-expand-transition>
           </div>
@@ -83,11 +90,16 @@
     </div>
     </form>
   </div>
+  <div class="text-center">
+      <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3"></v-pagination>
+    </div>
+
 </div>
 </template>
 
 <script>
 import axios from 'axios';
+import swal from 'sweetalert2';
 import MoveNavBar from '../../components/move/MoveNavBar.vue';
 
 export default {
@@ -98,10 +110,20 @@ export default {
   data : function () {
     return{
       
+      //페이징
+      selection: 1,
+        heart: 0,
+        wish: "",
+        bNo: "",
+        page: 1,
+        pageCount: 1,
+
       //펼치기
       show: false,
       email:"",
+      item: "",
       //
+      photoList:[],
       list : [],
       vo : {
         email : "",
@@ -124,7 +146,7 @@ export default {
   },
   mounted(){
     axios({
-          url: "http://localhost:8090/zippy/move/moveResult",
+          url: "/zippy/move/moveResult",
           methods: "GET",
           params: {
             movingOption : "",
@@ -142,14 +164,12 @@ export default {
 
   created(){
     axios({
-          url: "http://localhost:8090/zippy/move/movePhoto",
+          url: "/zippy/move/movePhoto",
           methods: "GET",
-          params: {
-            
-          }
+          
         }).then(res => {
           console.log(res);
-          this.list = res.data;
+          this.photoList = res.data;
         }).catch(error => {
           console.log(error);
         })
@@ -161,7 +181,7 @@ export default {
         console.log(dropValue);
         console.log(this.email);
         axios({
-          url: "http://localhost:8090/zippy/move/moveResult",
+          url: "/zippy/move/moveResult",
           methods: "GET",
           params: {  
             dropbox : dropValue,

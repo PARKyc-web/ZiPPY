@@ -1,7 +1,7 @@
 <template>
   <!-- 캐러셀 시작 -->
   <div>
-    <v-carousel cycle height="300" hide-delimiter-background :show-arrows="false" class="mt-5">
+    <v-carousel cycle height="500" hide-delimiter-background :show-arrows="false" class="mt-5">
       <v-carousel-item v-for="(slide, i) in slides" :key="i">
         <v-img :src="imgs[i]" height="100%">
           <v-row class="fill-height" text-align="center" justify="center">
@@ -37,9 +37,9 @@
           '친근한 서비스'
         ],
         info: [
-          // '아늑하게 거실을 꾸며보아요🥰',
-          // '귀여운 소품 활용🤩',
-          // '에코 그린 인테리어🤗'
+          '아늑하게 거실을 꾸며보아요',
+          '귀여운 소품 활용',
+          '에코 그린 인테리어'
         ],
         products: []
       }
@@ -81,7 +81,7 @@
   #main-background {
     width: 100%;
     margin-top: 130px;
-    height: 250px;
+    height: 450px;
     background-color: #B3E3C3;
     position: absolute;
     top: 0;
@@ -89,14 +89,14 @@
   }
 
   #slide-text {
-    color: #191919;
+    color: #afb4b1;
     ;
     margin: 0 0 0 300px;
     font-weight: bold;
   }
 
   #info-text {
-    /*font-weight: bold;*/
+    font-weight: bold;
     padding: 30px 0 0 5px;
   }
 

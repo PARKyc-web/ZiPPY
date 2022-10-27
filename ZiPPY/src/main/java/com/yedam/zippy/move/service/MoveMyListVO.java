@@ -20,7 +20,7 @@ public class MoveMyListVO {
   //rating
   double totalRating;
   Integer serviceType;
-  Integer serviceId;
+  String serviceId;
   
   //business
   String compIntro;
