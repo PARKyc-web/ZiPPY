@@ -28,13 +28,13 @@
             <span>NO.{{item.estimateNo}}</span> &nbsp;&nbsp; 견적요청일 :
             <span>{{item.requestDate}}</span>&nbsp;&nbsp; 견적 방법 : <span>{{item.estimateType}}</span>
             <v-col cols="12" sm="6" md="4">
-              <div id="mus" v-if="item.reservStatus == 0">견적 상태 : <span>견적전</span></div>
-              <div id="mus" v-if="item.reservStatus == 1">견적 상태 : <span>1차견적</span></div>
-              <div id="mus" v-if="item.reservStatus == 2">견적 상태 : <span>2차견적</span></div>
-              <div id="mus" v-if="item.reservStatus == 3">견적 상태 : <span>예약요청</span></div>
-              <div id="mus" v-if="item.reservStatus == 4">견적 상태 : <span>예약완료</span></div>
-              <div id="mus" v-if="item.reservStatus == 5">견적 상태 : <span>이사완료</span></div>
-              <div id="mus" v-if="item.reservStatus == 9">견적 상태 : <span>취소</span></div>
+              <div id="mus" v-if="item.reservStatuss == 0">견적 상태 : <span>견적전</span></div>
+              <div id="mus" v-if="item.reservStatuss == 1">견적 상태 : <span>1차견적</span></div>
+              <div id="mus" v-if="item.reservStatuss == 2">견적 상태 : <span>2차견적</span></div>
+              <div id="mus" v-if="item.reservStatuss == 3">견적 상태 : <span>예약요청</span></div>
+              <div id="mus" v-if="item.reservStatuss == 4">견적 상태 : <span>예약완료</span></div>
+              <div id="mus" v-if="item.reservStatuss == 5">견적 상태 : <span>이사완료</span></div>
+              <div id="mus" v-if="item.reservStatuss == 9">견적 상태 : <span>취소</span></div>
           </v-col>
 
           </v-expansion-panel-header>
@@ -105,8 +105,15 @@
                 <v-dialog v-model="dialog" persistent max-width="600px">
                   
                   <template v-slot:activator="{ on, attrs }" >
-                    <v-btn id="estBtn" @click="modalVal(i)" color="success" dark v-bind="attrs" v-on="on" width="80">
+                    
+                    <v-btn v-if="item.reservStatuss==1" id="estBtn" @click="modalVal(i)" color="success" dark v-bind="attrs" v-on="on" width="80">
                       견적작성
+                    </v-btn>
+                    <v-btn v-if="item.reservStatuss==3" @click="updateConfirm(i)" color="success" dark v-bind="attrs" v-on="on" width="80">
+                      예약확정
+                    </v-btn>
+                    <v-btn v-if="item.reservStatuss==4" @click="updateComplete(i)" color="success" dark v-bind="attrs" v-on="on" width="80">
+                      이사완료
                     </v-btn>
                   </template>
 
@@ -137,12 +144,12 @@
                               
                              
                               <v-col cols="12" sm="6" md="4">
-                               <div id="mus" v-if="item.reservStatus == 0">견적 상태 : <span>견적전</span></div>
-                               <div id="mus" v-if="item.reservStatus == 1">견적 상태 : <span>1차견적</span></div>
-                               <div id="mus" v-if="item.reservStatus == 2">견적 상태 : <span>2차견적</span></div>
-                               <div id="mus" v-if="item.reservStatus == 3">견적 상태 : <span>예약완료</span></div>
-                               <div id="mus" v-if="item.reservStatus == 4">견적 상태 : <span>이사완료</span></div>
-                               <div id="mus" v-if="item.reservStatus == 5">견적 상태 : <span>취소</span></div>
+                               <div id="mus" v-if="item.reservStatuss == 0">견적 상태 : <span>견적전</span></div>
+                               <div id="mus" v-if="item.reservStatuss == 1">견적 상태 : <span>1차견적</span></div>
+                               <div id="mus" v-if="item.reservStatuss == 2">견적 상태 : <span>2차견적</span></div>
+                               <div id="mus" v-if="item.reservStatuss == 3">견적 상태 : <span>예약완료</span></div>
+                               <div id="mus" v-if="item.reservStatuss == 4">견적 상태 : <span>이사완료</span></div>
+                               <div id="mus" v-if="item.reservStatuss == 5">견적 상태 : <span>취소</span></div>
                               </v-col>
                               
 
@@ -367,7 +374,53 @@ export default {
           console.log(err)
         })
       },
-     
+     //예약확정으로 상태 업데이트 
+      updateConfirm : function(i){
+        this.$axios({
+          url: "http://localhost:8090/zippy/move/moveStatusFourthUpdate",
+          method: "POST",
+         
+          params:{
+            estimateNo : this.list[i].estimateNo,
+            email : this.$store.state.loginInfo.email,
+            reservStatus : 4
+          },
+          
+          // data: formData
+        }).then(res => {
+          console.log(res);
+          alert("견적서 보내기 완료!");
+          
+
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+
+      //이사완료로 상태 업데이트
+      updateComplete : function(i){
+        console.log('listttt:',this.list)
+        this.$axios({
+          url: "http://localhost:8090/zippy/move/moveStatusFifthUpdate",
+          method: "POST",
+         
+          params:{
+            estimateNo : this.list[i].estimateNo,
+            email : this.$store.state.loginInfo.email,
+            reservStatus : 5
+          },
+          
+          // data: formData
+        }).then(res => {
+          console.log(res);
+          alert("견적서 보내기 완료!");
+          
+
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+
       dropVal2: function () {
 
         var dropValue2 = this.select2;

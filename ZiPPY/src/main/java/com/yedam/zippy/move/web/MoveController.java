@@ -219,6 +219,13 @@ public class MoveController {
     return service.getMyEstimateListOne(movingResponseNo, userEmail);
   }
   
+  //사용자의 예약내역 확인 (요청:3, 예약확정:4, 이사완료:5)
+  @GetMapping("/moveReserve")
+  public List<MoveMyListVO> moveReserve(MoveMyListVO vo){
+    System.out.println("MoveMyListVO : "+vo);
+    return service.moveReserve(vo);
+  }
+  
   //업체조회 페이지
   @GetMapping("/moveCompanyList")
   public List<MoveMyListVO> getCompanyList(MoveMyListVO vo){

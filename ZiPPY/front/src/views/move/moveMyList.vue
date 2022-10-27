@@ -37,25 +37,6 @@
           <v-card-text>
 
 
-
-            <!--heart-->
-            <div>
-              <button :id="i">
-                <div>
-                  <v-btn v-if="heart==0" class="mx-2" color='#D6D6D6' fab depressed dark small @click="changeHeart(i)">
-                    <v-icon dark>
-                      mdi-heart
-                    </v-icon>
-                  </v-btn>
-                  <v-btn v-if="heart==1" class="mx-2" color='#FF4063' fab depressed dark small @click="changeHeart(i)">
-                    <v-icon dark>
-                      mdi-heart
-                    </v-icon>
-                  </v-btn>
-                </div>
-              </button>
-            </div>
-
             <div>견적서 번호 : <span>NO.{{item.movingResponseNo}}</span></div>
 
             <div>
@@ -134,6 +115,8 @@
             <v-btn color="#B3E3C3 lighten-2" text @click="chat">
               채팅하기
             </v-btn>
+
+            <Move-Review-Modal></Move-Review-Modal>
           </v-card-actions>
         </v-card>
       </div>
@@ -152,6 +135,7 @@
   import axios from 'axios';
   import swal from 'sweetalert2';
   import MoveNavBar from '../../components/move/MoveNavBar.vue';
+  import MoveReviewModal from '@/components/move/MoveReviewModal.vue';
 
   export default {
     components: {

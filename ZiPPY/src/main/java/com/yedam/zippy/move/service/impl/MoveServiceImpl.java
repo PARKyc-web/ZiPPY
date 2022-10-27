@@ -241,6 +241,12 @@ public int moveStatusUpdateZero(MoveRequestVO vo) {
     return mapper.getMyEstimateListOne(movingResponseNo,userEmail);
   }
   
+  //사용자의 예약내역 확인 (요청:3, 예약확정:4, 이사완료:5)
+  @Override
+  public List<MoveMyListVO> moveReserve(MoveMyListVO vo) {
+    return mapper.moveReserve(vo);
+  }
+  
   //업체조회 페이지
   @Override
   public List<MoveMyListVO> getCompanyList(MoveMyListVO vo) {
