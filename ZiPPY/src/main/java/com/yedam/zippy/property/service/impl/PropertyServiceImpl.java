@@ -18,7 +18,7 @@ import com.yedam.zippy.property.service.propertyVO;
 public class PropertyServiceImpl implements PropertyService {
 
   @Autowired
-  PropertyMapper mapper;
+  PropertyMapper mapper;    
 
   @Override
   public List<propertyVO> getAllPropertyList() {

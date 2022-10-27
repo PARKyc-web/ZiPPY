@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.yedam.zippy.common.service.CommonService;
 import com.yedam.zippy.property.service.PropertyService;
 import com.yedam.zippy.property.service.WishVO;
 import com.yedam.zippy.property.service.agentVO;
@@ -26,6 +28,9 @@ public class PropertyController {
 
   @Autowired
   PropertyService service;
+  
+  @Autowired
+  CommonService commonService;
 
   @GetMapping("/main")
   public List<propertyVO> propertyMain() {
@@ -66,7 +71,10 @@ public String agentDetail(@RequestParam int productId) {
   }
   
   @PostMapping("/insertHouseProduct")
-  public int insertHouseProduct(propertyVO vo) {
+  public int insertHouseProduct(propertyVO vo, MultipartFile images) {  
+    String temp = commonService.saveImage(images, "property");
+    vo.setMainImg(temp);
+    
     return service.insertHouseProduct(vo);
   }
   
