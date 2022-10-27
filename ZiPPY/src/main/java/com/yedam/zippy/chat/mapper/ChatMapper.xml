@@ -80,4 +80,11 @@
 		WHERE chat_room_no = #{roomId} 
 	</insert>
 
+
+	<update id="sellProduct" parameterType="ChatRoomVO">
+		UPDATE chat_room
+		SET is_sell = #{isSell}
+		WHERE chat_room_no = #{chatRoomNo}
+	</update>
+
 </mapper>

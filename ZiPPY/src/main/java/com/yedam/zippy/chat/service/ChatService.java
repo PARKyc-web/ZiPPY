@@ -24,4 +24,6 @@ public interface ChatService {
   public ChatRoomName findOneRoom(int roomId);
   
   public void saveLastChatLog(ChatMessage chatMessage);
+  
+  public int sellProduct(ChatRoomVO vo);
 }

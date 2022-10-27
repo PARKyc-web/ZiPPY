@@ -103,9 +103,16 @@
 	</update>
 	
 	<update id="updateProfileImage">
-		UPDATE general_user
-		SET profile_image = #{image}
-		WHERE email = #{email}
+		<if test="login.memberType == 0">
+			UPDATE general_user
+			SET profile_image = #{image}
+			WHERE email = #{login.email}
+		</if>
+		<if test="login.memberType != 0">
+			UPDATE business
+			SET profile_pic = #{image}
+			WHERE email = #{login.email}
+		</if>
 	</update>
 	
 </mapper>

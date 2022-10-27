@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -66,11 +67,18 @@ public class ChatController {
     
     // 채팅방 생성
     @PostMapping("/room")
-    public void createChatRoom(@RequestBody ChatRoomVO vo) {
+    public int createChatRoom(@RequestBody ChatRoomVO vo) {
       System.out.println(vo);
-      service.createChatRoom(vo);      
+      service.createChatRoom(vo);
+      return vo.getChatRoomNo();
+    }    
+    
+    @PutMapping("/sell")
+    public int productSell(@RequestBody ChatRoomVO vo) {
+      System.out.println(vo);
+      return service.sellProduct(vo);
     }
- 
+    
     @GetMapping("txtFile/{id}")
     public void getTxtFile(HttpServletResponse response, @PathVariable int id) throws Exception {      
       try {
