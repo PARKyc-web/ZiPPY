@@ -1,9 +1,6 @@
 <template>
-  <div class="mx-auto pt-10" id="cart-con">
-    <v-toolbar flat color="white">
-      <v-toolbar-title>상품리스트</v-toolbar-title>
-    </v-toolbar>
-
+  <div class="mx-auto pt-5" id="cart-con">
+    <h3 style="margin:30px">상품목록</h3>
     <v-card>
       <v-card-title>
         <v-text-field @keyup="enterkey()" id="search" append-icon="mdi-magnify" label="상품명/상품번호" single-line
