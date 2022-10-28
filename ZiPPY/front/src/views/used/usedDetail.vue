@@ -7,7 +7,7 @@
           <h3>판매중인 중고제품</h3>
         </div>
         <hr />
-        <div id="used-cate-main">{{product.productCategory}}</div>
+        <div id="used-cate-main" class="font-all">{{product.productCategory}}</div>
       </div>
       <hr />
       <div id="used-cate-update">
@@ -28,7 +28,8 @@
             <!-- slide start -->
             <div id="detail-container">
               <v-carousel hide-delimiters>
-                <v-carousel-item v-for="(img,i) in imgs" :key="i" :src="'/zippy/common/img/used/' + img.src"></v-carousel-item>
+                <v-carousel-item v-for="(img,i) in imgs" :key="i" :src="'/zippy/common/img/used/' + img.src">
+                </v-carousel-item>
               </v-carousel>
             </div>
             <!-- slide end -->
@@ -36,7 +37,7 @@
           <div id="used-detail-total">
             <div id="used-product-title">
               <div id="used-wish-heart">
-                <div>
+                <div class="font-all">
                   {{product.productName}}
                 </div>
                 <div>
@@ -59,7 +60,7 @@
                   </button>
                 </div>
               </div>
-              <div id="used-product-price">
+              <div id="used-product-price" class="font-all">
                 {{product.productPrice | comma}}원
                 <hr />
                 <div>
@@ -100,8 +101,8 @@
                   </div>
                   <div id="used-profile-chat">
                     <div>
-                      <button @click="goUserPage(product.email)" id="used-detail-pofile">
-                        <i class="fa-solid fa-user"> {{product.nickName}}</i>
+                      <button @click="goUserPage(product.email)" id="used-detail-pofile" class="font-all">
+                        <i class="fa-solid fa-user" > {{product.nickName}}</i>
                       </button>
                     </div>
                     <div>
@@ -122,7 +123,7 @@
         <h3 id="used-detail-info">상품정보</h3>
         <hr />
       </div>
-      <div id="used-product-info">
+      <div id="used-product-info" class="font-all">
         {{product.productInfo}}
       </div>
     </div>
@@ -153,7 +154,7 @@
       },
       heart: 0,
       wish: "",
-      cate : ""
+      cate: ""
     }),
     filters: {
       comma(val) {
@@ -187,11 +188,13 @@
           this.img = res.data;
           console.log(this.img);
 
-          for(let i=0; i<this.img.length; i++){
-            this.imgs.push({"src" : this.img[i].image});
+          for (let i = 0; i < this.img.length; i++) {
+            this.imgs.push({
+              "src": this.img[i].image
+            });
           }
           console.log(this.imgs);
-          
+
 
         }).catch(err => {
           console.log(err)
@@ -296,7 +299,7 @@
       },
       search: function (e) {
         var cate = e.target.innerText;
-        sessionStorage.setItem("cate",cate);
+        sessionStorage.setItem("cate", cate);
         this.$router.push('/used');
       },
       addWish: function () {
@@ -309,7 +312,7 @@
           },
           data: JSON.stringify(this.data)
         }).then(res => {
-          
+
           this.rewrite();
         }).catch(err => {
           console.log(err)
@@ -324,14 +327,13 @@
           data: {
             bNo: bNo
           }
-        }).then(res => {
-        }).catch(err => {
+        }).then(res => {}).catch(err => {
           console.log(err)
         })
       },
 
-      createChat: async function () {  
-        var out = this;      
+      createChat: async function () {
+        var out = this;
         if (this.$store.state.loginInfo == null) {
           swal.fire({
             icon: 'warning',
@@ -347,18 +349,18 @@
               user1: this.$store.state.loginInfo.email,
               user2: this.product.email,
               chatType: 1,
-              productNo : this.$route.query.pNo,
-              isSell : this.product.isSell
+              productNo: this.$route.query.pNo,
+              isSell: this.product.isSell
             }
-          }).then(res =>{
+          }).then(res => {
             out.$router.push({
-            name : "chatDetail",
-            query : {
-              roomId : res.data
-            }
+              name: "chatDetail",
+              query: {
+                roomId: res.data
+              }
+            })
           })
-          })
-          
+
           console.log(temp);
         }
       },
@@ -372,8 +374,7 @@
             "Content-Type": "application/json; charset=utf-8"
           },
           data: JSON.stringify(this.report)
-        }).then(res => {
-        }).catch(err => {
+        }).then(res => {}).catch(err => {
           console.log(err)
         })
       }
@@ -382,6 +383,21 @@
 </script>
 
 <style scoped>
+  @font-face {
+    font-family: 'GmarketSans';
+    font-weight: 500;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot?#iefix') format('embedded-opentype'),
+      url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2') format('woff2'),
+      url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff') format('woff'),
+      url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.ttf') format("truetype");
+    font-display: swap;
+  }
+  .font-all {
+    font-family: 'GmarketSans';
+  }
+
   #container {
     width: 1200px;
     margin: 0 auto;
