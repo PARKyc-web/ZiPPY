@@ -1,8 +1,5 @@
 <template>
-  <form id="usedUpdate">    
-    <div v-for="item in oldImage">
-                  <img :src="'/zippy/common/img/used/' + item.image">
-              </div>
+  <form id="usedUpdate">        
     <div>
       <div id="container">
         <div>
@@ -43,9 +40,10 @@
                 <div v-for="(file, index) in files" :key="index" class="file-preview-wrapper">
                   <div class="file-close-button" @click="fileDeleteButton" :name="file.number">
                     x
-                  </div>
-                  <img :src="file.preview" />
-                  <img :src="'/zippy/common/img/used/' +file.preview" />
+                  </div>                  
+                  <img v-if="file.type == 'new'" :src="file.image" />
+                  <img v-if="file.type == 'old'" :src="'/zippy/common/img/used/' +file.image" />
+                  <!-- <input class="hidden_image" id="apapa" name="images" type="image" :src="'/zippy/common/img/used/' +file.image" v-if="file.type == 'old'"> -->
                 </div>
                 <div class="file-preview-wrapper-upload">
                   <div class="image-box">
@@ -124,8 +122,8 @@
 
 <script>
   import axios from 'axios';
-  import navBar from '../../components/used/navBar.vue';
-  import CurrentPositionLabel from '../../components/used/CurrentPositionLabel.vue';
+  import navBar from '@/components/used/navBar.vue';
+  import CurrentPositionLabel from '@/components/used/CurrentPositionLabel.vue';
   import swal from 'sweetalert2';
   export default {
     components: {
@@ -202,85 +200,79 @@
             pNo: this.$route.query.pNo
           }
         }).then(res => {
-          // this.oldImage = res.data;
-          this.files = res.data;
-          // console.log(this.files);
-          // console.log(this.oldImage);
-
-          // for(let i=0; i<this.img.length; i++){
-          //   this.imgs.push({"src" : this.img[i].image});
-          // }
-          // console.log(this.imgs);
+          console.log("before push data :: ", res.data);
+          var num = -1;
+          for(var i=0; i<res.data.length; i++){
+            this.files.push({
+              image : res.data[i].image,
+              number : i,
+              type : 'old'
+            })
+            num = i;
+          }
+          this.uploadImageIndex = num + 1;          
+          
+          console.log("CREATE :: ", this.files);
         }).catch(err => {
           console.log(err)
         })
     },
-    methods: {
-      
-      imageUpload() {
-        console.log(this.$refs.files.files);
-        // this.files = [...this.files, this.$refs.files.files];
+    methods: {      
+      imageUpload() {               
         //하나의 배열로 넣기
         let num = -1;
         for (let i = 0; i < this.$refs.files.files.length; i++) {
-          this.files = [
-            ...this.files,
+          this.files.push(
+            // ...this.files,
             //이미지 업로드
             {
               //실제 파일
               file: this.$refs.files.files[i],
               //이미지 프리뷰
-              preview: URL.createObjectURL(this.$refs.files.files[i]),
+              image: URL.createObjectURL(this.$refs.files.files[i]),
               //삭제및 관리를 위한 number
-              number: i
-            }
-          ];
-          num = i;
-          //이미지 업로드용 프리뷰
-          // this.filesPreview = [
-          //   ...this.filesPreview,
-          //   { file: URL.createObjectURL(this.$refs.files.files[i]), number: i }
-          // ];
+              number: i,
+              type: 'new'
+            });
+          num = i;          
         }
         this.uploadImageIndex = num + 1; //이미지 index의 마지막 값 + 1 저장
-        console.log(this.files);
-        // console.log(this.filesPreview);
+        console.log(this.files);        
       },
       imageAddUpload() {
-        console.log(this.$refs.files.files);
-        // this.files = [...this.files, this.$refs.files.files];
+        console.log(this.$refs.files.files);        
         //하나의 배열로 넣기c
         let num = -1;
         for (let i = 0; i < this.$refs.files.files.length; i++) {
           console.log(this.uploadImageIndex);
-          this.files = [
-            ...this.files,
+          this.files.push(
+            // ...this.files,
             //이미지 업로드
             {
               //실제 파일
               file: this.$refs.files.files[i],
               //이미지 프리뷰
-              preview: URL.createObjectURL(this.$refs.files.files[i]),
+              image: URL.createObjectURL(this.$refs.files.files[i]),
               //삭제및 관리를 위한 number
-              number: i + this.uploadImageIndex
-            }
-          ];
+              number: i + this.uploadImageIndex,
+              type:'new'
+            });
           num = i;
         }
-        this.uploadImageIndex = this.uploadImageIndex + num + 1;
-        console.log(this.files);
-        // console.log(this.filesPreview);
+        this.uploadImageIndex = this.uploadImageIndex + num + 1;   
+             
       },
+
       fileDeleteButton(e) {
         const name = e.target.getAttribute("name");
-        this.files = this.files.filter(data => data.number !== Number(name));
-        // console.log(this.files);
+        this.files = this.files.filter(data => data.number !== Number(name));        
       },
+
       updateSubmit: function () {
         this.test();
         this.dropVal();
-        var formData = new FormData(document.querySelector('#usedUpdate'));
-
+        var formData = new FormData(document.querySelector('#usedUpdate'));    
+        //display none 애를 가지고 와서        
         for(let key of formData.keys()){
           console.log(`${key}, :: ${formData.get(key)}`);
         }
@@ -323,9 +315,7 @@
   .room-file-upload-example-container {
     display: flex;
     align-items: center;
-    justify-content: center;
-    /* height: 100%;
-  width: 100%; */
+    justify-content: center;    
   }
 
   .room-file-image-example-wrapper {
@@ -378,8 +368,7 @@
   }
 
   .file-close-button {
-    position: absolute;
-    /* align-items: center; */
+    position: absolute;    
     line-height: 18px;
     z-index: 99;
     font-size: 18px;
@@ -577,5 +566,9 @@
 
   #dropdownMenuButton1 {
     width: 150px;
+  }
+
+  .hidden_image{
+    display: none;
   }
 </style>

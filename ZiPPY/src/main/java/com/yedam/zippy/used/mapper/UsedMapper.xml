@@ -124,6 +124,9 @@
 			<if test="dealRecord != null and !dealRecord.equals('')">
 				deal_record = #{dealRecord}
 			</if>
+			<if test="mainImg != null and !mainImg.equals('')">
+				main_img = #{mainImg},
+			</if>
 		</set>
 		WHERE product_no = #{productNo}
 	</update>
