@@ -228,10 +228,7 @@
 <script>
   import axios from 'axios';
   import loginFunc from '@/script/loginFunc';
-  import swal from 'sweetalert2';
-  import {
-    originalPositionFor
-  } from '@jridgewell/trace-mapping';
+  import swal from 'sweetalert2';  
 
   export default {
     data() {

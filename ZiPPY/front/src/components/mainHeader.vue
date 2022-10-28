@@ -37,7 +37,13 @@
       </div>
 
       <div id="userNameTag" v-if="this.$store.state.loginInfo != null">
-        <strong style="color:#64c481">{{$store.getters.getName}}</strong>님 환영합니다!
+        <div v-if="this.$store.state.memberType == 1">
+          <strong style="color:#64c481">{{$store.getters.getName}}</strong>님 환영합니다!
+        </div>
+
+        <div v-if="this.$store.state.memberType == 0">
+          <strong style="color:#64c481">{{$store.state.loginInfo.nickName}}</strong>님 환영합니다!
+        </div>
       </div>
 
       <button v-if="this.$store.state.loginInfo != null">

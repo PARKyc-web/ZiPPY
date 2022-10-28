@@ -224,7 +224,7 @@ import swal from 'sweetalert2';
         
         if(this.passValid && password.value != ""){
             var temp = await this.$axios({
-            url: "/member/password",
+            url: "/zippy/member/password",
             method: "PUT",
             data: {
               email: this.$store.state.loginInfo.email,

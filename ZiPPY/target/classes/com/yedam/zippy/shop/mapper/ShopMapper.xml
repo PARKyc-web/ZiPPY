@@ -3,9 +3,12 @@
 <mapper namespace="com.yedam.zippy.shop.mapper.ShopMapper">
 	<!-- 전체조회 -->
 	<select id="getProductList" resultType="ProductVO">
-		SELECT *
-		FROM shop_product
-		WHERE pro_status = 0
+	SELECT * FROM
+(SELECT *
+    FROM shop_product
+        WHERE pro_status = 0
+            ORDER BY dbms_random.value)
+        <![CDATA[WHERE rownum <= 10]]>
 	</select>
 
 	<!-- 카테고리 조회 -->
