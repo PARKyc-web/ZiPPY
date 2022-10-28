@@ -1,5 +1,4 @@
 <template>
-<form id="updateProperty">
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
@@ -21,7 +20,7 @@
                 </v-select>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-file-input :label="houseDetail[0].mainImg" ref="mainImg" id="mainImage"></v-file-input>
+                <v-file-input label='대표 이미지' v-model="houseDetail[0].mainImg" ref="mainImg"></v-file-input>
               </v-col>
               <v-col cols="12" sm="6">
                 <v-file-input label='상세 이미지' multiple small-chips truncate-length="15"></v-file-input>
@@ -99,7 +98,6 @@
       </v-card>
     </v-dialog>
   </v-row>
-</form>
 </template>
 
 <script>
@@ -124,6 +122,7 @@
       ],
       selectedTags: [],
       parking: '',
+      ////
       state: ''
     }),
     props: {

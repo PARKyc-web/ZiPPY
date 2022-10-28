@@ -141,7 +141,6 @@
     methods: {
       save() {
         this.dialog = false;
-        console.log('선택된', this.data.selectedTags);
 
         this.data.year = new Date().getFullYear();
         switch (this.constructionYear) {
@@ -209,7 +208,6 @@
           this.data.saleType = '';
         }
         this.$emit("search-property-list", this.data);
-        console.log(this.sigungu);
       },
       clickHouseType(houseType) {
         this.data.houseType = houseType;
