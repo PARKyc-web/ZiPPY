@@ -115,7 +115,7 @@
         }).then(res => {
           console.log(res);
           this.products = res.data.list;
-          this.PageCount = res.data.pages;
+          this.pageCount = res.data.pages;
           console.log(this.products);
         }).catch(error => {
           console.log(error);
@@ -134,7 +134,7 @@
         }).then(res => {
           console.log(res);
           this.products = res.data.list;
-          this.PageCount = res.data.pages;
+          this.pageCount = res.data.pages;
           console.log(this.products);
         }).catch(error => {
           console.log(error);
@@ -226,7 +226,7 @@
     margin-right: auto;
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 200px;
+    margin-bottom: 50px;
   }
 
   #product-list i {
@@ -256,6 +256,7 @@
 
   .product-about {
     margin-top: 10px;
+    width: 290px;
   }
 
   #product-info:hover {

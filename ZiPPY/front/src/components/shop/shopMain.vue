@@ -151,6 +151,7 @@
 
   .product-about {
     margin-top: 10px;
+    width: 270px;
   }
 
   #product-name:hover {
