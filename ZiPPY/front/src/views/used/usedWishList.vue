@@ -22,7 +22,7 @@
       <div class="used-wish-cont-div" @click="goDetail(list.productNo)" v-for="list in data">
         <div id="used-wish-product">
           <div class="used-wish-img-1">
-            <img img :src="'/zippy/common/img/used/'+list.mainImg" width="200px" height="200px" />
+            <img img :src="'/zippy/common/img/used/'+list.mainImg" width="198px" height="198px" />
             <div id="wish-soldout-img" width="200px" height="200px" v-if="list.isSell == 1">판매완료</div>
             <div id="used-wish-info">
               <div>
@@ -109,30 +109,23 @@
             pageNum: this.page
           }
         }).then(res => {
-          console.log(res);
           this.data = res.data.list;
           this.pageCount = res.data.pages;
-          console.log(this.data)
         }).catch(err => {
           console.log(err)
         })
       },
       test: function () {
         var ck = document.querySelector("#ck").checked;
-        console.log(ck);
-        // console.log(this.data.length)
         if (ck == true) {
           this.uncheck = false;
         }
       },
       goDetail(no) {
-        console.log(no);
         this.$router.push('/used/detail?pNo=' + no);
       },
       selectAll: function () {
-        console.log(this.ckList)
         let isCheck = document.querySelector('#ckAll').checked;
-        // console.log(isCheck)
         if (isCheck == false) {
           for (let i of this.data) {
             this.ckList.push(i.bookmarkNo);
@@ -150,7 +143,6 @@
             bNo: this.ckList
           }
         }).then(res => {
-          console.log(res);
           let arr = [];
           for (let i of this.data) {
             if (this.ckList.indexOf(i.bookmarkNo) < 0) {

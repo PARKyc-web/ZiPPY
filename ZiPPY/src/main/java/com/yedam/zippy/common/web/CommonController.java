@@ -77,10 +77,10 @@ public class CommonController {
   // 찜 전체출력
   @GetMapping("/wishAll")
   public PageInfo<BookmarkVO> getWishAll(@RequestParam String email, @RequestParam int serviceType, @RequestParam int pageNum){
-    
+    System.out.println(service.getWishAll(email, serviceType));
     String order = "";
     
-    PageHelper.startPage(pageNum, 10, order);
+    PageHelper.startPage(pageNum, 6, order);
     return PageInfo.of(service.getWishAll(email, serviceType));
   }
 
