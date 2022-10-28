@@ -6,14 +6,14 @@
         <h3>견적요청 조회</h3>
       </div>
 
-      <div class="form-check">
+      <!-- <div class="form-check">
         <input @click="checkbox ()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
         <label class="form-check-label" for="flexCheckDefault">
           찜한 견적보기
         </label>
-      </div>
+      </div> -->
       <hr />
-      <!--  -->
+      
 
 
 
@@ -108,7 +108,7 @@
     </v-card-text> -->
 
           <v-card-actions>
-            <v-btn color="#B3E3C3 lighten-2" text @click="reserve(item)">
+            <v-btn color="#B3E3C3 lighten-2" text @click="reserve(i)">
               예약요청
             </v-btn>
 
@@ -116,7 +116,6 @@
               채팅하기
             </v-btn>
 
-            <Move-Review-Modal></Move-Review-Modal>
           </v-card-actions>
         </v-card>
       </div>
@@ -135,7 +134,7 @@
   import axios from 'axios';
   import swal from 'sweetalert2';
   import MoveNavBar from '../../components/move/MoveNavBar.vue';
-  import MoveReviewModal from '@/components/move/MoveReviewModal.vue';
+ 
 
   export default {
     components: {
@@ -177,6 +176,22 @@
         reservStatus: "",
         serviceType: 3,
         serviceId: "",
+
+        vo:{
+          userEmail: "",
+        email: "",
+        estimateNo: "",
+        movingResponseNo: "",
+        compName: "",
+        totalRating: "",
+        firstEstimatePrice: "",
+        firstEstimateType: "",
+        secondEstimatePrice: "",
+        secondEstimateType: "",
+        reservStatus: "",
+        serviceType: 3,
+        serviceId: "",
+        },
         bookmarkNo: "",
         selectData: {},
         data: {
@@ -230,7 +245,7 @@
     },
     created() {
       axios({
-        url: "http://localhost:8090/zippy/move/moveMyList",
+        url: "/zippy/move/moveMyList",
         methods: "GET",
         params: {
           email: "",
@@ -262,48 +277,30 @@
 
       if (this.$store.state.loginInfo != null) {
 
-        axios({
-          url: "http://localhost:8090/zippy/move/wishOneList",
-          method: "GET",
-          params: {
-            email: this.$store.state.loginInfo.email,
-            sId: this.list.estimateNo,
-            serviceType: this.data.serviceType
-          }
-        }).then(res => {
-          this.wish = res.data;
-          if (res.data != "") {
-            this.heart = 1;
-          } else if (res.data == "") {
-            this.heart = 0;
-          }
-        }).catch(err => {
-          console.log(err)
-        })
-      
+        
 
         
       }
     },
     methods: {
-      reserve(item) {
+      reserve: function(i) {
         this.loading = true
 
 
 
         setTimeout(() => (this.loading = false), 2000)
 
-        this.estimateNo = item.estimateNo;
-        this.reservStatus = item.reservStatus;
+        // this.estimateNo = item.estimateNo;
+        // this.reservStatus = item.reservStatus;
         console.log(this.reservStatus);
 
         //견적상태변경
         this.$axios({
-          url: "http://localhost:8090/zippy/move/moveStatusThirdUpdate",
+          url: "/zippy/move/moveStatusThirdUpdate",
           method: "POST",
 
           params: {
-            estimateNo: item.estimateNo,
+            estimateNo: this.list[i].estimateNo,
             email: this.$store.state.loginInfo.email,
             reservStatus : 3
 
@@ -318,108 +315,13 @@
           console.log(err)
         })
       },
+
+      //채팅
       chat() {
         this.loading = true
 
         setTimeout(() => (this.loading = false), 2000)
       },
-
-
-      changeHeart(i) {
-        if (this.$store.state.loginInfo != null) {
-          if (this.heart == 0) { //찜x일때
-            this.addWish();
-            this.heart = 1; //찜on으로 변경
-            swal.fire({
-              icon: 'success',
-              title: '찜 목록에 추가되었습니다.',
-              showConfirmButton: false,
-              timer: 1500
-            });
-          } else { //찜on 일 떄
-            this.delWish();
-            this.heart = 0; //찜x로 변경
-            swal.fire({
-              icon: 'success',
-              title: '찜목록에서 삭제되었습니다.',
-              showConfirmButton: false,
-              timer: 1500
-            });
-          }
-        } else {
-          swal.fire({
-            icon: 'warning',
-            title: '로그인 정보가 필요합니다.',
-            showConfirmButton: false,
-            timer: 1500
-          });
-        }
-      },
-      rewrite() {
-        axios({
-          url: "http://localhost:8090/zippy/common/wishOneList",
-          method: "GET",
-          params: {
-            email: this.$store.state.loginInfo.email,
-            sId: this.list.estimateNo,
-            serviceType: this.data.serviceType
-          }
-        }).then(res => {
-          this.wish = res.data;
-          if (res.data != "") {
-            this.heart = 1;
-          } else if (res.data == "") {
-            this.heart = 0;
-          }
-        }).catch(err => {
-          console.log(err)
-        })
-      },
-      addWish: function (i) {
-        
-
-        // for(let i of this.list){
-        //   this.data.serviceId= this.list[i].email;
-
-        // }
-        this.data.serviceId = this.list.estimateNo;
-        console.log("데이터:"+this.data)
-        console.log("서비스아이디:"+this.data.serviceId)
-        console.log("리스트:"+this.list)
-        console.log("리스트 서비스아이디:"+this.list.estimateNo)
-        // this.data.email = this.$store.state.loginInfo.email;  
-        
-        axios({
-          url: "http://localhost:8090/zippy/common/addWish",
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json; charset=utf-8"
-          },
-          data: JSON.stringify(this.data)
-        }).then(res => {
-
-
-          this.rewrite();
-        }).catch(err => {
-          console.log(err)
-        })
-      },
-      delWish: function () {
-        let bNo = [];
-        bNo.push(this.wish.bookmarkNo);
-        axios({
-          url: "http://localhost:8090/zippy/common/delWish",
-          method: "DELETE",
-          data: {
-            bNo: bNo
-          }
-        }).then(res => {
-          console.log(res);
-        }).catch(err => {
-          console.log(err)
-        })
-      },
-
 
 
       checkbox: function () {
@@ -428,7 +330,7 @@
         var isChecked = document.querySelector(".form-check-input").innerText = is_cked
         console.log(isChecked);
         axios({
-          url: "http://localhost:8088/zippy/used/main",
+          url: "/zippy/used/main",
           methods: "GET",
           params: {
             keyword: this.searchValue,
@@ -449,22 +351,25 @@
 
         var dropValue2 = this.select2;
         console.log(dropValue2);
-        console.log(this.vo.email);
         axios({
-          url: "http://localhost:8090/zippy/move/moveEstimate",
+          url: "/zippy/move/moveMyList",
           methods: "GET",
           params: {
             dropbox: this.select,
             dropbox2: dropValue2, //지역
-            email: this.$store.state.loginInfo.email,
-            requestDate: this.vo.requestDate,
-            departAddress: this.vo.departAddress,
-            arriveAddress: this.vo.arriveAddress,
-            compAddress: this.vo.compAddress
+            UserEmail: this.$store.state.loginInfo.email,
+            requestDate: this.requestDate,
+            totalRating: this.list.totalRating,
+            compAddress: this.compAddress,
+            email: this.email,
+            firstEstimatePrice: this.list.firstEstimatePrice
           }
         }).then(res => {
           console.log(res);
+          console.log(this.list.totalRating);
+          console.log(this.list.firstEstimatePrice);
           this.list = res.data;
+
         }).catch(err => {
           console.log(err);
         })

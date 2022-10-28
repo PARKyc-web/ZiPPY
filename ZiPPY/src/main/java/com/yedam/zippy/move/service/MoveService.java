@@ -26,7 +26,9 @@ public interface MoveService {
   public List<MoveRequestVO> getEstimateList(MoveEstimateVO vo);
 
   //전체조회 - 유저
-  public Page<MoveEstimateVO> getEstimateResult(MoveEstimateVO vo);
+//  public Page<MoveEstimateVO> getEstimateResult(MoveEstimateVO vo);
+  public List<MoveEstimateVO> getEstimateResult(MoveEstimateVO vo);
+  
   
   //비대면 사진조회
   public List<MoveImageVO> selectAllPhoto(MoveImageVO vo);
@@ -87,7 +89,7 @@ public interface MoveService {
   public List<BookmarkVO> getWishOneList(@RequestParam int sId, @RequestParam String email, @RequestParam int serviceType); 
    
   //후기 출력
-   public List<MoveReviewVO> showReview(@Param("serviceId")String serviceId);
+   public List<MoveReviewVO> showReview(MoveReviewVO vo);
    
  //후기 개수
    public List<MoveReviewVO> moveRvCount(@Param("serviceId")String serviceId);

@@ -109,7 +109,7 @@
                     <v-btn v-if="item.reservStatuss==1" id="estBtn" @click="modalVal(i)" color="success" dark v-bind="attrs" v-on="on" width="80">
                       견적작성
                     </v-btn>
-                    <v-btn v-if="item.reservStatuss==3" @click="updateConfirm(i)" color="success" dark v-bind="attrs" v-on="on" width="80">
+                    <v-btn v-if="item.reservStatuss==3" @click="updateConfirm(i)" color="success" width="80">
                       예약확정
                     </v-btn>
                     <v-btn v-if="item.reservStatuss==4" @click="updateComplete(i)" color="success" dark v-bind="attrs" v-on="on" width="80">
@@ -242,7 +242,9 @@
       <input type="hidden" name="firstEstimateType" id="firstEstimateType" :value="item.firstEstimateType">  -->
 
 
-
+      <div class="text-center">
+      <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3"></v-pagination>
+    </div>
 
   </div>
 </template>
@@ -258,6 +260,15 @@ export default {
  
     data: function () {
       return {
+
+        //페이징
+      selection: 1,
+        heart: 0,
+        wish: "",
+        bNo: "",
+        page: 1,
+        pageCount: 1,
+
         //펼치기
       show: false,
 
@@ -348,6 +359,20 @@ export default {
       }).catch(error => {
         console.log(error);
       })
+
+      //사진가져오기
+      axios({
+        url: "/zippy/move/movePhoto",
+        methods: "GET",
+        
+      }).then(res => {
+        console.log(res);
+        this.photoList = res.data;
+        console.log('lilssstttt',this.photoList)
+      }).catch(error => {
+        console.log(error);
+      })
+
     },
     watch: {
     },
@@ -358,7 +383,7 @@ export default {
         var isChecked = document.querySelector(".form-check-input").innerText = is_cked
         console.log(isChecked);
         axios({
-          url: "http://localhost:8088/zippy/used/main",
+          url: "/zippy/used/main",
           methods: "GET",
           params: {
             keyword: this.searchValue,
@@ -376,13 +401,16 @@ export default {
       },
      //예약확정으로 상태 업데이트 
       updateConfirm : function(i){
+        this.dialog = false;
         this.$axios({
-          url: "http://localhost:8090/zippy/move/moveStatusFourthUpdate",
+          url: "/move/moveStatusFourthUpdate",
           method: "POST",
          
           params:{
             estimateNo : this.list[i].estimateNo,
             email : this.$store.state.loginInfo.email,
+            // estimateNo : this.selectData.estimateNo,
+              // email : this.selectData.email,
             reservStatus : 4
           },
           
@@ -401,7 +429,7 @@ export default {
       updateComplete : function(i){
         console.log('listttt:',this.list)
         this.$axios({
-          url: "http://localhost:8090/zippy/move/moveStatusFifthUpdate",
+          url: "/zippy/move/moveStatusFifthUpdate",
           method: "POST",
          
           params:{
@@ -427,16 +455,19 @@ export default {
         console.log(dropValue2);
         console.log(this.vo.email);
         axios({
-          url: "http://localhost:8090/zippy/move/moveCompanyEstimate",
+          url: "/zippy/move/moveCompanyEstimate",
           methods: "GET",
           params: {
             dropbox: this.select,
             dropbox2: dropValue2, //지역
             email: this.$store.state.loginInfo.email,
-            requestDate: this.vo.requestDate,
-            departAddress: this.vo.departAddress,
-            arriveAddress: this.vo.arriveAddress,
-            compAddress: this.vo.compAddress
+            // requestDate: this.vo.requestDate,
+            // departAddress: this.vo.departAddress,
+            // arriveAddress: this.vo.arriveAddress,
+            // compAddress: this.vo.compAddress
+            requestDate : this.list.requestDate,
+            estimateType : this.list.estimateType,
+            reservStatuss : this.list.reservStatuss
           }
         }).then(res => {
           console.log(res);
@@ -448,7 +479,7 @@ export default {
       modalVal: function (i) {
         
         axios({
-          url: "http://localhost:8090/zippy/move/moveCompanyEstimate",
+          url: "/zippy/move/moveCompanyEstimate",
           methods: "GET",
           params: {
             movingResponseNo : this.vo.movingResponseNo,
@@ -611,7 +642,7 @@ export default {
         console.log("견적어필: " + this.selectData.responseMemo);
 
         this.$axios({
-          url: "http://localhost:8090/zippy/move/moveEstimateUpdate",
+          url: "/zippy/move/moveEstimateUpdate",
           method: "POST",
          
           params:{
@@ -629,7 +660,7 @@ export default {
 
             //견적상태변경
           this.$axios({
-            url: "http://localhost:8090/zippy/move/moveStatusSecondUpdate",
+            url: "/zippy/move/moveStatusSecondUpdate",
             method: "POST",
           
             params:{

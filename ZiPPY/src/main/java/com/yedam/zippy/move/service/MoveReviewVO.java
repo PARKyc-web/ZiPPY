@@ -29,4 +29,13 @@ public class MoveReviewVO {
   private int deleteState;
   Integer reviewCount;
   
+  double companyTotalRating;
+  
+  //business
+  
+  String compName;
+  String phone;
+  String compAddress;
+  String compIntro;
+  
 }

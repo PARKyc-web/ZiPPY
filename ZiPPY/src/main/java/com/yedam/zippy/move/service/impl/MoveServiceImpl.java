@@ -150,8 +150,12 @@ public class MoveServiceImpl implements MoveService{
   // 다른 작업이 필요한 경우에는(2차가공) ex. db에서 정보 가져와서 서비스에서 랜덤으로 숫자 발생시키고 전체견적정보를 가져와 배열에 넣는다  
   
   //전체조회 - 유저
+//  @Override
+//  public Page<MoveEstimateVO> getEstimateResult(MoveEstimateVO vo) {
+//    return mapper.getEstimateResult(vo);
+//  }
   @Override
-  public Page<MoveEstimateVO> getEstimateResult(MoveEstimateVO vo) {
+  public List<MoveEstimateVO> getEstimateResult(MoveEstimateVO vo) {
     return mapper.getEstimateResult(vo);
   }
   
@@ -273,8 +277,8 @@ public int moveStatusUpdateZero(MoveRequestVO vo) {
   
   //리뷰출력
   @Override
-  public List<MoveReviewVO> showReview(@Param("serviceId")String serviceId) {
-    return mapper.showReview(serviceId);
+  public List<MoveReviewVO> showReview(MoveReviewVO vo) {
+    return mapper.showReview(vo);
   }
   
   //리뷰개수

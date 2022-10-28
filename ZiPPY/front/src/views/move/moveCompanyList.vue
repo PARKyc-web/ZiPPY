@@ -92,8 +92,7 @@ export default {
 
       loading: false,
       selection: 1,
-      heart : 0,
-      wish: "",
+     
 
       list: [],
 
@@ -109,7 +108,7 @@ export default {
         totalRating: 0,
         firstEstimatePrice: "",
         reservStatus : "",
-        serviceType: "",
+        serviceType: 3,
         dropbox:"",
         
         drops: [{
@@ -182,9 +181,10 @@ export default {
       },
       //후기보기
       goToCompany(email){
-        
-        this.$router.push('/move/moveReview?serviceId=' + email);
-        console.log('이메일 :::',email);
+        this.$router.push('/move/moveReview?serviceId=' + email );  
+        // this.$router.push('/move/moveReview?serviceId=' + email + 
+        //               '&movingResponseNo=' + movingResponseNo);        
+        // console.log('이메일 :::',email, movingResponseNo);
       },
       //체크박스
       checkbox: function () {
@@ -193,7 +193,7 @@ export default {
         var isChecked = document.querySelector(".form-check-input").innerText = is_cked
         console.log(isChecked);
         axios({
-          url: "http://localhost:8088/zippy/used/main",
+          url: "/zippy/used/main",
           methods: "GET",
           params: {
             keyword: this.searchValue,

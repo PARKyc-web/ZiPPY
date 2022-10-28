@@ -201,15 +201,23 @@ public class MoveController {
 
   
   //사용자가 보낸 자신의 견적 히스토리 확인
+  
   @GetMapping("/moveResult")
-  public PageInfo<MoveEstimateVO> selectAllResult(MoveEstimateVO vo){
-    String order="request_date DESC";
+  public List<MoveEstimateVO> selectAllResult(MoveEstimateVO vo){
+    
     System.out.println(vo);
-    
-    
-    PageHelper.startPage(vo.getPageNum(), 10, order);
-    return PageInfo.of(service.getEstimateResult(vo));
+    return service.getEstimateResult(vo);
   }
+//  @GetMapping("/moveResult")
+//  public PageInfo<MoveEstimateVO> selectAllResult(MoveEstimateVO vo){
+//    String order="request_date DESC";
+//    System.out.println(vo);
+//    
+//    
+//    PageHelper.startPage(vo.getPageNum(), 10, order);
+//    return PageInfo.of(service.getEstimateResult(vo));
+//  }
+  
 
   //사용자가 받은 견적 리스트 확인
   @GetMapping("/moveMyList")
@@ -256,8 +264,8 @@ public class MoveController {
  
  // 후기 출력
  @GetMapping("/moveReview")
- public List<MoveReviewVO> showReview(@Param("serviceId")String serviceId) {
-   return service.showReview(serviceId);
+ public List<MoveReviewVO> showReview(MoveReviewVO vo) {
+   return service.showReview(vo);
  } 
  
  //후기 개수

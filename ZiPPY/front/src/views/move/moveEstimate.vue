@@ -218,6 +218,9 @@
       <input type="hidden" name="firstEstimateType" id="firstEstimateType" :value="item.firstEstimateType">  -->
 
 
+      <div class="text-center">
+      <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3"></v-pagination>
+    </div>
 
 
   </div>
@@ -235,6 +238,16 @@ export default {
   
     data: function () {
       return {
+        //페이징
+      selection: 1,
+        heart: 0,
+        wish: "",
+        bNo: "",
+        page: 1,
+        pageCount: 1,
+
+
+
         //펼치기
       show: false,
       
@@ -456,7 +469,7 @@ export default {
           console.log(err);
         })
         
-        //여기서 여부 액시오스 쓰기 -> 알러트 띄워서 이미 작성한 후기입니다 ,,,,
+        //여기서 여부 액시오스 쓰기 -> 알러트 띄워서 이미 작성한 견적입니다 ,,,,
         //내가 응답을 1번이라도 보낸 견적들을 가져온다
         axios({
             url: "/zippy/move/moveWhether",

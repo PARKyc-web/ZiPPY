@@ -6,19 +6,19 @@
       <h3>견적요청 조회</h3>
     </div>
 
-    <div class="form-check">
+    <!-- <div class="form-check">
       <input @click="checkbox ()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
       <label class="form-check-label" for="flexCheckDefault">
         견적완료된 요청보기
       </label>
-    </div>
+    </div> -->
     <hr />
     <!--  -->
  
 
 
     <div id="used-main-dropbox1">
-      <v-select @change="dropVal2()" v-model="select2" :items="drops" item-text="name" item-value="value2" label="예약상태"
+      <v-select @change="dropVal2(i)" v-model="select2" :items="drops" item-text="name" item-value="value2" label="예약상태"
         color="#212529" persistent-hint single-line dense width="50"></v-select>
     </div>
 
@@ -76,7 +76,7 @@
             <v-rating :value="4.5" color="amber" dense half-increments readonly size="20"></v-rating>
 
             <div class="grey--text ms-4">
-              평점{{item.totalRating}} (413)
+              평점 {{Math.round(item.totalRating * 10)/10}} (413)
             </div>
           </v-row>
           <v-divider class="mx-4"></v-divider>
@@ -123,8 +123,8 @@
           </v-btn>
 
           <!-- 후기 작성 모달 -->
-          <Move-Review-Modal :serviceId="item.email" :movingResponseNo="item.movingResponseNo">
-          </Move-Review-Modal>
+          <MoveReviewModal :email="item.email" :movingResponseNo="item.movingResponseNo" :reservStatus="item.reservStatus">
+          </MoveReviewModal>
           <!-- <v-btn v-if="item.reservStatus == 5" color="deep-purple lighten-2" text @click="review">
             후기작성
           </v-btn> -->
@@ -134,6 +134,10 @@
 
 
 </div>
+<div class="text-center">
+      <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3"></v-pagination>
+    </div>
+
   </div>
 </template>
 
@@ -154,12 +158,21 @@ export default {
   icons: {
     iconfont: 'mdi', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
   },
+    //페이징
+    selection: 1,
+        heart: 0,
+        wish: "",
+        bNo: "",
+        page: 1,
+        pageCount: 1,
+
 
       loading: false,
       selection: 1,
       heart : 0,
       wish: "",
-
+      on: "",
+      attrs : "",
       list: [],
 
       //받은정보
@@ -183,12 +196,12 @@ export default {
             value: '예약요청'
           },
           {
-            name: '예약중',
-            value: '예약중'
-          },
-          {
             name: '예약완료',
             value: '예약완료'
+          },
+          {
+            name: '이사완료',
+            value: '이사완료'
           },
          
         ],
@@ -197,7 +210,7 @@ export default {
 
     created(){
       axios({
-        url: "http://localhost:8090/zippy/move/moveReserve",
+        url: "/zippy/move/moveReserve",
         methods: "GET",
         params: {
           userEmail: this.$store.state.loginInfo.email,
@@ -237,7 +250,7 @@ export default {
         var isChecked = document.querySelector(".form-check-input").innerText = is_cked
         console.log(isChecked);
         axios({
-          url: "http://localhost:8088/zippy/used/main",
+          url: "/zippy/used/main",
           methods: "GET",
           params: {
             keyword: this.searchValue,
@@ -254,22 +267,19 @@ export default {
         })
       },
       
-      dropVal2: function () {
+      dropVal2: function (i) {
 
         var dropValue2 = this.select2;
         console.log(dropValue2);
-        console.log(this.vo.email);
+       
         axios({
-          url: "http://localhost:8090/zippy/move/moveEstimate",
+          url: "/zippy/move/moveReserve",
           methods: "GET",
           params: {
             dropbox: this.select,
             dropbox2: dropValue2, //지역
-            email: this.vo.email,
-            requestDate: this.vo.requestDate,
-            departAddress: this.vo.departAddress,
-            arriveAddress: this.vo.arriveAddress,
-            compAddress: this.vo.compAddress
+            
+            reservStatus: this.list.reservStatus
           }
         }).then(res => {
           console.log(res);
