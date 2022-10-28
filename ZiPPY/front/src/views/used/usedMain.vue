@@ -20,7 +20,7 @@
     <div id="main-background"></div>
     <div id="container">
       <div>
-        <div class="used-main-title">
+        <div id="used-main-title" class="font-all">
           <h3>판매중인 중고제품</h3>
           <div>
             <v-btn width="160" depressed color=#B3E3C3 @click="insert()">
@@ -78,7 +78,7 @@
           </div>
         </div>
       </div>
-      <div class="text-center" v-if="data.length >=16">
+      <div class="text-center">
         <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3"></v-pagination>
       </div>
     </div>
@@ -249,6 +249,22 @@
   }
 </script>
 <style scoped>
+  @font-face {
+    font-family: 'GmarketSans';
+    font-weight: 500;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot?#iefix') format('embedded-opentype'),
+      url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2') format('woff2'),
+      url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff') format('woff'),
+      url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.ttf') format("truetype");
+    font-display: swap;
+  }
+
+  .font-all {
+    font-family: 'GmarketSans';
+  }
+
   #container {
     width: 1200px;
     margin: 0 auto;
@@ -329,8 +345,7 @@
   }
 
   .used-main-card img {
-    border-top-left-radius: 0.8rem;
-    border-top-right-radius: 0.8rem;
+    border-radius: 0.8rem;
   }
 
   v-container:hover {
@@ -351,7 +366,7 @@
     cursor: pointer;
   }
 
-  .used-main-title {
+  #used-main-title {
     margin: 150px 50px 50px 50px;
     display: flex;
     justify-content: space-between;

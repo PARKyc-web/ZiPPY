@@ -51,7 +51,7 @@
           </div>
         </div>
       </div>
-      <div class="text-center" v-if="data.length >=11">
+      <div class="text-center">
         <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3"></v-pagination>
       </div>
     </div>
@@ -75,21 +75,23 @@
       }
     },
     created() {
-      axios({
-        url: "/zippy/common/wishAll",
-        method: "GET",
-        params: {
-          email: this.$store.state.loginInfo.email,
-          serviceType: 1,
-          pageNum: this.page
-        }
-      }).then(res => {
-        console.log(res);
-        this.data = res.data.list;
-        this.pageCount = res.data.pages;
-      }).catch(err => {
-        console.log(err)
-      })
+      // axios({
+      //   url: "/zippy/common/wishAll",
+      //   method: "GET",
+      //   params: {
+      //     email: this.$store.state.loginInfo.email,
+      //     serviceType: 1,
+      //     pageNum: this.page
+      //   }
+      // }).then(res => {
+      //   console.log(res);
+      //   this.data = res.data.list;
+      //   this.pageCount = res.data.pages;
+      //   
+      // }).catch(err => {
+      //   console.log(err)
+      // })
+      this.pagenation();
     },
     filters: {
       comma(val) {
@@ -110,6 +112,7 @@
           console.log(res);
           this.data = res.data.list;
           this.pageCount = res.data.pages;
+          console.log(this.data)
         }).catch(err => {
           console.log(err)
         })
@@ -224,6 +227,7 @@
 
   .used-wish-cont-div {
     display: inline-block;
+    border-radius: 0.8rem;
 
   }
 
@@ -354,6 +358,7 @@
     width: 500px;
     height: 200px;
     margin-right: 20px;
+    border-radius: 0.8rem;
   }
 
   #used-wish-product:hover {
@@ -375,6 +380,10 @@
   .used-wish-img-1 {
     display: flex;
     position: relative;
+  }
+
+  .used-wish-img-1 img{
+    border-radius: 0.8rem;
   }
 
   .used-wish-cont {

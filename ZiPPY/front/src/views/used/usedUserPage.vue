@@ -8,18 +8,19 @@
                         <img :src="'/zippy/common/img/member/'+data.profileImage" width="100px" height="100px" alt="">
                     </div>
                 </div>
-                <div 판매자정보 부분>
+                <div id="used-nick-stars">
                     <div id="used-seller-name">
                         <div id="used-name-report">
-                            <div>{{this.nickName}}</div>
+                            <div id="used-user-nickname">{{this.nickName}}</div>
                         </div>
                     </div>
                     <div class="used-point-report">
                         <div>
-                            <h4>평점</h4>
+                            <h5>평점</h5>
                         </div>
-                        <div>
-                            <b-form-rating variant="warning" v-model="allTotal" no-border color="#64c481" readonly>
+                        <div class="">
+                            <b-form-rating variant="warning" v-model="allTotal" no-border color="#64c481" size="lg"
+                                readonly>
                             </b-form-rating>
                         </div>
                     </div>
@@ -47,13 +48,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-center" v-if="data.length >=11">
+                                    <div class="text-center">
                                         <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3">
                                         </v-pagination>
                                     </div>
                                 </b-card-text>
                             </b-tab>
-                            <b-tab title="거래 후기">
+                            <b-tab id="b-title" title="거래 후기">
                                 <b-card-text>
                                     <h5>상점후기</h5>
                                     <hr>
@@ -164,10 +165,35 @@
 </script>
 
 <style scoped>
+    @font-face {
+        font-family: 'GmarketSans';
+        font-weight: 500;
+        font-style: normal;
+        src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot');
+        src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot?#iefix') format('embedded-opentype'),
+            url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2') format('woff2'),
+            url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff') format('woff'),
+            url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.ttf') format("truetype");
+        font-display: swap;
+    }
+
+    h5,
+    #used-user-nickname {
+        font-family: 'GmarketSans';
+    }
+
+    .nav-link {
+        color: black;
+    }
+
     #container {
         width: 1200px;
         margin: 0 auto;
         margin-top: 20px;
+    }
+
+    #used-nick-stars h4 {
+        margin-top: 10px;
     }
 
     #b-title {
@@ -180,6 +206,10 @@
 
     #start-size {
         width: 90px;
+    }
+
+    #used-user-nickname {
+        font-size: xx-large;
     }
 
     a {
@@ -262,11 +292,16 @@
     .used-point-report {
         margin-left: 20px;
         margin-bottom: 20px;
+        height: 50px;
         display: flex;
     }
 
+    .used-point-report h5 {
+        margin-top: 15px;
+    }
+
     #used-img-img {
-        width: 200px;
+        /* width: 200px;
         height: 200px;
         position: inherit;
         display: flex;
@@ -275,11 +310,12 @@
         -webkit-box-align: center;
         align-items: center;
         flex-direction: column;
-        box-shadow: rgb(4 0 0 / 3%) 0px 5px 10px 0px;
-        background-color: #B3E3C3;
+        box-shadow: rgb(4 0 0 / 3%) 0px 5px 10px 0px; */
+    }
 
-
-
+    #used-img-img img {
+        margin-top: 10px;
+        margin-left: 10px;
     }
 
     #used-detail-report {
@@ -306,14 +342,14 @@
     }
 
     #used-img {
-        position: inherit;
+        /* position: inherit;
         height: 100%;
         -webkit-box-pack: center;
         justify-content: center;
         -webkit-box-align: center;
         align-items: center;
         flex-direction: column;
-        box-shadow: rgb(4 0 0 / 3%) 0px 5px 10px 0px;
+        box-shadow: rgb(4 0 0 / 3%) 0px 5px 10px 0px; */
     }
 
     #used-img img {
@@ -384,9 +420,8 @@
         border-radius: 0.8rem;
     }
 
-    .used-main-card img{
-        border-top-left-radius: 0.8rem;
-        border-top-right-radius: 0.8rem;
+    .used-main-card img {
+        border-radius: 0.8rem;
     }
 
 
