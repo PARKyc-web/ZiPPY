@@ -101,7 +101,10 @@
               <v-card-text>
                 <wish-button :productId="this.houseDetail[0].productId"></wish-button>
                 <v-row align="center" class="mx-0">
-                  <div>매물번호 {{this.houseDetail[0].productId}}</div>
+                  <div >
+                        <v-chip class="ma-2" color="green lighten-2" small outlined style="left: -10px; top: 10px">매물번호 {{this.houseDetail[0].productId}}</v-chip>
+                      </div>
+                  <!-- <div>매물번호 {{this.houseDetail[0].productId}}</div> -->
                 </v-row>
                 <v-card-title style="font-weight: bold;">{{this.houseDetail[0].saleType}} {{this.price}}</v-card-title>
                 <p style="margin-left: 20px;">{{this.houseDetail[0].houseType}} · {{this.houseDetail[0].houseName}}</p>
@@ -169,16 +172,16 @@
     data() {
       return {
         items: [{
-            src: 'http://localhost:8090/zippy/common/img/property/',
+            src: '/zippy/common/img/property/',
           },
           {
-            src: 'http://localhost:8090/zippy/common/img/property/image2.jpg',
+            src: '/zippy/common/img/property/image2.jpg',
           },
           {
-            src: 'http://localhost:8090/zippy/common/img/property/image3.jpg',
+            src: '/zippy/common/img/property/image3.jpg',
           },
           {
-            src: 'http://localhost:8090/zippy/common/img/property/image4.jpg',
+            src: '/zippy/common/img/property/image4.jpg',
           },
         ],
         houseDetail: [],
@@ -209,9 +212,8 @@
           }
         }).then(response => {
           // 성공했을 때
-          console.log(response.data);
           this.houseDetail = response.data;
-          this.items[0] = {src: 'http://localhost:8090/zippy/common/img/property/'+this.houseDetail[0].mainImg }
+          this.items[0] = {src: '/zippy/common/img/property/'+this.houseDetail[0].mainImg }
 
           let temp = this.houseDetail[0].tags.split('/');
           for (let i = 0; i < temp.length; i++) {

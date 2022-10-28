@@ -303,7 +303,7 @@
       movingMemo: "",
       
       // 사진
-      img: require("../../assets/box.jpg"),
+      img: require("@/assets/box.jpg"),
     }),
 
     computed:{

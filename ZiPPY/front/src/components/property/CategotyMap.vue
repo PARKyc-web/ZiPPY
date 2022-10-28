@@ -236,7 +236,7 @@
         // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
         function displayPlaceInfo(place) {
           var content = '<div class="placeinfo" style="background-color: white; text-align: center; padding: 15px; border-radius: 30px 10px;">' +
-            '   <a class="title" style="text-decoration: none; color: inherit; font-weight: bold; color: #E53935" href="' + place.place_url + '" target="_blank" title="' + place.place_name + '">' +
+            '   <a style="text-decoration: none; color: inherit; font-weight: bold; font-size:medium; color: #E53935" href="' + place.place_url + '" target="_blank" title="' + place.place_name + '">' +
             place.place_name + '</a>';
 
           if (place.road_address_name) {

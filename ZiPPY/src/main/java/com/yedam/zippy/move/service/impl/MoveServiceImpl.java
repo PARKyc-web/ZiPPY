@@ -206,7 +206,6 @@ public int moveStatusUpdateZero(MoveRequestVO vo) {
   //3 : 예약요청
   @Override
   public int moveStatusThirdUpdate(MoveResponseVO vo) {
-    // TODO Auto-generated method stub
     return mapper.moveStatusThirdUpdate(vo);
   }
   

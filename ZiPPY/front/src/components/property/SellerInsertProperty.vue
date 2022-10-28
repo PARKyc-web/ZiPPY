@@ -73,7 +73,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="click">
+          <v-btn color="green lighten-1" text @click="click">
             등록
           </v-btn>
         </v-card-actions>        

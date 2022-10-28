@@ -14,7 +14,7 @@
 
         <v-stepper-content step="1">
           <v-card color="white" class="mb-12" height="400px">
-            <img src="../../assets/enter.jpg">
+            <img src="@/assets/enter.jpg">
 
             <div id="step1">
               <v-file-input outlined v-model="moveImage.files1" placeholder="Upload your documents" label="사진첨부"
@@ -41,7 +41,7 @@
 
         <v-stepper-content step="2">
           <v-card color="white lighten-5" class="mb-12" height="400px">
-            <img src="../../assets/center.jpg">
+            <img src="@/assets/center.jpg">
 
             <div id="step2">
               <v-file-input outlined v-model="moveImage.files2" placeholder="Upload your documents" label="사진첨부"
@@ -69,7 +69,7 @@
 
         <v-stepper-content step="3">
           <v-card color="white lighten-5" class="mb-12" height="400px">
-            <img src="../../assets/inside.jpg">
+            <img src="@/assets/inside.jpg">
 
             <div id="step3">
               <v-file-input outlined v-model="moveImage.files3" placeholder="Upload your documents" label="사진첨부"
@@ -113,7 +113,7 @@
           files2: [],
           files3: [],
         },
-        img: require("../../assets/box.jpg")
+        img: require("@/assets/box.jpg")
       }
     },
 

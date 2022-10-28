@@ -95,10 +95,10 @@ public class MoveController {
   
   //견적서 인서트- 업체(1차까지)
   @PostMapping("/moveEstimate")
-  public String makeEstimate(MoveResponseVO vo) {   
+  public int makeEstimate(MoveResponseVO vo) {   
     System.out.println("========================="+vo);
-    service.makeEstimate(vo);
-    return "";
+    
+    return service.makeEstimate(vo);
   }
   
   //견적상태 업데이트 (견적요청후, 상태 0으로 변경)
@@ -148,11 +148,10 @@ public class MoveController {
   
   //견적상태 업데이트 (사용자가 예약요청 후, 상태 3으로 변경)
   @PostMapping("/moveStatusThirdUpdate")
-  public String moveStatusThirdUpdate(MoveResponseVO vo) {
+  public int moveStatusThirdUpdate(MoveResponseVO vo) {
     System.out.println(vo);
     
-    service.moveStatusThirdUpdate(vo);
-    return "";
+    return service.moveStatusThirdUpdate(vo);
   }
   
   //견적상태 업데이트 (업체가 예약확정 후, 상태 4으로 변경)

@@ -1,95 +1,104 @@
 <template>
-  <div id="container">
-    <div id="agent_profile">
-      <div id="agent_profile_left">
-        <table>
-          <tr>
-            <td>
-              <h3 id="main_title">{{this.profile[0].compName}}</h3>
-            </td>
-            <td>
-              <update-agent-profile :profile="this.profile[0]"></update-agent-profile>
-            </td>
-          </tr>
-        </table>
-        <table>
-          <tr>
-            <td>
-              <h4 class="title">대표자</h4>
-            </td>
-            <td>
-              <h5 style="margin-left: 10px;">
-                {{this.profile[0].ceoName}}
-              </h5>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <h4 class="title">연락처</h4>
-            </td>
-            <td>
-              <h5 style="margin-left: 10px;">
-                {{this.profile[0].phone}}
-              </h5>
-            </td>
-          </tr>
-        </table>
+  <div>
+    <div id="main-background"></div>
+    <div id="container">
+      <div id="agent_profile">
+        <div id="agent_profile_left">
+          <table>
+            <tr>
+              <td>
+                <h3 id="main_title">{{this.profile[0].compName}}</h3>
+              </td>
+              <td>
+                <!-- <update-agent-profile :profile="this.profile[0]"></update-agent-profile> -->
+              </td>
+            </tr>
+          </table>
+          <table>
+            <tr>
+              <td>
+                <h4 class="title">대표자</h4>
+              </td>
+              <td>
+                <h5 style="margin-left: 10px;">
+                  {{this.profile[0].ceoName}}
+                </h5>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h4 class="title">연락처</h4>
+              </td>
+              <td>
+                <h5 style="margin-left: 10px;">
+                  {{this.profile[0].phone}}
+                </h5>
+              </td>
+            </tr>
+          </table>
 
-        <h4 class="title">인사말</h4>
-        <p class="contents">{{this.profile[0].compIntro}}</p>
-      </div>
-      <div id="agent_profile_right">
-        <h4 class="title" style="margin-top: 83.6px;">오시는 길</h4>
-        <div class="contents">
-          <p>{{this.profile[0].compAddress}}</p>
-          <!-- 지도 -->
-          <basic-marker-map :address="this.profile[0].compAddress" :name="this.profile[0].compName" />
+          <h4 class="title">인사말</h4>
+          <p class="contents">{{this.profile[0].compIntro}}</p>
+        </div>
+        <div id="agent_profile_right">
+          <!-- <h4 class="title" style="margin-top: 83.6px;">오시는 길</h4> -->
+          <h4 class="title" style="margin-top: 20px;">오시는 길</h4>
+          <div class="contents">
+            <p>{{this.profile[0].compAddress}}</p>
+            <!-- 지도 -->
+            <basic-marker-map :address="this.profile[0].compAddress" :name="this.profile[0].compName" />
+          </div>
         </div>
       </div>
-    </div>
-    <hr>
-    <div>
-      <table>
-        <tr>
-          <td>
-            <h4 class="title">
-              매물 목록
-            </h4>
-          </td>
-          <td>
-            <insert-property :email="this.profile[0].email" />
-          </td>
-        </tr>
-      </table>
-      <div class="row" style="margin-left:35px ;">
-        <v-card v-if="properties.length != 0" v-for="item in properties" style="width: 45%; margin: 1%; padding: 20px;" @click="goHouseDetail(item.productId)">
-          <v-card-text>
-            <table>
-              <tr>
-                <td style="width: 35%;"><img :src="'http://localhost:8090/zippy/common/img/property/' + item.mainImg"
+      <div>
+        <table>
+          <tr>
+            <td>
+              <h4 class="title" style="margin-left:95px ;"> 
+                매물 목록
+              </h4>
+            </td>
+          </tr>
+        </table>
+        <div class="row" style="margin-left:130px ;">
+          <v-card v-if="properties.length != 0" v-for="item in properties"
+            style="width: 40%;  margin: 1%; padding: 20px;" @click="goHouseDetail(item.productId)">
+            <v-card-text>
+              <table>
+                <tr>
+                  <td style="width: 50%;"><img :src="'http://localhost:8090/zippy/common/img/property/' + item.mainImg"
                       style="width: 100%; height: 100%" /></td>
-                <td style="width: 65%;">
-                  <v-row align="center" class="mx-0">
-                    <div>매물번호 {{item.productId}}</div>
-                  </v-row>
-                  <v-card-title style="font-weight: bold;">{{item.saleType}} {{item.price | oneHundredMillion}}
-                  </v-card-title>
-                  <p class="card_contents">{{item.houseType}} · {{item.houseName}}</p>
-                  <p class="card_contents">{{item.sigungu}}</p>
-                  <p class="card_contents"><v-icon>mdi-border-outside</v-icon>{{item.areaExclusive}}m² · <v-icon>mdi-stairs</v-icon>{{item.floor}}층</p>
-                  <p class="card_contents">{{item.detailContents}}</p>
-                  <update-property :productId="item.productId"></update-property>
-                </td>
-              </tr>
-            </table>
-          </v-card-text>
-        </v-card>
-      </div>
+                  <td style="width: 50%;">
+                    <div style="margin-left:15px">
+                      <v-row align="center" class="mx-0">
+                        <div>
+                          <v-chip class="ma-2" color="green lighten-2" small outlined style="left: -10px; top: 10px">
+                            매물번호
+                            {{item.productId}} </v-chip>
+                        </div>
+                      </v-row>
+                      <v-card-title style="font-weight: bold;">{{item.saleType}} {{item.price | oneHundredMillion}}
+                      </v-card-title>
+                      <p class="card_contents">{{item.houseType}} · {{item.houseName}}</p>
+                      <p class="card_contents">{{item.sigungu}}</p>
+                      <p class="card_contents">
+                        <v-icon>mdi-border-outside</v-icon>{{item.areaExclusive}}m² · <v-icon>mdi-stairs</v-icon>
+                        {{item.floor}}층
+                      </p>
+                      <p class="card_contents">{{item.detailContents}}</p>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </v-card-text>
+          </v-card>
+        </div>
 
-      <div class="text-center" style="margin: 25px;">
-        <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3" total-visible="5"></v-pagination>
-      </div>
+        <div class="text-center" style="margin: 25px;">
+          <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3" total-visible="5"></v-pagination>
+        </div>
 
+      </div>
     </div>
   </div>
 </template>
@@ -120,20 +129,17 @@
       this.getPropertyList();
 
       axios({
-          url: "http://localhost:8090/zippy/property/getAgentProfile",
-          methods: "GET",
+          url: "/zippy/property/getAgentProfile",
+          method: "GET",
           params: {
             email: this.$route.query.email
           }
         }).then(response => {
           // 성공했을 때
-          console.log('getAgentProfile success!');
-          console.log(response);
           this.profile = response.data;
         })
         .catch(error => {
           // 에러가 났을 때
-          console.log('getAgentProfile fail!');
           console.log(error);
 
         })
@@ -153,7 +159,7 @@
           if (price == '0000') return result;
         }
         price = price.substr(price.length - 4, price.length - 3) + ',' + price.substr(price.length - 3, price.length);
-        if(price[0]=='0') {
+        if (price[0] == '0') {
           price = price.substr(price.length - 3, price.length);
         }
         result += price;
@@ -164,22 +170,19 @@
     methods: {
       getPropertyList() {
         axios({
-            url: "http://localhost:8090/zippy/property/getAgentProperties",
-            methods: "GET",
+            url: "/zippy/property/getAgentProperties",
+            method: "GET",
             params: {
               email: this.$route.query.email,
               pageNum: this.page
             }
           }).then(response => {
             // 성공했을 때
-            console.log('getAgentProperties success!');
-            console.log(response);
             this.properties = response.data.list;
             this.pageCount = response.data.pages;
           })
           .catch(error => {
             // 에러가 났을 때
-            console.log('getAgentProperties fail!');
             console.log(error);
           })
       },
@@ -199,24 +202,30 @@
   #container {
     margin: 0 auto;
     width: 70%;
+    position: relative;
+    z-index: 1;
   }
 
   #agent_profile {
     width: 100%;
-    height: 500px;
+    height: 395px;
+    margin-top: 25px;
+    margin-bottom: 60px;
+    background-color: white;
+    border-radius: 1.5em;
+    z-index: 1;
   }
 
   #agent_profile_left {
-    width: 50%;
+    width: 30%;
     float: left;
-
-    background-color: lightyellow;
+    margin-left: 70px;
   }
 
   #agent_profile_right {
     width: 50%;
     float: right;
-    background-color: lightblue;
+
   }
 
   #map {
@@ -244,5 +253,15 @@
   .card_contents {
     margin-left: 20px;
     font-weight: bold;
+  }
+
+  #main-background {
+    margin-top: 76px;
+    width: 100vw;
+    height: 450px;
+    background-color: #B3E3C3;
+    position: absolute;
+    top: 0;
+    z-index: 0;
   }
 </style>

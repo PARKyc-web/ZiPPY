@@ -158,7 +158,7 @@
                         회원가입
                       </button>
                     </div>
-                    <a class="d-block text-center mt-2 small" href="/">이미 아이디가 있으신가요?</a>
+                    <a class="d-block text-center mt-2 small" @click="goLogin()">이미 아이디가 있으신가요?</a>
                   </div>
                 </div>
               </div>
@@ -210,6 +210,10 @@
     },
 
     methods: {
+      goLogin(){
+        this.$router.push("/login");
+      },
+
       email_validation: async function () {
         var data = await loginFunc.email_validation();
         console.log("이메일 Validation 실행한 후 : ", data);

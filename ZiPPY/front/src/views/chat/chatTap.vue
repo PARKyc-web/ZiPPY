@@ -26,8 +26,7 @@
                         <small style="float:right">{{item.lastTime}}</small>
                         <div style="width:437px">
                         </div>
-                    </div>
-                    
+                    </div>                    
                     {{item.lastChat}}
 
                     </div>
@@ -78,6 +77,7 @@
 </script>
 
 <style scoped>
+
     #chat-con{
         display:flex;
         flex-wrap: wrap;
@@ -93,6 +93,7 @@
 
     #container {
         height: 70vh;
+        padding: 2%;        
     }
 
     .align-items-start:hover {

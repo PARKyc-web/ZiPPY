@@ -18,7 +18,7 @@
 
 
     <div id="used-main-dropbox1">
-      <v-select @change="dropVal2(i)" v-model="select2" :items="drops" item-text="name" item-value="value2" label="예약상태"
+      <v-select @change="dropVal2()" v-model="select2" :items="drops" item-text="name" item-value="value2" label="예약상태"
         color="#212529" persistent-hint single-line dense width="50"></v-select>
     </div>
 
@@ -143,8 +143,8 @@
 
 <script>
 import axios from 'axios';
-import MoveNavBar from '../../components/move/MoveNavBar.vue';
-import MoveReviewModal from '../../components/move/MoveReviewModal.vue';
+import MoveNavBar from '@/components/move/MoveNavBar.vue';
+import MoveReviewModal from '@/components/move/MoveReviewModal.vue';
 
 export default {
   components: {
@@ -267,19 +267,18 @@ export default {
         })
       },
       
-      dropVal2: function (i) {
+      dropVal2: function () {
 
         var dropValue2 = this.select2;
         console.log(dropValue2);
-       
+       console.log(this.select2);
         axios({
           url: "/zippy/move/moveReserve",
           methods: "GET",
           params: {
-            dropbox: this.select,
-            dropbox2: dropValue2, //지역
             
-            reservStatus: this.list.reservStatus
+            dropbox2: dropValue2, //지역
+            userEmail: this.$store.state.loginInfo.email
           }
         }).then(res => {
           console.log(res);

@@ -7,14 +7,14 @@
       <button class="custom-btn btn-8"><span>청소 견적받기</span></button>
     </div>
       <video width="400" height="240" autoplay="autoplay" muted="muted" loop>
-          <source src="../../assets/sofa.mp4" type="video/mp4">
+          <source src="@/assets/sofa.mp4" type="video/mp4">
       </video>
 </div>
 
 </template>
 
 <script>
-import MoveNavBar from '../../components/move/MoveNavBar.vue';
+import MoveNavBar from '@/components/move/MoveNavBar.vue';
 
 export default {
   components: {

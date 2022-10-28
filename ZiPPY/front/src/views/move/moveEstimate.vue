@@ -159,12 +159,12 @@
                               <v-col cols="12">
                                 <v-text-field  label="1차 견적가격*" type="number"  id="firstPrice" 
                                 hint="고객에게 처음 제시하는 견적가격입니다. 견적제시는 2차까지만 가능합니다. 신중하게 결정해주세요.(추후 수정불가)"
-                                required :value="selectData.firstEstimatePrice">
+                                required v-model="selectData.estimatePrice">
                                 </v-text-field>
                               </v-col>
 
                               <v-col>
-                                <v-autocomplete :value="selectData.responseMemo"  id="memo"
+                                <v-autocomplete v-model="selectData.responseMemo"  id="memo"
                                   :items="['전문적이에요', '꼼꼼해요', '손이 빨라요', '저렴해요', '깔끔해요', '친절해요', '견적네고 가능해요', '고급장비 사용해요', '안전해요']"
                                   label="어필하기" multiple hint="고객에게 어필할 업체의 특징을 선택해주세요."></v-autocomplete>
                               </v-col>
@@ -197,8 +197,8 @@
                       <input type="hidden" name="compName" v-model="selectData.compName">
 
                       <input type="hidden" name="reservStatus" value="1" v-model="selectData.reservStatus">
-                      <!-- <input type="hidden" name="firstEstimatePrice" id="firstPrice"  v-model="selectData.firstEstimatePrice">-->
-                      <!-- <input type="hidden" name="responseMemo" id="memo" v-model="selectData.responseMemo">  -->
+                      <input type="hidden" name="firstEstimatePrice" id="firstPrice"  v-model="selectData.estimatePrice">
+                      <input type="hidden" name="responseMemo" id="memo" v-model="selectData.responseMemo"> 
                   </form>
 
                 </v-dialog>
@@ -229,7 +229,7 @@
 <script>
   import axios from 'axios';
   import swal from 'sweetalert2';
-  import MoveNavBar from '../../components/move/MoveNavBar.vue';
+  import MoveNavBar from '@/components/move/MoveNavBar.vue';
 
 export default {
   components: {
@@ -453,8 +453,8 @@ export default {
             estimateNo : this.list[i].estimateNo,
             email: this.$store.state.loginInfo.email,
             estimateType: this.list[i].estimateType,
-            // firstEstimatePrice: this.list[i].firstEstimatePrice,
-            // responseMemo : this.list[i].responseMemo
+            firstEstimatePrice: this.list[i].firstEstimatePrice,
+            // responseMemo : this.items[i].responseMemo
           }
         }).then(res => {
           this.selectData.estimateNo = this.list[i].estimateNo; //{...this.list[i]}
@@ -613,7 +613,7 @@ export default {
 
         console.log('1차 가격 : ',document.querySelector("#firstPrice").value);
         console.log('어필 : ',document.querySelector("#memo").value);
-        
+        console.log(document.querySelector("#memo").innerText);
         
       
 
@@ -635,7 +635,7 @@ export default {
 
         //견적보내기
         this.$axios({
-          url: "http://localhost:8090/zippy/move/moveEstimate",
+          url: "/zippy/move/moveEstimate",
           method: "POST",
           // headers: {
           //   "Content-Type": "application/json; charset=utf-8"
@@ -643,8 +643,10 @@ export default {
           params:{
             email : this.$store.state.loginInfo.email,
             estimateNo : this.selectData.estimateNo,
-            responseMemo :document.querySelector("#memo").value,
-            firstEstimatePrice : document.querySelector("#firstPrice").value,
+            // responseMemo :document.querySelector("#memo").value,
+            // firstEstimatePrice : document.querySelector("#firstPrice").value,
+            responseMemo : this.selectData.responseMemo,
+            firstEstimatePrice: this.selectData.estimatePrice,
             firstEstimateType : this.selectData.estimateType,
             reservStatus : 1,
             compName : this.$store.state.loginInfo.compName
@@ -655,7 +657,7 @@ export default {
           
           //견적상태변경
         this.$axios({
-          url: "http://localhost:8090/zippy/move/moveStatusUpdate",
+          url: "/zippy/move/moveStatusUpdate",
           method: "POST",
          
           params:{
@@ -678,7 +680,7 @@ export default {
 
           //견적상태변경
           this.$axios({
-          url: "http://localhost:8090/zippy/move/moveStatusUpdateZero",
+          url: "/zippy/move/moveStatusUpdateZero",
           method: "POST",
          
           params:{

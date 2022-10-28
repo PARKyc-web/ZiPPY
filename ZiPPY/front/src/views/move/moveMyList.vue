@@ -108,7 +108,7 @@
     </v-card-text> -->
 
           <v-card-actions>
-            <v-btn color="#B3E3C3 lighten-2" text @click="reserve(i)">
+            <v-btn v-if="item.reservStatus == 2 || item.reservStatus == 1" color="#B3E3C3 lighten-2" text @click="reserve(item.movingResponseNo)">
               예약요청
             </v-btn>
 
@@ -133,7 +133,7 @@
 <script>
   import axios from 'axios';
   import swal from 'sweetalert2';
-  import MoveNavBar from '../../components/move/MoveNavBar.vue';
+  import MoveNavBar from '@/components/move/MoveNavBar.vue';
  
 
   export default {
@@ -263,7 +263,7 @@
       }).then(res => {
         console.log(res);
         this.list = res.data;
-        console.log(this.list);
+        console.log(this.list[0].movingResponseNo);
 
         // this.data.email = this.$store.state.loginInfo.email;
         // this.data.serviceId= this.list[i].email;
@@ -285,31 +285,24 @@
     methods: {
       reserve: function(i) {
         this.loading = true
-
-
-
+        
         setTimeout(() => (this.loading = false), 2000)
-
-        // this.estimateNo = item.estimateNo;
-        // this.reservStatus = item.reservStatus;
-        console.log(this.reservStatus);
-
+        
         //견적상태변경
         this.$axios({
           url: "/zippy/move/moveStatusThirdUpdate",
           method: "POST",
 
           params: {
-            estimateNo: this.list[i].estimateNo,
-            email: this.$store.state.loginInfo.email,
-            reservStatus : 3
+            movingResponseNo : i
 
           },
           // data: formData
         }).then(res => {
           console.log(res);
+
           alert("견적서 보내기 완료!");
-          console.log(this.reservStatus);
+          console.log(res.data.reservStatus);
 
         }).catch(err => {
           console.log(err)
