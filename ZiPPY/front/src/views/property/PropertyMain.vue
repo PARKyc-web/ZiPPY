@@ -139,7 +139,7 @@
       },
       initMap() {
         var container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
-        const MIN_LEVEL = 2;
+        const MIN_LEVEL = 4;
         var options = {
           //지도를 생성할 때 필요한 기본 옵션
           center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
@@ -213,7 +213,6 @@
                   initThis.sigungu = initThis.sigungu.replace(i.toString() + '.' + (i + 1).toString() + '동', '동');
                   initThis.sigungu = initThis.sigungu.replace(i + '동', '동');
                 }
-                // currentPositionAptList(initThis.sigungu);
                 break;
               }
             }
@@ -271,7 +270,7 @@
               // console.log('지역 명칭 : ' + result[0].address_name);
               // console.log('행정구역 코드 : ' + result[0].code);
               // console.log("지역 명칭 및 해정구역 코드: ", initThis.sigungu);
-              initThis.getPropertyList(initThis.sigungu);
+              initThis.getPropertyList(result[0].address_name);
             }
           };
 
@@ -353,7 +352,7 @@
         for (let i = 0; i < data.selectedTags.length; i++) {
           this.initData.tags += data.selectedTags[i] + '/';
         }
-        console.log('선택된 data', this.initData.tags);
+        console.log('선택된 태그', this.initData.tags);
 
         axios({
             url: "/zippy/property/searchPropertyList",

@@ -1,5 +1,4 @@
 <template>
-<form id="updateProperty">
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
@@ -21,7 +20,7 @@
                 </v-select>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-file-input :label="houseDetail[0].mainImg" ref="mainImg" id="mainImage"></v-file-input>
+                <v-file-input label='대표 이미지' v-model="houseDetail[0].mainImg" ref="mainImg"></v-file-input>
               </v-col>
               <v-col cols="12" sm="6">
                 <v-file-input label='상세 이미지' multiple small-chips truncate-length="15"></v-file-input>
@@ -99,13 +98,11 @@
       </v-card>
     </v-dialog>
   </v-row>
-</form>
 </template>
 
 <script>
   import axios from 'axios';
   import Swal from 'sweetalert2';
-
   export default {
     data: () => ({
       dialog: false,
@@ -124,6 +121,7 @@
       ],
       selectedTags: [],
       parking: '',
+      ////
       state: ''
     }),
     props: {
@@ -145,7 +143,6 @@
           for (let i = 0; i < temp.length; i++) {
             this.selectedTags.push(parseInt(temp[i]));
           }
-
         })
         .catch(error => {
           // 에러가 났을 때
@@ -157,7 +154,6 @@
       updateProperty() {
         let result = 0;
         console.log(this.$refs.mainImg.value.name);
-
         axios({
             url: "/zippy/property/updateHouseProduct",
             methods: "PUT",
@@ -193,13 +189,10 @@
             console.log('updateHouseProduct fail!');
             console.log(error);
           })
-
         let tags = '';
-
         this.$refs.tags.value.forEach(element => {
           tags += element + '/';
         });
-
         axios({
             url: "/zippy/property/updateHouseDetail",
             methods: "PUT",
@@ -228,7 +221,6 @@
             // 에러가 났을 때
             console.log(error);
           })
-
       }
     }
   }

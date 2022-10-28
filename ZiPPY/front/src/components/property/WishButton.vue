@@ -44,6 +44,7 @@
             // 성공했을 때
             this.data.email = this.$store.state.loginInfo.email;
             this.data.serviceId = this.productId;
+            this.data.bookmarkNo = response.data.bookmarkNo;
             
             if (response.data) {
               this.heart = 1;
@@ -61,7 +62,10 @@
           //찜x
           if (this.heart == 0) this.addWish();
           //찜on
-          else this.delWish();
+          else 
+          {
+            this.delWish();
+          } 
         } else {
           Swal.fire({
             icon: 'warning',
@@ -81,6 +85,7 @@
           data: JSON.stringify(this.data)
         }).then(res => {
           this.heart = 1; //찜on
+          
           Swal.fire({
             icon: 'success',
             title: '관심매물에 등록되었습니다.',
@@ -94,7 +99,6 @@
       delWish() {
         let bNo = [];
         bNo.push(this.data.bookmarkNo);
-        
         axios({
           url: "http://localhost:8090/zippy/common/delWish",
           method: "DELETE",

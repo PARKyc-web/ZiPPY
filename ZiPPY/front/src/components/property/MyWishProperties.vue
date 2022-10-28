@@ -15,9 +15,8 @@
     <hr>
     <div class="row" style="margin-left:35px ;">
       <v-card v-if="properties.length != 0" v-for="item in properties" style="width: 45%; margin: 1%; padding: 20px;"
-        @click="goHouseDetail(item.productId)">
+        @click="goHouseDetail(item.productId)" color="">
         <v-card-text>
-
           <div id="used-wish-info">
             <div>
               <button class="used-wish-heart">
@@ -44,7 +43,9 @@
                         {{item.productId}}</v-chip>
                     </div>
                   </v-row>
-                  <v-card-title style="font-weight: bold;">{{item.saleType}} {{item.price | oneHundredMillion}}
+                  <!-- <v-card-title v-if="item.productState == 0" style="font-weight: bold;">거래 완료</v-card-title> -->
+                  <!-- <v-card-title v-else style="font-weight: bold;">{{item.saleType}} {{item.price | oneHundredMillion}} -->
+                    <v-card-title style="font-weight: bold;">{{item.saleType}} {{item.price | oneHundredMillion}}
                   </v-card-title>
                   <p class="card_contents">{{item.houseType}} · {{item.houseName}}</p>
                   <p class="card_contents">{{item.sigungu}}</p>
