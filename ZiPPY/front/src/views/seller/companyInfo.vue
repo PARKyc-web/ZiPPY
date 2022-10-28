@@ -154,8 +154,7 @@
                               <div class="has-label">
                                 <input @click="findAddress()" type="text" placeholder="기업 주소" 
                                       class="form-control" valid="true" v-model="inputAddress" readonly>
-                              </div>
-  
+                              </div>  
                             </div>
                           </fieldset>
                         </span></div>
@@ -279,16 +278,14 @@
       },
   
       updateInfo : function(){      
-        var formData = new FormData(document.querySelector('#comp_info'));
-        console.log("여기?1");
+        var formData = new FormData(document.querySelector('#comp_info'));        
         formData.append("zipCode", this.info.zipCode);
         formData.append("compAddress", this.info.compAddress);        
         console.log("1231235", this.info.compAddress);
-        console.log(this.info);
-        console.log("여기?2");
+        console.log(this.info);        
   
         this.$axios({
-          url : "/member/businessInfo",
+          url : "/zippy/member/businessInfo",
           method:"POST",
           data : formData        
         }).then(res =>{
