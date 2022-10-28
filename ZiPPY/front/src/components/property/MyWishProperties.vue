@@ -14,7 +14,8 @@
     </div>
     <hr>
     <div class="row" style="margin-left:35px ;">
-      <v-card v-if="properties.length != 0" v-for="item in properties" style="width: 45%; margin: 1%; padding: 20px;" @click="goHouseDetail(item.productId)">
+      <v-card v-if="properties.length != 0" v-for="item in properties" style="width: 45%; margin: 1%; padding: 20px;"
+        @click="goHouseDetail(item.productId)">
         <v-card-text>
 
           <div id="used-wish-info">
@@ -33,19 +34,23 @@
 
           <table>
             <tr>
-              <td style="width: 35%;"><img :src="'http://localhost:8090/zippy/common/img/property/' + item.mainImg"
-                      style="width: 100%; height: 100%" /></td>
-              <td style="width: 65%;">
-                <v-row align="center" class="mx-0">
-                  <div>매물번호 {{item.productId}}</div>
-                </v-row>
-                <v-card-title style="font-weight: bold;">{{item.saleType}} {{item.price | oneHundredMillion}}
-                </v-card-title>
-                <p class="card_contents">{{item.houseType}} · {{item.houseName}}</p>
-                <p class="card_contents">{{item.sigungu}}</p>
-                <p class="card_contents">{{item.areaExclusive}}m² · {{item.floor}}층</p>
-                <p class="card_contents">{{item.detailContents}}</p>
-
+              <td style="width: 50%;"><img :src="'http://localhost:8090/zippy/common/img/property/' + item.mainImg"
+                  style="width: 100%; height: 100%" /></td>
+              <td style="width: 50%;">
+                <div style="margin-left:15px">
+                  <v-row align="center" class="mx-0">
+                    <div>
+                      <v-chip class="ma-2" color="green lighten-2" small outlined style="left: -10px; top: 10px">매물번호
+                        {{item.productId}}</v-chip>
+                    </div>
+                  </v-row>
+                  <v-card-title style="font-weight: bold;">{{item.saleType}} {{item.price | oneHundredMillion}}
+                  </v-card-title>
+                  <p class="card_contents">{{item.houseType}} · {{item.houseName}}</p>
+                  <p class="card_contents">{{item.sigungu}}</p>
+                  <p class="card_contents">{{item.areaExclusive}}m² · {{item.floor}}층</p>
+                  <p class="card_contents">{{item.detailContents}}</p>
+                </div>
               </td>
             </tr>
           </table>
@@ -93,7 +98,7 @@
           if (price == '0000') return result;
         }
         price = price.substr(price.length - 4, price.length - 3) + ',' + price.substr(price.length - 3, price.length);
-        if(price[0]=='0') {
+        if (price[0] == '0') {
           price = price.substr(price.length - 3, price.length);
         }
         result += price;
@@ -206,11 +211,7 @@
     font-weight: bold;
   }
 
-  /* 
-   */
-
-
-   .used-wish-del-btn {
+  .used-wish-del-btn {
     padding: 0px 10px px;
     height: 28px;
     border: 1px solid rgb(238, 238, 238);
@@ -238,11 +239,10 @@
     display: flex;
   }
 
-  
+
   .used-wish-heart {
     float: right;
     background-color: white;
     border: none;
   }
-
 </style>

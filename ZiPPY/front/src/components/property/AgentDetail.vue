@@ -54,41 +54,39 @@
         <table>
           <tr>
             <td>
-              <h4 class="title">
+              <h4 class="title" style="margin-left:95px ;"> 
                 매물 목록
               </h4>
             </td>
-            <td>
-              <!-- <insert-property :email="this.profile[0].email" /> -->
-            </td>
           </tr>
         </table>
-        <div class="row" style="margin-left:35px ;">
+        <div class="row" style="margin-left:130px ;">
           <v-card v-if="properties.length != 0" v-for="item in properties"
-            style="width: 45%; margin: 1%; padding: 20px;" @click="goHouseDetail(item.productId)">
+            style="width: 40%;  margin: 1%; padding: 20px;" @click="goHouseDetail(item.productId)">
             <v-card-text>
               <table>
                 <tr>
-                  <td style="width: 45%;"><img :src="'http://localhost:8090/zippy/common/img/property/' + item.mainImg"
+                  <td style="width: 50%;"><img :src="'http://localhost:8090/zippy/common/img/property/' + item.mainImg"
                       style="width: 100%; height: 100%" /></td>
-                  <td style="width: 55%;">
-                    <v-row align="center" class="mx-0">
-                      <div>
-                        <v-chip class="ma-2" color="green lighten-2" small outlined style="left: -10px; top: 10px"> 매물번호
-                          {{item.productId}} </v-chip>
-                      </div>
-                      <!-- <div>매물번호 {{item.productId}}</div> -->
-                    </v-row>
-                    <v-card-title style="font-weight: bold;">{{item.saleType}} {{item.price | oneHundredMillion}}
-                    </v-card-title>
-                    <p class="card_contents">{{item.houseType}} · {{item.houseName}}</p>
-                    <p class="card_contents">{{item.sigungu}}</p>
-                    <p class="card_contents">
-                      <v-icon>mdi-border-outside</v-icon>{{item.areaExclusive}}m² · <v-icon>mdi-stairs</v-icon>
-                      {{item.floor}}층
-                    </p>
-                    <p class="card_contents">{{item.detailContents}}</p>
-                    <!-- <update-property :productId="item.productId"></update-property> -->
+                  <td style="width: 50%;">
+                    <div style="margin-left:15px">
+                      <v-row align="center" class="mx-0">
+                        <div>
+                          <v-chip class="ma-2" color="green lighten-2" small outlined style="left: -10px; top: 10px">
+                            매물번호
+                            {{item.productId}} </v-chip>
+                        </div>
+                      </v-row>
+                      <v-card-title style="font-weight: bold;">{{item.saleType}} {{item.price | oneHundredMillion}}
+                      </v-card-title>
+                      <p class="card_contents">{{item.houseType}} · {{item.houseName}}</p>
+                      <p class="card_contents">{{item.sigungu}}</p>
+                      <p class="card_contents">
+                        <v-icon>mdi-border-outside</v-icon>{{item.areaExclusive}}m² · <v-icon>mdi-stairs</v-icon>
+                        {{item.floor}}층
+                      </p>
+                      <p class="card_contents">{{item.detailContents}}</p>
+                    </div>
                   </td>
                 </tr>
               </table>

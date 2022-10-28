@@ -2,13 +2,10 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
-
-        <!-- <v-btn x-small elevation="2" fab dark v-bind="attrs" v-on="on">
-          <v-icon small>mdi-plus</v-icon>
-        </v-btn> -->
-
-        <v-btn color="primary" dark v-bind="attrs" v-on="on" width="200">
-          수정
+        <v-btn class="mx-2" fab depressed dark x-small color="#B3E3C3" v-bind="attrs" v-on="on">
+          <v-icon dark>
+            mdi-pencil
+          </v-icon>
         </v-btn>
       </template>
       <v-card>
@@ -91,10 +88,10 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="updateProperty">
+          <v-btn color="green lighten-1" text @click="updateProperty">
             저장
           </v-btn>
-          <v-btn color="blue darken-1" text @click="dialog = false">
+          <v-btn color="green lighten-1" text @click="dialog = false">
             닫기
           </v-btn>
         </v-card-actions>
