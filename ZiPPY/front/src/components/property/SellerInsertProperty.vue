@@ -1,13 +1,11 @@
 <template>
-  <form id="insertProperty">
+  <form id="insertProperty" style="width:1200px; margin: 0 auto">
+<div id="container">
   <v-row>
-    <template v-slot:activator="{ on, attrs }">
-      <v-btn x-small elevation="2" fab dark v-bind="attrs" v-on="on">
-        <v-icon small>mdi-plus</v-icon>
-      </v-btn>
-    </template>
         <v-card-title>
-          <span class="text-h5">매물 등록</span>
+          <h4 class="title">
+            매물 등록하기
+          </h4>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -80,6 +78,7 @@
           </v-btn>
         </v-card-actions>        
   </v-row>
+</div>
 </form>
 </template>
 
@@ -176,7 +175,7 @@
 
         axios({
             url: "/zippy/property/insertHouseDetail",
-            methods: "POST",
+            method: "POST",
             params: {
               streetAddress: this.streetAddress,
               houseFace: this.houseFace,
@@ -206,3 +205,10 @@
     }
   }
 </script>
+
+<style scoped>
+  .title {
+    margin-left: 20px;
+    font-weight: bold;
+  }
+</style>

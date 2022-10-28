@@ -136,7 +136,7 @@
         Array.from(this.selectedTags).forEach(element => {
           tags += element + '/';
         });
-        
+
         this.insert(tags);
       },
       insert(tags) {
@@ -168,6 +168,7 @@
                 showConfirmButton: false,
                 timer: 1500
               })
+
             }
           })
           .catch(error => {
@@ -177,7 +178,7 @@
 
         axios({
             url: "http://localhost:8090/zippy/property/insertHouseDetail",
-            methods: "POST",
+            method: "POST",
             params: {
               streetAddress: this.streetAddress,
               houseFace: this.houseFace,

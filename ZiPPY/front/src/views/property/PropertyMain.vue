@@ -14,8 +14,7 @@
               <table style="width: 100%;">
                 <tr>
                   <td style="width: 35%;"><img :src="'http://localhost:8090/zippy/common/img/property/' + item.mainImg"
-                      style="width: 100%; height: 100%" /></td>
-
+                      style="width: 100%; height: 100%; " /></td>
                   <td style="width: 65%;">
                     <v-row align="center" class="mx-0">
                       <div>매물번호 {{item.productId}}</div>
