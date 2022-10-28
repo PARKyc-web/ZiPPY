@@ -1,12 +1,14 @@
 <template>
     <div id="con">
+        <h5 class="ml-4 mt-5">채팅</h5>
         <div class="container">
             <b-list-group>
-                <b-list-group-item class="flex-column align-items-start" v-for="(item, i) in chatRooms"
+                <b-list-group-item class="flex-column align-items-start" style="border:0; padding:17px" v-for="(item, i) in chatRooms"
                     @click="enterChatRoom(item)">
+                    <!-- chat con -->
                     <div id="chat-con">
                         <!--  style="display:flex" -->
-                        <div id="userImage" style="float:left">
+                        <div id="userImage" style="float:left;">
                             <img v-if="$store.state.loginInfo.email == item.user1"
                                 :src="'/zippy/common/img/member/' + item.user2Pic"
                                 style="border-radius: 50%; width: 80px; height: 80px;">
@@ -16,18 +18,23 @@
                                 style="border-radius: 50%; width: 80px; height: 80px;">
                         </div>
                         <!-- 이름 시간-->
-                        <div id="name" style="width:437px; height:20px;">
+                        <div id="name" style="width:439px; height:20px;">
                             <div style="float:left">
-                            <h6 class="pl-2" style="width:100px" v-if="$store.state.loginInfo.email == item.user1">
-                                {{item.user2Name}}
-                            </h6>
-                            <h6 class="pl-2" v-else>{{item.user1Name}}</h6>
-                         </div>
-                        <small style="float:right">{{item.lastTime}}</small>
-                        <div style="width:437px">
+                                <div class="pl-2" style="width:100px" v-if="$store.state.loginInfo.email == item.user1">
+                                    {{item.user2Name}}
+                                </div>
+                                <div class="pl-2" v-else>{{item.user1Name}}</div>
+                            </div>
+                            <div style="float:right; font-size:small">{{item.lastTime}}</div>
+                            <div style="width:439px">
+                            </div>
+                            <!-- chat con-->
+                            <br>
+                            <div class="ml-2" style="color:gray; word-break: break-all;">
+                            {{item.lastChat}}
+                            </div>    
                         </div>
-                    </div>                    
-                    {{item.lastChat}}
+
 
                     </div>
                     <!-- <small>Donec id elit non mi porta.</small> -->
@@ -77,28 +84,41 @@
 </script>
 
 <style scoped>
-
-    #chat-con{
-        display:flex;
+@font-face {
+    font-family: 'GmarketSans';
+    font-weight: 500;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot?#iefix') format('embedded-opentype'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff') format('woff'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.ttf') format("truetype");
+    font-display: swap;
+} 
+h5 {
+  font-family: 'GmarketSans';
+}
+    #chat-con {
+        display: flex;
         flex-wrap: wrap;
     }
 
     #con {
-        border: 1px solid #D6D6D6;
         width: 35%;
         margin: 0 auto;
         margin-top: 50px;
-        min-height: 600px;
+        min-height: 700px;
+        box-shadow: 3px 5px 5px 1px #D6D6D6;
     }
 
     #container {
         height: 70vh;
-        padding: 2%;        
+        padding: 2%;
     }
 
     .align-items-start:hover {
-        background-color: #B3E3C3;
-        cursor:pointer;
+        background-color: #F7F7F7;
+        cursor: pointer;
     }
 
     h5 {
