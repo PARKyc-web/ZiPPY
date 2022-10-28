@@ -100,7 +100,7 @@
 <script>
 import axios from 'axios';
 import swal from 'sweetalert2';
-import MoveNavBar from '../../components/move/MoveNavBar.vue';
+import MoveNavBar from '@/components/move/MoveNavBar.vue';
 
 export default {
   components: {

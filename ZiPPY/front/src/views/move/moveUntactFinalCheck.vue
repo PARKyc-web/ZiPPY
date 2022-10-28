@@ -635,7 +635,7 @@
 </template>
 
 <script>
- import MoveNavBar from '../../components/move/MoveNavBar.vue';
+ import MoveNavBar from '@/components/move/MoveNavBar.vue';
 
 export default {
   components: {
@@ -793,7 +793,7 @@ export default {
         }
 
         this.$axios({
-          url: "http://localhost:8090/zippy/move/moveUntactCheck",
+          url: "/zippy/move/moveUntactCheck",
           method: "POST",
           // headers: {
           //   "Content-Type": "application/json; charset=utf-8"
@@ -805,7 +805,7 @@ export default {
            
             //견적상태변경
           this.$axios({
-            url: "http://localhost:8090/zippy/move/moveStatusUpdateZero",
+            url: "/zippy/move/moveStatusUpdateZero",
             method: "POST",
           
             params:{

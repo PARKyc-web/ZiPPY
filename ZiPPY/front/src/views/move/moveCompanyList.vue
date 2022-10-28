@@ -74,7 +74,7 @@
 <script>
 import axios from 'axios';
 
-import MoveNavBar from '../../components/move/MoveNavBar.vue';
+import MoveNavBar from '@/components/move/MoveNavBar.vue';
 
 export default {
   components: {

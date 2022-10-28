@@ -214,8 +214,7 @@
 	<update id="moveStatusThirdUpdate" parameterType="MoveResponseVO">
 		UPDATE moving_response 
         SET reserv_status = 3
-        WHERE estimate_no = #{estimateNo}  
-        AND email = #{email}
+        WHERE moving_response_no =#{movingResponseNo}
 	</update>
 	
 	<!-- 업체가 예약확정 후 견적상태 4로 변경 -->
@@ -352,16 +351,16 @@
 		ON (r.comp_name = b.comp_name)
 		WHERE m.email = #{userEmail}
         
-        <if test="dropbox == '평점순'">
+        <if test="dropbox2 == '평점순'">
 		ORDER BY total_rating DESC
 		</if>
-		<if test="dropbox == '높은가격순'">
+		<if test="dropbox2 == '높은가격순'">
 		ORDER BY r.first_estimate_price DESC
 		</if>
-		<if test="dropbox == '낮은가격순'">
+		<if test="dropbox2 == '낮은가격순'">
 		ORDER BY r.first_estimate_price
 		</if>
-		<if test="dropbox == '지역순'">
+		<if test="dropbox2 == '지역순'">
 		ORDER BY SUBSTR(b.comp_address, 1, 2)
 		</if>
 	</select>
@@ -396,15 +395,15 @@
 		WHERE m.email = #{userEmail}
 		AND r.reserv_status IN(3,4,5)
         
-        <if test="dropbox == '예약요청'">
+        <if test="dropbox2 == '예약요청'">
 		AND r.reserv_status = 3
         ORDER BY m.estimate_no DESC 
 		</if>
-		<if test="dropbox == '예약완료'">
+		<if test="dropbox2 == '예약완료'">
 		AND r.reserv_status = 4
         ORDER BY m.estimate_no DESC 
 		</if>
-		<if test="dropbox == '이사완료'">
+		<if test="dropbox2 == '이사완료'">
 		AND r.reserv_status = 5
         ORDER BY m.estimate_no DESC 
 		</if>

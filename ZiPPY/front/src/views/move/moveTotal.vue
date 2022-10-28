@@ -386,8 +386,8 @@
 
 <script>
 import swal from 'sweetalert2';
-import MoveNavBar from '../../components/move/MoveNavBar.vue';
-import MoveSlide from '../../components/move/MoveSlide.vue';
+import MoveNavBar from '@/components/move/MoveNavBar.vue';
+import MoveSlide from '@/components/move/MoveSlide.vue';
 
 export default {
   components: {
