@@ -20,7 +20,7 @@
           <v-card>
             <v-card flat style="width:810px; min-height:400px">
               <v-card-text>
-                {{product.proInfo}}
+                {{proInfo}}
               </v-card-text>
             </v-card>
           </v-card>
@@ -204,7 +204,7 @@
   import swal from 'sweetalert2';
 
   export default {
-    props: ['pno'],
+    props: ['pno', 'proInfo'],
     data: () => ({
       tab: null,
       imgs: [],

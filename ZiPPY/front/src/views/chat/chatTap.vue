@@ -1,48 +1,52 @@
 <template>
-<div class="container">    
-    <h1>채팅방 목록</h1> 
-    <b-list-group>
-        <b-list-group-item class="flex-column align-items-start" v-for="(item, i) in chatRooms" @click="enterChatRoom(item)">
-            <div class="d-flex w-100 justify-content-around">
-                <!-- <div class="d-flex w-100  justify-content-between">  -->
-                <!--  style="display:flex" -->
-                <div id="userImage">
-                    <img v-if="$store.state.loginInfo.email == item.user1" 
-                            :src="'/zippy/common/img/member/' + item.user2Pic"
-                            style="border-radius: 50%; width: 100px; height: 100px;">
-                            
-                    <img v-else="$store.state.loginInfo.email != item.user1" 
-                            :src="'/zippy/common/img/member/' + item.user1Pic"
-                            style="border-radius: 50%; width: 100px; height: 100px;">
-                </div>
-                <div>
-                    <div class="d-flex w-100  justify-content-between">                
-                        <h5 class="mb-1" v-if="$store.state.loginInfo.email == item.user1">{{item.user2Name}}</h5>
-                        <h5 class="mb-1" v-else>{{item.user1Name}}</h5>                
-                        <small>&nbsp;&nbsp;({{item.lastTime}})</small>
-                    </div>
-                    
-                    <p class="mb-1">
+    <div id="con">
+        <div class="container">
+            <b-list-group>
+                <b-list-group-item class="flex-column align-items-start" v-for="(item, i) in chatRooms"
+                    @click="enterChatRoom(item)">
+                    <div id="chat-con">
+                        <!--  style="display:flex" -->
+                        <div id="userImage" style="float:left">
+                            <img v-if="$store.state.loginInfo.email == item.user1"
+                                :src="'/zippy/common/img/member/' + item.user2Pic"
+                                style="border-radius: 50%; width: 80px; height: 80px;">
+
+                            <img v-else="$store.state.loginInfo.email != item.user1"
+                                :src="'/zippy/common/img/member/' + item.user1Pic"
+                                style="border-radius: 50%; width: 80px; height: 80px;">
+                        </div>
+                        <!-- 이름 시간-->
+                        <div id="name" style="width:437px; height:20px;">
+                            <div style="float:left">
+                            <h6 class="pl-2" style="width:100px" v-if="$store.state.loginInfo.email == item.user1">
+                                {{item.user2Name}}
+                            </h6>
+                            <h6 class="pl-2" v-else>{{item.user1Name}}</h6>
+                         </div>
+                        <small style="float:right">{{item.lastTime}}</small>
+                        <div style="width:437px">
+                        </div>
+                    </div>                    
                     {{item.lastChat}}
-                    </p>
-                </div>
-            </div>
-            <!-- <small>Donec id elit non mi porta.</small> -->
-        </b-list-group-item>
-    </b-list-group>
-</div>
+
+                    </div>
+                    <!-- <small>Donec id elit non mi porta.</small> -->
+                </b-list-group-item>
+            </b-list-group>
+        </div>
+    </div>
 </template>
 
 <script>
     export default {
         data() {
             return {
-                chatRooms: []                
+                chatRooms: []
             }
         },
 
-        created() {            
-            this.findAllRoom();  
+        created() {
+            this.findAllRoom();
         },
 
         methods: {
@@ -57,29 +61,44 @@
                     console.log("asdasdasd", res.data);
                 }).catch(error => {
                     console.log(error);
-                })           
+                })
             },
 
-            enterChatRoom: function(item){
+            enterChatRoom: function (item) {
                 this.$router.push({
                     name: "chatDetail",
-                    query : {
-                        roomId : item.chatRoomNo
+                    query: {
+                        roomId: item.chatRoomNo
                     }
                 });
-            },            
+            },
         }
     }
 </script>
 
 <style scoped>
-    .container {        
+
+    #chat-con{
+        display:flex;
+        flex-wrap: wrap;
+    }
+
+    #con {
+        border: 1px solid #D6D6D6;
+        width: 35%;
+        margin: 0 auto;
+        margin-top: 50px;
+        min-height: 600px;
+    }
+
+    #container {
         height: 70vh;
         padding: 2%;        
     }
 
-    .align-items-start:hover{
+    .align-items-start:hover {
         background-color: #B3E3C3;
+        cursor:pointer;
     }
 
     h5 {
@@ -116,7 +135,7 @@
     }
 
     .container {
-        width: 40%;
+        width: 100%;
     }
 
     .fa-paper-plane {

@@ -5,15 +5,15 @@
       <v-carousel cycle height="500" hide-delimiter-background :show-arrows="false" class="mt-5">
         <v-carousel-item v-for="(slide, i) in slides" :key="i">
           <v-img :src="require(`../../assets/shop/${imgs[i]}.jpg`)" height="100%">
-          <!-- <v-img :src="imgs[i]" height="100%"> -->
-          <v-row class="fill-height" align="center" justify="center">
-            <div class="text-h3" id="slide-text">
-              {{ slide }}
-              <div class="text-h6" id="info-text">
-                {{ info[i] }}
+            <!-- <v-img :src="imgs[i]" height="100%"> -->
+            <v-row class="fill-height" align="center" justify="center">
+              <div class="text-h3" id="slide-text">
+                {{ slide }}
+                <div class="text-h6" id="info-text">
+                  {{ info[i] }}
+                </div>
               </div>
-            </div>
-          </v-row>
+            </v-row>
           </v-img>
         </v-carousel-item>
       </v-carousel>
@@ -43,7 +43,7 @@
         <div id="list-name" style="margin:0 auto">
           <h2 style="color:#212529; text-align: center;">이런 건 어떠세요?</h2>
         </div>
-        <div id="main-item" v-for="product in products" :key="product.proNo" @click="goDetail(product.proNo)">
+        <div id="main-item" v-for="product in productList" :key="product.proNo" @click="goDetail(product.proNo)">
           <div id="main-product-img">
             <img :src="'/zippy/common/img/shop/'+product.proMainImg">
           </div>
@@ -83,10 +83,12 @@
           '귀여운 소품 활용🤩',
           '에코 그린 인테리어🤗'
         ],
-        products: []
+        products: [],
+        productList: []
       }
     },
     created() {
+      //1번 리스트
       axios({
         url: "/zippy/shop/main",
         method: "GET"
@@ -94,6 +96,17 @@
         console.log(res);
         this.products = res.data;
         console.log(this.products);
+      }).catch(error => {
+        console.log(error);
+      })
+      //2번 리스트
+      axios({
+        url: "/zippy/shop/main",
+        method: "GET"
+      }).then(res => {
+        console.log(res);
+        this.productList = res.data;
+        console.log(this.productList);
       }).catch(error => {
         console.log(error);
       })
@@ -152,6 +165,7 @@
   .product-about {
     margin-top: 10px;
     width: 270px;
+    height: 66px;
   }
 
   #product-name:hover {
@@ -163,14 +177,17 @@
 
   .main-item-list {
     margin-top: 150px;
-    width: 80%;
+    width: 1455px;
     margin: 0 auto;
     margin-top: 60px;
     text-align: center;
+    display:flex;
+    flex-wrap: wrap;
   }
 
   #list-name {
     padding: 70px 30px 30px 0;
+    width: 1455px;
   }
 
   #list-name h2 {
@@ -182,9 +199,12 @@
   }
 
   #main-item {
-    padding-right: 21px;
-    display: inline-block;
+    margin-right: 21px;
+    margin-bottom: 20px;
+    /* display: inline-block; */
     cursor: pointer;
+    width: 270px;
+    height: 384px;
   }
 
   #main-product-img img {
