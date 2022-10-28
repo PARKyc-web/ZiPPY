@@ -1,6 +1,6 @@
 <template>
-  <form id="insertProperty">
-<div id="container" style="width:1200px; margin: 0 auto">
+  <form id="insertProperty" style="width:1200px; margin: 0 auto">
+<div id="container">
   <v-row>
         <v-card-title>
           <h4 class="title">
