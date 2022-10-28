@@ -22,4 +22,5 @@ public class BookmarkVO {
   @JsonFormat(pattern = "yy-MM-dd")
   @DateTimeFormat(pattern = "yy-MM-dd")
   private Date productDate;
+  private String mainImg;
 }
