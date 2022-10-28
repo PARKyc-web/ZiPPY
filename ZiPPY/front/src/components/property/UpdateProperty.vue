@@ -130,7 +130,7 @@
     created() {
       axios({
           url: "/zippy/property/houseDetail",
-          methods: "GET",
+          method: "GET",
           params: {
             productId: this.productId
           }
@@ -156,7 +156,7 @@
         console.log(this.$refs.mainImg.value.name);
         axios({
             url: "/zippy/property/updateHouseProduct",
-            methods: "PUT",
+            method: "PUT",
             params: {
               productState: this.state == '판매중' ? 1 : 0,
               mainImg: this.$refs.mainImg.value.name,
@@ -173,7 +173,6 @@
             }
           }).then(response => {
             // 성공했을 때
-            console.log('updateHouseProduct success!');
             result++;
             if (result == 2) {
               Swal.fire({
@@ -186,7 +185,6 @@
           })
           .catch(error => {
             // 에러가 났을 때
-            console.log('updateHouseProduct fail!');
             console.log(error);
           })
         let tags = '';
@@ -195,7 +193,7 @@
         });
         axios({
             url: "/zippy/property/updateHouseDetail",
-            methods: "PUT",
+            method: "PUT",
             params: {
               streetAddress: this.$refs.streetAddress.value,
               houseFace: this.$refs.houseFace.value,

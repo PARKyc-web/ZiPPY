@@ -9,9 +9,6 @@
               <td>
                 <h3 id="main_title">{{this.profile[0].compName}}</h3>
               </td>
-              <td>
-                <!-- <update-agent-profile :profile="this.profile[0]"></update-agent-profile> -->
-              </td>
             </tr>
           </table>
           <table>
@@ -66,7 +63,7 @@
             <v-card-text>
               <table>
                 <tr>
-                  <td style="width: 50%;"><img :src="'http://localhost:8090/zippy/common/img/property/' + item.mainImg"
+                  <td style="width: 50%;"><img :src="'@/zippy/common/img/property/' + item.mainImg"
                       style="width: 100%; height: 100%" /></td>
                   <td style="width: 50%;">
                     <div style="margin-left:15px">

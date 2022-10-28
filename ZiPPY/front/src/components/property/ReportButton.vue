@@ -50,7 +50,7 @@
       report() {
         if (this.$store.state.loginInfo) {
           axios({
-              url: "http://localhost:8090/zippy/common/addReport",
+              url: "/zippy/common/addReport",
               method: "POST",
               params: {
                 email: this.$store.state.loginInfo.email,
@@ -61,8 +61,6 @@
               },
             }).then(response => {
               // 성공했을 때
-              console.log('addReport success!');
-
               Swal.fire({
                 icon: 'success',
                 title: '신고가 완료되었습니다.',
@@ -72,7 +70,6 @@
             })
             .catch(error => {
               // 에러가 났을 때
-              console.log('addReport fail!');
               console.log(error);
             })
         } else {

@@ -33,7 +33,7 @@
     created() {
       if (this.$store.state.loginInfo) {
         axios({
-          url: "http://localhost:8090/zippy/common/wishOne",
+          url: "/zippy/common/wishOne",
           method: "GET",
           params: {
             email: this.$store.state.loginInfo.email,
@@ -100,7 +100,7 @@
         let bNo = [];
         bNo.push(this.data.bookmarkNo);
         axios({
-          url: "http://localhost:8090/zippy/common/delWish",
+          url: "/zippy/common/delWish",
           method: "DELETE",
           data: {
             bNo: bNo

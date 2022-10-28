@@ -14,7 +14,7 @@
 
 <script>
   import SearchBar from "./SearchBar.vue";
-  import chickenJson from "../../assets/chicken.json";
+  import chickenJson from "@/assets/chicken.json";
 
   export default {
     components: {

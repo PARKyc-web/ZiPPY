@@ -12,8 +12,8 @@
 
 <script>
   import axios from 'axios';
-  import chickenJson from "../../assets/chicken.json";
-  import SearchBar from '../../components/property/SearchBar.vue';
+  import chickenJson from "@/assets/chicken.json";
+  import SearchBar from '@/components/property/SearchBar.vue';
 
   export default {
     components: {
@@ -162,20 +162,18 @@
       },
       getPropertyList(sigungu) {
         axios({
-            url: "http://localhost:8090/zippy/property/getPropertyList",
-            methods: "GET",
+            url: "/zippy/property/getPropertyList",
+            method: "GET",
             params: {
               sigungu: sigungu
             }
           }).then(response => {
             // 성공했을 때
-            console.log('getPropertyList success!');
             console.log(response);
             this.houseProducts = response.data;
           })
           .catch(error => {
             // 에러가 났을 때
-            console.log('getPropertyList fail!');
             console.log(error);
           });
       }

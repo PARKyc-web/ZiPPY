@@ -157,8 +157,8 @@
   import WishButton from './WishButton.vue';
   import {
     oneHundredMillion
-  } from '../../assets/property/propertyPrice';
-  import ChatTap from '../../views/chat/chatTap.vue';
+  } from '@/assets/property/propertyPrice';
+  import ChatTap from '@/views/chat/chatTap.vue';
   import Swal from 'sweetalert2';
 
   export default {
@@ -213,7 +213,7 @@
         }).then(response => {
           // 성공했을 때
           this.houseDetail = response.data;
-          this.items[0] = {src: '/zippy/common/img/property/'+this.houseDetail[0].mainImg }
+          this.items[0] = {src: '@/zippy/common/img/property/'+this.houseDetail[0].mainImg }
 
           let temp = this.houseDetail[0].tags.split('/');
           for (let i = 0; i < temp.length; i++) {

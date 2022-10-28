@@ -13,7 +13,7 @@
             <div id="propertyCard">
               <table style="width: 100%;">
                 <tr>
-                  <td style="width: 45%;"><img :src="'http://localhost:8090/zippy/common/img/property/' + item.mainImg"
+                  <td style="width: 45%;"><img :src="'@/zippy/common/img/property/' + item.mainImg"
                       style="width: 90%; height: 100%; margin-left: 15px" /></td>
                   <td style="width: 55%;">
                     <v-row align="center" class="mx-0">
@@ -52,10 +52,10 @@
 </template>
 
 <script>
-  import SearchBar from "../../components/property/SearchBar.vue";
-  import chickenJson from "../../assets/property/chicken.json";
+  import SearchBar from "@/components/property/SearchBar.vue";
+  import chickenJson from "@/assets/property/chicken.json";
   import axios from "axios";
-  import PropertyMainToolbar from '../../components/property/PropertyMainToolbar.vue';
+  import PropertyMainToolbar from '@/components/property/PropertyMainToolbar.vue';
 
   export default {
     components: {
@@ -107,7 +107,7 @@
     },
     created() {
       axios({
-          url: "http://localhost:8090/zippy/property/main",
+          url: "/zippy/property/main",
           method: "GET"
         }).then(response => {
           // 성공했을 때
