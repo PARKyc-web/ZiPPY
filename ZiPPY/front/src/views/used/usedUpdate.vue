@@ -71,7 +71,7 @@
           </div>
           <div class="dropdown">
             <div id="used-main-dropbox">
-              <v-select @change="dropVal()" v-model="select" :items="items" item-text="name" item-value="value"
+              <v-select @change="dropVal()" class="cate-sell-drop" v-model="select" :items="items" item-text="name" item-value="value"
                 :label="product.productCategory" color="#212529" persistent-hint single-line dense width="50">
               </v-select>
             </div>
@@ -84,7 +84,7 @@
           </div>
           <div class="dropdown">
             <div id="used-main-dropbox">
-              <v-select @change="dropVal()" v-model="select2" :items="isSell" item-text="name" item-value="value"
+              <v-select @change="dropVal()" class="cate-sell-drop" v-model="select2" :items="isSell" item-text="name" item-value="value"
                 :label="product.isSell" color="#212529" persistent-hint single-line dense width="50">
               </v-select>
             </div>
@@ -306,6 +306,10 @@
 <style scoped>
   .room-file-upload-example {
     height: 100%;
+  }
+
+  .cate-sell-drop{
+    width: 120px;
   }
 
   #used-addrs{
