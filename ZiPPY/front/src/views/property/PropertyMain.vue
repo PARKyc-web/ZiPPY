@@ -13,15 +13,17 @@
             <div id="propertyCard">
               <table style="width: 100%;">
                 <tr>
-                  <td style="width: 35%;"><img :src="'http://localhost:8090/zippy/common/img/property/' + item.mainImg"
-                      style="width: 100%; height: 100%; " /></td>
-                  <td style="width: 65%;">
+                  <td style="width: 45%;"><img :src="'http://localhost:8090/zippy/common/img/property/' + item.mainImg"
+                      style="width: 90%; height: 100%; margin-left: 15px" /></td>
+                  <td style="width: 55%;">
                     <v-row align="center" class="mx-0">
-                      <div>매물번호 {{item.productId}}</div>
+                      <div >
+                        <v-chip class="ma-2" color="green lighten-2" small outlined style="left: -10px; top: 10px"> 매물번호 {{item.productId}} </v-chip>
+                      </div>
                     </v-row>
                     <v-card-title style="font-weight: bold;">{{item.saleType}} {{item.price | oneHundredMillion}}
                     </v-card-title>
-                    <table style="font-size: medium; margin-left: 20px;">
+                    <table style="font-size: medium; margin-left: 20px; margin-bottom: 10px">
                       <tr>
                         {{item.houseType}} · {{item.houseName}}
                       </tr>
@@ -350,11 +352,11 @@
       },
       searchPropertyList(data) {
         this.initData.tags = '';
-        
+
         console.log(data.selectedTags);
         data.selectedTags.sort();
         console.log(data.selectedTags);
-        for(let i=0; i<data.selectedTags.length; i++) {
+        for (let i = 0; i < data.selectedTags.length; i++) {
           this.initData.tags += data.selectedTags[i] + '/';
         }
         console.log(this.initData.tags);
