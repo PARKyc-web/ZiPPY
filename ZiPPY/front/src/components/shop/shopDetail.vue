@@ -14,7 +14,7 @@
       <!-- 상품 상세정보 -->
       <div id="detail-info">
         <div style="display:flex">
-          <p>{{product.compName}}></p>
+          <p class="pa-0 mt-5">{{product.compName}}></p>
           <!--heart-->
           <div class="ml-auto">
             <v-btn v-if="heart==0" class="mx-2" color='#D6D6D6' fab depressed dark small
@@ -93,7 +93,7 @@
     <!-- 탭 -->
     <!-- 상품 상세정보 -->
     <div class="mx-auto pb-5" style="width:810px">
-      <shop-tab :pno="$route.query.pno"></shop-tab>
+      <shop-tab :pno="$route.query.pno" :proInfo="product.proInfo"></shop-tab>
     </div>
   </div>
 </template>
