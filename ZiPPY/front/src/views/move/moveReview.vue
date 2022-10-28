@@ -14,25 +14,25 @@
 
                         <div id="used-name-report">
                             <!-- <div>{{this.nickName}}</div> -->
-                            <div>업체명{{list[0].compName}}</div>                            
+                            <div>{{list[0].compName}}</div>                            
                         </div>
                     </div>
                     <div id="used-seller-name">
 
                         <div id="used-name-report">
-                            <div>업체연락처{{list[0].phone}}</div>
+                            <div>{{list[0].phone}}</div>
                         </div>
                     </div>
                     <div id="used-seller-name">
 
                         <div id="used-name-report">
-                            <div>업체주소{{list[0].compAddress}}</div>
+                            <div>{{list[0].compAddress}}</div>
                         </div>
                     </div>
                     <div id="used-seller-name">
 
                         <div id="used-name-report">
-                            <div>업체소개{{list[0].compIntro}}</div>
+                            <div>{{list[0].compIntro}}</div>
                         </div>
                     </div>
 
@@ -49,7 +49,7 @@
                                         </v-rating>
                                     </div>
                                     <h2 class="ml-3 mt-3" style="font-weight:bold" v-if="list.length != 0">
-                                        평점{{list.CompanyTotalRating}}</h2>
+                                        평점{{list[0].totalRating}}</h2>
                                 </div>
                                 <div id="star-right">
                                     <v-progress-linear color="#64c481" height="20" :value=rate1 style="width:200px">
@@ -162,7 +162,7 @@
                 rate2: '',
                 rate3: '',
                 rate4: '',
-
+                writer: '',
                 singleSelect: false,
                 reviews: [],
                 headers: [{
@@ -179,7 +179,7 @@
                     {
                         text: '작성자',
                         sortable: false,
-                        value: 'email'
+                        value: 'writer'
                     },
                     {
                         text: '후기내용',
@@ -223,6 +223,7 @@
             this.list = res.data;
             this.pageCount = res.data.pages;
             this.nickName = this.$store.state.loginInfo.nickName;
+            
             console.log("res", res);
             console.log(res.data[0].compName);
             console.log(res.list);

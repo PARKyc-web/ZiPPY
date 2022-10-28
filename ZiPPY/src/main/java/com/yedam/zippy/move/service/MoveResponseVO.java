@@ -1,5 +1,7 @@
 package com.yedam.zippy.move.service;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -15,6 +17,4 @@ public class MoveResponseVO {
   Integer reservStatus;
   String compName;
   String responseMemo;
-  
-  
 }

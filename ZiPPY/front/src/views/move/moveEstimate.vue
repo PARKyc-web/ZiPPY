@@ -1,16 +1,16 @@
 <template>
   <div class="result-wrap">
-    <move-nav-bar @click="categoryVal=$event.target.innerText"></move-nav-bar>
+    
     <div class="move-main-title">
       <h3>견적요청 조회</h3>
     </div>
 
-    <div class="form-check">
+    <!-- <div class="form-check">
       <input @click="checkbox ()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
       <label class="form-check-label" for="flexCheckDefault">
         견적완료된 요청보기
       </label>
-    </div>
+    </div> -->
 
     <!--  -->
     <div id="used-main-dropbox2">
@@ -159,7 +159,7 @@
                               <v-col cols="12">
                                 <v-text-field  label="1차 견적가격*" type="number"  id="firstPrice" 
                                 hint="고객에게 처음 제시하는 견적가격입니다. 견적제시는 2차까지만 가능합니다. 신중하게 결정해주세요.(추후 수정불가)"
-                                required v-model="selectData.estimatePrice">
+                                required v-model="selectData.firstEstimatePrice">
                                 </v-text-field>
                               </v-col>
 
@@ -197,9 +197,10 @@
                       <input type="hidden" name="compName" v-model="selectData.compName">
 
                       <input type="hidden" name="reservStatus" value="1" v-model="selectData.reservStatus">
-                      <input type="hidden" name="firstEstimatePrice" id="firstPrice"  v-model="selectData.estimatePrice">
+                      <input type="hidden" name="firstEstimatePrice" id="firstPrice"  v-model="selectData.firstEstimatePrice">
                       <input type="hidden" name="responseMemo" id="memo" v-model="selectData.responseMemo"> 
                   </form>
+                  
 
                 </v-dialog>
               </v-row>
@@ -229,12 +230,9 @@
 <script>
   import axios from 'axios';
   import swal from 'sweetalert2';
-  import MoveNavBar from '@/components/move/MoveNavBar.vue';
-
+ 
 export default {
-  components: {
-    MoveNavBar
-  },
+  
   
     data: function () {
       return {
@@ -344,6 +342,7 @@ export default {
           dropbox: "",
           dropbox2: "",
           firstEstimateType : this.selectData.estimateType,
+          responseMemo : this.selectData.responseMemo,
           reservStatus : this.list.reservStatus
         }
       }).then(res => {
@@ -373,6 +372,11 @@ export default {
     watch: {
     },
     methods: {
+      //모달 닫기
+      closeReview() {
+                this.dialog = false;
+               
+            },
       checkbox: function () {
         const ckbox = document.querySelector(".form-check-input");
         const is_cked = ckbox.checked;
@@ -452,7 +456,7 @@ export default {
             businessEmail: this.email,
             estimateNo : this.list[i].estimateNo,
             email: this.$store.state.loginInfo.email,
-            estimateType: this.list[i].estimateType,
+            firstEstimateType: this.list[i].estimateType,
             firstEstimatePrice: this.list[i].firstEstimatePrice,
             // responseMemo : this.items[i].responseMemo
           }
@@ -633,28 +637,32 @@ export default {
         console.log("업체명: " + this.selectData.compName);
         console.log("견적어필: ",document.querySelector("#memo").value);
 
+        var str = ""
+        for(var i in this.selectData.responseMemo){
+          str += this.selectData.responseMemo[i] + ",";
+        }        
+
         //견적보내기
         this.$axios({
           url: "/zippy/move/moveEstimate",
           method: "POST",
           // headers: {
           //   "Content-Type": "application/json; charset=utf-8"
-          // },
-          params:{
+          // },        
+          data:{
             email : this.$store.state.loginInfo.email,
-            estimateNo : this.selectData.estimateNo,
-            // responseMemo :document.querySelector("#memo").value,
-            // firstEstimatePrice : document.querySelector("#firstPrice").value,
-            responseMemo : this.selectData.responseMemo,
-            firstEstimatePrice: this.selectData.estimatePrice,
+            estimateNo : this.selectData.estimateNo,            
+            responseMemo : str,
+            firstEstimatePrice: this.selectData.firstEstimatePrice,
             firstEstimateType : this.selectData.estimateType,
             reservStatus : 1,
-            compName : this.$store.state.loginInfo.compName
-          },
-          // data: this.selectData
+            compName : this.selectData.compName
+          }          
         }).then(res => {
-          console.log(res);
-          
+          console.log('견적보내기!!!!!',res);
+          this.closeReview();
+
+
           //견적상태변경
         this.$axios({
           url: "/zippy/move/moveStatusUpdate",

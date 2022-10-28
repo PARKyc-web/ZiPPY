@@ -30,6 +30,7 @@ public class MoveReviewVO {
   Integer reviewCount;
   
   double companyTotalRating;
+  private String writer;
   
   //business
   

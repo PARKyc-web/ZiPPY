@@ -1,16 +1,16 @@
 <template>
   <div class="result-wrap">
-    <move-nav-bar @click="categoryVal=$event.target.innerText"></move-nav-bar>
+    
     <div class="move-main-title">
       <h3>보낸 견적 관리</h3>
     </div>
 
-    <div class="form-check">
+    <!-- <div class="form-check">
       <input @click="checkbox ()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
       <label class="form-check-label" for="flexCheckDefault">
         견적완료된 요청보기
       </label>
-    </div>
+    </div> -->
 
     <!--  -->
     <div id="used-main-dropbox1">
@@ -34,7 +34,7 @@
               <div id="mus" v-if="item.reservStatuss == 3">견적 상태 : <span>예약요청</span></div>
               <div id="mus" v-if="item.reservStatuss == 4">견적 상태 : <span>예약완료</span></div>
               <div id="mus" v-if="item.reservStatuss == 5">견적 상태 : <span>이사완료</span></div>
-              <div id="mus" v-if="item.reservStatuss == 9">견적 상태 : <span>취소</span></div>
+              <div id="mus" v-if="item.reservStatuss == 9">견적 상태 : <span>후기작성완료</span></div>
           </v-col>
 
           </v-expansion-panel-header>
@@ -249,12 +249,10 @@
 
 <script>
   import axios from 'axios';
-  import MoveNavBar from '@/components/move/MoveNavBar.vue';
+  
 
 export default {
-  components: {
-    MoveNavBar
-  },
+  
  
     data: function () {
       return {
@@ -657,8 +655,7 @@ export default {
         }).then(res => {
           console.log(res);
           alert("견적서 보내기 완료!");
-          const st = document.getElementById('estBtn');
-          st.disabled = true;
+          
 
         }).catch(err => {
           console.log(err)

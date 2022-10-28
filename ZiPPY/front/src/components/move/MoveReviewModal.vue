@@ -4,12 +4,16 @@
       <!-- <v-btn  v-if="this.reservStatus == 5" id="reviewBtn" depressed color=#B3E3C3 v-bind="attrs" v-on="on" width="100px">
         후기작성
       </v-btn>
-      <v-btn v-else="this.reservStatus == 6" disabled depressed color=#D6D6D6 width="100px">
-        작성완료
-      </v-btn> -->
-      <v-btn  id="reviewBtn" depressed color=#B3E3C3 v-bind="attrs" v-on="on" width="100px">
+       -->
+      <div>
+      <v-btn v-if="reservStatus == 5" id="reviewBtn" depressed color=#B3E3C3 width="100px" v-bind="attrs" v-on="on">
         후기작성
       </v-btn>
+      <v-btn v-if="reservStatus == 9" disabled depressed color=#D6D6D6 width="100px">
+        작성완료
+      </v-btn>
+    </div>
+
     </template>
     <div v-if="list.userEmail == this.$store.state.loginInfo.email">
                   
@@ -94,7 +98,7 @@
     
                           <div >
                           <input type="button" id="subBtn" value="등록"
-                              color="success lighten -2" text @click="insertReview()" />
+                              color="success lighten -2" text @click="insertReview(list.movingResponseNo)" />
                             </div>  
     
     
@@ -114,7 +118,7 @@ import swal from 'sweetalert2';
         components: {
             MoveNavBar
         },
-        props:['email','movingResponseNo'],
+        props:['email','movingResponseNo', 'reservStatus'],
         data: function () {
             return {
                 dialog: false,
@@ -138,7 +142,6 @@ import swal from 'sweetalert2';
                 rate2: '',
                 rate3: '',
                 rate4: '',
-                reservStatus:'',
                 singleSelect: false,
                 reviews: [],
                 headers: [{
@@ -183,20 +186,20 @@ import swal from 'sweetalert2';
         async created() {
             var outside = this.list;
             let res =  await axios({
-                    url: "http://localhost:8090/zippy/move/moveMyListOne",
+                    url: "/zippy/move/moveMyListOne",
                     methods: "GET",
                     params: {
                         email: this.email,
                         userEmail: this.$store.state.loginInfo.email,
                         movingResponseNo : this.movingResponseNo,                        
-                        pageNum: this.page
-
+                        pageNum: this.page,
+                        reservStatus : this.reservStatus
                     }
             });
 
             this.list = res.data;
             this.pageCount = res.data.pages;
-            console.log('outside',outside.list);
+            
             console.log("res", res);
             console.log(res.data);
             console.log("list!!!!!!!", this.list);
@@ -215,7 +218,7 @@ import swal from 'sweetalert2';
             },
 
             //리뷰 등록
-            insertReview() {
+            insertReview(i) {
                 if (!this.rate1 || !this.rate2 || !this.rate3 || !this.rate4 || !this.reviewContent) {
                     swal.fire({
                         icon: 'warning',
@@ -266,25 +269,32 @@ import swal from 'sweetalert2';
                     this.orderStatus = 2;
                     //this.$emit('orderStatus', 2)
 
+                    //견적상태변경(작성완료로 변경)
+                this.$axios({
+                url: "/zippy/move/moveStatusCancleUpdate",
+                method: "POST",
+
+                params: {
+                    movingResponseNo : i
+
+                },
+                // data: formData
+                }).then(res => {
+                console.log(res);
+
+                alert("견적상태변경 완료!");
+                window.location.assign('move/moveMyReserve');
+
+                }).catch(err => {
+                console.log(err)
+                })
+
                     }).catch(error => {
                         console.log(error);
                     })
                 }
-                //상태 변경
-                // axios({
-                //     url: "/shop/updateRvStatus",
-                //     method: "POST",
-                //     headers: {
-                //         "Content-Type": "application/json"
-                //     },
-                //     data: {
-                //         purNo: this.purNo
-                //     }
-                // }).then(res => {
-                //     console.log(res);
-                // }).catch(error => {
-                //     console.log(error);
-                // })
+                
+                
             },
 
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -95,9 +96,9 @@ public class MoveController {
   
   //견적서 인서트- 업체(1차까지)
   @PostMapping("/moveEstimate")
-  public int makeEstimate(MoveResponseVO vo) {   
+  public int makeEstimate(@RequestBody MoveResponseVO vo) {   
     System.out.println("========================="+vo);
-    
+    System.out.println(vo);    
     return service.makeEstimate(vo);
   }
   

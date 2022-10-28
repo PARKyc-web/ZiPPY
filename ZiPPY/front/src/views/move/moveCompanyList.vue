@@ -131,7 +131,7 @@ export default {
 
     created(){
       axios({
-        url: "http://localhost:8090/zippy/move/moveCompanyList",
+        url: "/zippy/move/moveCompanyList",
         methods: "GET",
         params: {
           email: "",
@@ -216,7 +216,7 @@ export default {
         console.log(dropValue2);
         
         axios({
-          url: "http://localhost:8090/zippy/move/moveCompanyList",
+          url: "/zippy/move/moveCompanyList",
           methods: "GET",
           params: {
             dropbox: this.select,

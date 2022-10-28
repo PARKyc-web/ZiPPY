@@ -44,7 +44,7 @@
               <div id="mus" v-if="item.reservStatus == 3">견적 상태 : <span>예약요청</span></div>
               <div id="mus" v-if="item.reservStatus == 4">견적 상태 : <span>예약완료</span></div>
               <div id="mus" v-if="item.reservStatus == 5">견적 상태 : <span>이사완료</span></div>
-              <div id="mus" v-if="item.reservStatus == 9">견적 상태 : <span>취소</span></div>
+              <div id="mus" v-if="item.reservStatus == 9">견적 상태 : <span>후기작성완료</span></div>
           </div>
           <div>견적서 번호 : <span>NO.{{item.movingResponseNo}}</span></div>
         </v-card-text>
@@ -76,7 +76,7 @@
             <v-rating :value="4.5" color="amber" dense half-increments readonly size="20"></v-rating>
 
             <div class="grey--text ms-4">
-              평점 {{Math.round(item.totalRating * 10)/10}} (413)
+              평점 {{Math.round(item.totalRating * 10)/10}} ({{item.reviewCount}})
             </div>
           </v-row>
           <v-divider class="mx-4"></v-divider>
@@ -118,9 +118,9 @@
             채팅하기
           </v-btn>
 
-          <v-btn id="reviewBtn" text @click="cancle" depressed color=#B3E3C3 v-bind="attrs" v-on="on" width="100px">
+          <!-- <v-btn id="reviewBtn" text @click="cancle" depressed color=#B3E3C3 v-bind="attrs" v-on="on" width="100px">
             취소요청
-          </v-btn>
+          </v-btn> -->
 
           <!-- 후기 작성 모달 -->
           <MoveReviewModal :email="item.email" :movingResponseNo="item.movingResponseNo" :reservStatus="item.reservStatus">

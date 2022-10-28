@@ -42,7 +42,7 @@
       },
       goManage: function () {
         this.$router.push(({
-          path: 'mypage/move/moveResult',
+          path: '/mypage/move/moveResult',
 
         })).catch(() => {});;
        

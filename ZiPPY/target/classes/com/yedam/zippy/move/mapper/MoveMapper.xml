@@ -233,12 +233,11 @@
         AND email = #{email}
 	</update>
 	
-	<!-- 예약 취소 시 9로 변경 -->
+	<!-- 후기작성완료 시 9로 변경 -->
 	<update id="moveStatusCancleUpdate" parameterType="MoveResponseVO">
 		UPDATE moving_response 
         SET reserv_status = 9
-        WHERE estimate_no = #{estimateNo}  
-        AND email = #{email}
+        WHERE moving_response_no =#{movingResponseNo}
 	</update>
 	
 	<!-- 업체가 들어온 견적 전체조회 -->
@@ -393,7 +392,7 @@
 		JOIN business b
 		ON (r.comp_name = b.comp_name)
 		WHERE m.email = #{userEmail}
-		AND r.reserv_status IN(3,4,5)
+		AND r.reserv_status IN(3,4,5,9)
         
         <if test="dropbox2 == '예약요청'">
 		AND r.reserv_status = 3
@@ -404,7 +403,7 @@
         ORDER BY m.estimate_no DESC 
 		</if>
 		<if test="dropbox2 == '이사완료'">
-		AND r.reserv_status = 5
+		AND r.reserv_status IN(5, 9)
         ORDER BY m.estimate_no DESC 
 		</if>
 	</select>
@@ -467,7 +466,7 @@
 	
 	<!-- 리뷰조회 -->
 	<select id="showReview" resultType="MoveReviewVO" parameterType="MoveReviewVO">
-		SELECT b.*, r.*, (SELECT AVG(r.total_rating) FROM review_board r JOIN business b
+		SELECT b.*, r.*, r.email writer, (SELECT AVG(r.total_rating) FROM review_board r JOIN business b
 		ON r.service_id = b.email WHERE r.service_type = 3 AND r.service_id=#{serviceId}) company_total_rating, (SELECT count(r.review_no) FROM review_board r JOIN business b
 		ON r.service_id = b.email WHERE r.service_type = 3 AND r.service_id=#{serviceId}) review_count
 		FROM review_board r JOIN business b 
