@@ -172,16 +172,16 @@
     data() {
       return {
         items: [{
-            src: 'http://localhost:8090/zippy/common/img/property/',
+            src: '/zippy/common/img/property/',
           },
           {
-            src: 'http://localhost:8090/zippy/common/img/property/image2.jpg',
+            src: '/zippy/common/img/property/image2.jpg',
           },
           {
-            src: 'http://localhost:8090/zippy/common/img/property/image3.jpg',
+            src: '/zippy/common/img/property/image3.jpg',
           },
           {
-            src: 'http://localhost:8090/zippy/common/img/property/image4.jpg',
+            src: '/zippy/common/img/property/image4.jpg',
           },
         ],
         houseDetail: [],
@@ -212,9 +212,8 @@
           }
         }).then(response => {
           // 성공했을 때
-          console.log(response.data);
           this.houseDetail = response.data;
-          this.items[0] = {src: 'http://localhost:8090/zippy/common/img/property/'+this.houseDetail[0].mainImg }
+          this.items[0] = {src: '/zippy/common/img/property/'+this.houseDetail[0].mainImg }
 
           let temp = this.houseDetail[0].tags.split('/');
           for (let i = 0; i < temp.length; i++) {

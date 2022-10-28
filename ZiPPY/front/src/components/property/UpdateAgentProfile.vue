@@ -1,4 +1,5 @@
 <template>
+<form id="updateProperty">
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
@@ -61,6 +62,7 @@
       </v-card>
     </v-dialog>
   </v-row>
+</form>
 </template>
 
 <script>

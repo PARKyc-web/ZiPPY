@@ -109,7 +109,7 @@
     methods: {
       getPropertyList() {
         axios({
-            url: "http://localhost:8090/zippy/property/getAllWishProperties",
+            url: "/zippy/property/getAllWishProperties",
             method: "GET",
             params: {
               email: this.$store.state.loginInfo.email,
@@ -117,21 +117,17 @@
             }
           }).then(response => {
             // 성공했을 때
-            console.log('getAgentProperties success!');
-            console.log(response);
             this.properties = response.data.list;
             this.pageCount = response.data.pages;
           })
           .catch(error => {
             // 에러가 났을 때
-            console.log('getAgentProperties fail!');
             console.log(error);
           })
       },
 
       test: function () {
         var ck = document.querySelector("#ck").checked;
-        console.log(ck);
         if (ck == true) {
           this.uncheck = false;
         }
@@ -145,7 +141,6 @@
         })
       },
       selectAll: function () {
-        console.log(this.ckList)
         let isCheck = document.querySelector('#ckAll').checked;
         if (isCheck == false) {
           for (let i of this.properties) {
@@ -164,7 +159,6 @@
             bNo: this.ckList
           }
         }).then(res => {
-          console.log(res);
           let arr = [];
           for (let i of this.properties) {
             if (this.ckList.indexOf(i.bookmarkNo) < 0) {

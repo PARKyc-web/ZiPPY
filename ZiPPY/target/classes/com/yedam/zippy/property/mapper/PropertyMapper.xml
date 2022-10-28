@@ -6,6 +6,7 @@
 		select sigungu, street_address
 		from house_product natural join house_detail
 		where house_type = '아파트'
+			and product_state = 1
 	</select>
 
 	<select id="getPropertyList" parameterType="String"
@@ -13,14 +14,14 @@
 		select *
 		from house_product
 		where sigungu like #{sigungu}
+			and product_state = 1
 	</select>
 
 	<select id="getAgentEmail" parameterType="Integer"
 		resultType="String">
 		select email
 		from house_product
-		where product_id =
-		#{productId}
+		where product_id = #{productId}
 	</select>
 
 	<select id="gethouseDetail" parameterType="Integer"
@@ -43,7 +44,7 @@
 		select *
 		from house_product
 		where email = #{email}
-		order by product_state desc, product_id desc
+		order by product_state desc
 	</select>
 
 	<select id="getAgentProfile" parameterType="String"

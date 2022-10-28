@@ -260,8 +260,7 @@
         // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우
         // 이벤트 헨들러로 cluster 객체가 넘어오지 않을 수도 있습니다
         kakao.maps.event.addListener(clusterer, 'clusterclick', function (cluster) {
-          console.log('cluster get center', cluster.getCenter());
-
+          
           // 현재 지도 레벨에서 1레벨 확대한 레벨
           var level = map.getLevel() - 1;
 
@@ -287,14 +286,13 @@
       },
       getPropertyList(sigungu) {
         axios({
-            url: "http://localhost:8090/zippy/property/getPropertyList",
-            methods: "GET",
+            url: "/zippy/property/getPropertyList",
+            method: "GET",
             params: {
               sigungu: sigungu + '%',
             }
           }).then(response => {
             // 성공했을 때
-            console.log(response);
             this.houseProducts = response.data;
           })
           .catch(error => {
@@ -304,11 +302,10 @@
       },
       getStreetAddress() {
         axios({
-            url: "http://localhost:8090/zippy/property/main",
-            methods: "GET"
+            url: "/zippy/property/main",
+            method: "GET"
           }).then(response => {
             // 성공했을 때
-            console.log(response);
             this.streetAddress = response.data;
             return response.data;
           })
@@ -335,14 +332,13 @@
       },
       currentPositionAptList(sigungu) {
         axios({
-            url: "http://localhost:8090/zippy/property/currentPositionAptList",
-            methods: "GET",
+            url: "/zippy/property/currentPositionAptList",
+            method: "GET",
             params: {
               sigungu: sigungu + '%'
             }
           }).then(response => {
             // 성공했을 때
-            console.log(response);
             this.houseProducts = response.data;
           })
           .catch(error => {
@@ -353,17 +349,15 @@
       searchPropertyList(data) {
         this.initData.tags = '';
 
-        console.log(data.selectedTags);
         data.selectedTags.sort();
-        console.log(data.selectedTags);
         for (let i = 0; i < data.selectedTags.length; i++) {
           this.initData.tags += data.selectedTags[i] + '/';
         }
-        console.log(this.initData.tags);
+        console.log('선택된 data', this.initData.tags);
 
         axios({
             url: "/zippy/property/searchPropertyList",
-            methods: "GET",
+            method: "GET",
             params: {
               houseType: data.houseType,
               saleType: data.saleType + '%',
@@ -377,7 +371,6 @@
             }
           }).then(response => {
             // 성공했을 때
-            console.log(response);
             this.houseProducts = response.data;
 
             this.initData.houseType = data.houseType;

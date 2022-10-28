@@ -42,7 +42,6 @@
           }
         }).then(response => {
             // 성공했을 때
-            console.log('wishState success!');
             this.data.email = this.$store.state.loginInfo.email;
             this.data.serviceId = this.productId;
             
@@ -52,7 +51,6 @@
           })
           .catch(error => {
             // 에러가 났을 때
-            console.log('wishState fail!');
             console.log(error);
           })
       }
@@ -75,7 +73,7 @@
       },
       addWish() {
         axios({
-          url: "http://localhost:8090/zippy/common/addWish",
+          url: "/zippy/common/addWish",
           method: "POST",
           headers: {
             "Content-Type": "application/json; charset=utf-8"
@@ -95,9 +93,8 @@
       },
       delWish() {
         let bNo = [];
-        console.log(this.data.bookmarkNo)
         bNo.push(this.data.bookmarkNo);
-        console.log(bNo);
+        
         axios({
           url: "http://localhost:8090/zippy/common/delWish",
           method: "DELETE",

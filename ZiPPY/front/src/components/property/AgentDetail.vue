@@ -129,20 +129,17 @@
       this.getPropertyList();
 
       axios({
-          url: "http://localhost:8090/zippy/property/getAgentProfile",
-          methods: "GET",
+          url: "/zippy/property/getAgentProfile",
+          method: "GET",
           params: {
             email: this.$route.query.email
           }
         }).then(response => {
           // 성공했을 때
-          console.log('getAgentProfile success!');
-          console.log(response);
           this.profile = response.data;
         })
         .catch(error => {
           // 에러가 났을 때
-          console.log('getAgentProfile fail!');
           console.log(error);
 
         })
@@ -173,22 +170,19 @@
     methods: {
       getPropertyList() {
         axios({
-            url: "http://localhost:8090/zippy/property/getAgentProperties",
-            methods: "GET",
+            url: "/zippy/property/getAgentProperties",
+            method: "GET",
             params: {
               email: this.$route.query.email,
               pageNum: this.page
             }
           }).then(response => {
             // 성공했을 때
-            console.log('getAgentProperties success!');
-            console.log(response);
             this.properties = response.data.list;
             this.pageCount = response.data.pages;
           })
           .catch(error => {
             // 에러가 났을 때
-            console.log('getAgentProperties fail!');
             console.log(error);
           })
       },
