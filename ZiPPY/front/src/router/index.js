@@ -45,27 +45,27 @@ import seller from '@/views/seller/Seller.vue';
 import generalUser from '@/views/admin/searchUser.vue';
 
 
-import moveContactFinalCheck from "../views/move/moveContactFinalCheck.vue";
-import moveUntactFinalCheck from "../views/move/moveUntactFinalCheck.vue";
-import moveSelect from "../views/move/moveSelect";
-import moveDate from "../views/move/moveDate";
-import moveVisitDate from "../views/move/moveVisitDate";
-import moveInfo from "../views/move/moveInfo";
-import moveInfoDetail from "../views/move/moveInfoDetail";
-import moveTypeSelect from "../views/move/moveTypeSelect";
-import moveImage from "../views/move/moveImage";
-import moveTotal from "../views/move/moveTotal";
-import moveEstimate from "../views/move/moveEstimate";
-import moveMyList from "../views/move/moveMyList";
-import moveResult from "../views/move/moveResult";
-import moveMain from "../views/move/moveMain";
-import moveCompanyEstimate from "../views/move/moveCompanyEstimate";
-import moveCompanyMy from "../views/move/moveCompanyMy";
-import moveMyReserve from "../views/move/moveMyReserve";
-import moveCompanyList from "../views/move/moveCompanyList";
-import moveWishList from "../views/move/moveWishList";
-import moveReview from "../views/move/moveReview";
-import moveReviewWrite from "../views/move/moveReviewWrite";
+import moveContactFinalCheck from "@/views/move/moveContactFinalCheck.vue";
+import moveUntactFinalCheck from "@/views/move/moveUntactFinalCheck.vue";
+import moveSelect from "@/views/move/moveSelect";
+import moveDate from "@/views/move/moveDate";
+import moveVisitDate from "@/views/move/moveVisitDate";
+import moveInfo from "@/views/move/moveInfo";
+import moveInfoDetail from "@/views/move/moveInfoDetail";
+import moveTypeSelect from "@/views/move/moveTypeSelect";
+import moveImage from "@/views/move/moveImage";
+import moveTotal from "@/views/move/moveTotal";
+import moveEstimate from "@/views/move/moveEstimate";
+import moveMyList from "@/views/move/moveMyList";
+import moveResult from "@/views/move/moveResult";
+import moveMain from "@/views/move/moveMain";
+import moveCompanyEstimate from "@/views/move/moveCompanyEstimate";
+import moveCompanyMy from "@/views/move/moveCompanyMy";
+import moveMyReserve from "@/views/move/moveMyReserve";
+import moveCompanyList from "@/views/move/moveCompanyList";
+import moveWishList from "@/views/move/moveWishList";
+import moveReview from "@/views/move/moveReview";
+import moveReviewWrite from "@/views/move/moveReviewWrite";
 
 
 import usedUpdate from "../views/used/usedUpdate.vue";

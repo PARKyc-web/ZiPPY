@@ -4,7 +4,6 @@
       <v-btn-toggle v-model="text" tile color="success lighten-1" group>
         <v-btn value="견적받기" @click="goEstimate()" class="nav-link active" aria-current="page"> 견적받기</v-btn>
         <v-btn value="업체조회" @click="goCompany()" class="nav-link">업체조회</v-btn>
-        <v-btn value="업체후기" @click="goReview()" class="nav-link">업체후기</v-btn>
         <v-btn value="마이페이지" @click="goManage()" class="nav-link">견적/예약관리</v-btn>
       </v-btn-toggle>
     </div>
@@ -40,13 +39,6 @@
 
         })).catch(() => {});;
        
-      },
-      goReview: function () {
-        this.$router.push(({
-          name: 'moveReview',
-
-        })).catch(() => {});;
-        
       },
       goManage: function () {
         this.$router.push(({

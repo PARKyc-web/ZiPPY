@@ -109,10 +109,10 @@
                     <v-btn v-if="item.reservStatuss==1" id="estBtn" @click="modalVal(i)" color="success" dark v-bind="attrs" v-on="on" width="80">
                       견적작성
                     </v-btn>
-                    <v-btn v-if="item.reservStatuss==3" @click="updateConfirm(i)" color="success" width="80">
+                    <v-btn v-if="item.reservStatuss==3" @click="updateConfirm(item.estimateNo)" color="success" width="80">
                       예약확정
                     </v-btn>
-                    <v-btn v-if="item.reservStatuss==4" @click="updateComplete(i)" color="success" dark v-bind="attrs" v-on="on" width="80">
+                    <v-btn v-if="item.reservStatuss==4" @click="updateComplete(item.estimateNo)" color="success" width="80">
                       이사완료
                     </v-btn>
                   </template>
@@ -204,9 +204,7 @@
                           <v-btn color="gray" text @click="dialog = false">
                             닫기
                           </v-btn>
-                          <v-btn color="blue darken-1" text @click="dialog = false">
-                            저장
-                          </v-btn>
+                          
                           <v-btn id="sendbtn" color="success darken-1" text @click="sendSecondEstimate()">
                             견적보내기
                           </v-btn>
@@ -251,7 +249,7 @@
 
 <script>
   import axios from 'axios';
-  import MoveNavBar from '../../components/move/MoveNavBar.vue';
+  import MoveNavBar from '@/components/move/MoveNavBar.vue';
 
 export default {
   components: {
@@ -335,7 +333,7 @@ export default {
     },
     created() {
       axios({
-        url: "http://localhost:8090/zippy/move/moveCompanyEstimate",
+        url: "/zippy/move/moveCompanyEstimate",
         methods: "GET",
         params: {
           businessEmail: this.$store.state.loginInfo.email,
@@ -403,11 +401,11 @@ export default {
       updateConfirm : function(i){
         this.dialog = false;
         this.$axios({
-          url: "/move/moveStatusFourthUpdate",
+          url: "/zippy/move/moveStatusFourthUpdate",
           method: "POST",
          
           params:{
-            estimateNo : this.list[i].estimateNo,
+            estimateNo : i,
             email : this.$store.state.loginInfo.email,
             // estimateNo : this.selectData.estimateNo,
               // email : this.selectData.email,
@@ -418,7 +416,7 @@ export default {
         }).then(res => {
           console.log(res);
           alert("견적서 보내기 완료!");
-          
+          window.location.assign('/move/moveCompanyMy');
 
         }).catch(err => {
           console.log(err)
@@ -433,7 +431,7 @@ export default {
           method: "POST",
          
           params:{
-            estimateNo : this.list[i].estimateNo,
+            estimateNo : i,
             email : this.$store.state.loginInfo.email,
             reservStatus : 5
           },
@@ -442,7 +440,7 @@ export default {
         }).then(res => {
           console.log(res);
           alert("견적서 보내기 완료!");
-          
+          window.location.assign('/move/moveCompanyMy');
 
         }).catch(err => {
           console.log(err)
@@ -458,9 +456,9 @@ export default {
           url: "/zippy/move/moveCompanyEstimate",
           methods: "GET",
           params: {
-            dropbox: this.select,
+            
             dropbox2: dropValue2, //지역
-            email: this.$store.state.loginInfo.email,
+            businessEmail: this.$store.state.loginInfo.email,
             // requestDate: this.vo.requestDate,
             // departAddress: this.vo.departAddress,
             // arriveAddress: this.vo.arriveAddress,
@@ -476,6 +474,11 @@ export default {
           console.log(err);
         })
       },
+      //모달 닫기
+      closeReview() {
+                this.dialog = false;
+               
+            },
       modalVal: function (i) {
         
         axios({
@@ -657,9 +660,14 @@ export default {
           const st = document.getElementById('estBtn');
           st.disabled = true;
 
+        }).catch(err => {
+          console.log(err)
+        })
+        
 
+        
             //견적상태변경
-          this.$axios({
+            this.$axios({
             url: "/zippy/move/moveStatusSecondUpdate",
             method: "POST",
           
@@ -672,16 +680,12 @@ export default {
           }).then(res => {
             console.log(res);
             alert("견적서 보내기 완료!");
-            
+            this.closeReview();
 
           }).catch(err => {
             console.log(err)
           })
 
-        }).catch(err => {
-          console.log(err)
-        })
-        
       }
     }
   }

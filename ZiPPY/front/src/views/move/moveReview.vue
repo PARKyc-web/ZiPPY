@@ -14,25 +14,25 @@
 
                         <div id="used-name-report">
                             <!-- <div>{{this.nickName}}</div> -->
-                            <div>업체명{{list.compName}}</div>                            
+                            <div>업체명{{list[0].compName}}</div>                            
                         </div>
                     </div>
                     <div id="used-seller-name">
 
                         <div id="used-name-report">
-                            <div>업체연락처{{list.phone}}</div>
+                            <div>업체연락처{{list[0].phone}}</div>
                         </div>
                     </div>
                     <div id="used-seller-name">
 
                         <div id="used-name-report">
-                            <div>업체주소{{list.compAddress}}</div>
+                            <div>업체주소{{list[0].compAddress}}</div>
                         </div>
                     </div>
                     <div id="used-seller-name">
 
                         <div id="used-name-report">
-                            <div>업체소개{{list.compIntro}}</div>
+                            <div>업체소개{{list[0].compIntro}}</div>
                         </div>
                     </div>
 
@@ -131,7 +131,7 @@
 </template>
 
 <script>
-    import MoveNavBar from '../../components/move/MoveNavBar.vue';
+    import MoveNavBar from '@/components/move/MoveNavBar.vue';
     import axios from 'axios';
     export default {
         components: {
@@ -224,6 +224,7 @@
             this.pageCount = res.data.pages;
             this.nickName = this.$store.state.loginInfo.nickName;
             console.log("res", res);
+            console.log(res.data[0].compName);
             console.log(res.list);
             console.log("list리스트", this.list);
 
