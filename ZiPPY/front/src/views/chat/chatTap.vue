@@ -1,8 +1,10 @@
 <template>
-<div class="container">
+<div class="container">    
+    <h1>채팅방 목록</h1> 
     <b-list-group>
         <b-list-group-item class="flex-column align-items-start" v-for="(item, i) in chatRooms" @click="enterChatRoom(item)">
             <div class="d-flex w-100 justify-content-around">
+                <!-- <div class="d-flex w-100  justify-content-between">  -->
                 <!--  style="display:flex" -->
                 <div id="userImage">
                     <img v-if="$store.state.loginInfo.email == item.user1" 
@@ -17,8 +19,9 @@
                     <div class="d-flex w-100  justify-content-between">                
                         <h5 class="mb-1" v-if="$store.state.loginInfo.email == item.user1">{{item.user2Name}}</h5>
                         <h5 class="mb-1" v-else>{{item.user1Name}}</h5>                
-                        <small>{{item.lastTime}}</small>
+                        <small>&nbsp;&nbsp;({{item.lastTime}})</small>
                     </div>
+                    
                     <p class="mb-1">
                     {{item.lastChat}}
                     </p>
@@ -70,8 +73,9 @@
 </script>
 
 <style scoped>
-    #container {
+    .container {        
         height: 70vh;
+        padding: 2%;        
     }
 
     .align-items-start:hover{

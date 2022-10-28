@@ -22,7 +22,7 @@ public class ValidationServiceImpl implements ValidationService{
       
   @Autowired
   MemberService mService;  
-  private final DefaultMessageService smsService = NurigoApp.INSTANCE.initialize("", "", "https://api.coolsms.co.kr");
+  private final DefaultMessageService smsService = NurigoApp.INSTANCE.initialize("NCSWH6V59IRNEKGQ", "YA5INLWRXXQOSOFAPHTO6KEJXCZKQNXN", "https://api.coolsms.co.kr");
   
   @Override
   public void sendEmail(String email, String subject, String content) {

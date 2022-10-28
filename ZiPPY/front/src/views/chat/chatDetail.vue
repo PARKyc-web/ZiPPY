@@ -2,10 +2,10 @@
     <div class="container">
       <div id="download">
         <h1 v-if="room.user1 == $store.state.loginInfo.email">
-          <img :src="'/zippy/common/img/member/test.jpg'" style="width: 80px; height: 80px;">{{room.user2Name}}</h1>
+          <img :src="'/zippy/common/img/member/' + room.user2Pic" style="width: 80px; height: 80px;">{{room.user2Name}}</h1>
           
         <h1 v-if="room.user2 == $store.state.loginInfo.email">
-          <img :src="'/zippy/common/img/member/test.jpg'" style="width: 80px; height: 80px;">{{room.user1Name}}</h1>
+          <img :src="'/zippy/common/img/member/' + room.user1Pic" style="width: 80px; height: 80px;">{{room.user1Name}}</h1>
           
           <insert-rv :buyier="room.user1" :serviceId="room.productNo" 
                       v-if="room.isSell == 1 && room.user1 == $store.state.loginInfo.email"></insert-rv>

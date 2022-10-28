@@ -110,7 +110,7 @@
 
           if (result) {
             this.$axios({
-              url: "validation/password",
+              url: "/zippy/validation/password",
               params: {
                 email: email.value
               }
@@ -144,12 +144,22 @@
 
           // 아이디 찾기할때 휴대폰 전화 인증하는 메소드
         } else if (type == 1) {
+          var name = document.querySelector("#userName");
+
+          if(name.value == "") {
+            swal.fire({
+              icon: "info",
+              title: "이름을 입력해주세요"
+            })
+            return;
+          }
+          
           var phone = document.querySelector("#find_phone");
           result = phoneReg.test(phone.value);
 
           if (result) {
             this.$axios({
-              url: "validation/phone",
+              url: "/zippy/validation/phone",
               params: {
                 phone: phone.value
               }
@@ -181,7 +191,7 @@
 
         if (this.phoneValidNum == userInput.value) {
           this.$axios({
-            url: "/validation/findEmail",
+            url: "/zippy/validation/findEmail",
             params: {
               userName: userName.value,
               phoneNumber: phone.value
