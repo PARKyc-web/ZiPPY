@@ -20,6 +20,7 @@ import com.yedam.zippy.property.service.PropertyService;
 import com.yedam.zippy.property.service.WishVO;
 import com.yedam.zippy.property.service.agentVO;
 import com.yedam.zippy.property.service.propertyVO;
+import com.yedam.zippy.shop.service.ProductImgVO;
 
 @CrossOrigin
 @RestController
@@ -71,8 +72,8 @@ public String agentDetail(@RequestParam int productId) {
   }
   
   @PostMapping("/insertHouseProduct")
-  public int insertHouseProduct(propertyVO vo, MultipartFile images) {  
-    String temp = commonService.saveImage(images, "property");
+  public int insertHouseProduct(propertyVO vo, MultipartFile image) {  
+    String temp = commonService.saveImage(image, "property");
     vo.setMainImg(temp);
     
     return service.insertHouseProduct(vo);
@@ -83,8 +84,10 @@ public String agentDetail(@RequestParam int productId) {
     return service.insertHouseDetail(vo);
   }
   
-  @PutMapping("/updateHouseProduct")
-  public int updateHouseProduct(propertyVO vo) {
+  @PostMapping("/updateHouseProduct")
+  public int updateHouseProduct(propertyVO vo, MultipartFile image) {
+    String temp = commonService.saveImage(image, "property");
+    vo.setMainImg(temp);
     return service.updateHouseProduct(vo);
   }
 

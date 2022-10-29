@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.Page;
 import com.yedam.zippy.property.mapper.PropertyMapper;
+import com.yedam.zippy.property.service.PropertyImagesVO;
 import com.yedam.zippy.property.service.PropertyService;
 import com.yedam.zippy.property.service.WishVO;
 import com.yedam.zippy.property.service.agentVO;
@@ -55,7 +56,9 @@ public class PropertyServiceImpl implements PropertyService {
   }
   
   @Override
+  @Transactional
   public int insertHouseProduct(propertyVO vo) {
+    mapper.insertHouseDetail(vo);
     return mapper.insertHouseProduct(vo);
   }
   
@@ -67,12 +70,16 @@ public class PropertyServiceImpl implements PropertyService {
   @Override
   @Transactional
   public int updateHouseProduct(propertyVO vo) {
+    System.out.println("1heyyyyyyyyyyyyyyyyyyyyyyyyy");
+    System.out.println(vo);
+    mapper.updateHouseDetail(vo);
     return mapper.updateHouseProduct(vo);
-    //return mapper.updateHouseDetail(vo);
   }
 
   @Override
   public int updateHouseDetail(propertyVO vo) {
+    System.out.println("2heyyyyyyyyyyyyyyyyyyyyyyyyy");
+    System.out.println(vo);
     return mapper.updateHouseDetail(vo);
   }
   
@@ -99,5 +106,10 @@ public class PropertyServiceImpl implements PropertyService {
   @Override
   public Page<WishVO> getAllWishProperties(String email) {
     return mapper.getAllWishProperties(email);
+  }
+
+  @Override
+  public int insertHouseImages(PropertyImagesVO vo) {
+    return mapper.insertHouseImages(vo);
   }
 }
