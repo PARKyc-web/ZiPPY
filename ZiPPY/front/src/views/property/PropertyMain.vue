@@ -270,7 +270,8 @@
               // console.log('지역 명칭 : ' + result[0].address_name);
               // console.log('행정구역 코드 : ' + result[0].code);
               // console.log("지역 명칭 및 해정구역 코드: ", initThis.sigungu);
-              initThis.getPropertyList(result[0].address_name);
+              // initThis.getPropertyList(result[0].address_name);
+              initThis.searchPropertyList(initThis.initData);
             }
           };
 
@@ -346,6 +347,9 @@
           });
       },
       searchPropertyList(data) {
+        this.initData = data;
+        console.log(this.initData);
+
         this.initData.tags = '';
 
         data.selectedTags.sort();
@@ -434,6 +438,7 @@
         let setClusterer = setInterval(function () {
           makeClusterer();
           if (markers.length == outside.streetAddress.length) {
+            console.log('끝');
             clearInterval(setClusterer)
           };
         }, 100);
