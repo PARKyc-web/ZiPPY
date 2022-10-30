@@ -5,7 +5,7 @@
 	<select id="getAllPropertyList" resultType="PropertyVO">
 		select sigungu, street_address
 		from house_product natural join house_detail
-		where house_type = '아파트'
+		where house_type = #{houseType}
 			and product_state = 1
 	</select>
 
@@ -190,7 +190,6 @@
 		p.sigungu like #{sigungu}
 		and 
 		d.tags like #{tags}
-		and p.product_state = 1
 	</select>
 	
 	<!--  로그인 된 회원의 관심 매물 목록 불러오기 -->

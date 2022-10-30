@@ -108,9 +108,13 @@
       }
     },
     created() {
+      console.log(this.initData.houseType);
       axios({
           url: "/zippy/property/main",
-          method: "GET"
+          method: "GET",
+          params: {
+            houseType: this.initData.houseType
+          }
         }).then(response => {
           // 성공했을 때
           this.streetAddress = response.data;

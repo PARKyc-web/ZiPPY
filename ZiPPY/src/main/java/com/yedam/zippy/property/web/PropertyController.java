@@ -20,7 +20,6 @@ import com.yedam.zippy.property.service.PropertyService;
 import com.yedam.zippy.property.service.WishVO;
 import com.yedam.zippy.property.service.agentVO;
 import com.yedam.zippy.property.service.propertyVO;
-import com.yedam.zippy.shop.service.ProductImgVO;
 
 @CrossOrigin
 @RestController
@@ -34,8 +33,8 @@ public class PropertyController {
   CommonService commonService;
 
   @GetMapping("/main")
-  public List<propertyVO> propertyMain() {
-    return service.getAllPropertyList();
+  public List<propertyVO> propertyMain(@RequestParam("houseType")String houseType) {
+    return service.getAllPropertyList(houseType);
   }
   
   @GetMapping("/getPropertyList")

@@ -2,7 +2,6 @@ package com.yedam.zippy.property.service.impl;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +21,8 @@ public class PropertyServiceImpl implements PropertyService {
   PropertyMapper mapper;    
 
   @Override
-  public List<propertyVO> getAllPropertyList() {
-    return mapper.getAllPropertyList();
+  public List<propertyVO> getAllPropertyList(String houseType) {
+    return mapper.getAllPropertyList(houseType);
   }
   
   @Override
