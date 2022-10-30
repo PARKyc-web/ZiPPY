@@ -54,7 +54,7 @@
                 <tr v-for="product in products" :key="product.proNo">
                   <td class="pl-9">{{product.productVO.proName}}</td>
                   <td>
-                    <v-img width="150px" height="150px" :src="'/zippy/common/img/shop/' + product.proMainImg"
+                    <v-img width="150px" height="150px" :src="'/zippy/common/img/shop/' + product.productVO.proMainImg"
                       style="cursor:default"></v-img>
                   </td>
                   <td>

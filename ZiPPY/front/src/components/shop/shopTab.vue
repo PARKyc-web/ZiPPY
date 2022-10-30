@@ -98,7 +98,12 @@
                     <v-row>
                       <v-dialog v-model="dialog" persistent max-width="500px">
                         <template v-slot:activator="{ on, attrs }">
-                          <v-btn depressed color=#B3E3C3 v-bind="attrs" v-on="on" width="100px">
+                          <v-btn v-if="$store.state.loginInfo != null" depressed color=#B3E3C3 v-bind="attrs"
+                            v-on="on" width="100px">
+                            상품문의
+                          </v-btn>
+                          <v-btn v-if="$store.state.loginInfo == null" depressed color=#B3E3C3 width="100px"
+                            @click="clickModal">
                             상품문의
                           </v-btn>
                         </template>
@@ -204,7 +209,7 @@
   import swal from 'sweetalert2';
 
   export default {
-    props: ['pno', 'proInfo'],
+    props: ['pno', 'proInfo', 'logEmail'],
     data: () => ({
       tab: null,
       imgs: [],
@@ -257,14 +262,14 @@
       this.rate2 = Math.round(r2Sum / this.reviews.length) * 10
       this.rate3 = Math.round(r3Sum / this.reviews.length) * 10
       this.rate4 = Math.round(r4Sum / this.reviews.length) * 10
-      
+
       //QNA 불러오기
       this.getQnaList();
     },
     methods: {
       //전체조회(리뷰)
       async getReviewList() {
-      var res = await  axios({
+        var res = await axios({
           url: "/zippy/common/showProReview",
           method: "GET",
           params: {
@@ -273,54 +278,52 @@
             pageNum: this.page
           }
         })
-  
+
         this.reviews = res.data.list;
         this.pageCount = res.data.pages;
       },
       //전체조회(Qna)
       getQnaList() {
-      axios({
-        url: "/zippy/shop/getQnaList",
-        method: "GET",
-        params: {
-          proNo: this.pno,
-          pageNum: this.qPage
-        }
-      }).then(res => {
-        console.log(res);
-        this.qnas = res.data.list;
-        this.qPageCount = res.data.pages;
-      }).catch(error => {
-        console.log(error);
-      })
+        axios({
+          url: "/zippy/shop/getQnaList",
+          method: "GET",
+          params: {
+            proNo: this.pno,
+            pageNum: this.qPage
+          }
+        }).then(res => {
+          console.log(res);
+          this.qnas = res.data.list;
+          this.qPageCount = res.data.pages;
+        }).catch(error => {
+          console.log(error);
+        })
       },
       insertQna() {
-        if (this.$store.state.loginInfo != null) {
-          axios({
-            url: "/zippy/shop/insertQna",
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json; charset=utf-8"
-            },
-            data: {
-              email: this.$store.state.loginInfo.email,
-              proNo: this.pno,
-              question: this.qContent,
-              questionCate: this.selectQcate
-            }
-          }).then(res => {
-            swal.fire({
-              icon: 'success',
-              title: '문의를 작성하였습니다.',
-              showConfirmButton: false,
-              timer: 1500
-            });
-            this.dialog = false;
-            this.resetQna();
-          }).catch(error => {
-            console.log(error);
-          })
-        }
+        axios({
+          url: "/zippy/shop/insertQna",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          data: {
+            email: this.$store.state.loginInfo.email,
+            proNo: this.pno,
+            question: this.qContent,
+            questionCate: this.selectQcate
+          }
+        }).then(res => {
+          swal.fire({
+            icon: 'success',
+            title: '문의를 작성하였습니다.',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          this.dialog = false;
+          this.resetQna();
+        }).catch(error => {
+          console.log(error);
+        })
       },
       closeQna() {
         this.dialog = false;
@@ -329,6 +332,15 @@
       resetQna() {
         this.qContent = '',
           this.selectQcate = ''
+      },
+      clickModal() {
+        swal.fire({
+          icon: 'warning',
+          title: '로그인 정보가 필요합니다.',
+          showConfirmButton: false,
+          timer: 1500
+        });
+
       }
     },
     watch: {

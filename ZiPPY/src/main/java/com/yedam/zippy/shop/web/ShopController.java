@@ -128,13 +128,13 @@ public class ShopController {
   }
 
   // 주문 CRUD
-  // 주문할 상품 등록(from 장바구니)
+  // 주문할 상품 등록(장바구니)
   @PostMapping("/insertPur")
   public void insertPur(@RequestBody List<CartVO> selected, String payCode) {
     service.insertPur(selected, payCode);
   }
 
-  // 주문할 상품 등록(from 디테일)
+  // 주문할 상품 등록(바로구매)
   @PostMapping("/insertPurOne")
   public void insertPurOne(@RequestBody ProductVO product, String payCode, String email) {
     service.insertPurOne(product, payCode, email);
@@ -215,7 +215,8 @@ public class ShopController {
   // 판매자 CRUD
   // 상품등록
   @PostMapping("/insertPro")
-  public void insertProduct(ProductVO productVO, String option, MultipartFile image, List<MultipartFile> images) {
+  public void insertProduct(ProductVO productVO, String option, MultipartFile image, List<MultipartFile>
+  images) {
     Gson gs = new Gson();
     List<ProductOptionVO> options = gs.fromJson(option, new TypeToken<ArrayList<ProductOptionVO>>() {
     }.getType());
@@ -238,14 +239,15 @@ public class ShopController {
 
   // 상품정보 수정
   @PostMapping("/updatePro")
-  public void updateProduct(ProductVO productVO, String option, MultipartFile image, List<MultipartFile> images) {
+  public void updateProduct(ProductVO productVO, String option, MultipartFile image, List<MultipartFile>
+  images) {
     Gson gs = new Gson();
     List<ProductOptionVO> options = gs.fromJson(option, new TypeToken<ArrayList<ProductOptionVO>>() {
     }.getType());
     service.updateProduct(productVO, options, image, images);
   }
 
-  // 상품조회
+  // 판매 상품조회
   // @ResponseBody
   @PostMapping("/sellerPurList")
   public List<PurchaseVO> getSellerPurList(@RequestBody ProductVO productVO,
@@ -253,7 +255,7 @@ public class ShopController {
     return service.getSellerPurList(productVO, keyword);
   }
 
-  // 등록 상품상태 수정
+  // 판매 상품상태 수정
   @PostMapping("/updateOrdStatus")
   public void updateOrdStatus(@RequestBody PurchaseVO purchaseVO) {
     service.updateOrdStatus(purchaseVO);

@@ -170,14 +170,12 @@
         }).then(res => {
           console.log(res);
           swal.fire({
-            position: 'top-end',
             icon: 'success',
             title: '상품수정이 완료되었습니다.',
             showConfirmButton: true
           })
         }).catch(error => {
           swal.fire({
-            position: 'top-end',
             icon: 'error',
             title: '상품수정시 필요한 정보를 모두 입력해주세요.',
             showConfirmButton: true

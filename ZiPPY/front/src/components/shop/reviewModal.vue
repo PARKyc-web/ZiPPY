@@ -1,11 +1,11 @@
 <template>
   <v-dialog v-model="dialog" persistent :retain-focus="false" max-width="500px">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn  v-if="orderStatus == 1" id="reviewBtn" depressed color=#B3E3C3 v-bind="attrs" v-on="on" width="100px">
+      <v-btn v-if="orderStatus == 1" id="reviewBtn" depressed color=#B3E3C3 v-bind="attrs" v-on="on" width="100px">
         후기작성
       </v-btn>
-      <v-btn v-else="product.orderStatus == 2" disabled depressed color=#D6D6D6 width="100px">
-                      작성완료
+      <v-btn v-if="orderStatus == 2" disabled depressed color=#D6D6D6 width="100px">
+        작성완료
       </v-btn>
     </template>
     <v-card>
@@ -72,7 +72,7 @@
   import swal from 'sweetalert2';
   export default {
     props: ['serviceId', 'orderStatus', 'purNo'],
-    data() { 
+    data() {
       return {
         //후기 
         reviewContent: '',
@@ -89,15 +89,16 @@
     methods: {
       //모달 닫기
       closeReview() {
-        this.dialog = false;
         this.rate1 = '',
           this.rate2 = '',
           this.rate3 = '',
           this.rate4 = '',
           this.reviewContent = ''
+          this.dialog = false;
       },
       //리뷰 등록
       insertReview() {
+        let outside = this;
         if (!this.rate1 || !this.rate2 || !this.rate3 || !this.rate4 || !this.reviewContent) {
           swal.fire({
             icon: 'warning',
@@ -106,14 +107,16 @@
             timer: 1500
           });
         } else {
-            //totalRating 입력
-            this.totalRating =
+          this.dialog = false;
+          this.orderStatus = 2;
+          //totalRating 입력
+          this.totalRating =
             (Number(this.rate1) +
               Number(this.rate2) +
               Number(this.rate3) +
               Number(this.rate4)) / 4
           axios({
-            url: "/common/addRv",
+            url: "/zippy/common/addRv",
             method: "POST",
             headers: {
               "Content-Type": "application/json"
@@ -132,36 +135,48 @@
               rate4: this.rate4,
             }
           }).then(res => {
-            console.log(res);
+            //모달창 닫기
+            //상태 변경
+            axios({
+              url: "/zippy/shop/updateRvStatus",
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              data: {
+                purNo: outside.purNo
+              }
+            }).then(res => {
+              console.log(res);
+            }).catch(error => {
+              console.log(error);
+            })
+
+          }).catch(error => {
+            console.log(error);
+          })
             swal.fire({
               icon: 'success',
               title: '리뷰가 등록되었습니다.',
               showConfirmButton: false,
               timer: 1500
             });
-            //모달창 닫기
-            this.closeReview();
-            this.orderStatus = 2;
-            //this.$emit('orderStatus', 2);
-          }).catch(error => {
-            console.log(error);
-          })
         }
-        //상태 변경
-        axios({
-          url: "/zippy/shop/updateRvStatus",
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          data: {
-            purNo: this.purNo
-          }
-        }).then(res => {
-          console.log(res);
-        }).catch(error => {
-          console.log(error);
-        })
+        //   //상태 변경
+        //   axios({
+        //     url: "/zippy/shop/updateRvStatus",
+        //     method: "POST",
+        //     headers: {
+        //       "Content-Type": "application/json"
+        //     },
+        //     data: {
+        //       purNo: this.purNo
+        //     }
+        //   }).then(res => {
+        //     console.log(res);
+        //   }).catch(error => {
+        //     console.log(error);
+        //   })
       }
     }
   }
