@@ -79,10 +79,11 @@
           saleType: '',
           minSize: 0,
           maxSize: 999999,
-          tagsToString: '',
+          // tagsToString: '',
           year: 1000,
           sigungu: '',
           range: [0, 150000],
+          selectedTags: [],
           tags: ''
         }
       }
@@ -271,6 +272,7 @@
               // console.log('행정구역 코드 : ' + result[0].code);
               // console.log("지역 명칭 및 해정구역 코드: ", initThis.sigungu);
               // initThis.getPropertyList(result[0].address_name);
+              initThis.initData.sigungu = result[0].address_name;
               initThis.searchPropertyList(initThis.initData);
             }
           };
