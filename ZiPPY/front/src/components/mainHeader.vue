@@ -91,6 +91,7 @@
 </script>
 
 <style scoped>
+
 @font-face {
     font-family: 'GmarketSans';
     font-weight: 500;

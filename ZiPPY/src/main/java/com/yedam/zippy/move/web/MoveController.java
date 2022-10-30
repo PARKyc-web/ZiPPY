@@ -38,20 +38,14 @@ public class MoveController {
   // 견적요청
   @PostMapping("/moveUntactCheck")
   public String moveUntactCheck(MoveRequestVO moveReq, List<MultipartFile> images1, List<MultipartFile> images2, List<MultipartFile> images3) {
-    System.out.println(moveReq);        
-    System.out.println(images1);
-    System.out.println(images2);
-    System.out.println(images3);
-    
-    
-    
+    //견적타입이 '대면견적'일 때
    if(moveReq.getEstimateType().equals("대면견적") ) {
      service.insertContactEstimate(moveReq);
      System.out.println(moveReq);
    } else {
+   //견적타입이 '비대면견적'일 때
      service.insertUntactEstimate(moveReq, images1, images2, images3);
-     System.out.println(moveReq);
-     
+     System.out.println(moveReq);     
    }
     
     
@@ -97,7 +91,6 @@ public class MoveController {
   //견적서 인서트- 업체(1차까지)
   @PostMapping("/moveEstimate")
   public int makeEstimate(@RequestBody MoveResponseVO vo) {   
-    System.out.println("========================="+vo);
     System.out.println(vo);    
     return service.makeEstimate(vo);
   }
@@ -121,10 +114,9 @@ public class MoveController {
 //    return "";
 //  }
   
-  
-    @PostMapping("/moveStatusUpdate")
-  public String moveStatusUpdate(@Param("estimateNo")Integer estimateNo, @Param("email")String email) {
-    
+  //견적상태 업데이트 (1차 견적서 발송후, 상태 1로 변경)
+  @PostMapping("/moveStatusUpdate")
+  public String moveStatusUpdate(@Param("estimateNo")Integer estimateNo, @Param("email")String email) { 
     service.moveStatusUpdate(estimateNo, email);
     return "";
   }
@@ -132,7 +124,6 @@ public class MoveController {
   //견적서 수정 - 업체(2차)
   @PostMapping("/moveEstimateUpdate")
   public String moveEstimateUpdate(MoveResponseVO vo) {
-//    System.out.println(vo.getEstimateNo());
     System.out.println(vo);
     service.moveEstimateUpdate(vo);
     return "";
@@ -167,8 +158,7 @@ public class MoveController {
   //견적상태 업데이트 (이사완료 후, 상태 5으로 변경)
   @PostMapping("/moveStatusFifthUpdate")
   public String moveStatusFifthUpdate(MoveResponseVO vo) {
-    System.out.println(vo);
-    
+    System.out.println(vo);  
     service.moveStatusFifthUpdate(vo);
     return "";
   }
@@ -204,7 +194,6 @@ public class MoveController {
   
   @GetMapping("/moveResult")
   public List<MoveEstimateVO> selectAllResult(MoveEstimateVO vo){
-    
     System.out.println(vo);
     return service.getEstimateResult(vo);
   }

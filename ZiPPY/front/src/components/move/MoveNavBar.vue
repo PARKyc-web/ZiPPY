@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import swal from 'sweetalert2';
   export default {
     data: () => ({
       data: [],
@@ -27,11 +28,31 @@
       //   this.$emit('click', e);
       // }
       goEstimate: function () {
-        this.$router.push(({
+       
+        
+        if (this.$store.state.loginInfo == null || this.$store.state.loginInfo.email == "") {
+          swal.fire({
+            title: '로그인이 필요합니다.',
+            text: "로그인 하시겠습니까 ?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#96e5b8',
+            cancelButtonColor: '#a9a9a9',
+            confirmButtonText: 'YES'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.$router.push('/login')
+            }
+          })
+          
+        } else {
+          // window.location.assign('/mypage/move/moveResult');
+          this.$router.push(({
           name: 'moveTotal',
 
-        })).catch(() => {});;
-        
+        })).catch(() => {});
+        }
+
       },
       goCompany: function () {
         this.$router.push(({
@@ -41,10 +62,35 @@
        
       },
       goManage: function () {
-        this.$router.push(({
-          path: '/mypage/move/moveResult',
+        // this.$router.push(({
+        //   path: '/mypage/move/moveResult',
 
-        })).catch(() => {});;
+        // })).catch(() => {});;
+
+        if (this.$store.state.loginInfo == null || this.$store.state.loginInfo.email == "") {
+          swal.fire({
+            title: '로그인이 필요합니다.',
+            text: "로그인 하시겠습니까 ?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#96e5b8',
+            cancelButtonColor: '#a9a9a9',
+            confirmButtonText: 'YES'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.$router.push('/login')
+            }
+          })
+          
+        } else {
+
+          this.$router.push(({
+          // name: 'moveResult',
+          path: '/mypage/move/moveResult'
+
+        })).catch(() => {});
+          // window.location.assign('/mypage/move/moveResult');
+        }
        
       },
     }
@@ -52,6 +98,22 @@
 </script>
 
 <style scoped>
+  @font-face {
+    font-family: 'GmarketSans';
+    font-weight: 500;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot?#iefix') format('embedded-opentype'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff') format('woff'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.ttf') format("truetype");
+    font-display: swap;
+} 
+* {
+  font-family: 'GmarketSans';
+}
+
+
   .nav {
     width: 100%;
     z-index: 1000000000;

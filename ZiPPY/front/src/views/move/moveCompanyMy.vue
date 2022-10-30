@@ -3,7 +3,7 @@
     
     <div class="move-main-title">
       <h3>보낸 견적 관리</h3>
-    </div>
+    
 
     <!-- <div class="form-check">
       <input @click="checkbox ()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
@@ -20,6 +20,7 @@
 
 
     <hr />
+  </div>
     <div class="panel">
       <v-expansion-panels>
         <v-expansion-panel v-if="list.length != 0" v-for="(item,i) in list">
@@ -165,7 +166,7 @@
                                  <div id="mus">1차 견적 타입 : <span>{{item.firstEstimateType}}</span></div>
                               </v-col>
                               <v-col cols="12">
-                                <div id="mus">1차 견적 가격 : <span>{{item.firstEstimatePrice}}</span></div>                              
+                                <div id="mus">1차 견적 가격 : <span>{{item.firstEstimatePrice | comma}}원</span></div>                              
                               </v-col>
 
                               <v-col cols="12">
@@ -249,7 +250,7 @@
 
 <script>
   import axios from 'axios';
-  
+  import swal from 'sweetalert2';
 
 export default {
   
@@ -370,6 +371,11 @@ export default {
       })
 
     },
+    filters: {
+      comma(val) {
+        return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      }
+    },
     watch: {
     },
     methods: {
@@ -398,50 +404,68 @@ export default {
      //예약확정으로 상태 업데이트 
       updateConfirm : function(i){
         this.dialog = false;
-        this.$axios({
-          url: "/zippy/move/moveStatusFourthUpdate",
-          method: "POST",
-         
-          params:{
-            estimateNo : i,
-            email : this.$store.state.loginInfo.email,
-            // estimateNo : this.selectData.estimateNo,
-              // email : this.selectData.email,
-            reservStatus : 4
-          },
-          
-          // data: formData
-        }).then(res => {
-          console.log(res);
-          alert("견적서 보내기 완료!");
-          window.location.assign('/move/moveCompanyMy');
 
-        }).catch(err => {
-          console.log(err)
-        })
+        swal.fire({
+            title: '예약확정',
+            text: "요청된 예약을 확정하시겠습니까?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#96e5b8',
+            cancelButtonColor: '#a9a9a9',
+            confirmButtonText: 'YES'
+          }).then((result) => {
+            if (result.isConfirmed){
+              this.$axios({
+                url: "/zippy/move/moveStatusFourthUpdate",
+                method: "POST",
+                params:{
+                  estimateNo : i,
+                  email : this.$store.state.loginInfo.email,
+                  reservStatus : 4
+                },
+              }).then(res => {
+                console.log(res);
+                swal.fire("예약이 확정되었습니다.");
+                window.location.assign('/move/moveCompanyMy');
+              }).catch(err => {
+                console.log(err)
+              })
+            }
+          })  
       },
 
-      //이사완료로 상태 업데이트
-      updateComplete : function(i){
-        console.log('listttt:',this.list)
-        this.$axios({
-          url: "/zippy/move/moveStatusFifthUpdate",
-          method: "POST",
-         
-          params:{
-            estimateNo : i,
-            email : this.$store.state.loginInfo.email,
-            reservStatus : 5
-          },
-          
-          // data: formData
-        }).then(res => {
-          console.log(res);
-          alert("견적서 보내기 완료!");
-          window.location.assign('/move/moveCompanyMy');
+      
 
-        }).catch(err => {
-          console.log(err)
+          //이사완료로 상태 업데이트
+          updateComplete : function(i){
+            
+            swal.fire({
+            title: '이사완료',
+            text: "이사완료 후에 고객님이 후기를 작성할 수 있습니다.   이사완료로 상태를 변경하시겠습니까?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#96e5b8',
+            cancelButtonColor: '#a9a9a9',
+            confirmButtonText: 'YES'
+          }).then((result) => {
+            if (result.isConfirmed){
+              this.$axios({
+                url: "/zippy/move/moveStatusFifthUpdate",
+                method: "POST",
+                params:{
+                  estimateNo : i,
+                  email : this.$store.state.loginInfo.email,
+                  reservStatus : 5
+                },
+              }).then(res => {
+                console.log(res);
+                swal.fire("이사완료로 상태가 변경되었습니다.");
+                window.location.assign('/move/moveCompanyMy');
+              }).catch(err => {
+                console.log(err)
+              })
+          }
+        
         })
       },
 
@@ -564,10 +588,18 @@ export default {
         if (temp.closet.length > 0 &&  temp.closet[1]){
           detail+= `<div>옷장 : ${temp.closetCount}(${temp.closet.join(",")})</div>`
         } 
-        //옷장-연결장
+        //서랍장
         if (temp.closets.length > 0 &&  temp.closets[1]){
-          detail+= `<div>옷장-연결장 : ${temp.closetsCount}(${temp.closets.join(",")})</div>`
+          detail+= `<div>서랍장 : ${temp.closetsCount}(${temp.closets.join(",")})</div>`
         } 
+        //테이블/책상
+        // if (temp.table.length > 0 &&  temp.table[1]){
+        //   detail+= `<div>테이블/책상 : ${temp.tableCount}(${temp.table.join(",")})</div>`
+        // } 
+        //의자
+        // if (temp.chair.length > 0 &&  temp.chair[1]){
+        //   detail+= `<div>의자 : ${temp.chairCount}(${temp.chair.join(",")})</div>`
+        // } 
 
         if( detail) {
           detailVal = `<div>가구</div>`+ detail
@@ -587,14 +619,18 @@ export default {
         if (temp.fridge.length > 0 &&  temp.fridge[1]){
           detail+= `<div>냉장고 : ${temp.fridgeCount}(${temp.fridge.join(",")})</div>`
         } 
-        //유모차
+        //전자레인지
         if (temp.trolley.length > 0 &&  temp.trolley[1]){
-          detail+= `<div>유모차 : ${temp.trolleyCount}(${temp.trolley.join(",")})</div>`
+          detail+= `<div>전자레인지 : ${temp.trolleyCount}(${temp.trolley.join(",")})</div>`
         } 
-
-        // if (temp.etcName.length > 0 &&  temp.etcSize[0]){
-        //   detail+= `<div>유모차 : ${temp.etcName}(${temp.etcSize.join(",")})</div>`
-        // }
+        //에어컨
+        // if (temp.aircon.length > 0 &&  temp.aircon[1]){
+        //   detail+= `<div>에어컨 : ${temp.airconCount}(${temp.aircon.join(",")})</div>`
+        // } 
+        //세탁기
+        // if (temp.laundry.length > 0 &&  temp.laundry[1]){
+        //   detail+= `<div>세탁기 : ${temp.laundryCount}(${temp.laundry.join(",")})</div>`
+        // } 
 
         if( detail) {
           detailVal += `<div>가전</div>`+ detail
@@ -617,81 +653,88 @@ export default {
         return detailVal;
       },
 
+      //2차견적으로 업데이트
       sendSecondEstimate: function () {
-        //2차견적으로 업뎃
-
 
         console.log('2차 가격 : ',document.querySelector("#secondPrice").value);
         console.log('2차 타입 : ',document.querySelector("#secondType").value);
-
         this.selectData.reservStatus = "2";
-
-
+        //Form data로 보내기
         var formData = new FormData(document.querySelector('#secondForm'));
-
         formData.forEach((value,key)=>{
           console.log('aa', value);
         })
-        console.log("견적번호: " + this.selectData.estimateNo);
-        console.log("회원: " + this.selectData.email);
-        console.log("1차견적가격: " + this.selectData.firstEstimatePrice);
-        console.log("1차견적타입: " + this.selectData.estimateType);
-        console.log("2차견적가격: " ,document.querySelector("#secondPrice").value);
-        console.log("2차견적타입: " ,document.querySelector("#secondType").value);
-        console.log("견적상태: " + this.selectData.reservStatus);
-        console.log("업체명: " + this.selectData.compName);
-        console.log("견적어필: " + this.selectData.responseMemo);
-
-        this.$axios({
-          url: "/zippy/move/moveEstimateUpdate",
-          method: "POST",
-         
-          params:{
-            estimateNo : this.selectData.estimateNo,
-            secondEstimateType :document.querySelector("#secondType").value,
-            secondEstimatePrice : document.querySelector("#secondPrice").value
-          },
-          // data: formData
-        }).then(res => {
-          console.log(res);
-          alert("견적서 보내기 완료!");
-          
-
-        }).catch(err => {
-          console.log(err)
-        })
-        
-
-        
-            //견적상태변경
-            this.$axios({
-            url: "/zippy/move/moveStatusSecondUpdate",
-            method: "POST",
-          
-            params:{
-              estimateNo : this.selectData.estimateNo,
-              email : this.selectData.email,
-              reservStatus : 2
-            },
-            // data: formData
-          }).then(res => {
-            console.log(res);
-            alert("견적서 보내기 완료!");
-            this.closeReview();
-
-          }).catch(err => {
-            console.log(err)
-          })
-
+        //2차견적 보내기
+        swal.fire({
+            title: '최종견적 입력정보를 확인해주세요.',
+            text: "견적가를 더이상 수정할 수 없습니다. 이대로 견적서를 보내시겠습니까?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#96e5b8',
+            cancelButtonColor: '#a9a9a9',
+            confirmButtonText: 'YES'
+          }).then((result) => {
+            if (result.isConfirmed){
+                this.$axios({
+                  url: "/zippy/move/moveEstimateUpdate",
+                  method: "POST",
+                  params:{
+                    estimateNo : this.selectData.estimateNo,
+                    secondEstimateType :document.querySelector("#secondType").value,
+                    secondEstimatePrice : document.querySelector("#secondPrice").value
+                  },
+                }).then(res => {
+                  console.log(res);
+                }).catch(err => {
+                  console.log(err)
+                })
+                    //견적상태변경=> 2로 변경
+                    this.$axios({
+                    url: "/zippy/move/moveStatusSecondUpdate",
+                    method: "POST",
+                    params:{
+                      estimateNo : this.selectData.estimateNo,
+                      email : this.selectData.email,
+                      reservStatus : 2
+                    },
+                  }).then(res => {
+                    console.log(res);
+                    swal.fire("견적서 보내기 완료!");
+                    this.closeReview();
+                  }).catch(err => {
+                    console.log(err)
+                  })
+                }
+              })    
       }
     }
   }
 </script>
 
 <style scoped>
+ @font-face {
+    font-family: 'GmarketSans';
+    font-weight: 500;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot?#iefix') format('embedded-opentype'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff') format('woff'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.ttf') format("truetype");
+    font-display: swap;
+} 
+* {
+  font-family: 'GmarketSans';
+}
+
+.result-wrap{
+    margin-left: 150px;
+  }
   .move-main-title {
     margin: 50px;
+    padding: 70px 100px 30px 100px;
   }
+
 
   .panel {
     margin: 100px;

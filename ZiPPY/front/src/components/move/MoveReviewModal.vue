@@ -1,10 +1,6 @@
 <template>
   <v-dialog v-model="dialog" persistent :retain-focus="false" max-width="500px">
     <template v-slot:activator="{ on, attrs }">
-      <!-- <v-btn  v-if="this.reservStatus == 5" id="reviewBtn" depressed color=#B3E3C3 v-bind="attrs" v-on="on" width="100px">
-        후기작성
-      </v-btn>
-       -->
       <div>
       <v-btn v-if="reservStatus == 5" id="reviewBtn" depressed color=#B3E3C3 width="100px" v-bind="attrs" v-on="on">
         후기작성
@@ -16,11 +12,7 @@
 
     </template>
     <div v-if="list.userEmail == this.$store.state.loginInfo.email">
-                  
-      
-    
                   <v-card>
-    
                       <v-card-title>
                           <span class="text-h6">견적정보</span>
                       </v-card-title>
@@ -34,10 +26,7 @@
                           <div v-if="list.secondEstimateType != null">
                               <div><span>견적타입 : {{list.secondEstimateType}}</span></div>
                           </div>
-    
-                      </v-card-text>
-    
-                      <hr />
+                      </v-card-text><hr />
     
                       <v-card-title>
                           <span class="text-h6">이사후기</span>
@@ -185,6 +174,7 @@ import swal from 'sweetalert2';
         },
         async created() {
             var outside = this.list;
+            //견적정보 가져오기
             let res =  await axios({
                     url: "/zippy/move/moveMyListOne",
                     methods: "GET",
@@ -196,14 +186,8 @@ import swal from 'sweetalert2';
                         reservStatus : this.reservStatus
                     }
             });
-
             this.list = res.data;
             this.pageCount = res.data.pages;
-            
-            console.log("res", res);
-            console.log(res.data);
-            console.log("list!!!!!!!", this.list);
-
         },
 
         methods: {
@@ -234,67 +218,70 @@ import swal from 'sweetalert2';
                             Number(this.rate3) +
                             Number(this.rate4)) / 4
 
-                    //리뷰등록        
-                    axios({
-                        url: "/zippy/common/addRv",
+                    //리뷰등록
+                    
+                    swal.fire({
+                        title: '리뷰작성',
+                        text: "후기를 등록하시겠습니까?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#96e5b8',
+                        cancelButtonColor: '#a9a9a9',
+                        confirmButtonText: 'YES'
+                    }).then((result) => {
+                    if (result.isConfirmed){
+
+                        axios({
+                            url: "/zippy/common/addRv",
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            data: {
+                                email: this.$store.state.loginInfo.email,
+                                reviewTitle: 0,
+                                reviewContent: this.reviewContent,
+                                serviceType: 3,
+                                serviceId: this.list.email,
+                                viewCnt: 0,
+                                totalRating: this.totalRating,
+                                rate1: this.rate1,
+                                rate2: this.rate2,
+                                rate3: this.rate3,
+                                rate4: this.rate4,
+                                reviewStatus : 1
+                            }
+                        }).then(res => {
+                            console.log(res);
+                            swal.fire({
+                                icon: 'success',
+                                title: '리뷰가 등록되었습니다.',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            
+                            //모달창 닫기
+                        this.closeReview();
+                        this.orderStatus = 2;
+                            //견적상태변경(작성완료로 변경 : 9)
+                        this.$axios({
+                        url: "/zippy/move/moveStatusCancleUpdate",
                         method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
+                        params: {
+                            movingResponseNo : i
                         },
-                        data: {
-                            email: this.$store.state.loginInfo.email,
-                            reviewTitle: 0,
-                            reviewContent: this.reviewContent,
-                            serviceType: 3,
-                            serviceId: this.list.email,
-                            viewCnt: 0,
-                            totalRating: this.totalRating,
-                            rate1: this.rate1,
-                            rate2: this.rate2,
-                            rate3: this.rate3,
-                            rate4: this.rate4,
-                            reviewStatus : 1
-                        }
-                    }).then(res => {
+                        }).then(res => {
                         console.log(res);
-                        swal.fire({
-                            icon: 'success',
-                            title: '리뷰가 등록되었습니다.',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                        
-                        //모달창 닫기
-                    this.closeReview();
-                    this.orderStatus = 2;
-                    //this.$emit('orderStatus', 2)
-
-                    //견적상태변경(작성완료로 변경)
-                this.$axios({
-                url: "/zippy/move/moveStatusCancleUpdate",
-                method: "POST",
-
-                params: {
-                    movingResponseNo : i
-
-                },
-                // data: formData
-                }).then(res => {
-                console.log(res);
-
-                alert("견적상태변경 완료!");
-                window.location.assign('move/moveMyReserve');
-
-                }).catch(err => {
-                console.log(err)
-                })
-
-                    }).catch(error => {
-                        console.log(error);
+                        window.location.assign('mypage/move/moveMyReserve');
+                        }).catch(err => {
+                        console.log(err)
+                        })
+                     }).catch(error => {
+                                console.log(error);
                     })
-                }
-                
-                
+                 }
+            })
+        }   
             },
 
 
@@ -304,7 +291,20 @@ import swal from 'sweetalert2';
 </script>
 
 <style scoped>
-
+  @font-face {
+    font-family: 'GmarketSans';
+    font-weight: 500;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot?#iefix') format('embedded-opentype'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff') format('woff'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.ttf') format("truetype");
+    font-display: swap;
+} 
+* {
+  font-family: 'GmarketSans';
+}
 .v-btn {
     font-weight: bold;
   }

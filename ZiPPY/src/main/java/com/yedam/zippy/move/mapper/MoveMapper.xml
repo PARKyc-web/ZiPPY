@@ -245,10 +245,7 @@
 		SELECT *
 		FROM untact_estimate_moving
 		WHERE request_date LIKE '%'||'2'||'%'
-		
-		<!-- SELECT m.*, r.reserv_status
-		FROM untact_estimate_moving m, moving_response r
-		WHERE m.estimate_no = r.estimate_no -->
+
 		<if test="dropbox2 == '내 지역만 조회'">
 		AND SUBSTR(depart_address, 1, 2) LIKE 
 				'%'|| (SELECT SUBSTR(comp_address, 1,2) 
@@ -256,10 +253,6 @@
 					   WHERE email = #{email}) || '%'
 		</if>
 		
-		<!-- AND estimate_type LIKE '%'||#{estimateType}||'%' -->
-		<!-- <if test="dropbox == '전체조회'">	
-		
-		</if> -->	
 		<if test="dropbox == '대면견적'">
 		AND estimate_type = '대면견적'
 		</if>
@@ -328,18 +321,7 @@
 	</select>
 	
 	<!-- 받은 견적 확인 -->
-	<select id="getMyEstimateList" parameterType="MoveMyListVO" resultType="MoveMyListVO">
-		<!-- SELECT m.email user_email, r.*, b.comp_intro, b.phone, b.comp_address, (SELECT AVG(total_rating)
-		FROM review_board
-		WHERE service_type = 3
-		AND service_id = r.email) total_rating
-		FROM untact_estimate_moving m JOIN moving_response r
-		ON (m.estimate_no = r.estimate_no)
-		JOIN business b
-		ON (r.comp_name = b.comp_name)
-		WHERE r.estimate_no = #{estimateNo}
-		AND m.email = 'zippy@naver.com' -->
-		
+	<select id="getMyEstimateList" parameterType="MoveMyListVO" resultType="MoveMyListVO">	
 		SELECT m.email user_email, m.request_date, r.*, b.comp_intro, b.phone, b.comp_address, (SELECT AVG(total_rating)
 		FROM review_board
 		WHERE service_type = 3
@@ -382,7 +364,6 @@
 	<!-- 사용자가 예약 조회 -->
 	<select id="moveReserve" parameterType="MoveMyListVO" resultType="MoveMyListVO">
 		
-		
 		SELECT m.email user_email, m.request_date, r.*, b.comp_intro, b.phone, b.comp_address, (SELECT AVG(total_rating)
 		FROM review_board
 		WHERE service_type = 3
@@ -417,10 +398,10 @@
 		AND service_id = b.email) total_rating
 		FROM business b
 		WHERE b.member_type = 3
-		<if test="dropbox == '평점순'">
+		<if test="dropbox2 == '평점순'">
 		ORDER BY total_rating DESC
 		</if>
-		<if test="dropbox == '지역순'">
+		<if test="dropbox2 == '지역순'">
 		ORDER BY SUBSTR(b.comp_address, 1, 2)
 		</if>
 	</select>
@@ -435,17 +416,6 @@
 		WHERE b.member_type = 3
         AND b.email = #{email} 
         
-        <!-- SELECT m.email user_email, m.request_date, r.*, b.comp_intro, b.phone, b.comp_address, (SELECT AVG(total_rating)
-		FROM review_board
-		WHERE service_type = 3
-		AND service_id = r.email) total_rating
-		FROM untact_estimate_moving m JOIN moving_response r
-		ON (m.estimate_no = r.estimate_no)
-		JOIN business b
-		ON (r.comp_name = b.comp_name)
-		WHERE m.email = #{userEmail}
-        ORDER BY m.estimate_no DESC
-        ORDER BY m.estimate_no DESC -->
 		<if test="dropbox == '평점순'">
 		ORDER BY total_rating DESC
 		</if>
@@ -473,6 +443,7 @@
 		ON (r.service_id = b.email)
 		WHERE r.service_type=3 
 		AND r.service_id = #{serviceId}
+		ORDER BY review_no DESC
 	</select>
 	
 	<!-- 리뷰개수 -->
