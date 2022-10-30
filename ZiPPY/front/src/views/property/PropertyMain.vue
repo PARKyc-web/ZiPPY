@@ -17,8 +17,9 @@
                       style="width: 90%; height: 100%; margin-left: 15px" /></td>
                   <td style="width: 55%;">
                     <v-row align="center" class="mx-0">
-                      <div >
-                        <v-chip class="ma-2" color="green lighten-2" small outlined style="left: -10px; top: 10px"> 매물번호 {{item.productId}} </v-chip>
+                      <div>
+                        <v-chip class="ma-2" color="green lighten-2" small outlined style="left: -10px; top: 10px"> 매물번호
+                          {{item.productId}} </v-chip>
                       </div>
                     </v-row>
                     <v-card-title style="font-weight: bold;">{{item.saleType}} {{item.price | oneHundredMillion}}
@@ -225,14 +226,13 @@
 
         var markers = [];
 
-        let address = [];
-        for (let i = 0; i < this.streetAddress.length; i++) {
-          address[i] = '' + this.streetAddress[i].sigungu + this.streetAddress[i].streetAddress;
-        }
+        let address = '';
 
         for (let i = 0; i < this.streetAddress.length; i++) {
-          // 주소로 좌표를 검색합니다
-          geocoder.addressSearch(address[i], function (result, status) {
+          address = this.streetAddress[i].sigungu + this.streetAddress[i].streetAddress;
+
+          // 주소로 좌표 검색
+          geocoder.addressSearch(address, function (result, status) {
             // 정상적으로 검색이 완료됐으면 
             if (status === kakao.maps.services.Status.OK) {
               var marker = new kakao.maps.Marker({
@@ -247,43 +247,44 @@
         function makeClusterer() {
           // 클러스터러에 마커들을 추가합니다
           clusterer.addMarkers(initThis.markers);
+          console.log(initThis.markers.length);
+          console.log(initThis.streetAddress.length);
         }
 
         let setClusterer = setInterval(function () {
           makeClusterer();
           if (initThis.markers.length == initThis.streetAddress.length) {
+            console.log('끝');
             clearInterval(setClusterer)
           };
-        }, 100);
+        }, 300);
 
-        // 마커 클러스터러에 클릭이벤트를 등록합니다
-        // 마커 클러스터러를 생성할 때 disableClickZoom을 true로 설정하지 않은 경우
-        // 이벤트 헨들러로 cluster 객체가 넘어오지 않을 수도 있습니다
+
+        /** Parameters
+         * target EventTarget : 이벤트를 지원하는 다음 지도 API 객체
+         * type String : 이벤트 이름
+         * handler Function : 이벤트를 처리할 함수
+         */
         kakao.maps.event.addListener(clusterer, 'clusterclick', function (cluster) {
-          
+
           // 현재 지도 레벨에서 1레벨 확대한 레벨
           var level = map.getLevel() - 1;
 
+          // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대
+          map.setLevel(level, {
+            anchor: cluster.getCenter()
+          });
 
-          //////////////////// 여기서 get center 를 이용해서 시군구 구한 다 음,  그 정보를 넘겨주기
           var callback = function (result, status) {
             if (status === kakao.maps.services.Status.OK) {
               // console.log('지역 명칭 : ' + result[0].address_name);
-              // console.log('행정구역 코드 : ' + result[0].code);
-              // console.log("지역 명칭 및 해정구역 코드: ", initThis.sigungu);
-              // initThis.getPropertyList(result[0].address_name);
               initThis.initData.sigungu = result[0].address_name;
               initThis.searchPropertyList(initThis.initData);
             }
           };
 
+          // 클러스터의 중심 좌표 값에 해당하는 행정동, 법정동 정보를 얻는다.
           geocoder.coord2RegionCode(cluster.getCenter().La, cluster.getCenter().Ma, callback);
-
-          // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다
-          map.setLevel(level, {
-            anchor: cluster.getCenter()
-          });
-
         });
       },
       getPropertyList(sigungu) {
