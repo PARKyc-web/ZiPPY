@@ -108,7 +108,6 @@
       }
     },
     created() {
-      console.log(this.initData.houseType);
       axios({
           url: "/zippy/property/main",
           method: "GET",

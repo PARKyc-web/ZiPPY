@@ -82,7 +82,7 @@
           <h4 class="title">위치 및 주변 시설</h4>
           <div class="contents" style="height: 550px">
             <p>{{this.houseDetail[0].sigungu}} {{this.houseDetail[0].streetAddress}}</p>
-            <categoty-map :address="houseDetail[0].streetAddress" :name="houseDetail[0].houseName"></categoty-map>
+            <categoty-map :address="houseDetail[0].sigungu+houseDetail[0].streetAddress" :name="houseDetail[0].houseName"></categoty-map>
           </div>
           <hr>
         </article>
