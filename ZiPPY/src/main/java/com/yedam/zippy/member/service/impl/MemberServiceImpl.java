@@ -17,9 +17,7 @@ import com.yedam.zippy.member.service.MemberService;
 
 @Service
 public class MemberServiceImpl implements MemberService{
-    
-    private final String imageFolder = "D:/businessImage";  
-  
+        
     @Autowired
     MemberMapper mapper;    
     
@@ -28,31 +26,23 @@ public class MemberServiceImpl implements MemberService{
     
     @Override
     public Object login(LoginVO login) {      
-      // login table에서 정보 가져오기
       LoginVO loginInfo = mapper.getLoginInfo(login.getEmail());
       
       if(loginInfo == null) {
         return null;
       }
       
-      // 들어온 비밀번호를 Encode >> 같은가?
-      String password = encodingPassword(login.getPassword());     
-      
-      // 로그인정보에서 비밀번호가 같다면? > 멤버타입을 확인
-      if(loginInfo.getPassword().equals(password)) {
-        
-        // 멤버타입이 0이라면 generalUser table에 email로 가져오고 return
+      String password = encodingPassword(login.getPassword());   
+      if(loginInfo.getPassword().equals(password)) {        
         if(loginInfo.getMemberType() == 0) {          
           return mapper.getGeneralUser(login.getEmail());
           
         }else if(loginInfo.getMemberType() == 1){
-          // 멤버타입이 1이라면 business table에서 email로 가져오고 return    
           return mapper.getBusinessUser(login.getEmail());          
           
         }else {
           return null;
-        }
-        
+        }        
       }else {        
         return null;
       }
@@ -97,17 +87,11 @@ public class MemberServiceImpl implements MemberService{
         
         if(bVO.getMemberType() == 0) {          
           brokerIdImage = commonService.saveImage(images.get(1), "member");
-        }
+        }                
         
-        System.out.println("=== 사진의 경로!! ");
-        System.out.println("사업자등록증 >> " + businessIdImage);
-        System.out.println("중개등록사업자 사진 >> " + brokerIdImage);        
-        
-        // 경로 세팅
         bVO.setBusinessImg(businessIdImage);
         bVO.setBrokerImg(brokerIdImage);        
         
-        // 비지니스 테이블에 데이터 저장        
         mapper.insertBusinessMember(bVO);
     }   
     
@@ -164,10 +148,8 @@ public class MemberServiceImpl implements MemberService{
     
     
     @Override
-    public boolean changePassword(LoginVO info, String password) {
-      
+    public boolean changePassword(LoginVO info, String password) {      
       LoginVO lVO = mapper.getLoginInfo(info.getEmail());      
-      // 기존 패스워드가 같다면
       
       if(lVO.getPassword().equals(encodingPassword(info.getPassword()))) {        
         info.setPassword(encodingPassword(password));

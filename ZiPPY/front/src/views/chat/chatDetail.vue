@@ -143,8 +143,7 @@ var reconnect = 0;
               roomId: this.$route.query.roomId
             }
           });
-          this.messages = temp.data;
-          console.log(this.messages);          
+          this.messages = temp.data;                   
         },        
 
         connect : function(){

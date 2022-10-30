@@ -159,9 +159,7 @@ export default {
               params : {
                 phone : number
               }
-
-            }).then(res => {
-              console.log(res);
+            }).then(res => {              
               phone_code = res.data;
 
             }).catch(error =>{

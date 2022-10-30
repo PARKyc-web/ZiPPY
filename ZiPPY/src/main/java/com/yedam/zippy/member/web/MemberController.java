@@ -29,13 +29,12 @@ public class MemberController {
     MemberService service;
   
     @PostMapping("/login")
-    public Object login(@RequestBody LoginVO login) {
-      System.out.println(login);
+    public Object login(@RequestBody LoginVO login) {      
       return service.login(login);
     }
   
     @PostMapping("/gSignUp")
-    public String generalSignUp(LoginVO login, GeneralUserVO gVO) {
+    public String generalSignUp(LoginVO login, GeneralUserVO gVO) {      
       service.signGeneralMember(login, gVO);
       
       return "Congratulations";

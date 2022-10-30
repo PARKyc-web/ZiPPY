@@ -42,7 +42,11 @@ import lombok.RequiredArgsConstructor;
 public class ChatController {
    
     private final ChatService service;
-     
+    
+    private final String chatFolder = "C:/dev/chat/";
+//    private final String chatFolder = "/home/chat";
+    
+    
     // 모든 채팅방 목록 반환
     @GetMapping("/room")
     public List<ChatRoomName> getRooms(String email){
@@ -67,8 +71,7 @@ public class ChatController {
     
     // 채팅방 생성
     @PostMapping("/room")
-    public int createChatRoom(@RequestBody ChatRoomVO vo) {
-      System.out.println(vo);
+    public int createChatRoom(@RequestBody ChatRoomVO vo) {      
       service.createChatRoom(vo);
       return vo.getChatRoomNo();
     }    
@@ -82,18 +85,17 @@ public class ChatController {
     @GetMapping("txtFile/{id}")
     public void getTxtFile(HttpServletResponse response, @PathVariable int id) throws Exception {      
       try {
-        String path = "C:/dev/chat/roomNum" + id + ".txt"; // 경로에 접근할 때 역슬래시('\') 사용    
+        String path = chatFolder + "roomNum" + id + ".txt";    
         
         File file = new File(path);
-        response.setHeader("Content-Disposition", "attachment;filename=" + file.getName()); // 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를
-                                                                                            // 알려주는 헤더
+        response.setHeader("Content-Disposition", "attachment;filename=" + file.getName());                                                                                           
 
-        FileInputStream fileInputStream = new FileInputStream(path); // 파일 읽어오기
+        FileInputStream fileInputStream = new FileInputStream(path);
         OutputStream out = response.getOutputStream();
 
         int read = 0;
         byte[] buffer = new byte[1024];
-        while ((read = fileInputStream.read(buffer)) != -1) { // 1024바이트씩 계속 읽으면서 outputStream에 저장, -1이 나오면 더이상 읽을 파일이 없음
+        while ((read = fileInputStream.read(buffer)) != -1) {
           out.write(buffer, 0, read);
         }
 
@@ -104,20 +106,20 @@ public class ChatController {
     
     @GetMapping("pdfFile/{id}")
     public void getPdfFile(HttpServletResponse response, @PathVariable int id) throws Exception {
-      txtTOpdf(id);
+      txtToPdf(id);
       try {        
-        String path = "C:/dev/chat/chatLog" + id + ".pdf"; // 경로에 접근할 때 역슬래시('\') 사용    
+        String path = chatFolder + "chatLog" + id + ".pdf";    
         
         File file = new File(path);
-        response.setHeader("Content-Disposition", "attachment;filename=" + file.getName()); // 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를
-                                                                                            // 알려주는 헤더
+        response.setHeader("Content-Disposition", "attachment;filename=" + file.getName());
+                                                                                           
 
-        FileInputStream fileInputStream = new FileInputStream(path); // 파일 읽어오기
+        FileInputStream fileInputStream = new FileInputStream(path);
         OutputStream out = response.getOutputStream();
 
         int read = 0;
         byte[] buffer = new byte[1024];
-        while ((read = fileInputStream.read(buffer)) != -1) { // 1024바이트씩 계속 읽으면서 outputStream에 저장, -1이 나오면 더이상 읽을 파일이 없음
+        while ((read = fileInputStream.read(buffer)) != -1) {
           out.write(buffer, 0, read);
         }
 
@@ -126,22 +128,16 @@ public class ChatController {
       }
     }    
     
-    private void txtTOpdf(int id) {
+    private void txtToPdf(int id) {
       BufferedReader input = null;
       Document output = null;
-      System.out.println("Convert text file to pdf");
       
-      String path = "C:/dev/chat/roomNum" + id + ".txt"; // 경로에 접근할 때 역슬래시('\') 사용   
-      String outFile = "C:/dev/chat/chatLog" + id + ".pdf"; // 경로에 접근할 때 역슬래시('\') 사용
+      String path = chatFolder + "roomNum" + id + ".txt";   
+      String outFile = chatFolder + "chatLog" + id + ".pdf";
       File file = new File(path);
       try {
-        // text file to convert to pdf as args[0]
-        input = 
-          new BufferedReader (new FileReader(file));
-        // letter 8.5x11
-        //    see com.lowagie.text.PageSize for a complete list of page-size constants.
+        input = new BufferedReader (new FileReader(file));
         output = new Document(PageSize.LETTER, 40, 40, 40, 40);
-        // pdf file as args[1]
         PdfWriter.getInstance(output, new FileOutputStream (outFile));
 
         output.open();
@@ -154,12 +150,10 @@ public class ChatController {
         
         String line = "";
         while(null != (line = input.readLine())) {
-          System.out.println(line);
           Paragraph p = new Paragraph(line, objFont);
           p.setAlignment(Element.ALIGN_JUSTIFIED);          
           output.add(p);
         }
-        System.out.println("Done.");
         output.close();
         input.close();        
       }

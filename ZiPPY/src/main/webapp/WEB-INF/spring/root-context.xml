@@ -4,15 +4,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-		
-		<!-- navermail설정 -->
+				
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
-	     <property name="host" value="smtp.naver.com"/> <!-- 메일서버 호스트 -->
-	     <property name="port" value="465"/> <!-- 메일서버 포트번호 -->
+	     <property name="host" value="smtp.naver.com"/>
+	     <property name="port" value="465"/>
 	     <property name="username" value="zippynotice@naver.com" />
 	     <property name="password" value="zippy123123" />
-	     
-   		 <!-- 보안연결 SSL과 관련된 설정 -->	
+	        		 
 	     <property name="javaMailProperties">
 		      <props>
 			      <prop key="mail.smtp.auth">true</prop>
