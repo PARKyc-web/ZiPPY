@@ -7,13 +7,20 @@
       <div class="move-main-title">
         <h3>보낸 견적요청 조회</h3>
       </div>
-    
+        <!-- 드롭박스 -->
       <div id="used-main-dropbox">
           <v-select @change="dropVal()" v-model="select" :items="items" item-text="name" item-value="value" label="보기정렬"
-            color="#212529" persistent-hint single-line dense width="50"></v-select>
+            color="#212529" class="drop-size" persistent-hint single-line dense width="50"></v-select>
       </div>
 
       <hr />
+
+      <div id="noProduct" class="mx-auto" v-if="list.length == 0" style="text-align:center">
+      <v-icon style="font-size:100px; color:#B3E3C3" class="mb-5">mdi-alert-circle-outline</v-icon>
+      <h2 style="font-weight:bold">아직 요청한 견적내역이 없습니다.</h2>
+    </div>
+
+
     <div class="panel">
       <v-expansion-panels>
         <v-expansion-panel
@@ -23,14 +30,15 @@
             <span>NO.{{item.estimateNo}}</span>  &nbsp;&nbsp;&nbsp; 견적요청일 : <span>{{item.requestDate}}</span>&nbsp;&nbsp;&nbsp; 견적 방법 : <span>{{item.estimateType}}</span>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
+            <div class="info">
             <div >이사 종류 : <span>{{item.moveType}}</span></div>
             <div >이사희망일 : <span>{{item.movingDate}}</span></div>
             <div >이사희망시간 : <span>{{item.movingTime}}</span></div>
-            <div >출발지 주소 : <span>{{item.departZipCode}}</span> <br><span>{{item.departAddress}}</span> <span>{{item.departDetail}}</span></div>
-            <div >도착지 주소 : <span>{{item.arriveZipCode}}</span> <br><span>{{item.arriveAddress}}</span> <span>{{item.arriveDetail}}</span></div>
-            <div> 이사 정보 : <span v-html="par(item.commonOption)"></span></div>
+            <div >출발지 주소 : <span>(우편){{item.departZipCode}}</span>    <span>{{item.departAddress}}</span> <span>{{item.departDetail}}</span></div>
+            <div >도착지 주소 : <span>(우편){{item.arriveZipCode}}</span>    <span>{{item.arriveAddress}}</span> <span>{{item.arriveDetail}}</span></div>
+            <div> 이사 정보 : <div class="move-info"><span v-html="par(item.commonOption)"></span></div></div>
             <div v-if="item.estimateType == '비대면견적'">
-            <div >이삿짐 정보 :<span v-html="my(item.movingOption)"></span></div>
+            <div >이삿짐 정보 : <div class="move-info"><span class="move-info" v-html="my(item.movingOption)"></span></div></div>
             </div>  
      
             <div v-if="item.movingMemo != null">
@@ -41,46 +49,39 @@
             <div >견적 방문희망시간 : <span>{{item.visitTime}}</span></div>
             </div>
             <div v-if="item.estimateType == '비대면견적'" id="imgPanel">
-            <!-- <div >이미지 : <span>{{item.moveImage}}</span> -->
-             
-             <!-- 펼치기 -->
-
-              <v-card-actions>
-
+            </div> 
+            
+            <div v-if="item.estimateType == '비대면견적'">
+          
+          <!-- 이미지 펼치기 -->
+          <v-card-actions>
             <v-spacer></v-spacer>
-                <v-label >방사진보기</v-label> <v-btn
-              icon
-              @click="show = !show"
-            >
-              <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            </v-btn>
+                <v-label >방사진보기</v-label> 
+                  <v-btn icon @click="show = !show">
+                    <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                  </v-btn>
           </v-card-actions>
 
           <v-expand-transition>
             <div v-show="show">
               <v-divider></v-divider>
-
-              <div id="showImg">
-              방입구
-              <div v-for="img in photoList">
-                <img v-if="img.estimateNo == item.estimateNo && img.imgType ==1" 
-                :src="'/zippy/common/img/move/' + img.houseImg"/>
-              </div>
-
-              방중앙
-              <div v-for="img in photoList">
-                <img v-if="img.estimateNo == item.estimateNo && img.imgType ==2" 
-                :src="'/zippy/common/img/move/' + img.houseImg"/>
-              </div>
-
-              내부
-              <div v-for="img in photoList">
-                <img v-if="img.estimateNo == item.estimateNo && img.imgType ==3" 
-                :src="'/zippy/common/img/move/' + img.houseImg"/>
-              </div>
-            </div>
+                <div id="showImg">
+                  방입구<div v-for="img in photoList">
+                          <img v-if="img.estimateNo == item.estimateNo && img.imgType ==1" 
+                          :src="'/zippy/common/img/move/' + img.houseImg"/>
+                        </div>
+                  방중앙 <div v-for="img in photoList">
+                          <img v-if="img.estimateNo == item.estimateNo && img.imgType ==2" 
+                          :src="'/zippy/common/img/move/' + img.houseImg"/>
+                        </div>
+                  내부 <div v-for="img in photoList">
+                          <img v-if="img.estimateNo == item.estimateNo && img.imgType ==3" 
+                          :src="'/zippy/common/img/move/' + img.houseImg"/>
+                        </div>
+                </div>
             </div>
           </v-expand-transition>
+          </div>
           </div>
 
 
@@ -125,6 +126,7 @@ export default {
       //
       photoList:[],
       list : [],
+      length: "",
       vo : {
         email : "",
         requestDate : "",
@@ -145,6 +147,7 @@ export default {
     }
   },
   mounted(){
+    //사용자가 자신이 보낸 견적요청 확인하기
     axios({
           url: "/zippy/move/moveResult",
           methods: "GET",
@@ -175,20 +178,19 @@ export default {
         })
   },
   methods : {
-  
+    //드롭박스 데이터 가져오기
     dropVal: function () {
         var dropValue = this.select;
-        console.log(dropValue);
-        console.log(this.email);
+        
         axios({
           url: "/zippy/move/moveResult",
           methods: "GET",
+          //필요한 정보
           params: {  
             dropbox : dropValue,
             email : this.$store.state.loginInfo.email,
             requestDate : this.vo.requestDate,
-            estimateType : this.vo.estimateType,
-            
+            estimateType : this.vo.estimateType,  
           }
         }).then(res => {
           console.log(res);
@@ -200,15 +202,11 @@ export default {
       },
 
         par : function(string){
-          // var data = '{"bedCount":2,"bed":["","싱글","슈퍼싱글"],"sofaCount":1,"sofa":[""],"closetCount":1,"closet":[""],"closetsCount":1,"closets":[""],"tvCount":1,"tv":[""],"pcCount":1,"pc":[""],"fridgeCount":1,"fridge":[""],"trolleyCount":1,"trolley":[""],"etcCount":1,"etcName":[""],"etcSize":[""],"box":"16-20개","filesPhoto":""}';
+            //Json String 형태로 한 컬럼에 집어넣었던 데이터를 꺼내서 파싱
           var temp = JSON.parse(string);
-          console.log( "parse : "+temp);
-          console.log(temp.bedCount);
-         
-
-          var detailVal = ''; 
+            //파싱하여 쪼갠 데이터 담을 변수선언
           var detail = '';
-
+            //데이터 내의 필요한 정보들을 이름으로 꺼내어 담기
           detail += `<div>주거형태 : ${temp.houseType}</div>`
           detail += `<div>방구조 : ${temp.roomNum}</div>`
           detail += `<div>집 평수 : ${temp.spaceOfHome}</div>`
@@ -219,19 +217,8 @@ export default {
           detail += `<div>엘레베이터 : ${temp.elevator}</div>`
           detail += `<div>주차가능 여부 : ${temp.parkable}</div>`
 
-          // detailVal = `<div>회원의 이사 기본 정보</div>` + detail;
-
           return detail;
-
         },
-      my : function(string){
-      
-
-        var temp= JSON.parse(string);
-        console.log('파싱 : ',temp);
-        console.log(temp.bedCount);
-        var bedTemp ='침대 개수 : '+ temp.bedCount + ', 침대 사이즈 : ' + temp.bed[0];
-        console.log(temp.closetCount);
 
         /*
           var fur = ['bed', 'sofa', 'closet', 'closets']
@@ -241,8 +228,10 @@ export default {
               detail+= `<div>침대 : ${temp[i +'Count']}(${temp[i].join(",")})</div>`
             } 
           }  
-        */
-
+        */        
+      my : function(string){
+          //Json String 형태로 담겨있던 데이터를 꺼내서 파싱
+        var temp= JSON.parse(string);
           //가구
         var detailVal = ''; 
         var detail = '';
@@ -258,10 +247,18 @@ export default {
         if (temp.closet.length > 0 &&  temp.closet[1]){
           detail+= `<div>옷장 : ${temp.closetCount}(${temp.closet.join(",")})</div>`
         } 
-        //옷장-연결장
+        //서랍장
         if (temp.closets.length > 0 &&  temp.closets[1]){
-          detail+= `<div>옷장-연결장 : ${temp.closetsCount}(${temp.closets.join(",")})</div>`
+          detail+= `<div>서랍장 : ${temp.closetsCount}(${temp.closets.join(",")})</div>`
         } 
+        //테이블/책상
+        // if (temp.table.length > 0 &&  temp.table[1]){
+        //   detail+= `<div>테이블/책상 : ${temp.tableCount}(${temp.table.join(",")})</div>`
+        // } 
+        //의자
+        // if (temp.chair.length > 0 &&  temp.chair[1]){
+        //   detail+= `<div>의자 : ${temp.chairCount}(${temp.chair.join(",")})</div>`
+        // } 
 
         if( detail) {
           detailVal = `<div>가구</div>`+ detail
@@ -281,14 +278,18 @@ export default {
         if (temp.fridge.length > 0 &&  temp.fridge[1]){
           detail+= `<div>냉장고 : ${temp.fridgeCount}(${temp.fridge.join(",")})</div>`
         } 
-        //유모차
+        //전자레인지
         if (temp.trolley.length > 0 &&  temp.trolley[1]){
-          detail+= `<div>유모차 : ${temp.trolleyCount}(${temp.trolley.join(",")})</div>`
+          detail+= `<div>전자레인지 : ${temp.trolleyCount}(${temp.trolley.join(",")})</div>`
         } 
-
-        // if (temp.etcName.length > 0 &&  temp.etcSize[0]){
-        //   detail+= `<div>유모차 : ${temp.etcName}(${temp.etcSize.join(",")})</div>`
-        // }
+        //에어컨
+        // if (temp.aircon.length > 0 &&  temp.aircon[1]){
+        //   detail+= `<div>에어컨 : ${temp.airconCount}(${temp.aircon.join(",")})</div>`
+        // } 
+        //세탁기
+        // if (temp.laundry.length > 0 &&  temp.laundry[1]){
+        //   detail+= `<div>세탁기 : ${temp.laundryCount}(${temp.laundry.join(",")})</div>`
+        // } 
 
         if( detail) {
           detailVal += `<div>가전</div>`+ detail
@@ -335,12 +336,34 @@ export default {
 </script>
 
 <style scoped>
-.imgPanel{
-  
+@font-face {
+    font-family: 'GmarketSans';
+    font-weight: 500;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot?#iefix') format('embedded-opentype'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff') format('woff'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.ttf') format("truetype");
+    font-display: swap;
+} 
+* {
+  font-family: 'GmarketSans';
+}
+
+.info{
+  margin: 20px 20px 20px 200px;
+}
+.move-info{
+  padding-left: 100px;
 }
 .move-main-title {
     margin: 50px;
   }
+.mx-auto{
+  margin-top: 200px;
+}
+
 .panel{
   margin: 100px;
 
@@ -349,7 +372,7 @@ export default {
   
     width: 100px;
     float: right;
-    margin-right: 100px;
+    margin: 50px 100px 0 100px;
   }
 span{
   font-weight: bold;

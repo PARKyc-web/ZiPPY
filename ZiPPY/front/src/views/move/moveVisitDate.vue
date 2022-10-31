@@ -23,13 +23,9 @@
           <b-time v-model="moveVisit.visitTime" locale="ko-KR" @context="onContext"></b-time>
         </b-col>
         <b-col>
-          <!-- v-if를 걸어서 널값일때는 시간 선택해달라고 안내문구 -->
-
-          <!-- <p>
+          <p>
             선택 시간: <b>{{ moveVisit.visitTime }}</b>
-          </p> -->
-          <!-- <p class="mb-0">Context:</p>
-      <pre v-if="context != null" class="small">{{ context.Value }}</pre> -->
+          </p>
         </b-col>
       </b-row>
     </div>
@@ -45,7 +41,7 @@
 </template>
 <script>
 import MoveNavBar from '@/components/move/MoveNavBar.vue';
-
+import swal from 'sweetalert2';
 export default {
   components: {
     MoveNavBar
@@ -108,22 +104,22 @@ export default {
       console.log(this.moveVisit);
       
       if(this.moveVisit.visitDate==""){
-        alert("견적 방문 희망 날짜를 선택해주세요.")
+        swal.fire("견적 방문 희망 날짜를 선택해주세요.")
       } else if(this.moveVisit.visitTime==""){
-        alert("견적 방문 희망 시간을 선택해주세요.")
+        swal.fire("견적 방문 희망 시간을 선택해주세요.")
       } 
       else{
-      this.$router.push({
-         
-          name : "moveContactCheck", 
-          params:{moveVisit: this.moveVisit,                                    
-                  moveEstimateType:this.moveEstimateType, 
-                  moveInfo : this.moveInfo,
-                  moveType:this.moveType,
-                  moveDate: this.moveDate, 
-                  moveAddress: this.moveAddress
-          }
-        })
+        this.$router.push({
+          
+            name : "moveContactCheck", 
+            params:{moveVisit: this.moveVisit,                                    
+                    moveEstimateType:this.moveEstimateType, 
+                    moveInfo : this.moveInfo,
+                    moveType:this.moveType,
+                    moveDate: this.moveDate, 
+                    moveAddress: this.moveAddress
+            }
+          })
       }  
     }
   },
@@ -131,6 +127,21 @@ export default {
 </script>
 
 <style scoped>
+  @font-face {
+    font-family: 'GmarketSans';
+    font-weight: 500;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot?#iefix') format('embedded-opentype'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff') format('woff'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.ttf') format("truetype");
+    font-display: swap;
+} 
+* {
+  font-family: 'GmarketSans';
+}
+
 .wrapper {
   width: 500px;
   text-align: center;

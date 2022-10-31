@@ -199,17 +199,17 @@ const routes = [
       },
       {
         path : "move/moveResult",
-        name : "mypage-wishList",
+        name : "mypage-moveResult",
         component : moveResult
       },
       {
         path : "move/moveMyList",
-        name : "mypage-wishList",
+        name : "mypage-moveMyList",
         component : moveMyList
       },
       {
         path : "move/moveMyReserve",
-        name : "mypage-wishList",
+        name : "mypage-moveMyReserve",
         component : moveMyReserve
       },
       {
@@ -279,6 +279,16 @@ const routes = [
         path : "/seller/SellerInsertProperty",
         name : "SellerInsertProperty",
         component : SellerInsertProperty
+      },
+      {
+        path : "/seller/move/moveEstimate",
+        name : "seller-moveEstimate",
+        component : moveEstimate
+      },
+      {
+        path : "/seller/move/moveCompanyMy",
+        name : "seller-moveCompanyMy",
+        component : moveCompanyMy
       }
     ]
   },
