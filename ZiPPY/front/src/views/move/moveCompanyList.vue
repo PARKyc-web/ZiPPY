@@ -12,7 +12,7 @@
         color="#212529" persistent-hint single-line dense width="50"></v-select>
     </div>
 
-    <div class="divv" v-for="item in list">
+    <div class="divv" v-for="(item, i) in list">
       <v-card :loading="loading" class="mx-auto my-12" max-width="374" elevation="10" >
         <template slot="progress">
           <v-progress-linear color="#B3E3C3" height="10" indeterminate></v-progress-linear>
@@ -38,7 +38,7 @@
         </v-card-text>
         <v-divider class="mx-4"></v-divider>      
         <v-card-actions>
-          <v-btn color="#B3E3C3 lighten-2" text @click="chat">
+          <v-btn color="#B3E3C3 lighten-2" text @click="chat(i)">
             채팅하기
           </v-btn>
           <v-btn color="#B3E3C3 lighten-2" text @click="goToCompany(item.email)">
@@ -131,30 +131,30 @@ export default {
         console.log(error);
       })
 
-      
-        //   axios({
-        //   url: "http://localhost:8090/zippy/move/moveRvCount",
-        //   methods: "GET",
-        //   params: {
-            
-        //     serviceId: this.list.email,
-
-        //   }
-        // }).then(res => {
-        //   console.log(res);
-        //   this.list = res.data;
-        // }).catch(error => {
-        //   console.log(error);
-        // })
-
 
     },
     methods: {
       //채팅하기
-      chat() {
+      async chat(num) {
+        var out = this;
         this.loading = true
-
         setTimeout(() => (this.loading = false), 2000)
+        var temp = await this.$axios({
+            url: "/zippy/chat/room",
+            method: "POST",
+            data: {
+              user1: this.$store.state.loginInfo.email,
+              user2: this.list[num].email,
+              chatType: 3
+            }
+          }).then(res => {
+            out.$router.push({
+              name: "chatDetail",
+              query: {
+                roomId: res.data
+              }
+            })
+          })
       },
       //후기보기
       goToCompany(email){

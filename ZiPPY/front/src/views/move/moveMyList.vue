@@ -96,7 +96,7 @@
               예약요청
             </v-btn>
 
-            <v-btn color="#B3E3C3 lighten-2" text @click="chat()">
+            <v-btn color="#B3E3C3 lighten-2" text @click="chat(i)">
               채팅하기
             </v-btn>
 
@@ -163,18 +163,18 @@
 
         vo:{
           userEmail: "",
-        email: "",
-        estimateNo: "",
-        movingResponseNo: "",
-        compName: "",
-        totalRating: "",
-        firstEstimatePrice: "",
-        firstEstimateType: "",
-        secondEstimatePrice: "",
-        secondEstimateType: "",
-        reservStatus: "",
-        serviceType: 3,
-        serviceId: "",
+          email: "",
+          estimateNo: "",
+          movingResponseNo: "",
+          compName: "",
+          totalRating: "",
+          firstEstimatePrice: "",
+          firstEstimateType: "",
+          secondEstimatePrice: "",
+          secondEstimateType: "",
+          reservStatus: "",
+          serviceType: 3,
+          serviceId: "",
         },
         bookmarkNo: "",
         selectData: {},
@@ -299,29 +299,27 @@
           })
         },
       //채팅
-      chat() {
+      async chat(num) {
         var out = this;
         this.loading = true;
-        setTimeout(() => (this.loading = false), 2000);
-        console.log("dfdsafsadfsdaf ",this.email);
-        console.log("dfdsafsadfsdaf ",this.$store.state.loginInfo.email);
-        this.$axios({
-          url: "/zippy/chat/room",
-          data: {
+        setTimeout(() => (this.loading = false), 2000);        
+        
+        var temp = await this.$axios({
+            url: "/zippy/chat/room",
+            method: "POST",
+            data: {
               user1: this.$store.state.loginInfo.email,
-              user2: this.email,
+              user2: this.list[num].email,
               chatType: 3
             }
-        }).then(res => {
-          console.log(res);
-          // out.$router.push({
-          //     name: "chatDetail",
-          //     query: {
-          //       roomId: res.data
-          //     }
-          //   })
-        })
-
+          }).then(res => {
+            out.$router.push({
+              name: "chatDetail",
+              query: {
+                roomId: res.data
+              }
+            })
+          })
       },
 
       checkbox: function () {
