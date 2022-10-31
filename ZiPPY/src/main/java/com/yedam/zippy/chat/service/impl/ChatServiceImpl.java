@@ -103,9 +103,14 @@ public class ChatServiceImpl implements ChatService {
   }
 
   @Override
-  public void createChatRoom(ChatRoomVO vo) {    
-    mapper.createChatRoom(vo);
+  public ChatRoomVO createChatRoom(ChatRoomVO vo) {
     
+    ChatRoomVO isRedundancy = mapper.roomRedundancy(vo);  
+    if(isRedundancy != null) {    
+      return isRedundancy;      
+    }
+    
+    mapper.createChatRoom(vo);
     String txt = folder + File.separator + "roomNum" + vo.getChatRoomNo() + ".txt";
     
     File file = new File(txt);
@@ -124,6 +129,8 @@ public class ChatServiceImpl implements ChatService {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    
+    return vo;
   }
 
   @Override

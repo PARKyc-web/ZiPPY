@@ -15,7 +15,7 @@ public interface ChatService {
   
   public ChatMessage parsingContent(String str);
   
-  public void createChatRoom(ChatRoomVO vo);
+  public ChatRoomVO createChatRoom(ChatRoomVO vo);
   
   public ChatRoomVO getRoomInfo(int roomId);
 
