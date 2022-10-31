@@ -17,7 +17,7 @@
       </template>
       <!-- 상품가격 -->
       <template v-slot:item.cartPrice="{ item }">
-        {{ item.cartPrice | comma }}
+        {{ item.cartPrice+item.optPrice | comma }}
       </template>
       <!-- 수량 조절 -->
       <template v-slot:item.cartQty="{ item }">
@@ -197,9 +197,6 @@
         }
         //삭제 alert
         this.checkOrder()
-
-        //장바구니 개수
-        this.$store.state.loginInfo.cartCount = Number(this.$store.state.loginInfo.cartCount) - this.selected.length;
       },
       //payCode 생성
       makePayCode() {

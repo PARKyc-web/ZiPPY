@@ -92,7 +92,7 @@
     </div>
     <!-- 탭 -->
     <!-- 상품 상세정보 -->
-    <div class="mx-auto pb-5" style="width:810px">
+    <div class="mx-auto" style="width:810px; padding-top:100px">
       <shop-tab :pno="$route.query.pno" :proInfo="product.proInfo"></shop-tab>
     </div>
   </div>
@@ -284,7 +284,7 @@
                   }
                 }
               }
-              //장바구니가 비어져있을 경우
+              //장바구니가 비워져있을 경우
               if (this.cartPros.length == 0) {
                 check = true;
               }

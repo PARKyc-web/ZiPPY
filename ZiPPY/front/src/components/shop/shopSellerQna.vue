@@ -4,13 +4,10 @@
 
     <v-card>
       <v-data-table :headers="headers" :items="qnas">
-        <!-- 이미지 -->
-        <!-- @click="goDetail(item.proNo)
         <template v-slot:item.proMainImg="{ item }">
-        <v-img class="ma-5" width="150px" height="150px"
-          :src="require(`../../assets/shop/productImg/${item.proMainImg}.jpg`)"
-          @click="goDetail(item.cartPno)"></v-img>
-      </template> -->
+          <v-img class="ma-5" width="150px" height="150px" :src="'/zippy/common/img/shop/'+item.proMainImg"
+            @click="goDetail(item.cartPno)"></v-img>
+        </template> -->
         <template v-slot:item.answerStatus="{ item }">
           <div v-if="item.Status==0">
             답변대기
@@ -98,6 +95,21 @@
       }).catch(error => {
         console.log(error);
       })
+    },
+    methods: {
+      updateQna(no) {
+        axios({
+          url: "/zippy/shop/updateQnaAnswer",
+          method: "POST",
+          data: {
+            answer: this.answer[no],
+            qnaNo: no
+          }
+        }).then(res => {
+        }).catch(error => {
+          console.log(error);
+        })
+      }
     }
   }
 </script>
