@@ -28,9 +28,7 @@ import com.yedam.zippy.used.service.UsedImagesVO;
 
 @Service
 public class ShopServiceImpl implements ShopService {
-
-  private final String storeImageFolder = "C:/storeImage";
-
+  
   @Autowired
   ShopMapper mapper;
   @Autowired

@@ -32,8 +32,7 @@ import com.yedam.zippy.common.service.ReviewBoardVO;
 @CrossOrigin(originPatterns = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
     RequestMethod.DELETE })
 @RestController
-@RequestMapping("/common")
-//@RequestMapping("/zippy/common")
+@RequestMapping("/zippy/common")
 public class CommonController {
   
   @Autowired

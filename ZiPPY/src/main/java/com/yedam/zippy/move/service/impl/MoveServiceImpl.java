@@ -26,7 +26,8 @@ import com.yedam.zippy.move.service.MoveService;
 public class MoveServiceImpl implements MoveService{
   
   // 저 경로에 저장하겠다.
-  private final String imgFolder = "C:/moveImg";
+//  private final String imgFolder = "C:/moveImg";
+  private final String imgFolder = "/home";
   
   @Autowired
   MoveMapper mapper;
