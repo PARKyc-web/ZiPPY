@@ -10,37 +10,12 @@
 
                 <!-- 업체정보 -->
                 <div class="loaf">
-                <div class="intro">
-                    <div>{{list[0].compName}}</div>
-                    <div>{{list[0].phone}}</div>
-                    <div>{{list[0].compAddress}}</div>
-                    <div>{{list[0].compIntro}}</div>
-                </div>
-
-                    <!-- <div id="used-seller-name">
-
-                        <div id="used-name-report">
-                            <div>{{list[0].compName}}</div>                            
-                        </div>
+                    <div class="intro">
+                        <div>{{list[0].compName}}</div>
+                        <div>{{list[0].phone}}</div>
+                        <div>{{list[0].compAddress}}</div>
+                        <div>{{list[0].compIntro}}</div>
                     </div>
-                    <div id="used-seller-name">
-
-                        <div id="used-name-report">
-                            <div>{{list[0].phone}}</div>
-                        </div>
-                    </div>
-                    <div id="used-seller-name">
-
-                        <div id="used-name-report">
-                            <div>{{list[0].compAddress}}</div>
-                        </div>
-                    </div>
-                    <div id="used-seller-name">
-
-                        <div id="used-name-report">
-                            <div>{{list[0].compIntro}}</div>
-                        </div>
-                    </div> -->
 
                     <div class="loaf">
                         <div class="used-point-report">
@@ -55,7 +30,7 @@
                                         </v-rating>
                                     </div>
                                     <h2 class="ml-3 mt-3" style="font-weight:bold" v-if="list.length != 0">
-                                        평점{{list[0].totalRating}}</h2>
+                                        평점{{Math.round(list[0].companyTotalRating * 10)/10}}</h2>
                                 </div>
                                 <div id="star-right">
                                     <v-progress-linear color="#64c481" height="20" :value=rate1 style="width:200px">
@@ -75,21 +50,6 @@
                             <!-- 별점 박스 끝 -->
                         </div>
 
-                        <!-- <div>
-                            <h4>평점</h4>
-                        </div>
-                        <div>
-                            <img src="https://m.bunjang.co.kr/pc-static/resource/44c1240e63c64f221877.png" width="30px"
-                                height="29px" alt="별점 1">
-                            <img src="	https://m.bunjang.co.kr/pc-static/resource/44c1240e63c64f221877.png" width="30px"
-                                height="29px" alt="별점 1">
-                            <img src="	https://m.bunjang.co.kr/pc-static/resource/44c1240e63c64f221877.png" width="30px"
-                                height="29px" alt="별점 1">
-                            <img src="	https://m.bunjang.co.kr/pc-static/resource/982587b0e24b8bccea13.png" width="30px"
-                                height="29px" alt="별점 0">
-                            <img src="	https://m.bunjang.co.kr/pc-static/resource/982587b0e24b8bccea13.png" width="30px"
-                                height="29px" alt="별점 0">
-                        </div> -->
                     </div>
 
                 </div>
@@ -102,9 +62,9 @@
             <b-tabs content-class="mt-3">
                 <b-tab title="이사후기">
                     <v-card>
-                        <v-data-table :headers="headers" :items="list" >
+                        <v-data-table :headers="headers" :items="list">
                             <!-- 별점 -->
-                            <template v-for="item in list" v-slot:item.reviewContent="{ item }" >
+                            <template v-for="item in list" v-slot:item.reviewContent="{ item }">
                                 <div class="pa-5">
                                     <v-rating v-model="item.totalRating" half-increments
                                         background-color="#64c481 lighten-3" color="#64c481" small readonly></v-rating>
@@ -132,16 +92,16 @@
             return {
                 nickName: this.$store.state.loginInfo.nickName,
                 list: [],
-                
+
                 data: [],
                 page: 1,
                 pageCount: 1,
                 estimateType: "",
                 serviceId: "",
                 pageNum: "",
-                compName:"",
-                compAddress:"",
-                compIntro : "",
+                compName: "",
+                compAddress: "",
+                compIntro: "",
                 phone: "",
                 //은하
 
@@ -149,6 +109,7 @@
                 reviewContent: '',
                 serviceType: 3,
                 totalRating: '',
+                companyTotalRating : '',
                 rate1: '',
                 rate2: '',
                 rate3: '',
@@ -197,19 +158,20 @@
         },
         async created() {
 
-             //후기 가져오기
-            let res = await  axios({
+            //후기 가져오기
+            let res = await axios({
                 url: "/zippy/move/moveReview",
                 methods: "GET",
                 params: {
-                    serviceId: this.$route.query.serviceId,              
+                    serviceId: this.$route.query.serviceId,
                     pageNum: this.page,
                 }
             })
             this.list = res.data;
             this.pageCount = res.data.pages;
             this.nickName = this.$store.state.loginInfo.nickName;
-   
+            this.companyTotalRating = res.data.companyTotalRating;
+
             //별점 계산
             var tSum = 0;
             var r1Sum = 0;
@@ -223,42 +185,16 @@
                 r3Sum += Number(this.list[i].rate3)
                 r4Sum += Number(this.list[i].rate4)
             }
-                this.proTotalRating = Math.round(tSum / this.list.length * 10) / 10
-                this.rate1 = Math.round(r1Sum / this.list.length) * 10
-                this.rate2 = Math.round(r2Sum / this.list.length) * 10
-                this.rate3 = Math.round(r3Sum / this.list.length) * 10
-                this.rate4 = Math.round(r4Sum / this.list.length) * 10
-                console.log('총:', this.proTotalRating);
-                console.log('1:', this.rate1);
-                console.log('2:', this.rate2);
-                console.log('3:', this.rate3);
-                console.log('4:', this.rate4);
-
-
-
-            // res =  await axios({
-            //         url: "http://localhost:8090/zippy/move/moveMyListOne",
-            //         methods: "GET",
-            //         params: {
-            //             email: this.list.serviceId,
-            //             userEmail: this.$store.state.loginInfo.email,
-            //             // movingResponseNo : this.list.movingResponseNo,
-            //             movingResponseNo: 14,
-            //             pageNum: this.page
-
-            //         }
-            // });
-
-            // console.log("list!!!!!!!:::::::", this.list);
-            // this.list = res.data;
-            // this.pageCount = res.data.pages;
-            // console.log("res", res);
-            // console.log(res.data);
-
-                   
-
-           
-
+            this.proTotalRating = Math.round(tSum / this.list.length * 10) / 10
+            this.rate1 = Math.round(r1Sum / this.list.length) * 10
+            this.rate2 = Math.round(r2Sum / this.list.length) * 10
+            this.rate3 = Math.round(r3Sum / this.list.length) * 10
+            this.rate4 = Math.round(r4Sum / this.list.length) * 10
+            console.log('총:', this.proTotalRating);
+            console.log('1:', this.rate1);
+            console.log('2:', this.rate2);
+            console.log('3:', this.rate3);
+            console.log('4:', this.rate4);
         },
 
         methods: {
@@ -308,28 +244,10 @@
                             showConfirmButton: false,
                             timer: 1500
                         });
-
-                        
-
                     }).catch(error => {
                         console.log(error);
                     })
                 }
-                //상태 변경
-                // axios({
-                //     url: "/shop/updateRvStatus",
-                //     method: "POST",
-                //     headers: {
-                //         "Content-Type": "application/json"
-                //     },
-                //     data: {
-                //         purNo: this.purNo
-                //     }
-                // }).then(res => {
-                //     console.log(res);
-                // }).catch(error => {
-                //     console.log(error);
-                // })
             },
 
 
@@ -339,10 +257,11 @@
 </script>
 
 <style scoped>
-    .loaf{
-   display: flex;
-   width: 500px;
-}
+    .loaf {
+        display: flex;
+        width: 500px;
+    }
+
     /* 은하 */
     #cart-con {
         width: 70%;
@@ -480,7 +399,7 @@
         flex-shrink: 0;
     }
 
-    .intro{
+    .intro {
         font-size: 20px;
         height: 100px;
         font-weight: 600;

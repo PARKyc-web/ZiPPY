@@ -44,7 +44,8 @@
             <v-row text-align="center" class="mx-0">
               <v-rating :value="item.totalRating" color="amber" dense half-increments readonly size="20"></v-rating>
               <div class="grey--text ms-4">
-                {{item.totalRating}} (413)
+                {{Math.round(item.totalRating * 10)/10}} 
+                
               </div>
             </v-row>
             <v-divider class="mx-4"></v-divider>
@@ -75,21 +76,6 @@
             <v-card-title>2차 예상견적 : <span>{{item.secondEstimatePrice | comma}}</span>원</v-card-title>
           </div>
 
-          <!-- <v-card-text>
-      <v-chip-group
-        v-model="selection"
-        active-class="deep-purple accent-4 white--text"
-        column
-      >
-        <v-chip>5:30PM</v-chip>
-
-        <v-chip>7:30PM</v-chip>
-
-        <v-chip>8:00PM</v-chip>
-
-        <v-chip>9:00PM</v-chip>
-      </v-chip-group>
-    </v-card-text> -->
 
           <v-card-actions>
             <v-btn v-if="item.reservStatus == 2 || item.reservStatus == 1" color="#B3E3C3 lighten-2" text @click="reserve(item.movingResponseNo)">
@@ -153,6 +139,7 @@
         movingResponseNo: "",
         compName: "",
         totalRating: "",
+        reviewCount : "",
         firstEstimatePrice: "",
         firstEstimateType: "",
         secondEstimatePrice: "",
@@ -254,14 +241,7 @@
         console.log(error);
       })
 
-
-
-
-      if (this.$store.state.loginInfo != null) {
-
-        
-
-        
+      if (this.$store.state.loginInfo != null) {      
       }
     },
     methods: {
@@ -320,29 +300,6 @@
               }
             })
           })
-      },
-
-      checkbox: function () {
-        const ckbox = document.querySelector(".form-check-input");
-        const is_cked = ckbox.checked;
-        var isChecked = document.querySelector(".form-check-input").innerText = is_cked
-        console.log(isChecked);
-        axios({
-          url: "/zippy/used/main",
-          methods: "GET",
-          params: {
-            keyword: this.searchValue,
-            location: "",
-            category: this.categoryVal,
-            checked: isChecked,
-            dropbox: ""
-          }
-        }).then(res => {
-          console.log(res);
-          this.data = res.data;
-        }).catch(err => {
-          console.log(err)
-        })
       },
 
       dropVal2: function () {
@@ -410,18 +367,21 @@
     padding: 40px;
     margin-top: 50px;
   }
+  div{
+    background-color: white;
+  }
 
   /*  */
   #used-main-dropbox1 {
     margin-top: 30px;
-    width: 100px;
+    width: 200px;
     float: right;
     margin-right: 100px;
   }
 
   #used-main-dropbox2 {
     margin-top: 30px;
-    width: 100px;
+    width: 200px;
     float: right;
     margin-right: 100px;
   }
@@ -466,28 +426,4 @@
     display: flex;
   }
 
-  .used-detail-wish {
-    border: none;
-    color: white;
-    background-color: #b3e3c3;
-    font-size: x-large;
-    border-radius: 10px;
-    margin-left: 10px;
-    width: 150px;
-  }
-
-  #used-detail-info-div {
-    margin-bottom: 30px;
-  }
-
-  .used-wish-view-img {
-    margin-right: 5px;
-    margin-top: 5px;
-  }
-
-  .used-wish-view-count {
-    font-size: medium;
-    color: rgb(204, 204, 204);
-    margin-right: 5px;
-  }
 </style>

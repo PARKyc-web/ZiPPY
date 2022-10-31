@@ -182,29 +182,7 @@ export default {
           
         
       },
-      //체크박스
-      checkbox: function () {
-        const ckbox = document.querySelector(".form-check-input");
-        const is_cked = ckbox.checked;
-        var isChecked = document.querySelector(".form-check-input").innerText = is_cked
-        console.log(isChecked);
-        axios({
-          url: "/zippy/used/main",
-          methods: "GET",
-          params: {
-            keyword: this.searchValue,
-            location: "",
-            category: this.categoryVal,
-            checked: isChecked,
-            dropbox: ""
-          }
-        }).then(res => {
-          console.log(res);
-          this.data = res.data;
-        }).catch(err => {
-          console.log(err)
-        })
-      },
+     
       //드롭박스
       dropVal2: function () {
         var dropValue2 = this.select2;
@@ -262,14 +240,14 @@ export default {
   /*  */
   #used-main-dropbox1 {
     margin-top: 30px;
-    width: 100px;
+    width: 200px;
     float: right;
     margin-right: 100px;
   }
 
   #used-main-dropbox2 {
     margin-top: 30px;
-    width: 100px;
+    width: 200px;
     float: right;
     margin-right: 100px;
   }

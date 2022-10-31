@@ -34,8 +34,8 @@
             <div >이사 종류 : <span>{{item.moveType}}</span></div>
             <div >이사희망일 : <span>{{item.movingDate}}</span></div>
             <div >이사희망시간 : <span>{{item.movingTime}}</span></div>
-            <div >출발지 주소 : <span>(우편){{item.departZipCode}}</span>    <span>{{item.departAddress}}</span> <span>{{item.departDetail}}</span></div>
-            <div >도착지 주소 : <span>(우편){{item.arriveZipCode}}</span>    <span>{{item.arriveAddress}}</span> <span>{{item.arriveDetail}}</span></div>
+            <div >출발지 주소 : <span>(우편번호){{item.departZipCode}}</span>    <div class="move-info"><span>{{item.departAddress}}</span> <span>{{item.departDetail}}</span></div></div>
+            <div >도착지 주소 : <span>(우편번호){{item.arriveZipCode}}</span>    <div class="move-info"><span>{{item.arriveAddress}}</span> <span>{{item.arriveDetail}}</span></div></div>
             <div> 이사 정보 : <div class="move-info"><span v-html="par(item.commonOption)"></span></div></div>
             <div v-if="item.estimateType == '비대면견적'">
             <div >이삿짐 정보 : <div class="move-info"><span class="move-info" v-html="my(item.movingOption)"></span></div></div>
@@ -370,12 +370,14 @@ export default {
 }
 #used-main-dropbox {
   
-    width: 100px;
+    width: 200px;
     float: right;
     margin: 50px 100px 0 100px;
   }
 span{
   font-weight: bold;
 }  
-  
+div{
+  background-color: white;
+}  
 </style>

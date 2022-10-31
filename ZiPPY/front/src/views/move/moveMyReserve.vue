@@ -41,7 +41,7 @@
           <v-row text-align="center" class="mx-0">
             <v-rating :value="4.5" color="amber" dense half-increments readonly size="20"></v-rating>
             <div class="grey--text ms-4">
-              평점 {{Math.round(item.totalRating * 10)/10}} ({{item.reviewCount}})
+              평점 {{Math.round(item.totalRating * 10)/10}}
             </div>
           </v-row>
           <v-divider class="mx-4"></v-divider>
@@ -132,6 +132,7 @@ export default {
         movingResponseNo: "",
         compName : "",
         totalRating: "",
+        reviewCount:"",
         firstEstimatePrice: "",
         reservStatus : "",
         
@@ -211,28 +212,6 @@ export default {
 
       },
 
-      checkbox: function () {
-        const ckbox = document.querySelector(".form-check-input");
-        const is_cked = ckbox.checked;
-        var isChecked = document.querySelector(".form-check-input").innerText = is_cked
-        console.log(isChecked);
-        axios({
-          url: "/zippy/used/main",
-          methods: "GET",
-          params: {
-            keyword: this.searchValue,
-            location: "",
-            category: this.categoryVal,
-            checked: isChecked,
-            dropbox: ""
-          }
-        }).then(res => {
-          console.log(res);
-          this.data = res.data;
-        }).catch(err => {
-          console.log(err)
-        })
-      },
       //드롭박스
       dropVal2: function () {
         var dropValue2 = this.select2;
@@ -295,14 +274,14 @@ export default {
   /*  */
   #used-main-dropbox1 {
     margin-top: 30px;
-    width: 100px;
+    width: 200px;
     float: right;
     margin-right: 100px;
   }
 
   #used-main-dropbox2 {
     margin-top: 30px;
-    width: 100px;
+    width: 200px;
     float: right;
     margin-right: 100px;
   }
