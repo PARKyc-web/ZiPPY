@@ -18,9 +18,9 @@
                                 style="border-radius: 50%; width: 80px; height: 80px;">
                         </div>
                         <!-- 이름 시간-->
-                        <div id="name" style="width:439px; height:20px;">
+                        <div id="name" style="width:519px; height:20px;">
                             <div style="float:left">
-                                <div class="pl-2" style="width:100px" v-if="$store.state.loginInfo.email == item.user1">
+                                <div class="pl-2" style="width:300px" v-if="$store.state.loginInfo.email == item.user1">
                                     {{item.user2Name}}
                                 </div>
                                 <div class="pl-2" v-else>{{item.user1Name}}</div>

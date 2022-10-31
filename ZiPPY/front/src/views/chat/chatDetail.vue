@@ -51,7 +51,7 @@
 
               <div class="ccard">
                 <div v-if="msg.sender != sender" style="text-align: left;">
-                  <v-card class="mx-auto" max-width="400" outlined style="border-radius: 0 20px 20px 20px;">
+                  <v-card class="mx-auto" max-width="400" outlined style="background-color: #F7F7F7; border-radius: 0 20px 20px 20px;">
                     <v-list-item three-line>
                       <v-list-item-content>
                         <div class="text-overline mb-4">
@@ -76,7 +76,7 @@
           </div>
           <input type="text" class="form-control" v-model="message" v-on:keypress.enter="sendMessage" style="border:0;">
           <div class="input-group-append">
-            <v-btn depressed color="#F7F7F7" @click="sendMessage">전송</v-btn>
+            <v-btn depressed color="#F7F7F7" height="45px" @click="sendMessage">전송</v-btn>
           </div>
         </div>
       </div>
