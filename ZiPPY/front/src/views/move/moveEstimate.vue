@@ -3,14 +3,6 @@
     
     <div class="move-main-title">
       <h3>견적요청 조회</h3>
-    
-
-    <!-- <div class="form-check">
-      <input @click="checkbox ()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-      <label class="form-check-label" for="flexCheckDefault">
-        견적완료된 요청보기
-      </label>
-    </div> -->
 
     <!-- 드롭박스 -->
     <div id="used-main-dropbox2">
@@ -35,17 +27,18 @@
             <v-col cols="12" sm="6" md="4"></v-col>
           </v-expansion-panel-header>
               <v-expansion-panel-content>
+                <div class="info">
                 <div>요청회원 : <span>{{item.email}}</span></div>
                 <div>이사 종류 : <span>{{item.moveType}}</span></div>
                 <div>이사희망일 : <span>{{item.movingDate}}</span></div>
                 <div>이사희망시간 : <span>{{item.movingTime}}</span></div>
-                <div>출발지 주소 : <span>{{item.departZipCode}}</span> <br><span>{{item.departAddress}}</span>
-                  <span>{{item.departDetail}}</span></div>
-                <div>도착지 주소 : <span>{{item.arriveZipCode}}</span> <br><span>{{item.arriveAddress}}</span>
-                  <span>{{item.arriveDetail}}</span></div>
-                <div> 이사 정보 : <span v-html="par(item.commonOption)"></span></div>
+                <div>출발지 주소 : <span>(우편번호){{item.departZipCode}}</span> <br><div class="move-info"><span>{{item.departAddress}}</span>
+                  <span>{{item.departDetail}}</span></div></div>
+                <div>도착지 주소 : <span>(우편번호){{item.arriveZipCode}}</span> <br><div class="move-info"><span>{{item.arriveAddress}}</span>
+                  <span>{{item.arriveDetail}}</span></div></div>
+                <div> 이사 정보 : <div class="move-info"><span v-html="par(item.commonOption)"></span></div></div>
                 <div v-if="item.estimateType == '비대면견적'">
-                <div >이삿짐 정보 :<span v-html="my(item.movingOption)"></span></div>
+                <div >이삿짐 정보 : <div class="move-info"><span v-html="my(item.movingOption)"></span></div></div>
                 </div> 
                 <div v-if="item.movingMemo != null">
                   <div>이사 요청사항 : <span>{{item.movingMemo}}</span></div>
@@ -94,9 +87,7 @@
                   </div>
                   
                 </div>
-                  <!-- <v-card-text>
-                    I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-                  </v-card-text> -->
+                 
                 </div>
               </v-expand-transition>
           </div>
@@ -181,6 +172,7 @@
               </v-row>
 
             </v-card-actions>
+          </div>
           </v-expansion-panel-content>
 
         </v-expansion-panel>
@@ -743,17 +735,26 @@ export default {
     margin: 100px;
 
   }
+  .info{
+    margin: 20px 20px 20px 200px;
+  }
+  .move-info{
+  padding-left: 100px;
+  }
+  div{
+    background-color: white;
+  }
 
   #used-main-dropbox1 {
     margin-top: 30px;
-    width: 100px;
+    width: 200px;
     float: right;
     margin-right: 100px;
   }
 
   #used-main-dropbox2 {
     margin-top: 30px;
-    width: 100px;
+    width: 200px;
     float: right;
     margin-right: 100px;
   }
