@@ -150,9 +150,6 @@
 	<!-- 주문 -->
 	<!-- 장바구니에서 purchase으로 등록 -->
 	<insert id="insertPur">
-		<!-- <selectKey resultType="long" keyProperty="payCode" order="BEFORE"> 
-			SELECT FLOOR(DBMS_RANDOM.VALUE(1000000000, 9999999999)) RANDOM FROM DUAL 
-			</selectKey> -->
 		INSERT INTO shop_purchase
 		<foreach collection="selected" item="arr" index="index"
 			separator="UNION ALL">
@@ -176,7 +173,8 @@
 	</insert>
 	<!-- 디테일에서 purchase로 등록 -->
 	<insert id="insertPurOne">
-		INSERT INTO shop_purchase(pur_no, pay_code, pur_pno, pur_opt_no, pur_qty, email, pur_price, business_email, order_status, order_date)
+		INSERT INTO shop_purchase(pur_no, pay_code, pur_pno, pur_opt_no, pur_qty, email,
+		pur_price, business_email, order_status, order_date)
 		VALUES(
 		(SELECT NVL(MAX(pur_no) , 0) + 1 FROM shop_purchase),
 		#{payCode},
@@ -242,6 +240,7 @@
 		SELECT *
 		FROM shop_order
 		WHERE email = #{email}
+		ORDER BY order_no DESC
 	</select>
 	<!-- 주문정보 조회 -->
 	<select id="getOrdProInfo" resultType="ProductVO">

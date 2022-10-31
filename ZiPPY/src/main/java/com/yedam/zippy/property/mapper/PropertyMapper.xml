@@ -202,18 +202,5 @@
 			and
 			b.email = #{email}
 	</select>
-	
-	<insert id="insertHouseImages" parameterType="PropertyImagesVO">
-		insert into house_images(
-		img_id,
-		detail_id,
-		house_img,
-		product_id
-		) values(
-		(SELECT NVL(MAX(img_id),0) +1 FROM house_images),
-		#{detailId}, 
-		#{houseImg},
-		#{productId}
-		)
-	</insert>
+
 </mapper>

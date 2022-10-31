@@ -35,7 +35,5 @@ public interface PropertyService {
   
   public List<propertyVO> searchPropertyList(propertyVO vo);
   
-  public Page<WishVO> getAllWishProperties(String email);
-  
-  public int insertHouseImages(PropertyImagesVO vo); 
+  public Page<WishVO> getAllWishProperties(String email);    
 }

@@ -96,7 +96,7 @@
               예약요청
             </v-btn>
 
-            <v-btn color="#B3E3C3 lighten-2" text @click="chat">
+            <v-btn color="#B3E3C3 lighten-2" text @click="chat()">
               채팅하기
             </v-btn>
 
@@ -300,9 +300,28 @@
         },
       //채팅
       chat() {
-        this.loading = true
+        var out = this;
+        this.loading = true;
+        setTimeout(() => (this.loading = false), 2000);
+        console.log("dfdsafsadfsdaf ",this.email);
+        console.log("dfdsafsadfsdaf ",this.$store.state.loginInfo.email);
+        this.$axios({
+          url: "/zippy/chat/room",
+          data: {
+              user1: this.$store.state.loginInfo.email,
+              user2: this.email,
+              chatType: 3
+            }
+        }).then(res => {
+          console.log(res);
+          // out.$router.push({
+          //     name: "chatDetail",
+          //     query: {
+          //       roomId: res.data
+          //     }
+          //   })
+        })
 
-        setTimeout(() => (this.loading = false), 2000)
       },
 
       checkbox: function () {

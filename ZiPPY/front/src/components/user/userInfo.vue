@@ -341,7 +341,7 @@ import swal from 'sweetalert2';
   #user-container {
     margin: 0 auto;
     overflow: auto;
-    margin-left: 35%;
+    margin-left: 20%;
     overflow: hidden;
   }
   
@@ -359,7 +359,6 @@ import swal from 'sweetalert2';
   #submit-btn {
     margin-left: 85%;
     text-align: center;
-
     width: 15%;
   }
 
