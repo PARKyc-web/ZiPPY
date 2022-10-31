@@ -236,8 +236,25 @@
           }
         })
       },
-      openChat() {
+      async openChat() {
+        var out = this;
         if (this.$store.state.loginInfo) {
+          var temp = await this.$axios({
+            url: "/zippy/chat/room",
+            method: "POST",
+            data: {
+              user1: this.$store.state.loginInfo.email,
+              user2: this.houseDetail[0].email,
+              chatType: 0
+            }
+          }).then(res => {
+            out.$router.push({
+              name: "chatDetail",
+              query: {
+                roomId: res.data
+              }
+            })
+          })
           this.dialog = true;
         } else {
           Swal.fire({

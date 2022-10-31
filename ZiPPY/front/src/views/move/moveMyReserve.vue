@@ -18,18 +18,12 @@
       <h2 style="font-weight:bold">아직 예약한 견적이 없습니다.</h2>
     </div>
 
-    <div class="divv" v-for="item in list">
+    <div class="divv" v-for="(item, i) in list">
       <v-card :loading="loading" class="mx-auto my-12" max-width="374" elevation="10" >
         <template slot="progress">
           <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
         </template>
-
-        <!-- <v-img
-      height="250"
-      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-    ></v-img> -->
-        
-    <!-- 카드 -->
+     
         <v-card-text>
           <div >
               <div id="mus" v-if="item.reservStatus == 0">견적 상태 : <span>견적전</span></div>
@@ -75,7 +69,7 @@
           </div>
 
         <v-card-actions>        
-          <v-btn  id="reviewBtn" text @click="chat"  depressed color=#B3E3C3 v-bind="attrs" v-on="on" width="100px">
+          <v-btn  id="reviewBtn" text @click="chat(i)"  depressed color=#B3E3C3 v-bind="attrs" v-on="on" width="100px">
             채팅하기
           </v-btn>
 
@@ -190,10 +184,26 @@ export default {
     },
     methods: {
       
-      chat() {
+      async chat(num) {
+        var out = this;
         this.loading = true
-
         setTimeout(() => (this.loading = false), 2000)
+        var temp = await this.$axios({
+            url: "/zippy/chat/room",
+            method: "POST",
+            data: {
+              user1: this.$store.state.loginInfo.email,
+              user2: this.list[num].email,
+              chatType: 3
+            }
+          }).then(res => {
+            out.$router.push({
+              name: "chatDetail",
+              query: {
+                roomId: res.data
+              }
+            })
+          })
       },
       cancle(){
 

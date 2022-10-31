@@ -20,6 +20,8 @@ public interface ChatMapper {
   
   public ChatRoomVO getRoomInfo(int roomId);
   
+  public ChatRoomVO roomRedundancy(ChatRoomVO vo);  
+  
   // 판매여부
   public int soldout(ChatRoomVO vo);
   
