@@ -41,7 +41,7 @@
 
 <script>
   import axios from 'axios';
-  import navBar from '../../components/used/navBar.vue';
+  import navBar from '@/components/used/navBar.vue';
   import swal from 'sweetalert2';
 
   export default {

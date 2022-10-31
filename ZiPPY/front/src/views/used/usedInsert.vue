@@ -104,7 +104,7 @@
 
 <script>
   import axios from 'axios';
-  import CurrentPositionLabel from '../../components/used/CurrentPositionLabel.vue';
+  import CurrentPositionLabel from '@/components/used/CurrentPositionLabel.vue';
   export default {
     data: () => ({
       items: [{

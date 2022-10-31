@@ -1,10 +1,10 @@
 <template>
 
 <div class="wrap">
-  <move-nav-bar @click="categoryVal=$event.target.innerText"></move-nav-bar>
+  
     <div class="frame">
       <button @click="goMove()" class="custom-btn btn-3"><span>이사 견적받기</span></button>
-      <button class="custom-btn btn-8"><span>청소 견적받기</span></button>
+      <button @click="goCompany()" class="custom-btn btn-8"><span>업체조회</span></button>
     </div>
       <video width="400" height="240" autoplay="autoplay" muted="muted" loop>
           <source src="@/assets/sofa.mp4" type="video/mp4">
@@ -14,22 +14,43 @@
 </template>
 
 <script>
-import MoveNavBar from '@/components/move/MoveNavBar.vue';
-
+import swal from 'sweetalert2';
 export default {
-  components: {
-    MoveNavBar
-  },
+  
   
     methods : {
+      //이사견적받기
       goMove : function(){
-        this.$router.push({
-        name: "moveTotal",
-        params: {}
-      })
       
+      if (this.$store.state.loginInfo == null || this.$store.state.loginInfo.email == "") {
+        //로그인 하지않았을 때  
+        swal.fire({
+            title: '로그인이 필요합니다.',
+            text: "로그인 하시겠습니까 ?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#96e5b8',
+            cancelButtonColor: '#a9a9a9',
+            confirmButtonText: 'YES'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.$router.push('/login')
+            }
+          })
+          
+        } else {
+          //로그인 되어있을 때 '이사견적받기'로 이동
+          window.location.assign('/move/moveTotal');
+        }
+      },
+      //'업체조회' 버튼을 클릭했을 때 이동
+      goCompany : function(){
+          this.$router.push({
+          name: "moveCompanyList",
+          params: {}
+        })
       }
-    }
+    },
   }
 </script>
 

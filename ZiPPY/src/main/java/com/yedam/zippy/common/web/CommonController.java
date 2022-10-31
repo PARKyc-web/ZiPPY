@@ -37,18 +37,8 @@ import com.yedam.zippy.common.service.ReviewBoardVO;
 public class CommonController {
   
   @Autowired
-  CommonService service;
-  
-  private final String imagePath = "";
-  
-//  private final String propertyPath = "";
-//  private final String memberPath = "";
-//  private final String usedPath = "";
-//  private final String movePath = "";  
-//  private final String shopPath = ""; 
-
+  CommonService service;  
     
-
   // 찜 추가
   @PostMapping("/addWish")
   public int addWish(@RequestBody BookmarkVO bookmark) {

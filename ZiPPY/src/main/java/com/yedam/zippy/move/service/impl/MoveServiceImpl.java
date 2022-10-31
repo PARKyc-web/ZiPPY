@@ -187,6 +187,8 @@ public int moveStatusUpdateZero(MoveRequestVO vo) {
 //  public int moveStatusUpdate(MoveResponseVO vo) {
 //    return mapper.moveStatusUpdate(vo);
 //  }
+
+  //견적상태 업데이트 (1차 견적서 발송후, 상태 1로 변경)
   @Override
   public int moveStatusUpdate(Integer estimateNo, String email) {
     return mapper.moveStatusUpdate(estimateNo, email);
@@ -209,17 +211,15 @@ public int moveStatusUpdateZero(MoveRequestVO vo) {
     return mapper.moveStatusThirdUpdate(vo);
   }
   
-  //4 : 예약완료
+  //4 : 예약확정
   @Override
   public int moveStatusFourthUpdate(MoveResponseVO vo) {
-    // TODO Auto-generated method stub
     return mapper.moveStatusFourthUpdate(vo);
   }
   
   //5 : 이사완료
   @Override
   public int moveStatusFifthUpdate(MoveResponseVO vo) {
-    // TODO Auto-generated method stub
     return mapper.moveStatusFifthUpdate(vo);
   }
   

@@ -85,10 +85,15 @@ export default{
                         icon: 'fa fa-chart-area',    
                     },
                     {                           
-                        href: '/seller/something',
-                        title: '견적서 조회',
-                        icon: 'fa fa-chart-area'            
-                    },                    
+                        href: '/seller/move/moveEstimate',
+                        title: '견적요청조회',
+                        icon: 'fa-solid fa-list'            
+                    },
+                    {                           
+                        href: '/seller/move/moveCompanyMy',
+                        title: '보낸견적서',
+                        icon: 'fa-solid fa-paste'            
+                    },                      
                 ]
             }
         },

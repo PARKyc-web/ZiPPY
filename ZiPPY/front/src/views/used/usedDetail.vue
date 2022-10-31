@@ -132,9 +132,9 @@
 
 <script>
   import axios from 'axios';
-  import navBar from '../../components/used/navBar.vue';
+  import navBar from '@/components/used/navBar.vue';
   import swal from 'sweetalert2';
-  import usedReport from '../../components/used/usedReport.vue';
+  import usedReport from '@/components/used/usedReport.vue';
 
   export default {
     components: {

@@ -51,8 +51,7 @@ public class ChatServiceImpl implements ChatService {
 
   @Override
   public void saveChatContent(ChatMessage cm) {
-    String chatFile = folder.toString() + File.separator
-        + "roomNum" + cm.getRoomId() + ".txt";
+    String chatFile = folder.toString() + File.separator + "roomNum" + cm.getRoomId() + ".txt";
     File file = new File(chatFile);
 
     String content = cm.getSender() + "-" + cm.getMessage() + "-" + cm.getTime();
@@ -69,12 +68,9 @@ public class ChatServiceImpl implements ChatService {
 
   @Override
   public List<ChatMessage> loadChatContent(String roomId) {
-
-    String chatFile = folder.toString() + File.separator
-        + "roomNum" + roomId + ".txt";
+    String chatFile = folder.toString() + File.separator + "roomNum" + roomId + ".txt";
 
     List<ChatMessage> list = new ArrayList<>();
-
     try {
       File file = new File(chatFile);
       FileReader fd = new FileReader(file);
@@ -86,11 +82,9 @@ public class ChatServiceImpl implements ChatService {
         vo.setRoomId(roomId);
         list.add(vo);
       }
-
     } catch (IOException e) {
       e.getStackTrace();
     }
-
     return list;
   }
 

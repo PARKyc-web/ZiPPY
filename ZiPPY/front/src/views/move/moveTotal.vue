@@ -8,12 +8,10 @@
   <div class="moveSelect-wrap">
     <h3>이사 유형을 선택해주세요.</h3>
     <div class="btn1">
-      <!-- <button type="button" class="custom-btn btn-1" @click="small()" value="typeSmall">소형이사</button> -->
       <input type="button" class="custom-btn btn-1" @click="small()" value="소형이사">
     </div>
 
     <div class="btn2">
-      <!-- <button type="button" class="custom-btn btn-2" @click="big()" value="typeBig">가정이사</button> -->
       <input type="button" class="custom-btn btn-2" @click="big()" value="가정이사">
     </div>
     <br />
@@ -82,20 +80,17 @@
     <hr />
     <h3>이사 희망 시간을 선택해주세요.</h3>
     <div class="selectTime">
-      <b-row>
+      <b-row class="time-row">
         <b-col md="auto" locale="ko-KR">
-          <b-time v-model="moveDate.time" locale="ko-KR" @context="onContext"></b-time>
+          <b-time id="clock" v-model="moveDate.time" locale="ko-KR" @context="onContext"></b-time>
         </b-col>
         <b-col>
-          <!-- v-if를 걸어서 널값일때는 시간 선택해달라고 안내문구 -->
-<!-- 
           <p>
             선택 시간: <b>{{ moveDate.time }}</b>
-            
-          </p> -->
-          
+          </p>
         </b-col>
       </b-row>
+
     </div>
 
     <v-btn elevation="7" @click="moveDateNext()">선택완료</v-btn>
@@ -107,60 +102,19 @@
   <div class="moveInfo-wrap">
     <form id="move-form">
     <h2>이사 견적을 위한 기본 정보를 입력해주세요.</h2>
+    <!-- 주소찾기 -->
     <div class="depart-address">
       <h3>출발지 주소를 입력해주세요.</h3>
-      <!-- 지도 -->
-
-      우편번호 :
-      <input        
-        class="type-2"
-        type="text"
-        name="zip1"
-        id ="post1"
-        style="width: 80px; height: 26px"
-      />
-      <v-btn
-  color="accent"
-  elevation="8"
-  small
-  @click="execDaumPostcode(1)"
->검색</v-btn>
-      <br />
-      주소 :
-      <input
-      
-        id="address1"
-        class="type-2"
-        type="text"
-        name="addr1"               
-        style="width: 300px; height: 30px"
-        readonly
-      /><br />
-      상세 :
-      <input
-     
-        id="detailAddress1"
-        class="type-2"
-        type="text"
-        name="addr2"
-        style="width: 300px; height: 30px"
-      /><br />
-      참고항목 :
-      <input
-     
-        type="text"
-        id="extraAddress1"
-        class="type-2"
-        placeholder="참고항목"
-      />
+        우편번호 : <input class="type-2" type="text" name="zip1" id ="post1" style="width: 80px; height: 26px"/>
+          <v-btn color="accent" elevation="8" small @click="execDaumPostcode(1)">검색
+          </v-btn><br />
+        주소 :<input id="address1" class="type-2" type="text" name="addr1"               
+              style="width: 300px; height: 30px" readonly /><br />
+        상세 : <input id="detailAddress1" class="type-2" type="text" name="addr2" style="width: 300px; height: 30px" /><br />
+        참고항목 : <input type="text" id="extraAddress1" class="type-2" placeholder="참고항목"/>
     </div>
 
-    <br />
-    <hr />
-    <br />
-
-    <br />
-    <br />
+    <br /><hr /><br /><br /><br />
 
     <div class="arrive-address">
       <h3>도착지 주소를 입력해주세요.</h3>
@@ -264,11 +218,8 @@
 
     <div class="move-select-input">
       <h3>층수</h3>
-      <input class="type-2" id="floor" type="number" min="1" v-model="moveInfo.floor"/><label
-        for="floor"
-      >
-        층</label
-      >
+      <input class="type-2" id="floor" type="number" min="1" v-model="moveInfo.floor"/>
+      <label for="floor">층</label>
     </div>
 
     <div class="move-select-input">
@@ -282,9 +233,8 @@
 
     <div class="move-select-input">
       <h3>베란다 개수</h3>
-      <input class="type-2" id="veranda" type="number" min="0" v-model="moveInfo.veranda" /><label
-        for="veranda" 
-      >개</label>
+      <input class="type-2" id="veranda" type="number" min="0" v-model="moveInfo.veranda" />
+      <label for="veranda">개</label>
     </div>
     <hr />
     <br />
@@ -308,7 +258,6 @@
         <input type="radio" name="elev" value="있음" v-model="moveInfo.elevator"/>
         <span>있음</span>
       </label>
-
       <label class="test_obj">
         <input type="radio" name="elev" value="없음" v-model="moveInfo.elevator" />
         <span>없음</span>
@@ -469,12 +418,13 @@ export default {
   },
 
     methods: {
+
       //현재일보다 과거 선택 불가
       disablePastDates(val){
         return val >= new Date().toISOString().substring(0,10);
       },
 
-      // moveSelect
+      // moveSelect - 이사유형 선택
       small() {
         let item = document.querySelector(".explain1");
         item.style.display = "inline-block";
@@ -501,26 +451,26 @@ export default {
 
         if (this.$store.state.loginInfo != null) {
 
-        if(this.moveType == ""){
-          alert("이사유형을 선택해주세요."); 
+          if(this.moveType == ""){
+            swal.fire("이사유형을 선택해주세요.");
+          }
+          else{
+
+          let moveSelectNext = document.querySelector(".moveSelect-wrap");
+          moveSelectNext.style.display = "none";
+
+          let moveDateNext = document.querySelector(".moveDate-wrap");
+          moveDateNext.style.display = "inline-block";
+          window.scrollTo(0,0);
+          };
         }
-        else{
-
-        let moveSelectNext = document.querySelector(".moveSelect-wrap");
-        moveSelectNext.style.display = "none";
-
-        let moveDateNext = document.querySelector(".moveDate-wrap");
-        moveDateNext.style.display = "inline-block";
-        window.scrollTo(0,0);
-        };
-      }
-     else {
-          swal.fire({
-            icon: 'warning',
-            title: '로그인 정보가 필요합니다.',
-            showConfirmButton: false,
-            timer: 1500
-          });
+        else {
+              swal.fire({
+                icon: 'warning',
+                title: '로그인 정보가 필요합니다.',
+                showConfirmButton: false,
+                timer: 1500
+              });
         }
       }
       ,
@@ -538,9 +488,9 @@ export default {
     moveDateNext(){
 
       if(this.moveDate.date == ""){
-          alert("이사희망 날짜를 선택해주세요.");
+        swal.fire("이사희망 날짜를 선택해주세요.");
         }else if(this.moveDate.time == ""){
-          alert("이사희망 시간을 선택해주세요.");
+          swal.fire("이사희망 시간을 선택해주세요.");
         }else{
 
         let moveDateNext = document.querySelector(".moveDate-wrap");
@@ -560,32 +510,32 @@ export default {
       console.log(document.getElementById('post1').value);
 
         if( document.getElementById('post1').value=="" || document.getElementById('post2').value==""){
-          alert("우편번호 찾기를 해주세요."); 
+          swal.fire("우편번호 찾기를 해주세요."); 
         } else if(document.getElementById('address1').value=="" || document.getElementById('address2').value==""){
-          alert("주소를 입력해주세요.");
+          swal.fire("주소를 입력해주세요.");
         } else if(document.getElementById('detailAddress1').value=="" || document.getElementById('detailAddress2').value==""){
-          alert("상세주소를 입력해주세요.");
+          swal.fire("상세주소를 입력해주세요.");
         } 
         else if(this.moveInfo.houseType==""){
-          alert("집형태를 선택해주세요.");
+          swal.fire("집형태를 선택해주세요.");
         } else if(this.moveInfo.roomNum ==""){
-          alert("방구조를 선택해주세요.");
+          swal.fire("방구조를 선택해주세요.");
         } else if(this.moveInfo.spaceOfHome ==""){
-          alert("집평수를 선택해주세요.");
+          swal.fire("집평수를 선택해주세요.");
         } 
         else if(this.moveInfo.floor ==""){
-          alert("층수를 입력해주세요.");
+          swal.fire("층수를 입력해주세요.");
         } else if(this.moveInfo.toilet ==""){
-          alert("화장실 개수를 입력해주세요.");
+          swal.fire("화장실 개수를 입력해주세요.");
         } else if(this.moveInfo.veranda ==""){
-          alert("베란다 개수를 입력해주세요.");
+          swal.fire("베란다 개수를 입력해주세요.");
         }  
         else if(this.moveInfo.extraStairs ==""){
-          alert("별도계단 유무를 선택해주세요.");
+          swal.fire("별도계단 유무를 선택해주세요.");
         } else if(this.moveInfo.elevator ==""){
-          alert("엘레베이터 유무를 선택해주세요.");
+          swal.fire("엘레베이터 유무를 선택해주세요.");
         } else if(this.moveInfo.parkable ==""){
-          alert("주차가능 여부를 선택해주세요.");
+          swal.fire("주차가능 여부를 선택해주세요.");
         } 
           
           else{
@@ -683,24 +633,26 @@ export default {
       this.moveAddress.extraAddress2 = extra.value;
 
       if(this.moveEstimateType == ""){
-          alert("견적방법을 선택해주세요."); 
+        swal.fire("견적방법을 선택해주세요."); 
         }else{
 
-      if(this.moveEstimateType == "대면견적"){
-        
-        this.$router.push({
-        name: "moveContact",
-        params:{moveInfo:this.moveInfo, moveEstimateType:this.moveEstimateType, moveType:this.moveType, moveDate: this.moveDate, moveAddress: this.moveAddress}
+          if(this.moveEstimateType == "대면견적"){
+            
+            this.$router.push({
+            name: "moveContact",
+            params:{moveInfo:this.moveInfo, moveEstimateType:this.moveEstimateType, moveType:this.moveType, 
+                    moveDate: this.moveDate, moveAddress: this.moveAddress}
 
-      })
-      
+          })
+          
 
-      } else if(this.moveEstimateType == "비대면견적"){
-        this.$router.push({
-        name: "moveUntact",
-        params:{moveInfo:this.moveInfo, moveEstimateType:this.moveEstimateType, moveType:this.moveType, moveDate: this.moveDate, moveAddress: this.moveAddress}
+          } else if(this.moveEstimateType == "비대면견적"){
+            this.$router.push({
+            name: "moveUntact",
+            params:{moveInfo:this.moveInfo, moveEstimateType:this.moveEstimateType, moveType:this.moveType, 
+                    moveDate: this.moveDate, moveAddress: this.moveAddress}
 
-      })
+          })
       
       }
       
@@ -745,6 +697,21 @@ export default {
   </script>
   
   <style scoped>
+  @font-face {
+    font-family: 'GmarketSans';
+    font-weight: 500;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot?#iefix') format('embedded-opentype'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff') format('woff'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.ttf') format("truetype");
+    font-display: swap;
+} 
+* {
+  font-family: 'GmarketSans';
+}
+
 form{
   text-align: center;
 }  
@@ -793,6 +760,7 @@ button {
   box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
     7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
   outline: none;
+  margin: 50px 0 50px 0;
 }
 
 .btn-1 {
@@ -885,7 +853,7 @@ button {
   margin-bottom: 100px;
 }
 h3 {
-  margin-top: 50px;
+  margin-top: 100px;
   padding-bottom: 50px;
 }
 .col {

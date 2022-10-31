@@ -10,33 +10,39 @@
 
                 <!-- 업체정보 -->
                 <div class="loaf">
-                    <div id="used-seller-name">
+                <div class="intro">
+                    <div>{{list[0].compName}}</div>
+                    <div>{{list[0].phone}}</div>
+                    <div>{{list[0].compAddress}}</div>
+                    <div>{{list[0].compIntro}}</div>
+                </div>
+
+                    <!-- <div id="used-seller-name">
 
                         <div id="used-name-report">
-                            <!-- <div>{{this.nickName}}</div> -->
-                            <div>업체명{{list[0].compName}}</div>                            
+                            <div>{{list[0].compName}}</div>                            
                         </div>
                     </div>
                     <div id="used-seller-name">
 
                         <div id="used-name-report">
-                            <div>업체연락처{{list[0].phone}}</div>
+                            <div>{{list[0].phone}}</div>
                         </div>
                     </div>
                     <div id="used-seller-name">
 
                         <div id="used-name-report">
-                            <div>업체주소{{list[0].compAddress}}</div>
+                            <div>{{list[0].compAddress}}</div>
                         </div>
                     </div>
                     <div id="used-seller-name">
 
                         <div id="used-name-report">
-                            <div>업체소개{{list[0].compIntro}}</div>
+                            <div>{{list[0].compIntro}}</div>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div class="right-loaf">
+                    <div class="loaf">
                         <div class="used-point-report">
 
 
@@ -49,7 +55,7 @@
                                         </v-rating>
                                     </div>
                                     <h2 class="ml-3 mt-3" style="font-weight:bold" v-if="list.length != 0">
-                                        평점{{list.CompanyTotalRating}}</h2>
+                                        평점{{list[0].totalRating}}</h2>
                                 </div>
                                 <div id="star-right">
                                     <v-progress-linear color="#64c481" height="20" :value=rate1 style="width:200px">
@@ -94,35 +100,20 @@
 
         <div class="review_area">
             <b-tabs content-class="mt-3">
-                <!-- <b-tab title="견적정보" active>
-                    
-                </b-tab> -->
-
-
                 <b-tab title="이사후기">
-
                     <v-card>
-                        <v-data-table :headers="headers" :items="list">
+                        <v-data-table :headers="headers" :items="list" >
                             <!-- 별점 -->
-                            <template v-for="item in list" v-slot:item.reviewContent="{ item }">
-
+                            <template v-for="item in list" v-slot:item.reviewContent="{ item }" >
                                 <div class="pa-5">
-
                                     <v-rating v-model="item.totalRating" half-increments
                                         background-color="#64c481 lighten-3" color="#64c481" small readonly></v-rating>
                                     <div class="ml-2">{{item.reviewContent}}</div>
                                 </div>
-
                             </template>
                         </v-data-table>
-
                     </v-card>
-
-
-
                 </b-tab>
-
-
             </b-tabs>
         </div>
 
@@ -162,7 +153,7 @@
                 rate2: '',
                 rate3: '',
                 rate4: '',
-
+                writer: '',
                 singleSelect: false,
                 reviews: [],
                 headers: [{
@@ -179,7 +170,7 @@
                     {
                         text: '작성자',
                         sortable: false,
-                        value: 'email'
+                        value: 'writer'
                     },
                     {
                         text: '후기내용',
@@ -211,28 +202,14 @@
                 url: "/zippy/move/moveReview",
                 methods: "GET",
                 params: {
-
-                    serviceId: this.$route.query.serviceId,
-                
+                    serviceId: this.$route.query.serviceId,              
                     pageNum: this.page,
-
-
                 }
             })
-
             this.list = res.data;
             this.pageCount = res.data.pages;
             this.nickName = this.$store.state.loginInfo.nickName;
-            console.log("res", res);
-            console.log(res.data[0].compName);
-            console.log(res.list);
-            console.log("list리스트", this.list);
-
-            // this.data.email = this.$store.state.loginInfo.email;
-            // this.data.serviceId= this.list[i].email;
-            // console.log(this.data.serviceId);
-
-                
+   
             //별점 계산
             var tSum = 0;
             var r1Sum = 0;
@@ -246,17 +223,16 @@
                 r3Sum += Number(this.list[i].rate3)
                 r4Sum += Number(this.list[i].rate4)
             }
-            this.proTotalRating = Math.round(tSum / this.list.length * 10) / 10
-            this.rate1 = Math.round(r1Sum / this.list.length) * 10
-            this.rate2 = Math.round(r2Sum / this.list.length) * 10
-            this.rate3 = Math.round(r3Sum / this.list.length) * 10
-            this.rate4 = Math.round(r4Sum / this.list.length) * 10
-
-            console.log('총:', this.proTotalRating);
-            console.log('1:', this.rate1);
-            console.log('2:', this.rate2);
-            console.log('3:', this.rate3);
-            console.log('4:', this.rate4);
+                this.proTotalRating = Math.round(tSum / this.list.length * 10) / 10
+                this.rate1 = Math.round(r1Sum / this.list.length) * 10
+                this.rate2 = Math.round(r2Sum / this.list.length) * 10
+                this.rate3 = Math.round(r3Sum / this.list.length) * 10
+                this.rate4 = Math.round(r4Sum / this.list.length) * 10
+                console.log('총:', this.proTotalRating);
+                console.log('1:', this.rate1);
+                console.log('2:', this.rate2);
+                console.log('3:', this.rate3);
+                console.log('4:', this.rate4);
 
 
 
@@ -363,13 +339,10 @@
 </script>
 
 <style scoped>
-    /* .loaf{
-    float: left;
+    .loaf{
+   display: flex;
+   width: 500px;
 }
-.right-loaf{
-    float: right;
-} */
-
     /* 은하 */
     #cart-con {
         width: 70%;
@@ -505,6 +478,19 @@
         -webkit-box-pack: justify;
         justify-content: space-between;
         flex-shrink: 0;
+    }
+
+    .intro{
+        font-size: 20px;
+        height: 100px;
+        font-weight: 600;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        flex-shrink: 0;
+        margin: 50px 300px 50px 500px;
+        line-height: 50px;
     }
 
     #used-img {

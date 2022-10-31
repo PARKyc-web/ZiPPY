@@ -7,13 +7,14 @@
     <h4>가구</h4>
     <br />
       <div class="move-furniture1">
+          <!-- 체크박스 선택하지 않을 시, + - 버튼과 input 비활성화 -->
         <input type="checkbox" name="bed" v-model="bedAvail"/><label>침대</label>
+          <!-- + 누르면 사이즈 추가 기입할 수 있는 input 생성 -->
         <button v-bind:disabled="bedAvail==false" 
         class="custom-btn btn-4" type="button" @click="addBed()" >+</button><br><br />
-        <i class="fa-solid fa-bed fa-5x"></i><br />
-    
+        <i class="material-icons md-54">bed</i><br /><br />
+          <!-- 사이즈 선택하는 select box -->
         <div class="move-detail-drop" v-for="i in moveDetail[0].bedCount">
-          <!-- v-for="(row, index) in rows" -->
           <div >
           <select v-bind:disabled="bedAvail==false" :id="i" v-model="moveDetail[0].bed[i]" >
             <option value="" selected>-- 사이즈 --</option>
@@ -23,6 +24,7 @@
             <option value="킹">킹</option>
             <option value="킹이상">킹 이상</option>
           </select>
+            <!-- - 누르면 생성된 사이즈 input칸 제거 -->
           <button v-bind:disabled="bedAvail==false" 
           class="custom-btn btn-4" type="button"  @click="removeBed(i)">-</button>
         </div>
@@ -33,15 +35,15 @@
         <input type="checkbox" name="sofa" v-model="sofaAvail"/><label>소파</label>
         <button v-bind:disabled="sofaAvail==false" 
         class="custom-btn btn-4" type="button" @click="addSofa()">+</button><br><br />
-        <i class="fa-solid fa-couch fa-5x"></i><br />
+        <i class="material-icons md-54">weekend</i><br /><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].sofaCount">
           <select v-bind:disabled="sofaAvail==false" :id="i" v-model="moveDetail[0].sofa[i]">
             <option value="" selected>-- 사이즈 --</option>
-            <option value="싱글">싱글</option>
-            <option value="슈퍼싱글">슈퍼싱글</option>
-            <option value="퀸">퀸</option>
-            <option value="킹">킹</option>
-            <option value="킹이상">킹 이상</option>
+            <option value="1인용">1인용</option>
+            <option value="2~3인용">2~3인용</option>
+            <option value="4인용">4인용</option>
+            <option value="5인용">5인용</option>
+            <option value="6인용이상">6인용이상</option>
           </select>
             <button v-bind:disabled="sofaAvail==false" 
             class="custom-btn btn-4" type="button"  @click="removeSofa(i)">-</button>
@@ -49,18 +51,18 @@
       </div>
 
       <div class="move-furniture1">
-        <input type="checkbox" name="closet" v-model="closetAvail" /><label>옷장-단품</label>
+        <input type="checkbox" name="closet" v-model="closetAvail" /><label>옷장</label>
         <button v-bind:disabled="closetAvail==false" 
         class="custom-btn btn-4" type="button" @click="addCloset()">+</button><br /><br />
-        <i class="fa-solid fa-toilet-portable fa-5x"></i><br />
+        <i class="material-icons md-54">door_sliding</i><br /><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].closetCount">
           <select v-bind:disabled="closetAvail==false" :id="i" v-model="moveDetail[0].closet[i]">
             <option value="" selected>-- 사이즈 --</option>
-            <option value="싱글">싱글</option>
-            <option value="슈퍼싱글">슈퍼싱글</option>
-            <option value="퀸">퀸</option>
-            <option value="킹">킹</option>
-            <option value="킹이상">킹 이상</option>
+            <option value="양문형 단품">양문형 단품</option>
+            <option value="(문한짝 기준)2~3자">(문한짝 기준)2~3자</option>
+            <option value="4자">4자</option>
+            <option value="5~6자">5~6자</option>
+            <option value="7자 이상">7자 이상</option>
           </select>
           <button v-bind:disabled="closetAvail==false" 
            class="custom-btn btn-4" type="button"  @click="removeCloset(i)">-</button>
@@ -68,23 +70,67 @@
       </div>
 
       <div class="move-furniture1">
-        <input type="checkbox" name="closets" v-model="closetsAvail"/><label>옷장-연결장</label>
+        <input type="checkbox" name="closets" v-model="closetsAvail"/><label>서랍장</label>
         <button v-bind:disabled="closetsAvail==false" 
         class="custom-btn btn-4" type="button" @click="addClosets()">+</button><br /><br />
-        <i class="fa-solid fa-toilets-portable fa-5x"></i><br />
+        <i class="material-icons md-54">sensor_window</i><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].closetsCount">
           <select v-bind:disabled="closetsAvail==false" :id="i" v-model="moveDetail[0].closets[i]">
             <option value="" selected>-- 사이즈 --</option>
-            <option value="싱글">싱글</option>
-            <option value="슈퍼싱글">슈퍼싱글</option>
-            <option value="퀸">퀸</option>
-            <option value="킹">킹</option>
-            <option value="킹이상">킹 이상</option>
+            <option value="플라스틱 1~2단">플라스틱 1~2단</option>
+            <option value="플라스틱 3~4단">플라스틱 3~4단</option>
+            <option value="플라스틱 5단 이상">플라스틱 5단 이상</option>
+            <option value="원목 1~2단">원목 1~2단</option>
+            <option value="원목 3~4단">원목 3~4단</option>
+            <option value="원목 5단 이상">원목 5단 이상</option>
           </select>
           <button v-bind:disabled="closetsAvail==false" 
           class="custom-btn btn-4" type="button"  @click="removeClosets(i)">-</button>
         </div>
       </div>
+
+      <!-- 추가 -->
+      <div class="move-furniture1">
+        <input type="checkbox" name="table" v-model="tableAvail"/><label>테이블/책상</label>
+        <button v-bind:disabled="tableAvail==false" 
+        class="custom-btn btn-4" type="button" @click="addTable()">+</button><br /><br />
+        <i class="material-icons md-54">table_restaurant</i><br />
+        <div class="move-detail-drop" v-for="i in moveDetail[0].tableCount">
+          <select v-bind:disabled="tableAvail==false" :id="i" v-model="moveDetail[0].table[i]">
+            <option value="" selected>-- 사이즈 --</option>
+            <option value="플라스틱 1~2인용">플라스틱 1~2인용</option>
+            <option value="플라스틱 3~4인용">플라스틱 3~4인용</option>
+            <option value="플라스틱 4인용 이상">플라스틱 4인용 이상</option>
+            <option value="유리 1~2인용">유리 1~2인용</option>
+            <option value="유리 3~4인용">유리 3~4인용</option>
+            <option value="유리 4인용 이상">유리 4인용 이상</option>
+            <option value="원목 1~2인용">원목 1~2인용</option>
+            <option value="원목 3~4인용">원목 3~4인용</option>
+            <option value="원목 4인용 이상">원목 4인용 이상</option>
+          </select>
+          <button v-bind:disabled="tableAvail==false" 
+          class="custom-btn btn-4" type="button"  @click="removeTable(i)">-</button>
+        </div>
+      </div>
+
+      <div class="move-furniture1">
+        <input type="checkbox" name="chair" v-model="chairAvail"/><label>의자</label>
+        <button v-bind:disabled="chairAvail==false" 
+        class="custom-btn btn-4" type="button" @click="addChair()">+</button><br /><br />
+        <i class="material-icons md-54">chair_alt</i><br />
+        <div class="move-detail-drop" v-for="i in moveDetail[0].chairCount">
+          <select v-bind:disabled="chairAvail==false" :id="i" v-model="moveDetail[0].chair[i]">
+            <option value="" selected>-- 사이즈 --</option>
+            <option value="플라스틱">플라스틱</option>
+            <option value="원목">원목</option>
+            <option value="바퀴달린 책상의자">바퀴달린 책상의자</option>
+            <option value="접이식">접이식</option>
+          </select>
+          <button v-bind:disabled="chairAvail==false" 
+          class="custom-btn btn-4" type="button"  @click="removeChair(i)">-</button>
+        </div>
+      </div>
+
     </div>
 
 
@@ -99,16 +145,17 @@
         <button v-bind:disabled="tvAvail==false" 
         class="custom-btn btn-4" type="button" @click="addTv()" >+</button><br /><br />
     
-        <i class="fa-solid fa-tv fa-5x"></i><br />
+        <i class="material-icons md-54">tv_gen</i><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].tvCount">
           <!-- v-for="(row, index) in rows" -->
           <select v-bind:disabled="tvAvail==false" :id="i" v-model="moveDetail[0].tv[i]" >
             <option value="" selected>-- 사이즈 --</option>
-            <option value="싱글">싱글</option>
-            <option value="슈퍼싱글">슈퍼싱글</option>
-            <option value="퀸">퀸</option>
-            <option value="킹">킹</option>
-            <option value="킹이상">킹 이상</option>
+            <option value="35인치 이하">35인치 이하</option>
+            <option value="35~45인치">35~45인치</option>
+            <option value="45~55인치">45~55인치</option>
+            <option value="55~65인치">55~65인치</option>
+            <option value="65~75인치">65~75인치</option>
+            <option value="75인치 이상">75인치 이상</option>
           </select>
       
           <button v-bind:disabled="tvAvail==false" 
@@ -120,15 +167,14 @@
         <input type="checkbox" name="pc" v-model="pcAvail"/><label>데스크탑</label>
         <button v-bind:disabled="pcAvail==false"  
         class="custom-btn btn-4" type="button" @click="addPc()">+</button><br /><br />
-        <i class="fa-solid fa-desktop fa-5x"></i><br /> 
+        <i class="material-icons md-54">laptop</i><br /> 
         <div class="move-detail-drop" v-for="i in moveDetail[0].pcCount">
           <select v-bind:disabled="pcAvail==false" :id="i" v-model="moveDetail[0].pc[i]">
             <option value="" selected>-- 사이즈 --</option>
-            <option value="싱글">싱글</option>
-            <option value="슈퍼싱글">슈퍼싱글</option>
-            <option value="퀸">퀸</option>
-            <option value="킹">킹</option>
-            <option value="킹이상">킹 이상</option>
+            <option value="노트북(랩탑)">노트북(랩탑)</option>
+            <option value="컴퓨터(데스크탑) 본체 + 모니터">컴퓨터(데스크탑) 본체 + 모니터</option>
+            <option value="모니터만">모니터만</option>
+            <option value="본체만">본체만</option>
           </select>
           <button v-bind:disabled="pcAvail==false"   
           class="custom-btn btn-4" type="button"  @click="removePc(i)">-</button>
@@ -143,11 +189,11 @@
         <div class="move-detail-drop" v-for="i in moveDetail[0].fridgeCount">
           <select v-bind:disabled="fridgeAvail==false" :id="i" v-model="moveDetail[0].fridge[i]">
             <option value="" selected>-- 사이즈 --</option>
-            <option value="싱글">싱글</option>
-            <option value="슈퍼싱글">슈퍼싱글</option>
-            <option value="퀸">퀸</option>
-            <option value="킹">킹</option>
-            <option value="킹이상">킹 이상</option>
+            <option value="미니냉장고">미니냉장고</option>
+            <option value="단문형">단문형</option>
+            <option value="양문형">양문형</option>
+            <option value="김치냉장고 단문형">김치냉장고 단문형</option>
+            <option value="김치냉장고 양문형">김치냉장고 양문형</option>
           </select>
           <button v-bind:disabled="fridgeAvail==false" 
           class="custom-btn btn-4" type="button"  @click="removeFridge(i)">-</button>
@@ -155,44 +201,81 @@
       </div>
 
       <div class="move-furniture1">
-        <input type="checkbox" name="trolley" v-model="trolleyAvail" /><label>유모차</label>
+        <input type="checkbox" name="trolley" v-model="trolleyAvail" /><label>전자레인지</label>
         <button v-bind:disabled="trolleyAvail==false"
          class="custom-btn btn-4" type="button" @click="addTrolley()">+</button><br /><br />
-        <i class="fa-solid fa-baby-carriage fa-5x"></i><br />
+         <i class="material-icons md-54">microwave_gen</i><br />
         <div class="move-detail-drop" v-for="i in moveDetail[0].trolleyCount">
           <select v-bind:disabled="trolleyAvail==false" :id="i" v-model="moveDetail[0].trolley[i]">
             <option value="" selected>-- 사이즈 --</option>
-            <option value="싱글">싱글</option>
-            <option value="슈퍼싱글">슈퍼싱글</option>
-            <option value="퀸">퀸</option>
-            <option value="킹">킹</option>
-            <option value="킹이상">킹 이상</option>
+            <option value="미니 전자레인지">미니 전자레인지</option>
+            <option value="일반형 전자레인지">일반형 전자레인지</option>
+            <option value="오븐겸용 전자레인지">오븐겸용 전자레인지</option>
           </select>
           <button v-bind:disabled="trolleyAvail==false" 
           class="custom-btn btn-4" type="button"  @click="removeTrolley(i)">-</button>
         </div>
       </div>
+
+      <!--  추가  -->
+      <div class="move-furniture1">
+        <input type="checkbox" name="aircon" v-model="airconAvail" /><label>에어컨</label>
+        <button v-bind:disabled="airconAvail==false"
+         class="custom-btn btn-4" type="button" @click="addAircon()">+</button><br /><br />
+         <i class="material-icons md-54">air_purifier_gen</i><br />
+        <div class="move-detail-drop" v-for="i in moveDetail[0].airconCount">
+          <select v-bind:disabled="airconAvail==false" :id="i" v-model="moveDetail[0].aircon[i]">
+            <option value="" selected>-- 사이즈 --</option>
+            <option value="인버터형">인버터형</option>
+            <option value="스탠드형">스탠드형</option>
+            <option value="시스템(천장형)">시스템(천장형)</option>
+          </select>
+          <button v-bind:disabled="airconAvail==false" 
+          class="custom-btn btn-4" type="button"  @click="removeAircon(i)">-</button>
+        </div>
+      </div>
+
+      <div class="move-furniture1">
+        <input type="checkbox" name="laundry" v-model="laundryAvail" /><label>세탁기</label>
+        <button v-bind:disabled="laundryAvail==false"
+         class="custom-btn btn-4" type="button" @click="addLaundry()">+</button><br /><br />
+         <i class="material-icons md-54">gas_meter</i><br />
+        <div class="move-detail-drop" v-for="i in moveDetail[0].laundryCount">
+          <select v-bind:disabled="laundryAvail==false" :id="i" v-model="moveDetail[0].laundry[i]">
+            <option value="" selected>-- 사이즈 --</option>
+            <option value="일반통돌이">일반통돌이</option>
+            <option value="드럼형 저용량">드럼형 저용량</option>
+            <option value="드럼형 고용량">드럼형 고용량</option>
+            <option value="건조기">건조기</option>
+          </select>
+          <button v-bind:disabled="laundryAvail==false" 
+          class="custom-btn btn-4" type="button"  @click="removeLaundry(i)">-</button>
+        </div>
+      </div>
+
     </div>
 
 
     <div>
       
-      <br />
-      <h4>기타</h4>
-      <br />
       <div class="move-detail-2">
-        <div class="move-furniture1">
+        <br />
+        <h4>기타</h4>
+        <br />
+        <div class="move-furniture6">
           <h5>
             ※위의 이삿짐 이외의 항목 기재가 필요한 이삿짐 정보를 입력해주세요.
           </h5>
           <br />
           <div class="move-detail-drop">
+              <!-- +버튼 누르면 기타 짐 정보의 이름과 사이즈 기입하는 input 추가 -->
             <button class="custom-btn btn-4" type="button" @click="addEtc()">+</button><br><br>
-            <div v-for="i in moveDetail[0].etcCount">
-              <label >사용자 기타</label>
+            <div class="etc-in" v-for="i in moveDetail[0].etcCount">
+              <label >사용자 기타</label><br />
+              <input v-model="moveDetail[0].etcName[i]" class="type-2" type="text" placeholder="기타이삿짐 이름" /><br />
+              <input v-model="moveDetail[0].etcSize[i]" class="type-2" type="text" placeholder="이삿짐 사이즈(cm * cm)" /><br />
+                <!-- -버튼 누르면 추가된 input 제거 -->
               <button class="custom-btn btn-4" type="button" :id="i" @click="removeEtc(i)">-</button>
-            <input v-model="moveDetail[0].etcName[i]" class="type-2" type="text" placeholder="기타이삿짐 이름" /><br />
-            <input v-model="moveDetail[0].etcSize[i]" class="type-2" type="text" placeholder="이삿짐 사이즈(cm * cm)" /><br />
           </div>
           </div>
         </div>
@@ -203,7 +286,7 @@
         <br />
         <h4>박스 수량</h4>
         <br />
-        <div class="move-furniture3">
+        <div class="move-furniture5">
           <br />
           <h5>
             ※이외의 이삿짐 이동에 사용할 박스의 개수를 선택해주세요. <br />
@@ -222,58 +305,55 @@
               <option value="30개이상">30개 이상</option>
             </select>
           </div>
-          <!-- <div><img src="../../assets/박스예시.jpg" style="width: 200px;"></div> -->
           <div><img :src="img" alt="boxExample" /></div>
         </div>
       </div>
 
       
-      <div class="move-detail-2">
+      <div class="move-detail-3">
         <br />
         <h4>전달사항(선택)</h4>
         <br />
-        <div class="move-furniture1">
+        <div class="move-furniture5">
           <br />
           <h5>
             ※이사업체에 전달하고 싶은 사항이 있으면 작성해주세요.
           </h5>
           <br />
           <div class="move-detail-drop">
-            <v-textarea v-model="movingMemo" placeholder="전달사항을 입력해주세요.">
-
-            </v-textarea>
-            <!-- <v-file-input outlined v-model="moveDetail.filesPhoto" placeholder="Upload your documents" label="사진첨부" 
-              prepend-icon="mdi-paperclip">
-              <template v-slot:selection="{ text }">
-                <v-chip small label color="success">
-                  {{ text }}
-                </v-chip>
-              </template>
-            </v-file-input> -->
+            <v-textarea background-color="grey lighten-2"
+            color="cyan" v-model="movingMemo" placeholder="전달사항을 입력해주세요.">
+            </v-textarea>          
           </div>
         </div>
       </div>
     </div>
 
     <div class="frame">
-      <button id="selectBtn-bday" class="custom-btn btn-3" @click="un_final_signIn()">선택완료</button>
+      <button id="selectBtn-bday" class="custom-btn btn-3" @click="un_final_signIn()">작성완료</button>
     </div>
   </div>
 </template>
 
 <script>
+  import swal from 'sweetalert2';
   export default {
     props: ['moveInfo','moveEstimateType','moveType', 'moveDate', 'moveAddress'],
     data: () => ({
       
-      bedAvail: false,
       sofaAvail: false,
       closetAvail: false,
       closetsAvail: false,
+      tableAvail : false,
+      chairAvail : false,
+      
       tvAvail: false,
       pcAvail: false,
       fridgeAvail: false,
       trolleyAvail: false,
+      airconAvail : false,
+      laundryAvail : false,
+      bedAvail: false,
 
       moveDetail: [{
 
@@ -285,6 +365,11 @@
         closet: [""],
         closetsCount:1,
         closets: [""],
+        tableCount:1,
+        table: [""],
+        chairCount:1,
+        chair: [""],
+
         tvCount:1,
         tv: [""],
         pcCount:1,
@@ -293,6 +378,11 @@
         fridge: [""],  
         trolleyCount:1,
         trolley: [""],
+        airconCount:1,
+        aircon: [""],
+        laundryCount:1,
+        laundry: [""],
+
         etcCount:1,
         etcName: [""],
         etcSize: [""],
@@ -368,6 +458,32 @@
        }
       },
 
+      addTable: function(){
+        this.moveDetail[0].table.push();
+        this.moveDetail[0].tableCount++;        
+      },
+      removeTable: function(i){
+       if(i>1){
+        this.moveDetail[0].table[i]="";
+        this.moveDetail[0].tableCount--;
+       }else if(i<1){
+        this.moveDetail[0].tableCount = 1;
+       }
+      },
+
+      addChair: function(){
+        this.moveDetail[0].chair.push();
+        this.moveDetail[0].chairCount++;        
+      },
+      removeChair: function(i){
+       if(i>1){
+        this.moveDetail[0].chair[i]="";
+        this.moveDetail[0].chairCount--;
+       }else if(i<1){
+        this.moveDetail[0].chairCount = 1;
+       }
+      },
+
       addTv: function(){
         this.moveDetail[0].tv.push();
         this.moveDetail[0].tvCount++;        
@@ -422,6 +538,34 @@
        }
       },
 
+      addAircon: function(){
+        
+        this.moveDetail[0].aircon.push();
+        this.moveDetail[0].airconCount++;        
+      },
+      removeAircon: function(i){
+       if(i>1){
+        this.moveDetail[0].aircon[i]="";
+        this.moveDetail[0].airconCount--;
+       }else if(i<1){
+        this.moveDetail[0].airconCount = 1;
+       }
+      },
+
+      addLaundry: function(){
+        
+        this.moveDetail[0].laundry.push();
+        this.moveDetail[0].laundryCount++;        
+      },
+      removeLaundry: function(i){
+       if(i>1){
+        this.moveDetail[0].laundry[i]="";
+        this.moveDetail[0].laundryCount--;
+       }else if(i<1){
+        this.moveDetail[0].laundryCount = 1;
+       }
+      },
+      //기타짐 추가 및 삭제 버튼 기능
       addEtc: function(){
         this.moveDetail[0].etcName.push();
         this.moveDetail[0].etcSize.push();
@@ -437,10 +581,6 @@
        }
       },
 
-
-
-
-
       //라우터
       un_final_signIn: function () {
         console.log(this.moveInfo);
@@ -448,13 +588,13 @@
         console.log(this.moveDetail[0].box);
 
         if(this.moveDetail[0].box == ""){
-          alert("필요한 박스 수량을 선택해주세요."); 
+          swal.fire("필요한 박스수량을 선택해주세요."); 
         }
 
         else{
 
         this.$router.push({
-
+          //다음 페이지(사진선택)로 넘어가기 -> params에 필요한 데이터 같이 보낸다 
           name: "moveUntactImg",
           params: {                                    
                   moveDetail:this.moveDetail,
@@ -466,14 +606,29 @@
                   movingMemo : this.movingMemo
           }
         })
-        }
       }
+    }
 
     }
   };
 </script>
 
 <style scoped>
+  @font-face {
+    font-family: 'GmarketSans';
+    font-weight: 500;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot?#iefix') format('embedded-opentype'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff') format('woff'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.ttf') format("truetype");
+    font-display: swap;
+} 
+* {
+  font-family: 'GmarketSans';
+}
+
 
   .head {
     display: inline-block;
@@ -542,6 +697,11 @@
     padding-top: 100px;
   }
   
+  h4{
+    padding: 20px;
+    color: #42b983;
+    font-weight: bold;
+  }
 
   /* input */
 
@@ -565,16 +725,32 @@
 .move-detail{
   
   overflow: hidden;
+  padding: 50px 0 100px 50px;
+  border-bottom: 1px solid #aaa;
+}
+.move-detail-2{
+  height: 800px;
+  overflow: hidden;
+  padding: 100px 0 100px 50px;
+  border-bottom: 1px solid #aaa;
+  text-align: center;
+}
+.move-detail-3{
+  
+  overflow: hidden;
+  padding: 100px 0 0 50px;
+  text-align: center;
 }
 
   .move-furniture1 {
     /* display: inline-block; */
     float: left;
     margin: 20px;
-    width: 25%;
+    width: 30%;
+  
   }
 
-  .move-furniture2 {
+  .move-furniture3 {
     float: left;
     /* display: inline-block; */
     margin: 20px;
@@ -595,11 +771,6 @@
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
   }
 
-  
-
-  .move-detail-2 {
-    text-align: center;
-  }
 
 
   /* zip */
@@ -608,8 +779,9 @@
   }
 
   .move-detail-drop {
-    display: inline-block;
-    width: 250px;
+    /* display: inline-block; */
+    float: left;
+    width: 100%;
     height: 100px;
   }
 
@@ -623,7 +795,7 @@
 
   .frame {
     width: 90%;
-    margin: 100px auto;
+    margin: 30px auto;
     text-align: center;
   }
 

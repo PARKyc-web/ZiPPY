@@ -1,5 +1,7 @@
 package com.yedam.zippy.validation.service.impl;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -22,7 +24,11 @@ public class ValidationServiceImpl implements ValidationService{
       
   @Autowired
   MemberService mService;  
-  private final DefaultMessageService smsService = NurigoApp.INSTANCE.initialize("NCSWH6V59IRNEKGQ", "YA5INLWRXXQOSOFAPHTO6KEJXCZKQNXN", "https://api.coolsms.co.kr");
+  
+  private final DefaultMessageService smsService = 
+                  NurigoApp.INSTANCE.initialize("NCSWH6V59IRNEKGQ", 
+                                                "YA5INLWRXXQOSOFAPHTO6KEJXCZKQNXN", 
+                                                "https://api.coolsms.co.kr");
   
   @Override
   public void sendEmail(String email, String subject, String content) {
@@ -31,9 +37,7 @@ public class ValidationServiceImpl implements ValidationService{
     msg.setTo(email);
     msg.setSubject(subject);       
     msg.setText(content);
-    msg.setFrom("zippynotice@naver.com");
-    System.out.println("설정까지 완료");
-    System.out.println(msg);
+    msg.setFrom("zippynotice@naver.com");    
     mailSender.send(msg);
   }
  
@@ -47,6 +51,24 @@ public class ValidationServiceImpl implements ValidationService{
     sms.setText(content);
     
     SingleMessageSentResponse res = smsService.sendOne(new SingleMessageSendingRequest(sms));    
+  }
+  
+  @Override
+  public String getNewPassword() {
+    Random rand = new Random();
+    
+    String key = "";              
+    for(int i=0; i<5; i++) {
+       key += (char)(rand.nextInt(26)+65);
+    }
+    
+    key += "@";
+    key += rand.nextInt(100);
+    for(int i=0; i<5; i++) {
+      key += (char)(rand.nextInt(26)+97);
+   }
+    
+    return key;
   }
   
 }

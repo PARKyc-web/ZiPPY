@@ -8,21 +8,17 @@
     <input type="hidden" name="commonOption" v-model="commonOption">
     <input type="hidden" name="email" v-model="email">
     <input type="hidden" name="movingMemo" v-model="movingMemoSend">
-    
     <input type="hidden" name="departAddress" v-model="moveAddress.address">
     <input type="hidden" name="arriveAddress" v-model="moveAddress.address2">
-
     <input type="hidden" name="movingDate" v-model="moveDate.date">
     <input type="hidden" name="movingTime" v-model="moveDate.time">
     <input type="hidden" name="estimateType" v-model="moveEstimateType">
-
     <input type="hidden" name="departZipCode" v-model="moveAddress.postcode">
     <input type="hidden" name="departDetail" v-model="moveAddress.detailAddress">
     <input type="hidden" name="departExtra" v-model="moveAddress.extraAddress">
     <input type="hidden" name="arriveZipCode" v-model="moveAddress.postcode2">
     <input type="hidden" name="arriveDetail" v-model="moveAddress.detailAddress2">
     <input type="hidden" name="arriveExtra" v-model="moveAddress.extraAddress2">
-
     <input type="hidden" name="moveType" v-model="moveType">
     <input type="hidden" name="visitDate" v-model="moveVisit.visitDate">
     <input type="hidden" name="visitTime" v-model="moveVisit.visitTime">
@@ -53,10 +49,6 @@
               <v-select v-model="moveType" :items="types" chips flat solo outlined placeholder="선택한 이사유형 불러오기">
               </v-select>
 
-              <div class="drop-btn">
-                <v-btn text color="secondary"> 취소 </v-btn>
-                <v-btn text color="primary"> 수정 </v-btn>
-              </div>
             </v-col>
             
           </v-row>
@@ -401,10 +393,6 @@
               <v-select class="select-home" v-model="moveInfo.floor" :items="floors" chips flat solo outlined
                 placeholder="선택한 집층수 불러오기"></v-select>
 
-              <div class="drop-btn">
-                <v-btn text color="secondary"> 취소 </v-btn>
-                <v-btn text color="primary"> 수정 </v-btn>
-              </div>
             </v-col>
           </v-row>
         </v-expansion-panel-content>
@@ -446,10 +434,7 @@
               <v-select class="select-home" v-model="moveInfo.veranda" :items="verandas" chips flat solo outlined
                 placeholder="선택한 베란다 개수 불러오기"></v-select>
 
-              <div class="drop-btn">
-                <v-btn text color="secondary"> 취소 </v-btn>
-                <v-btn text color="primary"> 수정 </v-btn>
-              </div>
+             
             </v-col>
           </v-row>
         </v-expansion-panel-content>
@@ -492,10 +477,6 @@
               <v-select class="select-home" v-model="moveInfo.parkable" :items="parkable" chips flat solo outlined
                 placeholder="주차가능 여부"></v-select>
 
-              <div class="drop-btn">
-                <v-btn text color="secondary"> 취소 </v-btn>
-                <v-btn text color="primary"> 수정 </v-btn>
-              </div>
             </v-col>
           </v-row>
         </v-expansion-panel-content>        
@@ -511,40 +492,26 @@
     <table>
       <thead><h4>유의사항을 확인해주세요.</h4></thead>
       <tbody>
-        <tr><td>※ 비대면 견적 서비스는 이사출발지와 도착지의 집구조와, 옮겨야하는 짐의 자세한 정보가 있어야 정확한 견적이 가능합니다. </td></tr>
-        <tr><td>※ 견적 요청에 기재한 정보가 실제 집구조와 이삿짐 정보와 다를 경우, 이삿날 추가 비용이 발생할 수 있습니다. </td></tr>
-        <tr><td>※ 부정확한 정보 기재와 소비자의 단순변심으로 인한 추가비용발생에 대해서 본 웹사이트는 책임이 없습니다. </td></tr>
-        <tr><td>※ 한 번 견적요청을 신청하면 영업일 기준 3일동안 견적 요청이 유효합니다. </td></tr>
+        
+        <ul class="agree_ul">
+          <li>※ 견적 요청에 기재한 정보가 실제 집구조와 이삿짐 정보와 다를 경우, 방문견적 후 추가 비용이 발생할 수 있습니다. </li>
+          <li>※ 부정확한 정보 기재와 소비자의 단순변심으로 인한 추가비용발생에 대해서 본 웹사이트는 책임이 없습니다. </li>
+          <li>※ 한 번 견적요청을 신청하면 요청정보에 대해서 수정할 수 없습니다. </li>
+        </ul>
       </tbody>
     </table>
   
-    <div class="agree">
-      <v-checkbox
-              v-model="ex4"
-              label="유의사항을 확인하고 숙지하였습니다."
-              color="success"
-              value="success"
-              hide-details
-              class="agree-check"
-            ></v-checkbox>
+      <div class="agree">
+        <v-checkbox v-model="ex4" label="유의사항을 확인하고 숙지하였습니다." color="success lighten-3" value="success" 
+        hide-details class="agree-check"></v-checkbox>
+      </div>
+    </div> 
+      
+    <div class="final-btn">
+        <v-btn type="button" color="success lighten-3" elevation="10" v-bind:disabled="ex4==false" @click="finalSend()">
+        확인완료
+        </v-btn>
     </div>
-  </div> 
-  <div class="final-btn">
-  <v-btn
-  type="button"
-  color="success"
-  elevation="10"
-  
-  @click="finalSend()"
->확인완료</v-btn>
-
-
-
-</div>
-
-  
-    
-
 
 </form>
   </div>
@@ -552,7 +519,7 @@
 
 <script>
 import MoveNavBar from '@/components/move/MoveNavBar.vue';
-
+import swal from 'sweetalert2';
 export default {
   components: {
     MoveNavBar
@@ -611,36 +578,27 @@ export default {
           reservStatus:"",
 
       // checkbox
-      ex4: ['success'],
+      ex4: false,
     }),
 
     methods: {
-
+      //견적요청 보내기
       finalSend : function(){
-
-
-        
+        //이사정보(ex. 층수, 집유형, 엘레베이터 유무 등) 한 컬럼에 Json형식의 String 타입으로 담기
         var moveInfoJson = JSON.stringify(this.moveInfo);
-
-
-       
+        // Form안의 해당 컬럼에 해당하는 값에 Json String타입을 넣어주기
         contactForm.commonOption.value= moveInfoJson;
+
         contactForm.email.value = this.$store.state.loginInfo.email;
         contactForm.reservStatus.value =0;
-        
-        // contactForm.movingOption.value= "["+ JSON.stringify(this.moveInfo) +"]";
+
         //form으로 데이터보내기
-        var formData = new FormData(document.querySelector('#contactForm')); 
-        
+        var formData = new FormData(document.querySelector('#contactForm'));       
         console.log(this.commonOption);
-        console.log('email : ',this.email);
 
         this.$axios({
           url: "/zippy/move/moveContactCheck",
           method: "POST",
-          // headers: {
-          //   "Content-Type": "application/json; charset=utf-8"
-          // },
           data: formData
         }).then(res => {
           console.log(res);
@@ -648,17 +606,16 @@ export default {
             //견적상태변경
             this.$axios({
             url: "/zippy/move/moveStatusUpdateZero",
-            method: "POST",
-          
+            method: "POST",          
             params:{
               estimateNo : this.selectData.estimateNo,
               email : this.selectData.email,
               reservStatus : 0
             },
             // data: formData
-          }).then(res => {
-            console.log(res);
-            alert("견적서 보내기 완료!");
+            }).then(res => {
+              console.log(res);
+              swal.fire("견적서 보내기 완료!");
             
 
           }).catch(err => {
@@ -669,29 +626,38 @@ export default {
           console.log(err)
         })
 
+        swal.fire({
+            title: '입력정보와 유의사항을 확인해주세요.',
+            text: "한 번 요청한 견적정보는 수정할 수 없습니다. 이대로 견적 요청을 보내시겠습니까?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#96e5b8',
+            cancelButtonColor: '#a9a9a9',
+            confirmButtonText: 'YES'
+          }).then((result) => {
+            if (result.isConfirmed) {
 
-        var confirmVal = confirm("견적 요청을 보내시겠습니까?");
-        if(confirmVal == true){
-        this.$router.push({
+              // this.$router.push('/login')
+              this.$router.push({
+                path: "/mypage/move/moveResult",
+                // name: "moveResult",
+                params: {
+                  moveImage: this.moveImage,
+                  moveDetail: this.moveDetail,
+                  moveEstimateType: this.moveEstimateType,
+                  moveInfo: this.moveInfo,
+                  moveType: this.moveType,
+                  moveDate: this.moveDate, 
+                  moveAddress: this.moveAddress,
+                  moveVisit : this.moveVisit,
+                  requestDate : this.requestDateSend,
+                  email: this.$store.state.loginInfo.email
+                  
+                }
+              })
 
-          name: "moveResult",
-          params: {
-            moveImage: this.moveImage,
-            moveDetail: this.moveDetail,
-            moveEstimateType: this.moveEstimateType,
-            moveInfo: this.moveInfo,
-            moveType: this.moveType,
-            moveDate: this.moveDate, 
-            moveAddress: this.moveAddress,
-            moveVisit : this.moveVisit,
-            requestDate : this.requestDateSend,
-            email: this.$store.state.loginInfo.email
-            
-          }
+            } 
           })
-        } else {
-
-        } 
 
       },
 
@@ -747,6 +713,29 @@ export default {
 </script>
 
 <style scoped>
+
+@font-face {
+    font-family: 'GmarketSans';
+    font-weight: 500;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot?#iefix') format('embedded-opentype'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff') format('woff'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.ttf') format("truetype");
+    font-display: swap;
+} 
+* {
+  font-family: 'GmarketSans';
+}
+
+  #contactForm{
+    padding: 50px 100px 100px 100px;
+  }
+  .agree_ul{
+    list-style: none;
+  }
+
   table{
     width: 100%;
     text-align: center;

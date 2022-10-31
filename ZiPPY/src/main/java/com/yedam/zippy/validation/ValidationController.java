@@ -46,7 +46,7 @@ public class ValidationController {
 	public String emailValidation(@RequestParam Map<String, String> data) {						
 		String key = "";
 		for(int i=0; i<6; i++) {
-			int rand = (int) (Math.random()*10); // 0 ~ 9
+			int rand = (int) (Math.random()*10);
 			key += rand;
 		}		
 		
@@ -81,38 +81,20 @@ public class ValidationController {
 		return key;
 	}	
 	
-	@GetMapping("/emailRedundancy")
-	public int emailRedundancy(@RequestParam String email) {
-	  System.out.println("emailRedundancy");
-	  
-	  System.out.println(email);
-	  int result = mService.emailRedundancy(email);
-	  System.out.println("Redundancy Check :: " + result);	  
-	  
-	  return result; 	  
-	}
 	
+	@GetMapping("/emailRedundancy")
+	public int emailRedundancy(@RequestParam String email) {  	  
+	  return mService.emailRedundancy(email); 	  
+	}		
 	
 	@GetMapping("/password")
-    public boolean password(@RequestParam String email) {            
-        Random rand = new Random();
-       
+    public boolean password(@RequestParam String email) {           
         Object obj = mService.findUserByEmail(email);        
         if(obj == null) {
           return false;
-        }
+        }       
         
-        String key = "";              
-        for(int i=0; i<5; i++) {
-           key += (char)(rand.nextInt(26)+65);
-        }
-        
-        key += "@";
-        key += rand.nextInt(100);
-        for(int i=0; i<5; i++) {
-          key += (char)(rand.nextInt(26)+97);
-       }
-        
+        String key = validationService.getNewPassword();
         LoginVO login = new LoginVO();
         login.setEmail(email);
         
@@ -120,8 +102,7 @@ public class ValidationController {
         mService.takeNewPassword(login);
                 
         String mailContent = "[ZIPPY] 임시비밀번호 발급 \n "
-                           + key + " 입니다";
-        
+                           + key + " 입니다";        
         validationService.sendEmail(email, "ZIPPY 임시비밀번호!", mailContent);
         
         return true;
@@ -130,9 +111,8 @@ public class ValidationController {
 	@GetMapping("/findEmail")
 	public String findUserEmail(String userName, String phoneNumber) {	  
 	  String userEmail = "";
-	  userEmail = mService.findUserEmail(userName, phoneNumber);
+	  userEmail = mService.findUserEmail(userName, phoneNumber);  
 	  
-	  System.out.println(userEmail);
 	  if(userEmail == null) {
 	    return "";
 	  }

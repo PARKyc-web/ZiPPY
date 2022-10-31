@@ -1,22 +1,12 @@
 <template>
   <div>
     <move-nav-bar @click="categoryVal=$event.target.innerText"></move-nav-bar>
-  <div class="company-wrap">
     <div class="move-main-title">
       <h3>업체 조회</h3>
+      <br /><hr />
     </div>
-
-    <div class="form-check">
-      <input @click="checkbox ()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-      <label class="form-check-label" for="flexCheckDefault">
-        내 지역만 보기
-      </label>
-    </div>
-    <hr />
-    <!--  -->
- 
-
-
+  <div class="company-wrap">
+    <!-- 드롭박스 -->
     <div id="used-main-dropbox1">
       <v-select @change="dropVal2()" v-model="select2" :items="drops" item-text="name" item-value="value2" label="정렬"
         color="#212529" persistent-hint single-line dense width="50"></v-select>
@@ -29,16 +19,12 @@
         </template>
         
     <!-- 카드 -->
-        
-
         <v-card-title>업체명 : <span>{{item.compName}}</span></v-card-title>
-
         <v-card-text>
           <v-row text-align="center" class="mx-0">
             <v-rating :value="item.totalRating" color="amber" dense half-increments readonly size="20"></v-rating>
-
             <div class="grey--text ms-4">
-              {{item.totalRating}} (0)
+              {{Math.round(item.totalRating * 10)/10}} 
             </div>
           </v-row>
           <v-divider class="mx-4"></v-divider>
@@ -48,18 +34,13 @@
           <div>
             주소 : <span>{{item.compAddress}}</span>
           </div>
-
           <div class="my-4 text-subtitle-1">{{item.compIntro}}</div>
         </v-card-text>
-
-        <v-divider class="mx-4"></v-divider>
-        
-
+        <v-divider class="mx-4"></v-divider>      
         <v-card-actions>
           <v-btn color="#B3E3C3 lighten-2" text @click="chat">
             채팅하기
           </v-btn>
-
           <v-btn color="#B3E3C3 lighten-2" text @click="goToCompany(item.email)">
             후기보기
           </v-btn>
@@ -73,7 +54,7 @@
 
 <script>
 import axios from 'axios';
-
+import swal from 'sweetalert2';
 import MoveNavBar from '@/components/move/MoveNavBar.vue';
 
 export default {
@@ -130,26 +111,22 @@ export default {
     },
 
     created(){
+      //업체조회
       axios({
-        url: "http://localhost:8090/zippy/move/moveCompanyList",
+        url: "/zippy/move/moveCompanyList",
         methods: "GET",
         params: {
-          email: "",
-          
+          email: "",          
           checked: "",
           dropbox: "",
           dropbox2: "",
-
           serviceType: "",
           serviceId: this.list.email,
           memberType:""
-
         }
       }).then(res => {
         console.log(res);
         this.list = res.data;
-        console.log('listttttttt',this.list);
-
       }).catch(error => {
         console.log(error);
       })
@@ -181,10 +158,29 @@ export default {
       },
       //후기보기
       goToCompany(email){
-        this.$router.push('/move/moveReview?serviceId=' + email );  
-        // this.$router.push('/move/moveReview?serviceId=' + email + 
-        //               '&movingResponseNo=' + movingResponseNo);        
-        // console.log('이메일 :::',email, movingResponseNo);
+
+        if (this.$store.state.loginInfo == null || this.$store.state.loginInfo.email == "") {
+          swal.fire({
+            title: '로그인이 필요합니다.',
+            text: "로그인 하시겠습니까 ?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#96e5b8',
+            cancelButtonColor: '#a9a9a9',
+            confirmButtonText: 'YES'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.$router.push('/login')
+            }
+          })
+          
+        } else {
+          // window.location.assign('/mypage/move/moveResult');
+          this.$router.push('/move/moveReview?serviceId=' + email );
+        }
+
+          
+        
       },
       //체크박스
       checkbox: function () {
@@ -211,17 +207,13 @@ export default {
       },
       //드롭박스
       dropVal2: function () {
-
         var dropValue2 = this.select2;
-        console.log(dropValue2);
-        
+        console.log(dropValue2);   
         axios({
-          url: "http://localhost:8090/zippy/move/moveCompanyList",
+          url: "/zippy/move/moveCompanyList",
           methods: "GET",
           params: {
-            dropbox: this.select,
-            dropbox2: dropValue2, //지역
-           
+            dropbox2: dropValue2,         
             totalRating: this.totalRating,
             compAddress: this.compAddress
           }
@@ -237,9 +229,27 @@ export default {
 </script>
 
 <style scoped>
-  .company-wrap {
+@font-face {
+    font-family: 'GmarketSans';
+    font-weight: 500;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot?#iefix') format('embedded-opentype'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff') format('woff'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.ttf') format("truetype");
+    font-display: swap;
+} 
+* {
+  font-family: 'GmarketSans';
+}
+
+  .move-main-title{
+    margin: 50px 150px 0 150px;
+  }
+.company-wrap {
     
-    margin: 50px;
+    margin: 30px 100px 100px 100px;
   }
 
   .divv {

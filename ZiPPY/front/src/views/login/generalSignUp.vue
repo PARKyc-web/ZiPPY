@@ -177,7 +177,7 @@
 
 <script>
   import axios from "axios";
-  import loginFunc from '../../script/loginFunc.js';
+  import loginFunc from '@/script/loginFunc.js';
   import swal from 'sweetalert2';
 
   export default {
@@ -273,10 +273,7 @@
       /**
        * 모든 값을 입력하고, 인증까지 완료했으면 회원가입을 완료할 수 있는 메소드
        */
-      signup: async function () {
-        // var selected = document.querySelector("input[type=radio][name=userGender]:checked");
-        // this.user_info.userGender = selected.value;
-        // console.log(this.user_info);
+      signup: async function () {        
 
         if (this.pass_valid == true && this.pass_confirm == true &&
           this.email_valid == true && this.phone_valid == true &&
