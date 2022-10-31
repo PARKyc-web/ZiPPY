@@ -72,8 +72,8 @@ public class ChatController {
     // 채팅방 생성
     @PostMapping("/room")
     public int createChatRoom(@RequestBody ChatRoomVO vo) {      
-      service.createChatRoom(vo);
-      return vo.getChatRoomNo();
+      ChatRoomVO room = service.createChatRoom(vo);
+      return room.getChatRoomNo();
     }    
     
     @PutMapping("/sell")
