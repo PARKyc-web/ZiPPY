@@ -5,13 +5,14 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.github.pagehelper.Page;
+import com.yedam.zippy.property.service.PropertyImagesVO;
 import com.yedam.zippy.property.service.WishVO;
 import com.yedam.zippy.property.service.agentVO;
 import com.yedam.zippy.property.service.propertyVO;
 
 public interface PropertyMapper {
 
-	public List<propertyVO> getAllPropertyList();
+	public List<propertyVO> getAllPropertyList(@Param("houseType")String houseType);
 	
 	public List<propertyVO> getPropertyList(@Param("sigungu")String sigungu);
 	
@@ -48,4 +49,6 @@ public interface PropertyMapper {
 	public List<propertyVO> searchPropertyList(propertyVO vo);
 	
 	public Page<WishVO> getAllWishProperties(@Param("email")String email);
+	
+	public int insertHouseImages(PropertyImagesVO vo);
 }

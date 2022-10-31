@@ -5,7 +5,7 @@ import java.util.List;
 import com.github.pagehelper.Page;
 
 public interface PropertyService {
-  public List<propertyVO> getAllPropertyList();
+  public List<propertyVO> getAllPropertyList(String houseType);
   
   public List<propertyVO> getPropertyList(String sigungu);
 
@@ -36,4 +36,6 @@ public interface PropertyService {
   public List<propertyVO> searchPropertyList(propertyVO vo);
   
   public Page<WishVO> getAllWishProperties(String email);
+  
+  public int insertHouseImages(PropertyImagesVO vo); 
 }

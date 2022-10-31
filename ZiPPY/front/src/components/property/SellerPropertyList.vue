@@ -1,4 +1,5 @@
 <template>
+
   <div id="container">
     <div>
       <v-card-title>
@@ -17,13 +18,14 @@
                     style="width: 100%; height: 100%;" /></td>
                 <td style="width: 50%;">
                   <div style="margin-left:15px">
-                  <v-row align="center" class="mx-0">
-                    <div>
-                      <v-chip class="ma-2" color="green lighten-2" small outlined style="left: -10px; top: 10px">매물번호
-                        {{item.productId}}</v-chip>
-                    </div>
-                  </v-row>
-                    <v-card-title style="font-weight: bold;">{{item.saleType}} {{item.price | oneHundredMillion}}
+                    <v-row align="center" class="mx-0">
+                      <div>
+                        <v-chip class="ma-2" color="green lighten-2" small outlined style="left: -10px; top: 10px">매물번호
+                          {{item.productId}}</v-chip>
+                      </div>
+                    </v-row>
+                    <v-card-title v-if="item.productState == 0" style="font-weight: bold;">거래 완료</v-card-title>
+                    <v-card-title v-else style="font-weight: bold;">{{item.saleType}} {{item.price | oneHundredMillion}}
                     </v-card-title>
                     <p class="card_contents">{{item.houseType}} · {{item.houseName}}</p>
                     <p class="card_contents">{{item.sigungu}}</p>

@@ -1,7 +1,7 @@
 <template>
   <form id="insertProperty" style="width:1200px; margin: 0 auto">
-<div id="container">
-  <v-row>
+    <div id="container">
+      <v-row>
         <v-card-title>
           <h4 class="title">
             매물 등록하기
@@ -11,10 +11,10 @@
           <v-container>
             <v-row>
               <v-col cols="12" sm="6">
-                <v-file-input label='대표 이미지' v-model="mainImg" id="mainImage"></v-file-input>
+                <v-file-input label='대표 이미지' v-model="mainImg" id="mainImg"></v-file-input>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-file-input label='상세 이미지' multiple small-chips truncate-length="15"></v-file-input>
+                <v-file-input label='상세 이미지' multiple small-chips truncate-length="15" id="detailImg"></v-file-input>
               </v-col>
               <v-col cols="12">
                 <v-text-field label="건물명" v-model="houseName"></v-text-field>
@@ -76,10 +76,10 @@
           <v-btn color="green lighten-1" text @click="click">
             등록
           </v-btn>
-        </v-card-actions>        
-  </v-row>
-</div>
-</form>
+        </v-card-actions>
+      </v-row>
+    </div>
+  </form>
 </template>
 
 <script>
@@ -134,11 +134,10 @@
         this.insert(tags);
       },
       insert(tags) {
-        
-        var formData = new FormData(document.querySelector('#insertProperty'));
-        let result = 0;
 
-        var temp = document.getElementById("mainImage");
+        var formData = new FormData(document.querySelector('#insertProperty'));
+
+        var img = document.getElementById("mainImg");
 
         formData.append("email", this.$store.state.loginInfo.email);
         formData.append("detailContents", this.detailContents);
@@ -148,53 +147,28 @@
         formData.append("houseType", this.houseType);
         formData.append("sigungu", this.sigungu);
         formData.append("price", this.price);
-        formData.append("saleType", this.saleType);  
+        formData.append("saleType", this.saleType);
         formData.append("houseName", this.houseName)
-        formData.append("images", temp.files[0]);     
+        formData.append("image", img.files[0]);
+        //
+        formData.append("streetAddress", this.streetAddress);
+        formData.append("houseFace", this.houseFace);
+        formData.append("parking", this.parking == '가능' ? 1 : 0);
+        formData.append("bathCnt", this.bathCnt);
+        formData.append("constructionYear", this.constructionYear);
+        formData.append("tags", tags);
 
         axios({
             url: "/zippy/property/insertHouseProduct",
             method: "POST",
-            data : formData
+            data: formData
           }).then(response => {
-            // 성공했을 때
-            result++;
-            if (result == 2) {
-              Swal.fire({
-                icon: 'success',
-                title: '등록되었습니다.',
-                showConfirmButton: false,
-                timer: 1500
-              })
-            }
-          })
-          .catch(error => {
-            // 에러가 났을 때
-            console.log(error);
-          })
-
-        axios({
-            url: "/zippy/property/insertHouseDetail",
-            method: "POST",
-            params: {
-              streetAddress: this.streetAddress,
-              houseFace: this.houseFace,
-              parking: this.parking == '가능' ? 1 : 0,
-              bathCnt: this.bathCnt,
-              constructionYear: this.constructionYear,
-              tags: tags
-            }
-          }).then(response => {
-            // 성공했을 때
-            result++;
-            if (result == 2) {
-              Swal.fire({
-                icon: 'success',
-                title: '등록되었습니다.',
-                showConfirmButton: false,
-                timer: 1500
-              })
-            }
+            Swal.fire({
+              icon: 'success',
+              title: '등록되었습니다.',
+              showConfirmButton: false,
+              timer: 1500
+            })
           })
           .catch(error => {
             // 에러가 났을 때
