@@ -63,10 +63,6 @@ public class CommonServiceIml implements CommonService {
     return mapper.addReport(vo);
   }
 
-//  @Override
-//  public List<ReviewBoardVO> showProReview(int serviceType, int serviceId) {
-//    return mapper.showProReview(serviceType, serviceId);
-//  }
   
   @Override
   public Page<ReviewBoardVO> showProReview(int serviceType, int serviceId) {
@@ -89,15 +85,12 @@ public class CommonServiceIml implements CommonService {
        }catch (Exception e) {
          e.getStackTrace();
       }
-    }
-    
+    }    
     long now = System.currentTimeMillis();
     Random rand = new Random();    
     String path = now + rand.nextInt(10) + image.getOriginalFilename();     
     
-    File write = new File(folder + File.separator + path);
-    System.out.println("저장할 파일의 이름 : " + image.getOriginalFilename());
-    System.out.println("저장할 위치 :: " + write.toString());
+    File write = new File(folder + File.separator + path);    
     try {
       image.transferTo(write);
     } catch (Exception e) {
@@ -110,20 +103,18 @@ public class CommonServiceIml implements CommonService {
   @Override
   public void getImage(HttpServletResponse response, String imageName, String type) throws Exception {
     try {
-      String path = imageFolder + File.separator + type + File.separator + imageName;
-      // 경로에 접근할 때 역슬래시('\') 사용  
+      String path = imageFolder + File.separator + type + File.separator + imageName;  
       
       File file = new File(path);
-      // 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를
-      // 알려주는 헤더
+
       response.setHeader("Content-Disposition", "attachment;filename=" + file.getName());
 
-      FileInputStream fileInputStream = new FileInputStream(path); // 파일 읽어오기
+      FileInputStream fileInputStream = new FileInputStream(path);
       OutputStream out = response.getOutputStream();
 
       int read = 0;
       byte[] buffer = new byte[1024];
-      while ((read = fileInputStream.read(buffer)) != -1) { // 1024바이트씩 계속 읽으면서 outputStream에 저장, -1이 나오면 더이상 읽을 파일이 없음
+      while ((read = fileInputStream.read(buffer)) != -1) {
         out.write(buffer, 0, read);
       }
 
@@ -131,4 +122,7 @@ public class CommonServiceIml implements CommonService {
       throw new Exception("download error");
     }
   }
+  
+  
+  
 }

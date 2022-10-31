@@ -28,11 +28,9 @@ public class MessageController {
 
   @MessageMapping("/chat/message")
   public void enter(ChatMessage message) {
-
     System.out.println(message);
     sendingOperations.convertAndSend("/topic/chat/room/" + message.getRoomId(), message);
     chatService.saveChatContent(message);
     chatService.saveLastChatLog(message);
-
   }
 }

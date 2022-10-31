@@ -224,7 +224,7 @@ import swal from 'sweetalert2';
         
         if(this.passValid && password.value != ""){
             var temp = await this.$axios({
-            url: "/member/password",
+            url: "/zippy/member/password",
             method: "PUT",
             data: {
               email: this.$store.state.loginInfo.email,
@@ -282,11 +282,9 @@ import swal from 'sweetalert2';
     },
 
     updateInfo : function(){      
-      var formData = new FormData(document.querySelector('#user_info'));
-      console.log("여기?1");
+      var formData = new FormData(document.querySelector('#user_info'));      
       formData.append("zipCode", this.info.zipCode);
-      formData.append("userAddress", this.info.userAddress);
-      console.log("여기?2");
+      formData.append("userAddress", this.info.userAddress);      
 
       this.$axios({
         url : "/zippy/member/userInfo",

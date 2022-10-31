@@ -88,10 +88,7 @@ var reconnect = 0;
         insertRv
       } , 
       data() {
-        return {
-          txtFile : "/zippy/chat/txtFile/",
-          pdfFile : "/zippy/chat/pdfFile/",          
-
+        return {        
           room: {},
           sender: '',
           message: '',
@@ -135,8 +132,7 @@ var reconnect = 0;
                     roomId : this.$route.query.roomId
                 }
             }).then(res =>{
-                out.room = res.data;
-                console.log(out.room);
+                out.room = res.data;                
             })
         },
   
@@ -147,8 +143,7 @@ var reconnect = 0;
               roomId: this.$route.query.roomId
             }
           });
-          this.messages = temp.data;
-          console.log(this.messages);          
+          this.messages = temp.data;                   
         },        
 
         connect : function(){
@@ -170,8 +165,7 @@ var reconnect = 0;
 
         sendMessage: function () {          
           var out = this;
-          if (this.message == '') {
-            console.log("빈값이 들어감");
+          if (this.message == '') {            
           } else {
             ws.send("/app/chat/message", JSON.stringify({
               type: 'TALK',

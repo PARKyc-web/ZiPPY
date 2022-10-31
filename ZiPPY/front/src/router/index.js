@@ -1,15 +1,15 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import HomeView from "@/views/HomeView.vue";
 
 // this is PROPERTY zone 
 import PropertyView from "../views/property/PropertyView.vue";
 import HouseDetail from "../components/property/HouseDetail.vue";
 import AgentDetail from "../components/property/AgentDetail.vue";
 // my page
-import MyWishProperties from "../components/property/MyWishProperties.vue";
-import SellerPropertyList from "../components/property/SellerPropertyList.vue";
-import SellerInsertProperty from "../components/property/SellerInsertProperty.vue";
+import MyWishProperties from "@/components/property/MyWishProperties.vue";
+import SellerPropertyList from "@/components/property/SellerPropertyList.vue";
+import SellerInsertProperty from "@/components/property/SellerInsertProperty.vue";
 /////////////////////////
 import shopView from "../views/shopView.vue";
 import shopMain from "../views/shop/shopMainView.vue";

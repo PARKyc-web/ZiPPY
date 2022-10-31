@@ -8,8 +8,7 @@
               <div class="login_img">
                 <img src="@/assets/zippy_logo2.png" width="150px" />
               </div>
-              <br>
-              <!--<h5 color="#B3E3C3 !important" class="font-weight-bold">로그인</h5>-->
+              <br>              
               <hr>
               <br>
               <v-form>
