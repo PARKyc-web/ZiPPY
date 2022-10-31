@@ -62,17 +62,17 @@ video {
   position: absolute;
   /* width: 100%; */
   width :fit-content;
-  top: 50%;
+  top: 70%;
   left: 50%;
   transform: translate(-50%,-180%);
-  border : 5px solid white;
+  border : 5px solid #fff;
   /* border: 5px solid rgb(100, 196, 129, 0.8);  */
   padding : 30px 30px 0px 30px;    
 }
 .text p {
   text-align: center;
   font-size: 48px;  
-  color : white;
+  color : #fff;
   /* color : rgb(100, 196, 129, 0.8);  */
 }
 
