@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" persistent :retain-focus="false" max-width="500px">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn v-if="orderStatus == 1" id="reviewBtn" depressed color=#B3E3C3 v-bind="attrs" v-on="on" width="100px">
+      <v-btn v-if="orderStatus == 1 && !os" id="reviewBtn" depressed color=#B3E3C3 v-bind="attrs" v-on="on" width="100px">
         후기작성
       </v-btn>
       <v-btn v-if="orderStatus == 2" disabled depressed color=#D6D6D6 width="100px">
@@ -84,6 +84,7 @@
         rate4: '',
         //모달
         dialog: false,
+        os: ''
       }
     },
     methods: {
@@ -94,7 +95,7 @@
           this.rate3 = '',
           this.rate4 = '',
           this.reviewContent = ''
-          this.dialog = false;
+        this.dialog = false;
       },
       //리뷰 등록
       insertReview() {
@@ -107,8 +108,6 @@
             timer: 1500
           });
         } else {
-          this.dialog = false;
-          this.orderStatus = 2;
           //totalRating 입력
           this.totalRating =
             (Number(this.rate1) +
@@ -136,6 +135,9 @@
             }
           }).then(res => {
             //모달창 닫기
+            this.dialog = false;
+            console.log(this.dialog);
+            this.os = 2;
             //상태 변경
             axios({
               url: "/zippy/shop/updateRvStatus",
@@ -155,28 +157,13 @@
           }).catch(error => {
             console.log(error);
           })
-            swal.fire({
-              icon: 'success',
-              title: '리뷰가 등록되었습니다.',
-              showConfirmButton: false,
-              timer: 1500
-            });
+          swal.fire({
+            icon: 'success',
+            title: '리뷰가 등록되었습니다.',
+            showConfirmButton: false,
+            timer: 1500
+          });
         }
-        //   //상태 변경
-        //   axios({
-        //     url: "/zippy/shop/updateRvStatus",
-        //     method: "POST",
-        //     headers: {
-        //       "Content-Type": "application/json"
-        //     },
-        //     data: {
-        //       purNo: this.purNo
-        //     }
-        //   }).then(res => {
-        //     console.log(res);
-        //   }).catch(error => {
-        //     console.log(error);
-        //   })
       }
     }
   }

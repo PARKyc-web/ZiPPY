@@ -79,7 +79,7 @@
         </tr>
         <tr>
           <td colspan="2" style="text-align:right">
-            총 주문금액 <span style="font-weight:bold; font-size:20px">{{countAmount}}</span>원
+            총 주문금액 <span style="font-weight:bold; font-size:20px">{{countAmount | comma}}</span>원
           </td>
         </tr>
         <tr style="border-bottom:thin solid rgb(0, 0, 0, 0.12)">
