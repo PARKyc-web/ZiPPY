@@ -87,8 +87,8 @@
 
 <script>
   import axios from 'axios';
-  import navBar from '../../components/used/navBar.vue';
-  import CurrentPositionLabel from '../../components/used/CurrentPositionLabel.vue';
+  import navBar from '@/components/used/navBar.vue';
+  import CurrentPositionLabel from '@/components/used/CurrentPositionLabel.vue';
   import swal from 'sweetalert2';
 
   export default {
@@ -382,7 +382,7 @@
   }
 
   .used-main-card-title {
-    overflow: hidden;
+    /* overflow: hidden; */
     padding-bottom: 20px;
     font-weight: 500;
     text-overflow: ellipsis;

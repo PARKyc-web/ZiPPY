@@ -129,7 +129,7 @@
           saleType: '전체',
           minSize: 0,
           maxSize: 999999,
-          tagsToString: '',
+          // tagsToString: '',
           year: 1000,
           sigungu: '',
           range: [0, 150000],
@@ -195,10 +195,9 @@
             break;
         }
 
-        let tagsToString = '';
-        for (let i = 0; i < this.tags.length; i++) {
-          this.data.tagsToString += this.tags[i] + '/';
-        }
+        // for (let i = 0; i < this.tags.length; i++) {
+        //   this.data.tagsToString += this.tags[i] + '/';
+        // }
 
         this.sendData();
       },

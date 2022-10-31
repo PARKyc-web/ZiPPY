@@ -143,8 +143,8 @@
         let result = 0;
 
         axios({
-            url: "http://localhost:8090/zippy/property/insertHouseProduct",
-            methods: "POST",
+            url: "/zippy/property/insertHouseProduct",
+            method: "POST",
             params: {
               mainImg: this.mainImg.name,
               houseName: this.houseName,
@@ -177,7 +177,7 @@
           })
 
         axios({
-            url: "http://localhost:8090/zippy/property/insertHouseDetail",
+            url: "/zippy/property/insertHouseDetail",
             method: "POST",
             params: {
               streetAddress: this.streetAddress,

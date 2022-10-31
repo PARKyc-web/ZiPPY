@@ -33,8 +33,8 @@ public class PropertyController {
   CommonService commonService;
 
   @GetMapping("/main")
-  public List<propertyVO> propertyMain() {
-    return service.getAllPropertyList();
+  public List<propertyVO> propertyMain(@RequestParam("houseType")String houseType) {
+    return service.getAllPropertyList(houseType);
   }
   
   @GetMapping("/getPropertyList")
@@ -71,8 +71,8 @@ public String agentDetail(@RequestParam int productId) {
   }
   
   @PostMapping("/insertHouseProduct")
-  public int insertHouseProduct(propertyVO vo, MultipartFile images) {  
-    String temp = commonService.saveImage(images, "property");
+  public int insertHouseProduct(propertyVO vo, MultipartFile image) {  
+    String temp = commonService.saveImage(image, "property");
     vo.setMainImg(temp);
     
     return service.insertHouseProduct(vo);
@@ -83,8 +83,10 @@ public String agentDetail(@RequestParam int productId) {
     return service.insertHouseDetail(vo);
   }
   
-  @PutMapping("/updateHouseProduct")
-  public int updateHouseProduct(propertyVO vo) {
+  @PostMapping("/updateHouseProduct")
+  public int updateHouseProduct(propertyVO vo, MultipartFile image) {
+    String temp = commonService.saveImage(image, "property");
+    vo.setMainImg(temp);
     return service.updateHouseProduct(vo);
   }
 

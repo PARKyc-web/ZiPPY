@@ -79,8 +79,8 @@
     methods: {
       updateAgentProfile() {
         axios({
-            url: "http://localhost:8090/zippy/property/updateAgentProfile",
-            methods: "PUT",
+            url: "/zippy/property/updateAgentProfile",
+            method: "PUT",
             params: {
               compName: this.$refs.compName.value,
               compIntro:this.$refs.compIntro.value,

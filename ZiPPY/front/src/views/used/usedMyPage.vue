@@ -4,7 +4,7 @@
             <div id="used-seller-main">
                 <div id="used-img">
                     <div id="used-img-img">
-                        <img :src="'/zippy/common/img/member/'+data.profileImage" width="100px" height="100px" alt="">
+                        <img :src="'/zippy/common/img/member/'+data[0].profileImage" width="100px" height="100px" alt="">
                     </div>
                 </div>
                 <div id="used-nick-stars">
@@ -59,7 +59,7 @@
                                     <hr>
                                     <div id="used-totla-profile" v-for="vue in list">
                                         <div id="used-profile">
-                                            <img :src="'/zippy/common/img/member/'+data.profileImage" width="60px"
+                                            <img :src="'/zippy/common/img/member/'+vue.profileImage" width="60px"
                                                 height="60px" alt="프로필이미지">
                                         </div>
                                         <div>
@@ -114,7 +114,6 @@
             var tSum = 0;
             for (var i in this.list) {
                 tSum += Number(this.list[i].totalRating)
-
             }
             this.allTotal = Math.round(tSum / this.list.length * 10) / 10
         },
@@ -132,7 +131,6 @@
                     this.data = res.data.list;
                     this.pageCount = res.data.pages;
                     this.nickName = this.data[0].nickName;
-                    console.log(this.data)
                 }).catch(error => {
                     console.log(error);
                 })
@@ -146,7 +144,7 @@
                     }
                 })
                 this.list = res.data;
-                console.log(this.list)
+                console.log(this.list.profileImage)
             },
             goDetail(no) {
                 console.log(no);

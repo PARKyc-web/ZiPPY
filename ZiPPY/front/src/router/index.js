@@ -204,12 +204,12 @@ const routes = [
       },
       {
         path : "move/moveMyList",
-        name : "mypage-wishList",
+        name : "mypage-moveMyList",
         component : moveMyList
       },
       {
         path : "move/moveMyReserve",
-        name : "mypage-my-reserve",
+        name : "mypage-moveMyReserve",
         component : moveMyReserve
       },
       {
@@ -279,6 +279,16 @@ const routes = [
         path : "/seller/SellerInsertProperty",
         name : "SellerInsertProperty",
         component : SellerInsertProperty
+      },
+      {
+        path : "/seller/move/moveEstimate",
+        name : "seller-moveEstimate",
+        component : moveEstimate
+      },
+      {
+        path : "/seller/move/moveCompanyMy",
+        name : "seller-moveCompanyMy",
+        component : moveCompanyMy
       }
     ]
   },
