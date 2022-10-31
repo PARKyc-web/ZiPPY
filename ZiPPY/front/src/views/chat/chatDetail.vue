@@ -72,9 +72,8 @@
 
         <div class="input-group">
           <div class="input-group-prepend">
-            <!-- <label class="input-group-text">내용</label> -->
           </div>
-          <input type="text" class="form-control" v-model="message" v-on:keypress.enter="sendMessage" style="border:0;">
+          <input type="text" placeholder="메세지를 입력해주세요" class="form-control" v-model="message" v-on:keypress.enter="sendMessage" style="border:0;">
           <div class="input-group-append">
             <v-btn depressed color="#F7F7F7" height="45px" @click="sendMessage">전송</v-btn>
           </div>
@@ -313,7 +312,7 @@
   }
 
   .container {
-    width: 30%;
+    width: 35%;
     min-height: 800px;
     max-height: 800px;
     margin-bottom: 150px;
