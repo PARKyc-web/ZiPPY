@@ -2,7 +2,7 @@
   <div>
     <div class="wrap"></div>
       <video id="video" autoplay="autoplay" muted="muted" loop>
-        <source src="@/assets/gray.mp4" type="video/mp4">
+        <source src="@/assets/mint.mp4" type="video/mp4">
       </video>
   
     <div class="text">
