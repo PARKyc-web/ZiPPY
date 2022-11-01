@@ -33,7 +33,7 @@ import com.yedam.zippy.shop.service.ShopService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/shop")
+@RequestMapping("/zippy/shop")
 public class ShopController {
 
   @Autowired

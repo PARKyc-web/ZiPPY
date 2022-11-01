@@ -33,7 +33,7 @@
 
           <table>
             <tr>
-              <td style="width: 50%;"><img :src="'@/zippy/common/img/property/' + item.mainImg"
+              <td style="width: 50%;"><img :src="'/zippy/common/img/property/' + item.mainImg"
                   style="width: 100%; height: 100%" /></td>
               <td style="width: 50%;">
                 <div style="margin-left:15px">

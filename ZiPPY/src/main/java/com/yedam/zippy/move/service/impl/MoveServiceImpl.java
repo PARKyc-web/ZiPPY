@@ -26,25 +26,26 @@ import com.yedam.zippy.move.service.MoveService;
 public class MoveServiceImpl implements MoveService{
   
   // 저 경로에 저장하겠다.
-  private final String imgFolder = "C:/moveImg";
+//  private final String imgFolder = "C:/moveImg";
+  private final String imgFolder = "/home";
   
   @Autowired
   MoveMapper mapper;
 
-  @Override
-  public int moveUntactCheck(MoveRequestVO moveReq, List<MultipartFile> images1, List<MultipartFile> images2, List<MultipartFile> images3) {
-   
-    File file = new File("C:\\Users\\admin\\Desktop\\moveImage\\image111.jpg");
-    try {
-      images1.get(0).transferTo(file);
-    } catch (IllegalStateException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    
-    return mapper.moveUntactCheck(moveReq);
-  }
+//  @Override
+//  public int moveUntactCheck(MoveRequestVO moveReq, List<MultipartFile> images1, List<MultipartFile> images2, List<MultipartFile> images3) {
+//   
+//    File file = new File("C:\\Users\\admin\\Desktop\\moveImage\\image111.jpg");
+//    try {
+//      images1.get(0).transferTo(file);
+//    } catch (IllegalStateException e) {
+//      e.printStackTrace();
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
+//    
+//    return mapper.moveUntactCheck(moveReq);
+//  }
 
   @Override
   public int moveContactCheck(MoveRequestVO moveReq) {
@@ -52,8 +53,7 @@ public class MoveServiceImpl implements MoveService{
     return mapper.moveContactCheck(moveReq);
   }
   
-  //사진
-  
+  //사진  
   public MoveImageVO[] storeMoveImg(List<MultipartFile> images, int imgType, int id) { //받아올 매개변수 확인
 
     //폴더없을때 생성

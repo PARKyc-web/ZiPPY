@@ -14,7 +14,7 @@ import com.yedam.zippy.common.service.BookmarkVO;
 public interface MoveService {
 
   //
-  public int moveUntactCheck(MoveRequestVO moveReq, List<MultipartFile> images1, List<MultipartFile> images2, List<MultipartFile> images3);
+//  public int moveUntactCheck(MoveRequestVO moveReq, List<MultipartFile> images1, List<MultipartFile> images2, List<MultipartFile> images3);
   
   public int moveContactCheck(MoveRequestVO moveReq); 
   

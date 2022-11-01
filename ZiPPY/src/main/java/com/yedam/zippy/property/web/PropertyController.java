@@ -23,7 +23,7 @@ import com.yedam.zippy.property.service.propertyVO;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/property", method = {RequestMethod.GET, RequestMethod.POST})
+@RequestMapping(value = "/zippy/property", method = {RequestMethod.GET, RequestMethod.POST})
 public class PropertyController {
 
   @Autowired

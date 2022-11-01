@@ -252,8 +252,8 @@
         
         //예약요청
         swal.fire({
-            title: '견적입력정보를 확인해주세요.',
-            text: "이대로 견적서를 보내시겠습니까?",
+            title: '예약요청',
+            text: "예약을 요청하시겠습니까?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#96e5b8',

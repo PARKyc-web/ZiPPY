@@ -102,9 +102,6 @@
     },
     data() {
       return {
-        txtFile: "/zippy/chat/txtFile/",
-        pdfFile: "/zippy/chat/pdfFile/",
-
         room: {},
         sender: '',
         message: '',
@@ -165,7 +162,7 @@
       },
 
       connect: function () {
-        sock = new SockJS("http://localhost:8090/zippy/ws/chat");
+        sock = new SockJS("http://52.79.149.41:90/zippy/ws/chat");
         ws = Stomp.over(sock);
         var out = this;
         ws.connect({}, function (frame) {

@@ -22,7 +22,7 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/validation")
+@RequestMapping("/zippy/validation")
 public class ValidationController {
 	
 		

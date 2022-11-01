@@ -15,7 +15,7 @@ public class ChatConfig implements WebSocketMessageBrokerConfigurer{
   
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-      registry.addEndpoint("/ws/chat").setAllowedOriginPatterns("*").withSockJS();
+      registry.addEndpoint("/zippy/ws/chat").setAllowedOriginPatterns("*").withSockJS();
     }
     
     @Override
@@ -23,6 +23,4 @@ public class ChatConfig implements WebSocketMessageBrokerConfigurer{
       registry.enableSimpleBroker("/queue", "/topic");
       registry.setApplicationDestinationPrefixes("/app");
     }
-
-  
 }

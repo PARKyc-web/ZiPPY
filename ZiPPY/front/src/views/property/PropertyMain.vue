@@ -13,7 +13,7 @@
             <div id="propertyCard">
               <table style="width: 100%;">
                 <tr>
-                  <td style="width: 45%;"><img :src="'@/zippy/common/img/property/' + item.mainImg"
+                  <td style="width: 45%;"><img :src="'/zippy/common/img/property/' + item.mainImg"
                       style="width: 90%; height: 100%; margin-left: 15px" /></td>
                   <td style="width: 55%;">
                     <v-row align="center" class="mx-0">

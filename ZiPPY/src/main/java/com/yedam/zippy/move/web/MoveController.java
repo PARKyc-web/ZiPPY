@@ -29,7 +29,7 @@ import com.yedam.zippy.move.service.MoveService;
 @CrossOrigin(originPatterns = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
     RequestMethod.DELETE })
 @RestController
-@RequestMapping("/move")
+@RequestMapping("/zippy/move")
 public class MoveController {
 
   @Autowired
@@ -47,14 +47,7 @@ public class MoveController {
      service.insertUntactEstimate(moveReq, images1, images2, images3);
      System.out.println(moveReq);     
    }
-    
-    
-    //images1 의 0번째 파일을 image111.jpg이름으로 사용하겠다.
-//    
-//    File file = new File("C:\\Users\\admin\\Desktop\\moveImage\\image111.jpg");
-//    images1.get(0).transferTo(file);    
-    
-//  System.out.println(service.moveUntactCheck(moveRequ)); 데이터 다 넘어오는거 확인하고 서비스 실행 
+     
     return "";
   }
   
@@ -67,7 +60,6 @@ public class MoveController {
    
     return "";
   }
-  
 
   
   //전체조회 - 업체가 받은 요청
@@ -103,17 +95,7 @@ public class MoveController {
     service.moveStatusUpdateZero(vo);
     return "";
   }
-  
-  
-  //견적상태 업데이트 (1차 견적서 발송후, 상태 1로 변경)
-//  @PostMapping("/moveStatusUpdate")
-//  public String moveStatusUpdate(MoveResponseVO vo) {
-//    System.out.println(vo);
-//    
-//    service.moveStatusUpdate(vo);
-//    return "";
-//  }
-  
+
   //견적상태 업데이트 (1차 견적서 발송후, 상태 1로 변경)
   @PostMapping("/moveStatusUpdate")
   public String moveStatusUpdate(@Param("estimateNo")Integer estimateNo, @Param("email")String email) { 
@@ -180,16 +162,6 @@ public class MoveController {
     return service.companyEstimate(vo);
   }
   
-//  @GetMapping("/moveCompanyEstimate")
-//  public List<MoveResponseVO> companyEstimate(Map<String, String> map){
-//    
-//    System.out.println(map);
-//    
-//    return service.companyEstimate(map);
-//  }
-//  
-
-  
   //사용자가 보낸 자신의 견적 히스토리 확인
   
   @GetMapping("/moveResult")
@@ -197,16 +169,6 @@ public class MoveController {
     System.out.println(vo);
     return service.getEstimateResult(vo);
   }
-//  @GetMapping("/moveResult")
-//  public PageInfo<MoveEstimateVO> selectAllResult(MoveEstimateVO vo){
-//    String order="request_date DESC";
-//    System.out.println(vo);
-//    
-//    
-//    PageHelper.startPage(vo.getPageNum(), 10, order);
-//    return PageInfo.of(service.getEstimateResult(vo));
-//  }
-  
 
   //사용자가 받은 견적 리스트 확인
   @GetMapping("/moveMyList")

@@ -21,8 +21,7 @@ import com.yedam.zippy.chat.service.ChatService;
 @Service
 public class ChatServiceImpl implements ChatService {
 
-  private final File folder = new File("C:/dev/chat");
-//  private final File folder = new File("/home/chat");
+  private final File folder = new File("/home/chat");
 
   @Autowired
   private ChatMapper mapper;

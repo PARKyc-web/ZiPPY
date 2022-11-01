@@ -39,8 +39,8 @@ export default {
           })
           
         } else {
-          //로그인 되어있을 때 '이사견적받기'로 이동
-          window.location.assign('/move/moveTotal');
+          //로그인 되어있을 때 '이사견적받기'로 이동          
+          this.$router.push('/move/moveTotal');
         }
       },
       //'업체조회' 버튼을 클릭했을 때 이동

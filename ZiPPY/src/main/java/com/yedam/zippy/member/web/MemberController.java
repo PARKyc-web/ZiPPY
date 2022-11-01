@@ -21,8 +21,7 @@ import com.yedam.zippy.member.service.MemberService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/member")
-//@RequestMapping("/zippy/member")
+@RequestMapping("/zippy/member")
 public class MemberController {
 
     @Autowired

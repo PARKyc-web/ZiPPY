@@ -36,15 +36,13 @@ import lombok.RequiredArgsConstructor;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/chat")
-//@RequestMapping("/zippy/chat")
+@RequestMapping("/zippy/chat")
 @RequiredArgsConstructor
 public class ChatController {
    
     private final ChatService service;
-    
-    private final String chatFolder = "C:/dev/chat/";
-//    private final String chatFolder = "/home/chat";
+   
+    private final String chatFolder = "/home/chat";
     
     
     // 모든 채팅방 목록 반환

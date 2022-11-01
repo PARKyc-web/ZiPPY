@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
-//@RequestMapping("/zippy")
+@RequestMapping("/zippy")
 public class MessageController {
 
   private final SimpMessageSendingOperations sendingOperations;

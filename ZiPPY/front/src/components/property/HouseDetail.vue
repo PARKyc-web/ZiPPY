@@ -213,7 +213,7 @@
         }).then(response => {
           // 성공했을 때
           this.houseDetail = response.data;
-          this.items[0] = {src: '@/zippy/common/img/property/'+this.houseDetail[0].mainImg }
+          this.items[0] = {src: '/zippy/common/img/property/'+this.houseDetail[0].mainImg }
 
           let temp = this.houseDetail[0].tags.split('/');
           for (let i = 0; i < temp.length; i++) {

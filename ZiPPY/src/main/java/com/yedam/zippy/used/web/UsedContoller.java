@@ -29,8 +29,7 @@ import com.yedam.zippy.used.service.UsedService;
 @CrossOrigin(originPatterns = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
     RequestMethod.DELETE })
 @RestController
-@RequestMapping("/used")
-//@RequestMapping("/zippy/used")
+@RequestMapping("/zippy/used")
 public class UsedContoller {
 
   @Autowired
