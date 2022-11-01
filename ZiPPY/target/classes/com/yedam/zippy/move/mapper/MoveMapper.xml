@@ -15,7 +15,7 @@
 		MOVING_MEMO,
 		DEPART_ADDRESS,
 		ARRIVE_ADDRESS,
-		TO_CHAR(MOVING_DATE,'yyyy-mm-dd') MOVING_DATE,
+		MOVING_DATE,
 		MOVING_TIME,
 		ESTIMATE_TYPE,
 		DEPART_ZIP_CODE,
@@ -25,8 +25,8 @@
 		ARRIVE_DETAIL,
 		ARRIVE_EXTRA,
 		MOVE_TYPE,
-		TO_CHAR(REQUEST_DATE,'yyyy-mm-dd') REQUEST_DATE,
-		TO_CHAR(VISIT_DATE,'yyyy-mm-dd') VISIT_DATE,
+		REQUEST_DATE,
+		VISIT_DATE,
 		VISIT_TIME,
 		COMMON_OPTION,
 		RESERV_STATUS
@@ -92,7 +92,7 @@
 		MOVING_MEMO,
 		DEPART_ADDRESS,
 		ARRIVE_ADDRESS,
-		TO_CHAR(MOVING_DATE,'yyyy-mm-dd') MOVING_DATE,
+		MOVING_DATE,
 		MOVING_TIME,
 		ESTIMATE_TYPE,
 		DEPART_ZIP_CODE,
@@ -102,8 +102,8 @@
 		ARRIVE_DETAIL,
 		ARRIVE_EXTRA,
 		MOVE_TYPE,
-		TO_CHAR(REQUEST_DATE,'yyyy-mm-dd') REQUEST_DATE,
-		TO_CHAR(VISIT_DATE,'yyyy-mm-dd') VISIT_DATE,
+		REQUEST_DATE,
+		VISIT_DATE,
 		VISIT_TIME,
 		COMMON_OPTION,
 		RESERV_STATUS
@@ -213,8 +213,8 @@
 	<!-- 사용자가 예약요청 후 견적상태 3로 변경 -->
 	<update id="moveStatusThirdUpdate" parameterType="MoveResponseVO">
 		UPDATE moving_response 
-        SET reserv_status = 3
-        WHERE moving_response_no =#{movingResponseNo}
+	        SET reserv_status = 3
+	        WHERE moving_response_no =#{movingResponseNo}
 	</update>
 	
 	<!-- 업체가 예약확정 후 견적상태 4로 변경 -->

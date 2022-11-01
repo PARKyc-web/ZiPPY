@@ -531,8 +531,7 @@ export default {
       commonOption: "",
       email : "",
       movingMemoSend: "MemoMemo",
-      requestDateSend: "",
-      // requestDateSend: new Date().toLocaleDateString(),
+      requestDateSend: new Date().toLocaleDateString(),
 
       date: null,
       time: null,

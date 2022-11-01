@@ -23,17 +23,13 @@ public class MoveRequestVO {
   String arriveDetail;
   String arriveExtra;
   
-  @JsonFormat(pattern = "yyyy-MM-dd")
-  @DateTimeFormat(pattern="yyyy-MM-dd")
   String movingDate;
   String movingTime;
   String estimateType;
   String moveType;
-  @JsonFormat(pattern = "yyyy-MM-dd")
-  @DateTimeFormat(pattern="yyyy-MM-dd")
+  
   String requestDate;
-  @JsonFormat(pattern = "yyyy-MM-dd")
-  @DateTimeFormat(pattern="yyyy-MM-dd")
+ 
   String visitDate;
   String visitTime;
   String commonOption;

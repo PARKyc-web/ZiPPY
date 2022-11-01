@@ -696,8 +696,7 @@ export default {
       checkk: "",
       email : "",
       // movingMemo: "",
-      // requestDateSend: new Date().toLocaleDateString(),
-      requestDateSend: new Date().toLocaleDateString('yyyy-MM-dd'),
+      requestDateSend: new Date().toLocaleDateString(),
 
       date: null,
       time: null,
