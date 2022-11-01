@@ -144,7 +144,7 @@
   export default {
     data() {
       return {
-        email: '',
+        // email: '',
         myInfo: {},
         orderInfo: {},
         //기존배송지, 신규배송지
@@ -251,8 +251,6 @@
       }
     },
     created() {
-      //email
-      email = this.$store.state.loginInfo.email
       //내 정보조회
       axios({
         url: "/zippy/shop/myInfo",
