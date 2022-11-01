@@ -24,10 +24,10 @@
                   <!-- <v-file-input label='대표 이미지' v-model="houseDetail[0].mainImg" ref="mainImg" id="mainImg" ></v-file-input> -->
                   <v-file-input :label="houseDetail[0].mainImg" id="mainImg"></v-file-input>
                 </v-col>
-                <v-col cols="12" sm="6">
+                <!-- <v-col cols="12" sm="6">
                   <v-file-input label='상세 이미지' multiple small-chips truncate-length="15"></v-file-input>
-                </v-col>
-                <v-col cols="12">
+                </v-col> -->
+                <v-col cols="12" sm="6">
                   <v-text-field label="건물명" required v-model="houseDetail[0].houseName" ref="houseName"></v-text-field>
                 </v-col>
                 <!-- 거래 유형, 금액 -->
@@ -138,7 +138,6 @@
             productId: this.productId
           }
         }).then(response => {
-          // 성공했을 때
           this.houseDetail = response.data;
           this.state = this.houseDetail[0].productState == 1 ? '판매중' : '거래 완료';
           this.parking = this.houseDetail[0].parking == 1 ? '가능' : '불가능';
@@ -150,7 +149,6 @@
           }
         })
         .catch(error => {
-          // 에러가 났을 때
           console.log(error);
         })
     },
@@ -167,7 +165,7 @@
             tags += element + '/';
 
           }
-        });
+        });54
         console.log(tags);
 
         formData.append("productState", this.state == '판매중' ? 1 : 0);
@@ -196,7 +194,6 @@
             method: "POST",
             data: formData
           }).then(response => {
-            // 성공했을 때
             Swal.fire({
               icon: 'success',
               title: '수정되었습니다.',
@@ -207,7 +204,6 @@
             this.$router.go();
           })
           .catch(error => {
-            // 에러가 났을 때
             console.log(error);
           })
       }
