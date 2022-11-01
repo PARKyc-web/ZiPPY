@@ -13,10 +13,10 @@
               <v-col cols="12" sm="6">
                 <v-file-input label='대표 이미지' v-model="mainImg" id="mainImg"></v-file-input>
               </v-col>
-              <v-col cols="12" sm="6">
+              <!-- <v-col cols="12" sm="6">
                 <v-file-input label='상세 이미지' multiple small-chips truncate-length="15" id="detailImg"></v-file-input>
-              </v-col>
-              <v-col cols="12">
+              </v-col> -->
+              <v-col cols="12" sm="6">
                 <v-text-field label="건물명" v-model="houseName"></v-text-field>
               </v-col>
               <!-- 거래 유형, 금액 -->

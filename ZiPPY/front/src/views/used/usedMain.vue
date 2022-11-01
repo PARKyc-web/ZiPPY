@@ -31,9 +31,10 @@
 
         <div id="used-add-drop-search">
           <button id="used-addr">
-            <i class="fa-solid fa-location-dot fa-2x"></i>
+            <i class="fa-solid fa-location-dot fa-2x" style="display: inline-block"></i>
+            <p style="display: inline-block; margin-left: 20px">대구광역시 중구 남일동</p>
           </button>
-          <current-position-label @sigu="test"></current-position-label>
+          <!-- <current-position-label @sigu="test"></current-position-label> -->
           <div>
             <div class="search">
               <input type="text" placeholder="검색어 입력" id="used-main-search-input" v-model="word"
@@ -211,9 +212,12 @@
           console.log(err)
         })
       },
-      test(sigu) {
+      // test(sigu) {
+        test() {
         const out = this;
-        out.location = sigu;
+        // out.location = sigu;
+        out.location = '대구광역시 중구';
+
         let cate = sessionStorage.getItem("cate");
         out.findList({
           location: out.location,

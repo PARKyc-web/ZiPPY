@@ -147,7 +147,7 @@
         const MIN_LEVEL = 4;
         var options = {
           //지도를 생성할 때 필요한 기본 옵션
-          center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+          center: new kakao.maps.LatLng(35.8690419, 128.593347), //지도의 중심좌표.
           level: 5 //지도의 레벨(확대, 축소 정도)
         };
 
@@ -379,9 +379,7 @@
               tags: '%' + this.initData.tags + '%'
             }
           }).then(response => {
-            // 성공했을 때
             this.houseProducts = response.data;
-
             this.initData.houseType = data.houseType;
             this.initData.saleType = data.saleType + '%';
             this.initData.minSize = data.minSize;
@@ -390,12 +388,13 @@
             this.initData.sigungu = data.sigungu + '%';
             this.initData.range = data.range;
 
-            //////// 마크 클러스터러 모두 지우고, 새로운 마크 클러스터러 추가
+            /** 기존의 마크 클러스터러를 모두 삭제하고
+              * 새로운 마크 클러스터러 추가
+              */ 
             this.clusterer.clear();
             this.showclusterer();
           })
           .catch(error => {
-            // 에러가 났을 때
             console.log(error);
           });
 
