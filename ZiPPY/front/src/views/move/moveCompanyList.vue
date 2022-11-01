@@ -3,95 +3,106 @@
     <move-nav-bar @click="categoryVal=$event.target.innerText"></move-nav-bar>
     <div class="move-main-title">
       <h3>업체 조회</h3>
-      <br /><hr />
+      <br />
+      <hr />
     </div>
-  <div class="company-wrap">
-    <!-- 드롭박스 -->
-    <div id="used-main-dropbox1">
-      <v-select @change="dropVal2()" v-model="select2" :items="drops" item-text="name" item-value="value2" label="정렬"
-        color="#212529" persistent-hint single-line dense width="50"></v-select>
-    </div>
+    <div class="company-wrap">
+      <!-- 드롭박스 -->
+      <div id="used-main-dropbox1">
+        <v-select @change="dropVal2()" v-model="select2" :items="drops" item-text="name" item-value="value2" label="정렬"
+          color="#212529" persistent-hint single-line dense width="50"></v-select>
+      </div>
 
-    <div class="divv" v-for="(item, i) in list">
-      <v-card :loading="loading" class="mx-auto my-12" max-width="374" elevation="10" >
-        <template slot="progress">
-          <v-progress-linear color="#B3E3C3" height="10" indeterminate></v-progress-linear>
-        </template>
-        
-    <!-- 카드 -->
-        <v-card-title>업체명 : <span>{{item.compName}}</span></v-card-title>
-        <v-card-text>
-          <v-row text-align="center" class="mx-0">
-            <v-rating :value="item.totalRating" color="amber" dense half-increments readonly size="20"></v-rating>
-            <div class="grey--text ms-4">
-              {{Math.round(item.totalRating * 10)/10}} 
+      <div class="divv" v-for="(item, i) in list">
+        <v-card :loading="loading" class="mx-auto my-12" max-width="374" elevation="10">
+          <template slot="progress">
+            <v-progress-linear color="#B3E3C3" height="10" indeterminate></v-progress-linear>
+          </template>
+
+          <!-- 카드 -->
+          <v-card-title>업체명 : <span>{{item.compName}}</span></v-card-title>
+          <v-card-text>
+            <v-row text-align="center" class="mx-0">
+              <v-rating :value="item.totalRating" color="amber" dense half-increments readonly size="20"></v-rating>
+              <div class="grey--text ms-4">
+                {{Math.round(item.totalRating * 10)/10}}
+              </div>
+            </v-row>
+            <v-divider class="mx-4"></v-divider>
+            <div>
+              연락처 : <span>{{item.phone}}</span>
             </div>
-          </v-row>
+            <div>
+              주소 : <span>{{item.compAddress}}</span>
+            </div>
+            <div class="my-4 text-subtitle-1">{{item.compIntro}}</div>
+          </v-card-text>
           <v-divider class="mx-4"></v-divider>
-          <div>
-            연락처 : <span>{{item.phone}}</span>
-          </div>
-          <div>
-            주소 : <span>{{item.compAddress}}</span>
-          </div>
-          <div class="my-4 text-subtitle-1">{{item.compIntro}}</div>
-        </v-card-text>
-        <v-divider class="mx-4"></v-divider>      
-        <v-card-actions>
-          <v-btn color="#B3E3C3 lighten-2" text @click="chat(i)">
-            채팅하기
-          </v-btn>
-          <v-btn color="#B3E3C3 lighten-2" text @click="goToCompany(item.email)">
-            후기보기
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </div>
+          <v-card-actions>
+            <v-btn color="#B3E3C3 lighten-2" text @click="chat(i)">
+              채팅하기
+            </v-btn>
+            <v-btn color="#B3E3C3 lighten-2" text @click="goToCompany(item.email)">
+              후기보기
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </div>
 
-</div>
+    </div>
+    <div class="text-center">
+      <v-pagination v-model="page" :length="pageCount" circle color="#B3E3C3"></v-pagination>
+    </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import swal from 'sweetalert2';
-import MoveNavBar from '@/components/move/MoveNavBar.vue';
+  import axios from 'axios';
+  import swal from 'sweetalert2';
+  import MoveNavBar from '@/components/move/MoveNavBar.vue';
 
-export default {
-  components: {
-    MoveNavBar
-  },
+  export default {
+    components: {
+      MoveNavBar
+    },
 
-  
-    
-    data : function(){
-      return{
 
-  icons: {
-    iconfont: 'mdi', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
-  },
 
-      loading: false,
-      selection: 1,
-     
+    data: function () {
+      return {
 
-      list: [],
+        icons: {
+          iconfont: 'mdi', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
+        },
 
-      //받은정보
+        loading: false,
+        selection: 1,
+        list: [],
+
+        //페이징
+        selection: 1,
+        heart: 0,
+        wish: "",
+        bNo: "",
+        page: 1,
+        pageCount: 1,
+        comma: '',
+
+        //받은정보
         item: "",
-        select2:"",
+        select2: "",
         userEmail: "",
         email: "",
         estimateNo: "",
         movingResponseNo: "",
-        compName : "",
+        compName: "",
         compAddress: "",
         totalRating: 0,
         firstEstimatePrice: "",
-        reservStatus : "",
+        reservStatus: "",
         serviceType: 3,
-        dropbox:"",
-        
+        dropbox: "",
+
         drops: [{
             name: '전체',
             value: '전체'
@@ -104,25 +115,25 @@ export default {
             name: '지역순',
             value: '지역순'
           },
-         
-         
+
+
         ],
       }
     },
 
-    created(){
+    created() {
       //업체조회
       axios({
         url: "/zippy/move/moveCompanyList",
         methods: "GET",
         params: {
-          email: "",          
+          email: "",
           checked: "",
           dropbox: "",
           dropbox2: "",
           serviceType: "",
           serviceId: this.list.email,
-          memberType:""
+          memberType: ""
         }
       }).then(res => {
         console.log(res);
@@ -140,24 +151,24 @@ export default {
         this.loading = true
         setTimeout(() => (this.loading = false), 2000)
         var temp = await this.$axios({
-            url: "/zippy/chat/room",
-            method: "POST",
-            data: {
-              user1: this.$store.state.loginInfo.email,
-              user2: this.list[num].email,
-              chatType: 3
+          url: "/zippy/chat/room",
+          method: "POST",
+          data: {
+            user1: this.$store.state.loginInfo.email,
+            user2: this.list[num].email,
+            chatType: 3
+          }
+        }).then(res => {
+          out.$router.push({
+            name: "chatDetail",
+            query: {
+              roomId: res.data
             }
-          }).then(res => {
-            out.$router.push({
-              name: "chatDetail",
-              query: {
-                roomId: res.data
-              }
-            })
           })
+        })
       },
       //후기보기
-      goToCompany(email){
+      goToCompany(email) {
 
         if (this.$store.state.loginInfo == null || this.$store.state.loginInfo.email == "") {
           swal.fire({
@@ -173,25 +184,25 @@ export default {
               this.$router.push('/login')
             }
           })
-          
+
         } else {
           // window.location.assign('/mypage/move/moveResult');
-          this.$router.push('/move/moveReview?serviceId=' + email );
+          this.$router.push('/move/moveReview?serviceId=' + email);
         }
 
-          
-        
+
+
       },
-     
+
       //드롭박스
       dropVal2: function () {
         var dropValue2 = this.select2;
-        console.log(dropValue2);   
+        console.log(dropValue2);
         axios({
           url: "/zippy/move/moveCompanyList",
           methods: "GET",
           params: {
-            dropbox2: dropValue2,         
+            dropbox2: dropValue2,
             totalRating: this.totalRating,
             compAddress: this.compAddress
           }
@@ -207,26 +218,28 @@ export default {
 </script>
 
 <style scoped>
-@font-face {
+  @font-face {
     font-family: 'GmarketSans';
     font-weight: 500;
     font-style: normal;
     src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot');
     src: url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.eot?#iefix') format('embedded-opentype'),
-         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2') format('woff2'),
-         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff') format('woff'),
-         url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.ttf') format("truetype");
+      url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2') format('woff2'),
+      url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff') format('woff'),
+      url('https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.ttf') format("truetype");
     font-display: swap;
-} 
-* {
-  font-family: 'GmarketSans';
-}
+  }
 
-  .move-main-title{
+  * {
+    font-family: 'GmarketSans';
+  }
+
+  .move-main-title {
     margin: 50px 150px 0 150px;
   }
-.company-wrap {
-    
+
+  .company-wrap {
+
     margin: 30px 100px 100px 100px;
   }
 
@@ -272,7 +285,7 @@ export default {
     border: 1px solid #B3E3C3;
   }
 
-  .v-btn{
+  .v-btn {
     color: #96daac;
   }
 </style>
