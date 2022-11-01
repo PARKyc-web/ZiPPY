@@ -67,7 +67,7 @@ public class MemberServiceImpl implements MemberService{
     
     @Override
     public void insertLoginInfo(LoginVO vo) {
-        vo.setPassword(encodingPassword(vo.getPassword()));   
+        vo.setPassword(encodingPassword(vo.getPassword()));  
         mapper.insertLoginInfo(vo);        
     }
     
@@ -75,6 +75,7 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public void signGeneralMember(LoginVO loginVO, GeneralUserVO gVO) {       
         insertLoginInfo(loginVO);
+        gVO.setProfileImage("default_user.png");
         mapper.insertGeneralMember(gVO);
     }
     
@@ -82,6 +83,7 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public void signBusinessMember(LoginVO loginVO, BusinessVO bVO, List<MultipartFile> images) {
         insertLoginInfo(loginVO);        
+        bVO.setProfilePic("default_user.png");
         String businessIdImage = commonService.saveImage(images.get(0), "member");
         String brokerIdImage = null;
         
