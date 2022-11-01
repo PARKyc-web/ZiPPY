@@ -3,7 +3,7 @@
     <h3 style="margin:30px">문의내역</h3>
 
     <v-card>
-      <v-data-table :headers="headers" :items="qnas">
+      <v-data-table :headers="headers" :items="qnas" :items-per-page="5">
           <!-- 이미지 -->
           <template v-slot:item.PRO_MAIN_IMG="{ item }">
           <img class="ma-5" :src="'/zippy/common/img/shop/'+item.PRO_MAIN_IMG" width="150" height="150">

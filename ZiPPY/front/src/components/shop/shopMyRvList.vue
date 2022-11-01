@@ -3,7 +3,7 @@
     <h3 style="margin:30px">후기내역</h3>
 
     <v-card>
-      <v-data-table :headers="headers" :items="reviews">
+      <v-data-table :headers="headers" :items="reviews" :items-per-page="5">
         <!-- 이미지 -->
         <!-- 별점 -->
         <template v-slot:item.PRO_MAIN_IMG="{ item }">

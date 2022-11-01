@@ -3,7 +3,7 @@
     <h3 style="margin:30px">구매내역</h3>
 
     <v-card>
-      <v-data-table :headers="headers" :items="ords">
+      <v-data-table :headers="headers" :items="ords" :items-per-page="5">
         <template v-slot:item.payCode="{ item }">
           <span @click="goOrderDetail(item.payCode)">
             {{item.payCode}}
