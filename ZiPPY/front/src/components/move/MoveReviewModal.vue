@@ -272,7 +272,7 @@ import swal from 'sweetalert2';
                         },
                         }).then(res => {
                         console.log(res);
-                        window.location.assign('mypage/move/moveMyReserve');
+                        window.location.assign('/mypage/move/moveMyReserve');
                         }).catch(err => {
                         console.log(err)
                         })

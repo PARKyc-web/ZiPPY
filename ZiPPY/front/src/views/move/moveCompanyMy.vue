@@ -32,181 +32,200 @@
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <div class="info">
-            <div>요청회원 : <span>{{item.email}}</span></div>
-            <div>이사 종류 : <span>{{item.moveType}}</span></div>
-            <div>이사희망일 : <span>{{item.movingDate}}</span></div>
-            <div>이사희망시간 : <span>{{item.movingTime}}</span></div>
-            <div>출발지 주소 : <span>(우편번호){{item.departZipCode}}</span> <br><div class="move-info"><span>{{item.departAddress}}</span>
-              <span>{{item.departDetail}}</span></div></div>
-            <div>도착지 주소 : <span>(우편번호){{item.arriveZipCode}}</span> <br><div class="move-info"><span>{{item.arriveAddress}}</span>
-              <span>{{item.arriveDetail}}</span></div></div>
-            <div> 이사 정보 : <div class="move-info"><span v-html="par(item.commonOption)"></span></div></div>
-            <div v-if="item.estimateType == '비대면견적'">
-              <div>이삿짐 정보 :<div class="move-info"><span v-html="my(item.movingOption)"></span></div></div>
-            </div>
+              <div>요청회원 : <span>{{item.email}}</span></div>
+              <div>이사 종류 : <span>{{item.moveType}}</span></div>
+              <div>이사희망일 : <span>{{item.movingDate}}</span></div>
+              <div>이사희망시간 : <span>{{item.movingTime}}</span></div>
+              <div>출발지 주소 : <span>(우편번호){{item.departZipCode}}</span> <br>
+                <div class="move-info"><span>{{item.departAddress}}</span>
+                  <span>{{item.departDetail}}</span></div>
+              </div>
+              <div>도착지 주소 : <span>(우편번호){{item.arriveZipCode}}</span> <br>
+                <div class="move-info"><span>{{item.arriveAddress}}</span>
+                  <span>{{item.arriveDetail}}</span></div>
+              </div>
+              <div> 이사 정보 : <div class="move-info"><span v-html="par(item.commonOption)"></span></div>
+              </div>
+              <div v-if="item.estimateType == '비대면견적'">
+                <div>이삿짐 정보 :<div class="move-info"><span v-html="my(item.movingOption)"></span></div>
+                </div>
+              </div>
 
-            <div v-if="item.movingMemo != null">
-              <div>이사 요청사항 : <span>{{item.movingMemo}}</span></div>
-            </div>
-            <div v-if="item.estimateType == '대면견적'">
-              <div>견적 방문희망일 : <span>{{item.visitDate}}</span></div>
-              <div>견적 방문희망시간 : <span>{{item.visitTime}}</span></div>
-            </div>
+              <div v-if="item.movingMemo != null">
+                <div>이사 요청사항 : <span>{{item.movingMemo}}</span></div>
+              </div>
+              <div v-if="item.estimateType == '대면견적'">
+                <div>견적 방문희망일 : <span>{{item.visitDate}}</span></div>
+                <div>견적 방문희망시간 : <span>{{item.visitTime}}</span></div>
+              </div>
 
-            <div v-if="item.estimateType == '비대면견적'" id="imgPanel">
+              <div v-if="item.estimateType == '비대면견적'" id="imgPanel">
 
-              <!-- 사진보기 펼치기 -->
+                <!-- 사진보기 펼치기 -->
+
+                <v-card-actions>
+
+                  <v-spacer></v-spacer>
+                  <v-label>방사진보기</v-label>
+                  <v-btn icon @click="show = !show">
+                    <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                  </v-btn>
+                </v-card-actions>
+
+                <v-expand-transition>
+                  <div v-show="show">
+                    <v-divider></v-divider>
+
+                    <div id="showImg">
+
+                      방입구
+                      <div v-for="img in photoList">
+                        <img v-if="img.estimateNo == item.estimateNo && img.imgType ==1"
+                          :src="'/zippy/common/img/move/' + img.houseImg" />
+                      </div>
+
+                      방중앙
+                      <div v-for="img in photoList">
+                        <img v-if="img.estimateNo == item.estimateNo && img.imgType ==2"
+                          :src="'/zippy/common/img/move/' + img.houseImg" />
+                      </div>
+
+                      내부
+                      <div v-for="img in photoList">
+                        <img v-if="img.estimateNo == item.estimateNo && img.imgType ==3"
+                          :src="'/zippy/common/img/move/' + img.houseImg" />
+                      </div>
+
+                    </div>
+                  </div>
+                </v-expand-transition>
+
+              </div>
 
               <v-card-actions>
-
                 <v-spacer></v-spacer>
-                <v-label>방사진보기</v-label>
-                <v-btn icon @click="show = !show">
-                  <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-                </v-btn>
+
+                <v-row justify="center">
+                  <v-btn v-bind="attrs" v-on="on" width="80">채팅하기</v-btn>
+                  <v-dialog v-model="dialog" persistent max-width="600px">
+
+                    <template v-slot:activator="{ on, attrs }">
+
+                      <v-btn v-if="item.reservStatuss==1" id="estBtn" @click="modalVal(i)" color="success" dark
+                        v-bind="attrs" v-on="on" width="80">
+                        견적작성
+                      </v-btn>
+                      <v-btn v-if="item.reservStatuss==3" @click="updateConfirm(item.estimateNo)" color="success"
+                        width="80">
+                        예약확정
+                      </v-btn>
+                      <v-btn v-if="item.reservStatuss==4" @click="updateComplete(item.estimateNo)" color="success"
+                        width="80">
+                        이사완료
+                      </v-btn>
+                    </template>
+
+                    <!-- 모달 -->
+                    <form id="estimateForm" name="estimateForm">
+                      <!-- v-for="i in list" -->
+                      <div>
+                        <v-card :id="item.estimateNo">
+                          <v-card-title>
+                            <span class="text-h5">견적서 확인</span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+                          </v-card-title>
+                          <v-card-text>
+                            <v-container>
+                              <v-row>
+                                <v-col cols="12" sm="6" md="4">
+                                  <div>견적요청번호 : <span>NO.{{item.estimateNo}}</span></div>
+                                </v-col><br />
+                                <v-col cols="12" sm="6" md="4">
+                                  <div>견적서 번호 : <span>NO.{{item.movingResponseNo}}</span></div>
+                                </v-col><br />
+
+
+                                <v-col cols="12" sm="6" md="4">
+                                  <div id="mus" v-if="item.reservStatuss == 0">견적 상태 : <span>견적전</span></div>
+                                  <div id="mus" v-if="item.reservStatuss == 1">견적 상태 : <span>1차견적</span></div>
+                                  <div id="mus" v-if="item.reservStatuss == 2">견적 상태 : <span>2차견적</span></div>
+                                  <div id="mus" v-if="item.reservStatuss == 3">견적 상태 : <span>예약완료</span></div>
+                                  <div id="mus" v-if="item.reservStatuss == 4">견적 상태 : <span>이사완료</span></div>
+                                  <div id="mus" v-if="item.reservStatuss == 5">견적 상태 : <span>취소</span></div>
+                                </v-col>
+
+
+                                <v-col cols="12">
+                                  <div id="mus">업체명 : <span>{{item.compName}}</span></div>
+                                </v-col>
+
+                                <v-col cols="12">
+                                  <div id="mus">업체이메일 : <span>{{item.businessEmail}}</span></div>
+                                </v-col>
+                                <v-col cols="12">
+
+                                  <div id="mus">1차 견적 타입 : <span>{{item.firstEstimateType}}</span></div>
+                                </v-col>
+                                <v-col cols="12">
+                                  <div id="mus">1차 견적 가격 : <span>{{item.firstEstimatePrice | comma}}원</span></div>
+                                </v-col>
+
+                                <v-col cols="12">
+                                  <div id="mus">업체어필하기 : <span>{{item.responseMemo}}</span></div>
+                                </v-col>
+
+                                <form id="secondForm">
+                                  <v-col cols="12">
+                                    <v-autocomplete id="secondType" :value="selectData.secondEstimateType"
+                                      :items="['대면견적', '비대면견적']" label="2차 견적타입*"></v-autocomplete>
+                                  </v-col>
+
+
+                                  <v-col cols="12">
+                                    <v-text-field id="secondPrice" :value="selectData.secondEstimatePrice"
+                                      label="2차 견적가격*" type="number" required>
+                                    </v-text-field>
+                                  </v-col>
+
+                                  <input type="hidden" name="secondEstimatePrice"
+                                    v-model="selectData.secondEstimatePrice">
+                                  <input type="hidden" name="secondEstimateType"
+                                    v-model="selectData.secondEstimateType">
+                                </form>
+                              </v-row>
+                            </v-container>
+                            <small>*필수입력 사항을 입력해주세요.</small>
+                          </v-card-text>
+                          <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="gray" text @click="dialog = false">
+                              닫기
+                            </v-btn>
+
+                            <v-btn id="sendbtn" color="success darken-1" text @click="sendSecondEstimate()">
+                              견적보내기
+                            </v-btn>
+                          </v-card-actions>
+                        </v-card>
+                      </div>
+                      <input type="hidden" name="estimateNo" id="estimateNo" v-model="selectData.estimateNo">
+                      <input type="hidden" name="email" id="email" v-model="selectData.email">
+                      <input type="hidden" name="businessEmail" id="businessEmail" v-model="selectData.businessEmail">
+
+                      <input type="hidden" name="firstEstimateType" id="firstEstimateType"
+                        v-model="selectData.estimateType">
+                      <input type="hidden" name="firstEstimatePrice" v-model="selectData.firstEstimatePrice">
+
+                      <input type="hidden" name="reservStatus" value="0" v-model="selectData.reservStatus">
+                      <input type="hidden" name="compName" v-model="selectData.compName">
+                      <input type="hidden" name="responseMemo" v-model="selectData.responseMemo">
+                    </form>
+
+                  </v-dialog>
+                </v-row>
+
               </v-card-actions>
-
-              <v-expand-transition>
-                <div v-show="show">
-                  <v-divider></v-divider>
-
-                  <div>
-                    방 입구에서 찍은 사진<img />
-                  </div>
-                  <div>
-                    방 중앙에서 찍은 사진 <img />
-                  </div>
-                  <div>
-                    내부 구조 사진(짐, 장롱, 창고 등) <img />
-                  </div>
-                </div>
-              </v-expand-transition>
-
             </div>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-
-              <v-row justify="center">
-                <v-btn v-bind="attrs" v-on="on" width="80">채팅하기</v-btn>
-                <v-dialog v-model="dialog" persistent max-width="600px">
-
-                  <template v-slot:activator="{ on, attrs }">
-
-                    <v-btn v-if="item.reservStatuss==1" id="estBtn" @click="modalVal(i)" color="success" dark
-                      v-bind="attrs" v-on="on" width="80">
-                      견적작성
-                    </v-btn>
-                    <v-btn v-if="item.reservStatuss==3" @click="updateConfirm(item.estimateNo)" color="success"
-                      width="80">
-                      예약확정
-                    </v-btn>
-                    <v-btn v-if="item.reservStatuss==4" @click="updateComplete(item.estimateNo)" color="success"
-                      width="80">
-                      이사완료
-                    </v-btn>
-                  </template>
-
-                  <!-- 모달 -->
-                  <form id="estimateForm" name="estimateForm">
-                    <!-- v-for="i in list" -->
-                    <div>
-                      <v-card :id="item.estimateNo">
-                        <v-card-title>
-                          <span class="text-h5">견적서 확인</span> &nbsp;&nbsp;&nbsp;&nbsp;
-
-                        </v-card-title>
-                        <v-card-text>
-                          <v-container>
-                            <v-row>
-                              <v-col cols="12" sm="6" md="4">
-                                <div>견적요청번호 : <span>NO.{{item.estimateNo}}</span></div>
-                              </v-col><br />
-                              <v-col cols="12" sm="6" md="4">
-                                <div>견적서 번호 : <span>NO.{{item.movingResponseNo}}</span></div>
-                              </v-col><br />
-
-
-                              <v-col cols="12" sm="6" md="4">
-                                <div id="mus" v-if="item.reservStatuss == 0">견적 상태 : <span>견적전</span></div>
-                                <div id="mus" v-if="item.reservStatuss == 1">견적 상태 : <span>1차견적</span></div>
-                                <div id="mus" v-if="item.reservStatuss == 2">견적 상태 : <span>2차견적</span></div>
-                                <div id="mus" v-if="item.reservStatuss == 3">견적 상태 : <span>예약완료</span></div>
-                                <div id="mus" v-if="item.reservStatuss == 4">견적 상태 : <span>이사완료</span></div>
-                                <div id="mus" v-if="item.reservStatuss == 5">견적 상태 : <span>취소</span></div>
-                              </v-col>
-
-
-                              <v-col cols="12">
-                                <div id="mus">업체명 : <span>{{item.compName}}</span></div>
-                              </v-col>
-
-                              <v-col cols="12">
-                                <div id="mus">업체이메일 : <span>{{item.businessEmail}}</span></div>
-                              </v-col>
-                              <v-col cols="12">
-
-                                <div id="mus">1차 견적 타입 : <span>{{item.firstEstimateType}}</span></div>
-                              </v-col>
-                              <v-col cols="12">
-                                <div id="mus">1차 견적 가격 : <span>{{item.firstEstimatePrice | comma}}원</span></div>
-                              </v-col>
-
-                              <v-col cols="12">
-                                <div id="mus">업체어필하기 : <span>{{item.responseMemo}}</span></div>
-                              </v-col>
-
-                              <form id="secondForm">
-                                <v-col cols="12">
-                                  <v-autocomplete id="secondType" :value="selectData.secondEstimateType"
-                                    :items="['대면견적', '비대면견적']" label="2차 견적타입*"></v-autocomplete>
-                                </v-col>
-
-
-                                <v-col cols="12">
-                                  <v-text-field id="secondPrice" :value="selectData.secondEstimatePrice"
-                                    label="2차 견적가격*" type="number" required>
-                                  </v-text-field>
-                                </v-col>
-
-                                <input type="hidden" name="secondEstimatePrice"
-                                  v-model="selectData.secondEstimatePrice">
-                                <input type="hidden" name="secondEstimateType" v-model="selectData.secondEstimateType">
-                              </form>
-                            </v-row>
-                          </v-container>
-                          <small>*필수입력 사항을 입력해주세요.</small>
-                        </v-card-text>
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn color="gray" text @click="dialog = false">
-                            닫기
-                          </v-btn>
-
-                          <v-btn id="sendbtn" color="success darken-1" text @click="sendSecondEstimate()">
-                            견적보내기
-                          </v-btn>
-                        </v-card-actions>
-                      </v-card>
-                    </div>
-                    <input type="hidden" name="estimateNo" id="estimateNo" v-model="selectData.estimateNo">
-                    <input type="hidden" name="email" id="email" v-model="selectData.email">
-                    <input type="hidden" name="businessEmail" id="businessEmail" v-model="selectData.businessEmail">
-
-                    <input type="hidden" name="firstEstimateType" id="firstEstimateType"
-                      v-model="selectData.estimateType">
-                    <input type="hidden" name="firstEstimatePrice" v-model="selectData.firstEstimatePrice">
-
-                    <input type="hidden" name="reservStatus" value="0" v-model="selectData.reservStatus">
-                    <input type="hidden" name="compName" v-model="selectData.compName">
-                    <input type="hidden" name="responseMemo" v-model="selectData.responseMemo">
-                  </form>
-
-                </v-dialog>
-              </v-row>
-
-            </v-card-actions>
-          </div>
           </v-expansion-panel-content>
 
         </v-expansion-panel>
@@ -298,6 +317,7 @@
         dialog: false,
         on: '',
         attrs: '',
+        photoList: []
 
       }
     },
@@ -672,16 +692,19 @@
     margin: 100px;
 
   }
+
   /* 정보정렬 */
-  .info{
-  margin: 20px 20px 20px 200px;
-}
-.move-info{
-  padding-left: 100px;
-}
-div{
-  background-color: white;
-}
+  .info {
+    margin: 20px 20px 20px 200px;
+  }
+
+  .move-info {
+    padding-left: 100px;
+  }
+
+  div {
+    background-color: white;
+  }
 
   #used-main-dropbox1 {
     margin-top: 30px;
