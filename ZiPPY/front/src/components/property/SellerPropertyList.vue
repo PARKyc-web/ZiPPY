@@ -101,7 +101,7 @@
       },
       showContents: function (contents) {
         let result = '';
-        result = contents.substr(0, 11) + '...';
+        result = contents.substr(0, 13) + '...';
 
         return result;
       }
