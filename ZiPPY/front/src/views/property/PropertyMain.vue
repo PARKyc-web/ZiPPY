@@ -34,7 +34,7 @@
                         {{item.floor}}층
                       </tr>
                       <tr>
-                        {{item.detailContents}}
+                        {{item.detailContents | showContents}}
                       </tr>
                     </table>
                   </td>
@@ -103,6 +103,12 @@
           price = price.substr(price.length - 3, price.length);
         }
         result += price;
+
+        return result;
+      },
+      showContents: function (contents) {
+        let result = '';
+        result = contents.substr(0, 11) + '...';
 
         return result;
       }
@@ -250,14 +256,14 @@
         function makeClusterer() {
           // 클러스터러에 마커들을 추가합니다
           clusterer.addMarkers(initThis.markers);
-          console.log(initThis.markers.length);
-          console.log(initThis.streetAddress.length);
+          // console.log(initThis.markers.length);
+          // console.log(initThis.streetAddress.length);
         }
 
         let setClusterer = setInterval(function () {
           makeClusterer();
           if (initThis.markers.length == initThis.streetAddress.length) {
-            console.log('끝');
+            // console.log('끝');
             clearInterval(setClusterer)
           };
         }, 300);

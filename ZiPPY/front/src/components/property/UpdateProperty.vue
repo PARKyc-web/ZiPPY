@@ -21,7 +21,7 @@
                   </v-select>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <!-- <v-file-input label='대표 이미지' v-model="houseDetail[0].mainImg" ref="mainImg" id="mainImg" ></v-file-input> -->
+                  <!-- <v-file-input label='이미지' v-model="houseDetail[0].mainImg" ref="mainImg" id="mainImg" ></v-file-input> -->
                   <v-file-input :label="houseDetail[0].mainImg" id="mainImg"></v-file-input>
                 </v-col>
                 <!-- <v-col cols="12" sm="6">

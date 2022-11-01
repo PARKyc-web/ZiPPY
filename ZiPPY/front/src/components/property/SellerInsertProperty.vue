@@ -11,7 +11,7 @@
           <v-container>
             <v-row>
               <v-col cols="12" sm="6">
-                <v-file-input label='대표 이미지' v-model="mainImg" id="mainImg"></v-file-input>
+                <v-file-input label='이미지' v-model="mainImg" id="mainImg"></v-file-input>
               </v-col>
               <!-- <v-col cols="12" sm="6">
                 <v-file-input label='상세 이미지' multiple small-chips truncate-length="15" id="detailImg"></v-file-input>

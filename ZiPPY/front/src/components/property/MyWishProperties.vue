@@ -50,7 +50,7 @@
                   <p class="card_contents">{{item.houseType}} · {{item.houseName}}</p>
                   <p class="card_contents">{{item.sigungu}}</p>
                   <p class="card_contents">{{item.areaExclusive}}m² · {{item.floor}}층</p>
-                  <p class="card_contents">{{item.detailContents}}</p>
+                  <p class="card_contents">{{item.detailContents | showContents}}</p>
                 </div>
               </td>
             </tr>
@@ -103,6 +103,12 @@
           price = price.substr(price.length - 3, price.length);
         }
         result += price;
+
+        return result;
+      },
+      showContents: function (contents) {
+        let result = '';
+        result = contents.substr(0, 11) + '...';
 
         return result;
       }
