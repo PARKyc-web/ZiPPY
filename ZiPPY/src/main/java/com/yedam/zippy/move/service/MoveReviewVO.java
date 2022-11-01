@@ -15,8 +15,8 @@ public class MoveReviewVO {
   private String email;
   private String reviewTitle;
   private String reviewContent;
-  @JsonFormat(pattern = "yy-MM-dd")
-  @DateTimeFormat(pattern="yy-MM-dd")
+  @JsonFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern="yyyy-MM-dd")
   private Date reviewDate;
   private int serviceType;
   private String serviceId;

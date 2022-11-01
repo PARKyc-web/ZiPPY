@@ -37,8 +37,8 @@ public class MoveMyListVO {
   String dropbox2;
   String checked;
   String userEmail;
-  @JsonFormat(pattern = "yy-MM-dd")
-  @DateTimeFormat(pattern="yy-MM-dd")
+  @JsonFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern="yyyy-MM-dd")
   String requestDate;
   
 }

@@ -27,17 +27,17 @@ public class MoveCompanyEstimateVO {
   String arriveAddress;
   String arriveDetail;
   String arriveExtra;
-  @JsonFormat(pattern = "yy-MM-dd")
-  @DateTimeFormat(pattern="yy-MM-dd")
+  @JsonFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern="yyyy-MM-dd")
   String movingDate;
   String movingTime;
   String estimateType;
   String moveType;
-  @JsonFormat(pattern = "yy-MM-dd")
-  @DateTimeFormat(pattern="yy-MM-dd")
+  @JsonFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern="yyyy-MM-dd")
   String requestDate;
-  @JsonFormat(pattern = "yy-MM-dd")
-  @DateTimeFormat(pattern="yy-MM-dd")
+  @JsonFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern="yyyy-MM-dd")
   String visitDate;
   String visitTime;
   String commonOption;
