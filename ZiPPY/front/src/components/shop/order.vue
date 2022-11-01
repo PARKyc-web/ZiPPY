@@ -106,17 +106,17 @@
             <v-btn class="mr-5" depressed color=#B3E3C3>
               신용카드
             </v-btn>
-            <!--
-            <v-btn class="mr-5" depressed color=#B3E3C3>
+            
+            <v-btn class="mr-5" depressed color=#F7F7F7>
               실시간계좌이체
             </v-btn>
-            <v-btn class="mr-5" depressed color=#B3E3C3>
+            <v-btn class="mr-5" depressed color=#F7F7F7>
               가상계좌
             </v-btn>
-            <v-btn class="mr-5" depressed color=#B3E3C3>
+            <v-btn class="mr-5" depressed color=#F7F7F7>
               휴대폰 결제
             </v-btn>
-            -->
+           
           </td>
         </tr>
         <tr style="border-bottom : thin solid rgb(0, 0, 0, 0.12);">
@@ -144,7 +144,7 @@
   export default {
     data() {
       return {
-        email: 'zippy@naver.com',
+        email: '',
         myInfo: {},
         orderInfo: {},
         //기존배송지, 신규배송지
@@ -251,12 +251,14 @@
       }
     },
     created() {
+      //email
+      email = this.$store.state.loginInfo.email
       //내 정보조회
       axios({
         url: "/zippy/shop/myInfo",
         method: "POST",
         params: {
-          email: this.email
+          email: this.$store.state.loginInfo.email
         }
       }).then(res => {
         console.log(res);

@@ -51,7 +51,7 @@
 
               <div class="ccard">
                 <div v-if="msg.sender != sender" style="text-align: left;">
-                  <v-card class="mx-auto" max-width="400" outlined style="background-color: #F7F7F7; border-radius: 0 20px 20px 20px;">
+                  <v-card class="mx-auto" max-width="400" outlined style="background-color: #fff; border-radius: 0 20px 20px 20px;">
                     <v-list-item three-line>
                       <v-list-item-content>
                         <div class="text-overline mb-4">

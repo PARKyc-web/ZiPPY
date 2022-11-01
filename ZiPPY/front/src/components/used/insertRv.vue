@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" persistent :retain-focus="false" max-width="500px">
     <template v-slot:activator="{ on, attrs }">
-        <v-btn  id="reviewBtn" depressed color=#B3E3C3 v-bind="attrs"
+        <v-btn  id="reviewBtn" depressed color=#F7F7F7 v-bind="attrs"
           v-on="on" width="100px">
           후기작성
         </v-btn>

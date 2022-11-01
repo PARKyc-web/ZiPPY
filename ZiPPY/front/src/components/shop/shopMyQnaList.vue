@@ -95,6 +95,7 @@
 <style scoped>
   #cart-con {
     width: 75%;
+    padding-bottom:200px;
   }
 
   .v-toolbar__title {
