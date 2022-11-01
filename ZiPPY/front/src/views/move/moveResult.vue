@@ -68,7 +68,7 @@
                 <div id="showImg">
                   방입구<div v-for="img in photoList">
                           <img v-if="img.estimateNo == item.estimateNo && img.imgType ==1" 
-                          :src="'/zippy/common/img/move/' + img.houseImg"/>
+                          :src="'/zippy/common/img/move/' + img.houseImg" width="191px" height="194px"/>
                         </div>
                   방중앙 <div v-for="img in photoList">
                           <img v-if="img.estimateNo == item.estimateNo && img.imgType ==2" 

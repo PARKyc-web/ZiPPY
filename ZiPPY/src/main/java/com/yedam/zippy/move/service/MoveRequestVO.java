@@ -1,5 +1,9 @@
 package com.yedam.zippy.move.service;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Data
@@ -19,11 +23,17 @@ public class MoveRequestVO {
   String arriveDetail;
   String arriveExtra;
   
+  @JsonFormat(pattern = "yy-MM-dd")
+  @DateTimeFormat(pattern="yy-MM-dd")
   String movingDate;
   String movingTime;
   String estimateType;
   String moveType;
+  @JsonFormat(pattern = "yy-MM-dd")
+  @DateTimeFormat(pattern="yy-MM-dd")
   String requestDate;
+  @JsonFormat(pattern = "yy-MM-dd")
+  @DateTimeFormat(pattern="yy-MM-dd")
   String visitDate;
   String visitTime;
   String commonOption;

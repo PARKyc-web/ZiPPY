@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.github.pagehelper.Page;
 import com.yedam.zippy.common.service.BookmarkVO;
+import com.yedam.zippy.common.service.CommonService;
 import com.yedam.zippy.move.mapper.MoveMapper;
 import com.yedam.zippy.move.service.MoveCompanyEstimateVO;
 import com.yedam.zippy.move.service.MoveEstimateVO;
@@ -31,6 +31,9 @@ public class MoveServiceImpl implements MoveService{
   
   @Autowired
   MoveMapper mapper;
+  
+  @Autowired
+  CommonService commonService;
 
 //  @Override
 //  public int moveUntactCheck(MoveRequestVO moveReq, List<MultipartFile> images1, List<MultipartFile> images2, List<MultipartFile> images3) {
@@ -113,27 +116,35 @@ public class MoveServiceImpl implements MoveService{
     //db에 넣기
     //path담을 공간 만들기    
     mapper.insertContactEstimate(moveReq);
+        
+    MoveImageVO temp = new MoveImageVO();    
     
-    MoveImageVO[] vo0 = storeMoveImg(images1, 1, moveReq.getEstimateNo());
-    MoveImageVO[] vo1 = storeMoveImg(images1, 2, moveReq.getEstimateNo());
-    MoveImageVO[] vo2 = storeMoveImg(images1, 3, moveReq.getEstimateNo());
-    
-    
-    for(int i=0; i<vo0.length; i++) {
-      vo0[i].setEstimateNo(moveReq.getEstimateNo());
-      mapper.insertPhoto(vo0[i]);
+    for(int i=0; i<images1.size(); i++) {
+      temp = new MoveImageVO();      
+      temp.setHouseImg(commonService.saveImage(images1.get(i), "move"));
+      temp.setImgType(1);
+      temp.setEstimateNo(moveReq.getEstimateNo());
+      
+      mapper.insertPhoto(temp);
     }
     
-    for(int i=0; i<vo1.length; i++) {
-      vo1[i].setEstimateNo(moveReq.getEstimateNo());
-      mapper.insertPhoto(vo1[i]);
+    for(int i=0; i<images2.size(); i++) {
+      temp = new MoveImageVO();
+      temp.setHouseImg(commonService.saveImage(images2.get(i), "move"));
+      temp.setImgType(2);
+      temp.setEstimateNo(moveReq.getEstimateNo());
+      
+      mapper.insertPhoto(temp);
     }
     
-    for(int i=0; i<vo2.length; i++) {
-      vo2[i].setEstimateNo(moveReq.getEstimateNo());
-      mapper.insertPhoto(vo2[i]);
-    }
-    
+    for(int i=0; i<images3.size(); i++) {
+      temp = new MoveImageVO();
+      temp.setHouseImg(commonService.saveImage(images3.get(i), "move"));
+      temp.setImgType(3);
+      temp.setEstimateNo(moveReq.getEstimateNo());
+      
+      mapper.insertPhoto(temp);
+    }    
   }
   
   @Override
