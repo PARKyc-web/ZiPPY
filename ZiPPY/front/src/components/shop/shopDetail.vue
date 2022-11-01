@@ -529,9 +529,9 @@
       },
       countPurPrice() {
         let amount = 0;
-        amount += this.product.proPrice * this.qty;
+        amount += this.product.proPrice;
         if (this.selectOption.optNo) {
-          amount += Number(this.selectOption.optPrice) * this.qty;
+          amount += Number(this.selectOption.optPrice);
         }
         return amount;
       }
