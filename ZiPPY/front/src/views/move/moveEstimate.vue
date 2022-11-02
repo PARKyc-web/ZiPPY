@@ -656,12 +656,7 @@
                   console.log(res)
                   swal.fire("견적서 보내기를 완료하였습니다.");
 
-                  this.closeReview();
-                  this.$router.push({
-                  path: "/seller/move/moveEstimate",
-
-                  })
-                  
+                  this.$router.go();                  
                 }).catch(err => {
                   console.log(err)
                 })
