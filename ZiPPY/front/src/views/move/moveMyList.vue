@@ -36,7 +36,7 @@
               <div id="mus" v-if="item.reservStatus == 3">견적 상태 : <span>예약요청</span></div>
               <div id="mus" v-if="item.reservStatus == 4">견적 상태 : <span>예약완료</span></div>
               <div id="mus" v-if="item.reservStatus == 5">견적 상태 : <span>이사완료</span></div>
-              <div id="mus" v-if="item.reservStatus == 9">견적 상태 : <span>취소</span></div>
+              <div id="mus" v-if="item.reservStatus == 9">견적 상태 : <span>후기작성완료</span></div>
             </div>
           </v-card-text>
             <v-card-title>업체명 : <span>{{item.compName}}</span></v-card-title>
@@ -271,6 +271,7 @@
             }).then(res => {
               console.log(res);
               swal.fire("예약요청 완료!");
+              this.$router.go();
               console.log(res.data.reservStatus);
             }).catch(err => {
               console.log(err)

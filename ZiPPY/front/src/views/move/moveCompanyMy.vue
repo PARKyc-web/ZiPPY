@@ -151,7 +151,7 @@
                                   <div id="mus" v-if="item.reservStatuss == 2">견적 상태 : <span>2차견적</span></div>
                                   <div id="mus" v-if="item.reservStatuss == 3">견적 상태 : <span>예약완료</span></div>
                                   <div id="mus" v-if="item.reservStatuss == 4">견적 상태 : <span>이사완료</span></div>
-                                  <div id="mus" v-if="item.reservStatuss == 5">견적 상태 : <span>취소</span></div>
+                                  <div id="mus" v-if="item.reservStatuss == 5">견적 상태 : <span>후기작성완료</span></div>
                                 </v-col>
 
 
@@ -384,7 +384,7 @@
             }).then(res => {
               console.log(res);
               swal.fire("예약이 확정되었습니다.");
-              window.location.assign('/move/moveCompanyMy');
+              window.location.assign('/seller/move/moveCompanyMy');
             }).catch(err => {
               console.log(err)
             })
@@ -418,7 +418,7 @@
             }).then(res => {
               console.log(res);
               swal.fire("이사완료로 상태가 변경되었습니다.");
-              window.location.assign('/move/moveCompanyMy');
+              window.location.assign('/seller/move/moveCompanyMy');
             }).catch(err => {
               console.log(err)
             })
@@ -650,6 +650,7 @@
             }).then(res => {
               console.log(res);
               swal.fire("견적서 보내기 완료!");
+              
               this.$router.go();
             }).catch(err => {
               console.log(err)
