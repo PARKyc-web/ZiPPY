@@ -650,7 +650,7 @@
             }).then(res => {
               console.log(res);
               swal.fire("견적서 보내기 완료!");
-              this.closeReview();
+              this.$router.go();
             }).catch(err => {
               console.log(err)
             })
