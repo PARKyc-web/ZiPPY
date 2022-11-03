@@ -124,8 +124,8 @@
             this.allTotal = Math.round(tSum / this.list.length * 10) / 10
         },
         methods: {
-            rewrite() {
-                axios({
+            async rewrite() {
+                await axios({
                     url: "/zippy/used/userMain",
                     methods: "GET",
                     params: {
