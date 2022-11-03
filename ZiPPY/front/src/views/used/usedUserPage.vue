@@ -5,7 +5,7 @@
             <div id="used-seller-main">
                 <div id="used-img">
                     <div id="used-img-img">
-                        <img :src="'/zippy/common/img/member/'+data.profileImage" width="100px" height="100px" alt="">
+                        <img :src="'/zippy/common/img/member/'+data[0].profileImage" width="100px" height="100px" alt="">
                     </div>
                 </div>
                 <div id="used-nick-stars">
@@ -60,7 +60,7 @@
                                     <hr>
                                     <div id="used-totla-profile" v-for="vue in list">
                                         <div id="used-profile">
-                                            <img :src="'/zippy/common/img/member/'+data.profileImage" width="60px"
+                                            <img :src="'/zippy/common/img/member/'+vue.profileImage" width="60px"
                                                 height="60px" alt="프로필이미지">
                                         </div>
                                         <div>
