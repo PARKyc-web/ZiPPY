@@ -69,6 +69,7 @@
       <div @click="goDetail(list.productNo)" class="used-main-card" v-if="data.length != 0" v-for="list in data">
         <div>
           <div><img :src="'/zippy/common/img/used/'+list.mainImg" width="191px" height="194px"></div>
+          <div id="wish-soldout-img" width="191px" height="194px" v-if="list.isSell == 1">판매완료</div>
           <div class="used-main-card-cont">
             <div class="used-main-card-title">{{list.productName}}</div>
             <div class="used-main-price-date">
@@ -272,6 +273,19 @@
   #container {
     width: 1200px;
     margin: 0 auto;
+  }
+
+  #wish-soldout-img {
+    font-size: 1rem;
+    color: white;
+    text-align: center;
+    line-height: 200px;
+    width: 200px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 
   #slide-text {
