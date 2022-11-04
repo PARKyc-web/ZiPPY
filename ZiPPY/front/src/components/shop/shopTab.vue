@@ -19,9 +19,10 @@
         <v-tab-item>
           <v-card>
             <v-card flat style="width:810px; min-height:400px">
-              <v-card-text>
+              <!-- <v-card-text>
                 {{proInfo}}
-              </v-card-text>
+              </v-card-text> -->
+              <img src="https://exit.ohou.se/00383d90cc3a603e3198a2d97f9d52e952d2b521/bedmarket.cafe24.com/newcrencia/2018-total/delight/A/A_5_1.jpg">
             </v-card>
           </v-card>
         </v-tab-item>
