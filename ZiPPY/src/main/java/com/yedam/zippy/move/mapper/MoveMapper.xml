@@ -4,7 +4,7 @@
 
 	<insert id="insertContactEstimate" parameterType="MoveRequestVO">
 		<selectKey keyProperty="estimateNo" order="BEFORE" resultType="int">
-			SELECT NVL(MAX(estimate_no),0) +1 AS estimateNo 
+			SELECT NVL(MAX(estimate_no),0) +1 AS estimateNo
 			FROM UNTACT_ESTIMATE_MOVING
 		</selectKey>
 		INSERT INTO UNTACT_ESTIMATE_MOVING
@@ -245,7 +245,7 @@
 		SELECT *
 		FROM untact_estimate_moving
 		WHERE request_date LIKE '%'||'2'||'%'
-
+		ORDER BY estimate_no DESC
 		<if test="dropbox2 == '내 지역만 조회'">
 		AND SUBSTR(depart_address, 1, 2) LIKE 
 				'%'|| (SELECT SUBSTR(comp_address, 1,2) 
