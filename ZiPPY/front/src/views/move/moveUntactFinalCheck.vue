@@ -852,25 +852,7 @@ export default {
             confirmButtonText: 'YES'
           }).then((result) => {
             if (result.isConfirmed) {
-
-              // 견적요청 후, '요청한 견적보기' 페이지로 정보를 보낸다.
-              this.$router.push({
-                path: "/mypage/move/moveResult",
-                // name: "moveResult",
-                params: {
-                  moveImage: this.moveImage,
-                  moveDetail: this.moveDetail,
-                  moveEstimateType: this.moveEstimateType,
-                  moveInfo: this.moveInfo,
-                  moveType: this.moveType,
-                  moveDate: this.moveDate, 
-                  moveAddress: this.moveAddress,
-                  moveVisit : this.moveVisit,
-                  requestDate : this.requestDateSend,
-                  email: this.$store.state.loginInfo.email                 
-                }
-              })
-
+              window.location.assign('/mypage/move/moveResult');
             } 
           })
       }, 
