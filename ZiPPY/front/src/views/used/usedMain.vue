@@ -38,7 +38,7 @@
             <div class="search">
               <input type="text" placeholder="검색어 입력" id="used-main-search-input" v-model="word"
                 @keyup.enter="total();">
-              <img @click="total()" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+              <img @click="total();" src="@/assets/used/search.png">
             </div>
           </div>
         </div>
@@ -46,7 +46,7 @@
       <hr>
       <div id="used-soldot-drop">
         <div class="form-check">
-          <input @click="total()" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+          <input @click="total()" class="form-check-input" type="checkbox"  id="flexCheckDefault">
           <label class="form-check-label" for="flexCheckDefault">
             판매완료된 상품보기
           </label>
@@ -63,11 +63,13 @@
       <div id="noProduct" class="mx-auto" v-if="data.length == 0" style="text-align:center">
         <v-icon style="font-size:100px; color:#B3E3C3" class="mb-5">mdi-alert-circle-outline</v-icon>
         <h2 style="font-weight:bold">고객님께서 찾으시는 상품이 없습니다.</h2>
-        <!-- <p>다시 검색해주세요.</p> -->
       </div>
       <div @click="goDetail(list.productNo)" class="used-main-card" v-if="data.length != 0" v-for="list in data">
         <div>
-          <div><img :src="'/zippy/common/img/used/'+list.mainImg" width="191px" height="194px"></div>
+          <div>
+            <img :src="'/zippy/common/img/used/'+list.mainImg" width="191px" height="194px">
+            <div id="wish-soldout-img" width="200px" height="200px" v-if="list.isSell == 1">판매완료</div>
+          </div>
           <div class="used-main-card-cont">
             <div class="used-main-card-title">{{list.productName}}</div>
             <div class="used-main-price-date">
@@ -181,15 +183,14 @@
     methods: {
 
       total: function () {
-        console.log(this.cate)
         this.isChecked = document.querySelector(".form-check-input").checked;
         this.findList({
-          location: this.location, // 0
-          keyword: this.word, // 0
-          category: this.categoryVal, // 0
-          checked: this.isChecked, // 0
+          location: this.location,
+          keyword: this.word,
+          category: this.categoryVal, 
+          checked: this.isChecked, 
           dropbox: this.select,
-          pageNum: this.page // 0
+          pageNum: this.page 
         })
       },
       goDetail(no) {
@@ -263,6 +264,23 @@
 
   .font-all {
     font-family: 'GmarketSans';
+  }
+
+  .text-center{
+    margin-bottom: 30px;
+  }
+
+  #wish-soldout-img {
+    font-size: 1rem;
+    color: white;
+    text-align: center;
+    line-height: 200px;
+    width: 200px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 
   #container {

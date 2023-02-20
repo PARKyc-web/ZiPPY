@@ -39,11 +39,11 @@ public class UsedContoller {
   // 전체조회
   @GetMapping("/main")
   public PageInfo<UsedProductVO> search(@RequestParam(defaultValue = "1", required = false) String location,
-      @RequestParam String keyword,
-      @RequestParam String category,
-      @RequestParam String checked,
-      @RequestParam(value = "dropbox", required = false) String dropbox,
-      @RequestParam(defaultValue = "1", required = false) int pageNum) {
+                                        @RequestParam String keyword,
+                                        @RequestParam String category,
+                                        @RequestParam String checked,
+                                        @RequestParam(value = "dropbox", required = false) String dropbox,
+                                        @RequestParam(defaultValue = "1", required = false) int pageNum) {
     if (category.equals("전체")) {
       category = "";
     }
@@ -67,10 +67,11 @@ public class UsedContoller {
       order = "product_date";
     }
 
-    PageHelper.startPage(pageNum, 10, order);
+    PageHelper.startPage(pageNum, 15, order);
     return PageInfo.of(service.usedList(location, keyword, category, checked, dropbox));
   }
 
+  // 마이페이지
   @GetMapping("/userMain")
   public PageInfo<UsedProductVO> userMain(@RequestParam String email, @RequestParam int pageNum) {
 
@@ -86,7 +87,7 @@ public class UsedContoller {
     return service.usedOne(pNo);
   }
 
-  // 생성
+  // 등록
   @PostMapping("/insert")
   public String insert(UsedProductVO product, List<MultipartFile> images) {
     service.insertUsedProduct(product, images);

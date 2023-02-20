@@ -208,16 +208,6 @@
         this.test();
         this.data.email = this.$store.state.loginInfo.email;
         var formData = new FormData(document.querySelector("#usedInsert"));
-        // for(var i=0; i<this.files.length; i++){
-        //   console.log("runrunrun")
-        //   console.log(this.files[i])
-        //   formData.append("images", this.files[i]);
-        // }
-        // for(let key of formData.keys()){
-        //   console.log(`${key} : ${formData.get(key)}`);          
-        // }
-        // setTimeout(function(){
-        // }, 1000);
         this.dropVal();
         axios({
           url: "/zippy/used/insert",

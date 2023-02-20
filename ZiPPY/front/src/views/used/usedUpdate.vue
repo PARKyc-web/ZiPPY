@@ -271,8 +271,7 @@
       updateSubmit: function () {
         this.test();
         this.dropVal();
-        var formData = new FormData(document.querySelector('#usedUpdate'));    
-        //display none 애를 가지고 와서        
+        var formData = new FormData(document.querySelector('#usedUpdate'));         
         for(let key of formData.keys()){
           console.log(`${key}, :: ${formData.get(key)}`);
         }

@@ -53,15 +53,12 @@ public class CommonController {
   @PostMapping("/addWish")
   public int addWish(@RequestBody BookmarkVO bookmark) {
     System.out.println(bookmark);
-    //System.out.println(service.addWish(bookmark));
     return service.addWish(bookmark);
   }
 
   // 찜 삭제
   @DeleteMapping("/delWish")
   public int delWish(@RequestBody Map<String, List<Integer>> bNo) {
-    System.out.println("Run");
-    System.out.println("bno"+bNo);
     for(int i =0; i<bNo.get("bNo").size(); i++) {
       service.delWish(bNo.get("bNo").get(i));
     }    
@@ -103,6 +100,7 @@ public class CommonController {
     service.getImage(response, image, type);
   }  
   
+  // 유저 신고
   @PostMapping("/addReport")
   public int addReport(ReportVO vo) {
     return service.addReport(vo);

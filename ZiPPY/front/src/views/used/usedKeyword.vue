@@ -78,8 +78,8 @@
     },
     methods: {
       addKey: function () {
-        if ((this.data.keyword == "" || this.data.keyword == null) || (this.data.keywordLocation == "" || this.data
-            .keywordLocation == null)) {
+        if ((this.data.keyword == "" || this.data.keyword == null) ||
+            (this.data.keywordLocation == "" || this.data.keywordLocation == null)) {
           swal.fire({
             icon: 'warning',
             title: '빈 값은 입력할 수 없습니다.',

@@ -75,22 +75,6 @@
       }
     },
     created() {
-      // axios({
-      //   url: "/zippy/common/wishAll",
-      //   method: "GET",
-      //   params: {
-      //     email: this.$store.state.loginInfo.email,
-      //     serviceType: 1,
-      //     pageNum: this.page
-      //   }
-      // }).then(res => {
-      //   console.log(res);
-      //   this.data = res.data.list;
-      //   this.pageCount = res.data.pages;
-      //   
-      // }).catch(err => {
-      //   console.log(err)
-      // })
       this.pagenation();
     },
     filters: {
@@ -134,7 +118,7 @@
           this.ckList.splice(0);
         }
       },
-      // 선택 삭제 & 전체 삭제 ?
+      // 선택 삭제 & 전체 삭제 
       delWish: function () {
         axios({
           url: "/zippy/common/delWish",

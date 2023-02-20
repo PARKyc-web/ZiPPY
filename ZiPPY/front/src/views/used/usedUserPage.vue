@@ -77,7 +77,7 @@
                                             <div></div>
                                             <button id="used-user-btn" @click="goDetail(vue.productNo)">
                                                 {{vue.productName}}
-                                                <img src="	https://m.bunjang.co.kr/pc-static/resource/c5ce9d5a172b0744e630.png"
+                                                <img src="@/assets/used/mypage arrow.png"
                                                     width="6px" height="10px" alt="">
                                             </button>
                                             <div id="used-review-cont">{{vue.reviewContent}}</div>

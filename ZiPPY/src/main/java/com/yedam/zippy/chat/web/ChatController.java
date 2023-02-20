@@ -73,6 +73,7 @@ public class ChatController {
       return vo.getChatRoomNo();
     }    
     
+    // 판매여부
     @PutMapping("/sell")
     public int productSell(@RequestBody ChatRoomVO vo) {
       System.out.println(vo);

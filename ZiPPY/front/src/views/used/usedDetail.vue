@@ -194,8 +194,6 @@
             });
           }
           console.log(this.imgs);
-
-
         }).catch(err => {
           console.log(err)
         })
@@ -303,7 +301,6 @@
         this.$router.push('/used');
       },
       addWish: function () {
-        console.log("찜 추가추가")
         axios({
           url: "/zippy/common/addWish",
           method: "POST",
